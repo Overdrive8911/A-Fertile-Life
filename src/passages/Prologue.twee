@@ -1,9 +1,9 @@
 
-:: StoryTitle
+:: StoryTitle {"position":"450,0"}
 A Fertile Life
 
 
-:: StoryData
+:: StoryData {"position":"550,0"}
 {
   "ifid": "00E51339-657B-4319-B28F-7BFB3458BC6E",
   "format": "SugarCube",
@@ -13,7 +13,7 @@ A Fertile Life
 }
 
 
-:: Start [Prologue] {"position":"325,125","size":"100,100"}
+:: Start [Prologue] {"position":"225,75"}
 You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's around 9:00PM and the chilly nighttime wind blows into your room, although it fails to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss. Each time, leaving him looking more miserable. Not up to a week later, sales started dropping steadily, which just worsened the situation.
 
 In fact, just two days ago at work, you were laid off. When you asked why, your boss shifted uncomfortably in his seat, avoiding eye contact, and said something about the legalities concerning your immigration. You're not convinced though, however you can't really blame him. He did give you a stable, albeit boring job that paid for your expenses when others rejected you. Most likely, those suspicious men said or did something about you that he couldn't deal with. <span class="femaleSpeech">“At least I got some compensation, that and my savings should last me while I search for a new job.”</span> you tell yourself.
@@ -22,7 +22,7 @@ However, your attention is now focused on an envelope you received from an unkno
 
 You rise to a sitting position and raise your left arm to your face. You're holding the envelope containing the letter in question. It's cream and looks rather plain. “Looks cheap, this better not be one of those dumb advertisements they keep passing around here.” you grumble to yourself. You eventually open the envelope and pull out a folded paper. After unfolding it, you read it out to yourself;
 
-<div class="maleSpeech">“Good day, Miss, I would like to first apologize for all that is happening to you now. Ever since the <i>incident</i>, your life has been unexpectedly—well, expectedly—more inconvenient to put it lightly.
+<div class="otherSpeech">“Good day, Miss, I would like to first apologize for all that is happening to you now. Ever since the <i>incident</i>, your life has been unexpectedly—well, expectedly—more inconvenient to put it lightly.
 
 Your job security is compromised at this point, but I'm sure you already know this. You probably are scared and worried now; getting another job is not going to be easy since your papers are not in order.
 
@@ -37,18 +37,20 @@ For the latter, you do not have much of a choice, honestly. None of your living 
 
 I am not trying to threaten you; just know your options. If you just want to know how I got this information about yourself, feel free to come. The directions are on the other side of the paper.”</div>
 
-You drop the paper on your bed in shock. <span class="femaleSpeech"><i>What the fuck? How did they know this? How could anyone else know this?… I hate to admit it, but they're right, I don't really have much of a choice now. I honestly didn't have much of a plan before. If I go there tomorrow, even if it's a scam, I'll at least be able to know how </i>they<i> got to know this.</i></span> Everything they said made sense, especially the symptoms part. You've been feeling a dull but constant ache just above your pelvic region for a while now, alongside headaches and a fever. Not to talk of the recently weird feeling of emptiness and the occasional 'heat' that's very uncomfortable to deal with.
+You drop the paper on your bed in shock. <span class="femaleSpeech"><i>What the fuck?! How did they know this? How could anyone else know this?</i></span> Your eyes scan the room around you. There where no cameras or anything suspicious in sight <span class="femaleSpeech"><i>…I hate to admit it, but they're right, I don't really have much of a choice now. I honestly didn't have much of a plan before. If I go there tomorrow, even if it's a scam, I'll have a shot at finding out how </i>they<i> got to know so much about me… God I hope they'd be able to make sense of this mess.</i></span> You still have your doubts and you hope none of this is true—especially the symptoms part—but that hope is diminishing by the minute. You've been feeling a dull but constant ache just above your pelvic region for a while now, alongside headaches and a fever. Not to talk of the recently weird feeling of emptiness and the occasional 'heat' that's very uncomfortable to deal with.
 
-You make a mental note to go to the hospital tomorrow. For now, it's time to [[sleep|Prologue_WakeUp]].
+You make a mental note to go to the hospital tomorrow. For now, you'll try to get some [[shuteye|Prologue_WakeUpAndBrushTeeth]].
 
 
-:: Prologue_WakeUp [Prologue] {"position":"450,300","size":"100,100"}
+:: Prologue_WakeUpAndBrushTeeth [Prologue] {"position":"425,175"}
 Your digital alarm clock rings out loudly, waking you up. It is currently 7:00 AM.
 
-Hitting it instinctively, you silence the alarm. You drudgingly pull yourself out of your bed to the toilet. For some reason, you feel very lethargic today, even with ten good hours of sleep. <span class="femaleSpeech"><i>Could be one of the symptoms, I guess.</i></span>
+Hitting it instinctively, you silence the alarm. You drudgingly pull yourself out of your bed to the toilet. For some reason, you feel very lethargic today, even with ten good hours of sleep. <span class="femaleSpeech"><i>Could be one of the symptoms they hinted at, I guess.</i></span>
 
-In your bathroom, you stand in front of the mirror situated right above the sink. You're still wearing your clothes from yesterday; an old plain baggy black shirt with a pair of comfy shorts. You've never cared much about clothing as long as it's comfortable, especially when you had such generous assets.
+In your bathroom, you stand in front of the mirror situated right above the sink. You're still wearing your clothes from yesterday; an old plain baggy black shirt with a pair of comfy shorts. You've never cared much about clothing as long as it's comfortable, especially since you have such generous 'assets'.
 
-Absent-mindedly, you pick up a toothbrush and slather some paste on it. You're still thinking of the letter yesterday. <span class="femaleSpeech">
+Absent-mindedly, you pick up a toothbrush and slather some paste on it. You're still thinking of the letter yesterday. <span class="femaleSpeech"><i>What am I going to say when I get there? Its not like I can just say, "Oh hi there, why the FUCK where you spying on me?"</i></span> You sigh and spit into the sink. <span class="femaleSpeech"><i>I'll just figure it out</i></span> <i>[[later|Prologue_DressedAndEnteringCar]]</i>.
 
+
+:: Prologue_DressedAndEnteringCar [Prologue] {"position":"275,250"}
 
