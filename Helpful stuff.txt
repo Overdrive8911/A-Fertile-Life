@@ -1,1 +1,1 @@
-COMPILE : tweego -o "Games\A-Fertile-Life\A Fertile Life.html" Games\A-Fertile-Life\src
+COMPILE : tweego -l -o "Games\A-Fertile-Life\export\A Fertile Life.html" Games\A-Fertile-Life\src
