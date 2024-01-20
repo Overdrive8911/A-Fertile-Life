@@ -1,0 +1,13 @@
+.femaleSpeech {
+    color: rgb(255, 204, 212);
+}
+
+.maleSpeech {
+    color: rgb(149, 149, 255);
+    /*color: rgb(160.5, 131.5, 226);*/
+}
+
+/* For important observations or unknown people*/
+.otherSpeech {
+    color: rgb(148, 255, 148);
+}
