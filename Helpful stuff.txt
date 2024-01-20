@@ -1,1 +1,1 @@
-COMPILE : tweego -o "Games\A-Fertile-Life\A Fertile Life" Games\A-Fertile-Life
+COMPILE : tweego -o "Games\A-Fertile-Life\A Fertile Life.html" Games\A-Fertile-Life
