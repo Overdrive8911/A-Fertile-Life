@@ -1,13 +1,32 @@
 .femaleSpeech {
-    color: rgb(255, 204, 212);
+  color: rgb(255, 204, 212);
+}
+
+.femaleSpeech1 {
+  color: rgb(255, 152, 167);
+}
+
+.femaleSpeech2 {
+  color: rgb(255, 173, 186);
 }
 
 .maleSpeech {
-    color: rgb(149, 149, 255);
-    /*color: rgb(160.5, 131.5, 226);*/
+  color: rgb(104, 217, 255);
+}
+
+.maleSpeech1 {
+  color: rgb(62, 207, 255);
+}
+
+.maleSpeech2 {
+  color: rgb(116, 220, 255);
 }
 
 /* For important observations or unknown people*/
 .otherSpeech {
-    color: rgb(168, 255, 168);
+  color: rgb(168, 255, 168);
+}
+
+.otherSpeech1 {
+  color: rgb(192, 255, 192);
 }
