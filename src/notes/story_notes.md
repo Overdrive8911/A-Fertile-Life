@@ -6,6 +6,7 @@
 - Age: almost 26 years old.
 - Birth designation is #0662.
 - Adopted. Adopted parents were abusive shits that died with her documents in a flame.
+- Genetically Asian. (Yeah, she'll literally Chinese, Japanese, Korean, Indian,etc all at once)
 - Peizhu formerly worked in a warehouse.
 - Peizhu's long time neighbour is a spy that works for Mr Fert; her name is Maria.
 
