@@ -1,18 +1,25 @@
 :: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"400,675"}
 You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“$playerName, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
 
-<span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
+<span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
 
-Once you're satisfied with ranting, the receptionist gives you a knowing smile and says, <span class="femaleSpeech1">“I'm sorry you had to go through all that, I really am. But if you really want answers, I'm afraid the doctor is the only one that can do it. He simply told me that he was expecting someone named '$playerName' and needed me to get their vitals and some other data for their treatment.”</span>
+Once you're satisfied with ranting, the receptionist gives you a knowing smile and says, <span class="femaleSpeech1">“I'm sorry you had to go through all that, I really am. But if you want answers, I'm afraid the doctor is the only one that can do it. He simply told me that he was expecting someone named '$playerName' and needed me to get their vitals and some other data for their treatment.”</span>
 
-The woman shifts her chair back a bit to stand up properly. It's then you notice that she's pregnant, full term in-fact. Her bump visibly strains her white shirt and peeks out a bit underneath, pushing her unbuttoned jacket to the sides. You kinda feel bad about lashing out at her, especially now that it seems she's innocent besides stressing out a mother isn't cool.\
+The woman shifts her chair back a bit to stand up properly. It's then you notice that she's pregnant, full term in-fact. Her bump visibly strains the white shirt she's wearing and peeks out a bit underneath, pushing her unbuttoned jacket to the sides; it looked absolutely huge on her little frame especially when she looked no older than twenty-five. You kinda feel bad about lashing out at her, especially now that it seems she's innocent besides stressing out a mother isn't nice.\
 /*REVIEW - Change the last 'You' here so it'll flow nicely */
 
-You apologize to her repeatedly, but she just brushes off the matter. <span class="femaleSpeech1">“Everyone makes mistakes, don't worry.”</span> She reaches into her skirt pocket, pulls out a measuring tape and then tells you, <span class="femaleSpeech1">“Are you ready now?”</span> she asks, pointing towards a scale and stadiometer.
+You apologize to her repeatedly, but she just brushes off the matter. <span class="femaleSpeech1">“Everyone makes mistakes, don't worry.”</span> She reaches into her skirt pocket, pulls out a measuring tape. <span class="femaleSpeech1">“Are you ready now?”</span> she asks, pointing towards a scale and stadiometer.
 
-<span class="femaleSpeech">“Yeah, but could you tell me why you're still working? I mean, you're expecting.”
+<span class="femaleSpeech">“Yeah, but could you tell me why you're still working? I mean, you're close to term.”</span>
 
-The receptionist laughs lightly at your question as she leads you to the area she pointed out. <span class="femaleSpeech1">“Don't worry about it, I'm used to being a surrogate. Besides, I'm sure you'd find other staff like me here who'd agree.</span>
+The receptionist laughs lightly at your question as she leads you to the area she pointed out. <span class="femaleSpeech1">“Don't worry about it, I've gotten used to being a surrogate on such short notice. Besides, I'm sure you'd find other staff like me here who aren't bothered by their gravidity.</span>
 
-/*TODO - Peizhu is surprised at surrogacy or smh */
+<span class="femaleSpeech">“Surrogacy? You're a <i>surrogate</i>? You carry <i>another</i> person's baby? How does it feel like? Is that what you guys do here?”</span> You've heard surrogacy before but never thought you'd see it in real life.
+
+<span class="femaleSpeech1">“Yes, surrogacy,”</span> she giggles. <span class="femaleSpeech1">“I'm a surrogate. Many of our staff here are, but we also offer multiple services under pre-natal and post-natal care. It's our job to help mothers in need.”</span> She says the last bit with noticeably more pride. <span class="femaleSpeech1">“Ah, I almost forgot you asked how it feels. Well, it depends on the baby. I'm just lucky that this little fella isn't a kicker like the last one.</span>
+
+<span class="femaleSpeech">“Ah, so that's how it is…”</span> Before you can voice another thought, the both of you reach the area with the measuring equipment. /*REVIEW - This might need rewriting */
+
+<span class="femaleSpeech1">Okay, we're here. Now, miss Peizhu, would you please [[get on the scale|FertiloInc_CharacterCreation]]?</span>
+
 
