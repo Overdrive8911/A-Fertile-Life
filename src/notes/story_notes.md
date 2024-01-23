@@ -1,8 +1,10 @@
 # Stuff
 
+- Expressing and drinking your own milk when due can encourage labour to start.
+
 ## PC
 
-- The PC's canon and default name is Peizhu Noshihamite.
+- The PC's canon and default name is Peizhu Noshihamite. /_TODO - Fix this awful name_/
 - Age: almost 26 years old.
 - Birth designation is #0662.
 - Adopted. Adopted parents were abusive shits that died with her documents in a flame.
