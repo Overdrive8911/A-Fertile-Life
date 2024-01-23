@@ -1,9 +1,9 @@
 :: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"400,675"}
-You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“$playerName, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
+You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“$player.name, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
 
 <span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
 
-Once you're satisfied with ranting, the receptionist gives you a knowing smile and says, <span class="femaleSpeech1">“I'm sorry you had to go through all that, I really am. But if you want answers, I'm afraid the doctor is the only one that can do it. He simply told me that he was expecting someone named '$playerName' and needed me to get their vitals and some other data for their treatment.”</span>
+Once you're satisfied with ranting, the receptionist gives you a knowing smile and says, <span class="femaleSpeech1">“I'm sorry you had to go through all that, I really am. But if you want answers, I'm afraid the doctor is the only one that can do it. He simply told me that he was expecting someone named '$player.name' and needed me to get their vitals and some other data for their treatment.”</span>
 
 The woman shifts her chair back a bit to stand up properly. It's then you notice that she's pregnant, full term in-fact. Her bump visibly strains the white shirt she's wearing and peeks out a bit underneath, pushing her unbuttoned jacket to the sides; it looked absolutely huge on her little frame especially when she looked no older than twenty-five. You kinda feel bad about lashing out at her, especially now that it seems she's innocent besides stressing out a mother isn't nice.\
 /*REVIEW - Change the last 'You' here so it'll flow nicely */
@@ -20,6 +20,10 @@ The receptionist laughs lightly at your question as she leads you to the area sh
 
 <span class="femaleSpeech">“Ah, so that's how it is…”</span> Before you can voice another thought, the both of you reach the area with the measuring equipment. /*REVIEW - This might need rewriting */
 
-<span class="femaleSpeech1">Okay, we're here. Now, miss Peizhu, would you please [[get on the scale|FertiloInc_CharacterCreation]]?</span>
+<span class="femaleSpeech1">Okay, we're here. Now, miss $player.name, would you please [[get on the scale|FertiloInc_CharacterCreation]]?</span>
 
 
+:: FertiloInc_CharacterCreation [Character_Creation] {"position":"350,525"}
+You remove your shoes and get on the scale, then the woman takes your readings./*REVIEW - Rewrite the 1st sentence here later */ <span class="femaleSpeech1">“Let's see how much you weigh $player.weight in kilograms”</span>
+
+<<textbox "$player.weight" "Enter your weight in kilos">>
