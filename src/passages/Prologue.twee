@@ -1,17 +1,3 @@
-:: StoryTitle {"position":"450,0"}
-A Fertile Life
-
-
-:: StoryData {"position":"550,0"}
-{
-  "ifid": "00E51339-657B-4319-B28F-7BFB3458BC6E",
-  "format": "SugarCube",
-  "format-version": "2.36.1",
-  "start": "Start",
-  "zoom": 1
-}
-
-
 :: Start [Prologue] {"position":"0,200"}
 You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's around 9:00PM and the chilly nighttime wind blows into your room, although it fails to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss. Each time, leaving him looking more miserable. Not up to a week later, sales started dropping steadily, which just worsened the situation.
 
@@ -125,4 +111,4 @@ You gulp down hard, clutching your purse closer, and walk to the entrance. The a
 
 
 /* Input the player's name */
-<<textbox "$playerName" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>>
+<<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>>
