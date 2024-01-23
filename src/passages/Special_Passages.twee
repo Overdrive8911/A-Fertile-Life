@@ -39,6 +39,10 @@ A Fertile Life
     makeup:                 "light",
     nails:                  "normal",
 
+    /* Inventory */
+    /* This will contain itemIds in an array */
+    inventory:              [],
+
     /* Mental Stats */
     /* All of them have a max of 100 */
     happiness:              70,
