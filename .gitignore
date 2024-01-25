@@ -5,3 +5,4 @@ export/(Debug)A Fertile Life.html
 src/A-Fertile-Life.twee
 *.code-workspace
 .vscode/**
+.history/**
