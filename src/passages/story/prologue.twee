@@ -1,11 +1,11 @@
-:: Start [Prologue] {"position":"0,200"}
-You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's around 9:00PM and the chilly nighttime wind blows into your room, although it fails to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss. Each time, leaving him looking more miserable. Not up to a week later, sales started dropping steadily, which just worsened the situation.
+:: Start [Prologue] {"position":"25,25"}
+You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's 9:00PM and the chilly nighttime wind blows into your room, although it does nothing to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss, leaving him looking shaken each time they left. Not even up to a week later, sales started dropping steadily, which just worsened the situation.
 
-In fact, just two days ago at work, you were laid off. When you asked why, your boss shifted uncomfortably in his seat, avoiding eye contact, and said something about the legalities concerning your immigration. You're not convinced though, however you can't really blame him. He did give you a stable, albeit boring job that paid for your expenses when others rejected you. Most likely, those suspicious men said or did something about you that he couldn't deal with. <span class="femaleSpeech">“At least I got some compensation, that and my savings should hopefully last me till I can find a new job,”</span> you tell yourself.
+In fact, just two days ago at work, you were laid off. When you asked why, your boss shifted uncomfortably in his seat, avoiding eye contact, and said something about the legalities concerning your immigration. You're not convinced though, however you can't really blame him. He did give you a stable, albeit boring job that paid for your expenses when others rejected you. Those suspicious people most likely said or did something to him. Or not, maybe you're just overthinking this. <span class="femaleSpeech">“At least I got some compensation, that and my savings should hopefully last me till I can find a new job,”</span> you tell yourself.
 
-Trying not to think abut that, you shift your attention to an envelope you received from an unknown sender the same day you lost your job. Partially due to stress and suspicion—from how “coincidentally” it arrived—you didn't open it. Till now, that is.
+Trying not to think about that, you shift your attention to an envelope you're holding. It was delivered by an unknown sender the same day you lost your job. Partially due to stress and suspicion—from how <i>coincidentally</i> it arrived—you didn't open it. Till now, that is…
 
-You rise to a sitting position and raise your left arm to your face. You're holding the envelope containing the letter in question. It's cream and looks rather plain. “Looks cheap, this better not be one of those dumb advertisements they keep passing around here,” you grumble to yourself. You eventually open the envelope and pull out a folded paper. After unfolding it, you read it out to yourself;
+You rise to a sitting position and bring the envelope your face. It's cream and looks rather plain. Nothing about it feels suspicious so you open it and pull out a folded paper. After unfolding it, you read it out to yourself.
 
 <div class="otherSpeech">“Good day, Miss, I would like to first apologize for all that is happening to you now. Ever since the <i>incident</i>, your life has been unexpectedly—well, expectedly—more inconvenient to put it lightly.
 
@@ -17,18 +17,23 @@ You also need to know that if you have seen some suspicious people dressed in si
 
 Now now, do not fret yet. I have better news that could resolve most, if not all, your problems. I own a hospital about a hundred or so miles up north from your house, Fertilo Inc, might ring a few bells. To be frank, it's the only place you can have your condition treated without resorting to the government and you <strong>do not</strong> want to be their lab rat, trust me. I can also provide you with living accommodations and a well-paying job, as well as a new alias you can go by, during your treatment. 
 
-You might be wondering why I sent you this letter or whether this is a scam. For the former, I also benefit here. Your medical condition is a modern marvel and the second I have seen in my entire lifetime. This will be the perfect chance for me to study it extensively; I believe that there is something special about it that will be of great benefit to humanity.
+You might be wondering why I sent you this letter or whether this is a scam. For the former, I also benefit here. Your medical condition is a one-in-a-million modern marvel and the second I have seen in my entire lifetime. This will be the perfect chance for me to study it extensively; I believe that there is something special about it that will be of great benefit to humanity.
 For the latter, you do not have much of a choice, honestly. None of your living family members live in the country; and I doubt you'd be willing to go back. Your house will probably be jumped by 'agents' next week too.
 
-I am not trying to threaten you; just know your options. If you just want to know how I got this information about yourself, feel free to come. The directions are on the other side of the paper.”</div>
-
-You drop the paper on your bed in shock. <span class="femaleSpeech"><i>What the fuck?! How did they know this? How could anyone else know this?</i></span> Your eyes scan the surrounding room. There were no cameras or anything suspicious in sight <span class="femaleSpeech"><i>… I hate to admit it, but they're right, I don't really have much of a choice now. I honestly didn't have much of a plan before. If I go there tomorrow, even if it's a scam, I'll have a shot at finding out how </i>they<i> got to know so much about me… God, I hope they'd be able to make sense of this mess.</i></span> You still have your doubts, and you hope none of this is true—especially the symptoms part—but that hope is diminishing by the minute. You've been feeling a dull but constant ache just above your pelvic region for a while now, alongside headaches and a fever. Not to talk of the semi-recent weird feeling of emptiness and occasional 'heat' that's uncomfortable to deal with.
-
-You make a mental note to go to the hospital tomorrow. For now, you'll try to get some [[sleep|Prologue_WakeUpAndBrushTeeth]].
+I am not trying to threaten you; just letting you know your options. If you're interested about how I got this information, feel free to come but please think about your situation properly. I'll be awaiting your response.
 
 
-:: Prologue_WakeUpAndBrushTeeth [Prologue] {"position":"150,250"}
-Your digital alarm clock rings out loudly, waking you up. It is currently 7:00 AM.
+<strong>PS: </strong>The directions are on the other side.”</div>\
+
+The paper falls from your hand in shock. <span class="femaleSpeech"><i>What the FUCK?! How did this guy know this? How could anyone know this much about me? Are they even spying on me now?</i></span> Your eyes scan the surrounding room. There were no visible cameras or anything similar in sight.
+
+<span class="femaleSpeech"><i>… I hate to admit it, but they're right, I don't really have much of a choice now. I honestly didn't have a solid plan before… If I go there tomorrow, even if it's a scam, I'll have a shot at finding out how they got to know this much… God, I hope I'll be able to make sense of this mess.</i></span> You still have your doubts, and you hope none of this is true—especially the symptoms part—but that hope is diminishing by the minute. You've been feeling a dull but constant ache just above your pelvic region for a while now, alongside headaches and a fever. Not to talk of the semi-recent weird feeling of emptiness and occasional 'heat' that's uncomfortable to deal with.
+
+You make a mental note to go to the hospital tomorrow. <span class="femaleSpeech">Better than nothing.</span> For now, you'll try to get some [[sleep|Prologue_WakeUpAndBrushTeeth]].
+
+
+:: Prologue_WakeUpAndBrushTeeth [Prologue] {"position":"150,25"}
+The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
 
 Hitting it instinctively, you silence the alarm. You drudgingly pull yourself out of your bed to the toilet. For some reason, you feel very lethargic today, even with ten good hours of sleep. <span class="femaleSpeech"><i>Could be one of the symptoms they hinted at, I guess.</i></span>
 
@@ -37,7 +42,7 @@ In your bathroom, you stand in front of the mirror situated right above the sink
 Absent-mindedly, you pick up a toothbrush and slather some paste on it. You're still thinking of the letter yesterday. <span class="femaleSpeech"><i>What am I going to say when I get there? It's not like I can just say, “Oh hi there, why the FUCK were you spying on me?”</i></span> You sigh and spit into the sink. <span class="femaleSpeech"><i>I'll just figure it out, [[later|Prologue_DressedAndEnteringBus]] once my brain fog clears.</i></span>
 
 
-:: Prologue_DressedAndEnteringBus [Prologue] {"position":"0,350"}
+:: Prologue_DressedAndEnteringBus [Prologue] {"position":"25,150"}
 You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers. You mutter to yourself, reciting different ways to start your conversation without coming across as rude or desperate.
 
 You walk over to a nearby bus stop, still pondering over your thoughts. It's only when you hear the hum of a bus coming to rest, you look up. You see the bus you normally board to work—well, used to. The driver winds down the window and gives you a hearty smile; he's an older man in his fifties. <span class="maleSpeech">“Oi! Nice to see you today, miss. It's been three days, right? I was getting worried about your whereabouts since you usually board us on the weekdays, but I'm glad you look fine now,”</span> the man says, patting his steering wheel towards the end.
@@ -49,7 +54,7 @@ You brush it off and tell him the new location you're going to. <span class="mal
 <span class="femaleSpeech">“Thank you,”</span> you tell him before moving to the back and falling on a seat. The bus is sparsely populated, with only a few people; probably on their way to work. You try to calm your thoughts and focus on the task at hand. As the bus moves on, you can't help but feel a bit drowsy. Eventually you fall [[asleep|Prologue_BusDream#0]].
 
 
-:: Prologue_BusDream#0 [Prologue] {"position":"0,525"}
+:: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
 .
 ..
 ... /*TODO - Make the final sets of dots clickable. Clicking it should reveal the remaining text */
@@ -64,7 +69,7 @@ You clutch your midsection and curl into a fetal position. It doesn't hurt, but 
 The discomfort you felt before is fading away; you're sure of it now. What you're feeling is a weird but powerful mixture of pleasure and bliss that keeps edging you higher and higher. You flail your arms out in defeat; anticipating an imminent orgasm. Just before you reach your climax, the sensation dies down completely. At least, you thought so. Before you could even express your frustration, you feel something in your womb; it's almost as if whatever caused this is beginning to gather [[there|Prologue_BusDream#1]].
 
 
-:: Prologue_BusDream#1 [Prologue] {"position":"150,600"}
+:: Prologue_BusDream#1 [Prologue] {"position":"275,25"}
 You place a hand on your middle and sense a strong pressure beneath it. Bit by bit, it begins to swells with life; your skin stretching more and more by the second. In just a short while, you look three months pregnant. Your eyes widen in shock at your belly, but before you could process your situation, you feel a stronger force pushing from within the confines of your womb; you're still growing.
 
 Your midsection balloons out even further as it rounds out nicely, popping your navel and making you look past six months with triplets. Even in the weightless vacuum, you feel like you're carrying a heavy ball on your torso. You wrap your arms around the firm globe sticking out of you, and feel something push out a bit of your skin from within. If you weren't sure of what is in you, you are now; that was clearly a kick… And another! You're utterly dumbfounded, but for some reason, something in you can't help but nurse it. You always wanted a family of your own after all… Or it could be from the sudden rush of hormones, you're not really sure.
@@ -79,7 +84,7 @@ You feel absolutely <strong>huge</strong> and your unborn children are more rest
 <span class="otherSpeech">POP!</span> Your water breaks and you [[pass out...|Prologue_ArrivedAtFertiloInc]]
 
 
-:: Prologue_ArrivedAtFertiloInc [Prologue Character_Creation] {"position":"300,675"}
+:: Prologue_ArrivedAtFertiloInc [Prologue Character_Creation] {"position":"275,150"}
 
 <span class="maleSpeech">\
 “Miss?”
