@@ -1,4 +1,4 @@
-:: StoryInit {"position":"400,0"}
+:: StoryInit {"position":"475,350"}
 /* The use of these variables can be found in notes\variables.md */
 /* TODO - turn this into an int later. */
 
@@ -89,6 +89,7 @@
             contractions:   [false, [0]],       /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */
             labour:         [false, [0]],       /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */
             sexCraving:     [false, [1, 3]],    /* Maxes out arousal once a day and keeps it above 75 */
+            growthSpurt:    [false, [0]],       /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */
         },
         fetusData: {
             count:          0,                  /* Number of babies. If its zero, womb.curCapacity will always be zero */

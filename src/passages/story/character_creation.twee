@@ -1,4 +1,4 @@
-:: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"400,675"}
+:: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"800,25"}
 You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“$player.name, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
 
 <span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
@@ -23,7 +23,7 @@ The receptionist laughs lightly at your question as she leads you to the area sh
 <span class="femaleSpeech1">Okay, we're here. Now, miss $player.name, would you please [[get on the scale|FertiloInc_CharacterCreation]]?</span>
 
 
-:: FertiloInc_CharacterCreation [Character_Creation] {"position":"350,525"}
+:: FertiloInc_CharacterCreation [Character_Creation] {"position":"925,25"}
 You remove your shoes and get on the scale, then the woman takes your readings./*REVIEW - Rewrite the 1st sentence here later */ <span class="femaleSpeech1">“Let's see how much you weigh $player.weight in kilograms”</span>
 
 <<textbox "$player.weight" "Enter your weight in kilos">>
