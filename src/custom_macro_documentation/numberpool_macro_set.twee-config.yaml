@@ -1,0 +1,65 @@
+---
+
+sugarcube-2:
+  macros:
+    numberinput:
+      container: false
+      parents: 
+      - numberpool
+      description: |-
+        Creates a whole number input box, used to modify the value of the $variable with the given name.
+
+        Usage:
+
+        ```
+        <<numberinput receiverName defaultValue minValue maxValue [poolCost] [autofocus]>>    
+        
+        → Creates a number box which modifies $Strength
+        <<numberinput "$Strength" $Strength 1 20>>
+
+        → Creates an automatically focused number box which modifies $Strength
+        <<numberinput "$Strength" $Strength 1 20 autofocus>>
+        ```
+
+        READ: [Documentation](numberpool_macro_set.html)
+      parameters:
+      - receiver &+ number &+ number &+ number |+ number |+ 'autofocus'
+    numberpool:
+      container: true
+      children: 
+      - numberinput  
+      description: |-
+        Creates a number pool for use with the other macros from this set. Only useful when paired with them.
+
+        Usage:
+
+        ```
+        <<numberpool receiverName>>...<</numberpool>>
+
+        <<numberpool "$StatPool">>
+        |''ST:''|<<numberinput "$ST" $ST 1 20>>|
+        |''DX:''|<<numberinput "$DX" $DX 1 20>>|
+        |''IQ:''|<<numberinput "$IQ" $IQ 1 20>>|
+        |''HT:''|<<numberinput "$HT" $HT 1 20>>|
+        <</numberpool>>
+        ```
+      parameters:
+      - receiver  
+    numberslider:
+      container: false
+      description: |-
+        Creates a number range slider, used to modify the value of the $variable with the given name.
+
+        Usage:
+
+        ```
+        <<numberslider receiverName defaultValue minValue maxValue stepValue [autofocus]>>
+
+        → Creates a number slider which modifies $opacity
+        <<numberslider "$opacity" $opacity 0 1 0.5>>
+
+        → Creates an automatically focused number slider which modifies $opacity
+        <<numberslider "$opacity" $opacity 0 1 0.5 autofocus>>
+        ```
+      parameters:
+      - receiver &+ number &+ number &+ number &+ number |+ 'autofocus' 
