@@ -12,4 +12,4 @@
 
 - [File for Sugarcube Snippets](../../../../../../../AppData/Roaming/Code/User/snippets/twee3-sugarcube-2.json)
 
-- [Where to add the macros](../../custom_macro_documentation/numberpool_macro_set.twee-config.yaml)
+- [The folder to add the macros (in .yaml file form)](../../../custom_macro_documentation)
