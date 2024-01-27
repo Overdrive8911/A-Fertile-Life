@@ -8,22 +8,23 @@ Once you're satisfied with ranting, the receptionist gives you a knowing smile a
 The woman shifts her chair back a bit to stand up properly. It's then you notice that she's pregnant, full term in-fact. Her bump visibly strains the white shirt she's wearing and peeks out a bit underneath, pushing her unbuttoned jacket to the sides; it looked absolutely huge on her little frame especially when she looked no older than twenty-five. You kinda feel bad about lashing out at her, especially now that it seems she's innocent besides stressing out a mother isn't nice.\
 /*REVIEW - Change the last 'You' here so it'll flow nicely */
 
-You apologize to her repeatedly, but she just brushes off the matter. <span class="femaleSpeech1">“Everyone makes mistakes, don't worry.”</span> She reaches into her skirt pocket, pulls out a measuring tape. <span class="femaleSpeech1">“Are you ready now?”</span> she asks, pointing towards a scale and stadiometer.
+You apologize to her repeatedly, but she brushes off the matter. <span class="femaleSpeech1">“Everyone makes mistakes, don't worry.”</span> She reaches into her skirt pocket, pulls out a measuring tape. <span class="femaleSpeech1">“Are you ready now?”</span> she asks, gesturing towards a scale and stadiometer.
 
-<span class="femaleSpeech">“Yeah, but could you tell me why you're still working? I mean, you're close to term.”</span>
+<span class="femaleSpeech">“Yeah, but could you tell me why you're still working? Shouldn't you be on maternity leave or something? I mean, you're close to term.”</span>
 
-The receptionist laughs lightly at your question as she leads you to the area she pointed out. <span class="femaleSpeech1">“Don't worry about it, I've gotten used to being a surrogate on such short notice. Besides, I'm sure you'd find other staff like me here who aren't bothered by their gravidity.</span>
+The receptionist laughs lightly at your question as she leads you to the area she pointed out. Other than the more pronounced arc of her back, she looks unbothered by her gravidity, even her gait is mostly unhindered by the large bulge sticking out of her middle. <span class="femaleSpeech1">“Don't worry about it, I've gotten used to being a surrogate on short notice. Besides, I'm sure you'd find other staff like me here who aren't bothered by their pregnancies.</span>
 
-<span class="femaleSpeech">“Surrogacy? You're a <i>surrogate</i>? You carry <i>another</i> person's baby? How does it feel like? Is that what you guys do here?”</span> You've heard surrogacy before but never thought you'd see it in real life.
+<span class="femaleSpeech">“Surrogacy? You're a <i>surrogate</i>? You carry <i>another</i> person's baby? How does it feel like? Is that what you guys do here?”</span> You've heard surrogacy before but never thought you'd see it in real life. 
 
-<span class="femaleSpeech1">“Yes, surrogacy,”</span> she giggles. <span class="femaleSpeech1">“I'm a surrogate. Many of our staff here are, but we also offer multiple services under pre-natal and post-natal care. It's our job to help mothers in need.”</span> She says the last bit with noticeably more pride. <span class="femaleSpeech1">“Ah, I almost forgot you asked how it feels. Well, it depends on the baby. I'm just lucky that this little fella isn't a kicker like the last one.</span>
+<span class="femaleSpeech1">“Yes, surrogacy,”</span> she giggles. <span class="femaleSpeech1">“I'm a surrogate. Many of our staff here are, but we also offer multiple services under pre-natal and post-natal care. It's our job to help mothers in need.”</span> She says the last bit with noticeably more pride. <span class="femaleSpeech1">“Ah, I almost forgot you asked how it feels. Well, it mostly depends on the baby. I'm just lucky that this little fella isn't a kicker like the last one.</span>
 
-<span class="femaleSpeech">“Ah, so that's how it is…”</span> Before you can voice another thought, the both of you reach the area with the measuring equipment. /*REVIEW - This might need rewriting */
+<span class="femaleSpeech">“I see…”</span> Before you can voice another thought, the both of you arrive at the area with the measuring equipment. /*REVIEW - This might need rewriting */
 
-<span class="femaleSpeech1">Okay, we're here. Now, miss $player.name, would you please [[get on the scale|FertiloInc_CharacterCreation]]?</span>
+<span class="femaleSpeech1">Okay, we're here. Now, miss $player.name, would you please [[get on the scale?|FertiloInc_CharacterCreation]]</span>
 
 
 :: FertiloInc_CharacterCreation [Character_Creation] {"position":"925,25"}
-You remove your shoes and get on the scale, then the woman takes your readings./*REVIEW - Rewrite the 1st sentence here later */ <span class="femaleSpeech1">“Let's see how much you weigh $player.weight in kilograms”</span>
+You remove your shoes and get on the scale, then the woman takes your readings./*REVIEW - Rewrite the 1st sentence here later */ <span class="femaleSpeech1">“Let's see how much you weigh.”</span>
 
-<<textbox "$player.weight" "Enter your weight in kilos">>
+<<numberinput "$player.weight" $player.weight 55 80>> kg
+<<numberbox "$player.weight" $player.weight>> kg
