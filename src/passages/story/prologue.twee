@@ -58,7 +58,7 @@ You brush it off and tell him the new location you're going to. <span class="mal
 <span class="femaleSpeech">“Thank you,”</span> you tell him before moving to the back and falling on a seat. The bus is sparsely populated, with only a few people; probably on their way to work. You try to calm your thoughts and focus on the task at hand. As the bus moves on, you can't help but feel a bit drowsy. Eventually you fall [[asleep|Prologue_BusDream#0]].
 
 
-:: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
+/*:: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
 <<linkappend "...">>
     <<linkappend ".....">>
         <<linkappend ".......">>
@@ -68,7 +68,44 @@ You brush it off and tell him the new location you're going to. <span class="mal
             <i>[[Almost…|Prologue_BusDream#0_1]]</i>
         <</linkappend>>
     <</linkappend>>
-<</linkappend>>
+<</linkappend>>*/
+
+:: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
+<<ctp "BusDream#0_Pause">>
+    ...
+
+    <<link "Next?">>
+        <<ctpAdvance "BusDream#0_Pause">>
+    <</link>>
+<<ctpNext clear>>
+    ...
+
+    .....
+
+    <<link "Next?">>
+        <<ctpAdvance "BusDream#0_Pause">>
+    <</link>>
+<<ctpNext clear>>
+    ...
+
+    .....
+
+    .......
+
+    <<link "Next?">>
+        <<ctpAdvance "BusDream#0_Pause">>
+    <</link>>
+<<ctpNext clear>>
+    ...
+
+    .....
+
+    .......
+
+    It's pitch black all around you; almost as if you're suspended in the endless emptiness of the void—you don't panic, however. For some reason, you feel calm. It's almost as if all your troubles and worries melted away…
+
+    <i>[[Almost…|Prologue_BusDream#0_1]]</i>
+<</ctp>>
 
 
 :: Prologue_BusDream#0_1 [Prologue]
@@ -134,8 +171,12 @@ You gulp down hard, clutching your purse closer, and walk to the entrance. The a
 <span class="femaleSpeech1">“Good morning, miss. Do you have an appointment with one of our doctors?”</span> she asks in a calm voice. You notice her and quickly walk towards the front desk. Once you get close enough, you hear her speak again, <span class="femaleSpeech1">“I almost forgot, please write your name and signature here,”</span> she adds, pushing a pen and a thick-covered leather book to you.
 
 <<nobr>>
-<<linkreplace "Take the pen.">>
-    /* Input the player's name */
-    <b>Name:</b> <<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>>
-<</linkreplace>>
+    <<ctp "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
+        <<link "Take the pen.">>
+            <<ctpAdvance "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
+        <</link>>
+    <<ctpNext clear>>
+        /* Input the player's name */
+        <b>Name:</b> <<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>> 
+    <</ctp>>
 <</nobr>>
