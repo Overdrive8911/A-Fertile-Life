@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>numberpool macro set for SugarCube v2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/*
+	SugarCube documentation stylesheet
+	Author: Thomas M. Edwards - http://motoslave.net
+	Version: 2018-01-26T07:30:18-06:00
+
+	Based on: GitHub stylesheet for MarkdownPad | MIT License | https://github.com/nicolashery/markdownpad-github
+*/
+
+/* IMPORTS
+=============================================================================*/
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer, nav, section, article, aside, details, figure, hgroup {
+  display: block;
+}
+
+mark, time {
+  display: inline;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: helvetica, arial, "dejavu sans", freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 20px;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt,
+h1 code,
+h2 tt,
+h2 code,
+h3 tt,
+h3 code,
+h4 tt,
+h4 code,
+h5 tt,
+h5 code,
+h6 tt,
+h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  color: #000;
+  font-size: 28px;
+}
+
+h2 {
+  background-color: #ccc;
+  border-radius: 3px;
+  color: #000;
+  font-size: 24px;
+  left: -5px;
+  margin-right: -10px;
+  padding-left: 5px;
+  position: relative;
+}
+
+h3 {
+  font-size: 18px;
+}
+h3.category {
+  font-size: 18px;
+  border-top: 4px solid #ccc;
+  border-bottom: 4px solid #ccc;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child,
+body>h1:first-child,
+body>h1:first-child+h2,
+body>h3:first-child,
+body>h4:first-child,
+body>h5:first-child,
+body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1,
+a:first-child h2,
+a:first-child h3,
+a:first-child h4,
+a:first-child h5,
+a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li>:first-child,
+ol li>:first-child,
+ul li ul:first-of-type,
+ol li ol:first-of-type,
+ul li ol:first-of-type,
+ol li ul:first-of-type {
+  margin-top: 0;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+ul.toc {
+  padding-left: 10px;
+}
+
+ul.toc, ul.toc ul {
+  list-style: none;
+}
+
+ul.toc:not(.inline)>li::before {
+  content: '\2023\00a0';
+  font-weight: bold;
+}
+
+ul.toc ul>li,
+ul.toc.inline>li {
+  display: inline;
+}
+
+ul.toc ul>li:not(:last-child)::after,
+ul.toc.inline>li:not(:last-child)::after {
+  content: ', ';
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 14px;
+  font-family: consolas, "dejavu sans mono", "liberation mono", courier, monospace;
+}
+
+code, tt {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  margin: 0 15px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt, h2 code, h2 tt {
+  background-color: transparent;
+  border: none;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  padding: 0 30px;
+}
+
+blockquote>:first-child {
+  margin-top: 0;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 3px 7px;
+}
+
+table td code {
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+}
+
+table td pre {
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+table.toc {
+  border-collapse: collapse;
+}
+
+table.toc th, table.toc td {
+  border: none;
+  padding: 3px;
+}
+
+table.toc th {
+  padding-left: 0;
+  padding-right: 14px;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+table.toc td {
+  padding-right: 0;
+  text-align: left;
+}
+
+table.toc tr {
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+table.toc tr:first-child {
+  border-top: none;
+}
+
+table.toc tr:nth-child(2n) {
+  background: transparent;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+
+/* GENERAL
+=============================================================================*/
+
+.fa-margin-right {
+  margin-right: 0.25em;
+}
+
+.status {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  float: right;
+  font-size: 83.34%;
+  padding: 0 0.4em;
+  white-space: nowrap;
+}
+
+.status.warn {
+  border-color: red;
+}
+
+.warn {
+  color: red;
+}
+
+.deprecated {
+  color: #999;
+}
+
+</style>
+</head>
+<body>
+<p><span id="top"></span></p>
+<h1><code>&lt;&lt;numberpool&gt;&gt;</code> macro set for SugarCube v2</h1>
+<p><a href="http://www.motoslave.net/sugarcube/2/">SugarCube</a> is a free (gratis and libre) story format for <a href="http://twinery.org/">Twine/Twee</a>.</p>
+<p>This documentation is a reference for the <code>&lt;&lt;numberpool&gt;&gt;</code> macro set for SugarCube, it assumes at least a passing knowledge of <a href="http://www.motoslave.net/sugarcube/2/docs/#macros">SugarCube macros</a>.</p>
+<!-- ***************************************************************************
+	Table of Contents
+**************************************************************************** -->
+<p><span id="toc"></span></p>
+<h2>Contents</h2>
+<ul class="toc">
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#files">Files</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#macros">Macros</a>
+	<ul>
+	<li><a href="#macros-numberinput" title="go to: &lt;&lt;numberinput&gt;&gt;"><code>&lt;&lt;numberinput&gt;&gt;</code></a></li>
+	<li><a href="#macros-numberpool" title="go to: &lt;&lt;numberpool&gt;&gt;"><code>&lt;&lt;numberpool&gt;&gt;</code></a></li>
+	<li><a href="#macros-numberslider" title="go to: &lt;&lt;numberslider&gt;&gt;"><code>&lt;&lt;numberslider&gt;&gt;</code></a></li>
+	</ul>
+</li>
+</ul>
+<!-- ***************************************************************************
+	Requirements
+**************************************************************************** -->
+<p><span id="requirements"></span></p>
+<h2>Requirements</h2>
+<p>This package requires SugarCube v2.5.0 or greater.</p>
+<!-- ***************************************************************************
+	Files
+**************************************************************************** -->
+<p><span id="files"></span></p>
+<h2>Files</h2>
+<p>The files included in this package are:</p>
+<ul>
+<li><strong><code>README.html</code>:</strong> This document.</li>
+<li><strong><code>numberpool-macro-set.min.js</code>:</strong> The, minified, macros.</li>
+<li><strong><code>numberpool-macro-set.css</code>:</strong> The styles required by the macros.</li>
+</ul>
+<!-- ***************************************************************************
+	Installation
+**************************************************************************** -->
+<p><span id="installation"></span></p>
+<h2>Installation</h2>
+<h3>JavaScript</h3>
+<ol>
+<li>Open the <code>numberpool-macro-set.min.js</code> file in a text editor (<em>not</em> a word processor) and copy its contents.</li>
+<li>Paste them into your project's script section (Twine&nbsp;2: Story JavaScript, Twine&nbsp;1/Twee: <code>script</code>-tagged passage).</li>
+</ol>
+<h3>Stylesheet</h3>
+<ol>
+<li>Open the <code>numberpool-macro-set.css</code> file in a text editor (<em>not</em> a word processor) and copy its contents.</li>
+<li>Paste them into your project's stylesheet section (Twine&nbsp;2: Story Stylesheet, Twine&nbsp;1/Twee: <code>stylesheet</code>-tagged passage).</li>
+</ol>
+<!-- ***************************************************************************
+	Macros
+**************************************************************************** -->
+<p><span id="macros"></span></p>
+<h2>Macros</h2>
+<p><span id="macros-numberinput"></span></p>
+<h3><code>&lt;&lt;numberinput receiverName defaultValue minValue maxValue [poolCost] [autofocus]&gt;&gt;</code></h3>
+<blockquote>
+<p>Creates a whole number input box, used to modify the value of the $variable with the given name.</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><strong>receiverName:</strong> The name of the $variable to modify, which <em>must</em> be quoted (e.g. <code>&quot;$foo&quot;</code>).  Object and array property references are also supported (e.g., <code>&quot;$foo.bar&quot;</code>, <code>&quot;$foo['bar']&quot;</code>, &amp; <code>&quot;$foo[0]&quot;</code>).</li>
+<li><strong>defaultValue:</strong> The default value.</li>
+<li><strong>minValue:</strong> The minimum allowed value.</li>
+<li><strong>maxValue:</strong> The maximum allowed value.</li>
+<li><strong>poolCost:</strong> (optional) If part of a number pool, the amount by which the pool is changed for each level of the numberinput value.  If omitted, will default to <code>1</code>.  Only useful when part of a pool.</li>
+<li><strong>autofocus:</strong> (optional) Keyword, used to signify that the number box should automatically receive focus.  Only use the keyword <em>once</em> per page; attempting to focus more than one element is undefined behavior.</li>
+</ul>
+<p><strong>Usage:</strong></p>
+<pre><code>→ Creates a number box which modifies $Strength
+&lt;&lt;numberinput &quot;$Strength&quot; $Strength 1 20&gt;&gt;
+
+→ Creates an automatically focused number box which modifies $Strength
+&lt;&lt;numberinput &quot;$Strength&quot; $Strength 1 20 autofocus&gt;&gt;
+</code></pre>
+
+</blockquote>
+<hr />
+<p><span id="macros-numberpool"></span></p>
+<h3><code>&lt;&lt;numberpool receiverName&gt;&gt;</code></h3>
+<blockquote>
+<p>Creates a number pool for use with the other macros from this set.  Only useful when paired with them.</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><strong>receiverName:</strong> The name of the $variable to modify, which <em>must</em> be quoted (e.g. <code>&quot;$foo&quot;</code>).  Object and array property references are also supported (e.g., <code>&quot;$foo.bar&quot;</code>, <code>&quot;$foo['bar']&quot;</code>, &amp; <code>&quot;$foo[0]&quot;</code>).</li>
+</ul>
+<p><strong>Usage:</strong></p>
+<pre><code>&lt;&lt;numberpool &quot;$StatPool&quot;&gt;&gt;
+|''ST:''|&lt;&lt;numberinput &quot;$ST&quot; $ST 1 20&gt;&gt;|
+|''DX:''|&lt;&lt;numberinput &quot;$DX&quot; $DX 1 20&gt;&gt;|
+|''IQ:''|&lt;&lt;numberinput &quot;$IQ&quot; $IQ 1 20&gt;&gt;|
+|''HT:''|&lt;&lt;numberinput &quot;$HT&quot; $HT 1 20&gt;&gt;|
+&lt;&lt;/numberpool&gt;&gt;
+</code></pre>
+
+</blockquote>
+<h3><code>&lt;&lt;onchange&gt;&gt;</code></h3>
+<blockquote>
+<p>Silently executes its contents when the pool is changed via one of the other macros from this set.</p>
+<p><strong>Arguments:</strong> <em>none</em></p>
+<p><strong>Usage:</strong></p>
+<pre><code>You have &lt;span id=&quot;stat-pool&quot;&gt;$StatPool&lt;/span&gt; points remaining to allocate.
+&lt;&lt;numberpool &quot;$StatPool&quot;&gt;&gt;
+|''ST:''|&lt;&lt;numberinput &quot;$ST&quot; $ST 1 20&gt;&gt;|
+|''DX:''|&lt;&lt;numberinput &quot;$DX&quot; $DX 1 20&gt;&gt;|
+|''IQ:''|&lt;&lt;numberinput &quot;$IQ&quot; $IQ 1 20&gt;&gt;|
+|''HT:''|&lt;&lt;numberinput &quot;$HT&quot; $HT 1 20&gt;&gt;|
+&lt;&lt;onchange&gt;&gt;
+    &lt;&lt;replace &quot;#stat-pool&quot;&gt;&gt;$StatPool&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/numberpool&gt;&gt;
+</code></pre>
+
+</blockquote>
+<h3><code>&lt;&lt;/numberpool&gt;&gt;</code></h3>
+<blockquote>
+<p>Closes the <code>&lt;&lt;numberpool&gt;&gt;</code> macro.</p>
+</blockquote>
+<hr />
+<p><span id="macros-numberslider"></span></p>
+<h3><code>&lt;&lt;numberslider receiverName defaultValue minValue maxValue stepValue [autofocus]&gt;&gt;</code></h3>
+<blockquote>
+<p>Creates a number range slider, used to modify the value of the $variable with the given name.</p>
+<p><strong>Arguments:</strong></p>
+<ul>
+<li><strong>receiverName:</strong> The name of the $variable to modify, which <em>must</em> be quoted (e.g. <code>&quot;$foo&quot;</code>).  Object and array property references are also supported (e.g., <code>&quot;$foo.bar&quot;</code>, <code>&quot;$foo['bar']&quot;</code>, &amp; <code>&quot;$foo[0]&quot;</code>).</li>
+<li><strong>defaultValue:</strong> The default value.  It should be a multiple of the step value plus the minimum value.</li>
+<li><strong>minValue:</strong> The minimum allowed value.</li>
+<li><strong>maxValue:</strong> The maximum allowed value.  It must be a multiple of the step value plus the minimum value.</li>
+<li><strong>stepValue:</strong> The allowed increments to which a value may be set.</li>
+<li><strong>autofocus:</strong> (optional) Keyword, used to signify that the number slider should automatically receive focus.  Only use the keyword <em>once</em> per page; attempting to focus more than one element is undefined behavior.</li>
+</ul>
+<p><strong>Usage:</strong></p>
+<pre><code>→ Creates a number slider which modifies $opacity
+&lt;&lt;numberslider &quot;$opacity&quot; $opacity 0 1 0.5&gt;&gt;
+
+→ Creates an automatically focused number slider which modifies $opacity
+&lt;&lt;numberslider &quot;$opacity&quot; $opacity 0 1 0.5 autofocus&gt;&gt;
+</code></pre>
+
+</blockquote>
+<p><br></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
