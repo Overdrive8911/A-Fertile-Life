@@ -1,0 +1,25 @@
+sugarcube-2:
+  macros:
+    live:
+      name: live
+      description: Similar to <<print>> but allows the variable printed by this macro to be updated by the <<update>> macro.
+    l:
+      name: l
+      description: Similar to <<=>> but allows the variable printed by this macro to be updated by the <<update>> macro.
+    lh:
+      name: lh
+      description: Similar to <<->> but allows the variable printed by this macro to be updated by the <<update>> macro. Encodes special html characters in its output.
+    liveblock:
+      name: liveblock
+      container: true
+      description: Creates a block in which variables included in the block can be updated at once by the <<update>> macro.
+    lb:
+      name: lb
+      container: true
+      description: Creates a block in which variables included in the block can be updated at once by the <<update>> macro.
+    update:
+      name: update
+      description: Triggers the a synthetic event `:liveupdate` to update the live displays created using the <<live>> or <<liveblock>> macro.
+    upd:
+      name: upd
+      description: Triggers the a synthetic event `:liveupdate` to update the live displays created using the <<live>> or <<liveblock>> macro.
