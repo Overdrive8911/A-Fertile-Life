@@ -1,0 +1,12 @@
+sugarcube-2:
+  macros:
+    nosp:
+      name: nosp
+      container: true
+      description: |-
+        Similar to <<nobr>> but also removes whitespaces generated. It can also be used as a passage tag just like <<nobr>>.
+
+        Usage:
+        ```
+        <<nosp>> ... <</nosp>>
+        ```
