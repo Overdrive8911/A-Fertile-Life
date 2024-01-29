@@ -23,34 +23,38 @@
 
 ## Dr Fertilo
 
-- Husband to Katie.
+- Husband to Cira.
 - Birth designation is #0546.
 - Full name is Fertilo Guvala.
 - Age: 28 years old
 
-## Katie
+## Cira
 
 - Wife to Dr Fert.
 - Birth designation is #0454.
-- Full name is Katie Guvala.
+- Full name is Cira Guvala.
 - Age: 30 years old
 
 ## Solomon
 
 ## Maria
 
+## Katie
+
+- Receptionist and Nurse in Fertilo Inc.
+
 ## NPCs
 
 ## Story
 
-- Peizhu, Katie and Fert are some of the more successful results of illegal genetic engineering. Their creation was focused on reproduction and general perfection. They were made to be the progenitors of a super human army. The name of the project was SHEMP (Super Human Extensive Modification Project).
-- SHEMP fell apart when it was discovered by the government in the 90s. In an attempt to prevent their progress from being seized, they tried to destroy all sources of their work. That included their living experiments like Peizhu, Katie and Fert. Fortunately, SHEMP was unsuccessful at this due to a double agent named Solomon sabotaging their plans.
-- Peizhu was sent to a foster home are tests said she was normal. Katie and Fert escaped and made new identities.
+- Peizhu, Cira and Fert are some of the more successful results of illegal genetic engineering. Their creation was focused on reproduction and general perfection. They were made to be the progenitors of a super human army. The name of the project was SHEMP (Super Human Extensive Modification Project).
+- SHEMP fell apart when it was discovered by the government in the 90s. In an attempt to prevent their progress from being seized, they tried to destroy all sources of their work. That included their living experiments like Peizhu, Cira and Fert. Fortunately, SHEMP was unsuccessful at this due to a double agent named Solomon sabotaging their plans.
+- Peizhu was sent to a foster home are tests said she was normal. Cira and Fert escaped and made new identities.
 - Over two decades after SHEMP fell apart, a couple of AWOL government agents discovered some unscathed records and began a mission to continue the original purpose, as well as improving it.
 - The accident that happened to Peizhu at her workplace was caused by a sabotage from rogue SHEMP agents. They made a vat of specially-made chemicals fall onto her. The fact that she survived and started generating pheromones confirmed their suspicions.
 
 ## SHEMP experiments
 
-- Living experiments like Peizhu, Fert, and Katie will be like regular normal human beings until their dormant genetic modifications are triggered. For Peizhu, the accident did it while the latter's activated early in life once they made physical contact.
+- Living experiments like Peizhu, Fert, and Cira will be like regular normal human beings until their dormant genetic modifications are triggered. For Peizhu, the accident did it while the latter's activated early in life once they made physical contact.
 - Some activating conditions: HRT drugs, concentrated puberty hormones, extensive contact with the opposite sex as long as both members are experiments, birth, etc.
 - Experiments are much more efficient and superior mentally, metabolically, physically, etc The disadvantage is that they can become narcissistic very easily and become severely ill if they don't fulfil their bodily needs like seggs. Anyone with the blueprints of their creation can 'shut them down' if they tap the appropriate areas of the experiments' body.
