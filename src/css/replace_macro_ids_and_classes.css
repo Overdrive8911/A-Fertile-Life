@@ -1,0 +1,16 @@
+.clearMyContent,
+.clearMyContent1,
+.clearMyContent2,
+.clearMyContent3 {
+    border: none;
+    /* Elements with this class are meant to be removed from the passage later */
+}
+
+
+.changeMyContent,
+.changeMyContent1,
+.changeMyContent2,
+.changeMyContent3 {
+    border: none;
+    /* Elements with this class are meant to be altered in the passage later */
+}
