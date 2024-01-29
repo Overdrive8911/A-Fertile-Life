@@ -6,3 +6,4 @@ src/A-Fertile-Life.twee
 *.code-workspace
 .vscode/**
 .history/**
+src/passages/test.twee
