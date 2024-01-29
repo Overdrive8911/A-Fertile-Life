@@ -1,3 +1,4 @@
+/* Used to denote when a female is speaking. The first one is used whenever the PC talks. */
 .femaleSpeech {
   color: hsl(351, 100%, 90%);
 }
@@ -10,6 +11,8 @@
   color: hsl(350, 100%, 80%);
 }
 
+
+/* Used to denote when a man is speaking */
 .maleSpeech {
   color: hsl(195, 100%, 68%);
 }
@@ -22,7 +25,8 @@
   color: hsl(195, 100%, 73%);
 }
 
-/* For important observations or unknown people*/
+
+/* Used to denote when an important observation is made, the speaker or their gender is unknown */
 .otherSpeech {
   color: hsl(120, 100%, 83%);
 }
