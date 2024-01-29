@@ -1,0 +1,7 @@
+:: Widgets [widget]
+<<nosp>>
+    /* This widget will give the player's name color and will be called as <<PC>> */
+    <<widget "PC">>
+        <span class="playerName">$player.name</span>
+    <</widget>>
+<</nosp>>
