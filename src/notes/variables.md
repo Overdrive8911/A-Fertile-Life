@@ -8,7 +8,7 @@
 
 $player is an object that contains the PC data. It's defaults can be found in ::StoryInit. Some variables can produce different descriptions if they have specific values, e.g ShortStack, Heavyset, RailThin, etc.
 
-- .name : Accepts string. Stores the PC's name.
+- .name : Accepts string. Stores the PC's name. Can be accessed with colour via the widget <<PC>>.
 
 - .weight : Accepts int. Stores the PC's weight in kg. During character creation, a minimum of 55 and max of 80 is enforced. Depending on the value, the PC can be Emaciated, Underweight, Average, Pudgy, Chubby, Curvy, Overweight, Fat, Obese.
 
