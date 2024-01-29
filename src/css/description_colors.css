@@ -1,0 +1,4 @@
+.playerStatNeutral {
+    /* Denotes that a stat is acceptable/okay */
+    color: hsl(39, 100%, 49%);
+}
