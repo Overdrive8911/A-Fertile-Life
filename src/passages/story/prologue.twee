@@ -47,9 +47,9 @@ You absent-mindedly pick up a toothbrush and slather some paste on it, still thi
 
 
 :: Prologue_DressedAndEnteringBus [Prologue] {"position":"25,150"}
-You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers. You still mutter to yourself, reciting different ways to start your conversation without coming across as rude or desperate.
+You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers; normally, they'd be a tad too big to fit, but currently your body fills it out nicely. You would've chosen something different if not for the fact that basically nothing else fit; you're not sure if it's the ice cream you've been using to cope lately.
 
-You walk over to the nearby bus stop, still pondering over your thoughts. It's only when you hear the hum of a bus coming to rest, you look up. You see the bus you normally board to work—well, used to. The driver winds down the window and gives you a hearty smile; he's an older man in his fifties. <span class="maleSpeech">“Oi! Nice to see you today, miss. It's been three days, right? I was getting worried about your whereabouts since you usually board us on the weekdays, but I'm glad you look fine now,”</span> the man says, patting his steering wheel towards the end.
+But that isn't where your focus is, you're still muttering to yourself, reciting different ways to start your conversation without coming across as rude or desperate. You walk over to the nearby bus stop, still pondering over your thoughts. It's only when you hear the hum of a bus coming to rest, you look up. You see the bus you normally board to work—well, used to. The driver winds down the window and gives you a hearty smile; he's an older man in his fifties. <span class="maleSpeech">“Oi! Nice to see you today, miss. It's been three days, right? I was getting worried about your whereabouts since you usually board us on the weekdays, but I'm glad you look fine now,”</span> the man says, patting his steering wheel towards the end.
 
 Faking a smile, you greet the driver. <span class="femaleSpeech"><i>‘You look fine now.’</i></span> That irked you, but it's not like you could get angry with him; he's a sweet old man, besides it's not like he's aware of your predicament.
 
@@ -58,48 +58,28 @@ You brush it off and tell him the new location you're going to. <span class="mal
 <span class="femaleSpeech">“Thank you,”</span> you tell him before moving to the back and falling on a seat. The bus is sparsely populated, with only a few people; probably on their way to work. You try to calm your thoughts and focus on the task at hand. As the bus moves on, you can't help but feel a bit drowsy. Eventually you fall [[asleep|Prologue_BusDream#0]].
 
 
-/*:: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
-<<linkappend "...">>
-    <<linkappend ".....">>
-        <<linkappend ".......">>
-            
-            It's pitch black all around you; almost as if you're suspended in the endless emptiness of the void—you don't panic, however. For some reason, you feel calm. It's almost as if all your troubles and worries melted away…
-
-            <i>[[Almost…|Prologue_BusDream#0_1]]</i>
-        <</linkappend>>
-    <</linkappend>>
-<</linkappend>>*/
-
 :: Prologue_BusDream#0 [Prologue] {"position":"150,150"}
-<<ctp "BusDream#0_Pause">>
+<<ctp "BusDream#0_Pause" t8n>>
     ...
-
-    <<link "Next?">>
-        <<ctpAdvance "BusDream#0_Pause">>
-    <</link>>
-<<ctpNext clear>>
-    ...
-
+    <span class="clearMyContent">
+    <<nobr>>
+        <<link "Next?">>
+            <<ctpAdvance "BusDream#0_Pause">>
+            <<replace ".clearMyContent">><</replace>>
+        <</link>>
+    <</nobr>>\
+    </span>\
+<<ctpNext>>\
     .....
-
-    <<link "Next?">>
-        <<ctpAdvance "BusDream#0_Pause">>
-    <</link>>
-<<ctpNext clear>>
-    ...
-
-    .....
-
-    .......
-
-    <<link "Next?">>
-        <<ctpAdvance "BusDream#0_Pause">>
-    <</link>>
-<<ctpNext clear>>
-    ...
-
-    .....
-
+    <span class="clearMyContent1">
+    <<nobr>>
+        <<link "Next?">>
+            <<ctpAdvance "BusDream#0_Pause">>
+            <<replace ".clearMyContent1">><</replace>>
+        <</link>>
+    <</nobr>>\
+    </span>\
+<<ctpNext>>\
     .......
 
     It's pitch black all around you; almost as if you're suspended in the endless emptiness of the void—you don't panic, however. For some reason, you feel calm. It's almost as if all your troubles and worries melted away…
