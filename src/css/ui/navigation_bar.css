@@ -1,0 +1,25 @@
+/* These 3 consecutive rules will make the menu links in the navigation area have rounded borders */
+#menu ul,
+#menu-story li a {
+    border-radius: 15px;
+}
+
+/* Remember to add any new settings in 'menu-core' here */
+#menu-core>#menu-item-restart a {
+    border-radius: 0px 0px 15px 15px;
+}
+
+#menu-core>#menu-item-saves a {
+    border-radius: 15px 15px 0px 0px;
+}
+
+
+
+/* As of 15:47 02-01-2024, I am unsure why the 'first-child' and 'last-child' options don't work with the menu's save and restart links, so I'll just use the id's directly. Smh */
+/* #menu-core a:first-child {
+    border-radius: 15px 15px 0px 0px;
+}
+
+#menu-core a:last-child {
+    border-radius: 0px 0px 15px 15px;
+} */
