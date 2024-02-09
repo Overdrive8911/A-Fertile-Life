@@ -1,4 +1,4 @@
-:: Widgets [widget]
+:: Widgets [widget] {"position":"25,675"}
 <<nosp>>
     /* This widget will give the player's name color and will be called as <<PC>> */
     <<widget "PC">>
