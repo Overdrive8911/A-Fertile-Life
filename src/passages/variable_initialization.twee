@@ -1,4 +1,4 @@
-:: StoryInit {"position":"475,350"}
+:: StoryInit {"position":"800,475"}
 /* The use of these variables can be found in notes\variables.md */
 /* TODO - turn this into an int later. */
 
@@ -58,6 +58,7 @@
         exp:                1,                  /* Increases when pregnant; the amount depends on the womb.fetusData.fetus[].day, womb.fetusData.fetus[].amnioticFluidProduced, womb.fetusData.fetus[].growthModifier, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain */
         postpartum:         0,                  /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */
         contraceptives:     false,
+        birthRecord:        0,                  /* Number of times the user has given birth */
         perks: {
             /* If a perk's value is 0, it hasn't been enabled. Any number above 0 is its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
             /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
@@ -98,10 +99,11 @@
                 /* This is a dummy object just to showing the structure */
                 /* TODO - Add more genetic data */
                 {
-                    hp:     0,                  /* Ranges from 0 till 100. Current hp of fetus, mostly depends on how high womb.hp is. Doesn't do anything for now  */
-                    day:   0,                  /* Development day of the baby */
-                    fluid:  0,                  /* Amount of amniotic fluid produced for this baby in CCs. Decreases steadily with each multiple fetus */
-                    mod:    1,                  /* Growth modifier of the child. Normally at x1 but can be altered by specific drugs, treatments or perks */
+                    hp:         0,              /* Ranges from 0 till 100. Current hp of fetus, mostly depends on how high womb.hp is. Doesn't do anything for now  */
+                    day:        0,              /* Development day of the baby */
+                    fluid:      0,              /* Amount of amniotic fluid produced for this baby in CCs. Decreases steadily with each multiple fetus */
+                    growthMod:  1,              /* Growth modifier of the child. Normally at x1 but can be altered by specific drugs, treatments or perks */
+                    growth:     0,              /* How much the baby has grown in percentage. 0 - 100. 100 is full term. */
                     genes:  {
                         fatherId:   0,
                         motherId:   0,
@@ -122,7 +124,9 @@
     },
 
     /* Hip and waist */
-    hipWidth:               61,                  /* 0 - 17 -> Very Narrow, 18 - 35 -> Narrow, 36 - 53 -> Average, 54 - 66 -> Wide, 67 - 82 -> Very Wide, 83 - 95 -> Child-Bearing, 96 - 100 -> Brood Mother Hips. Birthing increases this */
+    /*TODO - Make the hipWidth and waistSize related description wise */
+    hipSize:                41,                 /* In inches. 32.3 - 33.3 -> Very Narrow, 33.4 - 35.5 -> Narrow, 35.6 - 37.5 -> Quite Narrow, 37.6 - 40.4 -> Average, 40.5 - 43.3 -> Wide, 43.4 - 46.5 -> Very Wide, 46.6 - 50.5 -> Child-Bearing, 50.6 and above -> Brood Mother Hips. Birthing increases this to an extent */
+    waistSize:              30,                 /* In inches. 22.3 - 23.3 -> Extra Slim, 23.4 - 25.5 -> Very Slim, 25.6 - 27.5 -> Slim, 27.6 - 30.4 -> Average, 30.5 - 33.3 -> Wide, 33.4 - 35.5 -> Very Wide, 35.6 - 38.4 -> Plus-Sized, 38.5 - 42.4 -> Plus-Sized 2x, 42.5 - 46.4 -> Plus-Sized 3x, 46.5 - 50.4 -> Plus-Sized 4x, 50.5 - 53.5 -> Plus-Sized 5x. Getting fat increases this to an extent */
 
     /* Muscle */
     muscleDefinition:       44,                  /* 0 - 17 -> Very frail, 18 - 35 -> Frail, 36 - 53 -> Average, 54 - 66 -> Toned, 67 - 82 -> Well-Defined, 83 - 95 -> Jacked, 96 - 100 -> Body Builder */
