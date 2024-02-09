@@ -7,3 +7,5 @@ src/A-Fertile-Life.twee
 .vscode/**
 .history/**
 src/passages/test.twee
+**/.fic/**
+**/node_modules/**
