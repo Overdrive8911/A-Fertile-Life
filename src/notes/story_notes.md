@@ -1,16 +1,17 @@
 # Stuff
 
-- Expressing and drinking your own milk when due can encourage labour to start.
-
+- The world takes place in 2022.
+- Expressing and drinking your own milk when due can encourage labor to start.
+  
 ## PC
 
-- The PC's canon and default name is Peizhu Noshihamite. /_TODO - Fix this awful name_/
+- The PC's canon and default name is Peizhu Noshihamite. /* TODO - Fix this awful name */
 - Age: almost 26 years old.
 - Birth designation is #0662.
-- Adopted. Adopted parents were abusive shits that died with her documents in a flame.
-- Genetically Asian. (Yeah, she'll literally Chinese, Japanese, Korean, Indian, etc all at once)
+- Adopted. Adopted parents were abusive individuals that died with her documents in a fire.
+- Genetically Asian. (Although, she represents multiple Asian heritages simultaneously)
 - Peizhu formerly worked in a warehouse.
-- Peizhu's long time neighbour is a spy that works for Mr Fert; her name is Maria.
+- Peizhu's long time neighbor is a spy that works for Mr. Fert; her name is Maria.
 
 ## Fertilo Inc
 
@@ -21,16 +22,16 @@
 - Fertilo Inc and its branches are usually situated in decrepit areas in order to reach more people in need (and the fact that poorer people are more desperate :D).
 - Most of the staff is female and a great portion of them serve as surrogates.
 
-## Dr Fertilo
+## Dr. Fertilo
 
-- Husband to Cira.
+- Significant other to Cira.
 - Birth designation is #0546.
 - Full name is Fertilo Guvala.
 - Age: 28 years old
 
 ## Cira
 
-- Wife to Dr Fert.
+- Significant other to Dr. Fert.
 - Birth designation is #0454.
 - Full name is Cira Guvala.
 - Age: 30 years old
@@ -57,4 +58,4 @@
 
 - Living experiments like Peizhu, Fert, and Cira will be like regular normal human beings until their dormant genetic modifications are triggered. For Peizhu, the accident did it while the latter's activated early in life once they made physical contact.
 - Some activating conditions: HRT drugs, concentrated puberty hormones, extensive contact with the opposite sex as long as both members are experiments, birth, etc.
-- Experiments are much more efficient and superior mentally, metabolically, physically, etc The disadvantage is that they can become narcissistic very easily and become severely ill if they don't fulfil their bodily needs like seggs. Anyone with the blueprints of their creation can 'shut them down' if they tap the appropriate areas of the experiments' body.
+- Experiments are much more efficient and superior mentally, metabolically, physically, etc. The disadvantage is that they can become narcissistic very easily and become severely ill if they don't fulfil their physiological needs like seggs. Anyone with the blueprints of their creation can 'shut them down' if they tap the appropriate areas of the experiments' body.
