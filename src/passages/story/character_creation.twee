@@ -1,4 +1,4 @@
-:: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"800,25"}
+:: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"475,25"}
 You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“<<PC>>, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
 
 <span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
@@ -26,8 +26,8 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
 <span class="femaleSpeech1">Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?|FertiloInc_CharacterCreation]]</span>
 
 
-:: FertiloInc_CharacterCreation [Character_Creation] {"position":"925,25"}
-/* Handle geting the PC's weight */\
+:: FertiloInc_CharacterCreation [Character_Creation] {"position":"600,25"}
+/* Handle getting the PC's weight */\
 <<ctp "FertiloInc_CharacterCreation_ctpId1">>\
     After you take off your shoes and get on the scale, Katie your readings. <span class="femaleSpeech1">“Let's see how much you weigh.”</span>\
     
@@ -45,7 +45,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
         <<if $player.weight <= 60>> 
             <<set _playerWeightDescription = "You're a bit <span class='playerStatNeutral'>leaner</span> than I expected but still healthy. Try to eat more when you can,">>
 
-            <<set _playerWeightReaction = "I honestly thought all that icecream would've messed up something. Or maybe its just all the stress lately.">>
+            <<set _playerWeightReaction = "I honestly thought all that ice cream would've messed up something. Or maybe its just all the stress lately.">>
 
         <<elseif ($player.weight > 60) && ($player.weight < 70)>>
             <<set _playerWeightDescription = "You're in the <span class='playerStatNeutral'>normal</span> weight range and healthy enough. Looks like your diet is pretty stable,">>
@@ -55,7 +55,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
         <<else>>
             <<set _playerWeightDescription = "You're a bit <span class='playerStatNeutral'>chubbier</span> than I expected but still healthy. Try to watch your weight to avoid complications in the future,">>
 
-            <<set _playerWeightReaction = "Am I getting fat? Ugh, I knew it. It's definitely because of that tub of ice cream and takeout…">> 
+            <<set _playerWeightReaction = "Am I getting fat? Ugh, I knew that tub of ice cream would go to my waist… ">> 
 
         <</if>>
     <</silently>>\
@@ -83,7 +83,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
     <<silently>>
         /* Initialize a temporary variable that'll store a string depending on the PC's height */
         <<if $player.height <= 169>> 
-            <<set _playerHeightDescription = "<i>A little bit… shorter… still acceptable…</i> <span class=defaultText>You overhear the woman mumbling something to herself but she stops before you can make out what it is.</span> <span class=femaleSpeech1>“Aha, pardon me. You're slightly <span class='playerStatNeutral'>shorter</span> than average but its okay. Back pain sucks anyways,”</span>">>
+            <<set _playerHeightDescription = "<i>A little bit… shorter… still acceptable…</i> <span class=defaultText>You overhear the woman mumbling something to herself but she stops before you can make out what it is.</span> <span class=femaleSpeech1>“Aha, pardon me. You're slightly <span class='playerStatNeutral'>shorter</span> than average but its okay. Back pain sucks anyway,”</span>">>
 
         <<elseif ($player.height > 170) && ($player.height < 185)>>
             <<set _playerHeightDescription = "“You're in the <span class='playerStatNeutral'>average</span> height range. Not much else to say,”">>
@@ -163,7 +163,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_DoneWithMeasurements [Character_Creation Prologue]
+:: FertiloInc_CharacterCreation_DoneWithMeasurements [Character_Creation Prologue] {"position":"475,150"}
 You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight.
 
 She's a sweaty mess. Her skirt is pulled down halfway and her legs spread apart, giving quite a show, but the thing that's even more absurd is her belly. It's a much larger dome stretched to capacity—you swear she looks overdue with triplets—and has soundly defeated her clothing, opting to lewdly stick out of it. Her bump is bulging out menacingly, with the area surrounding her popped navel reddening with strain; when you look closer, you notice that it's still growing, albeit slowly. It also seems that Katie hasn't noticed you yet.
@@ -172,5 +172,6 @@ You're completely baffled, but it's been a weird day, so you don't visibly react
 
 Unsure of what to do now, you decide to leave her and find another staff to help. But just before you exit the room, Katie lets out a loud moan, and the activity in her belly suddenly surges, but otherwise remains oblivious to you. You turn back and see her midsection covered with a flurry of bulges from its occupants; it's almost like the dream you had, but it feels so different seeing it in real life, almost tempting in fact. She groans again and a folded piece of paper falls out of her hand, which you pick up.
 
-The directions to the doctor's office are scribbled on it, as well as an apology from Katie. It seems that she expected her current situation to happen but didn't think it would be this soon, and she doesn't require any assistance; that this is apparently <i>"normal"</i> for her. <span class="femaleSpeech"><i>Everything here is so weird.</i></span>
+The directions to the doctor's office are scribbled on it, as well as an apology from Katie. It seems that she expected her current predicament but didn't realize it would be this soon, and she doesn't require any assistance; that this is apparently <i>"normal"</i> for her. <span class="femaleSpeech"><i>Everything here is so weird.</i></span>
 
+[[Follow the directions|FertiloInc_Prologue_MeetTheDoctor]]

@@ -46,6 +46,7 @@ In your bathroom, you stand in front of the mirror situated right above the sink
 You absent-mindedly pick up a toothbrush and slather some paste on it, still thinking of the letter yesterday. <span class="femaleSpeech"><i>What am I going to say when I get there? It's not like I can just say, “Oh hi there, why the FUCK were you spying on me?”</i></span> You sigh and spit into the sink. <span class="femaleSpeech"><i>I'll just figure it out, [[later|Prologue_DressedAndEnteringBus]] once my brain fog clears.</i></span>
 
 
+/*TODO - Add a reference to Maria, the PC's neighbour */
 :: Prologue_DressedAndEnteringBus [Prologue] {"position":"25,150"}
 You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers; normally, they'd be a tad too big to fit, but currently your body fills it out nicely. You would've chosen something different if not for the fact that basically nothing else fit; you're not sure if it's the ice cream you've been using to cope lately.
 
@@ -160,3 +161,97 @@ You gulp down hard, clutching your purse closer, and walk to the entrance. The a
         <b>Name:</b> <<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>> 
     <</ctp>>
 <</nobr>>
+
+
+__________________________________________________________________
+
+
+:: FertiloInc_Prologue_MeetTheDoctor [Prologue] {"position":"600,150"}
+You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, climb an elevator and reach the doctor's office. You don't encounter much of the staff, but the few you do see were all pregnant, some even more than Katie. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
+
+The door to the doctor's office is at the end of the hallway, and you knock on it. A calm, smooth voice from inside tells you to come <span class="changeMyContent">in.</span>
+
+<<ctp "FertiloInc_Prologue_MeetTheDoctor_ctpId">>\
+    <<nobr>>
+    <span class="clearMyContent">
+        <<link "Enter">>
+            <<replace ".clearMyContent">><</replace>>
+            <<replace ".changeMyContent">>
+                in, and you do so.
+            <</replace>>
+            <<ctpAdvance "FertiloInc_Prologue_MeetTheDoctor_ctpId">>
+        <</link>>
+    </span>
+    <</nobr>>\
+<<ctpNext>>\
+Inside the office is quite spacious, with a large desk with a computer on it, a couple of chairs, a couch, and a few bookshelves. The doctor is sitting behind the desk, and he looks up from his papers to greet you.
+
+He's a young man, barely in his thirties, with dark ebony skin that contrasts with his focused emerald-green gaze; it almost feels like he's scanning every part of you with his eyes. A name card pinned to his white doctor coat tells you his name, Dr. Fertilo. 
+
+The man beckons you to a seat in front of his table. <span class="maleSpeech">“Miss <<PC>>, I presume. Please have a seat before we discuss,”</span> he says. For just a moment, you feel at ease, it almost feels as if his voice has a calming effect. You sit down on the chair offered while the doctor clears his table.
+
+<span class="femaleSpeech">“I shouldn't be surprised you know my name already, with everything else you sent in that letter,”</span> you tell him just as he finishes, but quickly end it once you notice that it's not the ideal way to start. <span class="femaleSpeech">“<i>Er hem,</i> What I wanted to say was, how? How did you find out about me and my situation? Why are you looking for me? I'm definitely sure I wasn't on the news after the accident.”</span>
+
+Mr Fertilo lets out a small laugh and smiles at you. <span class="maleSpeech">“You may be unsure of it now, but there's no reason to be so stiff here. We're in the same boat, after all.”</span> He presses a button and speaks to his intercom in a hushed tone./*, telling somebody to bring someone he refers as <i>"her"</i> to his office.*/
+
+An energetic feminine voice replies, but you're only able to make out, <span class="femaleSpeech2">“On it, boss!”</span> before he turns off the intercom.
+
+<span class="maleSpeech">“The next person to come here should be able to answer your first question, but till then, let me explain everything else, starting with myself…”</span> The smile on his face partially fades into a more serious look. <span class="maleSpeech">“It seems that my receptionist forgot to give you my name, since I noticed you staring at my name tag earlier. <i>Sigh.</i> My secretary told me about her current condition. Don't worry about it, she'll be fine. Maybe I need to revisit the rules about the types of "pranks" not allowed here…”
+
+"Alright, my name is Mr. Fertilo Guvala, the head doctor and owner of Fertilo Inc, but most people call me Dr. Fert. As for why I reached out to you..."</span> He clears his throat and continues, <span class="maleSpeech">"You and I share a common background. We both are subjects of <strong>illicit genetic experimentation</strong>.</span>
+
+<span class="femaleSpeech">“I see…”</span> You stand up from your seat and look at Mr. Fert in disbelief. <span class="femaleSpeech">“This is bullshit. This is all a bad dream, nothing here makes sense. Genetic experimentation? Nah, that only happens in movies. This can't be real. I probably hit my head way too hard.”</span>
+
+<span class="maleSpeech">“Miss <<PC>>, please try to listen-”</span>
+
+<span class="femaleSpeech">“No! I can't accept this. I won't accept this. It isn't real. I didn't lose my only job. I didn't have that dream earlier. I don't have any dumb tattoo on my belly.”</span>
+
+[[I just can't-|FertiloInc_Prologue_InfoDump]]
+
+<</ctp>>
+
+
+:: FertiloInc_Prologue_InfoDump [Prologue]
+A quick prick to your neck silences you and quickly drains your energy, forcing you back to your seat. You try to speak, but your mouth refuses to move. All you can do is to struggle quietly watch Mr. Fert who you see is beside you, holding a syringe. <span class="femaleSpeech"><i>When… Did… He… Get… There?</i></span>
+
+<span class="maleSpeech">“Forgive me for that, but you were getting hysterical.”</span>
+
+You give in and roll your eyes; as much as you physically can at the moment.
+
+<span class="maleSpeech">“Don't worry much, see this other thing here?”</span> He pulls out a small casing from his pocket. <span class="maleSpeech">“This will give you back your strength, and you'll get it once I'm done.”</span>
+
+Other than the movement of your eyes, you remain completely unresponsive. You want to be angry with him but can't find any more strength for that.
+
+<span class="maleSpeech">“Good, so let's continue.”</span>
+
+<span class="maleSpeech">“We're the few <i>successful</i> results of genetic experimentation. Ever heard of the <strong>Super Human Extensive Modification Project</strong>, <strong>The SHEM Project</strong> or <strong>SHEMP?</strong></span>
+
+<span class="femaleSpeech"><i>SHEMP? That sounds stupid, but why does the name feel familiar…</i></span>
+
+<span class="maleSpeech">“It sounds familiar, right? Well, that's because the project created us. It was a couple of decades ago when the operation began, with technology far beyond its time, a private corporation sponsored by the government was tasked with the objective of achieving maximum human perfection. It might sound illogical or far-fetched, but somehow they had the equipment and man power that would even rival some of the greatest technological and health giants of our time.”
+
+“The SHEM Project sourced DNA from basically every race as well as, a few animals, as long as they were genetically "pure". What was decided as pure and how they obtained it was quite unethical to say the least…”
+
+“After getting enough viable samples, they decided the best course of action was to create a bunch of us who in general would be better and more efficient than normal people. But also have an extreme affinity for a particular trait. For you, me and my wife, that trait is fertility. Why would they need that? It makes sense when you realize that it would be the best way to create a constant and “natural” supply of our kind, as well as passing on favourable traits to newer generations. It was expected that the “ideal human” would be birthed after long enough.”
+
+“You see, we were created to be steeping stones in their journey to perfection. But people aren't perfect, so it was not surprising when out of the thousands of experiments created, most were either unviable or expired within a week. Even those deemed as successful as us did not come without flaw…”
+
+“As fertility-focused creations, our ability to bear offspring has been amplified a hundred-fold. Many of the problems associated with reproduction are a non-issue to us. The issue here is that our body is so adapted to childbearing that it <strong>needs</strong> to continuously do that. If not, we would get worsening symptoms till eventually our organs fail. This is our major imperfection but was overlooked by our creators since we weren't needed for much else other than breeding. The only reason you've lasted this long is that the gene that enhances your reproductive capabilities has been dormant; at least until the accident at your former workplace, unlike mine and my partner's, which were activated promptly after creation.”
+/* */
+“Fortunately—or unfortunately depending on how you see it, it was found out that they committed multiple crimes against humanity in the name of science. The government, in order to save their face, cut off all their funding and demanded us, the results. The heads of the project decided to bail and destroy all the evidence, which should've included us. But the thing is, I can't remember any more details afterwards; the same goes for my wife. It's almost as if they wiped our memories of that incident.”
+
+“I guess killing the rest of us wasn't worth the effort it took to make us so they decided to scatter us instead; my spouse was the only one I found. In that case, it could mean they've been lying low all this while waiting for the right time, but it's been decades and nothing of note has happened relating to the project. Our only concern is the government, as long as you don't give them a reason to, they won't disturb us.”
+
+“Now, back to you. I've been looking for the rest of our "kind" ever since I attained my wealth; it started about a decade ago. In summary, it's been mostly unfruitful, that is, until I discovered you last month. You need to know that when your trait is "activated", there are specific pheromones you'd unconsciously release which can be tested for. When the news came in, I sent some people to help me confirm it and when it came back positive, I was elated but worried too; it also seemed that the government was onto you.”
+
+“Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could've made my proposition. I'm not proud of it but the end justifies the means, after all…”</span>
+
+With that, he finishes and pulls out the syringe from before, <span class="maleSpeech">“Now that has been cleared up, I won't go back on my word,”</span> and jabs your neck.
+
+Almost immediately, you feel your strength return 
+
+
+/* Its been decades? How old are You?
+    What's ur wife's name? 
+    You bugged my house, how didn't I notice it?
+    What did you say about fertility?*/
