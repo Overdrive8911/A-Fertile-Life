@@ -1,4 +1,4 @@
-/* Used to denote when a female is speaking. The first one is used whenever the PC talks. */
+/* Used to denote when a female is speaking. The first one is the default used whenever the PC talks. */
 .femaleSpeech {
   color: hsl(351, 100%, 90%);
 }
@@ -12,7 +12,7 @@
 }
 
 
-/* Used to denote when a man is speaking */
+/* Used to denote when a man is speaking. The first one is used for Mr. Fertilo */
 .maleSpeech {
   color: hsl(195, 100%, 68%);
 }
