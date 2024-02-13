@@ -169,7 +169,7 @@ __________________________________________________________________
 :: FertiloInc_Prologue_MeetTheDoctor [Prologue] {"position":"600,150"}
 You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, climb an elevator and reach the doctor's office. You don't encounter much of the staff, but the few you do see were all pregnant, some even more than Katie. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
 
-The door to the doctor's office is at the end of the hallway, and you knock on it. A calm, smooth voice from inside tells you to come <span class="changeMyContent">in.</span>
+The door to the doctor's office is at the end of the hallway, and you knock on it. A calm, smooth voice from inside tells you to come <span class="changeMyContent">in</span>.
 
 <<ctp "FertiloInc_Prologue_MeetTheDoctor_ctpId">>\
     <<nobr>>
@@ -177,7 +177,7 @@ The door to the doctor's office is at the end of the hallway, and you knock on i
         <<link "Enter">>
             <<replace ".clearMyContent">><</replace>>
             <<replace ".changeMyContent">>
-                in, and you do so.
+                in, and you do so
             <</replace>>
             <<ctpAdvance "FertiloInc_Prologue_MeetTheDoctor_ctpId">>
         <</link>>
@@ -216,7 +216,7 @@ A quick prick to your neck silences you and quickly drains your energy, forcing 
 
 <span class="maleSpeech">“Forgive me for that, but you were getting hysterical.”</span>
 
-You give in and roll your eyes; as much as you physically can at the moment.
+You give him an intense glare, then roll your eyes when it becomes exhausting.
 
 <span class="maleSpeech">“Don't worry much, see this other thing here?”</span> He pulls out a small casing from his pocket. <span class="maleSpeech">“This will give you back your strength, and you'll get it once I'm done.”</span>
 
@@ -224,34 +224,180 @@ Other than the movement of your eyes, you remain completely unresponsive. You wa
 
 <span class="maleSpeech">“Good, so let's continue.”</span>
 
-<span class="maleSpeech">“We're the few <i>successful</i> results of genetic experimentation. Ever heard of the <strong>Super Human Extensive Modification Project</strong>, <strong>The SHEM Project</strong> or <strong>SHEMP?</strong></span>
+<span class="maleSpeech">“We're the few <i>successful</i> results of genetic experimentation. Ever heard of the <strong>Super Human Extensive Modification Project</strong>, <strong>The SHEM Project</strong> or <strong>SHEMP</strong>?”</span>
 
 <span class="femaleSpeech"><i>SHEMP? That sounds stupid, but why does the name feel familiar…</i></span>
 
-<span class="maleSpeech">“It sounds familiar, right? Well, that's because the project created us. It was a couple of decades ago when the operation began, with technology far beyond its time, a private corporation sponsored by the government was tasked with the objective of achieving maximum human perfection. It might sound illogical or far-fetched, but somehow they had the equipment and man power that would even rival some of the greatest technological and health giants of our time.”
+<span class="maleSpeech">“It sounds familiar, right? Well, that's because the project created us. It was a couple of decades ago in the 80s when the operation began, with technology far beyond its time, a private corporation sponsored by the government was tasked with the objective of achieving maximum human perfection. It might sound illogical or far-fetched, but somehow they had the equipment and man power that would even rival some of the greatest technological and health giants of our time.
 
-“The SHEM Project sourced DNA from basically every race as well as, a few animals, as long as they were genetically "pure". What was decided as pure and how they obtained it was quite unethical to say the least…”
+The SHEM Project sourced DNA from basically every race as well as, a few animals, as long as they were genetically "pure". What was decided as pure and how they obtained it was quite unethical to say the least…
 
-“After getting enough viable samples, they decided the best course of action was to create a bunch of us who in general would be better and more efficient than normal people. But also have an extreme affinity for a particular trait. For you, me and my wife, that trait is fertility. Why would they need that? It makes sense when you realize that it would be the best way to create a constant and “natural” supply of our kind, as well as passing on favourable traits to newer generations. It was expected that the “ideal human” would be birthed after long enough.”
+After getting enough viable samples, they decided the best course of action was to create a bunch of us who in general would be better and more efficient than normal people. But also have an extreme affinity for a particular trait. For you, me and my wife, that trait is hyper-fertility. Why would they need that? It makes sense when you realize that it would be the best way to create a constant and “natural” supply of our kind, as well as passing on favourable traits to newer generations. It was expected that the “ideal human” would be birthed after long enough.
 
-“You see, we were created to be steeping stones in their journey to perfection. But people aren't perfect, so it was not surprising when out of the thousands of experiments created, most were either unviable or expired within a week. Even those deemed as successful as us did not come without flaw…”
+You see, we were created to be steeping stones in their journey to perfection. But people aren't perfect, so it was not surprising when out of the thousands of experiments created, most were either unviable or expired within a week. Even those deemed as successful as us did not come without flaw…
 
-“As fertility-focused creations, our ability to bear offspring has been amplified a hundred-fold. Many of the problems associated with reproduction are a non-issue to us. The issue here is that our body is so adapted to childbearing that it <strong>needs</strong> to continuously do that. If not, we would get worsening symptoms till eventually our organs fail. This is our major imperfection but was overlooked by our creators since we weren't needed for much else other than breeding. The only reason you've lasted this long is that the gene that enhances your reproductive capabilities has been dormant; at least until the accident at your former workplace, unlike mine and my partner's, which were activated promptly after creation.”
+As fertility-focused creations, our ability to bear offspring has been amplified a hundred-fold. Many of the problems associated with reproduction are a non-issue to us. The issue here is that our body is so adapted to childbearing that it <strong>needs</strong> to continuously do that. If not, we would get worsening symptoms till eventually our organs fail. This is our major imperfection but was overlooked by our creators since we weren't needed for much else other than breeding. The only reason you've lasted this long is that the gene that enhances your reproductive capabilities has been dormant; at least until the accident at your former workplace, unlike mine and my partner's, which were activated promptly after creation.
 /* */
-“Fortunately—or unfortunately depending on how you see it, it was found out that they committed multiple crimes against humanity in the name of science. The government, in order to save their face, cut off all their funding and demanded us, the results. The heads of the project decided to bail and destroy all the evidence, which should've included us. But the thing is, I can't remember any more details afterwards; the same goes for my wife. It's almost as if they wiped our memories of that incident.”
+Fortunately—or unfortunately depending on how you see it, it was found out that they committed multiple crimes against humanity in the name of science. The government, in order to save their face, cut off all their funding and demanded us, the results. The heads of the project decided to bail and destroy all the evidence, which should've included us. But the thing is, I can't remember any more details afterwards; the same goes for my wife. It's almost as if they wiped our memories of that incident.
 
-“I guess killing the rest of us wasn't worth the effort it took to make us so they decided to scatter us instead; my spouse was the only one I found. In that case, it could mean they've been lying low all this while waiting for the right time, but it's been decades and nothing of note has happened relating to the project. Our only concern is the government, as long as you don't give them a reason to, they won't disturb us.”
+I guess killing the rest of us wasn't worth the effort it took to make us so they decided to scatter us instead; my spouse was the only one I found. In that case, it could mean they've been lying low all this while waiting for the right time, but it's been decades and nothing of note has happened relating to the project. Our only concern is the government, as long as you don't give them a reason to, they won't disturb us.
 
-“Now, back to you. I've been looking for the rest of our "kind" ever since I attained my wealth; it started about a decade ago. In summary, it's been mostly unfruitful, that is, until I discovered you last month. You need to know that when your trait is "activated", there are specific pheromones you'd unconsciously release which can be tested for. When the news came in, I sent some people to help me confirm it and when it came back positive, I was elated but worried too; it also seemed that the government was onto you.”
+Now, back to you. I've been looking for the rest of our "kind" ever since I attained my wealth; it started about a decade ago. In summary, it's been mostly unfruitful, that is, until I discovered you last month. You need to know that when your trait is "activated", there are specific pheromones you'd unconsciously release which can be tested for. When the news came in, I sent some people to help me confirm it and when it came back positive, I was elated but worried too; it also seemed that the government was onto you.
 
-“Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could've made my proposition. I'm not proud of it but the end justifies the means, after all…”</span>
+Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could've made my proposition. I'm not proud of it but the end justifies the means, after all…”</span>
 
-With that, he finishes and pulls out the syringe from before, <span class="maleSpeech">“Now that has been cleared up, I won't go back on my word,”</span> and jabs your neck.
+With that, he finishes and pulls out the syringe from before, <span class="maleSpeech">“Now that has been cleared up, I won't go back on my word,”</span> and jabs your neck. <span class="maleSpeech">“Once again, I apologize, miss <<PC>>.”</span>
 
-Almost immediately, you feel your strength return 
+[[Next|FertiloInc_Prologue_InfoDump1]]
 
+
+:: FertiloInc_Prologue_InfoDump1 [Prologue]
+Almost immediately, you feel a surge of energy coursing within yourself and within seconds you're back on your feet. You look back at Mr. Fert who's now standing behind his desk and waiting for your reply. <span class="femaleSpeech">“<i>Sigh.</i> I really want to argue with you but from every that's been happening recently, what you said does make <i>some</i> sense. However, I still have some questions for you,”</span> you tell him.
+
+<span class="maleSpeech">“I'm glad you understand, feel free to ask anything and I'll answer it as best as I can.”</span>
+
+<<nobr>>
+    /* Just a comment showing the links for ease
+    <<link "It's been decades, right. How old are you?">><</link>>
+    <<link "About your wife…">><</link>>
+    <<link "How did you get <i>this</i> rich?">><</link>>
+    <<link "What's Fertilo Inc about?">><</link>>
+    <<link "What happened to the receptionist, Katie?">><</link>>
+    <<link "So they wiped our memory and scattered us?…">><</link>>
+    <<link "Is there any more stuff I should know about SHEMP?">><</link>>
+    <<link "So where am I gonna be staying for now?">><</link>>
+    <<link "About my condition, what are you trying to say?">><</link>>
+    <<link "They scattered us? How do you explain my parents then?">><</link>>
+    <<link "No question">><</link>>
+    */
+
+    /*TODO - Make it so that clicking a link takes the cursor to the beginning of the page before replacing the text. IGNORE THIS, A WORKAROUND HAS BEEN FOUND */
+<</nobr>>\
+\
+<<link "It's been decades, right. How old are you?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“You said your search began a decade ago, right? How old <i>are</i> you? You look barely thirty, and even that's an overstatement.”</span>
+
+        Mr. Fert looks at you and places his hand beneath his chin. <span class="maleSpeech">“Hmm, if I'm remembering correctly, I'm much closer to forty; thirty-eight to be exact.”</span>
+
+        You gasp in surprise, <span class="femaleSpeech">“Huh? You're bluffing, that can't be true, why do you look so young?”</span>
+
+        <span class="maleSpeech">“It's a side effect of our hyper-fertility; younger bodies in their prime are much more suitable for reproduction and so we'll tend to look young for pretty much our entire lives.”</span>
+
+        <span class="femaleSpeech">“So you're saying I'll be look perpetually young? No wrinkles, back pain, arthritis, or droopy boobs?”</span>
+
+        <span class="maleSpeech">“Most likely, in fact you're probably older than you think.”</span>
+
+        You sigh in relief, <span class="femaleSpeech">“At least that's a really nice positive in all this.”</span>
+        
+        <span class="femaleSpeech"><i>But what did he mean by "older". I'm definitely sure I'm 26…</i></span>
+    <</replace>>
+<</link>>
+<<link "About your wife…">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“You mentioned your wife a couple of times. If its okay, can I ask for her name and if she also works here?”</span>
+
+        <span class="maleSpeech">“I understand, you'd prefer a fellow woman who's also experiencing something similar. My wife's name is Cira, Cira Guvala, and she's in charge of the nursery division. As you know by now, she also has hyper-fertility but unlike me, she <i>indulges</i> in it. I can't disclose more of her details unless she's okay with it, but you could look for her later; I'm sure she'd be glad to meet you.
+        
+        And lest I forget, she's much fairer-skinned than I am, wears glasses and tied her brown hair into a ponytail. That should help you recognize her.</span>
+
+        <span class="femaleSpeech">“Okay, I'll keep an eye out for her.”</span>
+    <</replace>>
+<</link>>
+<<link "You bugged my house?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“How did you bug my house? I always lock my doors and I'm certain nothing was altered anytime I got home.”</span>
+
+        With a shrug, Mr. Fertilo replies, <span class="maleSpeech">“Well, there wouldn't be much use if you found us out, would there? Besides the lady, I sent to do it is one of my experts; there'd been no way for you to notice it. And she is someone you'd probably doubt could do it. I'll let her explain better once she gets here.”</span>
+    <</replace>>
+<</link>>
+<<link "How did you get <i>this</i> rich?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“How could you have gotten <i>this</i> rich?”</span> you exclaim. <span class="femaleSpeech">“You own a multi-million dollar hospital while I was doing retail for god's sake.”</span>
+
+        Mr. Fert strokes his chin and smiles. <span class="maleSpeech">“Oh ho, no need to worry about that. Honestly, its luck that got me here; I was just lucky enough to help the right person at the right time, that's all.”</span>
+
+        You give him the side-eye. <span class="femaleSpeech">“So you won't spill it, fine then.”</span>
+    <</replace>>
+<</link>>
+<<link "What's Fertilo Inc about?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“What's up with this place? I mean, the surrounding area isn't exactly <i>pretty</i> and a bunch of your staff are supposed to be on maternity leave.</span>
+
+        <span class="maleSpeech">“I figured that you'd ask that. It's more of a personal reason from my early years; watching multitudes of your siblings die during birth complications or from reproductive deformations takes a toll on you…</span>
+
+        <span class="femaleSpeech">“Oh, I'm sorry to bring up those memories.”</span>
+
+        <span class="maleSpeech">“No harm done, you deserve to know anyway. Now, where was I?
+        
+        Ah yes, so once I could, I created Fertilo Inc which specializes in delivering affordable sexual reproductive health care to people; although there's more focus on women since they're at a greater risk.
+
+        As for the location, this is just one of many branches I have, I simply chose this place because our target demographic resides here. Look at all the estranged people on the streets catching all sorts of diseases, they're prime candidates for our services, and no, we aren't trying to exploit them. In fact, we offer free check-ups and advice, as well as monthly recruitment programs for those interested in working here. It's a win-win situation for everyone besides any gang around here knows <i>better</i> than to disturb us,”</span> Mr. Fert says with a chuckle at the end that gives off a slightly threatening aura.
+
+        <span class="maleSpeech">“As for my staff being pregnant, it's because most of them applied to be surrogates; the benefits that come with the job are quite appealing if I do say so myself. Besides, they have reduced responsibilities when close to term but frankly here's the best place they could give birth and get the proper care required. A majority don't go to term anyway since they'll transfer the babies back when needed.
+
+        And before you start asking how we do that, it's <i>complicated</i> but you'll find out eventually.”</span>
+
+        <span class="femaleSpeech">“I see… What doesn't make sense though is how you're not making losses with all these business decisions.”</span>
+
+        <span class="maleSpeech">“Oh, I do make losses here occasionally, but I get a bunch of contracts from the government and other private organizations that more than make up for it. This is something I specifically want to do, so no need to fear anything.”</span>
+
+        <span class="femaleSpeech">“Ah…”</span>
+    <</replace>>
+<</link>>
+<<link "What happened to the receptionist, Katie?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“Your receptionist, Katie, what exactly happened to her? It's almost as if she got, <i>more</i> pregnant.”</span>
+
+        Mr. Fert strokes his chin for a moment then replies, <span class="maleSpeech">“It must've been a dare from my other staff. As silly as it may be, it's something that happens occasionally, especially when we have new recruits that are a tad too bold.
+
+        You don't have to worry though, she'll be back to normal soon. It's mostly harmless as long as they don't go past their limit. If they do, nothing wrong would really happen; this hospital isn't for show after all.”</span>
+    <</replace>>
+<</link>>
+<<link "So they wiped our memory and scattered us?…">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech">“You said that instead of being killed off, all of "us" were scattered? What exactly do you mean by that? I can vividly recall having parents, and there was no doubt that I was biologically theirs; even our DNA tests came out matching.</span>
+
+        <span class="maleSpeech">“Hmm…”</span> Mr. Fert unintentionally vocalises. <span class="maleSpeech">“You had two sets of parents right?”</span>
+
+        You nod. Some unsettling memories resurface but you manage to suppress them.
+
+        <span class="maleSpeech">“I thought so… Unfortunately, I doubt the first set fathered you. As far as my knowledge goes, most of us were relocated to a family matching our heritages,”</span> he tells you, moving back to his desk. He opens a drawer and carefully pulls a file out. <span class="maleSpeech">“Here, I believe you need to see this,”</span> he says, bringing out a single paper and giving it to you. <span class="maleSpeech">“It's from the hospital logs from the day you were "born".”</span>
+
+        Your eyes widen when you read the names; it's your birth parents—at least, you thought so. The logs state that Mr. and Mrs Noshihamite had a still born that day which was disposed off before the parents could find out. However, another child, newly-born, was used to replace the dead baby since they had a striking resemblance to the parents. How this baby was obtained isn't mentioned but it doesn't take long for you to put the pieces together.
+
+        <span class="maleSpeech">“What do you think? I managed to recover it when the hospital went under. Other than breaking a bunch of ethics, you can tell why I have my doubts. After all, your set was one of the youngest; you all were still newborns at the time.
+
+        As for your DNA matching, it's expected. We're all based off the congregates of specific races, and as such we'd match—not quite perfectly but high enough—with most people under that race. /*REVIEW - Read DNA matching so that this makes sense */
+        
+        I understand that this might be a lot to take in so you don't need to say anything now. Just keep the document.”</span>
+
+        <span class="femaleSpeech">…</span>
+    <</replace>>
+<</link>>
+<<link "Is there any more stuff I should know about SHEMP?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech"></span>
+    <</replace>>
+<</link>>
+<<link "So where am I gonna be staying for now?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech"></span>
+    <</replace>>
+<</link>>
+<<link "About my condition, what are you trying to say?">>
+    <<replace ".changeMyContent" t8n>>
+        <span class="femaleSpeech"></span>
+    <</replace>>
+<</link>>
+<<link "No question">><</link>> /* Passage link */ \
+
+<span class="changeMyContent">/* An empty span to add words from the links below */</span>\
+<<nobr>>
+/* After this, in the next passage, Mr. Fert gives the PC living accommodations after explaining their new job and they meet Maria */
 
 /* Its been decades? How old are You?
     What's ur wife's name? 
     You bugged my house, how didn't I notice it?
     What did you say about fertility?*/
+<</nobr>>    
