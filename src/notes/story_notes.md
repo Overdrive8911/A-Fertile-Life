@@ -2,13 +2,13 @@
 
 - The world takes place in 2022.
 - Expressing and drinking your own milk when due can encourage labor to start.
-  
+
 ## PC
 
 - The PC's canon and default name is Peizhu Noshihamite. /* TODO - Fix this awful name */
 - Age: almost 26 years old.
 - Birth designation is #0662.
-- Adopted. Adopted parents were abusive individuals that died with her documents in a fire.
+- Her first set of parents believed her to be biologically theirs since she was swapped with their still-birth early enough in a hospital. They eventually died in a car accident when she was 14 (visually) and then adopted properly later. /*REVIEW - This needs rewriting */ Her adopted parents were abusive individuals that died with her documents in a fire.
 - Genetically Asian. (Although, she represents multiple Asian heritages simultaneously)
 - Peizhu formerly worked in a warehouse.
 - Peizhu's long time neighbor is a spy that works for Mr. Fert; her name is Maria.
@@ -21,6 +21,7 @@
 - Fertilo Inc is owned by Dr Fertilo, although he prefers to go by the name Dr Fert.
 - Fertilo Inc and its branches are usually situated in decrepit areas in order to reach more people in need (and the fact that poorer people are more desperate :D).
 - Most of the staff is female and a great portion of them serve as surrogates.
+- The benefits of being a surrogate include free housing, food, extra salary and free access to the facilities but surrogates are not allowed to leave the premises without permission.
 
 ## Dr. Fertilo
 
