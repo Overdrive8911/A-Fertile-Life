@@ -9,3 +9,6 @@ src/A-Fertile-Life.twee
 src/passages/test.twee
 **/.fic/**
 **/node_modules/**
+package.json
+package-lock.json
+.textlintrc
