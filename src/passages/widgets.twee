@@ -1,7 +1,71 @@
-:: Widgets [widget] {"position":"25,675"}
+:: Widgets [widget] {"position":"1200,300"}
+/* List of all widgets
+    - <<PC>> - This widget will give the player's name color
+    - <<changePCPersonality>> - This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations */
+
+/*  This widget will give the player's name color and will be called as <<PC>> 
+    Used as <<PC>>*/
 <<nosp>>
-    /* This widget will give the player's name color and will be called as <<PC>> */
     <<widget "PC">>
         <span class="playerName">$player.name</span>
     <</widget>>
 <</nosp>>
+
+/*  This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations
+    Used as <<changePCPersonality "personality" value>>
+    e.g <<changePCPersonality "caring" 2>> */
+<<silently>>
+    <<widget "changePCPersonality">>
+        _personality = _args[0]
+        _value = _args[1]
+
+        <<switch _personality>>
+            <<case "enthusiasm">>
+                /* Increment the chosen personality */
+                $player.personality.enthusiasm += _value
+                
+                /* Increment related personalities */
+                $player.personality.inquisitive += _value * either(0, 0.5)
+                $player.personality.adventurous += _value * either(0, 0.5)
+
+                /* Decrement contrasting personalities */
+                $player.personality.disapproving -= _value * either(0.5, 1)
+                $player.personality.apathetic -= _value * (0, 0.5)
+
+            <<case "apathetic">>
+                /* Increment the chosen personality 
+                    Apathy seldom increases on its own and when it does, rarely goes higher than 3 */
+                $player.personality.apathetic += _value
+                
+                /* Increment related personalities */
+                $player.personality.patient += _value * either(0, 0.3) /* ? */
+
+                /* Decrement contrasting personalities 
+                    Increasing apathy generally reduces other stats by a bit */
+                $player.personality.disapproving -= _value * either(0, 0.5)
+                $player.personality.enthusiasm -= _value * either(0, 0.5)
+                $player.personality.caring -= _value * either(0, 0.5)
+                $player.personality.sarcastic -= _value * either(0, 0.5)
+                $player.personality.inquisitive -= _value * either(0, 0.5)
+                $player.personality.adventurous -= _value * either(0, 0.5)
+                $player.personality.confident -= _value * either(0, 0.5)
+                $player.personality.competitive -= _value * either(0, 0.5)            
+
+            <<case "disapproving">>
+                /* Increment the chosen personality */
+                $player.personality.disapproving += _value
+                
+                /* Increment related personalities */
+                $player.personality.sarcastic += _value * either(0, 0.5)
+                $player.personality.competitive += _value * either(0, 0.3) /* ? */
+
+                /* Decrement contrasting personalities */
+                $player.personality.enthusiasm -= _value * either(0.5, 1)
+                $player.personality.apathetic -= _value * (0, 0.5)
+
+            /*TODO - Add the other personalities here */
+            <<default>>
+                /* Do nothing if personality doesn't match */
+        <</switch>>
+    <</widget>>
+<</silently>>
