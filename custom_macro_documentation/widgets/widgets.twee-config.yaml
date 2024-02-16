@@ -1,0 +1,27 @@
+sugarcube-2:
+  macros:
+    PC:
+      name: PC
+      description: |-
+        Gets the first name from the variable $player.name and wraps it in a player name specific class.
+
+        Usage:
+          ```
+          The PC's first name is <<PC>>
+          ```
+    changePCPersonality:
+      name: changePCPersonality
+      description: |-
+        This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations.
+
+        Usage:
+          ```
+          <<changePCPersonality "personality" value>>
+
+          Where "personality" is the required personality trait to change found in $player.personality and "value" is the number to increase or reduce it by.
+
+          e.g
+          <<changePCPersonality caring 2>>
+          ```
+      parameters:
+        - var &+ number
