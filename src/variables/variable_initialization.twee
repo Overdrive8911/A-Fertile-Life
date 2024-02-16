@@ -5,10 +5,23 @@
 <<set $player =
 {
     /* ID */
-    id:                     1,                  /* Id of the player. Mainly used to determine the baby's */
+    id:                     1,                  /* Id of the player. Mainly used to determine the baby's */ 
+
+    /* Personality and Mood(?) */
+    personality: {
+        /* The following determine the PC's personality. The starting point is 50 which mean the PC is just meh in that area. Going lower to 0 makes them actively avoid that trait while going higher to a 100 makes them embrace it.
+        In some cases, having a value raise also reduces another e.g enthusiasm increases/disapproving reduces and vice versa. */
+        enthusiasm:     50,
+        apathetic:      50,
+        disapproving:   50,
+
+        caring:         50,
+        sarcastic:      50,
+        inquisitive:    50,
+    },
 
     /* Normal Body Stuff */
-    name:                   "Peizhu",
+    name:                   "Peizhu Noshihamite",   /*TODO - Make the Player need to input a full name then only use the first half */
     sex:                    0,                  /* 0 -> XX, 1 -> XY */
     weight:                 68,                 /* In kg. Weight classes are Emaciated, Underweight, Thin, Lean, Average, Pudgy, Plump, Chubby, Curvy, Overweight, Fat, Obese. height is also used in calculating the BMI */
     height:                 167,                /* In cm. It's approximately 5'6". Height classes are Dwarf, Very Short, Short, Somewhat short, Average, Somewhat Tall, Tall, Very Tall, Mini Giant */
@@ -25,7 +38,7 @@
         /*TODO - Add more member that can deal with more complicated hairstyles like highlights */
     },
     makeup:                 "light",
-    nails:                  "normal",
+    nails:                  "normal"
 
     /* Inventory */
     /* This will contain itemIds in an array */
@@ -97,7 +110,7 @@
             fetus:          [
                 /* This member is an array to store any fetuses the user is pregnant with */
                 /* This is a dummy object just to showing the structure */
-                /* TODO - Add more genetic data */
+                /* TODO - Add more genetic data and support for other stuff like tentacles */
                 {
                     hp:         0,              /* Ranges from 0 till 100. Current hp of fetus, mostly depends on how high womb.hp is. Doesn't do anything for now  */
                     day:        0,              /* Development day of the baby */
