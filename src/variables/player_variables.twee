@@ -1,4 +1,4 @@
-:: PlayerVariables [variables]
+:: PlayerVariables [variables] {"position":"1325,25"}
 
 <<set $player =
 {
@@ -8,20 +8,21 @@
     /* Personality and Mood(?) */
     personality: {
         /* The following determine the PC's personality. The starting point is 50 which mean the PC is just meh in that area. Going lower to 0 makes them actively avoid that trait while going higher to a 100 makes them embrace it.
-        In some cases, having a value raise also reduces another e.g enthusiasm increases/disapproving reduces and vice versa. */
-        enthusiasm:     50,     // Ability to see the bright side of situations and be excited for different things
-        apathetic:      50,     // Just meh, mid
-        disapproving:   50,     // Actively judges and disagrees with stuff
+        In some cases, having a value raise also reduces another e.g enthusiasm increases/disapproval reduces and vice versa. */
+        enthusiasm:     50,     /* Ability to see the bright side of situations and be excited for different things */ 
+        apathy:         50,     /* Just meh, mid */ 
+        disapproval:    50,     /* Actively judges and disagrees with stuff */
 
-        caring:         50,     // Kind and empathetic
-        sarcastic:      50,     // bruh
-        inquisitive:    50,     // How curious and willing to learn the PC is
+        caring:         50,     /* Kind and empathetic */
+        sarcastic:      50,     /* bruh */
+        inquisitive:    50,     /* How curious and willing to learn the PC is */
 
-        adventurous:    50,     // How willing they are to take risks or try new things.
-        confident:      50,     // How sure they are of themselves and their actions.
-        patient:        50,     // Ability to wait or deal with challenges without becoming annoyed or anxious.
-        competitive:    50,     // Desire to be more successful than others.
-        //empathetic:     50,     // Ability to understand and share the feelings of another.
+        adventurous:    50,     /* How willing they are to take risks or try new things. */
+        confident:      50,     /* How sure they are of themselves and their actions. */
+        patient:        50,     /* Ability to wait or deal with challenges without becoming annoyed or anxious. */
+        competitive:    50,     /* Desire to be more successful than others. */
+        /*empathetic:     50,     /* Ability to understand and share the feelings of another. */
+        /*saucy/sassy?:   50, */
     },
 
     /* Normal Body Stuff */
@@ -42,7 +43,7 @@
         /*TODO - Add more member that can deal with more complicated hairstyles like highlights */
     },
     makeup:                 "light",
-    nails:                  "normal"
+    nails:                  "normal",
 
     /* Inventory */
     /* This will contain itemIds in an array */
@@ -55,7 +56,7 @@
 
     /* Health and Energy */
     /* All of them have a max of 100 */
-    hp:                     80,                 /* Don't let it get down to 0 :) */
+    hp:                     80,                 /* Don't let it get down to 0 :> */
     illness:                0,                  /* 0 -> Not ill, 1 - 25 -> Mildly ill, 26 - 50 -> Ill, 51 - 75 -> Very ill, 76 - 99 -> Deathly ill */
     immunity:               85,                 /* Resistance to illness */
     energy:                 70,                 /* 0 - 10 -> Completely exhausted, 11 - 25 -> exhausted, 26 - 40 -> very tired, 41 - 50 - Tired, 51 - 60 -> Fatigued, 61 - 75 - Normal, 76 - 85 -> Perky, 86 - 99 -> Energetic, 100 -> Completely Refreshed */
@@ -152,7 +153,7 @@
     fullness:               85,                 /* From 0 to 100. Decreases over time, especially when doing strenuous work. Increases after eating. As long as its above 70, the user will not be hungry. The user cannot eat if the amount of fullness is 100 */
     caloriesEaten:          2100,               /* Stores the daily amount of calories consumed by the user. Is used in calculating changes to weight */
     stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */ 
-    sag:                0,                  /* Slowly increases depending on womb.curCapacity. Some upgrades reduce its progress. Reduces when not pregnant */
+    sag:                    0,                  /* Slowly increases depending on womb.curCapacity. Some upgrades reduce its progress. Reduces when not pregnant */
 
     /* Sexy stuff ig */
     /*TODO - */
