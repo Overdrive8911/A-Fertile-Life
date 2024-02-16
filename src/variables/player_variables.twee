@@ -1,6 +1,4 @@
-:: StoryInit {"position":"800,475"}
-/* The use of these variables can be found in notes\variables.md */
-/* TODO - turn this into an int later. */
+:: PlayerVariables [variables]
 
 <<set $player =
 {
@@ -11,13 +9,19 @@
     personality: {
         /* The following determine the PC's personality. The starting point is 50 which mean the PC is just meh in that area. Going lower to 0 makes them actively avoid that trait while going higher to a 100 makes them embrace it.
         In some cases, having a value raise also reduces another e.g enthusiasm increases/disapproving reduces and vice versa. */
-        enthusiasm:     50,
-        apathetic:      50,
-        disapproving:   50,
+        enthusiasm:     50,     // Ability to see the bright side of situations and be excited for different things
+        apathetic:      50,     // Just meh, mid
+        disapproving:   50,     // Actively judges and disagrees with stuff
 
-        caring:         50,
-        sarcastic:      50,
-        inquisitive:    50,
+        caring:         50,     // Kind and empathetic
+        sarcastic:      50,     // bruh
+        inquisitive:    50,     // How curious and willing to learn the PC is
+
+        adventurous:    50,     // How willing they are to take risks or try new things.
+        confident:      50,     // How sure they are of themselves and their actions.
+        patient:        50,     // Ability to wait or deal with challenges without becoming annoyed or anxious.
+        competitive:    50,     // Desire to be more successful than others.
+        //empathetic:     50,     // Ability to understand and share the feelings of another.
     },
 
     /* Normal Body Stuff */
