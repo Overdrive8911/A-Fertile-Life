@@ -7,6 +7,7 @@
     Used as <<PC>>*/
 <<nosp>>
     <<widget "PC">>
+        /* TODO - Make this widget be capable of returning the first name or full name */
         <span class="playerName">$player.name</span>
     <</widget>>
 <</nosp>>
