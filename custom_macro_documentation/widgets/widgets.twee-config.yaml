@@ -21,7 +21,7 @@ sugarcube-2:
           Where "personality" is the required personality trait to change found in $player.personality and "value" is the number to increase or reduce it by.
 
           e.g
-          <<changePCPersonality caring 2>>
+          <<changePCPersonality "caring" 2>>
           ```
       parameters:
-        - var &+ number
+        - text &+ number
