@@ -28,8 +28,6 @@
     /* Normal Body Stuff */
     name:                   "Peizhu Noshihamite",   /*TODO - Make the Player need to input a full name then only use the first half */
     sex:                    0,                  /* 0 -> XX, 1 -> XY */
-    weight:                 68,                 /* In kg. Weight classes are Emaciated, Underweight, Thin, Lean, Average, Pudgy, Plump, Chubby, Curvy, Overweight, Fat, Obese. height is also used in calculating the BMI */
-    height:                 167,                /* In cm. It's approximately 5'6". Height classes are Dwarf, Very Short, Short, Somewhat short, Average, Somewhat Tall, Tall, Very Tall, Mini Giant */
     eyes: {
         leftIris:           "hazel",            /* Left eye colour */
         rightIris:          "hazel",            /* Right eye colour. If different from leftIris, the PC is heterochromatic */
@@ -51,8 +49,10 @@
 
     /* Mental Stats */
     /* All of them have a max of 100 */
-    happiness:              70,
-    intelligence:           75,
+    mentalStats: {
+        happiness:              70,
+        intelligence:           75,
+    },
 
     /* Health and Energy */
     /* All of them have a max of 100 */
@@ -141,10 +141,15 @@
         areola:             "normal",
     },
 
-    /* Hip and waist */
-    /*TODO - Make the hipWidth and waistSize related description wise */
-    hipSize:                41,                 /* In inches. 32.3 - 33.3 -> Very Narrow, 33.4 - 35.5 -> Narrow, 35.6 - 37.5 -> Quite Narrow, 37.6 - 40.4 -> Average, 40.5 - 43.3 -> Wide, 43.4 - 46.5 -> Very Wide, 46.6 - 50.5 -> Child-Bearing, 50.6 and above -> Brood Mother Hips. Birthing increases this to an extent */
-    waistSize:              30,                 /* In inches. 22.3 - 23.3 -> Extra Slim, 23.4 - 25.5 -> Very Slim, 25.6 - 27.5 -> Slim, 27.6 - 30.4 -> Average, 30.5 - 33.3 -> Wide, 33.4 - 35.5 -> Very Wide, 35.6 - 38.4 -> Plus-Sized, 38.5 - 42.4 -> Plus-Sized 2x, 42.5 - 46.4 -> Plus-Sized 3x, 46.5 - 50.4 -> Plus-Sized 4x, 50.5 - 53.5 -> Plus-Sized 5x. Getting fat increases this to an extent */
+    bodyMeasurements: {
+        weight:                 68,                 /* In kg. Weight classes are Emaciated, Underweight, Thin, Lean, Average, Pudgy, Plump, Chubby, Curvy, Overweight, Fat, Obese. height is also used in calculating the BMI */
+        height:                 167,                /* In cm. It's approximately 5'6". Height classes are Dwarf, Very Short, Short, Somewhat short, Average, Somewhat Tall, Tall, Very Tall, Mini Giant */
+    
+        /* Hip and waist */
+        /*TODO - Make the hipWidth and waistSize related description wise */
+        hipSize:                41,                 /* In inches. 32.3 - 33.3 -> Very Narrow, 33.4 - 35.5 -> Narrow, 35.6 - 37.5 -> Quite Narrow, 37.6 - 40.4 -> Average, 40.5 - 43.3 -> Wide, 43.4 - 46.5 -> Very Wide, 46.6 - 50.5 -> Child-Bearing, 50.6 and above -> Brood Mother Hips. Birthing increases this to an extent */
+        waistSize:              30,                 /* In inches. 22.3 - 23.3 -> Extra Slim, 23.4 - 25.5 -> Very Slim, 25.6 - 27.5 -> Slim, 27.6 - 30.4 -> Average, 30.5 - 33.3 -> Wide, 33.4 - 35.5 -> Very Wide, 35.6 - 38.4 -> Plus-Sized, 38.5 - 42.4 -> Plus-Sized 2x, 42.5 - 46.4 -> Plus-Sized 3x, 46.5 - 50.4 -> Plus-Sized 4x, 50.5 - 53.5 -> Plus-Sized 5x. Getting fat increases this to an extent */
+    },
 
     /* Muscle */
     muscleDefinition:       44,                  /* 0 - 17 -> Very frail, 18 - 35 -> Frail, 36 - 53 -> Average, 54 - 66 -> Toned, 67 - 82 -> Well-Defined, 83 - 95 -> Jacked, 96 - 100 -> Body Builder */
@@ -152,7 +157,7 @@
     /* Stomach and Hunger */
     fullness:               85,                 /* From 0 to 100. Decreases over time, especially when doing strenuous work. Increases after eating. As long as its above 70, the user will not be hungry. The user cannot eat if the amount of fullness is 100 */
     caloriesEaten:          2100,               /* Stores the daily amount of calories consumed by the user. Is used in calculating changes to weight */
-    stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */ 
+    /* UNUSED stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */ 
     sag:                    0,                  /* Slowly increases depending on womb.curCapacity. Some upgrades reduce its progress. Reduces when not pregnant */
 
     /* Sexy stuff ig */
@@ -166,4 +171,23 @@
     anal: {
         ,
     },*/
+
+    /* Relationships with people
+        This is an array that stores values ranging from -100 (Bitter Enemies) to 100 (Forever Friends) with 0 (Stranger) as the starting point with the name of the NPC.
+        e.g -100 to -91 -> Bitter Enemies, -90 to -81 -> Sworn Enemies,
+            -80 to -71 -> Arch-enemies, -70 to -61 -> Hostile, -60 to -51 -> Unfriendly,
+            -50 to -41 -> Disliked, -40 to -31 -> Disdained, -30 to -21 -> Distant,
+            -20 to -11 -> Acquaintance (Negative),
+            -10 to 10 -> Stranger,
+            11 to 20 -> Acquaintance,
+            21 to 30 -> Amicable, 31 to 40 -> Friendly, 41 to 50 -> Liked,
+            51 to 60 -> Fond, 61 to 70 -> Close, 71 to 80 -> Dear,
+            81 to 90 -> Cherished, 91 to 100 -> Forever Friends */
+    relationships: [
+        /* TODO - Add more and refine this */
+        ["fertilo_guvala",     0],
+        ["cira_guvala",        0],
+        ["katie",              0],
+        ["marie",              0],
+    ],
 }>>
