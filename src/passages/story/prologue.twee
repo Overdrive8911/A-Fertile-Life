@@ -143,7 +143,9 @@ You're left aghast by what the driver said as the bus goes off into the distance
 
 As if on cue to make things worse, your mind goes back to the strange dream you had in the vehicle. You subconsciously rest your hand against your lower abdomen, pondering over the experience. You're a hundred percent sure it's what the letter meant when it said your symptoms will advance with time, but you can't help but blush furiously at the thought of ever living out that 'fantasy'.
 
-<span class="femaleSpeech"><i>Sigh… I can't worry about that now. I'm already here, so I need to be alert. C'mon, I can do this.</i></span> You turn to the building behind, it's exactly how the letter described it; a massive hospital painted white and green, its most obvious feature is the large green logo of an expecting mother cradling her belly, underneath which is the name of the hospital; Fertilo Inc. The odd thing about it though is the neighbourhood it's situated in; poorly lit streets, rundown houses covered in graffiti and an atmosphere that reeks of neglect and disrepair; which causes it to stick out like a sore thumb.
+<span class="femaleSpeech"><i>Sigh… I can't worry about that now. I'm already here, so I need to be alert. C'mon, I can do this.</i></span>
+
+You turn to the building behind, it's exactly how the letter described it; a massive hospital painted white and green, its most obvious feature is the large green logo of an expecting mother cradling her belly, underneath which, is the name of the hospital; Fertilo Inc. The odd thing about it though is the neighbourhood it's situated in; poorly lit streets, rundown houses covered in graffiti and an atmosphere that reeks of neglect and disrepair; causing it to stick out like a sore thumb.
 
 [[Go in.|Prologue_ArrivedAtFertiloInc_1]]
 
@@ -246,7 +248,7 @@ I guess killing the rest of us wasn't worth the effort it took to make us, so th
 
 Now, back to you. I've been looking for the rest of our "kind" ever since I attained my wealth; it started about a decade ago. In summary, it's been mostly unfruitful, that is, until I discovered you last month. You need to know that when your trait is "activated", there are specific pheromones you'd unconsciously release which can be tested for. When the news came in, I sent some people to help me confirm it and when it came back positive, I was elated but worried too; it also seemed that the government was onto you.
 
-Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could've made my proposition. I'm not proud of it—personal privacy is very important—but the end justifies the means, after all…”</span>
+Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could make my proposition. I'm not proud of it—personal privacy is very important—but the end justifies the means, after all…”</span>
 
 With that, he finishes and pulls out the syringe from before, <span class="maleSpeech">“Now that has been cleared up, I won't go back on my word,”</span> and jabs your neck. <span class="maleSpeech">“Once again, I apologize for my rudeness.”</span>
 
@@ -273,7 +275,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<link "No question">><</link>>
     */
 
-    /*TODO - Make it so that clicking a link takes the cursor to the beginning of the page before replacing the text. IGNORE THIS, A WORKAROUND HAS BEEN FOUND */
+    /*TODO - Make the texts in the link more coherent when put together */
 <</nobr>>\
 \
 <<link "It's been decades, right. How old are you?">>
@@ -308,7 +310,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
 <</link>>
 <<link "You bugged my house?">>
     <<replace ".changeMyContent" t8n>>
-        <span class="femaleSpeech">“How did you bug my house? I always lock my doors and I'm certain nothing was altered anytime I got home.”</span>
+        <span class="femaleSpeech">“How did you bug my house? I always lock my doors, and I'm certain nothing was altered anytime I got home.”</span>
 
         With a shrug, Mr. Fertilo replies, <span class="maleSpeech">“Well, there wouldn't be much use if you found us out, would there? Besides, the lady I sent to do it is one of my experts; there'd been no way for you to notice it. And she is someone you'd probably doubt could do it. I'll let her explain better once she gets here.”</span>
     <</replace>>
@@ -353,7 +355,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
 
         Mr. Fert strokes his chin for a moment then replies, <span class="maleSpeech">“It must've been a dare from my other staff. As silly as it may be, it's something that happens occasionally, especially when we have new recruits that are a tad too bold.
 
-        You don't have to worry though, she'll be back to normal soon. It's mostly harmless as long as they don't go past their limit. If they do, nothing wrong would really happen; this hospital isn't for show after all.”</span>
+        You don't have to worry, though, she'll be back to normal soon. It's mostly harmless as long as they don't go past their limit. If they do, nothing wrong would really happen; this hospital isn't for show, after all.”</span>
 
         <span class="femaleSpeech">“I see…”</span>
     <</replace>>
@@ -362,19 +364,19 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<replace ".changeMyContent" t8n>>
         <span class="femaleSpeech">“You said that instead of being killed off, all of "us" were scattered? What exactly do you mean by that? I can vividly recall having parents, and there was no doubt that I was biologically theirs; even our DNA tests came out matching.</span>
 
-        <span class="maleSpeech">“Hmm…”</span> Mr. Fert unintentionally vocalises. <span class="maleSpeech">“You had two sets of parents right?”</span>
+        <span class="maleSpeech">“Hmm…”</span> Mr. Fert unintentionally vocalises. <span class="maleSpeech">“You had two sets of parents, right?”</span>
 
-        You nod. Some unsettling memories resurface but you manage to suppress them.
+        You nod. Some unsettling memories resurface, but you manage to suppress them.
 
         <span class="maleSpeech">“I thought so… Unfortunately, I doubt the first set fathered you. As far as my knowledge goes, most of us were relocated to a family matching our heritages,”</span> he tells you, moving back to his desk. He opens a drawer and carefully pulls a file out. <span class="maleSpeech">“Here, I believe you need to see this,”</span> he says, bringing out a single paper and giving it to you. <span class="maleSpeech">“It's from the hospital logs from the day you were "born".”</span>
 
-        Your eyes widen when you read the names; it's your birth parents—at least, you thought so. The logs state that Mr. and Mrs Noshihamite had a still born that day which was disposed off before the parents could find out. However, another child, newly-born, was used to replace the dead baby since they had a striking resemblance to the parents. How this baby was obtained isn't mentioned but it doesn't take long for you to put the pieces together.
+        Your eyes widen when you read the names; it's your birth parents—at least, you thought so. The logs state that Mr. and Mrs Noshihamite had a still born that day, which was disposed off before the parents could find out. However, another child, newly-born, was used to replace the dead baby since they had a striking resemblance to the parents. How this baby was obtained isn't mentioned, but it doesn't take long for you to put the pieces together.
 
         <span class="maleSpeech">“What do you think? I managed to recover it when the hospital went under. Other than breaking a bunch of ethics, you can tell why I have my doubts. After all, your set was one of the youngest; you all were still newborns at the time.
 
         As for your DNA matching, it's expected. We're all based off the congregates of specific races, and as such we'd match—not quite perfectly but high enough—with most people under that race. /*REVIEW - Read DNA matching so that this makes sense */
         
-        I understand that this might be a lot to take in so you don't need to say anything now. Just keep the document.”</span>
+        I understand that this might be a lot to take in, so you don't need to say anything now. Just keep the document.”</span>
 
         <span class="femaleSpeech">…</span>
     <</replace>>
@@ -383,7 +385,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<replace ".changeMyContent" t8n>>
         <span class="femaleSpeech">“Is there any more stuff I should know about SHEMP?</span>
 
-        <span class="maleSpeech">“Quite a lot, but I'd end up rambling if I continue. What I can tell you is that there <i>might</i> be a rogue unit or something similar trying to benefit the work of the fallen project. I'm not sure about it but the unexplained circumstances behind your accident are more a reason for me to believe it.”</span>
+        <span class="maleSpeech">“Quite a lot, but I'd end up rambling if I continue. What I can tell you is that there <i>might</i> be a rogue unit or something similar trying to benefit the work of the fallen project. I'm not sure about it, but the unexplained circumstances behind your accident are more of a reason for me to believe it.”</span>
 
         <span class="femaleSpeech">“Wait, so you mean it wasn't just an unlucky accident? That someone may have sabotaged me?”</span>
 
@@ -419,34 +421,34 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<replace ".changeMyContent" t8n>>
         /* Talk about her fertility and what she needs to do to avoid side effects,
         Gesture to his prominent bulge,
-        The PC can choose whether or not to enthusiastically accept, apathyally accept or grudgingly accept */\
-        <span class="femaleSpeech">“So, about my medical condition—as you called it—I've been experiencing bunch of really <i>weird</i> things lately.”</span>
+        The PC can choose whether to enthusiastically accept, apathetically accept or grudgingly accept */\
+        <span class="femaleSpeech">“So, about my medical condition—as you called it—I've been experiencing a bunch of really <i>weird</i> things lately.”</span>
 
-        Mr. Fert slowly nods to himself, <span class="maleSpeech">“Expected. Headaches? Unusual lethargy? Strange skin markings? Pelvic Pain? Strange Cravings? Psuedo-morning sickness? Random bursts of uncontrollable arousal?”</span> /* He's unaware of the dream */
+        Mr. Fert slowly nods to himself, <span class="maleSpeech">“Expected. Headaches? Unusual lethargy? Strange skin markings? Pelvic Pain? Strange Cravings? Pseudo-morning sickness? Random bursts of uncontrollable arousal?”</span> /* He's unaware of the dream */
 
-        <span class="femaleSpeech">“Well yeah, most of that actually. Since you know that much, can you get rid of it? It's been awful to deal with.”</span>
+        <span class="femaleSpeech">“Well yeah, most of that, actually. Since you know that much, can you get rid of it? It's been awful to deal with.”</span>
 
         <span class="maleSpeech">“You remember what I said about our hyper-fertility? That's the cause of your issues… And I can't make them go away…/*; that is, without restructuring your DNA, but that's already out of the question.*/ Although, there is a way to greatly minimize the symptoms and stop them from worsening…”</span>
 
-        <span class="femaleSpeech">“That's a bummer but it's better than nothing. What is it? I'll do anything to improve my situation.”</span> /*REVIEW - Rewrite this */
+        <span class="femaleSpeech">“That's a bummer, but it's better than nothing. What is it? I'll do anything to improve my situation.”</span> /*REVIEW - Rewrite this */
 
-        Mr. Fert thinks for a bit, while avoiding eye contact with you, and then replies, <span class="maleSpeech">“You may not like it but please bear with me.”</span> He stands up from his desk and slowly gestures to his manhood.
+        Mr. Fert contemplates briefly, while avoiding eye contact with you, and then responds, <span class="maleSpeech">“You may not like my approach, but please bear with me.”</span> He stands up from his desk and slowly gestures to his masculinity.
 
         <span class="femaleSpeech">“Wait. What does <i>that</i> have to do with anything-”</span> you hurriedly reply before you notice something odd. You see a grapefruit-sized bulge, at his crotch, visibly straining his trousers. <span class="femaleSpeech">“Eh?!”</span>
 
-        <span class="maleSpeech">“I know its inappropriate but that's an effect of hyper-fertility. In men like me, it drastically increases the rate of sperm and seminal fluid production. So much so that our testicles can and will visibly expand when not drained for a while. It gets uncomfortable eventually but I've been able to find workarounds.”</span>
+        <span class="maleSpeech">It may be inappropriate to show you this, but that's an effect of hyper-fertility. For men like me, it drastically increases the rate of sperm and seminal fluid production. So much so that our testicles can and will visibly expand when not drained for a while. It gets uncomfortable eventually, but I've been able to find workarounds.”</span>
 
-        He returns to his seat and continues, <span class="maleSpeech">“There are a bunch of other effects it has on me but they're less significant and unimportant now. How this relates to you is that you need to "give" your reproductive system what it wants else it'll only get worse.”</span> His composure tightens up considerably and he clenches his palms. <span class="maleSpeech">“In order words… You need to get <strong><u>pregnant</u></strong>.”</span>
+        He returns to his seat and continues, <span class="maleSpeech">“There are a bunch of other effects it has on me, but they're less significant and unimportant now. How this relates to you is that you need to "give" your reproductive system what it wants, else it'll only get worse.”</span> His composure tightens up considerably, and he clenches his palms. <span class="maleSpeech">“In order words… You need to get <strong><u>pregnant</u></strong>.”</span>
         \
         \
         <<if _tempPCenthusiasm == 1>>
-            /* The player has already chosen an option on this page so load in the proper passage */\
+            /* The player has already chosen an option on this page, so load in the proper passage */\
             <<include "FertiloInc_Prologue_InfoDump1_EnthusiasmPassage">>
         <<elseif _tempPCapathy == 1>>
-            /* The player has already chosen an option on this page so load in the proper passage */\
+            /* The player has already chosen an option on this page, so load in the proper passage */\
             <<include "FertiloInc_Prologue_InfoDump1_ApathyPassage">>
         <<elseif _tempPCdisapproval == 1>>
-            /* The player has already chosen an option on this page so load in the proper passage */\
+            /* The player has already chosen an option on this page, so load in the proper passage */\
             <<include "FertiloInc_Prologue_InfoDump1_DisapprovalPassage">>    
         <<else>>\
             <span class="changeMyContent1">
@@ -468,22 +470,61 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
                 <</link>>         
                 \                            
                 <<link "I'm not doing that, thank you">>           /* disapproval */
-                    <<set _tempPCdisapproval = 1>>                 /* If the PC chooses the disapproval option, Mr. Fert will try to reason with them and convince them that they'd only need to be a surrogate once in a while to stave off the symptoms else they'd get much worse */
+                    <<set _tempPCdisapproval = 1>>                 /* If the PC chooses the disapproval option, Mr. Fert will try to reason with them and convince them that they'd only need to be a surrogate once in a while to stave off the symptoms, else they'd get much worse */
                     \
                     <<replace ".changeMyContent1" t8n>>
                         <<include "FertiloInc_Prologue_InfoDump1_DisapprovalPassage">>
                     <</replace>>
                 <</link>>                   
-            </span>
+            </span>\
         <</if>>
         \
         \
         /*I doubt you'd want to experience the types of periods it can create; my wife says they're horrible!</span>*/\
-    <</replace>>
+    <</replace>>\
 <</link>>
-<<link "There's a tattoo I think you should know about…">>
+<<link "There's something I think you should know about…">>
     <<replace ".changeMyContent" t8n>>
+        /* TODO - Add 2 options that say "Tell him about the dream" and "Tell him about the tattoo". The former however will do nothing other than show a rebuttal from the PC'mind when hovered */\
+        <span class="femaleSpeech">“Uh, Mr. Fert, you mentioned that some markings on my body are part of the "symptoms", right? Is it normal for that to pop up out of the blue, without any warning?”</span>
+
+        <span class="maleSpeech">“Not really, you would feel an odd sensation there; mine was a dull and uncomfortable one while my wife's was much more "intense" to put it lightly…”</span> he replies, smiling a bit towards the end. Perhaps because of a fond memory he just recalled. <span class="maleSpeech">“But if you're asking this, I take it that you have one?”</span>
+
+        <span class="femaleSpeech">“Yeah, you're right. How do I get rid of it?”</span>
+
+        <span class="maleSpeech">“You don't.”</span>
+
+        <span class="femaleSpeech">“Aw, come on! Literally nothing is going right today.</span>
+
+        <span class="maleSpeech">“Don't give up yet, miss. Perhaps if I can see what stage it's in, I can give a prescription to make it less obvious.”</span>
+        /* TODO - Bro rewrite this cringe shit 😭 */
+        Your face flushes a bit when you remember the location of the tattoo. <span class="femaleSpeech">“S-show you? I don't think I can…”</span>
+
+        Mr. Fert chuckles and nods his head. <span class="maleSpeech">“I'm an ethical—<i>mostly</i>—licensed doctor so don't fear anything, besides, I've also experienced it so I can tell it's close to your privates; right on your lower abdomen if I'm correct. It's understandable if you still won't show me but I can only help further if you allow me to see it.”</span>
         
+        /* The Player has a choice to either agree or not.
+            Choosing not to show him doesn't really have any effect other than hiding info from the player.
+            Also a temporary variable will be used to prevent the play from trying to make another choice here */\
+        <span class="changeMyContent2">\
+            <<if _hasPlayerMadeAChoice != true>>\
+                <<link "Show him">>
+                    <<set _playerShowedTattoo = true>>\
+                    <<replace ".changeMyContent2">>\
+                        <<include "FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo">>\
+                    <</replace>>
+                <</link>>
+                <<link "Don't show him">>
+                    <<set _playerShowedTattoo = false>>\
+                    <<replace ".changeMyContent2">>
+                        <<include "FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo">>
+                    <</replace>>
+                <</link>>
+            <<elseif _playerShowedTattoo>>
+                <<include "FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo">>
+            <<else>>
+                <<include "FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo">>
+            <</if>>\
+        </span>\
     <</replace>>
 <</link>>
 <<link "No question">>
