@@ -288,7 +288,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
 
         <span class="maleSpeech">“It's a side effect of our hyper-fertility; younger bodies in their prime are much more suitable for reproduction, and so we'll tend to look young for pretty much our entire lives.”</span>
 
-        <span class="femaleSpeech">“So you're saying I'll look perpetually young? No wrinkles, back pain, arthritis, or droopy boobs?”</span>
+        <span class="femaleSpeech">“Wait, let me get you straight. You're saying I'll look <i>perpetually</i> young? No wrinkles, back pain, arthritis, or droopy boobs?”</span>
 
         <span class="maleSpeech">“Most likely, in fact, you're probably older than you think.”</span>
 
@@ -508,15 +508,17 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
         <span class="changeMyContent2">\
             <<if _hasPlayerMadeAChoice != true>>\
                 <<link "Show him">>
+                    <<set _hasPlayerMadeAChoice = true>>\
                     <<set _playerShowedTattoo = true>>\
-                    <<replace ".changeMyContent2">>\
+                    <<replace ".changeMyContent2" t8n>>\
                         <<include "FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo">>\
                     <</replace>>
                 <</link>>
                 <<link "Don't show him">>
+                    <<set _hasPlayerMadeAChoice = true>>\
                     <<set _playerShowedTattoo = false>>\
-                    <<replace ".changeMyContent2">>
-                        <<include "FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo">>
+                    <<replace ".changeMyContent2" t8n>>\
+                        <<include "FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo">>\
                     <</replace>>
                 <</link>>
             <<elseif _playerShowedTattoo>>
