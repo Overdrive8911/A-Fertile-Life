@@ -59,7 +59,7 @@ Mr. Fert chortles audibly—you could almost punch him—but thankfully, he quic
 
 <span class="femaleSpeech">“"Womb Tattoo"? Oh, you meant that pink-ish uterus marking on my abdomen, right?”</span>
 
-<span class="maleSpeech">“Yes. It's one of the ways our caretakers at SHEMP kept an eye on our reproductive health and capabilities. What you need to know now is that:
+<span class="maleSpeech">“Yes. It's one of the ways our caretakers from SHEMP kept an eye on our reproductive health and capabilities. What you need to know now is that:
 /* Make the words below relating to colour show the colour in question and whether it's steady, flashing or flickering*/\
 * Bright pink mean you're at your peak fertile periods.
 * A steady, relatively-duller pink colour means you're pregnant. The brighter it is, the more children you're carrying and farther you are along.
@@ -73,9 +73,18 @@ But you don't need to worry about the last as long as you stay here.”</span>
 
 <span class="maleSpeech">“Don't think of it like that… I'll also give you a prescription later to make it a bit less noticeable.”</span>
 
-Your face droops in disappointment. <span class="maleSpeech">“Well, I guess I shouldn't be surprised now.”</span>
+Your face droops in visible disappointment. <span class="maleSpeech">“Well, I guess I shouldn't be surprised now… But before we kill this topic, how did you do "that" thing you did to me just now?”</span>
 
-Mr. Fert shrugs slightly in response. It looks like you'll just have to get used to it now. 
+<span class="maleSpeech">“Not much really, I was testing how sensitive you were to get a more accurate estimate on your health. It turns out that you're in peak condition,”</span> he replies, with a small smile at the end.
+/* REVIEW - Bro, I need to rewrite this lmao */
+<span class="femaleSpeech"><i>How "wonderful".</i><span>
 
 
 :: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [Prologue]
+You think to yourself for a moment before nodding sideways. <span class="femaleSpeech">“I… can't. Sorry, but I'm not comfortable with that idea.”</span>
+
+The doctor looks at you—a hint of disappointment in his eyes—and shrugs. <span class="maleSpeech">“I understand completely. It makes sense if you don't trust me now.
+
+If my guess is correct, you should have a "womb tattoo" or something similar, don't worry much about it though, because it's not harmful in the slightest. Although without seeing it, I don't have much else to say about it
+
+Just remember that you can always come back to me if it starts to get worrying. I'll be here to help you.”</span> /* TODO - Add repercussions to this later */
