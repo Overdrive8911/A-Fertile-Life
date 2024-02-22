@@ -49,13 +49,13 @@
 
 ## Story
 
-- Peizhu, Cira and Fert are some of the more successful results of illegal genetic engineering. Their creation was focused on reproduction and general perfection. They were made to be the progenitors of a super human army. The name of the project was SHEMP (Super Human Extensive Modification Project).
-- SHEMP fell apart when it was discovered by the government in the 90s. In an attempt to prevent their progress from being seized, they tried to destroy all sources of their work. That included their living experiments like Peizhu, Cira and Fert. Fortunately, SHEMP was unsuccessful at this due to a double agent named Solomon sabotaging their plans.
+- Peizhu, Cira and Fert are some of the more successful results of illegal genetic engineering. Their creation was focused on reproduction and general perfection. They were made to be the progenitors of a super human army. The name of the project was S.H.E.M.P (Super Human Extensive Modification Project).
+- S.H.E.M.P fell apart when it was discovered by the government in the 90s. In an attempt to prevent their progress from being seized, they tried to destroy all sources of their work. That included their living experiments like Peizhu, Cira and Fert. Fortunately, S.H.E.M.P was unsuccessful at this due to a double agent named Solomon sabotaging their plans.
 - Peizhu was sent to a foster home are tests said she was normal. Cira and Fert escaped and made new identities.
-- Over two decades after SHEMP fell apart, a couple of AWOL government agents discovered some unscathed records and began a mission to continue the original purpose, as well as improving it.
-- The accident that happened to Peizhu at her workplace was caused by a sabotage from rogue SHEMP agents. They made a vat of specially-made chemicals fall onto her. The fact that she survived and started generating pheromones confirmed their suspicions.
+- Over two decades after S.H.E.M.P fell apart, a couple of AWOL government agents discovered some unscathed records and began a mission to continue the original purpose, as well as improving it.
+- The accident that happened to Peizhu at her workplace was caused by a sabotage from rogue S.H.E.M.P agents. They made a vat of specially-made chemicals fall onto her. The fact that she survived and started generating pheromones confirmed their suspicions.
 
-## SHEMP experiments
+## S.H.E.M.P experiments
 
 - Living experiments like Peizhu, Fert, and Cira will be like regular normal human beings until their dormant genetic modifications are triggered. For Peizhu, the accident did it while the latter's activated early in life once they made physical contact.
 - Some activating conditions: HRT drugs, concentrated puberty hormones, extensive contact with the opposite sex as long as both members are experiments, birth, etc.
