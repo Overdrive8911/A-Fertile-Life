@@ -228,7 +228,7 @@ Other than the movement of your eyes, you remain completely unresponsive. You wa
 
 <span class="maleSpeech">“Good, so let's continue.”</span>
 
-<span class="maleSpeech">“We're the few <i>successful</i> results of genetic experimentation. Ever heard of the <strong>Super Human Extensive Modification Project</strong>, <strong>The SHEM Project</strong> or <strong>SHEMP</strong>?”</span>
+<span class="maleSpeech">“We're the few <i>successful</i> results of genetic experimentation. Ever heard of the <strong>Super Human Extensive Modification Project</strong>, <strong>The SHEM Project</strong> or <strong>S.H.E.M.P</strong>?”</span>
 
 <span class="femaleSpeech"><i>SHEMP? That sounds stupid, but why does the name feel familiar…</i></span>
 
@@ -268,7 +268,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<link "What's Fertilo Inc about?">><</link>>
     <<link "What happened to the receptionist, Katie?">><</link>>
     <<link "So they wiped our memory and scattered us?…">><</link>>
-    <<link "Is there any more stuff I should know about SHEMP?">><</link>>
+    <<link "Is there any more stuff I should know about S.H.E.M.P?">><</link>>
     <<link "So where am I gonna be staying for now?">><</link>>
     <<link "About my condition, what are you trying to say?">><</link>>
     <<link "There's a tattoo I think you should know about">><</link>>
@@ -381,7 +381,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
         <span class="femaleSpeech">…</span>
     <</replace>>
 <</link>>
-<<link "Is there any more stuff I should know about SHEMP?">>
+<<link "Is there any more stuff I should know about S.H.E.M.P?">>
     <<replace ".changeMyContent" t8n>>
         <span class="femaleSpeech">“Is there any more stuff I should know about SHEMP?</span>
 
