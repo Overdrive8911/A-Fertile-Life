@@ -1,0 +1,10 @@
+:: General_Widgets [widget] {"position":"1200,300"}
+
+/*  This widget will give the player's name color and will be called as <<PC>> 
+    Used as <<PC>>*/
+<<nosp>>
+    <<widget "PC">>
+        /* TODO - Make this widget be capable of returning the first name or full name */
+        <span class="playerName">$player.name</span>
+    <</widget>>
+<</nosp>>
