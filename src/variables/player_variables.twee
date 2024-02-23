@@ -1,4 +1,4 @@
-:: PlayerVariables [variables] {"position":"1325,25"}
+:: PlayerVariables [variables] {"position":"1600,300"}
 
 <<set $player =
 {
@@ -28,6 +28,11 @@
     /* Normal Body Stuff */
     name:                   "Peizhu Noshihamite",   /*TODO - Make the Player need to input a full name then only use the first half */
     sex:                    0,                  /* 0 -> XX, 1 -> XY */
+    age: {
+        physical:           26,                 /* How old the PC looks like */
+        mental:             27,                 /* How old they are mentally */
+        real:               32,                 /* How long they've existed */
+    },
     eyes: {
         leftIris:           "hazel",            /* Left eye colour */
         rightIris:          "hazel",            /* Right eye colour. If different from leftIris, the PC is heterochromatic */
@@ -184,7 +189,7 @@
             51 to 60 -> Fond, 61 to 70 -> Close, 71 to 80 -> Dear,
             81 to 90 -> Cherished, 91 to 100 -> Forever Friends */
     relationships: [
-        /* TODO - Add more and refine this */
+        /* TODO - Add more and refine this or maybe use <<addPCRelationship>> and <<removePCRelationship>> to alter this instead of bloating up the object unnecessarily */
         ["fertilo_guvala",     0],
         ["cira_guvala",        0],
         ["katie",              0],
