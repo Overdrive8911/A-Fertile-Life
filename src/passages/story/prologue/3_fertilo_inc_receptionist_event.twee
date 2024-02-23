@@ -1,4 +1,4 @@
-:: Prologue_ArrivedAtFertiloInc [Prologue Character_Creation] {"position":"25,275"}
+:: Prologue_ArrivedAtFertiloInc [prologue characterCreation] {"position":"25,275"}
 
 <span class="maleSpeech">\
 “Miss?”
@@ -29,7 +29,7 @@ You turn to the building behind, it's exactly how the letter described it; a mas
 [[Go in.|Prologue_ArrivedAtFertiloInc_1]]
 
 
-:: Prologue_ArrivedAtFertiloInc_1 [Prologue] {"position":"150,325"}
+:: Prologue_ArrivedAtFertiloInc_1 [prologue] {"position":"150,325"}
 You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, <span class="femaleSpeech"><i>This place is HUGE! I thought it would be big, but not <b>this</b> big.</i></span> You're still in awe at the sheer size of the hospital when a young-looking ginger receptionist in calls out to you from her desk, a few feet in front.
 
 <span class="femaleSpeech1">“Good morning, miss. Do you have an appointment with one of our doctors?”</span> she asks in a calm voice. You notice her and quickly walk towards the front desk. Once you get close enough, you hear her speak again, <span class="femaleSpeech1">“I almost forgot, please write your name and signature here,”</span> she adds, pushing a pen and a thick-covered leather book to you.
@@ -45,7 +45,7 @@ You gulp down hard, clutching your purse closer, and walk to the entrance. The a
     <</ctp>>
 <</nobr>>
 
-:: FertiloInc_CharacterCreation_TalkToReceptionist [Prologue Character_Creation] {"position":"475,25"}
+:: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation] {"position":"475,25"}
 You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“<<PC>>, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
 
 <span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
@@ -73,7 +73,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
 <span class="femaleSpeech1">Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?|FertiloInc_CharacterCreation]]</span>
 
 
-:: FertiloInc_CharacterCreation [Character_Creation] {"position":"600,25"}
+:: FertiloInc_CharacterCreation [characterCreation] {"position":"600,25"}
 /* Handle getting the PC's weight */\
 <<ctp "FertiloInc_CharacterCreation_ctpId1">>\
     After you take off your shoes and get on the scale, Katie your readings. <span class="femaleSpeech1">“Let's see how much you weigh.”</span>\
@@ -210,7 +210,7 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_DoneWithMeasurements [Character_Creation Prologue] {"position":"475,150"}
+:: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue] {"position":"475,150"}
 You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight.
 
 She's a sweaty mess. Her skirt is pulled down halfway and her legs spread apart, giving quite a show, but the thing that's even more absurd is her belly. It's a much larger dome stretched to capacity—you swear she looks overdue with triplets—and has soundly defeated her clothing, opting to lewdly stick out of it. Her bump is bulging out menacingly, with the area surrounding her popped navel reddening with strain; when you look closer, you notice that it's still growing, albeit slowly. It also seems that Katie hasn't noticed you yet.
