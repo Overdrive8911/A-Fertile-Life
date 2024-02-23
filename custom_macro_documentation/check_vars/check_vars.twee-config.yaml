@@ -1,0 +1,17 @@
+sugarcube-2:
+  macros:
+    checkvars:
+      container: false
+      description: |-
+        Creates and opens a debugging dialog which displays the current state of the story's $variable store `(State.variables)`.
+
+        Note: The `StoryMenu` special passage is a good location to place this during debugging. It is not recommended to leave it available in production builds.
+
+        Arguments: none
+
+
+        Usage:
+        ```
+        → Creates a link which opens the dialog
+        <<click "Check Vars">><<checkvars>><</click>>
+        ```
