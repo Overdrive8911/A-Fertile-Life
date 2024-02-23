@@ -357,16 +357,16 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
         </span>\
     <</replace>>
 <</link>>
-<<link "No question">>
+<<link [[No question|FertiloInc_Prologue_MeetMaria]]>>
     <<if _tempPCenthusiasm == 1>>
         <<changePCPersonality "enthusiasm" 5>>
     <<elseif _tempPCapathy == 1>>
         <<changePCPersonality "apathy" 3>>
-    <<else>>
+    <<elseif _tempPCdisapproval == 1>>
         <<changePCPersonality "disapproval" 5>>        
     <</if>>
 
-    /* TODO */
+    /* TODO - This macro isn't working. FIX IT */
 <</link>> /* Passage link */ \
 
 <span class="changeMyContent">/* An empty span to add words from the links above */</span>\
