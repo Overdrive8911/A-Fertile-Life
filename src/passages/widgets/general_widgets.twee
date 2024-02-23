@@ -1,4 +1,4 @@
-:: General_Widgets [widget] {"position":"1200,300"}
+:: General_Widgets [widget] {"position":"1200,400"}
 
 /*  This widget will give the player's name color and will be called as <<PC>> 
     Used as <<PC>>*/
