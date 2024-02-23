@@ -1,4 +1,4 @@
-:: Prologue_Beginning [Prologue] {"position":"25,25"}
+:: Prologue_Beginning [prologue] {"position":"25,25"}
 You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's 9:00PM and the chilly nighttime wind blows into your room, although it does nothing to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss, leaving him looking shaken each time they left. Not even up to a week later, sales started dropping steadily, which just worsened the situation.
 
 In fact, just two days ago at work, you were laid off. When you asked why, your boss shifted uncomfortably in his seat, avoiding eye contact, and said something about the legalities concerning your immigration. You're not convinced though, however you can't really blame him. He did give you a stable, albeit boring job that paid for your expenses when others rejected you. Those suspicious people most likely said or did something to him. Or not, maybe you're just overthinking this. <span class="femaleSpeech">“At least I got some compensation, that and my savings should hopefully last me till I can find a new job,”</span> you tell yourself.
@@ -36,7 +36,7 @@ The paper falls from your hand in shock. <span class="femaleSpeech"><i>What the 
 You make a mental note to go to the hospital tomorrow. <span class="femaleSpeech"><i>Better than nothing.</i></span> For now, you'll try to get some [[sleep|Prologue_WakeUpAndBrushTeeth]].
 
 
-:: Prologue_WakeUpAndBrushTeeth [Prologue] {"position":"150,25"}
+:: Prologue_WakeUpAndBrushTeeth [prologue] {"position":"150,25"}
 The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
 /*TODO - The PC will be able to choose their mood once they wake up and this will decide their default personality; enthusiastic, apathy, or disapproval */
 /*TODO - Also the PC will have morning sickness and strange cravings */
