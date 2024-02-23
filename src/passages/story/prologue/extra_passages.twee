@@ -1,5 +1,5 @@
 /* This file was created solely to make "prologue.twee" less ugly :D */
-:: FertiloInc_Prologue_InfoDump1_EnthusiasmPassage [Prologue] {"position":"550,675"}
+:: FertiloInc_Prologue_InfoDump1_EnthusiasmPassage [prologue] {"position":"550,675"}
 You laugh nervously, clutching and fiddling with your purse. <span class="femaleSpeech"><i>Deep breaths. Take in some deep breaths and calm down.</i></span> In a short while, you manage to calm down a bit and give Mr. Fert your reply. <span class="femaleSpeech">“If I'm understanding you properly, I have to be a mother? Or at least work as a surrogate, right?”</span>
 
 He lets out a sigh of relief and relaxes his composure. <span class="maleSpeech">“Affirmative, miss. You took the news much better than I expected. Although I'm used to it now, I can't imagine how much of a disruption this must be to your normal life. For that, I commend you for your calmness, and promise to help ease your worries and problems here to the best of my ability.
@@ -9,7 +9,7 @@ I can assure you that being a surrogate won't affect your life as greatly as you
 You nod absent-mindedly, preoccupied with your thoughts. <span class="femaleSpeech"><i>Surrogacy… It can't be that bad, right?</i></span>
 
 
-:: FertiloInc_Prologue_InfoDump1_ApathyPassage [Prologue] {"position":"600,775"}
+:: FertiloInc_Prologue_InfoDump1_ApathyPassage [prologue] {"position":"600,775"}
 /* REVIEW - Rewrite this */\
 You sigh quite audibly, <span class="femaleSpeech">“I honestly don't know what else I expected you to say… You probably have a plan for this, so just tell me what I need to do.”</span> There's a hint of defeat in your voice, and it seems like Mr. Fert has noticed it.
 
@@ -20,7 +20,7 @@ If you're still unsure, feel free to ask my staff or wife later, they'll definit
 <span class="femaleSpeech">“When you put it like that, I guess I could give it a try…”</span>
 
 
-:: FertiloInc_Prologue_InfoDump1_DisapprovalPassage [Prologue] {"position":"650,675"}
+:: FertiloInc_Prologue_InfoDump1_DisapprovalPassage [prologue] {"position":"650,675"}
 You place your hand on your forehead and let out a sarcastic chuckle, <span class="femaleSpeech">“Yeah, I'm not doing that. This is to be a joke, a sick joke… You even tried to flash me, you sicko!”</span>
 
 Mr. Fert looks at you blankly for a short while and then sighs, <span class="maleSpeech">“Well, that hurts, although I can't say your reaction was unexpected, but it's understandable.
@@ -42,7 +42,7 @@ You try to snap back at him but find no voice to do so; it's almost like your wi
 He gently lets go of your shoulders and returns to his seat. <span class="maleSpeech">“Don't bother replying now. Even if you disagree, I won't chase you away; you're free to stay here till you can find another place.”</span>
 
 
-:: FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo [Prologue] {"position":"700,425"}
+:: FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo [prologue] {"position":"700,425"}
 You stand up and breathe in deeply before letting it out, sighing in progress. <span class="femaleSpeech">“If you say so, I'll trust you this once,”</span> you say, pulling up your shirt to your bust, leaving your /*TODO - Use a different adjective instead of "pudgy" depending on the player's BMI (got from their weight and height). Other text in this passage will also be affected. */ pudgy midsection bare. <span class="femaleSpeech">“Let's get this over with./* The PC's personality will affect what is said here */”</span>
 
 He nods and leaves his seat to come closer. Crouching in front of you, he pulls out a pair of latex gloves from his coat and wears them. You feel a cold touch as he places his hands against your waist and slides them down, just stopping at your hips. He gently prods different areas on your lower abdomen right around the tattoo. While it doesn't hurt, you feel a welling discomfort that causes you to squirm occasionally in his grasp.
@@ -80,7 +80,7 @@ Your face droops in visible disappointment. <span class="maleSpeech">“Well, I 
 <span class="femaleSpeech"><i>How "wonderful".</i></span>
 
 
-:: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [Prologue] {"position":"700,525"}
+:: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [prologue] {"position":"700,525"}
 You think to yourself for a moment before nodding sideways. <span class="femaleSpeech">“I… can't. Sorry, but I'm not comfortable with that idea.”</span>
 
 The doctor looks at you—a hint of disappointment in his eyes—and shrugs. <span class="maleSpeech">“I understand completely. It makes sense if you don't trust me now.

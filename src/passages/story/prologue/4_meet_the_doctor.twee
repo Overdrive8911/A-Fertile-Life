@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_MeetTheDoctor [Prologue] {"position":"600,150"}
+:: FertiloInc_Prologue_MeetTheDoctor [prologue] {"position":"600,150"}
 You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, climb an elevator and reach the doctor's office. You don't encounter much of the staff, but the few you do see were all pregnant; some even more than Katie but strangely unfazed by their gravidity. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
 
 The door to the doctor's office is at the end of the hallway, and you knock on it. A calm, smooth voice from inside tells you to come <span class="changeMyContent">in</span>.
@@ -43,7 +43,7 @@ An energetic feminine voice replies, but you're only able to make out, <span cla
 <</ctp>>
 
 
-:: FertiloInc_Prologue_InfoDump [Prologue] {"position":"600,325"}
+:: FertiloInc_Prologue_InfoDump [prologue] {"position":"600,325"}
 A quick prick to your neck silences you and quickly drains your energy, forcing you back to your seat. You try to speak, but your mouth refuses to move. All you can do is to struggle quietly watch Mr. Fert who you see is beside you, holding a syringe. Now is probably not the best time to notice it, but you see that he's pretty tall; probably above 6 feet by a good margin. <span class="femaleSpeech"><i>When… Did… He… Get… There?</i></span>
 
 <span class="maleSpeech">“Forgive me for that, but you were getting hysterical.”</span>
@@ -83,7 +83,7 @@ With that, he finishes and pulls out the syringe from before, <span class="maleS
 [[Next|FertiloInc_Prologue_InfoDump1]]
 
 
-:: FertiloInc_Prologue_InfoDump1 [Prologue] {"position":"600,575"}
+:: FertiloInc_Prologue_InfoDump1 [prologue] {"position":"600,575"}
 Almost immediately, you feel a surge of energy coursing within yourself and, in seconds, you're back on your feet. You look back at Mr. Fert who's now standing beside his desk and waiting for your reply. <span class="femaleSpeech">“<i>Sigh.</i> I really want to argue with you, but from every that's been happening recently, what you said does make <i>some</i> sense. However, I still have some questions for you,”</span> you tell him.
 
 After taking his seat, he replies, <span class="maleSpeech">“I'm glad you understand, feel free to ask anything, and I'll answer it as best as I can.”</span>
