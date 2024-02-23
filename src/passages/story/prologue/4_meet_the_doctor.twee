@@ -122,7 +122,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
 
         You sigh in relief, <span class="femaleSpeech">“At least that's a really nice positive in all this.”</span>
         
-        <span class="femaleSpeech"><i>But what did he mean by "older". I'm definitely sure I'm 26…</i></span>
+        <span class="femaleSpeech"><i>But what did he mean by "older". I'm definitely sure I'm <<print $player.age.visual + "…">></i></span>
     <</replace>>
 <</link>>
 <<link "About your wife…">>
