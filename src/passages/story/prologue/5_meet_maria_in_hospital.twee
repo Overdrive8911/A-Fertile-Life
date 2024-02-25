@@ -1,1 +1,20 @@
 :: FertiloInc_Prologue_MeetMaria [prologue] {"position":"400,575"}
+You tell Mr. Fert that your questions have been satisfied and he nods in response. <span class="maleSpeech">“And just in time too, the lady I requested for should be nearing our location, right about no—”</span>
+
+<span class="otherSpeech"><i>Knock knock.</i></span> A knock on the door interrupts him from finishing, however he smiles and continues, <span class="maleSpeech">“That must be her,”</span> he tells you. After which, he turns to the door and vocalises, <span class="maleSpeech">“Come in!”</span>
+/*NOTE - She's wearing a hoodie bcus she doesn't want people to see her being pregnant */
+The door opens to reveal a feminine figure clad in an awkwardly-large black hoodie, who hastily walks into the office and grabs a close-by chair to sit on. <span class="femaleSpeech1">“Sorry I'm late Mr. Fert, there were some <i>complications,</i>”</span> she says, with a heavy indian accent, failing to notice your presence beside her.
+
+You attempt introducing yourself to get her attention but a hand wave from the doctor causes you to pause. He focuses back on the woman and tells her, <span class="maleSpeech">“We have a special guest, Maria, you don't need to be so shy.”</span>
+\
+/* <span class="femaleSpeech"><i>Maria? Like my neighbour, Maria?… No, she can't be the one.</i></span> */\
+/* TODO - Maybe tone down on the description lol */ 
+She pulls down her hood, revealing the delicate beauty of a young woman—just into her twenties—blessed with striking chestnut/* REVIEW - Maybe chestnut/auburn hair? */ hair, accentuated by her sparkling eyes, that harmoniously /* TODO - this word "contrasts" may not be the best */ complements her auburn-brown skin. You wonder why she'd ever hide it from the world. <span class="femaleSpeech1">“Guest?”</span> she asks, as she turns to her side and finally notices you.
+
+<span class="femaleSpeech1">“Eeek!”</span> She almost jumps out of her seat, but catches herself just in time. <span class="femaleSpeech1">“Ah! I'm sorry about that,”</span> she apologises, <span class="femaleSpeech1">“I didn't see you there…”</span>
+\
+<<ctp "FertiloInc_Prologue_MeetMaria_ctpId1">>
+    <<link "No problem at all.">><</link>>
+    <<link "Well, that was a bit rude.">><</link>>
+<</ctp>>
+
