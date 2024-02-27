@@ -23,7 +23,7 @@
                 
                 /* Increment related personalities */
                 $player.personality.inquisitive += _value * either(0, 0.5)
-                $player.personality.adventurous += _value * either(0, 0.5)
+                $player.personality.extroverted += _value * either(0, 0.3, 0.5)
 
                 /* Decrement contrasting personalities */
                 $player.personality.disapproval -= _value * either(0.5, 1)
@@ -35,18 +35,25 @@
                 $player.personality.apathy += _value
                 
                 /* Increment related personalities */
-                $player.personality.patient += _value * either(0, 0.3) /* ? */
+                $player.personality.introverted += _value * either(0, 0.3) /* ? */
 
                 /* Decrement contrasting personalities 
                     Increasing apathy generally reduces other stats by a bit */
+                /*<<for _personality, _personalityValue range $player.personality>>
+                    <<if _personality != "apathy">>
+                        
+                    <</if>>
+                <</for>>*/    
+
+                $player.personality.extroverted -= _value * either(0, 0.5)
                 $player.personality.disapproval -= _value * either(0, 0.5)
                 $player.personality.enthusiasm -= _value * either(0, 0.5)
                 $player.personality.caring -= _value * either(0, 0.5)
                 $player.personality.sarcastic -= _value * either(0, 0.5)
                 $player.personality.inquisitive -= _value * either(0, 0.5)
-                $player.personality.adventurous -= _value * either(0, 0.5)
-                $player.personality.confident -= _value * either(0, 0.5)
-                $player.personality.competitive -= _value * either(0, 0.5)            
+                /* $player.personality.adventurous -= _value * either(0, 0.5) */
+                /* $player.personality.confident -= _value * either(0, 0.5) */
+                /* $player.personality.competitive -= _value * either(0, 0.5)             */
 
             <<case "disapproval">>
                 /* Increment the chosen personality */
@@ -54,7 +61,7 @@
                 
                 /* Increment related personalities */
                 $player.personality.sarcastic += _value * either(0, 0.5)
-                $player.personality.competitive += _value * either(0, 0.3) /* ? */
+                /*$player.personality.competitive += _value * either(0, 0.3) /* ? */
 
                 /* Decrement contrasting personalities */
                 $player.personality.enthusiasm -= _value * either(0.5, 1)

@@ -13,14 +13,17 @@
         apathy:         50,     /* Just meh, mid */ 
         disapproval:    50,     /* Actively judges and disagrees with stuff */
 
+        extroverted:    50,
+        introverted:    50,
+
         caring:         50,     /* Kind and empathetic */
         sarcastic:      50,     /* bruh */
         inquisitive:    50,     /* How curious and willing to learn the PC is */
-
-        adventurous:    50,     /* How willing they are to take risks or try new things. */
-        confident:      50,     /* How sure they are of themselves and their actions. */
         patient:        50,     /* Ability to wait or deal with challenges without becoming annoyed or anxious. */
-        competitive:    50,     /* Desire to be more successful than others. */
+
+        /*adventurous:    50,     /* How willing they are to take risks or try new things. */
+        /*confident:      50,     /* How sure they are of themselves and their actions. */
+        /*competitive:    50,     /* Desire to be more successful than others. */
         /*empathetic:     50,     /* Ability to understand and share the feelings of another. */
         /*saucy/sassy?:   50, */
     },
