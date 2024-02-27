@@ -11,7 +11,7 @@ A Fertile Life
 }
 
 :: StoryMenu {"position":"800,150"}
-[[PlayerInventory]]
+[[Inventory|PlayerInventory]]
 
 :: StoryInit {"position":"925,150"}
 /* The use of these variables can be found in notes\variables.md */
