@@ -1,11 +1,13 @@
 # Info
 
+These are just the default/canon information about the player at the start.
+
 ## Regular Stuff
 
-- Name:
-- Alias (if any):
-- Job:
-- Age:
+- Name:                         Peizhu Noshihamite
+- Alias (if any):               Player, PC
+- Job:                          Retail (former), Surrogate (current)
+- Age:                          26
 - Alignment:
 - Born:
 - Favorite Color:
