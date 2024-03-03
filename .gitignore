@@ -1,0 +1,14 @@
+
+A Fertile Life
+A Fertile Life.html
+export/(Debug)A Fertile Life.html
+src/A-Fertile-Life.twee
+*.code-workspace
+.vscode/**
+.history/**
+src/passages/test.twee
+**/.fic/**
+**/node_modules/**
+package.json
+package-lock.json
+.textlintrc
