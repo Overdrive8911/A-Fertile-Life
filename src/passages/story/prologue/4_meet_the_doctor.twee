@@ -140,7 +140,7 @@ After taking his seat, he replies, <span class="maleSpeech">“I'm glad you unde
     <<replace ".changeMyContent" t8n>>
         <span class="femaleSpeech">“How did you bug my house? I always lock my doors, and I'm certain nothing was altered anytime I got home.”</span>
 
-        With a shrug, Mr. Fertilo replies, <span class="maleSpeech">“Well, there wouldn't be much use if you found us out, would there? Besides, the lady I sent to do it is one of my experts; there'd been no way for you to notice it. And she is someone you'd probably doubt could do it. I'll let her explain better once she gets here.”</span>
+        With a shrug, Mr. Fertilo replies, <span class="maleSpeech">“Well, there wouldn't be much use if you found us out, would there? Besides, the lady I sent to do it is one of my <i>experts</i>; there'd been no way for you to notice it. And she is someone you'd probably doubt could do it. I'll let her explain better once she gets here.”</span>
     <</replace>>
 <</link>>
 <<link "How did you get <i>this</i> rich?">>
