@@ -16,3 +16,4 @@ A Fertile Life
 :: StoryInit {"position":"925,150"}
 /* The use of these variables can be found in notes\variables.md */
 <<include "PlayerVariables">>
+<<include "GeneralSettings">>
