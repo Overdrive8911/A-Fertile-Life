@@ -1,100 +1,125 @@
 :: Prologue_ArrivedAtFertiloInc [prologue characterCreation] {"position":"25,275"}
 
-<span class="maleSpeech">\
-“Miss?”
-
-“Ma'am?”
-
-“Madam?!”\
+<span class="maleSpeech">
+    “Miss?…
+    <br>
+    <br>
+    Ma'am?…
+    <br>
+    <br>
+    Madam?!”
 </span>
-
-A light tap on the shoulder wakes you up from your slumber. You audibly gasp and lose your composure; the event from your dream still vivid. It's only until you notice the bus driver, you calm down and re-compose yourself.
-
+<br>
+<br>
+A light but persistent tapping on the shoulder wakes you up from your slumber. You audibly gasp and break your poise; the event from your dream still vivid. It's only until you notice the bus driver, you calm down and re-compose yourself.
+<br>
+<br>
 <span class="maleSpeech">“Is everything alright, miss?”</span> asks the man, with obvious concern in his voice.
-
+<br>
+<br>
 <span class="femaleSpeech">“Aha, sorry about that, sir. I'm fine, I just didn't get enough sleep yesterday,”</span> you lie. <span class="femaleSpeech"><i>God, this is so embarrassing.</i></span>
-
+<br>
+<br>
 The driver gives you a funny look; you find it difficult to think he believes you. <span class="maleSpeech">“If you say so, lassie. We're at your stop now, Three Burns Street, you're the last one. Make sure to get some sleep today once you get back home.”</span>
-
+<br>
+<br>
 You thank the man and apologize again before promptly leaving the bus. The moment you step out, the driver calls for your attention again. <span class="maleSpeech">“Lassie, be careful of what you do. You never know who's watching.”</span> He waves at you with a smile before getting back to his seat and driving off.
-
+<br>
+<br>
 You're left aghast by what the driver said as the bus goes off into the distance. <span class="femaleSpeech"><i>What in the living hell was that! Was it a warning? Or a threat? No, no, no, no. I'm probably overthinking this. He's just a sweet old man; senile at times but still sweet. He probably meant no harm.</i></span>
-
+<br>
+<br>
 As if on cue to make things worse, your mind goes back to the strange dream you had in the vehicle. You subconsciously rest your hand against your lower abdomen, pondering over the experience. You're a hundred percent sure it's what the letter meant when it said your symptoms will advance with time, but you can't help but blush furiously at the thought of ever living out that 'fantasy'.
-
+<br>
+<br>
 <span class="femaleSpeech"><i>Sigh… I can't worry about that now. I'm already here, so I need to be alert. C'mon, I can do this.</i></span>
-
+<br>
+<br>
 You turn to the building behind, it's exactly how the letter described it; a massive hospital painted white and green, its most obvious feature is the large green logo of an expecting mother cradling her belly, underneath which, is the name of the hospital; Fertilo Inc. The odd thing about it though is the neighbourhood it's situated in; poorly lit streets, rundown houses covered in graffiti and an atmosphere that reeks of neglect and disrepair; causing it to stick out like a sore thumb.
-
+<br>
+<br>
 [[Go in.|Prologue_ArrivedAtFertiloInc_1]]
 
 
 :: Prologue_ArrivedAtFertiloInc_1 [prologue] {"position":"150,325"}
-You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, <span class="femaleSpeech"><i>This place is HUGE! I thought it would be big, but not <b>this</b> big.</i></span> You're still in awe at the sheer size of the hospital when a young-looking ginger receptionist in calls out to you from her desk, a few feet in front.
-
+You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, <span class="femaleSpeech"><i>This place is HUGE! I thought it would be big, but not <b>this</b> big.</i></span> You're still in awe at the sheer size of the hospital when a young-looking ginger-haired receptionist in calls out to you from her desk, a few feet in front.
+<br>
+<br>
 <span class="femaleSpeech1">“Good morning, miss. Do you have an appointment with one of our doctors?”</span> she asks in a calm voice. You notice her and quickly walk towards the front desk. Once you get close enough, you hear her speak again, <span class="femaleSpeech1">“I almost forgot, please write your name and signature here,”</span> she adds, pushing a pen and a thick-covered leather book to you.
-
-<<nobr>>
-    <<ctp "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
-        <<link "Take the pen.">>
-            <<ctpAdvance "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
-        <</link>>
-    <<ctpNext clear>>
-        /* Input the player's name */
-        <b>Name:</b> <<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>> 
-    <</ctp>>
-<</nobr>>
+<br>
+<br>
+<<ctp "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
+    <<link "Take the pen.">>
+        <<ctpAdvance "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
+    <</link>>
+<<ctpNext clear>>
+    /* Input the player's name */
+    <b>Name:</b> <<textbox "$player.name" Peizhu FertiloInc_CharacterCreation_TalkToReceptionist>> 
+<</ctp>>
 
 :: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation] {"position":"475,25"}
 You return the book after dropping your name and signature. The receptionist takes it while saying, <span class="femaleSpeech1">“Now what appointment do you ha—”</span> She stops before finishing, her eyes widening, as she reads your name. <span class="femaleSpeech1">“<<PC>>, right? Well then, the doctor has been expecting you for a while now. I'll take you to his office, but first I need to get your measurements and some other information for him. Just give me a moment to stan—”</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“What do you mean by <i>more information</i>?”</span> you retort, interrupting the young woman. There's a hint of anger in your voice. <span class="femaleSpeech">“You've all been spying on me for only God knows how long?”</span> you follow up with and continue complaining to the lady for over a minute; who paused what she was doing to listen to you.
-
+<br>
+<br>
 Once you're satisfied with ranting, the receptionist gives you a knowing smile and says, <span class="femaleSpeech1">“I'm sorry you had to go through all that, I really am. But if you want answers, I'm afraid the doctor is the only one that can do it. He simply told me that he was expecting someone named '<<PC>>' and needed me to get their vitals and some other data for their treatment.”</span>
-
+<br>
+<br>
 The woman shifts her chair back a bit to stand up properly. It's then you notice that she's pregnant, full term in-fact. Her bump visibly strains the white shirt she's wearing and peeks out a bit underneath, pushing her unbuttoned black jacket to the sides; it looked absolutely huge on her small frame, especially when she looked no older than twenty-five. You kinda feel bad about lashing out at her, especially now that it seems she's innocent, besides stressing out a mother isn't cool. /*REVIEW - Change the last 'You' here so it'll flow nicely */
-
+<br>
+<br>
 You apologize to her repeatedly, but she brushes off the matter. <span class="femaleSpeech1">“Everyone makes mistakes, don't worry.”</span> She reaches into her skirt pocket, pulls out a measuring tape. <span class="femaleSpeech1">“Are you ready now?”</span> she asks, gesturing towards a scale and stadiometer.
-
+<br>
+<br>
 <span class="femaleSpeech">“Yeah, but could you tell me why you're still working? Shouldn't you be on maternity leave or something? I mean, you're close to term.”</span>, you reply, subconsciously moving your hand to your midsection until you notice it. There's been a dull itch around your abdomen, but you're trying your best to ignore it for now.
-
+<br>
+<br>
 The receptionist laughs lightly at your question as she leads you to the area she pointed out. Other than the more pronounced arc of her back, she looks unbothered by her gravidity, even her gait is mostly unhindered by the large bulge sticking out of her middle. <span class="femaleSpeech1">“Don't worry about it, I've got used to being a surrogate on short notice. Besides, I'm sure you'd find other staff like me here who aren't bothered by their pregnancies.</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“Surrogacy? You're a <i>surrogate</i>? You carry <i>another</i> person's baby? How does it feel like? Is that what you guys do here?”</span> You've heard of surrogacy before, but never thought you'd see it in real life. 
-
+<br>
+<br>
 <span class="femaleSpeech1">“Yes, surrogacy,”</span> she giggles, while rubbing her belly absent-mindedly. <span class="femaleSpeech1">“I'm a part-time surrogate. Many of our staff here are, but we also offer multiple services under pre-natal and post-natal care. It's our job to help mothers in need.”</span> She says the last bit with noticeably more pride. <span class="femaleSpeech1">“Ah, I almost forgot you asked how it feels. Well, it mostly depends on the baby. I'm just lucky that this little fella isn't a kicker like the last one.</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“I see… Wait, shouldn't a nurse be the one taking my measurements? Who's going to replace you while we're gone?”</span>
-
+<br>
+<br>
 The receptionist pulls out a name tag from her pocket and pins it to her jacket. Her name, Katie Smith /*REVIEW - Maybe I should just give all these people colours in their names */, and a designation that says she's a nurse are printed on it. <span class="femaleSpeech1">“Technically, I'm both a nurse and a receptionist, more so the former. I was just helping a friend out since she's on break, besides, the doctor made it clear that he wanted me to help you and do the necessary. I'm not sure why, but he's my boss; he makes the rules here. As for my post, don't worry, I've already called someone else to fill in for me.”</span>
-
+<br>
+<br>
 You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more sense.</i></span>Before you can voice another thought, the both of you reach the room with the measuring equipment. /*REVIEW - This might need rewriting */
-
+<br>
+<br>
 <span class="femaleSpeech1">Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?|FertiloInc_CharacterCreation]]</span>
 
 
 :: FertiloInc_CharacterCreation [characterCreation] {"position":"600,25"}
-/* Handle getting the PC's weight */\
-<<ctp "FertiloInc_CharacterCreation_ctpId1">>\
-    After you take off your shoes and get on the scale, Katie your readings. <span class="femaleSpeech1">“Let's see how much you weigh.”</span>\
-    
+/* Handle getting the PC's weight */
+<<ctp "FertiloInc_CharacterCreation_ctpId1">>
+    After you take off your shoes and get on the scale, Katie your readings. <span class="femaleSpeech1">“Let's see how much you weigh.”</span>
+    <br>
+    <br>
     <span class="clearMyContent">
-        <<numberinput "$player.weight" $player.weight 50 80>> kg
+        <<numberinput "$player.body.weight" $player.body.weight 50 80>> kg
 
         <<button "Done">>
             <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
             <<replace ".clearMyContent">><</replace>>  /* This will remove the numberinput and button that the player inputted their height in */
         <</button>>
     </span>
-<<ctpNext>>\
+<<ctpNext>>
     <<silently>>
         /* Initialize a temporary variable that'll store a string depending on the PC's weight and another that stores the PC's reaction */
-        <<if $player.weight <= 60>> 
+        <<if $player.body.weight <= 60>> 
             <<set _playerWeightDescription = "You're a bit <span class='playerStatNeutral'>leaner</span> than I expected but still healthy. Try to eat more when you can,">>
 
             <<set _playerWeightReaction = "I honestly thought all that ice cream would've messed up something. Or maybe its just all the stress lately.">>
 
-        <<elseif ($player.weight > 60) && ($player.weight < 70)>>
+        <<elseif ($player.body.weight > 60) && ($player.body.weight < 70)>>
             <<set _playerWeightDescription = "You're in the <span class='playerStatNeutral'>normal</span> weight range and healthy enough. Looks like your diet is pretty stable,">>
 
             <<set _playerWeightReaction = "Thank goodness, I honestly thought the stress was getting to me and my binges would've messed up my waistline by now.">>
@@ -105,34 +130,34 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
             <<set _playerWeightReaction = "Am I getting fat? Ugh, I knew that tub of ice cream would go to my waist… ">> 
 
         <</if>>
-    <</silently>>\
-    \
-    <span class="femaleSpeech1">“Hmm, <span class="playerStatNeutral"><<print $player.weight + "kg">></span>. <<print _playerWeightDescription>>”</span> she says while adjusting the stadiometer. <span class="femaleSpeech1">“Could you please come over here?”</span>
-
-    You nod to her and step onto the stadiometer. <span class="femaleSpeech"><i><<print _playerWeightReaction>></i></span> Katie moves closer and tries to slide the headpiece to your scalp but it's hard to find a position that doesn't press her bump into your side. Shw winces for a moment but eventually does it and takes your measurement. <span class="changeMyContent">Your height is…</span>\
-    \
+    <</silently>>
+    
+    <span class="femaleSpeech1">“Hmm, <span class="playerStatNeutral"><<print $player.body.weight + "kg">></span>. <<print _playerWeightDescription>>”</span> she says while adjusting the stadiometer. <span class="femaleSpeech1">“Could you please come over here?”</span>
+    <br>
+    <br>
+    You nod to her and step onto the stadiometer. <span class="femaleSpeech"><i><<print _playerWeightReaction>></i></span> Katie moves closer and tries to slide the headpiece to your scalp but it's hard to find a position that doesn't press her bump into your side. Shw winces for a moment but eventually does it and takes your measurement. <span class="changeMyContent">Your height is…</span>
+    <br>
+    <br>
     /* Handle getting the PC's height */
     <span class="clearMyContent1">
-        <<numberinput "$player.height" $player.height 150 186>> cm
+        <<numberinput "$player.body.height" $player.body.height 150 186>> cm
 
         <<button "Done">>
-            <<nobr>>
-                <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
-                <<replace ".clearMyContent1">><</replace>>  /* This will remove the numberinput and button that the player inputted their height in */
-                /* Replace "Your height is…" in and show the player's actual height */
-                <<replace ".changeMyContent" t8n>>
-                    Your height is <span class="playerStatNeutral"><<print $player.height + "cm">></span>.
-                <</replace>>
-            <</nobr>>
+            <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
+            <<replace ".clearMyContent1">><</replace>>  /* This will remove the numberinput and button that the player inputted their height in */
+            /* Replace "Your height is…" in and show the player's actual height */
+            <<replace ".changeMyContent" t8n>>
+                Your height is <span class="playerStatNeutral"><<print $player.body.height + "cm">></span>.
+            <</replace>>
         <</button>>
-    </span>\
-<<ctpNext>>\
+    </span>
+<<ctpNext>>
     <<silently>>
         /* Initialize a temporary variable that'll store a string depending on the PC's height */
-        <<if $player.height <= 169>> 
+        <<if $player.body.height <= 169>> 
             <<set _playerHeightDescription = "<i>A little bit… shorter… still acceptable…</i> <span class=defaultText>You overhear the woman mumbling something to herself but she stops before you can make out what it is.</span> <span class=femaleSpeech1>“Aha, pardon me. You're slightly <span class='playerStatNeutral'>shorter</span> than average but its okay. Back pain sucks anyway,”</span>">>
 
-        <<elseif ($player.height > 170) && ($player.height < 185)>>
+        <<elseif ($player.body.height > 170) && ($player.body.height < 185)>>
             <<set _playerHeightDescription = "“You're in the <span class='playerStatNeutral'>average</span> height range. Not much else to say,”">>
 
         <<else>>
@@ -140,85 +165,101 @@ You nod at Katie in understanding. <span class="femaleSpeech"><i>That makes more
             <<set _playerHeightDescription = "“You're quite <span class=playerStatNeutral>tall</span>. I even had to go on my toes to set the headpiece properly,”">>
 
         <</if>>
-    <</silently>>\
+    <</silently>>
     
     <span class="femaleSpeech1"><<print _playerHeightDescription>></span> Katie says when you step off the stadiometer. She tosses the measuring tape from before at you. <span class="femaleSpeech1">“For the last few measurements, I need you to get me your waist and hip measurements, and your cup size too. There's a smaller room to the left here with some useful stuff that'll give you more privacy.”</span>
-
+    <br>
+    <br>
     You comply with what she says and head into the smaller room she pointed out. Right before entering it, you hear a voice audibly sigh in relief and something slumping down on a chair. <span class="femaleSpeech"><i>I'd probably be tired too if I was sporting that belly all day.</i></span>
-
+    <br>
+    <br>
     Inside the room, you see a full body mirror, a table with a bunch of unpadded bras of varying sizes, some more measuring tapes atop a small cabinet and a comfortable-looking chair with a small stool to go with it. There's also a bra sizing chart beside the mirror to help, and a clipboard form for body measurements on the stool. <span class="femaleSpeech">“The last time I checked this stuff was like 2 weeks ago, right? /*<i>Sigh,</i> I can't recall them correctly anyway. */There shouldn't be too much of a difference, right?.”</span>
-    
+    <br>
+    <br>    
     You face a wall and pull off your shirt, then your trousers, stripping yourself down to only underwear. There's a bit of difficulty since your clothes feel even more snug than in the morning, even your panties are beginning to get uncomfortable. /*TODO - Edit the former sentence and make it flow more smoothly */ When you look back to the mirror, you notice something very odd; there's a very faint marking of what looks like a rose-coloured uterus on your lower abdomen, just like the one in your dream on the bus.
-    
+    <br>
+    <br>    
     <span class="femaleSpeech">“Holy Shit!”</span> you exclaim, <span class="femaleSpeech">“How did this happen? When did it happen? Please, please don't let this mean that dream actually meant something.”</span> Poking or trying to rub it off doesn't have any effect, you also try other ways like scratching it and even using your saliva, but none are fruitful.
-    
+    <br>
+    <br>    
     As you earnestly try to remove the tattoo from your skin, a knock on the door snaps you out of your futile efforts. It's Katie, and she asks whether everything's alright; there's a slight but noticeable strain in her voice. Since you don't want to disturb her, and you're close to your goal anyway, you assure her that everything's fine. <span class="femaleSpeech1">“If you say so Miss, just let me know if you need anything”</span>, Katie says and leaves the door, letting out another audible, albeit quieter, grunt a short while later. 
-    
-    A sigh escapes your lips, <span class="femaleSpeech"><i>C'mon <<PC>>, I'm <strong>this</strong> close to getting answers for all this. Just suck it up for now.</i></span> You take the tape and wrap it around your waist and hips to get their measurements. <span class="changeMyContent1">Your waist size is…</span>\
-    \
-    /* Handle getting the PC's waist size */\
+    <br>
+    <br>    
+    A sigh escapes your lips, <span class="femaleSpeech"><i>C'mon <<PC>>, I'm <strong>this</strong> close to getting answers for all this. Just suck it up for now.</i></span> You take the tape and wrap it around your waist and hips to get their measurements. <span class="changeMyContent1">Your waist size is…</span>
+    <br>
+    <br>   
+    <<silently>>
+        /* Get the hipSize range depending on the default hipSize. Also the PC is supposed to have relatively wide hips by default */
+        <<set _tempDefaultPlayerWaistSize = $player.body.waistSize + either(-1, -0.5, 0, 0.5, 1)>>
+        <<set _tempMinPlayerWaistSize = $player.body.waistSize - 2>>
+        <<set _tempMaxPlayerWaistSize = $player.body.waistSize + 1>>
+    <</silently>>
+
+    /* Handle getting the PC's waist size */
     /*TODO - Make the default waist size change with the player's weight */
     <span class="clearMyContent2">
-        <<numberslider "$player.waistSize" $player.waistSize 27 33 0.1>>in
+        <<numberslider "$player.body.waistSize" _tempDefaultPlayerWaistSize _tempMinPlayerWaistSize _tempMaxPlayerWaistSize 0.1>>in
 
         <<button "Done">>
-            <<nobr>>
-                <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
-                <<replace ".clearMyContent2">><</replace>>  /* This will remove the numberslider and button that the player inputted their waist size in */
-                <<replace ".changeMyContent1" t8n>>
-                    Your waist size is <span class="playerStatNeutral"><<print $player.waistSize + " inches">></span> while your hips are…
-                <</replace>>
-            <</nobr>>
+            <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
+            <<replace ".clearMyContent2">><</replace>>  /* This will remove the numberslider and button that the player inputted their waist size in */
+            <<replace ".changeMyContent1" t8n>>
+                Your waist size is <span class="playerStatNeutral"><<print $player.body.waistSize + " inches">></span> while your hips are…
+            <</replace>>
         <</button>>
-    </span>\
-<<ctpNext>>\
+    </span>
+<<ctpNext>>
     <<silently>>
-        /* Get the hipSize range depending on the waistSize. I'm trying not have absurd stuff if you realistically compare both. Also the PC is supposed to have relatively wide hips by default */
-        <<set _tempDefaultPlayerHipSize = $player.waistSize + either(9, 9.5, 10, 10.5, 11)>>
-        <<set _tempMinPlayerHipSize = $player.waistSize + 9>>
-        <<set _tempMaxPlayerHipSize = $player.waistSize + 12>>
-    <</silently>>\
-    /* Handle getting the PC's hip size */\
-    /*TODO - Make the default hip size and ranges change with the player's waistSize */\
+        /* Get the hipSize range depending on the default hipSize. Also the PC is supposed to have relatively wide hips by default */
+        <<set _tempDefaultPlayerHipSize = $player.body.hipSize + either(-1, -0.5, 0, 0.5, 1)>>
+        <<set _tempMinPlayerHipSize = $player.body.hipSize - 2>>
+        <<set _tempMaxPlayerHipSize = $player.body.hipSize + 1>>
+    <</silently>>
+    /* Handle getting the PC's hip size */
     <span class="clearMyContent3">
-        <<numberslider "$player.hipSize" _tempDefaultPlayerHipSize _tempMinPlayerHipSize _tempMaxPlayerHipSize 0.1>>in
+        <<numberslider "$player.body.hipSize" _tempDefaultPlayerHipSize _tempMinPlayerHipSize _tempMaxPlayerHipSize 0.1>>in
 
         <<button "Done">>
-            <<nobr>>
-                <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
-                <<replace ".clearMyContent3">><</replace>>  /* This will remove the numberslider and button that the player inputted their hip size in */
-                <<replace ".changeMyContent1">>
-                    Your waist size is <span class="playerStatNeutral"><<print $player.waistSize + " inches">></span> while your hips measure <span class="playerStatNeutral"><<print $player.hipSize + " inches">></span>.
-                <</replace>>
-            <</nobr>>
+            <<ctpAdvance "FertiloInc_CharacterCreation_ctpId1">>
+            <<replace ".clearMyContent3">><</replace>>  /* This will remove the numberslider and button that the player inputted their hip size in */
+            <<replace ".changeMyContent1">>
+                Your waist size is <span class="playerStatNeutral"><<print $player.body.waistSize + " inches">></span> while your hips measure <span class="playerStatNeutral"><<print $player.body.hipSize + " inches">></span>.
+            <</replace>>
         <</button>>
-    </span>\
-    \
+    </span>
+    
     <<silently>>
         /* This is just for getting a partially random value for the PC to compare too when they noticed they're 'wider' than before */
         /*TODO - Use a function for this either() stuff */
-        <<set _playerFormerWaistSize = $player.waistSize - either(2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.7, 2.8, 2.9, 3)>>
-        <<set _playerFormerHipSize = $player.hipSize - either(2, 2.3, 2.5, 2.8, 3, 3.5,)>>
-    <</silently>>\
+        <<set _playerFormerWaistSize = $player.body.waistSize - either(2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.7, 2.8, 2.9, 3)>>
+        <<set _playerFormerHipSize = $player.body.hipSize - either(2, 2.3, 2.5, 2.8, 3, 3.5,)>>
+    <</silently>>
 <<ctpNext>>
     <span class="femaleSpeech">“Eh? I could've sworn I wasn't this big before. Wasn't my waist around <<print _playerFormerWaistSize>> inches? And I'm sure my hips were closer to <<print _playerFormerHipSize>> inches. Aww man, this is even more confusing, that doctor better know what's wrong with me.”</span> You pinch your hips and poke your middle a bit, unsure about how you never noticed these changes over the past days.
-    /*TODO - The user's weight affects the starting value for waistSize */\
-
+    /*TODO - The user's weight affects the starting value for waistSize */
+    <br>
+    <br>
     Another sigh leaves your mouth, then you wrap the measuring tape around your chest, right beneath your bust; there's no use bothering about that for the moment. The same also goes for the largest area of your breasts. It turns out that your bra size is still a <span class="playerStatNeutral">34DD</span>. You audibly exhale in relief, <span class="femaleSpeech">“<i>Phew.</i> Thankfully, it seems like nothing's changed there yet.”</span>
-
+    <br>
+    <br>
     [[Put On Your Clothes|FertiloInc_CharacterCreation_DoneWithMeasurements]]
 <</ctp>>
 
 
 :: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue] {"position":"475,150"}
 You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight.
-
+<br>
+<br>
 She's a sweaty mess. Her skirt is pulled down halfway and her legs spread apart, giving quite a show, but the thing that's even more absurd is her belly. It's a much larger dome stretched to capacity—you swear she looks overdue with triplets—and has soundly defeated her clothing, opting to lewdly stick out of it. Her bump is bulging out menacingly, with the area surrounding her popped navel reddening with strain; when you look closer, you notice that it's still growing, albeit slowly. It also seems that Katie hasn't noticed you yet.
-
+<br>
+<br>
 You're completely baffled, but it's been a weird day, so you don't visibly react to it. Instead, you move to her other side to get her attention, but you discover her shirt is soaked around her bust; two visible darker spots right where her nipples are. Looking more closely at her face, you see that she's in ecstasy—well, she <i>is</i> making <i>that</i> face so you think so—and mumbling gibberish to herself. She's still unresponsive to your presence, even when you call out to her.
-
+<br>
+<br>
 Unsure of what to do now, you decide to leave her and find another staff to help. But just before you exit the room, Katie lets out a loud moan, and the activity in her belly suddenly surges, but otherwise remains oblivious to you. You turn back and see her midsection covered with a flurry of bulges from its occupants; it's almost like the dream you had, but it feels so different seeing it in real life, almost tempting in fact. She groans again and a folded piece of paper falls out of her hand, which you pick up.
-
+<br>
+<br>
 The directions to the doctor's office are scribbled on it, as well as an apology from Katie. It seems that she expected her current predicament but didn't realize it would be this soon, and she doesn't require any assistance; that this is apparently <i>"normal"</i> for her. <span class="femaleSpeech"><i>Everything here is so weird.</i></span>
-
+<br>
+<br>
 [[Follow the directions|FertiloInc_Prologue_MeetTheDoctor]]
