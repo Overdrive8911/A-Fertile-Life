@@ -30,24 +30,35 @@
 
     /* Normal Body Stuff */
     name:                   "Peizhu Noshihamite",   /*TODO - Make the Player need to input a full name then only use the first half */
-    sex:                    0,                  /* 0 -> XX, 1 -> XY */
-    age: {
-        physical:           26,                 /* How old the PC looks like */
-        mental:             27,                 /* How old they are mentally */
-        real:               32,                 /* How long they've existed */
+
+    body: {
+        sex:                    0,                  /* 0 -> XX, 1 -> XY */
+        age: {
+            physical:           26,                 /* How old the PC looks like */
+            mental:             27,                 /* How old they are mentally */
+            real:               32,                 /* How long they've existed */
+        },
+        eyes: {
+            leftIris:           "hazel",            /* Left eye colour */
+            rightIris:          "hazel",            /* Right eye colour. If different from leftIris, the PC is heterochromatic */
+        },
+        hair: {
+            /* Most of the string members are just for flavour */
+            colour:             "black",
+            length:             33,                 /* In cm */
+            style:              "straight", 
+            accessories:        "none",
+            /*TODO - Add more member that can deal with more complicated hairstyles like highlights */
+        },
+        weight:                 68,                 /* In kg. Weight classes are Emaciated, Underweight, Thin, Lean, Average, Pudgy, Plump, Chubby, Curvy, Overweight, Fat, Obese. height is also used in calculating the BMI */
+        height:                 167,                /* In cm. It's approximately 5'6". Height classes are Dwarf, Very Short, Short, Somewhat short, Average, Somewhat Tall, Tall, Very Tall, Mini Giant */
+    
+        /* Hip and waist */
+        /*TODO - Make the hip.size and waist.size related description wise */
+        hipSize:                41,                 /* In inches. 32.3 - 33.3 -> Very Narrow, 33.4 - 35.5 -> Narrow, 35.6 - 37.5 -> Quite Narrow, 37.6 - 40.4 -> Average, 40.5 - 43.3 -> Wide, 43.4 - 46.5 -> Very Wide, 46.6 - 50.5 -> Child-Bearing, 50.6 and above -> Brood Mother Hips. Birthing increases this to an extent */
+        waistSize:              30,                 /* In inches. 22.3 - 23.3 -> Extra Slim, 23.4 - 25.5 -> Very Slim, 25.6 - 27.5 -> Slim, 27.6 - 30.4 -> Average, 30.5 - 33.3 -> Wide, 33.4 - 35.5 -> Very Wide, 35.6 - 38.4 -> Plus-Sized, 38.5 - 42.4 -> Plus-Sized 2x, 42.5 - 46.4 -> Plus-Sized 3x, 46.5 - 50.4 -> Plus-Sized 4x, 50.5 - 53.5 -> Plus-Sized 5x. Getting fat increases this to an extent */
     },
-    eyes: {
-        leftIris:           "hazel",            /* Left eye colour */
-        rightIris:          "hazel",            /* Right eye colour. If different from leftIris, the PC is heterochromatic */
-    },
-    hair: {
-        /* Most of the string members are just for flavour */
-        colour:             "black",
-        length:             33,                 /* In cm */
-        style:              "straight", 
-        accessories:        "none",
-        /*TODO - Add more member that can deal with more complicated hairstyles like highlights */
-    },
+    
     makeup:                 "light",
     nails:                  "normal",
 
@@ -147,16 +158,6 @@
         isLactating:        false,
         nipples:            "perky",
         areola:             "normal",
-    },
-
-    bodyMeasurements: {
-        weight:                 68,                 /* In kg. Weight classes are Emaciated, Underweight, Thin, Lean, Average, Pudgy, Plump, Chubby, Curvy, Overweight, Fat, Obese. height is also used in calculating the BMI */
-        height:                 167,                /* In cm. It's approximately 5'6". Height classes are Dwarf, Very Short, Short, Somewhat short, Average, Somewhat Tall, Tall, Very Tall, Mini Giant */
-    
-        /* Hip and waist */
-        /*TODO - Make the hipWidth and waistSize related description wise */
-        hipSize:                41,                 /* In inches. 32.3 - 33.3 -> Very Narrow, 33.4 - 35.5 -> Narrow, 35.6 - 37.5 -> Quite Narrow, 37.6 - 40.4 -> Average, 40.5 - 43.3 -> Wide, 43.4 - 46.5 -> Very Wide, 46.6 - 50.5 -> Child-Bearing, 50.6 and above -> Brood Mother Hips. Birthing increases this to an extent */
-        waistSize:              30,                 /* In inches. 22.3 - 23.3 -> Extra Slim, 23.4 - 25.5 -> Very Slim, 25.6 - 27.5 -> Slim, 27.6 - 30.4 -> Average, 30.5 - 33.3 -> Wide, 33.4 - 35.5 -> Very Wide, 35.6 - 38.4 -> Plus-Sized, 38.5 - 42.4 -> Plus-Sized 2x, 42.5 - 46.4 -> Plus-Sized 3x, 46.5 - 50.4 -> Plus-Sized 4x, 50.5 - 53.5 -> Plus-Sized 5x. Getting fat increases this to an extent */
     },
 
     /* Muscle */
