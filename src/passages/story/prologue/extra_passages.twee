@@ -1,90 +1,126 @@
 /* This file was created solely to make "prologue.twee" less ugly :D */
 :: FertiloInc_Prologue_InfoDump1_EnthusiasmPassage [prologue] {"position":"550,675"}
 You laugh nervously, clutching and fiddling with your purse. <span class="femaleSpeech"><i>Deep breaths. Take in some deep breaths and calm down.</i></span> In a short while, you manage to calm down a bit and give Mr. Fert your reply. <span class="femaleSpeech">“If I'm understanding you properly, I have to be a mother? Or at least work as a surrogate, right?”</span>
-
+<br>
+<br>
 He lets out a sigh of relief and relaxes his composure. <span class="maleSpeech">“Affirmative, miss. You took the news much better than I expected. Although I'm used to it now, I can't imagine how much of a disruption this must be to your normal life. For that, I commend you for your calmness, and promise to help ease your worries and problems here to the best of my ability.
-
+<br>
+<br>
 I can assure you that being a surrogate won't affect your life as greatly as you think it would, and I'm sure you would find its bonuses favourable. Besides, your "gift" will make pregnancies much more bearable. Miss <<PC>>, You do not need to worry.”</span>
-
+<br>
+<br>
 You nod absent-mindedly, preoccupied with your thoughts. <span class="femaleSpeech"><i>Surrogacy… It can't be that bad, right?</i></span>
 
 
 :: FertiloInc_Prologue_InfoDump1_ApathyPassage [prologue] {"position":"600,775"}
-/* REVIEW - Rewrite this */\
+/* REVIEW - Rewrite this */
 You sigh quite audibly, <span class="femaleSpeech">“I honestly don't know what else I expected you to say… You probably have a plan for this, so just tell me what I need to do.”</span> There's a hint of defeat in your voice, and it seems like Mr. Fert has noticed it.
-
+<br>
+<br>
 <span class="maleSpeech">“Miss <<PC>>, do not worry. Your reaction is a bit weaker than I expected but still understandable. I can assure that you wouldn't need to worry, since you can work as a surrogate here. It will take a bit of getting used to, but you'll still be able to live your life and do what you want, besides, with your gift, pregnancies will be far easier and quicker for you. It'll be over before you know it!
-
+<br>
+<br>
 If you're still unsure, feel free to ask my staff or wife later, they'll definitely be willing to assist you.”</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“When you put it like that, I guess I could give it a try…”</span>
 
 
 :: FertiloInc_Prologue_InfoDump1_DisapprovalPassage [prologue] {"position":"650,675"}
 You place your hand on your forehead and let out a sarcastic chuckle, <span class="femaleSpeech">“Yeah, I'm not doing that. This is to be a joke, a sick joke… You even tried to flash me, you sicko!”</span>
-
+<br>
+<br>
 Mr. Fert looks at you blankly for a short while and then sighs, <span class="maleSpeech">“Well, that hurts, although I can't say your reaction was unexpected, but it's understandable.
-
+<br>
+<br>
 I guess I'll just have to drill the reality into you another way.”</span> He stands up from his seat and moves over towards you.
-
+<br>
+<br>
 <span class="femaleSpeech">“Stay back! What are you trying to do. I'll call the cops, you perv,”</span> you reply, shifting your seat backwards until you almost tumble out of it.
-
+<br>
+<br>
 The doctor reaches you and crouches to your level, placing his hands on your shoulder and staring into your eyes with a level of threatening intensity you never thought was possible. His emerald-green stare seems to pierce into your very souls, and it's almost as if he can see your heart's contents.
-
+<br>
+<br>
 <span class="maleSpeech">“<<PC>>,”</span> he starts after what feels like an eternity. <span class="maleSpeech">“I know you won't believe me now—you already think of me as a pervert—but I'm trying to do this for your own good. I can't imagine how awful the news must've been for you, but please know that it's the best option you have if you seriously want to keep living… At least till we find another solution.
-
+<br>
+<br>
 You can be a surrogate here and wouldn't have to worry about the repercussions of getting pregnant. Instead, you'd be able to help many distraught parents trying for a child, as well as helping future generations with your body. I can promise you that you would never regret this; none of us here do.
-
+<br>
+<br>
 But if you're still adamant, perhaps your mind will change once the <strong>hellish</strong> discharge known as your period comes along in a few weeks, and you end up fainting from anaemia. The choice is yours.”</span> /*REVIEW - Rewrite this section and the next paragraph */
-
+<br>
+<br>
 You try to snap back at him but find no voice to do so; it's almost like your will has been sapped out from his stern stare. But even if could, you don't have much of an argument to put up, besides the very thought of what could happen if you refuse nauseates you.
-
+<br>
+<br>
 He gently lets go of your shoulders and returns to his seat. <span class="maleSpeech">“Don't bother replying now. Even if you disagree, I won't chase you away; you're free to stay here till you can find another place.”</span>
 
 
 :: FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo [prologue] {"position":"700,425"}
 You stand up and breathe in deeply before letting it out, sighing in progress. <span class="femaleSpeech">“If you say so, I'll trust you this once,”</span> you say, pulling up your shirt to your bust, leaving your /*TODO - Use a different adjective instead of "pudgy" depending on the player's BMI (got from their weight and height). Other text in this passage will also be affected. */ pudgy midsection bare. <span class="femaleSpeech">“Let's get this over with./* The PC's personality will affect what is said here */”</span>
-
+<br>
+<br>
 He nods and leaves his seat to come closer. Crouching in front of you, he pulls out a pair of latex gloves from his coat and wears them. You feel a cold touch as he places his hands against your waist and slides them down, just stopping at your hips. He gently prods different areas on your lower abdomen right around the tattoo. While it doesn't hurt, you feel a welling discomfort that causes you to squirm occasionally in his grasp.
-
+<br>
+<br>
 Mr. Fert eventually stops and looks up at you. <span class="maleSpeech">“I'm going to do something now, and I need you to tell me what you feel, okay?”</span> he says.
-
+<br>
+<br>
 <span class="femaleSpeech">“Okay, but what exactly are you—”</span> you attempt to reply before your legs go weak. The dull discomfort vanishes near instantaneously, and an immensely pleasurable sensation hits you out of the blue. You attempt to stifle the involuntary moans that try to escape your lips; it's unsuccessful, however, because soon enough, you lose the battle and let out a particularly long, low one. 
-
+<br>
+<br>
 Your cheeks flush red once realization dawns on you; the sensual feeling that prompted it now dying quickly. Your face turns into a tomato when you feel a peculiar dampness around your crotch, and you inadvertently break your poise in an attempt to cover it up. In your confusion and embarrassment, you're unaware of when Mr. Fert lets go of you and returns to his seat.
-
+<br>
+<br>
 You continue fumbling for a short while before you actually consider your surroundings. In a haste to end this embarrassing moment, you hastily pull your shirt down and sit back on your chair, trying to regain your decency. /*Still feeling exposed and vulnerable, */You manage a small, uncomfortable laugh, hoping to defuse some awkward tension in the air. <span class="femaleSpeech">“Wow, um… That was unexpected, haha… Please, can we <i>never</i> speak of it, again?”</span> /*you ask, voice laced with a mix of amusement and confusion, but mainly just wanting to understand the situation better.*/
-
+<br>
+<br>
 Mr. Fert chortles audibly—you could almost punch him—but thankfully, he quickly stops it. <span class="maleSpeech">“Probably not,”</span> he begins, kicking back in his recliner. <span class="maleSpeech">“You didn't notice it, but your womb tattoo is glowing faintly.”</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“"Womb Tattoo"? Oh, you meant that pink-ish uterus marking on my abdomen, right?”</span>
-
+<br>
+<br>
 <span class="maleSpeech">“Yes. It's one of the ways our caretakers from S.H.E.M.P kept an eye on our reproductive health and capabilities. What you need to know now is that:
-/* Make the words below relating to colour show the colour in question and whether it's steady, flashing or flickering*/\
-* Bright pink mean you're at your peak fertile periods.
-* A steady, relatively-duller pink colour means you're pregnant. The brighter it is, the more children you're carrying and farther you are along.
-* Flashing pink means you've just conceived.
-* Pale pink usually means you're on your period or not in any of the former conditions I listed.
-* Pale grey is bad; it means you're somehow barren, which would be <strong>really</strong> bad for you.
-\
+<br>
+
+/* TODO - Make the words below relating to colour show the colour in question and whether it's steady, flashing or flickering*/
+<ul>
+    <li> Bright pink mean you're at your peak fertile periods.</li>
+    <li> A steady, relatively-duller pink colour means you're pregnant. The brighter it is, the more children you're carrying and farther you are along.</li>
+    <li> Flashing pink means you've just conceived.</li>
+    <li> Pale pink usually means you're on your period or not in any of the former conditions I listed.</li>
+    <li> Pale grey is bad; it means you're somehow barren, which would be <strong>really</strong> bad for you.</li>
+</ul>
+
 But you don't need to worry about the last as long as you stay here.”</span>
-
+<br>
+<br>
 <span class="femaleSpeech">“So, I can't get rid of it?”</span> you ask, ignoring most of what he said.
-
+<br>
+<br>
 <span class="maleSpeech">“Don't think of it like that… I'll also give you a prescription later to make it a bit less noticeable.”</span>
-
+<br>
+<br>
 Your face droops in visible disappointment. <span class="maleSpeech">“Well, I guess I shouldn't be surprised now… But before we kill this topic, how did you do "that" thing you did to me just now?”</span>
-
+<br>
+<br>
 <span class="maleSpeech">“Not much really, I was testing how sensitive you were to get a more accurate estimate on your health. It turns out that you're in peak condition,”</span> he replies, with a small smile at the end.
 /* REVIEW - Bro, I need to rewrite this lmao */
+<br>
+<br>
 <span class="femaleSpeech"><i>How "wonderful".</i></span>
 
 
 :: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [prologue] {"position":"700,525"}
 You think to yourself for a moment before nodding sideways. <span class="femaleSpeech">“I… can't. Sorry, but I'm not comfortable with that idea.”</span>
-
+<br>
+<br>
 The doctor looks at you—a hint of disappointment in his eyes—and shrugs. <span class="maleSpeech">“I understand completely. It makes sense if you don't trust me now.
-
+<br>
+<br>
 If my guess is correct, you should have a "womb tattoo" or something similar, don't worry much about it though, because it's not harmful in the slightest. Although without seeing it, I don't have much else to say about it
-
+<br>
+<br>
 Just remember that you can always come back to me if it starts to get worrying. I'll be here to help you.”</span> /* TODO - Add repercussions to this later */
