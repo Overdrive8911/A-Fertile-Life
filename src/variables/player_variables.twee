@@ -13,13 +13,13 @@
         apathy:         50,     /* Just meh, mid */ 
         disapproval:    50,     /* Actively judges and disagrees with stuff */
 
-        extroverted:    50,
-        introverted:    50,
+        extroverted:    50,     /* Similar to bold */
+        introverted:    50,     /* Similar to timid */
 
         caring:         50,     /* Kind and empathetic */
         sarcastic:      50,     /* bruh */
         inquisitive:    50,     /* How curious and willing to learn the PC is */
-        patient:        50,     /* Ability to wait or deal with challenges without becoming annoyed or anxious. */
+        patience:       50,     /* Ability to wait or deal with challenges without becoming annoyed or anxious. */
 
         /*adventurous:    50,     /* How willing they are to take risks or try new things. */
         /*confident:      50,     /* How sure they are of themselves and their actions. */

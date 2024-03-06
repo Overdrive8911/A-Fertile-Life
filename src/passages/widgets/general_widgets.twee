@@ -9,12 +9,12 @@
 
         <<run
             /* Split the player name into separate words (if its more than 1 word e.g Peizhu Noshihamite) */
-            State.temporary.name = State.variables.player.name.split(" ");
+            _name = $player.name.split(" ");
 
             /* e.g ["Peizhu", "Noshihamite"] */
-            if (State.temporary.name.length > 1)
+            if (_name.length > 1)
             {
-                State.temporary.name = State.temporary.name[0];
+                _name = _name.name[0];
             }
         >>
 
