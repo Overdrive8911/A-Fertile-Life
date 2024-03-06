@@ -6,54 +6,49 @@
     e.g <<changePCPersonality "caring" 2>>, <<changePCPersonality "apathy" -5>> */
 <<silently>>
     <<widget "changePCPersonality">>
-        _personality = _args[0]
-        _value = _args[1]
+        <<set _personality = _args[0]>>
+        <<set _value = _args[1]>>
 
         /* Make sure that the value is not out of bounds i.e lower than 0 or greater than 100 */
         <<if _value < 0>>
-            _value = 0
+            <<set _value = 0>>
+            
         <<elseif _value > 100>>
-            _value = 100    
+            <<set _value = 100>>
+
         <</if>>
 
         <<switch _personality>>
             <<case "enthusiasm">>
                 /* Increment the chosen personality */
-                $player.personality.enthusiasm += _value
+                <<set $player.personality.enthusiasm += _value>>
                 
                 /* Increment related personalities */
-                $player.personality.inquisitive += _value * either(0, 0.5)
-                $player.personality.extroverted += _value * either(0, 0.3, 0.5)
+                <<set $player.personality.inquisitive += _value * either(0, 0.5)>>
+                <<set $player.personality.extroverted += _value * either(0, 0.3, 0.5)>>
 
                 /* Decrement contrasting personalities */
-                $player.personality.disapproval -= _value * either(0.5, 1)
-                $player.personality.apathy -= _value * (0, 0.5)
+                <<set $player.personality.disapproval -= _value * either(0.5, 1)>>
+                <<set $player.personality.apathy -= _value * (0, 0.5)>>
 
             <<case "apathy">>
                 /* Increment the chosen personality 
                     Apathy seldom increases on its own and when it does, rarely goes higher than 3 */
-                $player.personality.apathy += _value
+                <<set $player.personality.apathy += _value>>
                 
                 /* Increment related personalities */
-                $player.personality.introverted += _value * either(0, 0.3) /* ? */
+                <<set $player.personality.introverted += _value * either(0, 0.3)>> /* ? */
 
                 /* Decrement contrasting personalities 
                     Increasing apathy generally reduces other stats by a bit */
-                /*<<for _personality, _personalityValue range $player.personality>>
-                    <<if _personality != "apathy">>
+                <<for _personality, _personalityValue range $player.personality>>
+                    <<if _personality != "apathy"
+                        && _personality != "introverted"
+                        && _personality != "patience">>
+                        <<set $player.personality[_personality] -= _value * either(0, 0.3, 0.5)>>
                         
                     <</if>>
-                <</for>>*/    
-
-                $player.personality.extroverted -= _value * either(0, 0.5)
-                $player.personality.disapproval -= _value * either(0, 0.5)
-                $player.personality.enthusiasm -= _value * either(0, 0.5)
-                $player.personality.caring -= _value * either(0, 0.5)
-                $player.personality.sarcastic -= _value * either(0, 0.5)
-                $player.personality.inquisitive -= _value * either(0, 0.5)
-                /* $player.personality.adventurous -= _value * either(0, 0.5) */
-                /* $player.personality.confident -= _value * either(0, 0.5) */
-                /* $player.personality.competitive -= _value * either(0, 0.5)             */
+                <</for>>
 
             <<case "disapproval">>
                 /* Increment the chosen personality */
