@@ -1,4 +1,4 @@
-:: GeneralSettings
+:: GeneralSettings [settings]
 
 /* Remove all non-explicit line breaks */
 <<set Config.passages.nobr = true>>
