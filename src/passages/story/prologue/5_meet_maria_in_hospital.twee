@@ -24,25 +24,29 @@
     /*NOTE - She's wearing a hoodie bcus she doesn't want people to see her being pregnant */
     The door opens to reveal a feminine figure wearing an awkwardly-oversized black hoodie, who hastily walks into the office and grabs a close-by chair to sit on — although, not without clumsily bumping into a few. 
     <span class="femaleSpeech1">
-        “Sorry I'm late Mr. Fert, there were some <i>complications,</i>”
-    </span> she says, with a heavy indian accent, failing to notice your presence beside her.
+        “Sorry I'm late, there were some <i>complications</i> with the task you gave me…”
+    </span> she says, /* REVIEW - Eh, not so sure abt this one */with a heavy indian accent, failing to notice your presence beside her.
 </p>
 
 <p>
     You attempt introducing yourself to get her attention but a hand wave from the doctor causes you to pause. He focuses back on the woman and tells her, 
     <span class="maleSpeech">
-        “We have a special guest, Maria, you don't need to be so shy.”
+        “We can talk about that later, Maria, but didn't you notice our special guest? You don't need to be shy, dear.”
     </span>
 </p>
 
 <p>
-    /* <span class="femaleSpeech"><i>Maria? Like my neighbour, Maria?… No, she can't be the one.</i></span> */
     /* TODO - Maybe tone down on the description lol */ 
-    She pulls down her hood, revealing the delicate beauty of a young woman — just into her twenties — blessed with striking chestnut/* REVIEW - Maybe chestnut/auburn hair? */ hair, accentuated by her sparkling eyes, that harmoniously /* TODO - this word "contrasts" may not be the best */ complements her auburn-brown skin. /*You wonder why she'd ever hide it from the world.*/You almost wonder why she isn't more confident with it. 
+    <span class="femaleSpeech1">
+        “G-guest?”
+    </span> she asks, pulling down her hood and turning to the side, /*She pulls down her hood,*/revealing the delicate beauty of a young woman — just into her twenties — blessed with striking chestnut/* REVIEW - Maybe chestnut/auburn hair? */ hair, accentuated by her sparkling eyes, that harmoniously complements her auburn-brown skin. /*You wonder why she'd ever hide it from the world.*//*You almost wonder why she isn't more confident with it.*/ 
+</p>
+
+/* <p>
     <span class="femaleSpeech1">
         “What guest?”
     </span> she asks, as she turns to her side and finally notices you.
-</p>
+</p> */
 
 <p>
     <span class="femaleSpeech1">
@@ -50,7 +54,7 @@
     </span> 
     She almost jumps out of her seat, but catches herself /*just*/ in time. 
     <span class="femaleSpeech1">
-        “Ah, it's you… Sorry about that,”
+        “A-ah, it's you… Sorry about that,”
     </span> she apologises, laughing nervously, 
     <span class="femaleSpeech1">
         “I didn't see you there…”
@@ -60,83 +64,132 @@
 <<ctp "FertiloInc_Prologue_MeetMaria_ctpId1">>
     /* enthusiastic option */
     <<link "It's no problem at all.">>
-        <<set _tempPCenthusiasm = 1>>
+        <<set _tempPCEnthusiasm = 1>>
+        <<changePCPersonality "enthusiasm" _tempPCEnthusiasm>>
         <<ctpAdvance "FertiloInc_Prologue_MeetMaria_ctpId1">>
     <</link>>
     <br>
-    /* disapproving option (That was a bit rude / <i>This</i> is the spy you sent?) */
-    <<link "That was a bit rude…">>
-        <<set _tempPCdisapproval = 1>>
+    /* disapproving option (That was rude / <i>This</i> is the spy you sent?) */
+    <<link "That was rude…">>
+        <<set _tempPCDisapproval = 1>>
+        <<changePCPersonality "disapproval" _tempPCDisapproval>>
         <<ctpAdvance "FertiloInc_Prologue_MeetMaria_ctpId1">>
     <</link>>
 <<ctpNext clear>>
-    <<if _tempPCenthusiasm == 1>>   /* chose "It's no problem at all." */
+    /* chose "It's no problem at all." */
+    <<if _tempPCEnthusiasm == 1>>
         <p>
             <span class="femaleSpeech">
                 “Don't beat yourself over it, it happens to the best of us,”
             </span> you tell her. 
             Sticking out your hand, you continue, 
             <span class="femaleSpeech">
-                “My name's <<PC>>, and I take it you're Maria. Honestly, if not for you face, I'd have mistaken you for my neighbour, Miriam; you sound exactly like her. I hope that sweet, young mother's doing well.”
+                “My name's <<PC>>, and I take it you're Maria. Honestly, if not for you face, I'd have mistaken you for my neighbour/*, Miriam*/; you sound exactly like her. I hope that sweet, young mother's doing well.”
             </span>
         </p>
-
+    /* chose "That was rude…" */    
+    <<elseif _tempPCDisapproval == 1>>
         <p>
-            Maria blushes/*REVIEW - 🤷‍♀️ Rewrite this*/ a bit and shakes your hand. She glances over at Mr. Fert — who gives a knowing nod — and turns back to face you before replying, 
-            <span class="femaleSpeech1">
-                “Well, about that… I <i>am</i> her.”
-            </span>
-        </p>
-
-        <p>
-            You pause and look at her with confusion. 
             <span class="femaleSpeech">
-                “/*Come again?*/That can't be true, you two look nothing alike.”
-            </span>
-        </p>
-
-        <p>
-            She grasps her hands and fiddles with her fingers. 
-            <span class="femaleSpeech1">
-                “I mean, that was all thanks to make-up, lots of it, and the fact that you probably never saw anything else about me other than my face; /*I admit */I am <i>pretty</i> reserved.”
-            </span>
-        </p>
-
-        <p class="femaleSpeech">
-            “But, she's expecting, and I even saw her this morning… Unless, you're also—”
-        </p>
-
-        <p>
-            <span class="femaleSpeech1">
-                “Pregnant,”
-            </span> she finishes, gesturing to her obscured midsection. 
-            With a bit of squinting, you can see her arms resting over an un-obvious bump. She gently presses into the hidden/*REVIEW - Rewrite this */ mass, as if to make sure you know what she means.
-        </p>
-
-        <p>      
+                “Well, that was quite rude…
+            </span> you reply, wearing a frown, 
             <span class="femaleSpeech">
-                “So you were pretending to be my neighbour for a few weeks to successfully spy on me while being pregnant?”
-            </span> you tell her before, bowing your head. 
+                “But, it wasn't deliberate so no harm done.”
+            </span> 
+            Sticking out an arm, you continue,
             <span class="femaleSpeech">
-                “Man, I'm losing my game…”
+                “In any case, my name's <<PC>>, and you're Maria, right? Your voice reminds me of my neighbour, I almost mistook you for her before I saw your face.”
             </span>
         </p>
-
-        <p>
-            Maria pats your back and says, 
-            <span class="femaleSpeech1">
-                “It wasn't exactly easy for me, at all, since carrying <i>this</i> around was way more exhausting than I thought; in fact, I wouldn't have gone after you if not because of dad over here.”
-            </span>
-        </p>
-
-        <p>
-            You raise your head up. 
-            <span class="femaleSpeech">
-                “Dad? Do you mean Mr. Fert is your dad?”
-            </span>
-        </p>
-
-    <<else>>                        /* chose "That was a bit rude…" */
-            
     <</if>>
+    
+    /* Just normal continuation of the passage  */
+    <p>
+        Maria blushes/*REVIEW - 🤷‍♀️ Rewrite this*/ a bit and shakes your hand. She glances over at Mr. Fert — who gives a knowing nod — and turns back to face you before replying, 
+        <span class="femaleSpeech1">
+            “Well, about that… I <i>am</i> her.”
+        </span>
+    </p>
+
+    <p>
+        You pause and look at her with a baffled expression. 
+        <span class="femaleSpeech">
+            “/*Come again?*/That can't be true, you two look nothing alike.”
+        </span>
+    </p>
+
+    <p>
+        She clasps her hands together and fiddles with her fingers. 
+        <span class="femaleSpeech1">
+            “I mean, that was all thanks to make-up, lots of it, and the fact that you probably never saw anything else about me other than my face; /*I admit */I am <i>pretty</i> reserved.”
+        </span>
+    </p>
+
+    <p class="femaleSpeech">
+        “But, she's expecting, and I even saw her this morning… Unless, you're also—”
+    </p>
+
+    <p>
+        <span class="femaleSpeech1">
+            “Pregnant,”
+        </span> she finishes, gesturing to her obscured midsection, with a very red face that asks why she said that. 
+        With a bit of squinting, you can see her arms resting over an un-obvious bump. She gently presses into the hidden/*REVIEW - Rewrite this */ mass, as if to make sure you know what she means.
+    </p>
+
+    <p>      
+        <span class="femaleSpeech">
+            “So you were pretending to be my neighbour for a few weeks to successfully spy on me while being pregnant?”
+        </span> you tell her, before bowing your head. 
+        <span class="femaleSpeech">
+            “Man, I'm losing my game…”
+        </span>
+    </p>
+
+    <p>
+        Maria attempts to gently pat your back and says, 
+        <span class="femaleSpeech1">
+            “There there… It wasn't exactly easy for me at all, since carrying <i>this</i> around was way more troublesome than I thought; in fact, I wouldn't have gone after you if not for dad over here.”
+        </span>
+    </p>
+
+    <p>
+        You raise your head up. 
+        <span class="femaleSpeech">
+            “Dad? Wait, do you mean Mr. Fert is your father?”
+        </span>
+    </p>
+
+    <p>
+        <span class="femaleSpeech1">
+            “Well, not by biologically, but yeah. I thought he'd have told you by now since you both were expecting me, right?”
+        </span> 
+        She turns back to Mr. Fert.
+        <span class="femaleSpeech1">
+            “…I didn't make a mistake, did I?”
+        </span> she says, her voice becoming much softer, as if a child admitting their fault.
+    </p>
+
+    <p>
+        Mr. Fert grins at his daughter and says, 
+        <span class="maleSpeech">
+            “There's no problem with that, sweetheart. I believe it was more appropriate for you to say it anyway.”
+        </span> 
+        You manage to hear a barely audible sigh of relief from her.
+    </p>
+
+    <p>
+        He pulls down a sleeve, exposing his classical-styled watch, and glances at the time. 
+        <span class="maleSpeech">
+            “Oh, it's already time to show you where you'll be staying for now. Maria, I'm sorry to cut our meeting short but I'll check in with you shortly. <<PC>>, lets get going.”
+        </span>
+    </p>
+
+    <p>
+        <span class="femaleSpeech1">
+            “O-okay, I'll wait…”
+        </span> Maria replies, idly rubbing her bump as you and Mr. Fert leave the office.
+    </p>
+
+    [[Leave the office|FertiloInc_Prologue_GettingToYourNewRoom]]
+
 <</ctp>>
