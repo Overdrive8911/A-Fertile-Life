@@ -1,9 +1,9 @@
-:: PlayerStat_Widgets [widget] {"position":"1100,400"}
-/* These widgets change a stat for the player */
+:: PlayerStat_Personality_Widgets [widget playerStats]
 
 /*  This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations
     Used as <<changePCPersonality "personality" value>>
     e.g <<changePCPersonality "caring" 2>>, <<changePCPersonality "apathy" -5>> */
+
 <<silently>>
     <<widget "changePCPersonality">>
         <<set _personality = _args[0]>>
@@ -67,12 +67,4 @@
                 /* Do nothing if personality doesn't match */
         <</switch>>
     <</widget>>
-<</silently>>
-
-/* This widget is used to change the relationship value between the player and another character
-    Used as <<changePCRelationship "character" value>>
-    e.g <<changePCRelationship "character" 10>>, <<changePCRelationship "character" -3>>  */
-/* TODO - Also add a widget that can add new relationships into the player object */    
-<<silently>>
-    
 <</silently>>
