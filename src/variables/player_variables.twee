@@ -194,9 +194,10 @@
             81 to 90 -> Cherished, 91 to 100 -> Forever Friends */
     relationships: [
         /* TODO - Add more and refine this or maybe use <<addPCRelationship>> and <<removePCRelationship>> to alter this instead of bloating up the object unnecessarily */
-        ["fertilo_guvala",     0],
-        ["cira_guvala",        0],
-        ["katie",              0],
-        ["marie",              0],
+        /* This is an array of unnamed objects meant to store the PC's relationship data */
+        {name: "Fertilo",   exp: 0},
+        {name: "Cira",      exp: 0},
+        {name: "Katie",     exp: 0},
+        {name: "Maria",     exp: 0},
     ],
 }>>
