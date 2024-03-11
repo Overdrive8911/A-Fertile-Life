@@ -1,0 +1,71 @@
+:: PlayerStat_Relationships_Widgets [widget playerStats]
+/* These widgets change a stat for the player */
+
+/* This widget is used to change the relationship value between the player and another character. If the relationship does not exist, it automatically adds it.
+    Used as <<changePCRelationship "character" value>>
+    e.g <<changePCRelationship "Fertilo" 10>>, <<changePCRelationship "Maria" -3>>  
+    NOTE: Only the character's first name is required */
+/* TODO - Also add a widget that can add new relationships into the player object */    
+<<silently>>
+    <<widget "changePCRelationship">>
+        <<set _character = _args[0]>>
+        <<set _value = _args[1]>>
+        <<set _characterIndex = 0>>
+
+        /* Make sure that the value is not out of bounds i.e lower than 0 or greater than 100 */
+        <<if _value < 0>>
+            <<set _value = 0>>
+            
+        <<elseif _value > 100>>
+            <<set _value = 100>>
+
+        <</if>>
+
+        /* Check if the relationship data for the character exists, if not, create it and set its value to 0 */
+        /* TODO - Add something to deal with inputting lowercase names in */
+        <<for _i, _member range $player.relationships>>
+            <<capture _i, _member>>
+                /* Save the index of the character to remove the need of another loop */
+                <<set _characterIndex = _i>>
+
+                <<if _member.name === _character>>
+                    <<set _doesCharacterExist = true>>
+                    <<break>>
+                <</if>>
+            <</capture>>
+        <</for>>
+        
+        /* Character doesn't exist so add a new entry */
+        <<if ndef _doesCharacterExist>>
+            <<set _tempRelationshipInfo = {name: _character, exp: 0}>>
+            <<run $player.relationships.push(_tempRelationshipInfo)>>
+            /* Since we're adding a new object to the array, increment the index by 1 */
+            <<set _characterIndex += 1>>
+        <</if>>
+
+        /* Alter the relationship stat */
+        <<set $player.relationships[_characterIndex].exp += _value>>
+    <</widget>>
+<</silently>>
+
+
+/* This widget is used to get the relationship value between the player and another character. If the relationship does not exist, it returns undefined.
+    Used as <<getPCRelationshipLevel "character">>
+    e.g <<getPCRelationshipLevel "Fertilo">>
+    NOTE: Only the character's first name is required */
+    /* TODO - MACROS AND FUNCTIONS CANNOT RETURN VALUES, MOVE THIS TO A JAVASCRIPT FUNCTION */
+/* <<silently>>
+    <<widget "getPCRelationshipLevel">>
+        <<set _character = _args[0]>>
+
+        <<for _member range $player.relationships>>
+            <<capture _member>>
+                <<if _member.name === _character>>
+                    
+                <</if>>
+            <</capture>>
+        <</for>>
+    <</widget>>
+<</silently>> */
+
+/*NOTE - I honestly doubt there's a need for adding a way to remove relationships since no character I'd add would be removed from the game or smth like that */
