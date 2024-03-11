@@ -25,3 +25,19 @@ sugarcube-2:
           ```
       parameters:
         - text &+ number
+    changePCRelationship:
+      name: changePCRelationship
+      description: |-
+        This widget is used to change the relationship value between the player and another character. If the relationship does not exist, it automatically adds it.
+
+        Usage:
+          ```
+          <<changePCRelationship "character" value>>
+
+          Where "character" is the required character's relationship value to change found in $player.relationships and "value" is the number to increase or reduce it by.
+
+          e.g
+          <<changePCRelationship "Fertilo" 7>>
+          ```
+      parameters:
+        - text &+ number
