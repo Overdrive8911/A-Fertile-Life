@@ -105,7 +105,7 @@
     
     /* Just normal continuation of the passage  */
     <p>
-        Maria blushes/*REVIEW - 🤷‍♀️ Rewrite this*/ a bit and shakes your hand. She glances over at Mr. Fert — who gives a knowing nod — and turns back to face you before replying, 
+        Maria's face flushes/*REVIEW - 🤷‍♀️ Rewrite this*/ a bit and shakes your hand. She glances over at Mr. Fert — who gives a knowing nod — and turns back to face you before replying, 
         <span class="femaleSpeech1">
             “Well, about that… I <i>am</i> her.”
         </span>
@@ -180,7 +180,7 @@
     <p>
         He pulls down a sleeve, exposing his classical-styled watch, and glances at the time. 
         <span class="maleSpeech">
-            “Oh, it's already time to show you where you'll be staying for now. Maria, I'm sorry to cut our meeting short but I'll check in with you shortly. <<PC>>, lets get going.”
+            “Oh. It's already time to show you where you'll be staying for now. Maria, I'm sorry to cut our meeting short but I'll check in with you shortly. <<PC>>, lets get going.”
         </span>
     </p>
 
