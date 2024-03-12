@@ -1,0 +1,56 @@
+/* Used to denote when a female is speaking. The first one is the default used whenever the PC talks. */
+.femaleSpeech {
+    color: hsl(351, 100%, 90%);
+}
+
+.femaleSpeech1 {
+    color: hsl(351, 100%, 85%);
+}
+
+.femaleSpeech2 {
+    color: hsl(350, 100%, 80%);
+}
+
+
+/* Used to denote when a man is speaking. The first one is used for Mr. Fertilo */
+.maleSpeech {
+    color: hsl(195, 100%, 68%);
+}
+
+.maleSpeech1 {
+    color: hsl(195, 100%, 62%);
+}
+
+.maleSpeech2 {
+    color: hsl(195, 100%, 73%);
+}
+
+
+/* Used to denote when an important observation is made, the speaker or their gender is unknown */
+.otherSpeech {
+    color: hsl(120, 100%, 80%);
+}
+
+/* Define a glowing animation for .hintText */
+/* TODO - Use a var to make this more adjustable */
+/*NOTE - Doesn't do anything now */
+@keyframes glowingGreenText {
+    0% {
+        text-shadow: 0 0 10px hsl(98, 100%, 82%);
+    }
+
+    50% {
+        text-shadow: 0 0 15px hsl(96, 100%, 50%);
+    }
+
+    100% {
+        text-shadow: 0 0 10px hsl(98, 100%, 82%);
+    }
+}
+
+/* Like ".otherSpeech" but is used to denote hints and faintly glows */
+.hintText {
+    color: hsl(120, 100%, 88%);
+    text-shadow: 0 0 7px hsl(85, 70%, 72%);
+    /* animation: glowingGreenText 1.5s infinite; No glowing for now since a simple text shadow suffices */
+}
