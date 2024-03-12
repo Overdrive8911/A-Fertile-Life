@@ -1,6 +1,6 @@
 :: FertiloInc_Prologue_MeetTheDoctor [prologue] {"position":"600,150"}
 <p>
-    You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, climb an elevator and reach the doctor's office. You don't encounter much of the staff, but the few you do see were all pregnant; some even more than Katie but strangely unfazed by their gravidity. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
+    You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, ride an elevator, as well as a couple of escalators until you finally reach the doctor's office. You don't encounter much of the staff, but the majority of the few you do see were all pregnant; some even more than Katie but strangely unfazed by their gravidity/* Maybe I can use "condition" instead of "gravidity" */. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
 </p>
 
 <p>
@@ -73,7 +73,7 @@
 
 <p>
     <span class="maleSpeech">
-        Alright, my name is Mr. Fertilo Guvala, the head doctor and owner of Fertilo Inc, but most people call me Dr. Fert. As for why I reached out to you...”
+        Alright. My name is Mr. Fertilo Guvala, the head doctor and owner of Fertilo Inc, but most people call me Dr. Fert. As for why I reached out to you...”
     </span> 
     He clears his throat and continues, 
     <span class="maleSpeech">
