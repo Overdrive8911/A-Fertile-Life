@@ -11,11 +11,13 @@
             /* Split the player name into separate words (if its more than 1 word e.g Peizhu Noshihamite) */
             _name = $player.name.split(" ");
 
+            _name = _name[0];
+
             /* e.g ["Peizhu", "Noshihamite"] */
-            if (_name.length > 1)
-            {
-                _name = _name.name[0];
-            }
+            /*if (_name.length > 1)   /* I doubt this check is necessary atm */
+            /*{
+                _name = _name[0];
+            }*/
         >>
 
         <span class="playerName">_name</span>
