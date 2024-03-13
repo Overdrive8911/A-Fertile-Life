@@ -27,7 +27,7 @@
 </p>
 
 <p>
-    He's a young man, barely in his thirties, with dark ebony skin that contrasts against his emerald-green gaze; it almost feels like he's scanning every part of you with his eyes. A name card pinned to his white doctor coat shows you his name, Dr. Fertilo. 
+    He's a young-looking man, probably entering his thirties, with dark ebony skin that contrasts against his emerald-green gaze; it almost feels like he's scanning every part of you with them. His black shoulder-length hair gently sways in the wind; although that's likely due to the standing fan facing his desk . A name card pinned to his white doctor coat shows you his name, Dr. Fertilo. 
 </p>
 
 <p>
@@ -42,7 +42,7 @@
         “I shouldn't be surprised you know my name already, with everything else you sent in that letter,”
     </span> you tell him just as he finishes, but quickly end it once you notice that it's not the ideal way to start. 
     <span class="femaleSpeech">
-        “<i>Er hem,</i> What I wanted to say was, how? How did you find out about me and my situation? Why are you looking for me? I'm definitely sure I wasn't on the news after the accident.”
+        “<i>Ahem.</i> What I wanted to say was, how? How did you find out about me and my situation? Why are you looking for me? I'm definitely sure I wasn't on the news after the accident.”
     </span>
 </p>
 
@@ -73,7 +73,11 @@
 
 <p>
     <span class="maleSpeech">
-        Alright. My name is Mr. Fertilo Guvala, the head doctor and owner of Fertilo Inc, but most people call me Dr. Fert. As for why I reached out to you...”
+        Alright. My name is Mr. 
+        <span class="otherSpeech">
+            Fertilo 
+        </span>
+        Guvala, the head doctor and owner of Fertilo Inc, but most people call me Dr. Fert. As for why I reached out to you...”
     </span> 
     He clears his throat and continues, 
     <span class="maleSpeech">
@@ -290,7 +294,11 @@
         
         <div class="maleSpeech">
             <p>
-                “I understand, you'd prefer a fellow woman who's also experiencing something similar. My wife's name is Cira, Cira Guvala, and she's in charge of the nursery division. As you know by now, she also has hyper-fertility but unlike me, she <i>indulges</i> in it. I can't disclose more of her details unless she's okay with it, but you could look for her later; I'm sure she'd be glad to meet you.
+                “I understand, you'd prefer a fellow woman who's also experiencing something similar. My wife's name is 
+                <span class="otherSpeech">
+                    Cira
+                </span>
+                , Cira Guvala, and she's in charge of the nursery division. As you know by now, she also has hyper-fertility but unlike me, she <i>indulges</i> in it. I can't disclose more of her details unless she's okay with it, but you could look for her later; I'm sure she'd be glad to meet you.
             </p>
 
             <p>        
