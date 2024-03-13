@@ -19,6 +19,7 @@ These are just the default/canon information about the player at the start.
 - Height:
 - Weight:
 - Hairstyle:
+- Hair color:
 - Skin color:
 - Eye color:
 - Voice:

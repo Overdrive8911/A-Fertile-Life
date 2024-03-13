@@ -17,6 +17,7 @@
 - Height:                       165cm
 - Weight:                       52kg
 - Hairstyle:
+- Hair color:
 - Skin color:                   Auburn-brown
 - Eye color:                    Black
 - Voice:                        Somewhat high pitched
@@ -46,7 +47,7 @@
 ## Mentality and Character
 
 - Mental Age:                   20
-- Personality/Emotions:         Shy, Likes quietness, Clumsy but oddly competent, Introvert
+- Personality/Emotions:         Shy, Likes quietness, Clumsy but oddly competent, Introvert, Self-doubting
 - Ambitions:                    To properly repay her adopted parent's kindness
 - Fantasies:
 - Fears:                        Spiders
