@@ -17,6 +17,7 @@
 - Height:
 - Weight:
 - Hairstyle:
+- Hair color:
 - Skin color:
 - Eye color:
 - Voice:
