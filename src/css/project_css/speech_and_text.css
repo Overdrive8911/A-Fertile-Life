@@ -54,3 +54,8 @@
     text-shadow: 0 0 7px hsl(85, 70%, 72%);
     /* animation: glowingGreenText 1.5s infinite; No glowing for now since a simple text shadow suffices */
 }
+
+/* Used to highlight the player's name. Simple enough? :D */
+.playerName {
+    color: hsl(120, 65%, 55%);
+}
