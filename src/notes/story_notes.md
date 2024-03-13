@@ -5,10 +5,10 @@
 
 ## PC
 
-- The PC's canon and default name is Peizhu Noshihamite. /* TODO - Fix this awful name */
+- The PC's canon and default name is Peizhu Noshihamite. /*TODO - Fix this awful name*/
 - Age: almost 26 years old.
 - Birth designation is #0662.
-- Her first set of parents believed her to be biologically theirs since she was swapped with their still-birth early enough in a hospital. They eventually died in a car accident when she was 14 (visually) and then adopted properly later. /*REVIEW - This needs rewriting */ Her adopted parents were abusive individuals that died with her documents in a fire.
+- Her first set of parents believed her to be biologically theirs since she was swapped with their still-birth early enough in a hospital. They eventually died in a car accident when she was 14 (visually) and then adopted properly later. /*REVIEW - This needs rewriting*/ Her adopted parents were abusive individuals that died with her documents in a fire.
 - Genetically Asian. (Although, she represents multiple Asian heritages simultaneously)
 - Peizhu formerly worked in a warehouse.
 - Peizhu's long time neighbor is a spy that works for Mr. Fert; her name is Maria.
@@ -22,6 +22,7 @@
 - Fertilo Inc and its branches are usually situated in decrepit areas in order to reach more people in need (and the fact that poorer people are more desperate :D).
 - Most of the staff is female and a great portion of them serve as surrogates.
 - The benefits of being a surrogate include free housing, food, extra salary and free access to the facilities but surrogates are not allowed to leave the premises without permission.
+- There are about 10 floors with the highest used solely for administrative purposes only. Mr. Fert's office is here however it's significantly moved away from the other offices.
 
 ## Dr. Fertilo
 
@@ -29,6 +30,7 @@
 - Birth designation is #0546.
 - Full name is Fertilo Guvala.
 - Age: 28 years old
+- Has a private elevator at Fertilo Inc with a neon green interface that requires him to type in a code.
 
 ## Cira
 

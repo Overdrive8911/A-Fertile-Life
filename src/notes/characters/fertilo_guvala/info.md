@@ -16,7 +16,8 @@
 - Physical Age:     28
 - Height:           195 cm
 - Weight:           85 kg
-- Hairstyle:        Shaved
+- Hairstyle:        Shoulder Length
+- Hair color:       Black
 - Skin color:       Dark Ebony
 - Eye color:        Green
 - Voice:            Calm and Calculated
