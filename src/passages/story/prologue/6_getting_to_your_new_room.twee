@@ -1,6 +1,6 @@
 :: FertiloInc_Prologue_GettingToYourNewRoom [prologue]
 <p>
-    Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, and practically drags /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
+    Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, practically dragging /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
 </p>
 
 <p>
@@ -17,7 +17,7 @@
 </p>
 
 <p>
-    Inside the elevator, you see that a neon green screen in place of the normal buttons used to navigate to different floors. It's currently showing a "7" on it. 
+    Inside the elevator, you see a neon green screen in place of the normal buttons used to navigate to different floors. It's currently showing a "10" on it. 
     <span class="femaleSpeech">
         <i>Hmph, that's new.</i> /* REVIEW - Maybe, I should use "different" over "new" */
     </span>
@@ -25,17 +25,142 @@
 </p>
 
 <p>
-    The number on the screen slowly drops to as the lift passes through the floors, going from "7" to "6", then "5", and so on. Simultaneously, the speakers spring to life and blare/*REVIEW - Maybe "blare" isn't the right word here */ the awfully monotonous sound known as elevator "music". Mr. Fert sighs into his palm and says,
+    The number on the screen slowly drops to as the lift passes through the floors, going from "10" to "9", then "8", and so on. Simultaneously, the speakers spring to life and blare/*REVIEW - Maybe "blare" isn't the right word here */ the awfully monotonous sound known as elevator "music". Mr. Fert sighs into his palm and says,
     <span class="maleSpeech">
-        “/*Ugh, */I thought I told her to change the playlist, last Monday… I really need to address these type of things personally.” 
+        “/*Ugh, */I thought I told her to change the playlist last Monday… I really need to address these type of things personally.” 
     </span>
 </p>
 
 <p>
-    His comment is — alongside the occasional whistle /*REVIEW - feels like the grammar here could be better */ — most of the interaction you get, and the atmosphere quickly dulls into silence afterwards; as much as it can, with that annoying jingle playing in the background. Your bored eyes dart around for anything interesting amongst the grey walls that confine you. The green interface from before was intriguing at first, but your fascination in it has since dwindled.
+    His comment — alongside the occasional whistle /*REVIEW - feels like the grammar here could be better */ — is most of the interaction you get, and the atmosphere quickly dulls into silence afterwards; as much as it can, with that annoying jingle playing in the background. Your bored eyes dart around for anything interesting amongst the beige walls that confine you. The green interface from earlier was intriguing at first, but your fascination in it has since dwindled.
 </p>
 
 <p>
-    What, eventually, does manage to grab your attention is the doctor himself. A few quick, stealthy glances confirm that he's pretty tall; around a foot more than you. The combination of his impressively neat white coat and sleek/*, crisp */ black trousers give him the <i>perfect</i> "medical practitioner/* REVIEW - I might as well just use "doctor" here */ look". He's even got the stethoscope; all he needs is a clipboard to complete it.
+    What, eventually, does manage to grab your attention is the doctor himself. A few stealthy, side glances confirm that he's pretty tall; around a foot more than you. The combination of his impressively neat white coat and sleek/*, crisp */ black trousers give him the <i>perfect</i> "medical practitioner/* REVIEW - I might as well just use "doctor" here */ look". He's even got the stethoscope and all; just add a clipboard, and it'll be complete.
 </p>
 
+<p>
+    You're about to take note of his relatively-average looking hairstyle, when he finally turns to face you, his incisive emerald eyes catching you in the act. Mr. Fert smiles and chuckles/*REVIEW - "smiles and chuckles" feels repetitive */ /*with mirth*/ at the silly face you inadvertently made when trying to sneak a look at him. 
+    <span class="maleSpeech">
+        “Cira says I'm pretty handsome but I never assumed/*REVIEW - I think there's a tense error */ I was <i>that</i> eye-catching.”
+    </span>
+</p>
+
+<<ctp FertiloInc_Prologue_GettingToYourNewRoom_ctpId_1>>
+    <<link "Smile awkwardly">>
+        <<set _playerSmiledAwkwardly = true>>
+        <<ctpAdvance FertiloInc_Prologue_GettingToYourNewRoom_ctpId_1>>
+    <</link>>
+    <br>
+    <<link "Turn your face">>
+        <<set _playerTurnedFace = true>>
+        <<ctpAdvance FertiloInc_Prologue_GettingToYourNewRoom_ctpId_1>>
+    <</link>>
+
+<<ctpNext clear>>
+    <<if _playerSmiledAwkwardly>>
+        <p>
+            Your face reddens and you have no idea what to say; only mumbles of what might be an explanation manage to leave your lips. You quickly attempt to give a makeshift reason but end up stammering before you even speak. In embarrassment, you shut up and force an awkward smile, preferring not to worsen your situation.
+        </p>
+    <<elseif _playerTurnedFace>>
+        <p>
+            Your face goes flush and, instinctively, you quickly face the other way. Occasionally, mumbles of what might be an explanation can be heard from you, however, you refuse to face the doctor for what feels like hours until the elevator eventually stops.
+        </p>
+    <</if>>
+
+    <<linkreplace "Wait this out.">>
+        <<if _playerSmiledAwkwardly>>
+            <p>
+                With nothing left to lose, you decide to use the timeless technique of simply ignoring your problems and remaining in silence for what feels like hours.
+            </p>
+        <</if>>
+
+        <<ctpAdvance FertiloInc_Prologue_GettingToYourNewRoom_ctpId_1>>
+    <</linkreplace>>
+
+<<ctpNext>>
+    /* IGNORE THIS COMMENT
+        I'm using inline here since I doubt I'm changing this later and it should be plenty flexible rn
+        Also, the bottom padding here just makes it look nicer imo */
+    <p>/* style="font-size: 2em; padding-bottom: 0.25lh">*/
+        /* Do a "..." with delays after each "." */
+        /*TODO - Find a way to make the page auto scroll to the bottom once the first dot appears */
+        <<timed 3s t8n>>
+            .
+
+            <<next 2s>>
+                .
+
+                <<next 2.5s>>
+                    .
+
+                    <<next 1.75s>>
+                        <<ctpAdvance FertiloInc_Prologue_GettingToYourNewRoom_ctpId_1>>
+
+        <</timed>>
+    </p>
+
+<<ctpNext t8n>>
+    <p>
+        /* TODO - Play an elevator "ding" sound here */
+        <span class="otherSpeech">
+            <i>Ding!</i> 
+        </span>
+        The elevator rings out as an automated voice says that it's safe to exit the lift; the green interface now displaying a "G". You sigh in relief as the ecru door slides open. The ride down felt much longer than you wanted it to be, when in reality, it was just shy of a minute.
+    </p>
+
+    <p>
+        Mr. Fert walks out first and tells you, 
+        <span class="maleSpeech">
+            “We're pretty close now, it's right around the corner,” 
+        </span> as if nothing happened earlier… 
+        /*And sure enough, it is, because */After a short while of walking, the both of you make it to a short, cul-de-sac/*REVIEW - Maybe "cul-de-sac" isn't required here. FYI, it means the hallway has a dead end */ hallway lined with sleek, sliding doors on either side. Each one having a neon green interface beside it, just like the elevator's, except most are powered down/* REVIEW - Could be "switched off" instead*/.
+    </p>
+
+    <p>
+        The doctor takes you to a particular door close to the entrance of the hallway. Upon closer observation, you see that its green panel is powered up and has your first name, <<PC>>, glowing in a steady virid colour. 
+        <span class="maleSpeech">
+            “Yup, it's yours, but you probably guessed that already,” 
+        </span>
+        he says, when he notices you looking at the screen. 
+        <span class="maleSpeech">
+            “Let me show you around the pla—”
+        </span>
+    </p>
+
+    [[Next->FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave]]
+
+<</ctp>>
+
+
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave
+<p>
+    /* TODO - Add the sound of a ringing phone here */
+    <span class="otherSpeech">
+        <i>Ring-ring.</i> 
+    </span>
+    Mr. Fert quickly pulls out a phone from his coat pocket and answers the call. 
+    <span class="maleSpeech">
+        /*NOTE - This is the patient that the player will see Mr. Fert dealing with the next day */
+        /*TODO - Add a screen sake and give a different style to the text "What?" */
+        “Ms Annalisa, I'm quite busy with a guest now but I'll be back in 15 minutes… Huh… What?… A grade III high risk mother? I'll be there in a moment!”
+    </span>
+</p>
+
+<p>
+    The calls ends and the doctor pockets his phone. He sighs, looking obviously disappointed, and says, 
+    <span class="maleSpeech">
+        “And here I was, hopeful to introduce you to the new features I personally added… /*Unfortunately, my presence is urgently needed elsewhere…*/ Looks like I'll leave you to experiment with your room, it shouldn't be too difficult to get a general feel of it. For starters, you simply need to let the device scan your fingerprint and the door will open.”
+    </span>
+</p>
+
+<p>
+    He prepares to leave the hallway but stops right before he goes. 
+    <span class="maleSpeech">
+        “It's getting late, so make sure to get something from the 
+        <span class="hintText">
+            meal dispenser 
+        </span>
+        I installed before heading to bed. Tomorrow will be quite the busy day for you.” 
+    </span>
+</p>
