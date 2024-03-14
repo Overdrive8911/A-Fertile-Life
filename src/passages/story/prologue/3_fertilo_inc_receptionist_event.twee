@@ -89,7 +89,7 @@
             You turn to the building behind, it's exactly how the letter described it; a massive hospital painted white and green, its most obvious feature is the large green logo of an expecting mother cradling her belly, underneath which, is the name of the hospital; Fertilo Inc. The odd thing about it though is the neighbourhood it's situated in; poorly lit streets, rundown houses covered in graffiti and an atmosphere that reeks of neglect and disrepair; causing it to stick out like a sore thumb.
         </p>
         
-        [[Go in.|Prologue_ArrivedAtFertiloInc_1]]
+        [[Go in.->Prologue_ArrivedAtFertiloInc_1]]
     <</timed>>
 
 <</ctp>>
@@ -225,7 +225,7 @@
 
 <p>
     <span class="femaleSpeech1">
-    “Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?|FertiloInc_CharacterCreation]]”</span>
+    “Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?->FertiloInc_CharacterCreation]]”</span>
 </p>
 
 
@@ -452,7 +452,7 @@
         </span>
     </p>
     
-    [[Put On Your Clothes|FertiloInc_CharacterCreation_DoneWithMeasurements]]
+    [[Put On Your Clothes->FertiloInc_CharacterCreation_DoneWithMeasurements]]
 <</ctp>>
 
 
@@ -480,4 +480,4 @@
     </span>
 </p>
 
-[[Follow the directions|FertiloInc_Prologue_MeetTheDoctor]]
+[[Follow the directions->FertiloInc_Prologue_MeetTheDoctor]]
