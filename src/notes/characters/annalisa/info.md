@@ -2,9 +2,9 @@
 
 ## Regular Stuff
 
-- Name:
+- Name:                     Annalisa Turcotte
 - Alias (if any):
-- Job:
+- Job:                      Personal secretary to Mr. Fertilo Guvala
 - Age:
 - Alignment:
 - Born:
