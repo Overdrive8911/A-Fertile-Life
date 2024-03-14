@@ -34,6 +34,7 @@
 
 <br>
 
+/* TODO - Add the background of a folded letter to this div */
 <div class="otherSpeech">
     <p>
         “Good day, Miss, I would like to first apologize for all that is happening to you now. Ever since the <i>incident</i>, your life has been unexpectedly—well, expectedly—more inconvenient to put it lightly.
@@ -92,7 +93,7 @@
     <span class="femaleSpeech">
         <i>Better than nothing.</i>
     </span> 
-    For now, you'll try to get some [[sleep|Prologue_WakeUpAndBrushTeeth]].
+    For now, you'll try to get some [[sleep->Prologue_WakeUpAndBrushTeeth]].
 </p>
 
 :: Prologue_WakeUpAndBrushTeeth [prologue] {"position":"150,25"}
@@ -120,7 +121,7 @@ The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
     </span> 
     You sigh and spit into the sink. 
     <span class="femaleSpeech">
-        <i>I'll just figure it out, [[later|Prologue_DressedAndEnteringBus]] once my brain fog clears.</i>
+        <i>I'll just figure it out, [[later->Prologue_DressedAndEnteringBus]] once my brain fog clears.</i>
     </span>
 </p>
 
