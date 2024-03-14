@@ -1,4 +1,4 @@
-:: PlayerStat_Personality_Widgets [widget playerStats]
+:: PlayerStat_Personality_Widgets [widget playerStats] {"position":"1300,500"}
 
 /*  This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations
     Used as <<changePCPersonality "personality" value>>
