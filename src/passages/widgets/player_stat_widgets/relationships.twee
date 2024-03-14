@@ -1,4 +1,4 @@
-:: PlayerStat_Relationships_Widgets [widget playerStats]
+:: PlayerStat_Relationships_Widgets [widget playerStats] {"position":"1300,400"}
 /* These widgets change a stat for the player */
 
 /* This widget is used to change the relationship value between the player and another character. If the relationship does not exist, it automatically adds it.
