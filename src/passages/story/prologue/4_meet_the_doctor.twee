@@ -103,7 +103,7 @@
     “No! I can't accept this. I won't accept this. It isn't real. I didn't lose my only job. I didn't have that dream earlier. I don't have any dumb tattoo on my belly.”
 </p>
 
-[[I just can't-|FertiloInc_Prologue_InfoDump]]
+[[I just can't-->FertiloInc_Prologue_InfoDump]]
 
 <</ctp>>
 
@@ -207,7 +207,7 @@
     </span>
 </p>
 
-[[Next|FertiloInc_Prologue_InfoDump1]]
+[[Next->FertiloInc_Prologue_InfoDump1]]
 
 
 :: FertiloInc_Prologue_InfoDump1 [prologue] {"position":"600,575"}
@@ -745,7 +745,7 @@
     <</replace>>
 <</link>>
 <br>
-<<link [[No question|FertiloInc_Prologue_MeetMaria]]>>
+<<link [[No question->FertiloInc_Prologue_MeetMaria]]>>
     <<if _tempPCenthusiasm == 1>>
         <<changePCPersonality "enthusiasm" 5>>
     <<elseif _tempPCapathy == 1>>
