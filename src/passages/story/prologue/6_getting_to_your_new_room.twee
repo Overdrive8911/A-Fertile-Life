@@ -118,7 +118,7 @@
     </p>
 
     <p>
-        The doctor takes you to a particular door close to the entrance of the hallway. Upon closer observation, you see that its green panel is powered up and has your first name, <<PC>>, glowing in a steady virid colour. 
+        The doctor takes you to a particular door close to the entrance of the hallway. Upon closer observation, you see that its green panel is powered up and has your first name, <<PC>>, glowing in a steady virid colour, as well as a fingerprint icon just below it. 
         <span class="maleSpeech">
             “Yup, it's yours, but you probably guessed that already,” 
         </span>
@@ -133,7 +133,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave {"position":"100,600"}
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave {"position":"50,550"}
 <p>
     /* TODO - Add the sound of a ringing phone here */
     <span class="otherSpeech">
@@ -143,7 +143,7 @@
     <span class="maleSpeech">
         /*NOTE - This is the patient that the player will see Mr. Fert dealing with the next day */
         /*TODO - Add a screen sake and give a different style to the text "What?" */
-        “Ms Annalisa, I'm quite busy with a guest now but I'll be back in 15 minutes… Huh… What?… A grade III high risk mother? I'll be there in a moment!”
+        “Ms Annalisa, I'm quite busy with a special guest now but I'll be back in 15 minutes… Huh… What?… A grade III high risk mother? I'll be there in a moment!”
     </span>
 </p>
 
@@ -159,8 +159,22 @@
     <span class="maleSpeech">
         “It's getting late, so make sure to get something from the 
         <span class="hintText">
-            meal dispenser 
+            /*meal dispenser*/fridge 
         </span>
-        I installed before heading to bed. Tomorrow will be quite the busy day for you.” 
-    </span>
+        I stocked up in advance, before heading to bed. Tomorrow will be quite the busy day for you,”
+    </span> he tells you before finally leaving. You hear the sounds of an elevator getting boarded shortly after.
 </p>
+
+<p>
+    <span class="femaleSpeech">
+        <i>Well then, this shouldn't be too hard.</i> 
+    </span>
+    You take out your hand and place a finger on the interface. It vibrates in response, causing you to remove the appendage, before a smiling face appears on the panel and welcomes you in by sliding the door open.
+</p>
+
+[[Enter->FertiloInc_Prologue_EnteredYourRoom]]
+
+
+:: FertiloInc_Prologue_EnteredYourRoom {"position":"175,725"}
+
+<<set $displayNewUI = true>>
