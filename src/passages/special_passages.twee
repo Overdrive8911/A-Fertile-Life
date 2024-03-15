@@ -1,0 +1,43 @@
+:: StoryInterface
+<!-- https://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinterface --> 
+<!-- take note of 'data-init-passage' and 'data-passage' --> 
+<div id="interface">
+    <div id="menu" data-init-passage="menu"></div>
+    <div id="notifications" data-passage="notifications"></div>
+
+    <!-- Top UI bar containing save/settings and stat bars -->
+    <div id="ui-top-bar">
+        <!-- Save, Settings, Restart, Report Bugs -->
+        <!-- TODO - Change the name if this id -->
+        <div id="ui-settings-buttons">
+            <!-- Save -->
+            <div id="ui-settings-button-save">Saves</div>
+            <!-- Settings -->
+            <div id="ui-settings-button-settings">Settings</div>
+            <!-- Restart -->
+            <div id="ui-settings-button-restart">Restart</div>
+            <!-- Report Bugs -->
+            <div id="ui-settings-button-report-bugs">Report Bugs</div>
+        </div>
+
+        <div id="ui-stat-bars">
+            <div id="ui-stat-bar-hp">HP: 100</div>
+            <div id="ui-stat-bar-energy">ENG: 100</div>
+            <div id="ui-stat-bar-mood">MOOD: 100</div>
+            <div id="ui-stat-bar-womb-hp">WMB HP: 100</div>
+            <div id="ui-stat-bar-womb-lvl">WMB LVL: 100</div>
+        </div>
+
+        <div id="ui-stat-resources">
+            <div id="ui-stat-resource-money">CASH: 2300</div>
+            <div id="ui-stat-resource-reputation">REP: 20</div>
+        </div>
+    </div>
+
+    <!-- Stays on the right -->
+    <div id="ui-side-bar"></div>
+
+    <!-- you must have one element with #id of 'passages' --> 
+    <div id="passages"></div>
+    <div id="" data-passage=""></div>
+</div>
