@@ -20,7 +20,7 @@
     position: fixed;
     background-color: grey;
 
-    font-size: 0.9em;
+    font-size: 0.95em;
 
     z-index: 1;
 }
@@ -30,40 +30,64 @@
     flex: 1;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
 
     border: 2px solid black;
 
-    &>div {
+    & [id|="ui-settings-button"] {
         border: 2px solid black;
         background-color: darkblue;
+
+        /* For now, don't allow the setting icons to grow */
+        flex: 0 1 auto;
     }
 
+    /* There's only one class with time under this so this won't cause me trouble rn */
+    &>[id*="time"] {
+        margin-left: 2em;
+    }
 }
 
 #ui-stat-bars {
     display: flex;
-    flex: 2.5;
+    flex: 2;
     align-items: center;
     justify-content: space-around;
 
     border: 2px solid black;
 
     /* Only include the stat bars themselves */
-    &>[id|="ui-stat-bar"] {
+    & [id|="ui-stat-bar"] {
         border: 2px solid black;
         background-color: darkblue;
+
+        /* For now, don't allow the stat bars to shrink or grow */
+        flex: 0 0 auto;
     }
+}
+
+/* Make them pairs of stat bars I selected arrange into a column */
+#ui-stat-bars-group {
+    display: flex;
+    /* flex: 1 1 auto; */
+    flex-direction: column;
+    justify-content: space-around;
+
+    height: 100%;
 }
 
 #ui-stat-resources {
     display: flex;
-    flex: 1;
+    flex: 0.7;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
 
     border: 2px solid black;
 
     &>[id|="ui-stat-resource"] {
+        flex: 0 1 auto;
+
         border: 2px solid black;
         background-color: darkblue;
     }
