@@ -5,9 +5,9 @@
     <div id="menu" data-init-passage="menu"></div>
     <div id="notifications" data-passage="notifications"></div>
 
-    <!-- Top UI bar containing save/settings and stat bars -->
+    <!-- Top UI bar containing save/settings/time and stat bars -->
     <div id="ui-top-bar">
-        <!-- Save, Settings, Restart, Report Bugs -->
+        <!-- Save, Settings, Restart, Report Bugs, Time -->
         <!-- TODO - Change the name if this id -->
         <div id="ui-settings-buttons">
             <!-- Save -->
@@ -18,14 +18,23 @@
             <div id="ui-settings-button-restart">Restart</div>
             <!-- Report Bugs -->
             <div id="ui-settings-button-report-bugs">Report Bugs</div>
+            <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
+            <div id="ui-settings-button-time">08:00 PM</div>
         </div>
 
         <div id="ui-stat-bars">
-            <div id="ui-stat-bar-hp">HP: 100</div>
-            <div id="ui-stat-bar-energy">ENG: 100</div>
+            <!-- I want the HP & ENG and WOMB HP & WOMB LVL to be grouped above each other like a pair -->
+            <div id="ui-stat-bars-group">
+                <div id="ui-stat-bar-hp">HP: 100</div>
+                <div id="ui-stat-bar-energy">ENG: 100</div>
+            </div>
+
             <div id="ui-stat-bar-mood">MOOD: 100</div>
-            <div id="ui-stat-bar-womb-hp">WMB HP: 100</div>
-            <div id="ui-stat-bar-womb-lvl">WMB LVL: 100</div>
+
+            <div id="ui-stat-bars-group">
+                <div id="ui-stat-bar-womb-hp">WMB HP: 100</div>
+                <div id="ui-stat-bar-womb-lvl">WMB LVL: 100</div>
+            </div>
         </div>
 
         <div id="ui-stat-resources">
