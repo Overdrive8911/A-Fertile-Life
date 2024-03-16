@@ -1,11 +1,12 @@
 /* Define variables */
 :root {
     --ui-top-bar-height: 2.8rem;
+    --ui-side-bar-width: 10vw;
 }
 
 #passages {
     max-width: 54em;
-    margin: 0 auto 2em max(18em, 50px);
+    margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw;
     position: relative;
     top: calc(var(--ui-top-bar-height) + 2em);
     padding-bottom: 2.5em;
