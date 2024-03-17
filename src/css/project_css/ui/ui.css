@@ -39,9 +39,9 @@
     &>[id*="time"] {
         flex: 0 3 auto;
 
-        border-right: 2px solid black;
+        /* border-right: 2px solid black;
         border-left: 2px solid black;
-        background-color: darkblue;
+        background-color: darkblue; */
 
         /* padding-left: 2em; */
     }
@@ -64,15 +64,15 @@
     justify-content: space-around;
     flex-wrap: wrap;
 
-    border: 2px solid black;
+    /* border: 2px solid black; */
 
     height: 100%;
 
     /* margin-left: 0.8em; */
 
     &>[id|="ui-settings-button"] {
-        border: 2px solid black;
-        background-color: darkblue;
+        /* border: 2px solid black;
+        background-color: darkblue; */
 
         /* For now, don't allow the setting icons to grow */
         flex: 0 1 auto;
@@ -86,16 +86,16 @@
     align-items: center;
     justify-content: space-evenly;
 
-    border-right: 2px solid black;
-    border-left: 2px solid black;
+    /* border-right: 2px solid black;
+    border-left: 2px solid black; */
 
     height: 100%;
     width: 100%;
 
     /* Only include the stat bars themselves */
     & [id|="ui-stat-bar"] {
-        border: 2px solid black;
-        background-color: darkblue;
+        /* border: 2px solid black;
+        background-color: darkblue; */
 
         /* For now, don't allow the stat bars to shrink or grow */
         flex: 0 0 auto;
@@ -128,7 +128,7 @@
     &>[id|="ui-stat-resource"] {
         flex: 0 1 auto;
 
-        border: 2px solid black;
-        background-color: darkblue;
+        /* border: 2px solid black;
+        background-color: darkblue; */
     }
 }
