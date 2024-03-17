@@ -1,0 +1,18 @@
+:: StoryInterface
+<!-- https://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinterface --> 
+<!-- take note of 'data-init-passage' and 'data-passage' --> 
+<!-- Note that most of these will have their contents filled in PassageDone -->
+<div id="interface">
+    <div id="menu" data-init-passage="menu"></div>
+    <div id="notifications" data-passage="notifications"></div>
+
+    <!-- The top UI bar is divided into 3 sections; left, middle and right -->
+    <div id="ui-top-bar" data-passage="uiPassage_top_bar"></div>
+
+    <!-- Stays on the right -->
+    <div id="ui-side-bar"></div>
+
+    <!-- you must have one element with #id of 'passages' --> 
+    <div id="passages"></div>
+    <div id="" data-passage=""></div>
+</div>
