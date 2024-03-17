@@ -1,1 +1,1 @@
-call tweego -t -w -l -o "export\A Fertile Life.html" src
+call tweego -t -w -l -o "export\(Debug)A Fertile Life.html" src
