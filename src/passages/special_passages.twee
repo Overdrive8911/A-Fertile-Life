@@ -28,13 +28,16 @@
 
         <div id="ui-top-bar-middle">
             <div id="ui-stat-bars">
-                <!-- I want the HP & ENG and WOMB HP & WOMB LVL to be grouped above each other like a pair -->
+                <!-- I want the HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL to be grouped above each other like a pair -->
                 <div id="ui-stat-bars-group">
                     <div id="ui-stat-bar-hp">HP: 100</div>
                     <div id="ui-stat-bar-energy">ENG: 100</div>
                 </div>
 
-                <div id="ui-stat-bar-mood">MOOD: 100</div>
+                <div id="ui-stat-bars-group">
+                    <div id="ui-stat-bar-mood">MOOD: 100</div>
+                    <div id="ui-stat-bar-hunger">HUNGER: 100</div>
+                </div>
 
                 <div id="ui-stat-bars-group">
                     <div id="ui-stat-bar-womb-hp">WMB HP: 100</div>
