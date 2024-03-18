@@ -1,0 +1,44 @@
+/*THis file is solely used to store the declaration of meters from Chapel's meter-macro */
+:: MeterDeclaration
+
+/* PC HP Bar */
+<<newmeter "pcHPBar" 1>>
+    <<colors green red>>
+    <<sizing 100%>>
+    <<label "HP:" white left>>
+<</newmeter>>
+
+/* PC Energy Bar */
+<<newmeter "pcEnergyBar" 1>>
+    <<colors blue red>>
+    <<sizing 100%>>
+    <<label "ENG:" white left>>
+<</newmeter>>
+
+/* PC Mood Bar */
+<<newmeter "pcMoodBar" 1>>
+    <<colors green yellow>>
+    <<sizing 100%>>
+    <<label "MOOD:" white left>>
+<</newmeter>>
+
+/* PC Hunger Bar */
+<<newmeter "pcHungerBar" 1>>
+    <<colors green red>>
+    <<sizing 100%>>
+    <<label "HUNGER:" white left>>
+<</newmeter>>
+
+/* PC Womb Lvl Bar */
+<<newmeter "pcWombLvlBar" 1>>
+    <<colors green red>>
+    <<sizing 100%>>
+    <<label "WOMB LVL:" white left>>
+<</newmeter>>
+
+/* PC Womb HP Bar */
+<<newmeter "pcWombHPBar" 1>>
+    <<colors green red>>
+    <<sizing 100%>>
+    <<label "WOMB HP:" white left>>
+<</newmeter>>
