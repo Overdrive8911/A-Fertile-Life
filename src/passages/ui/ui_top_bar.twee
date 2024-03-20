@@ -1,7 +1,8 @@
 :: uiPassage_top_bar
-<!-- Settings, saves, restart, etc icons and time -->
+<!-- Container for Settings, saves, restart, etc icons and time -->
 <div id="ui-top-bar-left">
     <!-- TODO - Change the name if this id -->
+    <!-- Container for everything above except time  -->
     <div id="ui-settings-buttons">
         <!-- Save -->
         <div id="ui-settings-button-save">Saves</div>
@@ -17,33 +18,64 @@
     <div id="ui-settings-button-time">08:00 PM</div>
 </div>
 
+<!-- Container for the middle section that contains the stat bars and their icons -->
 <div id="ui-top-bar-middle">
+    <!-- Container for all the stat bars and icons -->
     <div id="ui-stat-bars">
-        <!-- I want the HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL to be grouped above each other like a pair -->
-        <div id="ui-stat-bars-group">
-            <div id="ui-stat-bar-hp">
-                <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside of the bar by forcing the meter to be inline. The same goes for the rest */
+        <!-- Container for a pair of 2 stat bars, and their icons, to be grouped as a column i.e HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL  -->
+        <div class="ui-stat-bars-group">
+            <!-- Container for a single stat bar and its icon -->
+            <div class="ui-stat-bar-and-icon">
+                /*TODO - Turn these paths into a variable */
+                <img src="assets/img/ui/icons/heart.webp" alt="Health Icon">         /* Health icon */
+
+                <div id="ui-stat-bar-hp">
+                    <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside of the bar by forcing the meter to be inline. The same goes for the rest */
+                </div>
             </div>
-            <div id="ui-stat-bar-energy">
-                <<showmeter "pcEnergyBar">>
+            
+            <div class="ui-stat-bar-and-icon">
+                <img src="assets/img/ui/icons/energy.webp" alt="Energy Icon">
+
+                <div id="ui-stat-bar-energy">
+                    <<showmeter "pcEnergyBar">>
+                </div>
             </div>
         </div>
 
-        <div id="ui-stat-bars-group">
-            <div id="ui-stat-bar-mood">
-                <<showmeter "pcMoodBar">>
+        <div class="ui-stat-bars-group">
+            <div class="ui-stat-bar-and-icon">
+                <img src="assets/img/ui/icons/mood.webp" alt="Mood Icon">
+
+                <div id="ui-stat-bar-mood">
+                    <<showmeter "pcMoodBar">>
+                </div>
             </div>
-            <div id="ui-stat-bar-hunger">
-                <<showmeter "pcHungerBar">>
+
+            <div class="ui-stat-bar-and-icon">
+                <img src="assets/img/ui/icons/stomach.webp" alt="Stomach Icon">
+
+                <div id="ui-stat-bar-hunger">
+                    <<showmeter "pcHungerBar">>
+                </div>
             </div>
         </div>
 
-        <div id="ui-stat-bars-group">
-            <div id="ui-stat-bar-womb-hp">
-                <<showmeter "pcWombHPBar">>
+        <div class="ui-stat-bars-group">
+            <div class="ui-stat-bar-and-icon">
+                <img src="assets/img/ui/icons/uterus_hp.webp" alt="Womb HP Icon">
+
+                <div id="ui-stat-bar-womb-hp">
+                    <<showmeter "pcWombHPBar">>
+                </div>
             </div>
-            <div id="ui-stat-bar-womb-lvl">
-                <<showmeter "pcWombLvlBar">>
+
+            <div class="ui-stat-bar-and-icon">
+                <img src="assets/img/ui/icons/uterus_exp.webp" alt="Womb EXP Icon">
+
+                <div id="ui-stat-bar-womb-lvl">
+                    <<showmeter "pcWombLvlBar">>
+                </div>
             </div>
         </div>
     </div>
