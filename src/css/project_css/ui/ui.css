@@ -2,6 +2,7 @@
 :root {
     --ui-top-bar-height: 2.9rem;
     --ui-side-bar-width: 10vw;
+    --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
 }
 
 #passages {
@@ -29,17 +30,48 @@
 #ui-top-bar-left {
     display: flex;
     flex: 1 1 auto;
-    align-items: center;
-    justify-content: space-between;
+    /* This only meaningfully affects ui-settings-button-time-border-and-bg */
+    align-items: stretch;
+    /* justify-content: space-between; */
 
     &>div[id=ui-settings-buttons] {
         flex: 1 1 auto;
     }
 
-    &>[id*="time"] {
-        flex: 1 3 auto;
+    /* Target ui-settings-button-time-border-and-bg and give it a black bg and green border */
+    &>[id*="time-border"] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0.5 2 auto;
 
-        text-align: center;
+        background-color: black;
+        border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
+        box-sizing: border-box;
+
+        /* Never go beyond 30% of the space available in ui-top-bar-left */
+        max-width: 30%;
+
+        /* REVIEW - Might remove this, since the time only clips when you zoom in too much and the rest of the site is unreadable anyway */
+        overflow-y: auto;
+
+        /* padding-top: 1%; */
+        /* padding-bottom: 1%; */
+        /* height: var(--ui-top-bar-height); */
+
+        /* Target ui-settings-button-time */
+        &>[id*="time"] {
+            text-align: center;
+
+            font-family: DIGITAL-7-monospace, Courier, monospace;
+            font-style: italic;
+            /* font-size: 2em; */
+            font-size: calc(var(--ui-top-bar-height) * (56.04/100));
+
+            /* REVIEW - Make it glow like a digital clock */
+            color: var(--ui-top-bar-left-digital-clock-main-colour);
+            text-shadow: hsl(120, 100%, 17%) 3px 2px;
+        }
 
         /* border-right: 2px solid black;
         border-left: 2px solid black;
@@ -56,7 +88,7 @@
 
 #ui-top-bar-right {
     display: flex;
-    flex: 0.7 1.5 auto;
+    flex: 0 2 12%;
 }
 
 #ui-settings-buttons {
@@ -86,7 +118,7 @@
     display: flex;
     /* flex: 2; */
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 
     /* border-right: 2px solid black;
     border-left: 2px solid black; */
