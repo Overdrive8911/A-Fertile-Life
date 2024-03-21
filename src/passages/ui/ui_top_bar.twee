@@ -1,9 +1,10 @@
 :: uiPassage_top_bar
-<!-- Container for Settings, saves, restart, etc icons and time -->
+<!-- Container for inventory, settings, saves, restart, etc icons and time -->
 <div id="ui-top-bar-left">
     <!-- TODO - Change the name if this id -->
     <!-- Container for everything above except time  -->
     <div id="ui-settings-buttons">
+        <div id="ui-settings-button-inventory">Inventory</div>
         <!-- Save -->
         <div id="ui-settings-button-save">Saves</div>
         <!-- Settings -->
