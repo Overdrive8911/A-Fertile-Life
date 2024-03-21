@@ -29,17 +29,17 @@
                 /*TODO - Turn these paths into a variable */
                 <img src="assets/img/ui/icons/heart.webp" alt="Health Icon">         /* Health icon */
 
-                <div id="ui-stat-bar-hp">
-                    <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside of the bar by forcing the meter to be inline. The same goes for the rest */
-                </div>
+                <span id="ui-stat-bar-hp">
+                    <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                </span>
             </div>
             
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/energy.webp" alt="Energy Icon">
 
-                <div id="ui-stat-bar-energy">
+                <span id="ui-stat-bar-energy">
                     <<showmeter "pcEnergyBar">>
-                </div>
+                </span>
             </div>
         </div>
 
@@ -47,17 +47,17 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/mood.webp" alt="Mood Icon">
 
-                <div id="ui-stat-bar-mood">
+                <span id="ui-stat-bar-mood">
                     <<showmeter "pcMoodBar">>
-                </div>
+                </span>
             </div>
 
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/stomach.webp" alt="Stomach Icon">
 
-                <div id="ui-stat-bar-hunger">
+                <span id="ui-stat-bar-hunger">
                     <<showmeter "pcHungerBar">>
-                </div>
+                </span>
             </div>
         </div>
 
@@ -65,17 +65,17 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/uterus_hp.webp" alt="Womb HP Icon">
 
-                <div id="ui-stat-bar-womb-hp">
+                <span id="ui-stat-bar-womb-hp">
                     <<showmeter "pcWombHPBar">>
-                </div>
+                </span>
             </div>
 
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/uterus_exp.webp" alt="Womb EXP Icon">
 
-                <div id="ui-stat-bar-womb-lvl">
+                <span id="ui-stat-bar-womb-lvl">
                     <<showmeter "pcWombLvlBar">>
-                </div>
+                </span>
             </div>
         </div>
     </div>

@@ -98,10 +98,10 @@
         background-color: darkblue; */
 
         /* Make sure that the stat bars are inline */
-        /* display: inline !important; */
+        display: inline-block;
 
-        /* For now, don't allow the stat bars to shrink or grow */
-        flex: 0 0 auto;
+        /* Let the stat bars fill as much space as possible */
+        flex: 1 0 auto;
     }
 }
 
@@ -134,5 +134,18 @@
 
         /* border: 2px solid black;
         background-color: darkblue; */
+    }
+}
+
+.ui-stat-bar-and-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    /* Target the stat icons */
+    &> :first-child {
+        /* Give a slight gap between the icons and their stat bars */
+        margin-right: 0.3em;
+
     }
 }
