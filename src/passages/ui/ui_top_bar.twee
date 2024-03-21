@@ -14,9 +14,12 @@
         <!-- Report Bugs -->
         <div id="ui-settings-button-report-bugs">Report Bugs</div>
     </div>
-
-    <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
-    <div id="ui-settings-button-time">08:00 PM</div>
+    
+    <!-- This will be a black background wrapped in a double green border -->
+    <div id="ui-settings-button-time-border-and-bg">
+        <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
+        <div id="ui-settings-button-time">08:00 PM</div>
+    </div>
 </div>
 
 <!-- Container for the middle section that contains the stat bars and their icons -->
