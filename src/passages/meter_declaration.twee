@@ -5,40 +5,40 @@
 <<newmeter "pcHPBar" 1>>
     <<colors green red>>
     <<sizing 100%>>
-    <<label "HP:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
 
 /* PC Energy Bar */
 <<newmeter "pcEnergyBar" 1>>
     <<colors blue red>>
     <<sizing 100%>>
-    <<label "ENG:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
 
 /* PC Mood Bar */
 <<newmeter "pcMoodBar" 1>>
     <<colors green yellow>>
     <<sizing 100%>>
-    <<label "MOOD:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
 
 /* PC Hunger Bar */
 <<newmeter "pcHungerBar" 1>>
     <<colors green red>>
     <<sizing 100%>>
-    <<label "HUNGER:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
 
 /* PC Womb Lvl Bar */
 <<newmeter "pcWombLvlBar" 1>>
     <<colors green red>>
     <<sizing 100%>>
-    <<label "WOMB LVL:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
 
 /* PC Womb HP Bar */
 <<newmeter "pcWombHPBar" 1>>
     <<colors green red>>
     <<sizing 100%>>
-    <<label "WOMB HP:" white left>>
+    <<label "100" white left>>  /*NOTE - Placeholder, insert the right variable here */
 <</newmeter>>
