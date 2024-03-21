@@ -1,0 +1,22 @@
+/* For DIGITAL-7 */
+@font-face {
+    font-family: DIGITAL-7;
+    src: url(assets/fonts/digital-7/digital-7.ttf);
+}
+
+@font-face {
+    font-family: DIGITAL-7;
+    src: url(assets/fonts/digital-7/digital-7-italic.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: DIGITAL-7-monospace;
+    src: url(assets/fonts/digital-7/digital-7-mono.ttf);
+}
+
+@font-face {
+    font-family: DIGITAL-7-monospace;
+    src: url(assets/fonts/digital-7/digital-7-mono-italic.ttf);
+    font-style: italic;
+}
