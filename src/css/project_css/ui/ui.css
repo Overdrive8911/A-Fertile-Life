@@ -33,11 +33,13 @@
     justify-content: space-between;
 
     &>div[id=ui-settings-buttons] {
-        flex: 3 1 auto;
+        flex: 1 1 auto;
     }
 
     &>[id*="time"] {
-        flex: 0 3 auto;
+        flex: 1 3 auto;
+
+        text-align: center;
 
         /* border-right: 2px solid black;
         border-left: 2px solid black;
@@ -49,7 +51,7 @@
 
 #ui-top-bar-middle {
     display: flex;
-    flex: 2 1 auto;
+    flex: 3 1 auto;
 }
 
 #ui-top-bar-right {
