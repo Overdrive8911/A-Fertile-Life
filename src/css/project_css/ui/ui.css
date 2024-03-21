@@ -20,7 +20,9 @@
     width: 100%;
     height: var(--ui-top-bar-height);
     position: fixed;
-    background-color: grey;
+    background-color: hsl(0, 0%, 8%);
+
+    border-bottom: thin solid hsl(0, 0%, 90%);
 
     font-size: 0.8em;
 
@@ -48,6 +50,9 @@
         background-color: black;
         border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
         box-sizing: border-box;
+
+        height: 95%;
+        align-self: center;
 
         /* Never go beyond 30% of the space available in ui-top-bar-left */
         max-width: 30%;
