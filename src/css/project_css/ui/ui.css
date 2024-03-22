@@ -37,7 +37,7 @@
     /* justify-content: space-between; */
 
     &>div[id=ui-settings-buttons] {
-        flex: 1 1 auto;
+        flex: 2 1 auto;
     }
 
     /* Target ui-settings-button-time-border-and-bg and give it a black bg and green border */
@@ -45,7 +45,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        flex: 0.5 2 auto;
+        flex: 0.5 1 30%;
 
         background-color: black;
         border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
@@ -54,11 +54,12 @@
         height: 95%;
         align-self: center;
 
-        /* Never go beyond 30% of the space available in ui-top-bar-left */
-        max-width: 30%;
+        /* To prevent the time from overflowing */
+        min-width: fit-content;
 
-        /* REVIEW - Might remove this, since the time only clips when you zoom in too much and the rest of the site is unreadable anyway */
-        overflow-y: auto;
+        /* Adding padding at the sides makes it look better at smaller resolutions */
+        padding: 0 0.5em;
+
 
         /* padding-top: 1%; */
         /* padding-bottom: 1%; */
@@ -89,6 +90,9 @@
 #ui-top-bar-middle {
     display: flex;
     flex: 3 1 auto;
+
+    /* The middle bar must always consume at least 50% of the space in the top bar, so that the stat bars will have enough space to work with */
+    min-width: 50%;
 }
 
 #ui-top-bar-right {
@@ -149,10 +153,10 @@
     display: flex;
     /* flex: 1 1 auto; */
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
 
     height: 100%;
-    width: 30%;
+    width: 31%;
 }
 
 #ui-stat-resources {
