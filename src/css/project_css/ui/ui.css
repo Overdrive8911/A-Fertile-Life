@@ -7,7 +7,8 @@
 
 #passages {
     max-width: 54em;
-    margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw;
+    /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
+    margin: 0 auto auto auto;
     position: relative;
     top: calc(var(--ui-top-bar-height) + 2em);
     padding-bottom: 2.5em;
