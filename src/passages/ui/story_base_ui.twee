@@ -10,7 +10,7 @@
     <div id="ui-top-bar" data-passage="uiPassage_top_bar"></div>
 
     <!-- Stays on the right -->
-    <div id="ui-side-bar"></div>
+    <div id="ui-side-bar" data-passage="uiPassage_side_bar"></div>
 
     <!-- you must have one element with #id of 'passages' --> 
     <div id="passages"></div>

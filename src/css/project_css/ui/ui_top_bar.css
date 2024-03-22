@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-around;
 
-    width: 100%;
+    right: 0;
+    width: calc(100% - var(--ui-side-bar-width));
     height: var(--ui-top-bar-height);
     position: fixed;
     background-color: hsl(0, 0%, 8%);
