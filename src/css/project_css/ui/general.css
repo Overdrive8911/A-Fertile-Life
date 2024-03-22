@@ -1,0 +1,16 @@
+/* Define variables */
+:root {
+    --ui-top-bar-height: 2.9rem;
+    --ui-side-bar-width: 10vw;
+    --ui-bar-border-color: hsl(0, 0%, 85%);
+    --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
+}
+
+#passages {
+    max-width: 54em;
+    /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
+    margin: 0 auto auto auto;
+    position: relative;
+    top: calc(var(--ui-top-bar-height) + 2em);
+    padding-bottom: 2.5em;
+}
