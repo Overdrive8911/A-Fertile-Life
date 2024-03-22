@@ -96,8 +96,12 @@
 </div>
 
 <div id="ui-top-bar-right">
-    <div id="ui-stat-resources">
-        <div id="ui-stat-resource-money">CASH: 2300</div>
-        <div id="ui-stat-resource-reputation">REP: 20</div>
+    <div id="ui-stat-others">
+        <div id="ui-stat-others-money">
+            <img src="assets/img/ui/icons/money.webp" alt="Money Icon">: 2300
+        </div>
+        <div id="ui-stat-others-reputation">
+            <img src="assets/img/ui/icons/reputation.webp" alt="Reputation Icon">: 20%
+        </div>
     </div>
 </div>
