@@ -1,18 +1,28 @@
 :: uiPassage_top_bar
 <!-- Container for inventory, settings, saves, restart, etc icons and time -->
 <div id="ui-top-bar-left">
-    <!-- TODO - Change the name if this id -->
+    <!-- TODO - Change the name if this id. also consider adding the names of the icons right beneath the icons themselves or revealing the names via a hover popup -->
     <!-- Container for everything above except time  -->
     <div id="ui-settings-buttons">
-        <div id="ui-settings-button-inventory">Inventory</div>
+        <div id="ui-settings-button-inventory">
+            <img src="assets/img/ui/icons/purse_inventory.webp" alt="Inventory Button">
+        </div>
         <!-- Save -->
-        <div id="ui-settings-button-save">Saves</div>
+        <div id="ui-settings-button-save">
+            <img src="assets/img/ui/icons/save.webp" alt="Save Button">
+        </div>
         <!-- Settings -->
-        <div id="ui-settings-button-settings">Settings</div>
+        <div id="ui-settings-button-settings">
+            <img src="assets/img/ui/icons/settings.webp" alt="Settings Button">
+        </div>
         <!-- Restart -->
-        <div id="ui-settings-button-restart">Restart</div>
+        <div id="ui-settings-button-restart">
+            <img src="assets/img/ui/icons/restart.webp" alt="Restart Button">
+        </div>
         <!-- Report Bugs -->
-        <div id="ui-settings-button-report-bugs">Report Bugs</div>
+        <div id="ui-settings-button-report-bugs">
+            <img src="assets/img/ui/icons/bug_report.webp" alt="Bug Report Button">
+        </div>
     </div>
     
     <!-- This will be a black background wrapped in a double green border -->
