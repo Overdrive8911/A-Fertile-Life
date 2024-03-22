@@ -1,0 +1,9 @@
+#ui-side-bar {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: var(--ui-side-bar-width);
+    z-index: 1;
+
+    background-color: lightgrey;
+}
