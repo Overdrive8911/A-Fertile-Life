@@ -67,7 +67,10 @@
 
 #ui-top-bar-right {
     display: flex;
-    flex: 0 2 12%;
+    flex: 0 2 7%;
+
+    padding-right: 1%;
+    padding-left: 1%;
 
     min-width: fit-content;
 }
@@ -124,8 +127,11 @@
 
 #ui-stat-others {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+
+    overflow-y: auto;
 
     width: 100%;
 
