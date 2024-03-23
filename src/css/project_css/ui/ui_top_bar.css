@@ -22,6 +22,8 @@
     /* This only meaningfully affects ui-settings-button-time-border-and-bg */
     align-items: stretch;
 
+    max-width: 35%;
+
     /* Target ui-settings-button-time-border-and-bg and give it a black bg and green border */
     &>[id*="time-border"] {
         display: flex;
@@ -77,7 +79,7 @@
 
 #ui-settings-buttons {
     display: flex;
-    flex: 2 1 auto;
+    flex: 3 1 auto;
     align-items: center;
     justify-content: center;
     column-gap: 10%;
