@@ -94,11 +94,15 @@
     align-items: center;
     justify-content: center;
     column-gap: 10%;
+    row-gap: 5%;
     flex-wrap: wrap;
 
     /* border: 2px solid black; */
 
     height: 100%;
+
+    /* This is only really necessary in very low screen resolutions */
+    overflow-y: auto;
 
     /* margin-left: 0.8em; */
 
