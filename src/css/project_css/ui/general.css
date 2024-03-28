@@ -2,6 +2,7 @@
 :root {
     --ui-top-bar-height: 2.9rem;
     --ui-side-bar-width: 12.5rem;
+    --ui-side-bar-toggle-button-width: 0.95rem;
     --ui-bar-border-color: hsl(0, 0%, 85%);
     --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
 }
