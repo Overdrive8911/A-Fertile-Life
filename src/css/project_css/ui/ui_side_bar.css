@@ -1,9 +1,40 @@
-#ui-side-bar {
+/*  */
+/* This stores the actual side bar AND the button used to stow/open it */
+#ui-side-section {
     position: fixed;
     left: 0;
+    width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
+    height: 100%;
+
+    display: flex;
+
+    /* align-items: center; */
+}
+
+#ui-side-bar {
+    /* position: fixed; */
+    /* left: 0; */
     height: 100%;
     width: var(--ui-side-bar-width);
     z-index: 1;
 
     background-color: lightgrey;
+}
+
+#ui-side-bar-toggle-button {
+    margin-top: 55%;
+
+    height: 5.2rem;
+    width: var(--ui-side-bar-toggle-button-width);
+
+    border: thin solid darkgray;
+    box-sizing: border-box;
+
+    background-color: lightgray;
+
+    /* To center the pointer I added */
+    display: flex;
+    align-items: center;
+
+    text-align: center;
 }
