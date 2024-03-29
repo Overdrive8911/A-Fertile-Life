@@ -12,3 +12,5 @@ src/passages/test.twee
 package.json
 package-lock.json
 .textlintrc
+**/dist/**
+tsconfig.json
