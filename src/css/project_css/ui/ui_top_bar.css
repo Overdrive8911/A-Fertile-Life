@@ -84,6 +84,8 @@
     column-gap: 10%;
     row-gap: 5%;
     flex-wrap: wrap;
+    padding-left: 1%;
+    padding-right: 1%;
 
     height: 100%;
     min-width: min-content;
@@ -105,6 +107,8 @@
 
     height: 100%;
     width: 100%;
+
+    padding-left: 1%;
 
     /* Only include the stat bars themselves */
     & [id|="ui-stat-bar"] {
