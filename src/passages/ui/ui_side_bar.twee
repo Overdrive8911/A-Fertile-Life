@@ -1,4 +1,4 @@
 :: uiPassage_side_section
 <div id="ui-side-bar"></div>
 
-<div id="ui-side-bar-toggle-button">&#x25C0;</div>
+<div id="ui-side-bar-toggle-button">◄</div>
