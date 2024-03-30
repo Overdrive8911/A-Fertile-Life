@@ -2,9 +2,14 @@
 :root {
     --ui-top-bar-height: 2.9rem;
     --ui-side-bar-width: 12.5rem;
-    --ui-side-bar-toggle-button-width: 0.95rem;
+    --ui-side-bar-toggle-button-width: 1.15rem;
     --ui-bar-border-color: hsl(0, 0%, 85%);
     --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
+}
+
+#interface {
+    position: absolute;
+    z-index: -5;
 }
 
 #passages {
@@ -15,6 +20,8 @@
     top: calc(var(--ui-top-bar-height) + 2em);
     left: var(--ui-side-bar-width);
     padding-bottom: 2.5em;
+
+    z-index: -1;
 
     /* Turn the main passage area into a flex box and manipulate the actual passages within it */
     display: flex;
