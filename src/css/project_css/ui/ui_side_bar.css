@@ -22,10 +22,12 @@
 }
 
 #ui-side-bar-toggle-button {
-    margin-top: 55%;
+    margin-top: 5rem;
 
     height: 5.2rem;
     width: var(--ui-side-bar-toggle-button-width);
+
+    /* z-index: 1; */
 
     border: thin solid darkgray;
     box-sizing: border-box;
