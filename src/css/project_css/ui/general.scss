@@ -1,18 +1,18 @@
-/* Define variables */
-:root {
+  /* Define variables */
+  :root {
     --ui-top-bar-height: 2.9rem;
-    --ui-side-bar-width: 12.5rem;
+    --ui-side-bar-width: 200px;
     --ui-side-bar-toggle-button-width: 1.15rem;
     --ui-bar-border-color: hsl(0, 0%, 85%);
     --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
-}
+  }
 
-#interface {
+  #interface {
     position: absolute;
     z-index: -5;
-}
+  }
 
-#passages {
+  #passages {
     width: calc(100% - var(--ui-side-bar-width));
     /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
     /* margin: 0 auto auto auto; */
@@ -27,8 +27,8 @@
     display: flex;
     justify-content: space-around;
 
-    &>div[id^="passage"] {
-        /* max-width: 54em; */
-        max-width: 70%;
+    & > div[id^="passage"] {
+      /* max-width: 54em; */
+      max-width: 70%;
     }
-}
+  }
