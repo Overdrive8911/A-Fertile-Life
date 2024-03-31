@@ -1,17 +1,19 @@
-/*  */
-/* This stores the actual side bar AND the button used to stow/open it */
-#ui-side-section {
+    /*  */
+    /* This stores the actual side bar AND the button used to stow/open it */
+    #ui-side-section {
     position: fixed;
     left: 0;
-    width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
+    width: calc(
+        var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width)
+    );
     height: 100%;
 
     display: flex;
 
     /* align-items: center; */
-}
+    }
 
-#ui-side-bar {
+    #ui-side-bar {
     /* position: fixed; */
     /* left: 0; */
     height: 100%;
@@ -19,9 +21,9 @@
     z-index: 1;
 
     background-color: lightgrey;
-}
+    }
 
-#ui-side-bar-toggle-button {
+    #ui-side-bar-toggle-button {
     margin-top: 5rem;
 
     height: 5.2rem;
@@ -39,4 +41,4 @@
     align-items: center;
 
     text-align: center;
-}
+    }
