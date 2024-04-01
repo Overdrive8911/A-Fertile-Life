@@ -22,12 +22,13 @@
   border: 2px solid lightgrey;
 
   display: flex;
+
   flex-direction: column;
   justify-content: space-between;
 
   overflow-y: auto;
 
-  background-color: hsl(0, 0%, 8%);
+  background-color: var(--ui-bar-background-color);
 
   // Make all the major flex containers fill a row by themselves
   & > [id|="ui-side-bar"] {
