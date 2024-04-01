@@ -7,7 +7,7 @@
   width: calc(100% - var(--ui-side-bar-width));
   height: var(--ui-top-bar-height);
   position: fixed;
-  background-color: hsl(0, 0%, 8%);
+  background-color: var(--ui-bar-background-color);
 
   border-top: thin solid var(--ui-bar-border-color);
   border-bottom: thin solid var(--ui-bar-border-color);
