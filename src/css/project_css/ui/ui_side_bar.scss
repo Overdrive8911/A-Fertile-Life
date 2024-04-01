@@ -3,9 +3,7 @@
 #ui-side-section {
   position: fixed;
   left: 0;
-  width: calc(
-    var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width)
-  );
+  width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
   height: 100%;
 
   display: flex;
@@ -20,9 +18,86 @@
   width: var(--ui-side-bar-width);
   z-index: 1;
 
-  background-color: lightgrey;
+  box-sizing: border-box;
+  border: 2px solid lightgrey;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow-y: auto;
+
+  background-color: hsl(0, 0%, 8%);
+
+  // Make all the major flex containers fill a row by themselves
+  & > [id|="ui-side-bar"] {
+    // width: 100%;
+    // min-height: 20%;
+    flex: 1 1 10%;
+
+    // I'll remove this later but it's used to get a visual on the space everything is using
+    border-bottom: thin solid lightgrey;
+    border-top: thin solid lightgrey;
+    box-sizing: border-box;
+  }
 }
 
+// Needs more specificity to override #ui-side-bar > [id|="ui-side-bar"]
+#ui-side-bar > #ui-side-bar-game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.2rem;
+  flex-basis: auto;
+  flex-grow: 0;
+
+  // Override the defaults
+  height: max-content;
+
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+
+  text-align: center;
+
+  & > [id="ui-side-bar-game-info-name"] {
+    font-size: 24px;
+    font-weight: bold;
+
+    // Shift the name from the top a bit.
+    // margin-top: 1rem;
+  }
+
+  & > [id="ui-side-bar-game-info-author"] {
+    font-size: 13px;
+  }
+
+  & > [id="ui-side-bar-game-info-others"] {
+    font-size: 12px;
+  }
+}
+
+#ui-side-bar > [id^="ui-side-bar-backup-container"] {
+  flex: 0 1 auto;
+
+  height: fit-content;
+}
+
+#ui-side-bar > #ui-side-bar-player-image {
+  flex: 0 0 auto;
+
+  // I want the player's image to be in a square
+  height: var(--ui-side-bar-width);
+}
+
+#ui-side-bar > #ui-side-bar-assistant-device {
+  flex: 0 0 auto;
+
+  // Honestly not sure abt the size
+  height: var(--ui-side-bar-width);
+}
+
+//
+//
 #ui-side-bar-toggle-button {
   margin-top: 5rem;
 
