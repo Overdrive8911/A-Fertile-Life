@@ -2,21 +2,25 @@
 // @ts-nocheck
 
 // TODO - Move setting declarations to another file
-// Define the original and stowed widths for the sidebar
-const uiSideBarOriginalWidth: string = $("html").css("--ui-side-bar-width");
-const uiSideBarStowedWidth: string = "1rem";
 
 // Define the handler for toggling the sidebar
 const uiSideBarToggleHandler = () => {
-  $("html").css(
-    "--ui-side-bar-width",
-    settings.uiSideBarToggle ? uiSideBarOriginalWidth : uiSideBarStowedWidth
-  );
+  // Open and stow the side bar
+  $("html").css("--ui-side-bar-width", settings.uiSideBarToggle ? "" : "1rem");
 
   // Change the stubbed arrow's facing direction depending on the state of the sidebar
-  settings.uiSideBarToggle
-    ? $("#ui-side-bar-toggle-button").text("◄")
-    : $("#ui-side-bar-toggle-button").text("►");
+  $("#ui-side-bar-toggle-button").text(settings.uiSideBarToggle ? "◄" : "►");
+
+  // Toggle the visibility all the contents of the sidebar
+  for (const child of $("#ui-side-bar").children()) {
+    $(child).css("display", settings.uiSideBarToggle ? "" : "none");
+  }
+
+  // Fill the sidebar with a solid color when stowed
+  $("#ui-side-bar").css(
+    "background-color",
+    settings.uiSideBarToggle ? "" : $("html").css("--ui-bar-border-color")
+  );
 };
 
 // Create a toggle for the side bar.
@@ -29,6 +33,9 @@ Setting.addToggle("uiSideBarToggle", {
 });
 
 $(document).on(":passageend", () => {
+  // To make sure the changes stick around when loading the game
+  uiSideBarToggleHandler();
+
   $("#ui-side-bar-toggle-button").ariaClick(() => {
     // Open or stow the side bar
     settings.uiSideBarToggle = !settings.uiSideBarToggle;
