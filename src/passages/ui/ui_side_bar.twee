@@ -1,4 +1,25 @@
 :: uiPassage_side_section
-<div id="ui-side-bar"></div>
+<div id="ui-side-bar">
+    <div id="ui-side-bar-game-info">
+        <div id="ui-side-bar-game-info-name">A Fertile Life</div>
+        <div id="ui-side-bar-game-info-author">by Overdrive8911.</div>
+        /* Stuff like sharing the game and other relevant info abt it like wikis, etc */
+        <div id="ui-side-bar-game-info-others">Lorem Ipsum Du Ala Mon.</div>
+    </div>
+
+    /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
+    /* Should contain just the time and setting/save icons */
+    <div id="ui-side-bar-backup-container1"></div>
+
+    /* The last 2 div elements here will consume most of the space */
+    <div id="ui-side-bar-player-image"></div>
+
+    /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
+    /* Will definitely contain the stat bars */
+    <div id="ui-side-bar-backup-container2"></div>
+
+    /* The player's AI companion. Not completely sure yet tho */
+    <div id="ui-side-bar-assistant-device"></div>
+</div>
 
 <div id="ui-side-bar-toggle-button">◄</div>

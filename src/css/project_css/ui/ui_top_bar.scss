@@ -9,6 +9,7 @@
   position: fixed;
   background-color: hsl(0, 0%, 8%);
 
+  border-top: thin solid var(--ui-bar-border-color);
   border-bottom: thin solid var(--ui-bar-border-color);
 
   font-size: 0.8em;
