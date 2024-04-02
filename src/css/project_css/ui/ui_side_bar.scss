@@ -1,120 +1,122 @@
-/*  */
-/* This stores the actual side bar AND the button used to stow/open it */
-#ui-side-section {
-  position: fixed;
-  left: 0;
-  width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
-  height: 100%;
+@layer default {
+  /*  */
+  /* This stores the actual side bar AND the button used to stow/open it */
+  #ui-side-section {
+    position: fixed;
+    left: 0;
+    width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
+    height: 100%;
 
-  display: flex;
+    display: flex;
 
-  /* align-items: center; */
-}
+    /* align-items: center; */
+  }
 
-#ui-side-bar {
-  /* position: fixed; */
-  /* left: 0; */
-  height: 100%;
-  width: var(--ui-side-bar-width);
-  z-index: 1;
+  #ui-side-bar {
+    /* position: fixed; */
+    /* left: 0; */
+    height: 100%;
+    width: var(--ui-side-bar-width);
+    z-index: 1;
 
-  box-sizing: border-box;
-  border: 2px solid lightgrey;
-
-  display: flex;
-
-  flex-direction: column;
-  justify-content: space-between;
-
-  overflow-y: auto;
-
-  background-color: var(--ui-bar-background-color);
-
-  // Make all the major flex containers fill a row by themselves
-  & > [id|="ui-side-bar"] {
-    // width: 100%;
-    // min-height: 20%;
-    flex: 1 1 10%;
-
-    // I'll remove this later but it's used to get a visual on the space everything is using
-    border-bottom: thin solid lightgrey;
-    border-top: thin solid lightgrey;
     box-sizing: border-box;
-  }
-}
+    border: 2px solid lightgrey;
 
-// Needs more specificity to override #ui-side-bar > [id|="ui-side-bar"]
-#ui-side-bar > #ui-side-bar-game-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  row-gap: 0.2rem;
-  flex-basis: auto;
-  flex-grow: 0;
+    display: flex;
 
-  // Override the defaults
-  height: max-content;
+    flex-direction: column;
+    justify-content: space-between;
 
-  padding-top: 0.55rem;
-  padding-bottom: 0.55rem;
+    overflow-y: auto;
 
-  text-align: center;
+    background-color: var(--ui-bar-background-color);
 
-  & > [id="ui-side-bar-game-info-name"] {
-    font-size: 24px;
-    font-weight: bold;
+    // Make all the major flex containers fill a row by themselves
+    & > [id|="ui-side-bar"] {
+      // width: 100%;
+      // min-height: 20%;
+      flex: 1 1 10%;
 
-    // Shift the name from the top a bit.
-    // margin-top: 1rem;
+      // I'll remove this later but it's used to get a visual on the space everything is using
+      border-bottom: thin solid lightgrey;
+      border-top: thin solid lightgrey;
+      box-sizing: border-box;
+    }
   }
 
-  & > [id="ui-side-bar-game-info-author"] {
-    font-size: 13px;
+  // Needs more specificity to override #ui-side-bar > [id|="ui-side-bar"]
+  #ui-side-bar > #ui-side-bar-game-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 0.2rem;
+    flex-basis: auto;
+    flex-grow: 0;
+
+    // Override the defaults
+    height: max-content;
+
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+
+    text-align: center;
+
+    & > [id="ui-side-bar-game-info-name"] {
+      font-size: 24px;
+      font-weight: bold;
+
+      // Shift the name from the top a bit.
+      // margin-top: 1rem;
+    }
+
+    & > [id="ui-side-bar-game-info-author"] {
+      font-size: 13px;
+    }
+
+    & > [id="ui-side-bar-game-info-others"] {
+      font-size: 12px;
+    }
   }
 
-  & > [id="ui-side-bar-game-info-others"] {
-    font-size: 12px;
+  #ui-side-bar > [id^="ui-side-bar-backup-container"] {
+    flex: 0 1 auto;
+
+    height: fit-content;
   }
-}
 
-#ui-side-bar > [id^="ui-side-bar-backup-container"] {
-  flex: 0 1 auto;
+  #ui-side-bar > #ui-side-bar-player-image {
+    flex: 0 0 auto;
 
-  height: fit-content;
-}
+    // I want the player's image to be in a square
+    height: var(--ui-side-bar-width);
+  }
 
-#ui-side-bar > #ui-side-bar-player-image {
-  flex: 0 0 auto;
+  #ui-side-bar > #ui-side-bar-assistant-device {
+    flex: 0 0 auto;
 
-  // I want the player's image to be in a square
-  height: var(--ui-side-bar-width);
-}
+    // Honestly not sure abt the size
+    height: var(--ui-side-bar-width);
+  }
 
-#ui-side-bar > #ui-side-bar-assistant-device {
-  flex: 0 0 auto;
+  //
+  //
+  #ui-side-bar-toggle-button {
+    margin-top: 5rem;
 
-  // Honestly not sure abt the size
-  height: var(--ui-side-bar-width);
-}
+    height: 5.2rem;
+    width: var(--ui-side-bar-toggle-button-width);
 
-//
-//
-#ui-side-bar-toggle-button {
-  margin-top: 5rem;
+    /* z-index: 1; */
 
-  height: 5.2rem;
-  width: var(--ui-side-bar-toggle-button-width);
+    border: thin solid darkgray;
+    box-sizing: border-box;
 
-  /* z-index: 1; */
+    background-color: lightgray;
 
-  border: thin solid darkgray;
-  box-sizing: border-box;
+    /* To center the pointer I added */
+    display: flex;
+    align-items: center;
 
-  background-color: lightgray;
-
-  /* To center the pointer I added */
-  display: flex;
-  align-items: center;
-
-  text-align: center;
+    text-align: center;
+  }
 }
