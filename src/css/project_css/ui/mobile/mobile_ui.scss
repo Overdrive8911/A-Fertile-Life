@@ -1,0 +1,23 @@
+/* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
+
+@media screen and (max-width: 460px) {
+    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
+    @layer mobile {
+        #ui-top-bar {
+            justify-content: space-evenly;
+
+            & #ui-settings-buttons,
+            & #ui-top-bar-right {
+                display: none;
+            }
+
+            & #ui-top-bar-left {
+                max-width: fit-content;
+
+                & #ui-settings-button-time {
+                    font-family: DIGITAL-7, Courier, monospace;
+                }
+            }
+        }
+    }
+}
