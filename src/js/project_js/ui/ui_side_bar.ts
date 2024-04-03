@@ -28,8 +28,31 @@ const uiSideBarToggleHandler = () => {
   //SECTION - Deal with the mobile aspect
   // Copy the hidden icons from the top bar and paste them into the side bar if the screen is too narrow
   // Also hide the stat bars and display them in the sidebar too
-  if ($(window).width() <= 500) {
-    //SECTION - Deal with the leftmost icons
+
+  let prevMobileMaxWidth;
+  const slimMobileWidth = "screen and (max-width: 500px)";
+  const wideMobileWidth = "screen and (max-width: 780px)";
+  const generalMobileUISettingsReset = () => {
+    $("#ui-side-bar-backup-container1 > :first-child").empty();
+    $("#ui-side-bar-backup-container1 > :last-child").empty();
+
+    $("#ui-side-bar-backup-container2").empty();
+
+    $("#ui-settings-buttons").css("display", "");
+    $("#ui-top-bar-middle").css("display", "");
+    $("#ui-top-bar-right").css("display", "");
+
+    // HIDE THEM. If its needed, manually set it
+    $("[id^=ui-side-bar-backup-container]").css("display", "none");
+  };
+
+  //SECTION - For slim portrait modes on mobile
+  if (window.matchMedia(slimMobileWidth).matches) {
+    // Reset general changes if coming from another mobile width range
+    if (prevMobileMaxWidth !== slimMobileWidth) {
+      generalMobileUISettingsReset();
+    }
+    //Deal with the leftmost icons
     for (const uiIcon of $("#ui-settings-buttons").children()) {
       // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
       if (settings.uiSideBarToggle) {
@@ -42,7 +65,7 @@ const uiSideBarToggleHandler = () => {
       }
     }
 
-    //SECTION - Deal with the rightmost icons (money/rep)
+    //Deal with the rightmost icons (money/rep)
     for (const uiIcon of $("#ui-stat-others").children()) {
       // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
       if (settings.uiSideBarToggle) {
@@ -55,7 +78,7 @@ const uiSideBarToggleHandler = () => {
       }
     }
 
-    //SECTION - Deal with the stat bars
+    //Deal with the stat bars
     // It will copy every stat bar individually and display it as a column in the side bar. To do that, I'll have to go through each stat bar column group and then get the stat bar. I think I could use `.find(".ui-stat-bar-and-icon") but eh
     for (const statBarColumnGroup of $("#ui-stat-bars").children()) {
       for (const statBar of $(statBarColumnGroup).children()) {
@@ -69,7 +92,7 @@ const uiSideBarToggleHandler = () => {
       }
     }
 
-    //SECTION - Extra
+    //Extra
     if (settings.uiSideBarToggle) {
       // Remove the padding added that was used to shift the clock slightly the right
       $("#ui-top-bar-left").css("padding-left", 0);
@@ -80,7 +103,7 @@ const uiSideBarToggleHandler = () => {
         "DIGITAL-7-monospace, Courier, monospace"
       );
 
-      // Hide and unhide the "middle" section of the top bar (alongside the original stat bars as well)
+      // Hide the "middle" section of the top bar (alongside the original stat bars as well)
       $("#ui-top-bar-middle").css("display", "none");
 
       // Change a couple of the css to make the first container look better
@@ -106,18 +129,67 @@ const uiSideBarToggleHandler = () => {
 
     // SHOW THE CONTAINERS
     $("[id^=ui-side-bar-backup-container]").css("display", "");
-  } else {
+    //
+  }
+  //SECTION - For wide portrait and relatively narrower landscape modes on mobile
+  else if (window.matchMedia("screen and (max-width: 780px)").matches) {
+    // Reset if coming from another mobile screen range
+    if (prevMobileMaxWidth !== wideMobileWidth) {
+      generalMobileUISettingsReset();
+    }
+
+    for (const uiIcon of $("#ui-settings-buttons").children()) {
+      // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
+      if (settings.uiSideBarToggle) {
+        $("#ui-side-bar-backup-container1 > :first-child").append(
+          $(uiIcon).clone(true)
+        );
+      } else {
+        // Empty the container
+        $("#ui-side-bar-backup-container1 > :first-child").empty();
+      }
+    }
+
+    for (const uiIcon of $("#ui-stat-others").children()) {
+      // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
+      if (settings.uiSideBarToggle) {
+        $("#ui-side-bar-backup-container1 > :last-child").append(
+          $(uiIcon).clone(true)
+        );
+      } else {
+        // Empty the container
+        $("#ui-side-bar-backup-container1 > :last-child").empty();
+      }
+    }
+
     if (settings.uiSideBarToggle) {
-      // The side bar is open and the user is in landscape mode/has rotated their phone so empty the backup containers and restore the stat bars
-      $("#ui-side-bar-backup-container1 > :first-child").empty();
-      $("#ui-side-bar-backup-container1 > :last-child").empty();
+      // The side bar is open and the user's screen is quite wide, however, the leftmost icons are squished and it may be troublesome to swipe up/down for the remaining icons so simply push them to the side bar. And also the rightmost ones too.
 
-      $("#ui-side-bar-backup-container2").empty();
+      // Hide the original icons since the css ain't doing it
+      $("#ui-settings-buttons").css("display", "none");
+      $("#ui-top-bar-right").css("display", "none");
 
-      $("#ui-top-bar-middle").css("display", "");
+      // Shrink the resultant space to only fit the digital clock and push it slightly from the end
+      $("#ui-top-bar-left").css("flex", "0 0 auto");
+      $("#ui-top-bar-left").css("padding-left", "0.25%");
+    } else {
+      // You know the drill. RESET THEM
 
-      // HIDE THEM
-      $("[id^=ui-side-bar-backup-container]").css("display", "none");
+      $("#ui-settings-buttons").css("display", "");
+      $("#ui-top-bar-right").css("display", "");
+
+      $("#ui-top-bar-left").css("flex", "");
+      $("#ui-top-bar-left").css("padding-left", "");
+    }
+
+    // SHOW ONLY THE FIRST CONTAINER
+    $("[id=ui-side-bar-backup-container1]").css("display", "");
+  }
+  //SECTION - For much wider screens like laptops/desktops/i-pads, just reset it
+  else {
+    if (settings.uiSideBarToggle) {
+      // The side bar is open and the user is probably in landscape mode/is on something like an ipad so empty the backup containers and restore the stat bars since there's enough space for them
+      generalMobileUISettingsReset();
     }
   }
 };
