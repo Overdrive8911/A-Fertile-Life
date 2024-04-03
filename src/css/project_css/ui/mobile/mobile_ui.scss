@@ -2,7 +2,7 @@
 
 @media screen and (max-width: 500px) {
     // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
-    @layer mobile {
+    @layer mobileUI {
         #ui-top-bar {
             justify-content: space-evenly;
 
