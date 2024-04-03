@@ -8,14 +8,18 @@
     </div>
 
     /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
-    /* Should contain just the time and setting/save icons */
-    <div id="ui-side-bar-backup-container1"></div>
+    /* Should contain just the money/rep and setting/save icons */
+    <div id="ui-side-bar-backup-container1">
+        /* Honestly, I don't feel like giving them classes/ids. Just remember that the 1st div stores the settings/saves/restart/etc while the 2nd one stores the money/reputation */
+        <div></div>
+        <div></div>
+    </div>
 
     /* The last 2 div elements here will consume most of the space */
     <div id="ui-side-bar-player-image"></div>
 
     /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
-    /* Will definitely contain the stat bars */
+    /* Will only contain the stat bars */
     <div id="ui-side-bar-backup-container2"></div>
 
     /* The player's AI companion. Not completely sure yet tho */
