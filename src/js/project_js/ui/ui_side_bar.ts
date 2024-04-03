@@ -112,6 +112,10 @@ const uiSideBarToggleHandler = () => {
       // Change a couple of the css to make the second container look better
       $("#ui-side-bar-backup-container2").css("padding-top", "0.25rem");
       $("#ui-side-bar-backup-container2").css("padding-bottom", "0.25rem");
+
+      // SHOW THE CONTAINERS
+      $("[id^=ui-side-bar-backup-container]").css("display", "");
+      //
     } else {
       // Restore all the changes when the sidebar is closed
 
@@ -125,14 +129,11 @@ const uiSideBarToggleHandler = () => {
 
       $("#ui-side-bar-backup-container2").css("padding-top", "");
       $("#ui-side-bar-backup-container2").css("padding-bottom", "");
+      $("[id^=ui-side-bar-backup-container]").css("display", "none");
     }
-
-    // SHOW THE CONTAINERS
-    $("[id^=ui-side-bar-backup-container]").css("display", "");
-    //
   }
   //SECTION - For wide portrait and relatively narrower landscape modes on mobile
-  else if (window.matchMedia("screen and (max-width: 780px)").matches) {
+  else if (window.matchMedia(wideMobileWidth).matches) {
     // Reset if coming from another mobile screen range
     if (prevMobileMaxWidth !== wideMobileWidth) {
       generalMobileUISettingsReset();
@@ -172,6 +173,9 @@ const uiSideBarToggleHandler = () => {
       // Shrink the resultant space to only fit the digital clock and push it slightly from the end
       $("#ui-top-bar-left").css("flex", "0 0 auto");
       $("#ui-top-bar-left").css("padding-left", "0.25%");
+
+      // SHOW ONLY THE FIRST CONTAINER
+      $("[id=ui-side-bar-backup-container1]").css("display", "");
     } else {
       // You know the drill. RESET THEM
 
@@ -180,10 +184,9 @@ const uiSideBarToggleHandler = () => {
 
       $("#ui-top-bar-left").css("flex", "");
       $("#ui-top-bar-left").css("padding-left", "");
-    }
 
-    // SHOW ONLY THE FIRST CONTAINER
-    $("[id=ui-side-bar-backup-container1]").css("display", "");
+      $("[id=ui-side-bar-backup-container1]").css("display", "none");
+    }
   }
   //SECTION - For much wider screens like laptops/desktops/i-pads, just reset it
   else {
