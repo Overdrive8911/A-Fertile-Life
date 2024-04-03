@@ -1,14 +1,14 @@
 // Define Layers
-@layer default, mobile;
+@layer defaultUI, mobileUI;
 
-@layer default {
+@layer defaultUI {
   /* Define variables */
   :root {
     --ui-top-bar-height: 2.9rem;
     --ui-side-bar-width: 200px;
     --ui-side-bar-toggle-button-width: 1.15rem;
 
-    // --max-mobile-portrait-width: 500px;
+    // --max-mobileUI-portrait-width: 500px;
 
     --ui-bar-background-color: hsl(0, 0%, 8%);
     --ui-bar-border-color: hsl(0, 0%, 85%);
