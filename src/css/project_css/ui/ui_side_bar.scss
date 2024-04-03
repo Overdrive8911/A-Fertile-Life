@@ -114,7 +114,7 @@
         width: 75%;
 
         // Force them to occupy all the allocated the space
-        & > [id|="ui-stat-bar"] {
+        & > [class|="ui-stat-bar"] {
           width: 100%;
         }
       }
