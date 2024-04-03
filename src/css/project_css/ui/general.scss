@@ -7,9 +7,15 @@
     --ui-top-bar-height: 2.9rem;
     --ui-side-bar-width: 200px;
     --ui-side-bar-toggle-button-width: 1.15rem;
+
+    // --max-mobile-portrait-width: 500px;
+
     --ui-bar-background-color: hsl(0, 0%, 8%);
     --ui-bar-border-color: hsl(0, 0%, 85%);
     --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
+
+    // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
+    --ui-top-bar-left-digital-clock-font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
   }
 
   #interface {
