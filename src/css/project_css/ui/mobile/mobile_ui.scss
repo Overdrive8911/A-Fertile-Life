@@ -1,6 +1,6 @@
 /* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
 
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 500px) {
     // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
     @layer mobile {
         #ui-top-bar {
@@ -13,9 +13,13 @@
 
             & #ui-top-bar-left {
                 max-width: fit-content;
+                // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
+                padding-left: 0.25%;
 
                 & #ui-settings-button-time {
                     font-family: DIGITAL-7, Courier, monospace;
+                    // Reduce the font size by 80%
+                    font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * (80 / 100));
                 }
             }
         }

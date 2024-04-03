@@ -21,6 +21,105 @@ const uiSideBarToggleHandler = () => {
     "background-color",
     settings.uiSideBarToggle ? "" : $("html").css("--ui-bar-border-color")
   );
+
+  //REVIEW - Hide the backup containers. If they're needed, they'll be enabled below
+  $("[id^=ui-side-bar-backup-container]").css("display", "none");
+
+  //SECTION - Deal with the mobile aspect
+  // Copy the hidden icons from the top bar and paste them into the side bar if the screen is too narrow
+  // Also hide the stat bars and display them in the sidebar too
+  if ($(window).width() <= 500) {
+    //SECTION - Deal with the leftmost icons
+    for (const uiIcon of $("#ui-settings-buttons").children()) {
+      // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
+      if (settings.uiSideBarToggle) {
+        $("#ui-side-bar-backup-container1 > :first-child").append(
+          $(uiIcon).clone(true)
+        );
+      } else {
+        // Empty the container
+        $("#ui-side-bar-backup-container1 > :first-child").empty();
+      }
+    }
+
+    //SECTION - Deal with the rightmost icons (money/rep)
+    for (const uiIcon of $("#ui-stat-others").children()) {
+      // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
+      if (settings.uiSideBarToggle) {
+        $("#ui-side-bar-backup-container1 > :last-child").append(
+          $(uiIcon).clone(true)
+        );
+      } else {
+        // Empty the container
+        $("#ui-side-bar-backup-container1 > :last-child").empty();
+      }
+    }
+
+    //SECTION - Deal with the stat bars
+    // It will copy every stat bar individually and display it as a column in the side bar. To do that, I'll have to go through each stat bar column group and then get the stat bar. I think I could use `.find(".ui-stat-bar-and-icon") but eh
+    for (const statBarColumnGroup of $("#ui-stat-bars").children()) {
+      for (const statBar of $(statBarColumnGroup).children()) {
+        // Copy the each stat bar and paste into the side bar
+        if (settings.uiSideBarToggle) {
+          $("#ui-side-bar-backup-container2").append($(statBar).clone(true));
+        } else {
+          // Empty the container
+          $("#ui-side-bar-backup-container2").empty();
+        }
+      }
+    }
+
+    //SECTION - Extra
+    if (settings.uiSideBarToggle) {
+      // Remove the padding added that was used to shift the clock slightly the right
+      $("#ui-top-bar-left").css("padding-left", 0);
+
+      // Change the clock text back to it's monospace version
+      $("#ui-settings-button-time").css(
+        "font-family",
+        "DIGITAL-7-monospace, Courier, monospace"
+      );
+
+      // Hide and unhide the "middle" section of the top bar (alongside the original stat bars as well)
+      $("#ui-top-bar-middle").css("display", "none");
+
+      // Change a couple of the css to make the first container look better
+      $("#ui-side-bar-backup-container1 > div").css("min-height", "24px");
+
+      // Change a couple of the css to make the second container look better
+      $("#ui-side-bar-backup-container2").css("padding-top", "0.25rem");
+      $("#ui-side-bar-backup-container2").css("padding-bottom", "0.25rem");
+    } else {
+      // Restore all the changes when the sidebar is closed
+
+      $("#ui-top-bar-left").css("padding-left", "");
+
+      $("#ui-settings-button-time").css("font-family", "");
+
+      $("#ui-top-bar-middle").css("display", "");
+
+      $("#ui-side-bar-backup-container1 > div").css("min-height", "");
+
+      $("#ui-side-bar-backup-container2").css("padding-top", "");
+      $("#ui-side-bar-backup-container2").css("padding-bottom", "");
+    }
+
+    // SHOW THE CONTAINERS
+    $("[id^=ui-side-bar-backup-container]").css("display", "");
+  } else {
+    if (settings.uiSideBarToggle) {
+      // The side bar is open and the user is in landscape mode/has rotated their phone so empty the backup containers and restore the stat bars
+      $("#ui-side-bar-backup-container1 > :first-child").empty();
+      $("#ui-side-bar-backup-container1 > :last-child").empty();
+
+      $("#ui-side-bar-backup-container2").empty();
+
+      $("#ui-top-bar-middle").css("display", "");
+
+      // HIDE THEM
+      $("[id^=ui-side-bar-backup-container]").css("display", "none");
+    }
+  }
 };
 
 // Create a toggle for the side bar.
@@ -43,3 +142,10 @@ $(document).on(":passageend", () => {
     Setting.save();
   });
 });
+
+// Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
+window
+  .matchMedia("(orientation: portrait)")
+  .addEventListener("change", (ev) => {
+    uiSideBarToggleHandler();
+  });
