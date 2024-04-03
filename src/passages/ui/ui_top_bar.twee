@@ -4,23 +4,24 @@
     <!-- TODO - Change the name if this id. also consider adding the names of the icons right beneath the icons themselves or revealing the names via a hover popup -->
     <!-- Container for everything above except time  -->
     <div id="ui-settings-buttons">
-        <div id="ui-settings-button-inventory">
+        /*NOTE - Settings/save/restart/etc, Stat bars, money/reputation are all classes because they are duplicated unto the sidebar and hidden in the top bar in mobile devices currently in portrait mode */
+        <div class="ui-settings-button-inventory">
             <img src="assets/img/ui/icons/purse_inventory.webp" alt="Inventory Button">
         </div>
         <!-- Save -->
-        <div id="ui-settings-button-save">
+        <div class="ui-settings-button-save">
             <img src="assets/img/ui/icons/save.webp" alt="Save Button">
         </div>
         <!-- Settings -->
-        <div id="ui-settings-button-settings">
+        <div class="ui-settings-button-settings">
             <img src="assets/img/ui/icons/settings.webp" alt="Settings Button">
         </div>
         <!-- Restart -->
-        <div id="ui-settings-button-restart">
+        <div class="ui-settings-button-restart">
             <img src="assets/img/ui/icons/restart.webp" alt="Restart Button">
         </div>
         <!-- Report Bugs -->
-        <div id="ui-settings-button-report-bugs">
+        <div class="ui-settings-button-report-bugs">
             <img src="assets/img/ui/icons/bug_report.webp" alt="Bug Report Button">
         </div>
     </div>
@@ -43,7 +44,7 @@
                 /*TODO - Turn these paths into a variable */
                 <img src="assets/img/ui/icons/heart.webp" alt="Health Icon">         /* Health icon */
 
-                <span id="ui-stat-bar-hp">
+                <span class="ui-stat-bar-hp">
                     <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
                 </span>
             </div>
@@ -51,7 +52,7 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/energy.webp" alt="Energy Icon">
 
-                <span id="ui-stat-bar-energy">
+                <span class="ui-stat-bar-energy">
                     <<showmeter "pcEnergyBar">>
                 </span>
             </div>
@@ -61,7 +62,7 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/mood.webp" alt="Mood Icon">
 
-                <span id="ui-stat-bar-mood">
+                <span class="ui-stat-bar-mood">
                     <<showmeter "pcMoodBar">>
                 </span>
             </div>
@@ -69,7 +70,7 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/stomach.webp" alt="Stomach Icon">
 
-                <span id="ui-stat-bar-hunger">
+                <span class="ui-stat-bar-hunger">
                     <<showmeter "pcHungerBar">>
                 </span>
             </div>
@@ -79,7 +80,7 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/uterus_hp.webp" alt="Womb HP Icon">
 
-                <span id="ui-stat-bar-womb-hp">
+                <span class="ui-stat-bar-womb-hp">
                     <<showmeter "pcWombHPBar">>
                 </span>
             </div>
@@ -87,7 +88,7 @@
             <div class="ui-stat-bar-and-icon">
                 <img src="assets/img/ui/icons/uterus_exp.webp" alt="Womb EXP Icon">
 
-                <span id="ui-stat-bar-womb-lvl">
+                <span class="ui-stat-bar-womb-lvl">
                     <<showmeter "pcWombLvlBar">>
                 </span>
             </div>
@@ -97,10 +98,10 @@
 
 <div id="ui-top-bar-right">
     <div id="ui-stat-others">
-        <div id="ui-stat-others-money">
+        <div class="ui-stat-others-money">
             <img src="assets/img/ui/icons/money.webp" alt="Money Icon">: 2300
         </div>
-        <div id="ui-stat-others-reputation">
+        <div class="ui-stat-others-reputation">
             <img src="assets/img/ui/icons/reputation.webp" alt="Reputation Icon">: 20%
         </div>
     </div>
