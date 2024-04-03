@@ -42,60 +42,97 @@
       border-top: thin solid lightgrey;
       box-sizing: border-box;
     }
-  }
 
-  // Needs more specificity to override #ui-side-bar > [id|="ui-side-bar"]
-  #ui-side-bar > #ui-side-bar-game-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 0.2rem;
-    flex-basis: auto;
-    flex-grow: 0;
+    & > #ui-side-bar-game-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 0.2rem;
+      flex-basis: auto;
+      flex-grow: 0;
 
-    // Override the defaults
-    height: max-content;
+      // Override the defaults
+      height: max-content;
 
-    padding-top: 0.55rem;
-    padding-bottom: 0.55rem;
+      padding-top: 0.55rem;
+      padding-bottom: 0.55rem;
 
-    text-align: center;
+      text-align: center;
 
-    & > [id="ui-side-bar-game-info-name"] {
-      font-size: 24px;
-      font-weight: bold;
+      & > [id="ui-side-bar-game-info-name"] {
+        font-size: 24px;
+        font-weight: bold;
 
-      // Shift the name from the top a bit.
-      // margin-top: 1rem;
+        // Shift the name from the top a bit.
+        // margin-top: 1rem;
+      }
+
+      & > [id="ui-side-bar-game-info-author"] {
+        font-size: 13px;
+      }
+
+      & > [id="ui-side-bar-game-info-others"] {
+        font-size: 12px;
+      }
     }
 
-    & > [id="ui-side-bar-game-info-author"] {
-      font-size: 13px;
+    & > [id^="ui-side-bar-backup-container"] {
+      display: flex;
+      flex: 0 1 auto;
+      flex-direction: column;
+
+      height: fit-content;
     }
 
-    & > [id="ui-side-bar-game-info-others"] {
-      font-size: 12px;
+    // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
+    & > #ui-side-bar-backup-container1 {
+      // justify-content: stretch;
+
+      & > div {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        border: thin solid;
+      }
+
+      // Target the container that stores the settings/save/restart/etc icons
+      // & > :first-child {
+      //   justify-content: space-evenly;
+      //   align-content: center;
+      // }
     }
-  }
 
-  #ui-side-bar > [id^="ui-side-bar-backup-container"] {
-    flex: 0 1 auto;
+    // Now the second backup container. Remember, it's only for storing the stat bars
+    & > #ui-side-bar-backup-container2 {
+      justify-content: space-evenly;
+      align-items: center;
+      row-gap: 0.35rem;
 
-    height: fit-content;
-  }
+      // The space allocated for the stat bars and icons
+      & > .ui-stat-bar-and-icon {
+        width: 75%;
 
-  #ui-side-bar > #ui-side-bar-player-image {
-    flex: 0 0 auto;
+        // Force them to occupy all the allocated the space
+        & > [id|="ui-stat-bar"] {
+          width: 100%;
+        }
+      }
+    }
 
-    // I want the player's image to be in a square
-    height: var(--ui-side-bar-width);
-  }
+    & > #ui-side-bar-player-image {
+      flex: 0 0 auto;
 
-  #ui-side-bar > #ui-side-bar-assistant-device {
-    flex: 0 0 auto;
+      // I want the player's image to be in a square
+      height: var(--ui-side-bar-width);
+    }
 
-    // Honestly not sure abt the size
-    height: var(--ui-side-bar-width);
+    & > #ui-side-bar-assistant-device {
+      flex: 0 0 auto;
+
+      // Honestly not sure abt the size
+      height: var(--ui-side-bar-width);
+    }
   }
 
   //
