@@ -95,7 +95,7 @@
     /* This is only really necessary in very low screen resolutions */
     overflow-y: auto;
 
-    & > [id|="ui-settings-button"] {
+    & > [class|="ui-settings-button"] {
       /* For now, don't allow the setting icons to grow */
       flex: 0 1 auto;
     }
@@ -113,7 +113,7 @@
     padding-left: 1%;
 
     /* Only include the stat bars themselves */
-    & [id|="ui-stat-bar"] {
+    & .ui-stat-bar-and-icon > [class|="ui-stat-bar"] {
       /* Make sure that the stat bars are inline */
       display: inline-block;
 
@@ -145,7 +145,7 @@
     font-size: 90%;
 
     /* Target te separate containers for both the money and reputation */
-    & > [id|="ui-stat-others"] {
+    & > [class|="ui-stat-others"] {
       align-items: center;
       display: flex;
     }
