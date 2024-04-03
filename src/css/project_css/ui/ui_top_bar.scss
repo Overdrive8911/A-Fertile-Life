@@ -52,8 +52,7 @@
 
         font-family: DIGITAL-7-monospace, Courier, monospace;
         font-style: italic;
-        // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
-        font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
+        font-size: var(--ui-top-bar-left-digital-clock-font-size);
 
         /* REVIEW - Make it glow like a digital clock */
         color: var(--ui-top-bar-left-digital-clock-main-colour);
