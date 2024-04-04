@@ -5,23 +5,23 @@
     @layer mobileUI {
         #ui-top-bar {
             justify-content: space-evenly;
+        }
 
-            & #ui-settings-buttons,
-            & #ui-top-bar-right {
-                display: none;
-            }
+        #ui-settings-buttons,
+        #ui-top-bar-right {
+            display: none;
+        }
 
-            & #ui-top-bar-left {
-                max-width: fit-content;
-                // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
-                padding-left: 0.25%;
+        #ui-top-bar-left {
+            max-width: fit-content;
+            // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
+            padding-left: 0.25%;
+        }
 
-                & #ui-settings-button-time {
-                    font-family: DIGITAL-7, Courier, monospace;
-                    // Reduce the font size by ~82.6%
-                    font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
-                }
-            }
+        #ui-settings-button-time {
+            font-family: DIGITAL-7, Courier, monospace;
+            // Reduce the font size by ~82.6%
+            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
         }
     }
 }

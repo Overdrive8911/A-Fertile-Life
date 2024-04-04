@@ -38,7 +38,7 @@
     display: flex;
     justify-content: space-around;
 
-    & > div[id^="passage"] {
+    & > div[id|="passage"] {
       /* max-width: 54em; */
       max-width: 70%;
     }
