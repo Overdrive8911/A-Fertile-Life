@@ -1,3 +1,5 @@
+@import "partials/mixins";
+
 @layer defaultUI {
   /*TODO - Arrange all these declarations later*/
   #ui-top-bar {
@@ -146,8 +148,7 @@
 
     /* Target te separate containers for both the money and reputation */
     & > [class|="ui-stat-others"] {
-      align-items: center;
-      display: flex;
+      @include uiRightmostIconsFlexContainer;
     }
   }
 
