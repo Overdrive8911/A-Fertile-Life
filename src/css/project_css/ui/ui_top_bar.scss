@@ -1,4 +1,4 @@
-@import "partials/mixins";
+@import "partials/mixin";
 
 @layer defaultUI {
   /*TODO - Arrange all these declarations later*/
@@ -27,40 +27,38 @@
     align-items: stretch;
 
     max-width: 35%;
+  }
 
-    /* Target ui-settings-button-time-border-and-bg and give it a black bg and green border */
-    & > [id*="time-border"] {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0.5 1 30%;
+  #ui-settings-button-time-border-and-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0.5 1 30%;
 
-      background-color: black;
-      border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
-      box-sizing: border-box;
+    background-color: black;
+    border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
+    box-sizing: border-box;
 
-      height: 95%;
-      align-self: center;
+    height: 95%;
+    align-self: center;
 
-      /* To prevent the time from overflowing */
-      min-width: fit-content;
+    /* To prevent the time from overflowing */
+    min-width: fit-content;
 
-      /* Adding padding at the sides makes it look better at smaller resolutions */
-      padding: 0 0.5em;
+    /* Adding padding at the sides makes it look better at smaller resolutions */
+    padding: 0 0.5em;
+  }
 
-      /* Target ui-settings-button-time */
-      & > [id*="time"] {
-        text-align: center;
+  #ui-settings-button-time {
+    text-align: center;
 
-        font-family: DIGITAL-7-monospace, Courier, monospace;
-        font-style: italic;
-        font-size: var(--ui-top-bar-left-digital-clock-font-size);
+    font-family: DIGITAL-7-monospace, Courier, monospace;
+    font-style: italic;
+    font-size: var(--ui-top-bar-left-digital-clock-font-size);
 
-        /* REVIEW - Make it glow like a digital clock */
-        color: var(--ui-top-bar-left-digital-clock-main-colour);
-        text-shadow: hsl(120, 100%, 17%) 3px 2px;
-      }
-    }
+    /* REVIEW - Make it glow like a digital clock */
+    color: var(--ui-top-bar-left-digital-clock-main-colour);
+    text-shadow: hsl(120, 100%, 17%) 3px 2px;
   }
 
   #ui-top-bar-middle {
@@ -97,10 +95,10 @@
     /* This is only really necessary in very low screen resolutions */
     overflow-y: auto;
 
-    & > [class|="ui-settings-button"] {
-      /* For now, don't allow the setting icons to grow */
-      flex: 0 1 auto;
-    }
+    // & > [class|="ui-settings-button"] {
+    //   /* For now, don't allow the setting icons to grow */
+    //   flex: 0 1 auto;
+    // }
   }
 
   /* This is just the flex box that holds the actual stat bars */
@@ -117,7 +115,7 @@
     /* Only include the stat bars themselves */
     & .ui-stat-bar-and-icon > [class|="ui-stat-bar"] {
       /* Make sure that the stat bars are inline */
-      display: inline-block;
+      // display: inline-block;
 
       /* Let the stat bars fill as much space as possible */
       flex: 1 0 auto;
@@ -146,7 +144,7 @@
 
     font-size: 90%;
 
-    /* Target te separate containers for both the money and reputation */
+    /* Target the separate containers for both the money and reputation */
     & > [class|="ui-stat-others"] {
       @include uiRightmostIconsFlexContainer;
     }
