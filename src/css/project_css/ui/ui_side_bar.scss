@@ -1,4 +1,4 @@
-@import "partials/mixins";
+@import "partials/mixin";
 
 @layer defaultUI {
   /*  */
@@ -45,7 +45,8 @@
       box-sizing: border-box;
     }
 
-    & > #ui-side-bar-game-info {
+    //NOTE - The only reason this is nested is to override [id|="ui-side-bar] above it
+    & > [id="ui-side-bar-game-info"] {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -60,22 +61,6 @@
       padding-bottom: 0.55rem;
 
       text-align: center;
-
-      & > [id="ui-side-bar-game-info-name"] {
-        font-size: 24px;
-        font-weight: bold;
-
-        // Shift the name from the top a bit.
-        // margin-top: 1rem;
-      }
-
-      & > [id="ui-side-bar-game-info-author"] {
-        font-size: 13px;
-      }
-
-      & > [id="ui-side-bar-game-info-others"] {
-        font-size: 12px;
-      }
     }
 
     & > [id^="ui-side-bar-backup-container"] {
@@ -85,60 +70,70 @@
 
       height: fit-content;
     }
+  }
 
-    // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
-    & > #ui-side-bar-backup-container1 {
-      // justify-content: stretch;
+  #ui-side-bar-game-info-name {
+    font-size: 24px;
+    font-weight: bold;
 
-      & > div {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
+    // Shift the name from the top a bit.
+    // margin-top: 1rem;
+  }
 
-        border: thin solid;
+  #ui-side-bar-game-info-author {
+    font-size: 13px;
+  }
 
-        & > [class|="ui-stat-others"] {
-          @include uiRightmostIconsFlexContainer;
-        }
-      }
+  #ui-side-bar-game-info-others {
+    font-size: 12px;
+  }
 
-      // Target the container that stores the settings/save/restart/etc icons
-      // & > :first-child {
-      //   justify-content: space-evenly;
-      //   align-content: center;
-      // }
-    }
+  // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
+  #ui-side-bar-backup-container1 {
+    // justify-content: stretch;
 
-    // Now the second backup container. Remember, it's only for storing the stat bars
-    & > #ui-side-bar-backup-container2 {
+    & > div {
+      display: flex;
       justify-content: space-evenly;
       align-items: center;
-      row-gap: 0.35rem;
 
-      // The space allocated for the stat bars and icons
-      & > .ui-stat-bar-and-icon {
-        width: 75%;
+      border: thin solid;
 
-        // Force them to occupy all the allocated the space
-        & > [class|="ui-stat-bar"] {
-          width: 100%;
-        }
+      & > [class|="ui-stat-others"] {
+        @include uiRightmostIconsFlexContainer;
       }
     }
+  }
 
-    & > #ui-side-bar-player-image {
-      flex: 0 0 auto;
+  // Now the second backup container. Remember, it's only for storing the stat bars
+  #ui-side-bar-backup-container2 {
+    justify-content: space-evenly;
+    align-items: center;
+    row-gap: 0.35rem;
 
-      // I want the player's image to be in a square
-      height: var(--ui-side-bar-width);
+    // The space allocated for the stat bars and icons
+    & > .ui-stat-bar-and-icon {
+      width: 75%;
+
+      // Force them to occupy all the allocated the space
+      & > [class|="ui-stat-bar"] {
+        width: 100%;
+      }
     }
+  }
 
-    & > #ui-side-bar-assistant-device {
-      flex: 0 0 auto;
+  #ui-side-bar-player-image {
+    flex: 0 0 auto;
 
-      // Honestly not sure abt the size
-      height: var(--ui-side-bar-width);
-    }
+    // I want the player's image to be in a square
+    height: var(--ui-side-bar-width);
+  }
+
+  #ui-side-bar-assistant-device {
+    flex: 0 0 auto;
+
+    // Honestly not sure abt the size
+    height: var(--ui-side-bar-width);
   }
 
   //
