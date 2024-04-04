@@ -5,23 +5,23 @@
     <!-- Container for everything above except time  -->
     <div id="ui-settings-buttons">
         /*NOTE - Settings/save/restart/etc, Stat bars, money/reputation are all classes because they are duplicated unto the sidebar and hidden in the top bar in mobile devices currently in portrait mode */
-        <div class="ui-settings-button-inventory">
+        <div class="ui-settings-button-inventory ui-icon-glow">
             <img src="assets/img/ui/icons/purse_inventory.webp" alt="Inventory Button">
         </div>
         <!-- Save -->
-        <div class="ui-settings-button-save">
+        <div class="ui-settings-button-save ui-icon-glow">
             <img src="assets/img/ui/icons/save.webp" alt="Save Button">
         </div>
         <!-- Settings -->
-        <div class="ui-settings-button-settings">
+        <div class="ui-settings-button-settings ui-icon-glow">
             <img src="assets/img/ui/icons/settings.webp" alt="Settings Button">
         </div>
         <!-- Restart -->
-        <div class="ui-settings-button-restart">
+        <div class="ui-settings-button-restart ui-icon-glow">
             <img src="assets/img/ui/icons/restart.webp" alt="Restart Button">
         </div>
         <!-- Report Bugs -->
-        <div class="ui-settings-button-report-bugs">
+        <div class="ui-settings-button-report-bugs ui-icon-glow">
             <img src="assets/img/ui/icons/bug_report.webp" alt="Bug Report Button">
         </div>
     </div>
