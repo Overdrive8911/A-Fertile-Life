@@ -33,6 +33,7 @@ const uiSideBarToggleHandler = () => {
   const slimMobileWidth = "screen and (max-width: 500px)";
   const wideMobileWidth = "screen and (max-width: 780px)";
   const generalMobileUISettingsReset = () => {
+    // TODO - PLEASE REVISE THIS
     $("#ui-side-bar-backup-container1 > :first-child").empty();
     $("#ui-side-bar-backup-container1 > :last-child").empty();
 
@@ -41,6 +42,9 @@ const uiSideBarToggleHandler = () => {
     $("#ui-settings-buttons").css("display", "");
     $("#ui-top-bar-middle").css("display", "");
     $("#ui-top-bar-right").css("display", "");
+
+    $("#ui-top-bar-left").css("flex", "");
+    $("#ui-top-bar-left").css("padding-left", "");
 
     // HIDE THEM. If its needed, manually set it
     $("[id^=ui-side-bar-backup-container]").css("display", "none");
@@ -219,8 +223,11 @@ $(document).on(":passageend", () => {
 });
 
 // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
-window
-  .matchMedia("(orientation: portrait)")
-  .addEventListener("change", (ev) => {
-    uiSideBarToggleHandler();
-  });
+window.matchMedia("(orientation: portrait)").addEventListener("change", () => {
+  uiSideBarToggleHandler();
+});
+
+// Also rerun when the handler when the browser resolution changes (for PC users)
+$(window).on("resize", () => {
+  uiSideBarToggleHandler();
+});
