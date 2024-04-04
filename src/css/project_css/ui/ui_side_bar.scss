@@ -1,3 +1,5 @@
+@import "partials/mixins";
+
 @layer defaultUI {
   /*  */
   /* This stores the actual side bar AND the button used to stow/open it */
@@ -94,6 +96,10 @@
         align-items: center;
 
         border: thin solid;
+
+        & > [class|="ui-stat-others"] {
+          @include uiRightmostIconsFlexContainer;
+        }
       }
 
       // Target the container that stores the settings/save/restart/etc icons
