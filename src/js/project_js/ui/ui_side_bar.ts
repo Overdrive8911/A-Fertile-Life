@@ -110,9 +110,6 @@ const uiSideBarToggleHandler = () => {
       // Hide the "middle" section of the top bar (alongside the original stat bars as well)
       $("#ui-top-bar-middle").css("display", "none");
 
-      // Change a couple of the css to make the first container look better
-      $("#ui-side-bar-backup-container1 > div").css("min-height", "24px");
-
       // Change a couple of the css to make the second container look better
       $("#ui-side-bar-backup-container2").css("padding-top", "0.25rem");
       $("#ui-side-bar-backup-container2").css("padding-bottom", "0.25rem");
@@ -128,8 +125,6 @@ const uiSideBarToggleHandler = () => {
       $("#ui-settings-button-time").css("font-family", "");
 
       $("#ui-top-bar-middle").css("display", "");
-
-      $("#ui-side-bar-backup-container1 > div").css("min-height", "");
 
       $("#ui-side-bar-backup-container2").css("padding-top", "");
       $("#ui-side-bar-backup-container2").css("padding-bottom", "");
