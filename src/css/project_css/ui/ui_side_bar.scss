@@ -98,6 +98,8 @@
 
       border: thin solid;
 
+      min-height: calc(var(--ui-icon-height) * 1.25);
+
       & > [class|="ui-stat-others"] {
         @include uiRightmostIconsFlexContainer;
       }
