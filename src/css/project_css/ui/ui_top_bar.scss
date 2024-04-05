@@ -101,6 +101,12 @@
     // }
   }
 
+  // Target the leftmost icons
+  [class|="ui-settings-button"] {
+    height: var(--ui-icon-height);
+    width: var(--ui-icon-width);
+  }
+
   /* This is just the flex box that holds the actual stat bars */
   #ui-stat-bars {
     display: flex;
