@@ -1,7 +1,7 @@
 :: uiPassage_bottom_section
-<div id="ui-movement-options-container">
-    <button id="ui-movement-option-button-north">North (W)</button>
-    <button id="ui-movement-option-button-east">East (D)</button>
-    <button id="ui-movement-option-button-south">South (S)</button>
-    <button id="ui-movement-option-button-west">West (W)</button>
+<div id="ui-navigation-options-container">
+    <button id="ui-navigation-option-button-north">North (W)</button>
+    <button id="ui-navigation-option-button-east">East (D)</button>
+    <button id="ui-navigation-option-button-south">South (S)</button>
+    <button id="ui-navigation-option-button-west">West (W)</button>
 </div>
