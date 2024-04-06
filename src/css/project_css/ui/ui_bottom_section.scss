@@ -1,0 +1,30 @@
+@layer defaultUI {
+    #ui-bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: var(--ui-side-bar-width);
+        z-index: 1;
+
+        height: var(--ui-bottom-bar-height);
+        width: calc(100% - var(--ui-side-bar-width));
+
+        display: flex;
+
+        background-color: var(--ui-bar-background-color);
+
+        border-top: thin solid var(--ui-bar-border-color);
+    }
+
+    #ui-movement-options-container {
+        width: 100%;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    button[id|="ui-movement-option-button"] {
+        border-radius: 10%;
+        padding: 0.2em 0.2em;
+    }
+}

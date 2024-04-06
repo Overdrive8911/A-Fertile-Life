@@ -1,8 +1,7 @@
 /* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
-
-// Pretty much just to include those long samsung phones or smth while in landscape mode
-@media screen and (max-width: 900px) {
-    @layer mobileUI {
+@layer mobileUI {
+    // Pretty much just to include those long samsung phones or smth while in landscape mode
+    @media screen and (max-width: 900px) {
         :root {
             --ui-side-bar-width: 200px;
         }
@@ -16,11 +15,9 @@
             gap: 0.15rem;
         }
     }
-}
 
-@media screen and (max-width: 500px) {
-    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
-    @layer mobileUI {
+    @media screen and (max-width: 500px) {
+        // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
         :root {
             --ui-side-bar-width: 180px;
         }
@@ -44,6 +41,13 @@
             font-family: DIGITAL-7, Courier, monospace;
             // Reduce the font size by ~82.6%
             font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+        }
+    }
+
+    @media screen and (max-width: 450px) {
+        button[id|="ui-movement-option-button"] {
+            border-radius: 10%;
+            padding: 0.2em 0.2em;
         }
     }
 }
