@@ -1,175 +1,173 @@
-@import "partials/mixin";
+@import "../partials/mixin.scss";
 
-@layer defaultUI {
-  /*TODO - Arrange all these declarations later*/
-  #ui-top-bar {
-    display: flex;
-    justify-content: space-around;
+/*TODO - Arrange all these declarations later*/
+#ui-top-bar {
+  display: flex;
+  justify-content: space-around;
 
-    right: 0;
-    width: calc(100% - var(--ui-side-bar-width));
-    height: var(--ui-top-bar-height);
-    position: fixed;
-    background-color: var(--ui-bar-background-color);
+  right: 0;
+  width: calc(100% - var(--ui-side-bar-width));
+  height: var(--ui-top-bar-height);
+  position: fixed;
+  background-color: var(--ui-bar-background-color);
 
-    border-top: thin solid var(--ui-bar-border-color);
-    border-bottom: thin solid var(--ui-bar-border-color);
+  border-top: thin solid var(--ui-bar-border-color);
+  border-bottom: thin solid var(--ui-bar-border-color);
 
-    font-size: 0.8em;
+  font-size: 0.8em;
 
-    z-index: 1;
+  z-index: 1;
+}
+
+#ui-top-bar-left {
+  display: flex;
+  flex: 1 1 auto;
+  /* This only meaningfully affects ui-settings-button-time-border-and-bg */
+  align-items: stretch;
+
+  max-width: 35%;
+}
+
+#ui-settings-button-time-border-and-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0.5 1 30%;
+
+  background-color: black;
+  border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
+  box-sizing: border-box;
+
+  height: 95%;
+  align-self: center;
+
+  /* To prevent the time from overflowing */
+  min-width: fit-content;
+
+  /* Adding padding at the sides makes it look better at smaller resolutions */
+  padding: 0 0.5em;
+}
+
+#ui-settings-button-time {
+  text-align: center;
+
+  font-family: DIGITAL-7-monospace, Courier, monospace;
+  font-style: italic;
+  font-size: var(--ui-top-bar-left-digital-clock-font-size);
+
+  /* REVIEW - Make it glow like a digital clock */
+  color: var(--ui-top-bar-left-digital-clock-main-colour);
+  text-shadow: hsl(120, 100%, 17%) 3px 2px;
+}
+
+#ui-top-bar-middle {
+  display: flex;
+  flex: 3 1 auto;
+
+  /* The middle bar must always consume at least 50% of the space in the top bar, so that the stat bars will have enough space to work with */
+  min-width: 50%;
+}
+
+#ui-top-bar-right {
+  display: flex;
+  flex: 0 2 7%;
+
+  padding: 0 1%;
+
+  min-width: fit-content;
+}
+
+#ui-settings-buttons {
+  display: flex;
+  flex: 3 1 auto;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10%;
+  row-gap: 5%;
+  flex-wrap: wrap;
+  padding-left: 1%;
+  padding-right: 1%;
+
+  height: 100%;
+  min-width: min-content;
+
+  /* This is only really necessary in very low screen resolutions */
+  overflow-y: auto;
+
+  // & > [class|="ui-settings-button"] {
+  //   /* For now, don't allow the setting icons to grow */
+  //   flex: 0 1 auto;
+  // }
+}
+
+// Target the leftmost icons
+[class|="ui-settings-button"] {
+  height: var(--ui-icon-height);
+  width: var(--ui-icon-width);
+
+  // Make them flex items and center the content in-case the height and width change later on
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* This is just the flex box that holds the actual stat bars */
+#ui-stat-bars {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  height: 100%;
+  width: 100%;
+
+  padding-left: 1%;
+
+  /* Only include the stat bars themselves */
+  & .ui-stat-bar-and-icon > [class|="ui-stat-bar"] {
+    /* Make sure that the stat bars are inline */
+    // display: inline-block;
+
+    /* Let the stat bars fill as much space as possible */
+    flex: 1 0 auto;
   }
+}
 
-  #ui-top-bar-left {
-    display: flex;
-    flex: 1 1 auto;
-    /* This only meaningfully affects ui-settings-button-time-border-and-bg */
-    align-items: stretch;
+/* Make them pairs of stat bars I selected arrange into a column */
+.ui-stat-bars-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 
-    max-width: 35%;
+  height: 100%;
+  width: 31%;
+}
+
+#ui-stat-others {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  overflow-y: auto;
+
+  width: 100%;
+
+  font-size: 90%;
+
+  /* Target the separate containers for both the money and reputation */
+  & > [class|="ui-stat-others"] {
+    @include uiRightmostIconsFlexContainer;
   }
+}
 
-  #ui-settings-button-time-border-and-bg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0.5 1 30%;
+.ui-stat-bar-and-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-    background-color: black;
-    border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
-    box-sizing: border-box;
-
-    height: 95%;
-    align-self: center;
-
-    /* To prevent the time from overflowing */
-    min-width: fit-content;
-
-    /* Adding padding at the sides makes it look better at smaller resolutions */
-    padding: 0 0.5em;
-  }
-
-  #ui-settings-button-time {
-    text-align: center;
-
-    font-family: DIGITAL-7-monospace, Courier, monospace;
-    font-style: italic;
-    font-size: var(--ui-top-bar-left-digital-clock-font-size);
-
-    /* REVIEW - Make it glow like a digital clock */
-    color: var(--ui-top-bar-left-digital-clock-main-colour);
-    text-shadow: hsl(120, 100%, 17%) 3px 2px;
-  }
-
-  #ui-top-bar-middle {
-    display: flex;
-    flex: 3 1 auto;
-
-    /* The middle bar must always consume at least 50% of the space in the top bar, so that the stat bars will have enough space to work with */
-    min-width: 50%;
-  }
-
-  #ui-top-bar-right {
-    display: flex;
-    flex: 0 2 7%;
-
-    padding: 0 1%;
-
-    min-width: fit-content;
-  }
-
-  #ui-settings-buttons {
-    display: flex;
-    flex: 3 1 auto;
-    align-items: center;
-    justify-content: center;
-    column-gap: 10%;
-    row-gap: 5%;
-    flex-wrap: wrap;
-    padding-left: 1%;
-    padding-right: 1%;
-
-    height: 100%;
-    min-width: min-content;
-
-    /* This is only really necessary in very low screen resolutions */
-    overflow-y: auto;
-
-    // & > [class|="ui-settings-button"] {
-    //   /* For now, don't allow the setting icons to grow */
-    //   flex: 0 1 auto;
-    // }
-  }
-
-  // Target the leftmost icons
-  [class|="ui-settings-button"] {
-    height: var(--ui-icon-height);
-    width: var(--ui-icon-width);
-
-    // Make them flex items and center the content in-case the height and width change later on
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* This is just the flex box that holds the actual stat bars */
-  #ui-stat-bars {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    height: 100%;
-    width: 100%;
-
-    padding-left: 1%;
-
-    /* Only include the stat bars themselves */
-    & .ui-stat-bar-and-icon > [class|="ui-stat-bar"] {
-      /* Make sure that the stat bars are inline */
-      // display: inline-block;
-
-      /* Let the stat bars fill as much space as possible */
-      flex: 1 0 auto;
-    }
-  }
-
-  /* Make them pairs of stat bars I selected arrange into a column */
-  .ui-stat-bars-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    height: 100%;
-    width: 31%;
-  }
-
-  #ui-stat-others {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-
-    overflow-y: auto;
-
-    width: 100%;
-
-    font-size: 90%;
-
-    /* Target the separate containers for both the money and reputation */
-    & > [class|="ui-stat-others"] {
-      @include uiRightmostIconsFlexContainer;
-    }
-  }
-
-  .ui-stat-bar-and-icon {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    /* Target the stat icons */
-    & > :first-child {
-      /* Give a slight gap between the icons and their stat bars */
-      margin-right: 0.3em;
-    }
+  /* Target the stat icons */
+  & > :first-child {
+    /* Give a slight gap between the icons and their stat bars */
+    margin-right: 0.3em;
   }
 }
