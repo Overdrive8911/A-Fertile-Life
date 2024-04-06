@@ -9,8 +9,14 @@
     <!-- The top UI bar is divided into 3 sections; left, middle and right -->
     <div id="ui-top-bar" data-passage="uiPassage_top_bar"></div>
 
-    <!-- Stays on the right -->
+    <!-- Stays on the left. It's called a "section" because it contains the actual side bar AND a toggle button for it -->
     <div id="ui-side-section" data-passage="uiPassage_side_section"></div>
+
+    <!-- Contains general choices like the movement options i.e North, West, East, South -->
+    <div id="ui-bottom-bar" data-passage="uiPassage_bottom_section"></div>
+
+    <!-- Stays on the right side. Contains the toggle for the map -->
+    <div id="ui-opposite-side-section" data-passage="uiPassage_opposite_side_section"></div>
 
     <!-- you must have one element with #id of 'passages' --> 
     <div id="passages"></div>
