@@ -1,157 +1,155 @@
-@import "partials/mixin";
+@import "../partials/mixin.scss";
 
-@layer defaultUI {
-  /*  */
-  /* This stores the actual side bar AND the button used to stow/open it */
-  #ui-side-section {
-    position: fixed;
-    left: 0;
-    width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
-    height: 100%;
+/*  */
+/* This stores the actual side bar AND the button used to stow/open it */
+#ui-side-section {
+  position: fixed;
+  left: 0;
+  width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
+  height: 100%;
 
-    display: flex;
+  display: flex;
 
-    /* align-items: center; */
-  }
+  /* align-items: center; */
+}
 
-  #ui-side-bar {
-    /* position: fixed; */
-    /* left: 0; */
-    height: 100%;
-    width: var(--ui-side-bar-width);
-    z-index: 1;
+#ui-side-bar {
+  /* position: fixed; */
+  /* left: 0; */
+  height: 100%;
+  width: var(--ui-side-bar-width);
+  z-index: 1;
 
+  box-sizing: border-box;
+  border: 2px solid lightgrey;
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow-y: auto;
+
+  background-color: var(--ui-bar-background-color);
+
+  // Make all the major flex containers fill a row by themselves
+  & > [id|="ui-side-bar"] {
+    // width: 100%;
+    // min-height: 20%;
+    // flex: 1 1 10%;
+
+    // I'll remove this later but it's used to get a visual on the space everything is using
+    border-bottom: thin solid lightgrey;
+    border-top: thin solid lightgrey;
     box-sizing: border-box;
-    border: 2px solid lightgrey;
+  }
 
+  & > [id^="ui-side-bar-backup-container"] {
     display: flex;
-
+    flex: 0 1 auto;
     flex-direction: column;
-    justify-content: space-between;
 
-    overflow-y: auto;
-
-    background-color: var(--ui-bar-background-color);
-
-    // Make all the major flex containers fill a row by themselves
-    & > [id|="ui-side-bar"] {
-      // width: 100%;
-      // min-height: 20%;
-      // flex: 1 1 10%;
-
-      // I'll remove this later but it's used to get a visual on the space everything is using
-      border-bottom: thin solid lightgrey;
-      border-top: thin solid lightgrey;
-      box-sizing: border-box;
-    }
-
-    & > [id^="ui-side-bar-backup-container"] {
-      display: flex;
-      flex: 0 1 auto;
-      flex-direction: column;
-
-      height: fit-content;
-    }
+    height: fit-content;
   }
+}
 
-  #ui-side-bar-game-info {
+#ui-side-bar-game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.2rem;
+  flex-basis: auto;
+  flex-grow: 0;
+
+  // Override the defaults
+  height: max-content;
+
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+
+  text-align: center;
+}
+
+#ui-side-bar-game-info-name {
+  font-size: 24px;
+  font-weight: bold;
+
+  // Shift the name from the top a bit.
+  // margin-top: 1rem;
+}
+
+#ui-side-bar-game-info-author {
+  font-size: 13px;
+}
+
+#ui-side-bar-game-info-others {
+  font-size: 12px;
+}
+
+// Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
+#ui-side-bar-backup-container1 {
+  // justify-content: stretch;
+
+  & > div {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 0.2rem;
-    flex-basis: auto;
-    flex-grow: 0;
-
-    // Override the defaults
-    height: max-content;
-
-    padding-top: 0.55rem;
-    padding-bottom: 0.55rem;
-
-    text-align: center;
-  }
-
-  #ui-side-bar-game-info-name {
-    font-size: 24px;
-    font-weight: bold;
-
-    // Shift the name from the top a bit.
-    // margin-top: 1rem;
-  }
-
-  #ui-side-bar-game-info-author {
-    font-size: 13px;
-  }
-
-  #ui-side-bar-game-info-others {
-    font-size: 12px;
-  }
-
-  // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
-  #ui-side-bar-backup-container1 {
-    // justify-content: stretch;
-
-    & > div {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-
-      padding: 0.2rem;
-
-      border: thin solid;
-
-      min-height: calc(var(--ui-icon-height) * 1.25);
-
-      & > [class|="ui-stat-others"] {
-        @include uiRightmostIconsFlexContainer;
-      }
-    }
-  }
-
-  // Now the second backup container. Remember, it's only for storing the stat bars
-  #ui-side-bar-backup-container2 {
     justify-content: space-evenly;
     align-items: center;
-    row-gap: 0.35rem;
 
-    // The space allocated for the stat bars and icons
-    & > .ui-stat-bar-and-icon {
-      width: 75%;
+    padding: 0.2rem;
 
-      // Force them to occupy all the allocated the space
-      & > [class|="ui-stat-bar"] {
-        width: 100%;
-      }
+    border: thin solid;
+
+    min-height: calc(var(--ui-icon-height) * 1.25);
+
+    & > [class|="ui-stat-others"] {
+      @include uiRightmostIconsFlexContainer;
     }
   }
+}
 
-  #ui-side-bar-player-image,
-  #ui-side-bar-assistant-device {
-    flex: 0 0 auto;
+// Now the second backup container. Remember, it's only for storing the stat bars
+#ui-side-bar-backup-container2 {
+  justify-content: space-evenly;
+  align-items: center;
+  row-gap: 0.35rem;
 
-    //NOTE - I want the player's image to be in a square but I'm not really sure abt the assistant stuff
-    height: var(--ui-side-bar-width);
+  // The space allocated for the stat bars and icons
+  & > .ui-stat-bar-and-icon {
+    width: 75%;
+
+    // Force them to occupy all the allocated the space
+    & > [class|="ui-stat-bar"] {
+      width: 100%;
+    }
   }
+}
 
-  //
-  //
-  #ui-side-bar-toggle-button {
-    margin-top: 5rem;
+#ui-side-bar-player-image,
+#ui-side-bar-assistant-device {
+  flex: 0 0 auto;
 
-    height: 5.2rem;
-    width: var(--ui-side-bar-toggle-button-width);
+  //NOTE - I want the player's image to be in a square but I'm not really sure abt the assistant stuff
+  height: var(--ui-side-bar-width);
+}
 
-    /* z-index: 1; */
+//
+//
+#ui-side-bar-toggle-button {
+  margin-top: 5rem;
 
-    border: thin solid darkgray;
-    box-sizing: border-box;
+  height: 5.2rem;
+  width: var(--ui-side-bar-toggle-button-width);
 
-    background-color: lightgray;
+  /* z-index: 1; */
 
-    /* To center the pointer I added */
-    display: flex;
-    align-items: center;
+  border: thin solid darkgray;
+  box-sizing: border-box;
 
-    text-align: center;
-  }
+  background-color: lightgray;
+
+  /* To center the pointer I added */
+  display: flex;
+  align-items: center;
+
+  text-align: center;
 }
