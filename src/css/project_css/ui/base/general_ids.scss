@@ -1,0 +1,25 @@
+#interface {
+    position: absolute;
+    z-index: -5;
+}
+
+#passages {
+    width: calc(100% - var(--ui-side-bar-width));
+    /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
+    /* margin: 0 auto auto auto; */
+    position: relative;
+    top: calc(var(--ui-top-bar-height) + 2em);
+    left: var(--ui-side-bar-width);
+    padding-bottom: 2.5em;
+
+    z-index: -1;
+
+    /* Turn the main passage area into a flex box and manipulate the actual passages within it */
+    display: flex;
+    justify-content: space-around;
+
+    & > div[id|="passage"] {
+        /* max-width: 54em; */
+        max-width: 70%;
+    }
+}
