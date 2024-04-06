@@ -47,6 +47,7 @@
 @media screen and (max-width: 450px) {
     [id|="ui-navigation-option-button"] {
         border-radius: 10%;
-        padding: 0.2em 0.2em;
+        // padding: 0.2em 0.2em;
+        font-size: 14px;
     }
 }
