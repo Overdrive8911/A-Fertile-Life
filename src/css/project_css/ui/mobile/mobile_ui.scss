@@ -1,53 +1,52 @@
 /* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
-@layer mobileUI {
-    // Pretty much just to include those long samsung phones or smth while in landscape mode
-    @media screen and (max-width: 900px) {
-        :root {
-            --ui-side-bar-width: 200px;
-        }
 
-        // Increase the space around the icons so you can't fat-finger a wrong one :D
-        [class|="ui-settings-button"] {
-            height: 21.5px;
-            width: 22.5px;
-        }
-        #ui-side-bar-backup-container1 > div {
-            gap: 0.15rem;
-        }
+// Pretty much just to include those long samsung phones or smth while in landscape mode
+@media screen and (max-width: 900px) {
+    :root {
+        --ui-side-bar-width: 200px;
     }
 
-    @media screen and (max-width: 500px) {
-        // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
-        :root {
-            --ui-side-bar-width: 180px;
-        }
+    // Increase the space around the icons so you can't fat-finger a wrong one :D
+    [class|="ui-settings-button"] {
+        height: 21.5px;
+        width: 22.5px;
+    }
+    #ui-side-bar-backup-container1 > div {
+        gap: 0.15rem;
+    }
+}
 
-        #ui-top-bar {
-            justify-content: space-evenly;
-        }
-
-        #ui-settings-buttons,
-        #ui-top-bar-right {
-            display: none;
-        }
-
-        #ui-top-bar-left {
-            max-width: fit-content;
-            // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
-            padding-left: 0.25%;
-        }
-
-        #ui-settings-button-time {
-            font-family: DIGITAL-7, Courier, monospace;
-            // Reduce the font size by ~82.6%
-            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
-        }
+@media screen and (max-width: 500px) {
+    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
+    :root {
+        --ui-side-bar-width: 180px;
     }
 
-    @media screen and (max-width: 450px) {
-        button[id|="ui-movement-option-button"] {
-            border-radius: 10%;
-            padding: 0.2em 0.2em;
-        }
+    #ui-top-bar {
+        justify-content: space-evenly;
+    }
+
+    #ui-settings-buttons,
+    #ui-top-bar-right {
+        display: none;
+    }
+
+    #ui-top-bar-left {
+        max-width: fit-content;
+        // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
+        padding-left: 0.25%;
+    }
+
+    #ui-settings-button-time {
+        font-family: DIGITAL-7, Courier, monospace;
+        // Reduce the font size by ~82.6%
+        font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+    }
+}
+
+@media screen and (max-width: 450px) {
+    button[id|="ui-movement-option-button"] {
+        border-radius: 10%;
+        padding: 0.2em 0.2em;
     }
 }
