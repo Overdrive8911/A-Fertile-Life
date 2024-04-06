@@ -14,7 +14,7 @@
     border-top: thin solid var(--ui-bar-border-color);
 }
 
-#ui-movement-options-container {
+#ui-navigation-options-container {
     width: 100%;
 
     display: flex;
@@ -22,7 +22,7 @@
     align-items: center;
 }
 
-button[id|="ui-movement-option-button"] {
+[id|="ui-navigation-option-button"] {
     // border-radius: 10%;
     // padding: 0.2em 0.2em;
 }
