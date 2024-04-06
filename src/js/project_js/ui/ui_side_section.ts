@@ -48,6 +48,10 @@ const uiSideBarToggleHandler = () => {
 
     // HIDE THEM. If its needed, manually set it
     $("[id^=ui-side-bar-backup-container]").css("display", "none");
+
+    $("[id|='ui-navigation-option-button']").removeClass(
+      "ui-navigation-button-small"
+    );
   };
 
   //SECTION - For slim portrait modes on mobile
@@ -117,6 +121,11 @@ const uiSideBarToggleHandler = () => {
       // SHOW THE CONTAINERS
       $("[id^=ui-side-bar-backup-container]").css("display", "");
       //
+
+      // Change the size of the bottom bar navigation settings
+      $("[id|='ui-navigation-option-button']").addClass(
+        "ui-navigation-button-small"
+      );
     } else {
       // Restore all the changes when the sidebar is closed
 
@@ -129,6 +138,10 @@ const uiSideBarToggleHandler = () => {
       $("#ui-side-bar-backup-container2").css("padding-top", "");
       $("#ui-side-bar-backup-container2").css("padding-bottom", "");
       $("[id^=ui-side-bar-backup-container]").css("display", "none");
+
+      $("[id|='ui-navigation-option-button']").removeClass(
+        "ui-navigation-button-small"
+      );
     }
   }
   //SECTION - For wide portrait and relatively narrower landscape modes on mobile
@@ -217,10 +230,10 @@ $(document).on(":passageend", () => {
   });
 });
 
-// Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
-window.matchMedia("(orientation: portrait)").addEventListener("change", () => {
-  uiSideBarToggleHandler();
-});
+// // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
+// window.matchMedia("(orientation: portrait)").addEventListener("change", () => {
+//   uiSideBarToggleHandler();
+// });
 
 // Also rerun when the handler when the browser resolution changes (for PC users)
 $(window).on("resize", () => {
