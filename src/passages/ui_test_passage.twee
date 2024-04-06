@@ -1,3 +1,15 @@
+:: StoryTitle
+A Fertile Life
+
+
+:: StoryData
+{
+  "ifid": "00E51339-657B-4319-B28F-7BFB3458BC6E",
+  "format": "SugarCube",
+  "format-version": "2.36.1",
+  "start": "Start",
+  "zoom": 1
+}
 :: Start [Prologue] {"position":"325,125","size":"100,100"}
 You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's around 9:00PM and the chilly nighttime wind blows into your room, although it fails to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over your workplace to meet your boss. Each time, leaving him looking more miserable. Not up to a week later, sales started dropping steadily which just worsened the situation.
 
