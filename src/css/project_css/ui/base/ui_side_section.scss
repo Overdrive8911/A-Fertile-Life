@@ -135,9 +135,10 @@
 //
 //
 #ui-side-bar-toggle-button {
-  margin-top: 5rem;
+  margin-top: calc(var(--ui-top-bar-height) + 2rem);
 
-  height: 5.2rem;
+  height: 212px;
+  // max-height: 55.6vh;
   width: var(--ui-side-bar-toggle-button-width);
 
   /* z-index: 1; */
