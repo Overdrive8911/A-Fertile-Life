@@ -5,7 +5,7 @@
 #ui-side-section {
   position: fixed;
   left: 0;
-  width: calc(var(--ui-side-bar-toggle-button-width) + var(--ui-side-bar-width));
+  width: calc(var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width));
   height: 100%;
 
   display: flex;
@@ -134,23 +134,34 @@
 
 //
 //
-#ui-side-bar-toggle-button {
+[id="ui-side-bar-action-menu"] {
   margin-top: calc(var(--ui-top-bar-height) + 2rem);
 
   height: 212px;
   // max-height: 55.6vh;
-  width: var(--ui-side-bar-toggle-button-width);
+  width: var(--ui-side-bar-action-menu-width);
 
   /* z-index: 1; */
 
-  border: thin solid darkgray;
-  box-sizing: border-box;
-
-  background-color: lightgray;
-
   /* To center the pointer I added */
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: stretch;
 
   text-align: center;
+
+  // Target all direct option containers within
+  > div {
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: thin solid darkgray;
+    box-sizing: border-box;
+
+    background-color: lightgray;
+  }
 }
