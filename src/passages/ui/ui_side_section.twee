@@ -26,4 +26,8 @@
     <div id="ui-side-bar-assistant-device"></div>
 </div>
 
-<div id="ui-side-bar-toggle-button">◄</div>
+/* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
+<div id="ui-side-bar-action-menu">
+    <div id="ui-side-bar-toggle-state-button">◄</div>
+    <div id="ui-side-bar-toggle-map-button">Placeholder</div>
+</div>
