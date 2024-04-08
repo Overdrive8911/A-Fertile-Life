@@ -12,3 +12,10 @@
     min-width: min-content;
     min-height: min-content;
 }
+
+// Provide fallback for unsupported values
+.pixel-art {
+    // image-rendering: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
