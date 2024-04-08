@@ -9,8 +9,9 @@ const uiSideBarToggleHandler = () => {
   $("html").css("--ui-side-bar-width", settings.uiSideBarToggle ? "" : "1rem");
 
   // Change the stubbed arrow's facing direction depending on the state of the sidebar
-  $("#ui-side-bar-toggle-state-button").text(
-    settings.uiSideBarToggle ? "◄" : "►"
+  $("#ui-side-bar-toggle-state-button > img").css(
+    "transform",
+    settings.uiSideBarToggle ? "" : "rotate(180deg)"
   );
 
   // Toggle the visibility all the contents of the sidebar
