@@ -138,18 +138,13 @@
   margin-top: calc(var(--ui-top-bar-height) + 2rem);
 
   height: 212px;
-  // max-height: 55.6vh;
+  // I think it looks okay...
+  max-height: calc(100vh - (var(--ui-top-bar-height) + var(--ui-bottom-bar-height) + 80px));
+  min-height: 160px;
   width: var(--ui-side-bar-action-menu-width);
 
-  /* z-index: 1; */
-
-  /* To center the pointer I added */
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  justify-content: stretch;
-
-  text-align: center;
 
   // Target all direct option containers within
   > div {
