@@ -2,7 +2,7 @@
 
 /*  */
 /* This stores the actual side bar AND the button used to stow/open it */
-#ui-side-section {
+[id="ui-side-section"] {
   position: fixed;
   left: 0;
   width: calc(var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width));
@@ -13,7 +13,7 @@
   /* align-items: center; */
 }
 
-#ui-side-bar {
+[id="ui-side-bar"] {
   /* position: fixed; */
   /* left: 0; */
   height: 100%;
@@ -53,7 +53,7 @@
   }
 }
 
-#ui-side-bar-game-info {
+[id="ui-side-bar-game-info"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +70,7 @@
   text-align: center;
 }
 
-#ui-side-bar-game-info-name {
+[id="ui-side-bar-game-info-name"] {
   font-size: 24px;
   font-weight: bold;
 
@@ -78,16 +78,16 @@
   // margin-top: 1rem;
 }
 
-#ui-side-bar-game-info-author {
+[id="ui-side-bar-game-info-author"] {
   font-size: 13px;
 }
 
-#ui-side-bar-game-info-others {
+[id="ui-side-bar-game-info-others"] {
   font-size: 12px;
 }
 
 // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
-#ui-side-bar-backup-container1 {
+[id="ui-side-bar-backup-container1"] {
   // justify-content: stretch;
 
   & > div {
@@ -108,7 +108,7 @@
 }
 
 // Now the second backup container. Remember, it's only for storing the stat bars
-#ui-side-bar-backup-container2 {
+[id="ui-side-bar-backup-container2"] {
   justify-content: space-evenly;
   align-items: center;
   row-gap: 0.35rem;
@@ -124,8 +124,8 @@
   }
 }
 
-#ui-side-bar-player-image,
-#ui-side-bar-assistant-device {
+[id="ui-side-bar-player-image"],
+[id="ui-side-bar-assistant-device"] {
   flex: 0 0 auto;
 
   //NOTE - I want the player's image to be in a square but I'm not really sure abt the assistant stuff
