@@ -1,4 +1,4 @@
-#ui-bottom-bar {
+[id="ui-bottom-bar"] {
     position: fixed;
     bottom: 0;
     left: var(--ui-side-bar-width);
@@ -14,7 +14,7 @@
     border-top: thin solid var(--ui-bar-border-color);
 }
 
-#ui-navigation-options-container {
+[id="ui-navigation-options-container"] {
     width: 100%;
 
     display: flex;
