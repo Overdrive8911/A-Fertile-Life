@@ -1,9 +1,9 @@
-#interface {
+[id="interface"] {
     position: absolute;
     z-index: -5;
 }
 
-#passages {
+[id="passages"] {
     width: calc(100% - var(--ui-side-bar-width));
     /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
     /* margin: 0 auto auto auto; */

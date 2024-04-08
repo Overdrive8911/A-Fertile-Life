@@ -11,7 +11,8 @@
         height: 21.5px;
         width: 22.5px;
     }
-    #ui-side-bar-backup-container1 > div {
+    // Give each individual item per container in the backup container a nice gap
+    [id="ui-side-bar-backup-container1"] > div {
         gap: 0.15rem;
     }
 }
@@ -22,22 +23,22 @@
         --ui-side-bar-width: 180px;
     }
 
-    #ui-top-bar {
+    [id="ui-top-bar"] {
         justify-content: space-evenly;
     }
 
-    #ui-settings-buttons,
-    #ui-top-bar-right {
+    [id="ui-settings-buttons"],
+    [id="ui-top-bar-right"] {
         display: none;
     }
 
-    #ui-top-bar-left {
+    [id="ui-top-bar-left"] {
         max-width: fit-content;
         // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
         padding-left: 0.25%;
     }
 
-    #ui-settings-button-time {
+    [id="ui-settings-button-time"] {
         font-family: DIGITAL-7, Courier, monospace;
         // Reduce the font size by ~82.6%
         font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
