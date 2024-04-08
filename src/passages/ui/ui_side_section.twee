@@ -28,6 +28,10 @@
 
 /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
 <div id="ui-side-bar-action-menu">
-    <div id="ui-side-bar-toggle-state-button">◄</div>
-    <div id="ui-side-bar-toggle-map-button">Placeholder</div>
+    <div id="ui-side-bar-toggle-state-button">
+        <img src="assets/img/ui/icons/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
+    </div>
+    <div id="ui-side-bar-toggle-map-button">
+        <img src="assets/img/ui/icons/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
+    </div>
 </div>
