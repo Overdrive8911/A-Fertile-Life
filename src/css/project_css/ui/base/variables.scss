@@ -1,3 +1,5 @@
+@import "../partials/variables.scss";
+
 :root {
   --ui-top-bar-height: 3rem;
   --ui-bottom-bar-height: 2.5rem;
@@ -9,6 +11,7 @@
 
   --ui-bar-background-color: hsl(0, 0%, 8%);
   --ui-bar-border-color: hsl(0, 0%, 85%);
+  --ui-side-bar-action-menu-button-color: #{$uiSideBarActionMenuButtonColour};
   --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
 
   // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
