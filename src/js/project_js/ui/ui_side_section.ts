@@ -3,6 +3,36 @@
 
 // TODO - Move setting declarations to another file
 
+// Define handler for altering the dimensions and position of #ui-passage-action-interface-shadow as well as adjusting its position as the user scrolls through the passage
+const uiSideBarActionInterfaceShadowHandler = () => {
+  let innerPassagePrependedContainer = $(
+    "[id|='passage'] > [id='ui-passage-action-interface-shadow']"
+  );
+  let uiSideBarActionInterface = $("[id='ui-side-bar-action-interface']");
+
+  // For ease of clarity, define variables for the stuff I'll used to calculate the width of innerPassagePrependedContainer
+  let passagesWidth = $("[id='passages']").css("width");
+  let innerPassageWidth = $("[id|='passage']").css("width");
+  let uiSideBarActionInterfaceWidth = uiSideBarActionInterface.css("width");
+  let uiSideBarActionMenuWidth = $("[id='ui-side-bar-action-menu']").css(
+    "width"
+  );
+
+  if (uiSideBarActionInterface.hasClass("stowed")) {
+    innerPassagePrependedContainer.css("width", "0px").css("height", "0px");
+  } else {
+    innerPassagePrependedContainer
+      .css("float", "left")
+      .css("clear", "left")
+      // .css("margin-top", uiSideBarActionInterface.css("margin-top"))
+      .css("height", uiSideBarActionInterface.css("height"))
+      .css(
+        "width",
+        `calc(((${uiSideBarActionMenuWidth} + ${uiSideBarActionInterfaceWidth}) - ((${passagesWidth} - ${innerPassageWidth}) * 0.5)) + 1rem)`
+      );
+  }
+};
+
 // Define the handler for toggling the sidebar
 const uiSideBarToggleHandler = () => {
   // Open and stow the side bar
@@ -210,6 +240,8 @@ const uiSideBarToggleHandler = () => {
       generalMobileUISettingsReset();
     }
   }
+
+  uiSideBarActionInterfaceShadowHandler();
 };
 
 // Create a toggle for the side bar.
@@ -236,9 +268,19 @@ $(document).on(":passageend", () => {
     // Open or stow the map interface
     $("#ui-side-bar-action-interface").toggleClass("stowed");
     $("#ui-side-bar-popout-map").toggleClass("hidden");
+    uiSideBarActionInterfaceShadowHandler();
     // Wait for 1 second so the button can't be infinitely spammed
     setTimeout(() => {}, 1000);
   });
+
+  // Create a div container in the actual passage and use it to push the passage's content to the right depending on the dimensions of #ui-side-bar-action-interface and the extra space between it and the side bar
+  $("[id|='passage']").prepend(
+    "<div id='ui-passage-action-interface-shadow'></div>"
+  );
+  // Create another div container above #ui-passage-action-interface-shadow and use it to adjust its position as the user scrolls along the passage
+  $("[id|='passage']").prepend(
+    "<div id='ui-passage-action-interface-shadow-spacer'></div>"
+  );
 });
 
 // // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
