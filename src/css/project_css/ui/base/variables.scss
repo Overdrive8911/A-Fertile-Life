@@ -5,9 +5,14 @@
   --ui-bottom-bar-height: 2.5rem;
   --ui-side-bar-width: 240px;
   --ui-side-bar-action-menu-width: 1.25rem;
+  --ui-side-bar-action-menu-height: 212px;
+  --ui-side-bar-action-menu-margin-top: calc(var(--ui-top-bar-height) + 2rem);
   --ui-icon-height: 20px;
   --ui-icon-width: 20px;
-  --ui-side-bar-map-width: 200px;
+  // The width of what will be displayed in the action interface when it's opened
+  --ui-side-bar-action-interface-content-width: 200px;
+  // There'll be a gap on either side which adds with ui-side-bar-action-menu-content-width to get it's width
+  --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 5rem);
 
   --ui-bar-background-color: hsl(0, 0%, 8%);
   --ui-bar-border-color: hsl(0, 0%, 85%);
