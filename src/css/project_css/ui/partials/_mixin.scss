@@ -6,3 +6,9 @@
 @mixin darkenUIButton {
     filter: brightness(85%);
 }
+
+@mixin uiSideBarActionMenuHeightRange {
+    height: var(--ui-side-bar-action-menu-height);
+    max-height: calc(100vh - (var(--ui-top-bar-height) + var(--ui-bottom-bar-height) + 80px));
+    min-height: 160px;
+}

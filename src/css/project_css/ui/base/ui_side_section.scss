@@ -150,10 +150,7 @@
 [id="ui-side-bar-action-menu"] {
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
-  height: var(--ui-side-bar-action-menu-height);
-  // I think it looks okay...
-  max-height: calc(100vh - (var(--ui-top-bar-height) + var(--ui-bottom-bar-height) + 80px));
-  min-height: 160px;
+  @include uiSideBarActionMenuHeightRange;
   width: var(--ui-side-bar-action-menu-width);
 
   display: flex;
@@ -182,7 +179,7 @@
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
   width: var(--ui-side-bar-action-interface-total-width);
-  height: var(--ui-side-bar-action-menu-height);
+  @include uiSideBarActionMenuHeightRange;
 
   box-sizing: border-box;
   border: thick solid var(--ui-bar-border-color);
