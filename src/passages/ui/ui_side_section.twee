@@ -1,4 +1,5 @@
 :: uiPassage_side_section
+/* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
 <div id="ui-side-bar">
     <div id="ui-side-bar-game-info">
         <div id="ui-side-bar-game-info-name">A Fertile Life</div>
@@ -34,4 +35,10 @@
     <div id="ui-side-bar-toggle-map-button" class="ui-darken-on-hover">
         <img class="pixel-art" src="assets/img/ui/icons/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
     </div>
+</div>
+
+/* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
+<div id="ui-side-bar-action-interface" class="stowed">
+    /*  TODO - Will be a canvas */
+    <div id="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
 </div>

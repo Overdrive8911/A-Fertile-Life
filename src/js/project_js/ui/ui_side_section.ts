@@ -231,6 +231,14 @@ $(document).on(":passageend", () => {
     uiSideBarToggleHandler();
     Setting.save();
   });
+
+  $("#ui-side-bar-toggle-map-button").ariaClick(() => {
+    // Open or stow the map interface
+    $("#ui-side-bar-action-interface").toggleClass("stowed");
+    $("#ui-side-bar-popout-map").toggleClass("hidden");
+    // Wait for 1 second so the button can't be infinitely spammed
+    setTimeout(() => {}, 1000);
+  });
 });
 
 // // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
