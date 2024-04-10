@@ -58,11 +58,30 @@
   }
 
   & > [id^="ui-side-bar-backup-container"] {
-    display: flex;
+    // The display will become a flex when on mobile (basically slimmer screens)
+    display: none;
     flex: 0 1 auto;
     flex-direction: column;
 
     height: fit-content;
+  }
+}
+
+// If the sidebar is currently stowed, shrink it
+:root:has([id="ui-side-bar"].stowed) {
+  --ui-side-bar-width: 1rem;
+
+  [id="ui-side-bar"] {
+    background-color: var(--ui-bar-border-color);
+
+    > div {
+      // Hide all children of the side bar
+      display: none;
+    }
+  }
+
+  [id="ui-side-bar-toggle-state-button"] > img {
+    transform: rotate(180deg);
   }
 }
 
