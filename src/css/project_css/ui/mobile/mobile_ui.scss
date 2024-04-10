@@ -17,31 +17,92 @@
     }
 }
 
+// For wide portrait and relatively narrower landscape modes on mobile
+@media screen and (max-width: 780px) {
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        // Hide the original icons since the css ain't doing it
+        [id="ui-settings-buttons"],
+        [id="ui-top-bar-right"] {
+            display: none;
+        }
+
+        // Shrink the resultant space to only fit the digital clock and push it slightly from the end
+        [id="ui-top-bar-left"] {
+            flex: 0 0 auto;
+            padding-left: 0.25%;
+        }
+
+        [id="ui-side-bar-backup-container1"] {
+            display: flex;
+        }
+    }
+
+    :root:has([id="ui-side-bar"].stowed) {
+    }
+}
+
+// For slim portrait modes on mobile
 @media screen and (max-width: 500px) {
     // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
     :root {
         --ui-side-bar-width: 180px;
     }
 
-    [id="ui-top-bar"] {
-        justify-content: space-evenly;
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        [id="ui-top-bar-left"] {
+            // Remove the padding added that was used to shift the clock slightly the right
+            padding-left: 0;
+            // Revert the max-width to defaults
+            max-width: initial;
+        }
+
+        [id="ui-settings-button-time"] {
+            // Change the clock text back to it's monospace version
+            font-family: DIGITAL-7-monospace, Courier, monospace;
+        }
+
+        [id="ui-top-bar-middle"] {
+            // Hide the "middle" section of the top bar (alongside the original stat bars as well)
+            display: none;
+        }
+
+        [id="ui-side-bar-backup-container2"] {
+            // Change a couple of the css to make the second container look better
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+
+        [id^="ui-side-bar-backup-container"] {
+            display: flex;
+        }
     }
 
-    [id="ui-settings-buttons"],
-    [id="ui-top-bar-right"] {
-        display: none;
-    }
+    // CSS to follow when the sidebar is closed/stowed
+    :root:has([id="ui-side-bar"].stowed) {
+        [id="ui-top-bar"] {
+            justify-content: space-evenly;
+        }
 
-    [id="ui-top-bar-left"] {
-        max-width: fit-content;
-        // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
-        padding-left: 0.25%;
-    }
+        [id="ui-settings-buttons"],
+        [id="ui-top-bar-right"] {
+            display: none;
+        }
 
-    [id="ui-settings-button-time"] {
-        font-family: DIGITAL-7, Courier, monospace;
-        // Reduce the font size by ~82.6%
-        font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+        [id="ui-top-bar-left"] {
+            max-width: fit-content;
+            // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
+            padding-left: 0.25%;
+        }
+
+        [id="ui-settings-button-time"] {
+            font-family: DIGITAL-7, Courier, monospace;
+            // Reduce the font size by ~82.6%
+            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+        }
+
+        [id^="ui-side-bar-backup-container"] {
+            display: none;
+        }
     }
 }
 
