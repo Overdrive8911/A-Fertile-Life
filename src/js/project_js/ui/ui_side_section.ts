@@ -31,6 +31,18 @@ const uiSideBarActionInterfaceShadowHandler = () => {
         `calc(((${uiSideBarActionMenuWidth} + ${uiSideBarActionInterfaceWidth}) - ((${passagesWidth} - ${innerPassageWidth}) * 0.5)) + 1rem)`
       );
   }
+
+  //
+  // Position the spacer container #ui-passage-action-interface-shadow-spacer properly
+  let innerPassagePrependedContainerSpacer = $(
+    "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
+  );
+  let scrollBarPosition = $("html").scrollTop();
+  if ($("[id='ui-side-bar-action-interface']").hasClass("stowed")) {
+    innerPassagePrependedContainerSpacer.css("height", "0px");
+  } else {
+    innerPassagePrependedContainerSpacer.css("height", scrollBarPosition);
+  }
 };
 
 // Define the handler for toggling the sidebar
@@ -281,6 +293,28 @@ $(document).on(":passageend", () => {
   $("[id|='passage']").prepend(
     "<div id='ui-passage-action-interface-shadow-spacer'></div>"
   );
+
+  //
+  //
+  // Deal with the spacer container #ui-passage-action-interface-shadow-spacer
+  let innerPassagePrependedContainerSpacer = $(
+    "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
+  );
+
+  // Set its constant properties
+  innerPassagePrependedContainerSpacer.css("float", "left").css("width", "0px");
+  // This callback makes sure that #'ui-passage-action-interface-shadow will always be adjusted correctly even when the page is scrolled
+  window.addEventListener("scroll", () => {
+    let scrollBarPosition = $("html").scrollTop();
+
+    if ($("[id='ui-side-bar-action-interface']").hasClass("stowed")) {
+      innerPassagePrependedContainerSpacer.css("height", "0");
+    } else {
+      innerPassagePrependedContainerSpacer.css("height", scrollBarPosition);
+      // Without this, increasing the size of innerPassagePrependedContainerSpacer will also alter the height of the passage and slightly move the scroll bar causing this function to be called again and again as it forcefully moves the scrollbar in either direction :(
+      $("html").scrollTop(scrollBarPosition);
+    }
+  });
 });
 
 // // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
