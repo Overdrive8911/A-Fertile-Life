@@ -185,19 +185,43 @@ $(document).on(":passageend", () => {
   // To make sure the changes stick around when loading the game
   uiSideBarToggleHandler();
 
+  // TODO - Allow users add keyboard shortcuts they'd prefer
+  // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-state-button").ariaClick(() => {
     // Open or stow the side bar
     $("[id='ui-side-bar']").toggleClass("stowed");
     uiSideBarToggleHandler();
   });
+  $(window).on("keyup", (keyEvent) => {
+    console.log(keyEvent.key);
+    if (keyEvent.key === "q") {
+      // Open or stow the side bar
+      $("[id='ui-side-bar']").toggleClass("stowed");
+      uiSideBarToggleHandler();
+    }
+  });
 
+  // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-map-button").ariaClick(() => {
-    // Open or stow the map interface
-    $("#ui-side-bar-action-interface").toggleClass("stowed");
-    $("#ui-side-bar-popout-map").toggleClass("hidden");
-    uiSideBarActionInterfaceShadowHandler();
     // Wait for 1 second so the button can't be infinitely spammed
-    setTimeout(() => {}, 1000);
+    setTimeout(() => {
+      // Open or stow the map interface
+      $("#ui-side-bar-action-interface").toggleClass("stowed");
+      $("#ui-side-bar-popout-map").toggleClass("hidden");
+      uiSideBarActionInterfaceShadowHandler();
+    }, 150);
+  });
+  $(window).on("keyup", (keyEvent) => {
+    console.log(keyEvent.key);
+    if (keyEvent.key === "z") {
+      // Wait for 1 second so the button can't be infinitely spammed
+      setTimeout(() => {
+        // Open or stow the map interface
+        $("#ui-side-bar-action-interface").toggleClass("stowed");
+        $("#ui-side-bar-popout-map").toggleClass("hidden");
+        uiSideBarActionInterfaceShadowHandler();
+      }, 150);
+    }
   });
 
   // Create a div container in the actual passage and use it to push the passage's content to the right depending on the dimensions of #ui-side-bar-action-interface and the extra space between it and the side bar
