@@ -1,0 +1,13 @@
+// The action menu clips past the screen on a mobile device in landscape if at least one of the browser's navigation ui bars are active
+@media screen and (max-height: 340px) {
+    :root {
+        // --ui-top-bar-height: 2.8rem;
+        --ui-side-bar-action-menu-height: 168px;
+        --ui-side-bar-action-menu-margin-top: calc(var(--ui-top-bar-height) + 20px);
+    }
+
+    [id="ui-side-bar-action-menu"] {
+        min-height: var(--ui-side-bar-action-menu-height);
+        max-height: var(--ui-side-bar-action-menu-height);
+    }
+}
