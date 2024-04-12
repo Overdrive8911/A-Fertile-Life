@@ -12,3 +12,14 @@
     max-height: calc(100vh - (var(--ui-top-bar-height) + var(--ui-bottom-bar-height) + 80px));
     min-height: 160px;
 }
+
+@mixin createIconDimension($width, $height, $unit: "px") {
+    .icon#{$width}x#{$height} {
+        width: #{$width}#{$unit};
+        height: #{$height}#{$unit};
+    }
+}
+
+@mixin createIconDimensionSquare($length) {
+    @include createIconDimension($length, $length);
+}
