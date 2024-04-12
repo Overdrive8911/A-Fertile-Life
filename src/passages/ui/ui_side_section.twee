@@ -1,6 +1,6 @@
 :: uiPassage_side_section
 /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
-<div id="ui-side-bar">
+<div id="ui-side-bar" class="stowed">
     <div id="ui-side-bar-game-info">
         <div id="ui-side-bar-game-info-name">A Fertile Life</div>
         <div id="ui-side-bar-game-info-author">by Overdrive8911.</div>
@@ -30,11 +30,11 @@
 /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
 <div id="ui-side-bar-action-menu">
     <div id="ui-side-bar-toggle-state-button" class="ui-darken-on-hover">
-        <img class="pixel-art" src="assets/img/ui/icons/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
+        <img class="icon16x16 pixel-art" src="assets/img/ui/icons/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
         <div>(Q)</div>
     </div>
     <div id="ui-side-bar-toggle-map-button" class="ui-darken-on-hover">
-        <img class="pixel-art" src="assets/img/ui/icons/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
+        <img class="icon16x16 pixel-art" src="assets/img/ui/icons/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
         <div>(Z)</div>
     </div>
 </div>
