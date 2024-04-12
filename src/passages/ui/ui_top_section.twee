@@ -6,23 +6,23 @@
     <div id="ui-settings-buttons">
         /*NOTE - Settings/save/restart/etc, Stat bars, money/reputation are all classes because they are duplicated unto the sidebar and hidden in the top bar in mobile devices currently in portrait mode */
         <div class="ui-settings-button-inventory ui-icon-glow">
-            <img class="pixel-art" src="assets/img/ui/icons/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
         </div>
         <!-- Save -->
         <div class="ui-settings-button-save ui-icon-glow">
-            <img class="pixel-art" src="assets/img/ui/icons/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
         </div>
         <!-- Settings -->
         <div class="ui-settings-button-settings ui-icon-glow">
-            <img class="pixel-art" src="assets/img/ui/icons/settings.webp" alt="Greyscale Gear-shaped Settings Button">
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/settings.webp" alt="Greyscale Gear-shaped Settings Button">
         </div>
         <!-- Restart -->
         <div class="ui-settings-button-restart ui-icon-glow">
-            <img class="pixel-art" src="assets/img/ui/icons/restart.webp" alt="Greyscale Restart Button">
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/restart.webp" alt="Greyscale Restart Button">
         </div>
         <!-- Report Bugs -->
         <div class="ui-settings-button-report-bugs ui-icon-glow">
-            <img class="pixel-art" src="assets/img/ui/icons/bug_report.webp" alt="Greyscale Bug Report Button">
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/bug_report.webp" alt="Greyscale Bug Report Button">
         </div>
     </div>
     
@@ -42,7 +42,7 @@
             <!-- Container for a single stat bar and its icon -->
             <div class="ui-stat-bar-and-icon">
                 /*TODO - Turn these paths into a variable */
-                <img class="pixel-art" src="assets/img/ui/icons/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
 
                 <span class="ui-stat-bar-hp">
                     <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
@@ -50,7 +50,7 @@
             </div>
             
             <div class="ui-stat-bar-and-icon">
-                <img class="pixel-art" src="assets/img/ui/icons/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
                     <<showmeter "pcEnergyBar">>
@@ -60,7 +60,7 @@
 
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="pixel-art" src="assets/img/ui/icons/mood.webp" alt="Yellow Smiley Face Mood Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/mood.webp" alt="Yellow Smiley Face Mood Icon">
 
                 <span class="ui-stat-bar-mood">
                     <<showmeter "pcMoodBar">>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="ui-stat-bar-and-icon">
-                <img class="pixel-art" src="assets/img/ui/icons/stomach.webp" alt="Pink Stomach Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/stomach.webp" alt="Pink Stomach Icon">
 
                 <span class="ui-stat-bar-hunger">
                     <<showmeter "pcHungerBar">>
@@ -78,7 +78,7 @@
 
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="pixel-art" src="assets/img/ui/icons/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
 
                 <span class="ui-stat-bar-womb-hp">
                     <<showmeter "pcWombHPBar">>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="ui-stat-bar-and-icon">
-                <img class="pixel-art" src="assets/img/ui/icons/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
 
                 <span class="ui-stat-bar-womb-lvl">
                     <<showmeter "pcWombLvlBar">>
@@ -99,10 +99,10 @@
 <div id="ui-top-bar-right">
     <div id="ui-stat-others">
         <div class="ui-stat-others-money">
-            <img class="pixel-art" src="assets/img/ui/icons/money.webp" alt="Three stacks of green cash layered above each other">: 2300
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/money.webp" alt="Three stacks of green cash layered above each other">: 2300
         </div>
         <div class="ui-stat-others-reputation">
-            <img class="pixel-art" src="assets/img/ui/icons/reputation.webp" alt="Reputation Icon">: 20%
+            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/reputation.webp" alt="Reputation Icon">: 20%
         </div>
     </div>
 </div>
