@@ -14,11 +14,30 @@
   // There'll be a gap on either side which adds with ui-side-bar-action-menu-content-width to get it's width
   --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 5rem);
 
+  // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
+  --ui-top-bar-left-digital-clock-font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
+}
+
+// Specifically for colors
+:root {
   --ui-bar-background-color: hsl(0, 0%, 8%);
   --ui-bar-border-color: hsl(0, 0%, 85%);
   --ui-side-bar-action-menu-button-color: #{$uiSideBarActionMenuButtonColour};
-  --ui-top-bar-left-digital-clock-main-colour: hsl(120, 100%, 45%);
 
-  // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
-  --ui-top-bar-left-digital-clock-font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
+  // The example is just to show the colour with a particular vscode extension i can't remember at the moment
+  --example: hsl(120, 100%, 45%);
+  --example2: hsl(120, 100%, 17%);
+  --ui-top-bar-left-digital-clock-main-colour-h: 120;
+  --ui-top-bar-left-digital-clock-main-colour-s: 100%;
+  --ui-top-bar-left-digital-clock-main-colour-l: 45%;
+  --ui-top-bar-left-digital-clock-main-colour: hsl(
+    var(--ui-top-bar-left-digital-clock-main-colour-h),
+    var(--ui-top-bar-left-digital-clock-main-colour-s),
+    var(--ui-top-bar-left-digital-clock-main-colour-l)
+  );
+  --ui-top-bar-left-digital-clock-text-shadow-colour: hsl(
+    var(--ui-top-bar-left-digital-clock-main-colour-h),
+    var(--ui-top-bar-left-digital-clock-main-colour-s),
+    calc(var(--ui-top-bar-left-digital-clock-main-colour-l) - 28%)
+  );
 }

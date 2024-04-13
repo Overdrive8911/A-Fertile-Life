@@ -17,6 +17,11 @@
     .icon#{$width}x#{$height} {
         width: #{$width}#{$unit};
         height: #{$height}#{$unit};
+        min-width: #{$width}#{$unit};
+        min-height: #{$height}#{$unit};
+        object-fit: cover;
+        display: block;
+        object-position: center;
     }
 }
 
