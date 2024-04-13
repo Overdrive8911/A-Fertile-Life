@@ -49,7 +49,7 @@
 }
 
 [id="ui-settings-button-time"] {
-  text-align: center;
+  // text-align: center;
 
   font-family: DIGITAL-7-monospace, Courier, monospace;
   font-style: italic;
@@ -57,7 +57,7 @@
 
   /* REVIEW - Make it glow like a digital clock */
   color: var(--ui-top-bar-left-digital-clock-main-colour);
-  text-shadow: hsl(120, 100%, 17%) 3px 2px;
+  text-shadow: var(--ui-top-bar-left-digital-clock-text-shadow-colour) 3px 2px;
 }
 
 [id="ui-top-bar-middle"] {
