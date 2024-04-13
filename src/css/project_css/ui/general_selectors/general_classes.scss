@@ -34,7 +34,7 @@
 
 // Provide fallback for unsupported values
 .pixel-art {
-    // image-rendering: auto;
+    image-rendering: auto;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
