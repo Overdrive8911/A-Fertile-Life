@@ -109,8 +109,8 @@
 
 // Target the leftmost icons
 [class|="ui-settings-button"] {
-  height: var(--ui-icon-height);
-  width: var(--ui-icon-width);
+  // height: var(--ui-icon-height);
+  // width: var(--ui-icon-width);
 
   // Make them flex items and center the content in-case the height and width change later on
   display: flex;
