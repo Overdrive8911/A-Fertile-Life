@@ -15,11 +15,14 @@
 
 @mixin createIconDimension($width, $height, $unit: "px") {
     .icon#{$width}x#{$height} {
-        width: #{$width}#{$unit};
-        height: #{$height}#{$unit};
-        min-width: #{$width}#{$unit};
-        min-height: #{$height}#{$unit};
-        object-fit: cover;
+        width: 100%;
+        height: auto;
+        // min-width: #{$width}#{$unit};
+        // min-height: #{$height}#{$unit};
+        max-width: #{$width}#{$unit};
+        max-height: #{$height}#{$unit};
+
+        object-fit: scale-down;
         display: block;
         object-position: center;
     }

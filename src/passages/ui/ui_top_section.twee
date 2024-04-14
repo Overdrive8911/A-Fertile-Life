@@ -100,10 +100,10 @@
 <div id="ui-top-bar-right">
     <div id="ui-stat-others">
         <div class="ui-stat-others-money">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/money.webp" alt="Three stacks of green cash layered above each other">: 2300
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/money.webp" alt="Three stacks of green cash layered above each other">: 2300
         </div>
         <div class="ui-stat-others-reputation">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/reputation.webp" alt="Reputation Icon">: 20%
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/reputation.webp" alt="Reputation Icon">: 20%
         </div>
     </div>
 </div>
