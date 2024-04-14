@@ -7,10 +7,10 @@
     }
 
     // Increase the space around the icons so you can't fat-finger a wrong one :D
-    [class|="ui-settings-button"] {
-        height: 21.5px;
-        width: 22.5px;
-    }
+    // [class|="ui-settings-button"] {
+    //     height: 21.5px;
+    //     width: 22.5px;
+    // }
     // Give each individual item per container in the backup container a nice gap
     [id="ui-side-bar-backup-container1"] > div {
         gap: 0.15rem;
