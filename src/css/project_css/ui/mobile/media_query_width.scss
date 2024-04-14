@@ -41,12 +41,16 @@
     }
 }
 
-// For slim portrait modes on mobile
-@media screen and (max-width: 500px) {
-    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
+// Might push this to 768px later
+@media screen and (max-width: 600px) {
     :root {
         --ui-side-bar-width: 180px;
     }
+}
+
+// For slim portrait modes on mobile
+@media screen and (max-width: 500px) {
+    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
 
     :root:has([id="ui-side-bar"]:not(.stowed)) {
         [id="ui-top-bar-left"] {
@@ -110,6 +114,24 @@
     [id|="ui-navigation-option-button"] {
         border-radius: 10%;
         // padding: 0.2em 0.2em;
-        font-size: 14px;
+        font-size: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    // The slimmest phone is 320px last time I checked so this should prevent the sidebar from ever overstepping that
+    :root {
+        --ui-side-bar-width: 47.5vw;
+    }
+
+    [id="ui-settings-button-time"] {
+        font-family: DIGITAL-7, Courier, monospace;
+        // Reduce the font size by ~82.6%
+        font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.762);
+    }
+
+    [id|="ui-navigation-option-button"] {
+        width: min-content;
+        padding: 0.165rem;
     }
 }

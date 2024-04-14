@@ -1,4 +1,5 @@
-@media screen and (max-resolution: 310dpi) /* and (max-width: 900px) */ {
+// this doesn't work :(
+@media screen and (min-resolution: 210dpi) and (max-resolution: 310dpi) /* and (max-width: 900px) */ {
     // You are a phone, blur my icons :D
     // Seriously, my icons at this point get more jagged with each drop in dpi
     [class^="icon"] {

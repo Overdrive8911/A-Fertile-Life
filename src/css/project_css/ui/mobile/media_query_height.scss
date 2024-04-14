@@ -1,3 +1,19 @@
+// Tweak the height of the top and bottom bar
+@media screen and (max-height: 400px) {
+    :root {
+        --ui-top-bar-height: 2.85rem;
+        --ui-bottom-bar-height: 2.2rem;
+    }
+
+    [id|="ui-navigation-option-button"] {
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+
+        font-size: 0.85rem;
+        line-height: 0.65rem;
+    }
+}
+
 // The action menu clips past the screen on a mobile device in landscape if at least one of the browser's navigation ui bars are active
 @media screen and (max-height: 340px) {
     :root {
@@ -8,17 +24,5 @@
     [id="ui-side-bar-action-menu"] {
         min-height: var(--ui-side-bar-action-menu-height);
         max-height: var(--ui-side-bar-action-menu-height);
-    }
-}
-
-// Tweak the height of the top and bottom bar
-@media screen and (max-height: 400px) {
-    :root {
-        --ui-top-bar-height: 2.85rem;
-        --ui-bottom-bar-height: 2.3rem;
-    }
-
-    [id|="ui-navigation-option-button"] {
-        line-height: 10px;
     }
 }

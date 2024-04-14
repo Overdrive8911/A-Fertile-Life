@@ -74,7 +74,7 @@
   [id="ui-side-bar"] {
     background-color: var(--ui-bar-border-color);
 
-    > div {
+    & > div {
       // Hide all children of the side bar
       display: none;
     }
