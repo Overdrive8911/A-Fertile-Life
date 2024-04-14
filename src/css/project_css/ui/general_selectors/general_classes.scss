@@ -32,11 +32,15 @@
     }
 }
 
-// Provide fallback for unsupported values
 .pixel-art {
-    image-rendering: auto;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+
+    &[class^="icon"] {
+        // Devices with different screen densities can make small icons look arguably worse
+        // However, using X2 larger sprites and scaling them down plus `image-rendering: auto` fix the jagged line issue with some very slight blur :D
+        image-rendering: auto;
+    }
 }
 
 // Sample Icon ranges
