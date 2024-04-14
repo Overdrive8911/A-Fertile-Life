@@ -6,23 +6,23 @@
     <div id="ui-settings-buttons">
         /*NOTE - Settings/save/restart/etc, Stat bars, money/reputation are all classes because they are duplicated unto the sidebar and hidden in the top bar in mobile devices currently in portrait mode */
         <div class="ui-settings-button-inventory ui-icon-glow">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
         </div>
         <!-- Save -->
         <div class="ui-settings-button-save ui-icon-glow">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
         </div>
         <!-- Settings -->
         <div class="ui-settings-button-settings ui-icon-glow">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/settings.webp" alt="Greyscale Gear-shaped Settings Button">
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/settings.webp" alt="Greyscale Gear-shaped Settings Button">
         </div>
         <!-- Restart -->
         <div class="ui-settings-button-restart ui-icon-glow">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/restart.webp" alt="Greyscale Restart Button">
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/restart.webp" alt="Greyscale Restart Button">
         </div>
         <!-- Report Bugs -->
         <div class="ui-settings-button-report-bugs ui-icon-glow">
-            <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/bug_report.webp" alt="Greyscale Bug Report Button">
+            <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/bug_report.webp" alt="Greyscale Bug Report Button">
         </div>
     </div>
     
