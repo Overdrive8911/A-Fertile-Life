@@ -36,9 +36,6 @@
             display: flex;
         }
     }
-
-    :root:has([id="ui-side-bar"].stowed) {
-    }
 }
 
 // Might push this to 768px later
@@ -110,11 +107,39 @@
     }
 }
 
+// Deal with the action interface being too wide for the screen
+@media screen and (max-width: 480px) {
+    [id="ui-passage-action-interface-shadow"] {
+        display: none;
+    }
+
+    // Remove the gap between the content and interface when the screen is too narrow
+    @media screen and (min-width: 416px) {
+        :root:has([id="ui-side-bar"]:not(.stowed)) {
+            --ui-side-bar-action-interface-total-width: var(--ui-side-bar-action-interface-content-width);
+        }
+    }
+
+    // Reduce the width of the action interface when the sidebar is opened by taking away the extra gaps at both end
+    @media screen and (min-width: 451px) {
+        :root:has([id="ui-side-bar"]:not(.stowed)) {
+            --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 3rem);
+        }
+    }
+}
+
 @media screen and (max-width: 450px) {
     [id|="ui-navigation-option-button"] {
         border-radius: 10%;
         // padding: 0.2em 0.2em;
         font-size: 0.75rem;
+    }
+}
+
+// At this point, hide the action interface completely since I use javascript to copy its contents into the side bar. However, only do this when the side bar is open
+@media screen and (max-width: 415px) {
+    :root:has([id="ui-side-bar"]:not(.stowed)) [id="ui-side-bar-action-interface"] {
+        display: none;
     }
 }
 

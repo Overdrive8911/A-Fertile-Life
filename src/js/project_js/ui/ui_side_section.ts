@@ -55,6 +55,25 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   );
 };
 
+const copyActionInterfaceContentsToSideBar = () => {
+  const verySlimMobileWidth = "screen and (max-width: 415px)";
+
+  if (window.matchMedia(verySlimMobileWidth).matches) {
+    const actionInterface = $("[id='ui-side-bar-action-interface']");
+    for (const actionInterfaceChild of actionInterface.children()) {
+      // Copy the each child in the action interface e.g the map popout
+      if (!actionInterface.hasClass("stowed")) {
+        $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
+          $(actionInterfaceChild).clone(true)
+        );
+      } else {
+        // Empty the container
+        $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
+      }
+    }
+  }
+};
+
 // Define the handler for toggling the sidebar
 const uiSideBarToggleHandler = () => {
   //SECTION - Deal with the mobile aspect
@@ -66,8 +85,7 @@ const uiSideBarToggleHandler = () => {
   const wideMobileWidth = "screen and (max-width: 780px)";
   const generalMobileUISettingsReset = () => {
     // TODO - PLEASE REVISE THIS
-    $("#ui-side-bar-backup-container1 > :first-child").empty();
-    $("#ui-side-bar-backup-container1 > :last-child").empty();
+    $("#ui-side-bar-backup-container1 > div").empty();
 
     $("#ui-side-bar-backup-container2").empty();
 
@@ -91,12 +109,12 @@ const uiSideBarToggleHandler = () => {
     for (const uiIcon of $("#ui-settings-buttons").children()) {
       // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
       if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :first-child").append(
+        $("#ui-side-bar-backup-container1 > :nth-child(1)").append(
           $(uiIcon).clone(true)
         );
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :first-child").empty();
+        $("#ui-side-bar-backup-container1 > :nth-child(1)").empty();
       }
     }
 
@@ -104,12 +122,12 @@ const uiSideBarToggleHandler = () => {
     for (const uiIcon of $("#ui-stat-others").children()) {
       // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
       if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :last-child").append(
+        $("#ui-side-bar-backup-container1 > :nth-child(2)").append(
           $(uiIcon).clone(true)
         );
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :last-child").empty();
+        $("#ui-side-bar-backup-container1 > :nth-child(2)").empty();
       }
     }
 
@@ -138,6 +156,9 @@ const uiSideBarToggleHandler = () => {
         "ui-navigation-button-small"
       );
     }
+
+    // Deal with the action interface's contents when the screen is even smaller
+    copyActionInterfaceContentsToSideBar();
   }
   //SECTION - For wide portrait and relatively narrower landscape modes on mobile
   else if (window.matchMedia(wideMobileWidth).matches) {
@@ -149,24 +170,24 @@ const uiSideBarToggleHandler = () => {
     for (const uiIcon of $("#ui-settings-buttons").children()) {
       // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
       if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :first-child").append(
+        $("#ui-side-bar-backup-container1 > :nth-child(1)").append(
           $(uiIcon).clone(true)
         );
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :first-child").empty();
+        $("#ui-side-bar-backup-container1 > :nth-child(1)").empty();
       }
     }
 
     for (const uiIcon of $("#ui-stat-others").children()) {
       // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
       if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :last-child").append(
+        $("#ui-side-bar-backup-container1 > :nth-child(2)").append(
           $(uiIcon).clone(true)
         );
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :last-child").empty();
+        $("#ui-side-bar-backup-container1 > :nth-child(2)").empty();
       }
     }
   }
@@ -179,6 +200,14 @@ const uiSideBarToggleHandler = () => {
   }
 
   uiSideBarActionInterfaceShadowHandler();
+};
+
+// SECTION - Define a handler for interacting with the action interface
+const actionInterfaceToggleHandler = (actionInterfaceChild: String) => {
+  $("#ui-side-bar-action-interface").toggleClass("stowed");
+  $(actionInterfaceChild).toggleClass("hidden");
+
+  copyActionInterfaceContentsToSideBar();
 };
 
 $(document).on(":passageend", () => {
@@ -206,8 +235,7 @@ $(document).on(":passageend", () => {
     // Wait for 1 second so the button can't be infinitely spammed
     setTimeout(() => {
       // Open or stow the map interface
-      $("#ui-side-bar-action-interface").toggleClass("stowed");
-      $("#ui-side-bar-popout-map").toggleClass("hidden");
+      actionInterfaceToggleHandler("#ui-side-bar-popout-map");
       uiSideBarActionInterfaceShadowHandler();
     }, 150);
   });
@@ -217,8 +245,7 @@ $(document).on(":passageend", () => {
       // Wait for 1 second so the button can't be infinitely spammed
       setTimeout(() => {
         // Open or stow the map interface
-        $("#ui-side-bar-action-interface").toggleClass("stowed");
-        $("#ui-side-bar-popout-map").toggleClass("hidden");
+        actionInterfaceToggleHandler("#ui-side-bar-popout-map");
         uiSideBarActionInterfaceShadowHandler();
       }, 150);
     }

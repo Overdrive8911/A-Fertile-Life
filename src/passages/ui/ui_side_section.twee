@@ -8,12 +8,13 @@
         <div id="ui-side-bar-game-info-others">Lorem Ipsum Du Ala Mon.</div>
     </div>
 
-    /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
-    /* Should contain just the money/rep and setting/save icons */
+    /*NOTE - This will store some elements from the top bar, as well as the action interface, when the screen width is too small (i.e smartphones) */
     <div id="ui-side-bar-backup-container1">
-        /* Honestly, I don't feel like giving them classes/ids. Just remember that the 1st div stores the settings/saves/restart/etc while the 2nd one stores the money/reputation */
-        <div></div>
-        <div></div>
+        /* Honestly, I don't feel like giving them classes/ids.
+        Just remember that: */
+        <div></div>     /* Stores the leftmost icons (settings/saves/restart/etc) */
+        <div></div>     /* Stores the rightmost icons (money/reputation/etc) */
+        <div></div>     /* Stored the contents of the action interface */
     </div>
 
     /* The last 2 div elements here will consume most of the space */
@@ -42,5 +43,5 @@
 /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
 <div id="ui-side-bar-action-interface" class="stowed">
     /*  TODO - Will be a canvas */
-    <div id="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
+    <div class="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
 </div>
