@@ -214,7 +214,7 @@
 
   // Sets the height and width of the map and any other options that might use it.
   // NOTE - I may add new options later so this is future proofing
-  & > [id|="ui-side-bar-popout"] {
+  & > [class|="ui-side-bar-popout"] {
     // height: var(--ui-side-bar-action-menu-height);
     width: var(--ui-side-bar-action-interface-content-width);
     background-color: var(--ui-bar-background-color);
@@ -233,7 +233,7 @@
   --ui-side-bar-action-interface-total-width: 0px;
 }
 
-[id="ui-side-bar-popout-map"] {
+[class="ui-side-bar-popout-map"] {
   // background-color: hsl(0, 0%, 8%);
   display: flex;
   align-items: center;
