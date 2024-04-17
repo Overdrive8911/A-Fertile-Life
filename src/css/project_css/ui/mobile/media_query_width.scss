@@ -1,3 +1,4 @@
+@import "../partials/mixin.scss";
 /* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
 
 // Pretty much just to include those long samsung phones or smth while in landscape mode
@@ -109,10 +110,6 @@
 
 // Deal with the action interface being too wide for the screen
 @media screen and (max-width: 480px) {
-    [id="ui-passage-action-interface-shadow"] {
-        display: none;
-    }
-
     // Remove the gap between the content and interface when the screen is too narrow
     @media screen and (min-width: 416px) {
         :root:has([id="ui-side-bar"]:not(.stowed)) {
@@ -138,8 +135,15 @@
 
 // At this point, hide the action interface completely since I use javascript to copy its contents into the side bar. However, only do this when the side bar is open
 @media screen and (max-width: 415px) {
-    :root:has([id="ui-side-bar"]:not(.stowed)) [id="ui-side-bar-action-interface"] {
-        display: none;
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        & [id="ui-side-bar-action-interface"] {
+            display: none;
+        }
+
+        // It's not useful since the contents of the action interface will now show in the sidebar
+        & [id="ui-passage-action-interface-shadow"] {
+            display: none;
+        }
     }
 }
 

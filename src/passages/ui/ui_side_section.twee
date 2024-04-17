@@ -30,14 +30,14 @@
 
 /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
 <div id="ui-side-bar-action-menu">
-    <div id="ui-side-bar-toggle-state-button" class="ui-darken-on-hover">
+    <button id="ui-side-bar-toggle-state-button" class="ui-darken-on-hover">
         <img class="icon16x16 pixel-art" src="assets/img/ui/icons/16x16/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
         <div>(Q)</div>
-    </div>
-    <div id="ui-side-bar-toggle-map-button" class="ui-darken-on-hover">
+    </button>
+    <button id="ui-side-bar-toggle-map-button" class="ui-darken-on-hover">
         <img class="icon16x16 pixel-art" src="assets/img/ui/icons/16x16/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
         <div>(Z)</div>
-    </div>
+    </button>
 </div>
 
 /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */

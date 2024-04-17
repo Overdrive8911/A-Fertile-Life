@@ -180,9 +180,12 @@
   display: flex;
   flex-direction: column;
 
-  // Target all direct option containers within
+  // Target all direct option buttons within
   // Each option consists of an icon and a keyboard shortcut. Target this shortcut since it's always the last (it comes after the icon)
-  & > div {
+  & > button {
+    // Reset the default css for the buttons
+    all: unset;
+
     flex: 1 1 auto;
 
     display: flex;
@@ -215,7 +218,7 @@
   box-sizing: border-box;
   border: thick solid var(--ui-bar-border-color);
 
-  background-color: var(--ui-bar-background-color);
+  // background-color: var(--ui-bar-background-color);
 
   // Sets the height and width of the map and any other options that might use it.
   // NOTE - I may add new options later so this is future proofing
