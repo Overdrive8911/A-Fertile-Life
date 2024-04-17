@@ -1,0 +1,13 @@
+@media screen and (hover: none) {
+    // TODO - Find why :active doesn't remove the filter effect once the user stops clicking it
+    .ui-darken-on-hover {
+        &:hover {
+            // background-color: darken($uiSideBarActionMenuButtonColour, 10%);
+            filter: none;
+        }
+
+        &:active {
+            filter: none;
+        }
+    }
+}
