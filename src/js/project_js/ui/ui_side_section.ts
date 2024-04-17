@@ -32,16 +32,19 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   );
 
   if (uiSideBarActionInterface.hasClass("stowed")) {
-    innerPassagePrependedContainer.css("width", "0px").css("height", "0px");
+    innerPassagePrependedContainer.css(
+      "width",
+      "0px"
+    ) /*.css("height", "0px")*/;
   } else {
     innerPassagePrependedContainer
-      .css("float", "left")
-      .css("clear", "left")
+      // .css("float", "left")
+      // .css("clear", "left")
       // .css("margin-top", uiSideBarActionInterface.css("margin-top"))
-      .css("height", uiSideBarActionInterface.css("height"))
+      // .css("height", uiSideBarActionInterface.css("height"))
       .css(
         "width",
-        `calc(((${uiSideBarActionMenuWidth} + ${uiSideBarActionInterfaceWidth}) - ((${passagesWidth} - ${innerPassageWidth}) * 0.5)) + 1rem)`
+        `calc(((${uiSideBarActionMenuWidth} + ${uiSideBarActionInterfaceWidth}) - ((${passagesWidth} - ${innerPassageWidth}) * 0.5)) + 0.25rem)`
       );
   }
 
