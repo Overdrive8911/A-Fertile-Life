@@ -30,6 +30,10 @@
         // background-color: darken($uiSideBarActionMenuButtonColour, 10%);
         @include darkenUIButton;
     }
+
+    &:active {
+        @include darkenUIButton;
+    }
 }
 
 .pixel-art {
