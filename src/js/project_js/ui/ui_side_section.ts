@@ -26,16 +26,15 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   // For ease of clarity, define variables for the stuff I'll used to calculate the width of innerPassagePrependedContainer
   let passagesWidth = $("[id='passages']").css("width");
   let innerPassageWidth = $("[id|='passage']").css("width");
-  let uiSideBarActionInterfaceWidth = uiSideBarActionInterface.css("width");
-  let uiSideBarActionMenuWidth = $("[id='ui-side-bar-action-menu']").css(
-    "width"
+  let uiSideBarActionInterfaceWidth = $("html").css(
+    "--ui-side-bar-action-interface-total-width"
+  );
+  let uiSideBarActionMenuWidth = $("html").css(
+    "--ui-side-bar-action-menu-width"
   );
 
   if (uiSideBarActionInterface.hasClass("stowed")) {
-    innerPassagePrependedContainer.css(
-      "width",
-      "0px"
-    ) /*.css("height", "0px")*/;
+    innerPassagePrependedContainer.css("width", "") /*.css("height", "0px")*/;
   } else {
     innerPassagePrependedContainer
       // .css("float", "left")
