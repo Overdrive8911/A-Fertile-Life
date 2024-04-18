@@ -30,6 +30,7 @@
   /* left: 0; */
   height: 100%;
   width: var(--ui-side-bar-width);
+  min-width: var(--ui-side-bar-width);
 
   z-index: 1;
 
@@ -133,9 +134,12 @@
 
     min-height: calc(var(--ui-icon-height) * 1.25);
 
-    // Do not display if empty
+    transition: all 0.3s;
+
+    // Reset all the properties if it's empty. Basically hides it ig
     &:empty {
-      display: none;
+      all: unset;
+      height: min-content;
     }
 
     & > [class|="ui-stat-others"] {
@@ -176,6 +180,7 @@
 
   @include uiSideBarActionMenuHeightRange;
   width: var(--ui-side-bar-action-menu-width);
+  min-width: var(--ui-side-bar-action-menu-width);
 
   display: flex;
   flex-direction: column;
@@ -218,21 +223,41 @@
   box-sizing: border-box;
   border: thick solid var(--ui-bar-border-color);
 
-  // background-color: var(--ui-bar-background-color);
+  z-index: -1;
+
+  @include actionInterfaceTransition;
+  // transition: display 0s;
 
   // Sets the height and width of the map and any other options that might use it.
   // NOTE - I may add new options later so this is future proofing
   & > [class|="ui-side-bar-popout"] {
     // height: var(--ui-side-bar-action-menu-height);
     width: var(--ui-side-bar-action-interface-content-width);
+
     background-color: var(--ui-bar-background-color);
+
     border-left: thin solid var(--ui-bar-border-color);
     border-right: thin solid var(--ui-bar-border-color);
+
+    overflow: hidden;
+
+    @include actionInterfaceTransition;
   }
 
   // Close it smh
   &.stowed {
-    display: none;
+    // display: none;
+    width: 0px;
+
+    border: 0px solid;
+
+    & > [class|="ui-side-bar-popout"] {
+      // The universal selector doesn't have any specificity so I tried this.
+      // display: none;
+      width: 0px;
+
+      border: 0px solid;
+    }
   }
 }
 
