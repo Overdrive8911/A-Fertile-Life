@@ -31,3 +31,10 @@
 @mixin createIconDimensionSquare($length) {
     @include createIconDimension($length, $length);
 }
+
+@mixin actionInterfaceTransition {
+    transition:
+        width 0.45s,
+        border 0.45s,
+        backdrop-filter 0.45s;
+}
