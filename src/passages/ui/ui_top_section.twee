@@ -43,7 +43,7 @@
             <div class="ui-stat-bar-and-icon">
                 /*TODO - Turn these paths into a variable */
                 /* TODO - Use the class to determine the path to the image */
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
 
                 <span class="ui-stat-bar-hp">
                     <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
@@ -51,7 +51,7 @@
             </div>
             
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
                     <<showmeter "pcEnergyBar">>
@@ -61,7 +61,7 @@
 
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/mood.webp" alt="Yellow Smiley Face Mood Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/mood.webp" alt="Yellow Smiley Face Mood Icon">
 
                 <span class="ui-stat-bar-mood">
                     <<showmeter "pcMoodBar">>
@@ -69,7 +69,7 @@
             </div>
 
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/stomach.webp" alt="Pink Stomach Icon">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/stomach.webp" alt="Pink Stomach Icon">
 
                 <span class="ui-stat-bar-hunger">
                     <<showmeter "pcHungerBar">>
@@ -79,7 +79,7 @@
 
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
 
                 <span class="ui-stat-bar-womb-hp">
                     <<showmeter "pcWombHPBar">>
@@ -87,7 +87,7 @@
             </div>
 
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 pixel-art" src="assets/img/ui/icons/24x24/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
 
                 <span class="ui-stat-bar-womb-lvl">
                     <<showmeter "pcWombLvlBar">>
