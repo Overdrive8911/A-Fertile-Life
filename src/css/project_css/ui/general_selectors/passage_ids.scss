@@ -3,6 +3,8 @@
 [id="interface"] {
     position: absolute;
     z-index: -5;
+
+    background-color: var(--ui-bar-background-color);
 }
 
 [id="passages"] {
@@ -12,9 +14,11 @@
     position: relative;
     top: calc(var(--ui-top-bar-height) + 2em);
     left: var(--ui-side-bar-width);
+    z-index: -1;
+
     padding-bottom: 2.5em;
 
-    z-index: -1;
+    background-color: var(--ui-bar-background-color);
 
     /* Turn the main passage area into a flex box and manipulate the actual passages within it */
     display: flex;
