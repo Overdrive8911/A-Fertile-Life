@@ -20,9 +20,23 @@
 
 // Specifically for colors
 :root {
-  --ui-bar-background-color: hsl(0, 0%, 8%);
-  --ui-bar-border-color: hsl(0, 0%, 85%);
-  --ui-side-bar-action-menu-button-color: #{$uiSideBarActionMenuButtonColour};
+  // --ui-bar-background-color: hsl(212, 53%, 25%);
+  // --ui-bar-background-color: hsl(252, 100%, 66%);
+  // --ui-bar-background-color: hsl(248, 43%, 18%);
+  --ui-bar-background-color: hsl(243, 30%, 12%);
+  // --ui-bar-border-color: hsl(0, 0%, 85%);
+  // --ui-bar-border-color: hsl(200, 60%, 44%);
+  // --ui-bar-border-color: hsl(268, 95%, 50%);
+  --ui-bar-border-color: hsl(245, 47%, 60%);
+  // --ui-side-bar-action-menu-button-color: hsl(268, 95%, 70%);
+  // --ui-side-bar-action-menu-button-color: hsl(255, 75%, 58%);
+  --ui-side-bar-action-menu-button-color: hsl(246, 81%, 69%);
+
+  --ui-default-text-color: hsl(241, 100%, 89%);
+
+  // --ui-scrollbar-thumb-color: hsl(258, 88%, 45%);
+  --ui-scrollbar-thumb-color: hsl(250, 65%, 53%);
+  --ui-scrollbar-track-color: hsl(256, 74%, 67%);
 
   // The example is just to show the colour with a particular vscode extension i can't remember at the moment
   --example: hsl(120, 100%, 45%);
@@ -40,4 +54,6 @@
     var(--ui-top-bar-left-digital-clock-main-colour-s),
     calc(var(--ui-top-bar-left-digital-clock-main-colour-l) - 28%)
   );
+
+  --ui-stat-bar-border-color: grey;
 }
