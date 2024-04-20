@@ -8,15 +8,17 @@
   right: 0;
 
   width: calc(100% - var(--ui-side-bar-width));
-  min-height: 50px;
+  min-height: 52px;
   height: var(--ui-top-bar-height);
 
   position: fixed;
   // background-color: var(--ui-bar-background-color);
-  background-color: wheat;
+  // background-color: wheat;
 
   border-top: thin solid var(--ui-bar-border-color);
   border-bottom: thin solid var(--ui-bar-border-color);
+
+  background-color: var(--ui-bar-background-color);
 
   font-size: 0.8em;
 
@@ -99,7 +101,10 @@
   min-width: min-content;
 
   /* This is only really necessary in very low screen resolutions */
-  overflow-y: auto;
+  overflow-y: hidden;
+
+  // Effectively hide the sidebar just bcus
+  // scrollbar-width: 0px;
 
   // & > [class|="ui-settings-button"] {
   //   /* For now, don't allow the setting icons to grow */
@@ -128,15 +133,6 @@
   width: 100%;
 
   padding-left: 1%;
-
-  /* Only include the stat bars themselves */
-  & .ui-stat-bar-and-icon > [class|="ui-stat-bar"] {
-    /* Make sure that the stat bars are inline */
-    // display: inline-block;
-
-    /* Let the stat bars fill as much space as possible */
-    flex: 1 0 auto;
-  }
 }
 
 /* Make them pairs of stat bars I selected arrange into a column */
@@ -175,9 +171,32 @@
   /* Target the stat icons */
   & > img {
     /* Give a slight gap between the icons and their stat bars */
-    margin-right: 0.3em;
+    // margin-right: 0.3em;
+
+    // Give a 1px "border" around the entire image
+    filter: drop-shadow(1px 0px 0 var(--ui-stat-bar-border-color))
+      drop-shadow(0px 1px 0px var(--ui-stat-bar-border-color)) drop-shadow(-1px 0px 0px var(--ui-stat-bar-border-color))
+      drop-shadow(0px -1px 0px var(--ui-stat-bar-border-color));
 
     // width: 20px;
     // height: 20px;
+  }
+
+  // Target the external span of the stat bars. (NOT MUCH CAN BE DONE HER TBF)
+  & > [class|="ui-stat-bar"] {
+    /* Make sure that the stat bars are inline */
+    // display: inline-block;
+
+    /* Let the stat bars fill as much space as possible */
+    flex: 1 0 auto;
+  }
+
+  // Target the actual stat bar
+  & .chapel-meter {
+    border: 1px var(--ui-stat-bar-border-color) solid;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+
+    box-sizing: border-box;
   }
 }

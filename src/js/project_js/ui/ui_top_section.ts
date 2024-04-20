@@ -54,10 +54,10 @@ $(document).on(":passageend", () => {
     UI.restart();
   });
 
-  switchToAlternateUiStatBarIconWhenNeeded("901px", "24x24");
+  // switchToAlternateUiStatBarIconWhenNeeded("901px", "24x24");
 });
 
 $(window).on("resize", () => {
   // Run it upon resize. Mostly applies to devices with resizeable browsers
-  switchToAlternateUiStatBarIconWhenNeeded("901px", "24x24");
+  // switchToAlternateUiStatBarIconWhenNeeded("901px", "24x24");
 });

@@ -1,7 +1,8 @@
 [id="ui-bottom-bar"] {
     position: fixed;
     bottom: 0;
-    left: var(--ui-side-bar-width);
+    // left: var(--ui-side-bar-width);
+    right: 0;
     z-index: 1;
 
     height: var(--ui-bottom-bar-height);

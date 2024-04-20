@@ -35,7 +35,7 @@
   z-index: 1;
 
   box-sizing: border-box;
-  border: 2px solid lightgrey;
+  border: 2px solid var(--ui-bar-border-color);
 
   display: flex;
 
@@ -53,8 +53,8 @@
     // flex: 1 1 10%;
 
     // I'll remove this later but it's used to get a visual on the space everything is using
-    border-bottom: thin solid lightgrey;
-    border-top: thin solid lightgrey;
+    border-bottom: thin solid var(--ui-bar-border-color);
+    // border-top: thin solid var(--ui-bar-border-color);
     box-sizing: border-box;
   }
 
@@ -130,7 +130,7 @@
 
     padding: 0.2rem;
 
-    border: thin solid;
+    border: thin solid var(--ui-bar-border-color);
 
     min-height: calc(var(--ui-icon-height) * 1.25);
 
@@ -158,10 +158,10 @@
   & > .ui-stat-bar-and-icon {
     width: 75%;
 
-    // Force them to occupy all the allocated the space
-    & > [class|="ui-stat-bar"] {
-      width: 100%;
-    }
+    // // Force them to occupy all the allocated the space
+    // & > [class|="ui-stat-bar"] {
+    //   // width: 100%;
+    // }
   }
 }
 
@@ -200,7 +200,7 @@
     justify-content: center;
     row-gap: 2px;
 
-    border: thin solid darkgray;
+    border: thin solid var(--ui-bar-border-color);
     box-sizing: border-box;
 
     font-size: 12px;
@@ -249,14 +249,15 @@
     // display: none;
     width: 0px;
 
-    border: 0px solid;
+    border: 0px solid var(--ui-bar-border-color);
 
     & > [class|="ui-side-bar-popout"] {
       // The universal selector doesn't have any specificity so I tried this.
       // display: none;
       width: 0px;
 
-      border: 0px solid;
+      border-left: 0px solid var(--ui-bar-border-color);
+      border-right: 0px solid var(--ui-bar-border-color);
     }
   }
 }
