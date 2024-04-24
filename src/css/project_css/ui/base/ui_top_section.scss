@@ -84,6 +84,8 @@
   padding: 0 1%;
 
   min-width: fit-content;
+
+  white-space: nowrap;
 }
 
 [id="ui-settings-buttons"] {
@@ -193,7 +195,7 @@
 
   // Target the actual stat bar
   & .chapel-meter {
-    border: 1px var(--ui-image-border-color) solid;
+    border: 2px var(--ui-image-border-color) solid;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
 

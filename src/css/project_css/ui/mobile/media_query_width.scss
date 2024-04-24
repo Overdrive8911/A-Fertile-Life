@@ -1,5 +1,4 @@
 @import "../partials/mixin.scss";
-/* All stat bars should change to digits i.e HP: 20/100 e.t.c if the phone is vertical and there's not enough space */
 
 // Pretty much just to include those long samsung phones or smth while in landscape mode
 @media screen and (max-width: 900px) {
@@ -7,11 +6,6 @@
         --ui-side-bar-width: 200px;
     }
 
-    // Increase the space around the icons so you can't fat-finger a wrong one :D
-    // [class|="ui-settings-button"] {
-    //     height: 21.5px;
-    //     width: 22.5px;
-    // }
     // Give each individual item per container in the backup container a nice gap
     [id="ui-side-bar-backup-container1"] > div {
         gap: 0.15rem;
@@ -155,7 +149,7 @@
 
     [id="ui-settings-button-time"] {
         font-family: DIGITAL-7, Courier, monospace;
-        // Reduce the font size by ~82.6%
+        // Reduce the font size by ~76.2%
         font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.762);
     }
 
