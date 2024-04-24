@@ -41,9 +41,12 @@
   // The example is just to show the colour with a particular vscode extension i can't remember at the moment
   --example: hsl(120, 100%, 45%);
   --example2: hsl(120, 100%, 17%);
-  --ui-top-bar-left-digital-clock-main-colour-h: 120;
-  --ui-top-bar-left-digital-clock-main-colour-s: 100%;
-  --ui-top-bar-left-digital-clock-main-colour-l: 45%;
+  // --ui-top-bar-left-digital-clock-main-colour-h: 120;
+  // --ui-top-bar-left-digital-clock-main-colour-s: 100%;
+  // --ui-top-bar-left-digital-clock-main-colour-l: 45%;
+  --ui-top-bar-left-digital-clock-main-colour-h: 243;
+  --ui-top-bar-left-digital-clock-main-colour-s: 64%;
+  --ui-top-bar-left-digital-clock-main-colour-l: 55%;
   --ui-top-bar-left-digital-clock-main-colour: hsl(
     var(--ui-top-bar-left-digital-clock-main-colour-h),
     var(--ui-top-bar-left-digital-clock-main-colour-s),
@@ -54,6 +57,7 @@
     var(--ui-top-bar-left-digital-clock-main-colour-s),
     calc(var(--ui-top-bar-left-digital-clock-main-colour-l) - 28%)
   );
+  --ui-top-bar-left-digital-clock-bg: hsl(243, 35%, 4%);
 
-  --ui-stat-bar-border-color: grey;
+  --ui-image-border-color: hsl(245, 47%, 82%);
 }
