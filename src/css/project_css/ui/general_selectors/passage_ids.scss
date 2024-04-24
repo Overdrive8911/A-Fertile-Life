@@ -53,3 +53,17 @@
         backdrop-filter: unset;
     }
 }
+
+#ui-dialog-titlebar {
+    background-color: var(--ui-bar-border-color);
+}
+
+#ui-dialog-body {
+    background-color: var(--ui-bar-background-color);
+    border-color: var(--ui-bar-border-color);
+}
+
+#ui-dialog-close {
+    // Force the "x" button to revert back to the default text color
+    color: unset;
+}
