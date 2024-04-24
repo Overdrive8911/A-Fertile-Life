@@ -14,6 +14,12 @@ body {
     color: var(--ui-default-text-color);
 }
 
+button {
+    background-color: var(--ui-side-bar-action-menu-button-color);
+    border-color: var(--ui-bar-border-color);
+    // color: unset;
+}
+
 // Commented out for now since it looks weird lol
 // [id="ui-side-bar"],
 // [id="ui-top-bar"],
