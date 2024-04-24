@@ -47,9 +47,8 @@
     }
 }
 
-.has-image-border {
-    filter: drop-shadow(1px 0px 0 var(--ui-image-border-color)) drop-shadow(0px 1px 0px var(--ui-image-border-color))
-        drop-shadow(-1px 0px 0px var(--ui-image-border-color)) drop-shadow(0px -1px 0px var(--ui-image-border-color));
+.icon-filter {
+    filter: var(--icon-border-filter) var(--icon-brightness-filter);
 }
 
 // Sample Icon ranges
