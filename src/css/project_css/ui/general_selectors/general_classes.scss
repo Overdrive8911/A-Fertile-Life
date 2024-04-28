@@ -1,0 +1,58 @@
+@import "../partials/variables.scss", "../partials/mixin.scss";
+
+.stowed {
+    // Doesn't do anything by itself but I use it to know whether something is open or closed
+    --dummy: dummy;
+}
+
+.hidden {
+    //I use it to hide stuff. Should never be active with ".stowed"
+    display: none;
+}
+
+// .ui-icon-glow {
+//     img:hover {
+//         filter: drop-shadow(0px 0px 4px var(--ui-image-border-color));
+//     }
+// }
+
+// Is used on small phones for the navigation buttons in the bottom bar when the side bar is also open
+.ui-navigation-button-small {
+    font-size: 11px;
+    width: 9.5vw;
+    // line-height: 9.5px;
+    min-width: min-content;
+    min-height: min-content;
+}
+
+.ui-darken-on-hover {
+    &:hover {
+        // background-color: darken($uiSideBarActionMenuButtonColour, 10%);
+        @include darkenUIButton;
+    }
+
+    &:active {
+        @include darkenUIButton;
+    }
+}
+
+.pixel-art {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+
+    &[class^="icon"] {
+        // Devices with different screen densities can make small icons look arguably worse
+        // However, using X2 larger sprites and scaling them down plus `image-rendering: auto` fix the jagged line issue with some very slight blur :D
+        image-rendering: auto;
+    }
+}
+
+.icon-filter {
+    filter: var(--icon-border-filter) var(--icon-brightness-filter);
+}
+
+// Sample Icon ranges
+@include createIconDimensionSquare(16);
+@include createIconDimensionSquare(20);
+@include createIconDimensionSquare(24);
+@include createIconDimensionSquare(32);
