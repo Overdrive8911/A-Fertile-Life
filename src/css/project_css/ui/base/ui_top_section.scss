@@ -123,6 +123,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  // Increase their brightness when hovered upon
+  &:hover {
+    --icon-brightness-filter: brightness(110%);
+  }
 }
 
 /* This is just the flex box that holds the actual stat bars */
