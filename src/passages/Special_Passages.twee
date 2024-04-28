@@ -17,3 +17,4 @@ A Fertile Life
 /* The use of these variables can be found in notes\variables.md */
 <<include "PlayerVariables">>
 <<include "GeneralSettings">>
+<<include "MeterDeclaration">>
