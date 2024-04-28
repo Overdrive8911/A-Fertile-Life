@@ -1,0 +1,160 @@
+@import "../partials/mixin.scss";
+
+// Pretty much just to include those long samsung phones or smth while in landscape mode
+@media screen and (max-width: 900px) {
+    :root {
+        --ui-side-bar-width: 200px;
+    }
+
+    // Give each individual item per container in the backup container a nice gap
+    [id="ui-side-bar-backup-container1"] > div {
+        gap: 0.15rem;
+    }
+}
+
+// For wide portrait and relatively narrower landscape modes on mobile
+@media screen and (max-width: 780px) {
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        // Hide the original icons since the css ain't doing it
+        [id="ui-settings-buttons"],
+        [id="ui-top-bar-right"] {
+            display: none;
+        }
+
+        // Shrink the resultant space to only fit the digital clock and push it slightly from the end
+        [id="ui-top-bar-left"] {
+            flex: 0 0 auto;
+            padding-left: 0.25%;
+        }
+
+        [id="ui-side-bar-backup-container1"] {
+            display: flex;
+        }
+    }
+}
+
+// Might push this to 768px later
+@media screen and (max-width: 600px) {
+    :root {
+        --ui-side-bar-width: 180px;
+    }
+}
+
+// For slim portrait modes on mobile
+@media screen and (max-width: 500px) {
+    // Screen is pretty small so hide the leftmost and rightmost icons for clarity as well as changing the font from monospace and reducing the side of the left section. They'll be displayed when the sidebar is opened.
+
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        [id="ui-top-bar-left"] {
+            // Remove the padding added that was used to shift the clock slightly the right
+            padding-left: 0;
+            // Revert the max-width to defaults
+            max-width: initial;
+        }
+
+        [id="ui-settings-button-time"] {
+            // Change the clock text back to it's monospace version
+            font-family: DIGITAL-7-monospace, Courier, monospace;
+        }
+
+        [id="ui-top-bar-middle"] {
+            // Hide the "middle" section of the top bar (alongside the original stat bars as well)
+            display: none;
+        }
+
+        [id="ui-side-bar-backup-container2"] {
+            // Change a couple of the css to make the second container look better
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+
+        [id^="ui-side-bar-backup-container"] {
+            display: flex;
+        }
+    }
+
+    // CSS to follow when the sidebar is closed/stowed
+    :root:has([id="ui-side-bar"].stowed) {
+        [id="ui-top-bar"] {
+            justify-content: space-evenly;
+        }
+
+        [id="ui-settings-buttons"],
+        [id="ui-top-bar-right"] {
+            display: none;
+        }
+
+        [id="ui-top-bar-left"] {
+            max-width: fit-content;
+            // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
+            padding-left: 0.25%;
+        }
+
+        [id="ui-settings-button-time"] {
+            font-family: DIGITAL-7, Courier, monospace;
+            // Reduce the font size by ~82.6%
+            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+        }
+
+        [id^="ui-side-bar-backup-container"] {
+            display: none;
+        }
+    }
+}
+
+// Deal with the action interface being too wide for the screen
+@media screen and (max-width: 480px) {
+    // Remove the gap between the content and interface when the screen is too narrow
+    @media screen and (min-width: 416px) {
+        :root:has([id="ui-side-bar"]:not(.stowed)) {
+            --ui-side-bar-action-interface-total-width: var(--ui-side-bar-action-interface-content-width);
+        }
+    }
+
+    // Reduce the width of the action interface when the sidebar is opened by taking away the extra gaps at both end
+    @media screen and (min-width: 451px) {
+        :root:has([id="ui-side-bar"]:not(.stowed)) {
+            --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 3rem);
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    [id|="ui-navigation-option-button"] {
+        border-radius: 10%;
+        // padding: 0.2em 0.2em;
+        font-size: 0.75rem;
+    }
+}
+
+// At this point, hide the action interface completely since I use javascript to copy its contents into the side bar. However, only do this when the side bar is open
+@media screen and (max-width: 415px) {
+    :root:has([id="ui-side-bar"]:not(.stowed)) {
+        & [id="ui-side-bar-action-interface"] {
+            display: none;
+        }
+
+        // It's not useful since the contents of the action interface will now show in the sidebar
+        & [id="ui-passage-action-interface-shadow"] {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 360px) {
+    // The slimmest phone is 320px last time I checked so this should prevent the sidebar from ever overstepping that
+    :root {
+        --ui-side-bar-width: 47.5vw;
+    }
+
+    [id="ui-settings-button-time"] {
+        font-family: DIGITAL-7, Courier, monospace;
+        // Reduce the font size by ~76.2%
+        font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.762);
+    }
+
+    [id|="ui-navigation-option-button"] {
+        width: min-content;
+        padding: 0.165rem;
+    }
+}

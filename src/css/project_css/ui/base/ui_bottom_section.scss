@@ -1,0 +1,28 @@
+[id="ui-bottom-bar"] {
+    position: fixed;
+    bottom: 0;
+    // left: var(--ui-side-bar-width);
+    right: 0;
+    z-index: 1;
+
+    height: var(--ui-bottom-bar-height);
+    width: calc(100% - var(--ui-side-bar-width));
+
+    display: flex;
+
+    background-color: var(--ui-bar-background-color);
+
+    border-top: thin solid var(--ui-bar-border-color);
+}
+
+[id="ui-navigation-options-container"] {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+[id|="ui-navigation-option-button"] {
+    line-height: 11px;
+}
