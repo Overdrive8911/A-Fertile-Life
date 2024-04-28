@@ -18,4 +18,4 @@ if exist src/css/dist/ui/general_selectors set arg6=src/css/dist/ui/general_sele
 if exist src/css/dist/ui/mobile set arg7=src/css/dist/ui/mobile
 if exist src/css/dist/game set arg8=src/css/dist/game
 
-call tweego -l -w -o "export\A Fertile Life.html" %arg1% %arg2% %arg3% %arg4% %arg5% %arg6% %arg7% %arg8% %arg9% %arg10% 
+call tweego -l -w -t -o "export\A Fertile Life.html" %arg1% %arg2% %arg3% %arg4% %arg5% %arg6% %arg7% %arg8% %arg9% %arg10% 
