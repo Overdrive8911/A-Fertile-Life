@@ -1,0 +1,44 @@
+/*THis file is solely used to store the declaration of meters from Chapel's meter-macro */
+:: MeterDeclaration
+
+/* PC HP Bar */
+<<newmeter "pcHPBar" 1>>
+    <<colors green red transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>
+
+/* PC Energy Bar */
+<<newmeter "pcEnergyBar" 1>>
+    <<colors blue red transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>
+
+/* PC Mood Bar */
+<<newmeter "pcMoodBar" 1>>
+    <<colors green yellow transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>
+
+/* PC Hunger Bar */
+<<newmeter "pcHungerBar" 1>>
+    <<colors green red transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>
+
+/* PC Womb Lvl Bar */
+<<newmeter "pcWombLvlBar" 1>>
+    <<colors green red transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>
+
+/* PC Womb HP Bar */
+<<newmeter "pcWombHPBar" 1>>
+    <<colors green red transparent>>
+    <<sizing 100% 14px>>
+    <<label " " white left>>  /*NOTE - Placeholder, insert the right variable here */
+<</newmeter>>

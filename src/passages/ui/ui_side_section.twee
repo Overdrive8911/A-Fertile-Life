@@ -1,0 +1,47 @@
+:: uiPassage_side_section
+/* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
+<div id="ui-side-bar" class="stowed">
+    <div id="ui-side-bar-game-info">
+        <div id="ui-side-bar-game-info-name">A Fertile Life</div>
+        <div id="ui-side-bar-game-info-author">by Overdrive8911.</div>
+        /* Stuff like sharing the game and other relevant info abt it like wikis, etc */
+        <div id="ui-side-bar-game-info-others">Lorem Ipsum Du Ala Mon.</div>
+    </div>
+
+    /*NOTE - This will store some elements from the top bar, as well as the action interface, when the screen width is too small (i.e smartphones) */
+    <div id="ui-side-bar-backup-container1">
+        /* Honestly, I don't feel like giving them classes/ids.
+        Just remember that: */
+        <div></div>     /* Stores the leftmost icons (settings/saves/restart/etc) */
+        <div></div>     /* Stores the rightmost icons (money/reputation/etc) */
+        <div></div>     /* Stored the contents of the action interface */
+    </div>
+
+    /* The last 2 div elements here will consume most of the space */
+    <div id="ui-side-bar-player-image"></div>
+
+    /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
+    /* Will only contain the stat bars */
+    <div id="ui-side-bar-backup-container2"></div>
+
+    /* The player's AI companion. Not completely sure yet tho */
+    <div id="ui-side-bar-assistant-device"></div>
+</div>
+
+/* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
+<div id="ui-side-bar-action-menu">
+    <button id="ui-side-bar-toggle-state-button">
+        <img class="icon16x16 pixel-art" src="assets/img/ui/icons/16x16/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
+        <div>(Q)</div>
+    </button>
+    <button id="ui-side-bar-toggle-map-button">
+        <img class="icon16x16 pixel-art" src="assets/img/ui/icons/16x16/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
+        <div>(Z)</div>
+    </button>
+</div>
+
+/* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
+<div id="ui-side-bar-action-interface" class="stowed">
+    /*  TODO - Will be a canvas */
+    <div class="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
+</div>

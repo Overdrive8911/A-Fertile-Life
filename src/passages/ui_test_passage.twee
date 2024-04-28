@@ -1,0 +1,40 @@
+:: StoryTitle
+A Fertile Life
+
+
+:: StoryData
+{
+  "ifid": "00E51339-657B-4319-B28F-7BFB3458BC6E",
+  "format": "SugarCube",
+  "format-version": "2.36.1",
+  "start": "Start",
+  "zoom": 1
+}
+:: Start [Prologue] {"position":"325,125","size":"100,100"}
+<p>
+  Something to fill up the space with. Hmm...
+</p>
+
+<p>
+  Lets see... So many things to say, to write, to think of. But what truly would be the best way to waste space is subjective of course!
+</p>
+
+<p>Lorem ipsum... So iconic yet overdone? Eh not really. It still does its job well, even after all the years, so it would be unfair to call it so.
+</p>
+
+<p>Man, I give up, Don't have enough time to waste here so have a little excerpt from my mind... Ahem.</p>
+
+<p>Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. 
+</p>
+
+<p>Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. The rats make me <s>gay</s> crazy. I was crazy once. 
+</p>
+
+<p>
+  You make a mental note to go to the hospital tommorow. For now, its time to [[sleep |Prologue_WakeUp]]
+</p>
+
+:: Prologue_WakeUp [Prologue] {"position":"450,300","size":"100,100"}
+Your digital alarm clock rings out loudly, waking you up. It is currently 7:00 AM.
+
+Hitting it instintively, you silence the alarm and then get off your bed. You drag yourself drudgingly to the toilet. For some reason you feel very lethargic today, even with ten good hours of sleep. <i>Could be one of the symptoms I guess</i>.

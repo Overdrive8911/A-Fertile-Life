@@ -1,0 +1,72 @@
+@import "../partials/variables.scss";
+
+:root {
+  --ui-top-bar-height: 3rem;
+  --ui-bottom-bar-height: 2.5rem;
+  --ui-side-bar-width: 240px;
+  --ui-side-bar-action-menu-width: 1.25rem;
+  --ui-side-bar-action-menu-height: 212px;
+  --ui-side-bar-action-menu-margin-top: calc(var(--ui-top-bar-height) + 2rem);
+  --ui-icon-height: 20px;
+  --ui-icon-width: 20px;
+  // The width of what will be displayed in the action interface when it's opened
+  --ui-side-bar-action-interface-content-width: 200px;
+  // There'll be a gap on either side which adds with ui-side-bar-action-menu-content-width to get it's width
+  --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 5rem);
+
+  // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
+  --ui-top-bar-left-digital-clock-font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
+}
+
+// Specifically for colors
+:root {
+  // --ui-bar-background-color: hsl(212, 53%, 25%);
+  // --ui-bar-background-color: hsl(252, 100%, 66%);
+  // --ui-bar-background-color: hsl(248, 43%, 18%);
+  --ui-bar-background-color: hsl(243, 30%, 12%);
+  // --ui-bar-border-color: hsl(0, 0%, 85%);
+  // --ui-bar-border-color: hsl(200, 60%, 44%);
+  // --ui-bar-border-color: hsl(268, 95%, 50%);
+  --ui-bar-border-color: hsl(245, 47%, 60%);
+  // --ui-side-bar-action-menu-button-color: hsl(268, 95%, 70%);
+  // --ui-side-bar-action-menu-button-color: hsl(255, 75%, 58%);
+  --ui-side-bar-action-menu-button-color: hsl(246, 81%, 69%);
+  --ui-side-bar-action-menu-button-text-color: hsl(251, 100%, 93%);
+
+  --ui-default-text-color: hsl(241, 100%, 89%);
+
+  // --ui-scrollbar-thumb-color: hsl(258, 88%, 45%);
+  --ui-scrollbar-thumb-color: hsl(250, 65%, 53%);
+  --ui-scrollbar-track-color: hsl(256, 74%, 67%);
+
+  // The example is just to show the colour with a particular vscode extension i can't remember at the moment
+  --example: hsl(120, 100%, 45%);
+  --example2: hsl(120, 100%, 17%);
+  // --ui-top-bar-left-digital-clock-main-colour-h: 120;
+  // --ui-top-bar-left-digital-clock-main-colour-s: 100%;
+  // --ui-top-bar-left-digital-clock-main-colour-l: 45%;
+  --ui-top-bar-left-digital-clock-main-colour-h: 243;
+  --ui-top-bar-left-digital-clock-main-colour-s: 64%;
+  --ui-top-bar-left-digital-clock-main-colour-l: 55%;
+  --ui-top-bar-left-digital-clock-main-colour: hsl(
+    var(--ui-top-bar-left-digital-clock-main-colour-h),
+    var(--ui-top-bar-left-digital-clock-main-colour-s),
+    var(--ui-top-bar-left-digital-clock-main-colour-l)
+  );
+  --ui-top-bar-left-digital-clock-text-shadow-colour: hsl(
+    var(--ui-top-bar-left-digital-clock-main-colour-h),
+    var(--ui-top-bar-left-digital-clock-main-colour-s),
+    calc(var(--ui-top-bar-left-digital-clock-main-colour-l) - 28%)
+  );
+  --ui-top-bar-left-digital-clock-bg: hsl(243, 35%, 4%);
+
+  --ui-image-border-color: hsl(245, 47%, 82%);
+}
+
+// Filters
+:root {
+  --icon-border-filter: drop-shadow(1px 0px 0 var(--ui-image-border-color))
+    drop-shadow(0px 1px 0px var(--ui-image-border-color)) drop-shadow(-1px 0px 0px var(--ui-image-border-color))
+    drop-shadow(0px -1px 0px var(--ui-image-border-color));
+  --icon-brightness-filter: brightness(95%);
+}
