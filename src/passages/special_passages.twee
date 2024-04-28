@@ -1,0 +1,3 @@
+:: StoryInit
+<<include "GeneralSettings">>
+<<include "MeterDeclaration">>

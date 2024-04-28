@@ -1,0 +1,58 @@
+@mixin uiRightmostIconsFlexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    // width: 92%;
+}
+
+@mixin darkenUIButton {
+    filter: brightness(85%);
+}
+
+@mixin uiSideBarActionMenuHeightRange {
+    height: var(--ui-side-bar-action-menu-height);
+    max-height: calc(100vh - (var(--ui-top-bar-height) + var(--ui-bottom-bar-height) + 80px));
+    min-height: 160px;
+}
+
+@mixin createIconDimension($width, $height, $unit: "px") {
+    .icon#{$width}x#{$height} {
+        // width: 100%;
+        // height: auto;
+        // min-width: #{$width}#{$unit};
+        // min-height: #{$height}#{$unit};
+        // max-width: #{$width}#{$unit};
+        // max-height: #{$height}#{$unit};
+        width: #{$width}#{$unit};
+        height: #{$height}#{$unit};
+
+        object-fit: scale-down;
+        display: block;
+        object-position: center;
+        aspect-ratio: 1/1;
+
+        // When a stat bar is a sibling to an img with this class (.icon#{$width}x#{$height}), then adjust the width and position of the stat bar by half the size of the image's dimension
+        ~ [class|="ui-stat-bar"] {
+            // width: calc(100% - 12px);
+            // right: 12px;
+            // Shift the stat bar to the left so it stays underneath the stat icon
+            position: relative;
+            z-index: -1;
+            $value: calc(#{$width}#{$unit} / 2);
+            width: calc(100% - #{$value});
+            right: #{$value};
+        }
+    }
+}
+
+@mixin createIconDimensionSquare($length) {
+    @include createIconDimension($length, $length);
+}
+
+@mixin actionInterfaceTransition {
+    transition:
+        width 0.45s,
+        border 0.45s,
+        backdrop-filter 0.45s;
+}

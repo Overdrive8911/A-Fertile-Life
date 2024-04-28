@@ -1,0 +1,279 @@
+@import "../partials/mixin.scss";
+
+/*  */
+/* This stores the actual side bar AND the button used to stow/open it */
+[id="ui-side-section"] {
+  position: fixed;
+  left: 0;
+  width: calc(
+    var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width) + var(--ui-side-bar-action-interface-total-width)
+  );
+  height: 100%;
+
+  display: flex;
+
+  /* align-items: center; */
+
+  // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if #ui-side-bar-action-interface is open.
+  // NOTE - This needs revising if I add extra options to #ui-side-bar-action-interface
+  &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
+    & > [id="ui-side-bar-action-menu"] {
+      & > :not([id="ui-side-bar-toggle-state-button"]) {
+        @include darkenUIButton;
+      }
+    }
+  }
+}
+
+[id="ui-side-bar"] {
+  /* position: fixed; */
+  /* left: 0; */
+  height: 100%;
+  width: var(--ui-side-bar-width);
+  min-width: var(--ui-side-bar-width);
+
+  z-index: 1;
+
+  box-sizing: border-box;
+  border: 2px solid var(--ui-bar-border-color);
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow-y: auto;
+
+  background-color: var(--ui-bar-background-color);
+
+  // Make all the major flex containers fill a row by themselves
+  & > [id|="ui-side-bar"] {
+    // width: 100%;
+    // min-height: 20%;
+    // flex: 1 1 10%;
+
+    // I'll remove this later but it's used to get a visual on the space everything is using
+    border-bottom: thin solid var(--ui-bar-border-color);
+    border-top: thin solid var(--ui-bar-border-color);
+    box-sizing: border-box;
+  }
+
+  & > [id^="ui-side-bar-backup-container"] {
+    // The display will become a flex when on mobile (basically slimmer screens)
+    display: none;
+    flex: 0 1 auto;
+    flex-direction: column;
+
+    height: fit-content;
+  }
+}
+
+// If the sidebar is currently stowed, shrink it
+:root:has([id="ui-side-bar"].stowed) {
+  --ui-side-bar-width: 1rem;
+
+  [id="ui-side-bar"] {
+    background-color: var(--ui-bar-border-color);
+
+    & > div {
+      // Hide all children of the side bar
+      display: none;
+    }
+  }
+
+  [id="ui-side-bar-toggle-state-button"] > img {
+    transform: rotate(180deg);
+  }
+}
+
+[id="ui-side-bar-game-info"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.2rem;
+  flex-basis: auto;
+  flex-grow: 0;
+
+  // Override the defaults
+  height: max-content;
+
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+
+  text-align: center;
+}
+
+[id="ui-side-bar-game-info-name"] {
+  font-size: 24px;
+  font-weight: bold;
+
+  // Shift the name from the top a bit.
+  // margin-top: 1rem;
+}
+
+[id="ui-side-bar-game-info-author"] {
+  font-size: 13px;
+}
+
+[id="ui-side-bar-game-info-others"] {
+  font-size: 12px;
+}
+
+// Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
+[id="ui-side-bar-backup-container1"] {
+  // justify-content: stretch;
+
+  & > div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    padding: 0.2rem;
+
+    border: thin solid var(--ui-bar-border-color);
+
+    min-height: calc(var(--ui-icon-height) * 1.25);
+
+    transition: all 0.3s;
+
+    // Reset all the properties if it's empty. Basically hides it ig
+    &:empty {
+      all: unset;
+      height: min-content;
+    }
+
+    & > [class|="ui-stat-others"] {
+      @include uiRightmostIconsFlexContainer;
+    }
+  }
+}
+
+// Now the second backup container. Remember, it's only for storing the stat bars
+[id="ui-side-bar-backup-container2"] {
+  justify-content: space-evenly;
+  align-items: center;
+  row-gap: 0.35rem;
+
+  // The space allocated for the stat bars and icons
+  & > .ui-stat-bar-and-icon {
+    width: 75%;
+
+    // // Force them to occupy all the allocated the space
+    // & > [class|="ui-stat-bar"] {
+    //   // width: 100%;
+    // }
+  }
+}
+
+[id="ui-side-bar-player-image"],
+[id="ui-side-bar-assistant-device"] {
+  flex: 0 0 auto;
+
+  //NOTE - I want the player's image to be in a square but I'm not really sure abt the assistant stuff
+  height: var(--ui-side-bar-width);
+}
+
+//
+//
+[id="ui-side-bar-action-menu"] {
+  margin-top: var(--ui-side-bar-action-menu-margin-top);
+
+  @include uiSideBarActionMenuHeightRange;
+  width: var(--ui-side-bar-action-menu-width);
+  min-width: var(--ui-side-bar-action-menu-width);
+
+  display: flex;
+  flex-direction: column;
+
+  // Target all direct option buttons within
+  // Each option consists of an icon and a keyboard shortcut. Target this shortcut since it's always the last (it comes after the icon)
+  & > button {
+    // Reset the default css for the buttons
+    all: unset;
+
+    flex: 1 1 auto;
+
+    display: flex;
+    // Let the icon and keyboard option be stacked above each other
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 2px;
+
+    border: thin solid var(--ui-bar-border-color);
+    box-sizing: border-box;
+
+    font-size: 12px;
+    color: black;
+
+    background-color: var(--ui-side-bar-action-menu-button-color);
+  }
+}
+
+[id="ui-side-bar-action-interface"] {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+
+  margin-top: var(--ui-side-bar-action-menu-margin-top);
+
+  width: var(--ui-side-bar-action-interface-total-width);
+  @include uiSideBarActionMenuHeightRange;
+
+  box-sizing: border-box;
+  border: thick solid var(--ui-bar-border-color);
+
+  z-index: -1;
+
+  @include actionInterfaceTransition;
+  // transition: display 0s;
+
+  // Sets the height and width of the map and any other options that might use it.
+  // NOTE - I may add new options later so this is future proofing
+  & > [class|="ui-side-bar-popout"] {
+    // height: var(--ui-side-bar-action-menu-height);
+    width: var(--ui-side-bar-action-interface-content-width);
+
+    background-color: var(--ui-bar-background-color);
+
+    border-left: thin solid var(--ui-bar-border-color);
+    border-right: thin solid var(--ui-bar-border-color);
+
+    overflow: hidden;
+
+    @include actionInterfaceTransition;
+  }
+
+  // Close it smh
+  &.stowed {
+    // display: none;
+    width: 0px;
+
+    border: 0px solid var(--ui-bar-border-color);
+
+    & > [class|="ui-side-bar-popout"] {
+      // The universal selector doesn't have any specificity so I tried this.
+      // display: none;
+      width: 0px;
+
+      border-left: 0px solid var(--ui-bar-border-color);
+      border-right: 0px solid var(--ui-bar-border-color);
+    }
+  }
+}
+
+// If the action interface is currently stowed, shrink it
+:root:has([id="ui-side-bar-action-interface"].stowed) {
+  --ui-side-bar-action-interface-total-width: 0px;
+}
+
+[class="ui-side-bar-popout-map"] {
+  // background-color: hsl(0, 0%, 8%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 3em;
+
+  text-align: center;
+}
