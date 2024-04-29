@@ -9,12 +9,3 @@ A Fertile Life
     "start": "FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave",
     "zoom": 1
 }
-
-:: StoryMenu {"position":"800,150"}
-[[Inventory->PlayerInventory]]
-
-:: StoryInit {"position":"925,150"}
-/* The use of these variables can be found in notes\variables.md */
-<<include "PlayerVariables">>
-<<include "GeneralSettings">>
-<<include "MeterDeclaration">>
