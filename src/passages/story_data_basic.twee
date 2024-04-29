@@ -6,6 +6,6 @@ A Fertile Life
     "ifid": "00E51339-657B-4319-B28F-7BFB3458BC6E",
     "format": "SugarCube",
     "format-version": "2.36.1",
-    "start": "FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave",
+    "start": "Prologue_Beginning",
     "zoom": 1
 }
