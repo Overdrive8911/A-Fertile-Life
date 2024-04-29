@@ -1,0 +1,21 @@
+.letter_paper {
+    --letter-border-dimension: 24px;
+
+    width: 56vw;
+    max-width: 82%;
+
+    margin: auto;
+
+    border-image-source: url("assets/img/general/border_images/letter_border.webp");
+    border-image-slice: 8;
+    border-image-width: var(--letter-border-dimension);
+    border-image-repeat: stretch;
+    border-image-outset: var(--letter-border-dimension);
+
+    background-color: hsl(12, 33%, 36%);
+    text-shadow:
+        0px 1px black,
+        1px 0px black,
+        0px -1px black,
+        -1px 0px black;
+}
