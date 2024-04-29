@@ -3,18 +3,18 @@
 
 // TODO - Move setting declarations to another file
 
-// Define a handler for altering the height of #ui-passage-action-interface-shadow-spacer
-const uiSideBarActionInterfaceShadowSpacerHandler = (
-  spaceObject: JQuery<HTMLElement>
-) => {
-  let scrollBarPosition = $("html").scrollTop();
+// // Define a handler for altering the height of #ui-passage-action-interface-shadow-spacer
+// const uiSideBarActionInterfaceShadowSpacerHandler = (
+//   spaceObject: JQuery<HTMLElement>
+// ) => {
+//   let scrollBarPosition = $("html").scrollTop();
 
-  if (!$("[id='ui-side-bar-action-interface']").hasClass("stowed")) {
-    spaceObject.css("height", scrollBarPosition);
-    // Without this, increasing the size of innerPassagePrependedContainerSpacer will also alter the height of the passage and slightly move the scroll bar causing this function to be called again and again as it forcefully moves the scrollbar in either direction :(
-    $("html").scrollTop(scrollBarPosition);
-  }
-};
+//   if (!$("[id='ui-side-bar-action-interface']").hasClass("stowed")) {
+//     spaceObject.css("height", scrollBarPosition);
+//     // Without this, increasing the size of innerPassagePrependedContainerSpacer will also alter the height of the passage and slightly move the scroll bar causing this function to be called again and again as it forcefully moves the scrollbar in either direction :(
+//     $("html").scrollTop(scrollBarPosition);
+//   }
+// };
 
 // Define handler for altering the dimensions and position of #ui-passage-action-interface-shadow as well as adjusting its position as the user scrolls through the passage
 const uiSideBarActionInterfaceShadowHandler = () => {
@@ -48,13 +48,13 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   }
 
   //
-  // Position the spacer container #ui-passage-action-interface-shadow-spacer properly
-  let innerPassagePrependedContainerSpacer = $(
-    "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
-  );
-  uiSideBarActionInterfaceShadowSpacerHandler(
-    innerPassagePrependedContainerSpacer
-  );
+  // // Position the spacer container #ui-passage-action-interface-shadow-spacer properly
+  // let innerPassagePrependedContainerSpacer = $(
+  //   "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
+  // );
+  // uiSideBarActionInterfaceShadowSpacerHandler(
+  //   innerPassagePrependedContainerSpacer
+  // );
 };
 
 const copyActionInterfaceContentsToSideBar = () => {
@@ -257,26 +257,26 @@ $(document).on(":passageend", () => {
   $("[id|='passage']").prepend(
     "<div id='ui-passage-action-interface-shadow'></div>"
   );
-  // Create another div container above #ui-passage-action-interface-shadow and use it to adjust its position as the user scrolls along the passage
-  $("[id|='passage']").prepend(
-    "<div id='ui-passage-action-interface-shadow-spacer'></div>"
-  );
+  // // Create another div container above #ui-passage-action-interface-shadow and use it to adjust its position as the user scrolls along the passage
+  // $("[id|='passage']").prepend(
+  //   "<div id='ui-passage-action-interface-shadow-spacer'></div>"
+  // );
 
   //
   //
-  // Deal with the spacer container #ui-passage-action-interface-shadow-spacer
-  let innerPassagePrependedContainerSpacer = $(
-    "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
-  );
+  // // Deal with the spacer container #ui-passage-action-interface-shadow-spacer
+  // let innerPassagePrependedContainerSpacer = $(
+  //   "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
+  // );
 
-  // Set its constant properties
-  innerPassagePrependedContainerSpacer.css("float", "left").css("width", "0px");
-  // This callback makes sure that #'ui-passage-action-interface-shadow will always be adjusted correctly even when the page is scrolled
-  window.addEventListener("scroll", () => {
-    uiSideBarActionInterfaceShadowSpacerHandler(
-      innerPassagePrependedContainerSpacer
-    );
-  });
+  // // Set its constant properties
+  // innerPassagePrependedContainerSpacer.css("float", "left").css("width", "0px");
+  // // This callback makes sure that #'ui-passage-action-interface-shadow will always be adjusted correctly even when the page is scrolled
+  // window.addEventListener("scroll", () => {
+  //   uiSideBarActionInterfaceShadowSpacerHandler(
+  //     innerPassagePrependedContainerSpacer
+  //   );
+  // });
 });
 
 // // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
