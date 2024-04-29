@@ -1,0 +1,8 @@
+@media screen and (max-width: 430px) {
+    // Tweak the properties of any letters in the passage to look better when the sidebar is open on mobile
+    :root:has([id="ui-side-bar"]:not(.stowed)) [id|="passage"] .letter_paper {
+        border-image-outset: calc(var(--letter-border-dimension) * 0.5);
+        position: relative;
+        left: 2.8vw;
+    }
+}
