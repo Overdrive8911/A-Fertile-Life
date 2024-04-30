@@ -5,6 +5,12 @@
 - Every passage that exists in a location has a tag for that location (and a sub-location if the location has multiple sections e.g The "location_player_house" location would have sub locations like "subLocation_kitchen", "subLocation_bedroom", etc).
 - All locations will be stored in an object that contains the name of the location as well as its co-ordinates on the global map.
 - Using the co-ordinates of locations on the global map, a calculated amount of minutes will be consumed when the player moves from one to another. The same goes for sub-locations in a single location, however the time taken is much lower.
+- Locations with coordinates of [0, 0] are not available on the map and are special, e.g dreams, fast travel, etc.
+
+## How co-ordinates are calculated into distance
+
+- Using the formula to calculate the shortest distance between 2 points, the result is then multiplied by a value randomly between (0.85 metres and 1.15 metres).
+- This distance is then evaluated with the movement speed of the PC into the time taken. This time is then added to the global clock.
 
 ## Stuff that affect it
 
