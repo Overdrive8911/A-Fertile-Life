@@ -5,6 +5,12 @@
     /* Money */
     money:                  5800,               /* The currency isn't something irl */
 
+    /* Location */
+    location_data: {
+        location:          "playerHouse",
+        subLocation:       "bedroom"
+    },
+
     /* Personality and Mood(?) */
     personality: {
         /* The following determine the PC's personality. The starting point is 50 which mean the PC is just meh in that area. Going lower to 0 makes them actively avoid that trait while going higher to a 100 makes them embrace it.
