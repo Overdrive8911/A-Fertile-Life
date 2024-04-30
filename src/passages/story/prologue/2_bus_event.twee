@@ -1,4 +1,4 @@
-:: Prologue_DressedAndEnteringBus [prologue] {"position":"25,150"}
+:: Prologue_DressedAndEnteringBus [prologue location_playerHouse subLocation_porch] {"position":"25,150"}
 <p>
     You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers; normally, they'd be a tad too big to fit, but currently your body fills it out nicely. You would've chosen something different if not for the fact that basically nothing else fit; you're not sure if it's the ice cream you've been using to cope lately.
 </p>
@@ -38,7 +38,7 @@
 </p>
 
 
-:: Prologue_BusDream#0 [prologue] {"position":"150,150"}
+:: Prologue_BusDream#0 [prologue location_bus] {"position":"150,150"}
 <<ctp "BusDream#0_Pause" t8n>>
     ...
 
@@ -78,7 +78,7 @@
 <</ctp>>
 
 
-:: Prologue_BusDream#0_1 [prologue] {"position":"275,25"}
+:: Prologue_BusDream#0_1 [prologue location_bus] {"position":"275,25"}
 /*TODO - Add lactation */
 <p>
     You try to move your hand, as if to stretch, and you notice that you're naked. You gasp in shock—well, you would have if you could. Your mouth opened, but no sound came out. You flail your limbs, trying to get your bearings in this odd place. Eventually, you manage to get into an upright position; at least you think you are, there doesn't seem to be any concept of direction here.
@@ -97,7 +97,7 @@
 </p>
 
 
-:: Prologue_BusDream#1 [prologue] {"position":"275,150"}
+:: Prologue_BusDream#1 [prologue location_bus] {"position":"275,150"}
 <p>
     You place a hand on your middle and sense a strong pressure beneath it. Bit by bit, it begins to swell; your skin stretching more and more by the second. In just a short while, there's a little bump that makes you look three months pregnant. Your eyes widen in shock at your belly, but before you can process what happened, you feel a stronger force pushing from within; you're still growing.
 </p>
@@ -123,7 +123,7 @@
 </p>
 
 
-:: Prologue_BusDream#1_1 [prologue] {"position":"275,275"}
+:: Prologue_BusDream#1_1 [prologue location_bus] {"position":"275,275"}
 <p>
     <span class="otherSpeech">
         POP!

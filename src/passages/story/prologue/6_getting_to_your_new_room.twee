@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_GettingToYourNewRoom [prologue] {"position":"250,500"}
+:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc] {"position":"250,500"}
 <p>
     Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, practically dragging /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
 </p>
@@ -133,7 +133,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave {"position":"50,550"}
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc] {"position":"50,550"}
 <p>
     /* TODO - Add the sound of a ringing phone here */
     <span class="otherSpeech">
