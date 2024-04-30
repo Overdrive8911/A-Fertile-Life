@@ -1,7 +1,7 @@
 :: LocationData [variables]
 
-/* // setup.locations[index: number] = {name: string, coords: [x: number, y: number], subLocation = [{name: string, floorLevel: number, coords: [x: number, y: number]}, ...]} */
-/* The coords stand for it's x and y positions on the global map (or in a particular location as for the subLocations) while the floorLevel dictates what vertical level the subLocation exists on the map. If the floorLevel doesn't exist, assume it is 0 ( the default) */
+/* // setup.locations[index: number] = {name: string, coords: [x: number, y: number, z?: number], subLocation = [{name: string, coords: [x: number, y: number, z?: number]}, ...]} */
+/* The coords stand for it's x and y positions as well as an optional z level (which has a default of 0 and is used in buildings with multiple floors) on the global map (or in a particular location as for the subLocations)*/
 
 /* Sample Structure = 
     [
@@ -15,14 +15,13 @@
                 },
                 {
                     name: "ceoOffice",
-                    floorLevel: 10,
-                    coords: [2, 2],
+                    coords: [2, 2, 10],
                 },
             ]
         },
         { 
             name: "playerHouse", 
-            coords: [50, 50], 
+            coords: [50, 50, 0], 
             subLocation: [
                 {
                     name: "bathroom",
@@ -33,48 +32,3 @@
     ]
 */
 <<run setup.initializeLocationDataArray()>>
-/* <<set setup.locations = []>> */
-    /* Player House */
-    /* { 
-        name: "playerHouse", 
-        coords: [50, 50], 
-        subLocation: [
-            {
-                name: "bathroom",
-                coords: [1, 1],
-            },
-            {
-                name: "livingRoom",
-                coords: [2, 2],
-            },
-            {
-                name: "porch",
-                coords: [3, 3],
-            },
-            {
-                name: "bedroom",
-                coords: [5, 1],
-            },
-            {
-                name: "kitchen",
-                coords: [1, 4],
-            },
-        ] 
-    },  */
-    /* Fertilo Inc */
-    /* {
-        name: "fertiloInc", 
-        coords: [450, 570], 
-        subLocation: [
-            {
-                name: "reception",
-                coords: [5, 1],
-            },
-            {
-                name: "ceoOffice",
-                floorLevel: 10,
-                coords: [2, 2],
-            },
-        ]
-    }
-]>> */
