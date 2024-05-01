@@ -1,58 +1,3 @@
-const invalidLocation: number = -999;
-const invalidSubLocation: number = invalidLocation;
-
-// This checks whether a location exists and returns its array index location else returns -999
-const doesLocationDataExist = (locationName: string) => {
-  // Create setup.locations if it doesn't exist. Although this would never really happen, just to appease the typescript gods
-  if (setup.locations === undefined) {
-    setup.locations = [];
-  }
-
-  for (let i = 0; i < setup.locations?.length; i++) {
-    const location = setup.locations[i];
-
-    if (location.name === locationName) {
-      console.log(`index and element: ${i} and ${location.name}`);
-      // The location exists so exit this function
-      return i;
-    }
-  }
-
-  return invalidLocation;
-};
-
-const doesSubLocationDataExist = (
-  subLocationName: string,
-  locationName: string
-) => {
-  let locationId = doesLocationDataExist(locationName);
-
-  // Create setup.locations and the subLocations if it doesn't exist. Although this would never really happen, just to appease the typescript gods
-  if (setup.locations === undefined) {
-    setup.locations = [];
-  }
-  if (setup.locations[locationId].subLocations === undefined) {
-    setup.locations[locationId].subLocations = [];
-  }
-
-  if (locationId != invalidLocation) {
-    // location exists
-    for (
-      let i = 0;
-      i < setup.locations[locationId]?.subLocations?.length;
-      i++
-    ) {
-      const subLocation = setup.locations[locationId]?.subLocations[i];
-
-      if (subLocation.name === subLocationName) {
-        return i;
-      }
-    }
-  }
-
-  return invalidSubLocation;
-};
-
 setup.initializeLocationDataArray = function () {
   // Create setup.locations if it doesn't exist
   if (setup.locations === undefined) {
@@ -80,7 +25,7 @@ setup.initializeLocationDataArray = function () {
         const location = tags.match(/location_[^\s]*/) as RegExpMatchArray;
         // console.log(location);
 
-        // TODO - Deal with the coordinates using a switch case
+        // NOTE - Add the extra cases here
         // SECTION - Location switch case
         switch (location[0]) {
           case "location_playerHouse":
@@ -100,7 +45,7 @@ setup.initializeLocationDataArray = function () {
         }
 
         // Create a new location data object for the location and push it into setup.locations if not already present
-        let locationDataExists = doesLocationDataExist(location[0]);
+        let locationDataExists = getLocationDataIndex(location[0]);
         if (locationDataExists === invalidLocation) {
           // console.log(location[0]);
           setup.locations?.push({
@@ -117,7 +62,7 @@ setup.initializeLocationDataArray = function () {
           ) as RegExpMatchArray;
           // console.log(subLocation);
 
-          let subLocationDataExists = doesSubLocationDataExist(
+          let subLocationDataExists = getSubLocationDataIndex(
             subLocation[0],
             location[0]
           );
@@ -132,7 +77,7 @@ setup.initializeLocationDataArray = function () {
               setup.locations[locationDataExists].subLocations = [];
             }
 
-            // TODO - Deal with the coordinates using a switch case
+            // NOTE - Add the extra cases here
             // SECTION - Sub location switch case
             switch (location[0]) {
               case "location_playerHouse":
@@ -176,7 +121,7 @@ setup.initializeLocationDataArray = function () {
                 break;
             }
 
-            setup.locations[locationDataExists]?.subLocations?.push({
+            setup.locations[locationDataExists].subLocations.push({
               name: subLocation[0],
               coords: subLocation_coords,
             });
