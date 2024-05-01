@@ -29,7 +29,8 @@
     <!-- This will be a black background wrapped in a double green border -->
     <div id="ui-settings-button-time-border-and-bg">
         <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
-        <div id="ui-settings-button-time">08:00 PM</div>
+        <!-- $gameTimeDisplay is set via typescript and is a string of the current time in digital format -->
+        <div id="ui-settings-button-time"><<live $gameTimeDisplay>></div>
     </div>
 </div>
 
