@@ -1,3 +1,5 @@
+// Called at startup by StoryInit.
+// Initializes setup.locations with all the possible locations, subLocations and nav_locations gotten from tags on passages
 setup.initializeLocationDataArray = function () {
   // Create setup.locations if it doesn't exist
   if (setup.locations === undefined) {
@@ -6,6 +8,18 @@ setup.initializeLocationDataArray = function () {
 
   let location_coords: [x: number, y: number, z?: number];
   let subLocation_coords: [x: number, y: number, z?: number];
+  let location_navigations: {
+    north?: string;
+    east?: string;
+    south?: string;
+    west?: string;
+  };
+  let subLocation_navigations: {
+    north?: string;
+    east?: string;
+    south?: string;
+    west?: string;
+  };
 
   // Loop over each story passage
   for (const i of $("tw-storydata").children()) {
@@ -19,12 +33,15 @@ setup.initializeLocationDataArray = function () {
         // Reset them with every iteration.
         location_coords = [0, 0];
         subLocation_coords = [0, 0];
+        location_navigations = {};
+        subLocation_navigations = {};
         // console.log(storyPassage.attr("tags"));
 
         // Match characters with "location_"
         const location = tags.match(/location_[^\s]*/) as RegExpMatchArray;
         // console.log(location);
 
+        // TODO - Add the navigation locations
         // NOTE - Add the extra cases here
         // SECTION - Location switch case
         switch (location[0]) {
@@ -51,6 +68,7 @@ setup.initializeLocationDataArray = function () {
           setup.locations?.push({
             name: location[0],
             coords: location_coords,
+            nav_locations: location_navigations,
           });
         }
 
@@ -77,6 +95,7 @@ setup.initializeLocationDataArray = function () {
               setup.locations[locationDataExists].subLocations = [];
             }
 
+            // TODO - Add the navigation locations
             // NOTE - Add the extra cases here
             // SECTION - Sub location switch case
             switch (location[0]) {
@@ -124,6 +143,7 @@ setup.initializeLocationDataArray = function () {
             setup.locations[locationDataExists].subLocations.push({
               name: subLocation[0],
               coords: subLocation_coords,
+              nav_locations: subLocation_navigations,
             });
           }
         }
