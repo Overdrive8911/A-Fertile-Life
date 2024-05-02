@@ -3,7 +3,7 @@
 setup.initializeLocationDataArray = function () {
   // Create setup.locations if it doesn't exist
   if (setup.locations === undefined) {
-    setup.locations = [];
+    setup.locations = new Map();
   }
 
   let location_coords: [x: number, y: number, z?: number];
@@ -61,11 +61,10 @@ setup.initializeLocationDataArray = function () {
             break;
         }
 
-        // Create a new location data object for the location and push it into setup.locations if not already present
-        let locationDataExists = getLocationDataIndex(location[0]);
-        if (locationDataExists === invalidLocation) {
-          // console.log(location[0]);
-          setup.locations?.push({
+        // Create a new location data object for the location and append it into setup.locations if not already present
+        let locationDataExists = setup.locations.has(location[0]);
+        if (!locationDataExists) {
+          setup.locations?.set(location[0], {
             name: location[0],
             coords: location_coords,
             nav_locations: location_navigations,
@@ -80,19 +79,13 @@ setup.initializeLocationDataArray = function () {
           ) as RegExpMatchArray;
           // console.log(subLocation);
 
-          let subLocationDataExists = getSubLocationDataIndex(
-            subLocation[0],
-            location[0]
-          );
-          if (
-            subLocationDataExists === invalidSubLocation &&
-            locationDataExists !== invalidLocation
-          ) {
-            // Initialize the subLocation sub-array if it doesn't exist
-            if (
-              setup.locations[locationDataExists].subLocations === undefined
-            ) {
-              setup.locations[locationDataExists].subLocations = [];
+          let subLocationDataExists = setup.locations
+            .get(location[0])
+            ?.subLocations?.has(subLocation[0]);
+          if (!subLocationDataExists) {
+            // Initialize the subLocation sub-map if it doesn't exist
+            if (setup.locations.get(location[0])!.subLocations === undefined) {
+              setup.locations.get(location[0])!.subLocations = new Map();
             }
 
             // TODO - Add the navigation locations
@@ -106,6 +99,9 @@ setup.initializeLocationDataArray = function () {
                     break;
                   case "subLocation_porch":
                     subLocation_coords = [5, 3];
+                    break;
+                  case "subLocation_bedroom":
+                    subLocation_coords = [2, 3];
                     break;
                   default:
                     subLocation_coords = [0, 0];
@@ -140,7 +136,7 @@ setup.initializeLocationDataArray = function () {
                 break;
             }
 
-            setup.locations[locationDataExists].subLocations.push({
+            setup.locations.get(location[0])!.subLocations.set(subLocation[0], {
               name: subLocation[0],
               coords: subLocation_coords,
               nav_locations: subLocation_navigations,

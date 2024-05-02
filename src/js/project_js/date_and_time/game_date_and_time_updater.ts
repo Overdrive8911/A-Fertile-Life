@@ -46,21 +46,21 @@ setup.getDistanceToTravelFromLocation = () => {
     return 0;
   }
 
-  // Get location indexes in setup.locations
-  const prevPassageLocationIndex = getLocationDataIndex(prevPassageLocation);
-  const prevPassageSubLocationIndex = getSubLocationDataIndex(
-    prevPassageSubLocation,
-    prevPassageLocation
-  );
-  const currPassageLocationIndex = getLocationDataIndex(currPassageLocation);
-  const currPassageSubLocationIndex = getSubLocationDataIndex(
-    currPassageSubLocation,
-    currPassageLocation
-  );
+  // // Get location indexes in setup.locations
+  // const prevPassageLocationIndex = getLocationDataIndex(prevPassageLocation);
+  // const prevPassageSubLocationIndex = getSubLocationDataIndex(
+  //   prevPassageSubLocation,
+  //   prevPassageLocation
+  // );
+  // const currPassageLocationIndex = getLocationDataIndex(currPassageLocation);
+  // const currPassageSubLocationIndex = getSubLocationDataIndex(
+  //   currPassageSubLocation,
+  //   currPassageLocation
+  // );
 
   // Appease typescript. This should never happen
   if (setup.locations === undefined) {
-    setup.locations = [];
+    setup.locations = new Map();
   }
 
   // Access the coords using the indexes
@@ -69,31 +69,29 @@ setup.getDistanceToTravelFromLocation = () => {
   let currPassageLocationCoords: [x: number, y: number, z?: number];
   let currPassageSubLocationCoords: [x: number, y: number, z?: number];
 
-  prevPassageLocationCoords = setup.locations[prevPassageLocationIndex].coords;
+  prevPassageLocationCoords = setup.locations.get(prevPassageLocation)!.coords;
 
   if (
-    setup.locations[prevPassageLocationIndex].subLocations !== undefined &&
-    prevPassageSubLocationIndex !== invalidSubLocation
+    setup.locations.get(prevPassageLocation)!.subLocations !== undefined &&
+    prevPassageSubLocation
   ) {
-    prevPassageSubLocationCoords =
-      setup.locations[prevPassageLocationIndex].subLocations[
-        prevPassageSubLocationIndex
-      ].coords;
+    prevPassageSubLocationCoords = setup.locations
+      .get(prevPassageLocation)
+      .subLocations.get(prevPassageSubLocation).coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
     prevPassageSubLocationCoords = [0, 0, 0];
   }
 
-  currPassageLocationCoords = setup.locations[currPassageLocationIndex].coords;
+  currPassageLocationCoords = setup.locations.get(currPassageLocation).coords;
 
   if (
-    setup.locations[currPassageLocationIndex].subLocations !== undefined &&
-    currPassageSubLocationIndex !== invalidSubLocation
+    setup.locations.get(currPassageLocation)!.subLocations !== undefined &&
+    currPassageSubLocation
   ) {
-    currPassageSubLocationCoords =
-      setup.locations[currPassageLocationIndex].subLocations[
-        currPassageSubLocationIndex
-      ].coords;
+    currPassageSubLocationCoords = setup.locations
+      .get(currPassageLocation)
+      .subLocations.get(currPassageSubLocation).coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
     currPassageSubLocationCoords = [0, 0, 0];
@@ -116,13 +114,14 @@ setup.getDistanceToTravelFromLocation = () => {
     currPassageSubLocationCoords[z_coord] = 0;
   }
 
-  // Assuming we are looking for the shortest distance between location A & subLocation A and location B & subLocation B, it would be the combined sum of the shortest distance between location A & subLocation A, location B & subLocation B, and location A & Location B.
+  // Assuming we are looking for the shortest distance between location A & subLocation A and location B & subLocation B, it would be the combined sum of the shortest distance between location A & subLocation A, location B & subLocation B, and location A & Location B. If location A & location B are the same, then find the shortest distance between subLocation A and subLocation B
   // Assume that when comparing a subLocation to its own location, the coordinates on the location are [0, 0, 0]
   const defaultLocationCoords: [x: number, y: number, z: number] = [0, 0, 0];
 
   let distBetweenPrevPassageLocationAndSubLocation: number;
   let distBetweenCurrPassageLocationAndSubLocation: number;
   let distBetweenPrevPassageLocationAndCurrPassageLocation: number;
+  let distBetweenPrevPassageSubLocationAndCurrPassageSubLocation: number;
   let totalDistanceBetweenLocationsInMetres: number;
 
   const getDistanceBetweenTwoPoints = (
@@ -169,16 +168,37 @@ setup.getDistanceToTravelFromLocation = () => {
       currPassageLocationCoords[z_coord]
     );
 
+  distBetweenPrevPassageSubLocationAndCurrPassageSubLocation =
+    getDistanceBetweenTwoPoints(
+      prevPassageSubLocationCoords[x_coord],
+      prevPassageSubLocationCoords[y_coord],
+      prevPassageSubLocationCoords[z_coord],
+      currPassageSubLocationCoords[x_coord],
+      currPassageSubLocationCoords[y_coord],
+      currPassageSubLocationCoords[z_coord]
+    );
+
   const min = 0,
     max = 1;
-  totalDistanceBetweenLocationsInMetres =
-    (distBetweenPrevPassageLocationAndSubLocation +
-      distBetweenCurrPassageLocationAndSubLocation +
-      distBetweenPrevPassageLocationAndCurrPassageLocation) *
-    getRandomNumberFromRangeInclusive(
-      distanceToMetresConversionRange[min],
-      distanceToMetresConversionRange[max]
-    );
+
+  if (prevPassageLocation !== currPassageLocation) {
+    totalDistanceBetweenLocationsInMetres =
+      (distBetweenPrevPassageLocationAndSubLocation +
+        distBetweenCurrPassageLocationAndSubLocation +
+        distBetweenPrevPassageLocationAndCurrPassageLocation) *
+      getRandomNumberFromRangeInclusive(
+        distanceToMetresConversionRange[min],
+        distanceToMetresConversionRange[max]
+      );
+  } else {
+    // Just use the distance between subLocations
+    totalDistanceBetweenLocationsInMetres =
+      distBetweenPrevPassageSubLocationAndCurrPassageSubLocation *
+      getRandomNumberFromRangeInclusive(
+        distanceToMetresConversionRange[min],
+        distanceToMetresConversionRange[max]
+      );
+  }
 
   // Return a floating point number with 2 decimal places
   return parseFloat(totalDistanceBetweenLocationsInMetres.toFixed(2));
