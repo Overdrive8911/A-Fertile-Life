@@ -1,6 +1,6 @@
 // setup.locations is found in "location_data.twee"
 
-setup.displayAndUpdateGameTime = () => {
+setup.updateGameTimeDisplay = () => {
   if (variables().gameTime !== undefined) {
     // Get the time in hours for the day
     const gameTimeDayHours: number = variables().gameTime!.getUTCHours();
@@ -47,10 +47,10 @@ setup.displayAndUpdateGameTime = () => {
 
 // Update the time whenever the player moves to a another passage
 $(document).on(":passagedisplay", () => {
-  setup.displayAndUpdateGameTime();
+  setup.updateGameTimeDisplay();
 });
 
 // Update the time every 30s irl (note that it's still using the game time)
 setInterval(() => {
-  setup.displayAndUpdateGameTime();
+  setup.updateGameTimeDisplay();
 }, 30000);
