@@ -41,25 +41,8 @@ setup.initializeLocationDataArray = function () {
         const location = tags.match(/location_[^\s]*/) as RegExpMatchArray;
         // console.log(location);
 
-        // TODO - Add the navigation locations
-        // NOTE - Add the extra cases here
-        // SECTION - Location switch case
-        switch (location[0]) {
-          case "location_playerHouse":
-            location_coords = [500, 500];
-            break;
-          case "location_fertiloInc":
-            location_coords = [45000, 45000];
-            break;
-          case "location_bus":
-          case "location_dream":
-            location_coords = [0, 0];
-          default:
-            // This should never happen lol
-            // Enter the void
-            location_coords = [-100, -100];
-            break;
-        }
+        location_coords = locationDataObject[location[0]]?.coords;
+        location_navigations = locationDataObject[location[0]]?.nav_locations;
 
         // Create a new location data object for the location and append it into setup.locations if not already present
         let locationDataExists = setup.locations.has(location[0]);
@@ -88,56 +71,12 @@ setup.initializeLocationDataArray = function () {
               setup.locations.get(location[0])!.subLocations = new Map();
             }
 
-            // TODO - Add the navigation locations
-            // NOTE - Add the extra cases here
-            // SECTION - Sub location switch case
-            switch (location[0]) {
-              case "location_playerHouse":
-                switch (subLocation[0]) {
-                  case "subLocation_livingRoom":
-                    subLocation_coords = [1, 30];
-                    break;
-                  case "subLocation_bathroom":
-                    subLocation_coords = [15, 20];
-                    break;
-                  case "subLocation_porch":
-                    subLocation_coords = [0, -23];
-                    break;
-                  case "subLocation_bedroom":
-                    subLocation_coords = [21, 36];
-                    break;
-                  default:
-                    subLocation_coords = [0, 0];
-                    break;
-                }
-                break;
-              case "location_fertiloInc":
-                switch (subLocation[0]) {
-                  case "subLocation_reception":
-                    subLocation_coords = [2, 7];
-                    break;
-                  case "subLocation_measurementCloset":
-                    subLocation_coords = [5, 10];
-                    break;
-                  case "subLocation_mrFertiloOffice":
-                    subLocation_coords = [8, 6, 10];
-                    break;
-
-                  // Player Rooms
-                  case "subLocation_playerRoom":
-                    subLocation_coords = [11, 9];
-                    break;
-
-                  // Hallways
-
-                  default:
-                    subLocation_coords = [0, 0];
-                    break;
-                }
-                break;
-              default:
-                break;
-            }
+            subLocation_coords =
+              locationDataObject[location[0]]?.subLocations[subLocation[0]]
+                ?.coords;
+            subLocation_navigations =
+              locationDataObject[location[0]]?.subLocations[subLocation[0]]
+                ?.nav_locations;
 
             setup.locations.get(location[0])!.subLocations.set(subLocation[0], {
               name: subLocation[0],
