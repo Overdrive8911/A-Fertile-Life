@@ -158,3 +158,10 @@
         padding: 0.165rem;
     }
 }
+
+@media screen and (max-width: 350px) {
+    // Reduce the font of the text in the second div
+    [id="ui-side-bar-backup-container1"] > div:nth-child(2) {
+        font-size: calc(82.5%);
+    }
+}
