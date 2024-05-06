@@ -32,12 +32,28 @@ $(document).one(":passageinit", () => {
   // ev.preventDefault();
 });
 
-// Skip to the specified day and time (in hrs and minutes)
-const skipToDayAndTime = (day: number, hours: number, minutes: number) => {
+// Skip forward `day` times to the specified time (in hrs and minutes)
+const skipSomeDaysToSpecificTime = (
+  days: number,
+  hours: number,
+  minutes: number
+) => {
+  hours++;
+
+  if (hours < 0) {
+    hours = 0;
+  }
+  hours = hours % 24;
+
+  if (minutes < 0) {
+    minutes = 0;
+  }
+  minutes = minutes % 60;
+
   variables().gameTime = new Date(
     variables().gameTime.getFullYear(),
     variables().gameTime.getUTCMonth(),
-    day,
+    variables().gameTime.getUTCDate() + days,
     hours,
     minutes
   );
@@ -45,18 +61,5 @@ const skipToDayAndTime = (day: number, hours: number, minutes: number) => {
 
 // Skip to the next day and stop at the particular hour(0 till 23) and minutes(0 till 59)
 setup.skipToNextDayWithSpecificTime = (hours: number, minutes: number) => {
-  if (hours < 0) {
-    hours = 0;
-  }
-  if (hours > 23) {
-    hours = 23;
-  }
-
-  if (minutes < 0) {
-    minutes = 0;
-  }
-  if (minutes > 59) {
-    minutes = 59;
-  }
-  skipToDayAndTime(variables().gameTime.getUTCDate() + 1, hours + 1, minutes);
+  skipSomeDaysToSpecificTime(1, hours, minutes);
 };

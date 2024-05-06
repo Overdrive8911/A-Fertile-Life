@@ -118,6 +118,8 @@
 
 
 :: Prologue_WakeUpAndBrushTeeth [prologue location_playerHouse subLocation_bathroom] {"position":"150,25"}
+<<updateGameTime "nextDay" 7 00>>
+
 <p>
 The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
 </p>
