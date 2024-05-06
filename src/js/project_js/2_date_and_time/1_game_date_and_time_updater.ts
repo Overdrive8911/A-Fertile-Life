@@ -50,10 +50,10 @@ const skipSomeDaysToSpecificTime = (
   }
   minutes = minutes % 60;
 
-  variables().gameTime = new Date(
-    variables().gameTime.getFullYear(),
-    variables().gameTime.getUTCMonth(),
-    variables().gameTime.getUTCDate() + days,
+  variables().gameDateAndTime = new Date(
+    variables().gameDateAndTime.getFullYear(),
+    variables().gameDateAndTime.getUTCMonth(),
+    variables().gameDateAndTime.getUTCDate() + days,
     hours,
     minutes
   );
