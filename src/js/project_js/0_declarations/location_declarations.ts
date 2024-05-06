@@ -7,7 +7,7 @@ const averageWalkingSpeed: [
   timeUnit: string
 ] = [1.42, "metres", "second"];
 
-// This stores EVERY possible location while setup.locations stores every location available ingame
+// This stores EVERY possible location while setup.locations stores every location available in-game
 const locationDataObject: {
   [nameOfLocation: string]: {
     // name: string,
