@@ -9,10 +9,16 @@ setup.updateGameTimeDisplay = () => {
 
     if (gameTimeDayHours < 12) {
       // AM
-      const gameTimeDayHoursFormatted: string = gameTimeDayHours.toLocaleString(
-        undefined,
-        { minimumIntegerDigits: 2, useGrouping: false }
-      );
+      const gameTimeDayHoursFormatted: string =
+        gameTimeDayHours === 0
+          ? (12).toLocaleString(undefined, {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            })
+          : gameTimeDayHours.toLocaleString(undefined, {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
       const gameTimeDayMinutesFormatted: string =
         gameTimeDayMinutes.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
@@ -22,12 +28,16 @@ setup.updateGameTimeDisplay = () => {
       variables().gameTimeDisplay = `${gameTimeDayHoursFormatted}:${gameTimeDayMinutesFormatted} AM`;
     } else {
       // PM
-      const gameTimeDayHoursFormatted: string = (
-        gameTimeDayHours - 12
-      ).toLocaleString(undefined, {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      });
+      const gameTimeDayHoursFormatted: string =
+        gameTimeDayHours === 12
+          ? (12).toLocaleString(undefined, {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            })
+          : (gameTimeDayHours - 12).toLocaleString(undefined, {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
       const gameTimeDayMinutesFormatted: string =
         gameTimeDayMinutes.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
