@@ -101,8 +101,8 @@
 
         [id="ui-settings-button-time"] {
             // font-family: DIGITAL-7, Courier, monospace;
-            // Reduce the font size by ~82.6%
-            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.826);
+            // Reduce the font size by ~88%
+            font-size: calc(var(--ui-top-bar-left-digital-clock-font-size) * 0.88);
         }
 
         [id^="ui-side-bar-backup-container"] {
