@@ -75,7 +75,7 @@
 
   // Target the first div containing the day, date and month
   & > :first-child {
-    --height: calc(var(--ui-top-bar-height) * (30 / 100));
+    --height: calc(var(--ui-top-bar-height) * (35 / 100));
     font-size: var(--height);
     line-height: var(--height);
   }
