@@ -4,6 +4,10 @@
     position: absolute;
     z-index: -5;
 
+    // Make sure the background is large enough
+    min-height: 130%;
+    width: 100%;
+
     background-color: var(--ui-bar-background-color);
 }
 
@@ -26,7 +30,7 @@
 
     & > div[id|="passage"] {
         /* max-width: 54em; */
-        max-width: 70%;
+        width: 70%;
     }
 }
 
