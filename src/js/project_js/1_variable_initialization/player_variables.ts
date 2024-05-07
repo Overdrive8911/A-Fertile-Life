@@ -1,4 +1,5 @@
 setup.initializePlayerVariables = () => {
+  // $player
   variables().player = {
     /* Money */
     money: 5800 /* The currency isn't something irl */,
@@ -74,7 +75,7 @@ setup.initializePlayerVariables = () => {
     /* Mental Stats */
     /* All of them have a max of 100 */
     mentalStats: {
-      happiness: 70,
+      mood: 70,
       intelligence: 75,
     },
 
@@ -83,8 +84,10 @@ setup.initializePlayerVariables = () => {
     /*TODO - Put these in another object */
     hp: 80 /* Don't let it get down to 0 :> */,
     //illness: 0 /* 0 -> Not ill, 1 - 25 -> Mildly ill, 26 - 50 -> Ill, 51 - 75 -> Very ill, 76 - 99 -> Deathly ill */,
+    maxHp: 100,
     immunity: 85 /* Resistance to illness */,
     energy: 70 /* 0 - 10 -> Completely exhausted, 11 - 25 -> exhausted, 26 - 40 -> very tired, 41 - 50 - Tired, 51 - 60 -> Fatigued, 61 - 75 - Normal, 76 - 85 -> Perky, 86 - 99 -> Energetic, 100 -> Completely Refreshed */,
+    maxEnergy: 100,
 
     /* Womb, Pregnancy and Birth */
     /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
@@ -93,12 +96,14 @@ setup.initializePlayerVariables = () => {
     /* Capacity is in cubic centimetres(CCs) */
     womb: {
       hp: 100 /* Healthy wombs gestate faster at the cost of this stat, going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
+      maxHp: 100,
       fertility: 100 /* How fertile the user is. 0 -> Barren, 100 -> Fertility Idol */,
       curCapacity: 0 /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'. -1 - Postpartum, 0 - Not Pregnant, >=1 Pregnant */,
       comfortCapacity: 30000 /* How bug she can get without losing any comfort. Slowly increases as womb.exp increases */,
       maxCapacity: 60000 /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
       lvl: 1 /* Ranges from 1 to 15. Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Lvl 1 -> 1000exp, lvl 2 -> 3000exp, lvl 3 -> 7000exp, lvl 4 -> 12000exp, lvl 5 -> 20000exp, lvl 6 -> 30000exp, lvl 7 -> 45000exp, lvl 8 -> 70000exp, lvl 9 -> 100000exp, lvl 10 -> 150000exp, lvl 11 -> 220000exp, lvl 12 -> 310000exp, lvl 13 -> 420000exp, lvl 14 -> 550000exp, lvl 15 -> 1000000exp */,
       exp: 1 /* Increases when pregnant; the amount depends on the womb.fetusData.fetus[].day, womb.fetusData.fetus[].amnioticFluidProduced, womb.fetusData.fetus[].growthModifier, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain */,
+      maxExp: 100,
       postpartum: 0 /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */,
       contraceptives: false,
       birthRecord: 0 /* Number of times the user has given birth */,
@@ -201,6 +206,7 @@ setup.initializePlayerVariables = () => {
 
     /* Stomach and Hunger */
     fullness: 85 /* From 0 to 100. Decreases over time, especially when doing strenuous work. Increases after eating. As long as its above 70, the user will not be hungry. The user cannot eat if the amount of fullness is 100 */,
+    maxFullness: 100,
     caloriesEaten: 2100 /* Stores the daily amount of calories consumed by the user. Is used in calculating changes to weight */,
     /* UNUSED stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */
     sag: 0 /* Slowly increases depending on womb.curCapacity. Some upgrades reduce its progress. Reduces when not pregnant */,

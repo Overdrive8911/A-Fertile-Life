@@ -1,0 +1,12 @@
+:: PlayerStat_Widgets [widget]
+/* Update the stats */
+<<widget "updatePlayerStats">>
+    <<updatemeter "pcHPBar" `$player.hp / $player.maxHp`>>
+    <<updatemeter "pcEnergyBar" `$player.energy / $player.maxEnergy`>>
+
+    <<updatemeter "pcMoodBar" `$player.mood / 100`>>
+    <<updatemeter "pcHungerBar" `$player.fullness / $player.maxFullness`>>
+
+    <<updatemeter "pcWombHPBar" `$player.womb.hp / $player.womb.maxHp`>>
+    <<updatemeter "pcWombLvlBar" `$player.womb.exp / $player.womb.maxExp`>>
+<</widget>>
