@@ -1,0 +1,3 @@
+:: PassageDone
+/* Update all the stat bars at the beginning of a passage */
+<<updatePlayerStats>>

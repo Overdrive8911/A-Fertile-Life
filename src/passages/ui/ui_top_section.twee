@@ -50,7 +50,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
 
                 <span class="ui-stat-bar-hp">
-                    <<showmeter "pcHPBar">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                    <<showmeter "pcHPBar" `$player.hp / $player.maxHp`>> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
                 </span>
             </div>
             
@@ -58,7 +58,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
-                    <<showmeter "pcEnergyBar">>
+                    <<showmeter "pcEnergyBar" `$player.energy / $player.maxEnergy`>>
                 </span>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/mood.webp" alt="Yellow Smiley Face Mood Icon">
 
                 <span class="ui-stat-bar-mood">
-                    <<showmeter "pcMoodBar">>
+                    <<showmeter "pcMoodBar" `$player.mood / 100`>>
                 </span>
             </div>
 
@@ -76,7 +76,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/stomach.webp" alt="Pink Stomach Icon">
 
                 <span class="ui-stat-bar-hunger">
-                    <<showmeter "pcHungerBar">>
+                    <<showmeter "pcHungerBar" `$player.fullness / $player.maxFullness`>>
                 </span>
             </div>
         </div>
@@ -86,7 +86,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
 
                 <span class="ui-stat-bar-womb-hp">
-                    <<showmeter "pcWombHPBar">>
+                    <<showmeter "pcWombHPBar" `$player.womb.hp / $player.womb.maxHp`>>
                 </span>
             </div>
 
@@ -94,7 +94,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="assets/img/ui/icons/24x24/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
 
                 <span class="ui-stat-bar-womb-lvl">
-                    <<showmeter "pcWombLvlBar">>
+                    <<showmeter "pcWombLvlBar" `$player.womb.exp / $player.womb.maxExp`>>
                 </span>
             </div>
         </div>
