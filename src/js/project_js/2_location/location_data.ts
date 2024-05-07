@@ -167,7 +167,7 @@ setup.getDistanceToTravelFromLocation = (
   prevPassageLocationCoords = setup.locations.get(prevPassageLocation)!.coords;
 
   if (
-    setup.locations.get(prevPassageLocation)!.subLocations !== undefined &&
+    setup.locations.get(prevPassageLocation).subLocations !== undefined &&
     prevPassageSubLocation
   ) {
     prevPassageSubLocationCoords = setup.locations
@@ -180,8 +180,9 @@ setup.getDistanceToTravelFromLocation = (
 
   currPassageLocationCoords = setup.locations.get(currPassageLocation).coords;
 
+  console.log("Beans");
   if (
-    setup.locations.get(currPassageLocation)!.subLocations !== undefined &&
+    setup.locations.get(currPassageLocation).subLocations !== undefined &&
     currPassageSubLocation
   ) {
     currPassageSubLocationCoords = setup.locations
@@ -192,6 +193,13 @@ setup.getDistanceToTravelFromLocation = (
     currPassageSubLocationCoords = [0, 0, 0];
   }
 
+  // Just to make sure nothing is undefined/null
+  if (!prevPassageSubLocationCoords) {
+    prevPassageSubLocationCoords = [0, 0, 0];
+  }
+  if (!currPassageSubLocationCoords) {
+    currPassageSubLocationCoords = [0, 0, 0];
+  }
   // Set the z-coordinate as 0 if it doesn't exist
   const x_coord = 0,
     y_coord = 1,
