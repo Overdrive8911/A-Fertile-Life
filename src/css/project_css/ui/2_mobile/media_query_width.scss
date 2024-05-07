@@ -97,6 +97,10 @@
             // max-width: fit-content;
             // I don't like how the clock's border sticker to the side bar like that. A bit of a noticeable gap should help with that
             padding-left: 0.25%;
+
+            // Since it's just 2 items (the time and the stat bars), ignore the flex and use its content as the width
+            flex: none;
+            width: fit-content;
         }
 
         [id="ui-settings-button-time"] {
