@@ -13,8 +13,33 @@ const updateGameTimeAfterChangingPassage = (
   // Get the time to travel in seconds
   const timeToTravel = Math.floor(distBetweenLocations / movementSpeed);
 
+  let extraTimeForRemainingInALocationInSeconds = 0;
+  const passage1Location: string | undefined =
+    getLocationFromPassageTitle(passageName1);
+  const passage1SubLocation: string | undefined =
+    getSubLocationFromPassageTitle(passageName1);
+  const passage2Location: string | undefined =
+    getLocationFromPassageTitle(passageName2);
+  const passage2SubLocation: string | undefined =
+    getSubLocationFromPassageTitle(passageName2);
+
+  if (
+    passage1Location &&
+    passage2Location &&
+    passage1Location === passage2Location &&
+    (passage1SubLocation === passage2SubLocation ||
+      !passage1SubLocation ||
+      !passage2SubLocation)
+  ) {
+    // If the first and second location both exist and are the same, as well as their sub-locations regardless if either doesn't exist, then the player is still in the same location so calculate a random amount of time in seconds to spend
+    extraTimeForRemainingInALocationInSeconds =
+      getRandomNumberFromRangeInclusive(25, 65);
+  }
+
   // Change the in-game time
-  setup.updateGameTimeVariable(timeToTravel);
+  setup.updateGameTimeVariable(
+    timeToTravel + extraTimeForRemainingInALocationInSeconds
+  );
 };
 
 // Update the game time after changing location but not when the browser window is restarted/refreshed
