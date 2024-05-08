@@ -28,6 +28,26 @@ button {
     color: var(--ui-side-bar-action-menu-button-text-color);
 }
 
+input,
+select,
+textarea {
+    border-color: var(--ui-bar-border-color);
+}
+
+::-webkit-slider-thumb,
+::-moz-range-thumb {
+    -webkit-appearance: none;
+    background-color: var(--ui-side-bar-action-menu-button-color);
+    border-color: var(--ui-bar-border-color);
+}
+
+::-webkit-slider-runnable-track,
+::-moz-range-track {
+    -webkit-appearance: none;
+    background-color: var(--ui-bar-background-color);
+    border-color: var(--ui-bar-border-color);
+}
+
 // Commented out for now since it looks weird lol
 // [id="ui-side-bar"],
 // [id="ui-top-bar"],
