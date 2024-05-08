@@ -1,4 +1,4 @@
-:: StoryInterface
+:: StoryInterface {"position":"900,100"}
 <!-- https://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinterface --> 
 <!-- take note of 'data-init-passage' and 'data-passage' --> 
 <!-- Note that most of these will have their contents filled in PassageDone -->
