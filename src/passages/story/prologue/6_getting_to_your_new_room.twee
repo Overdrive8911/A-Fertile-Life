@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"250,500"}
+:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,650"}
 <p>
     Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, practically dragging /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
 </p>
@@ -133,7 +133,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc subLocation_playerRoom] {"position":"50,550"}
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc subLocation_playerRoom] {"position":"275,650"}
 <p>
     /* TODO - Add the sound of a ringing phone here */
     <span class="otherSpeech">
@@ -175,7 +175,7 @@
 [[Enter->FertiloInc_Prologue_EnteredYourRoom]]
 
 
-:: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"175,725"}
+:: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"275,775"}
 <p>
     You shudder as you walk into the dark cold interior of the room. It has a faint scent of that "hospital room smell" which is quite unusual since you haven't noticed it elsewhere.
     <span class="femaleSpeech">
@@ -249,4 +249,4 @@
 
 /* <<set $displayNewUI = true>> */
 
-:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom]
+:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,775"}

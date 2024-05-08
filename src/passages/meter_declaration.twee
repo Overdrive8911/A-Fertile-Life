@@ -1,5 +1,5 @@
 /*THis file is solely used to store the declaration of meters from Chapel's meter-macro */
-:: MeterDeclaration
+:: MeterDeclaration {"position":"2325,0"}
 
 /* PC HP Bar */
 <<newmeter "pcHPBar" 1>>

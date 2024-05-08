@@ -1,5 +1,5 @@
 /* This file was created solely to store included passages from the main prologue */
-:: FertiloInc_Prologue_InfoDump1_EnthusiasmPassage [prologue] {"position":"550,675"}
+:: FertiloInc_Prologue_InfoDump1_EnthusiasmPassage [prologue] {"position":"500,25"}
 <p>
     You laugh nervously, clutching and fiddling with your purse. 
     <span class="femaleSpeech">
@@ -32,7 +32,7 @@
 </p>
 
 
-:: FertiloInc_Prologue_InfoDump1_ApathyPassage [prologue] {"position":"600,775"}
+:: FertiloInc_Prologue_InfoDump1_ApathyPassage [prologue] {"position":"600,125"}
 <p>
     /* REVIEW - Rewrite this */
     You sigh quite audibly, 
@@ -57,7 +57,7 @@
 </p>    
 
 
-:: FertiloInc_Prologue_InfoDump1_DisapprovalPassage [prologue] {"position":"650,675"}
+:: FertiloInc_Prologue_InfoDump1_DisapprovalPassage [prologue] {"position":"500,125"}
 <p>
     You place your hand on your forehead and let out a sarcastic chuckle, 
     <span class="femaleSpeech">
@@ -120,7 +120,7 @@
 </p>
 
 
-:: FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo [prologue] {"position":"700,425"}
+:: FertiloInc_Prologue_InfoDump1_ShowedDrFertTheTattoo [prologue] {"position":"600,25"}
 <p>
     You stand up and breathe in deeply before letting it out, sighing in progress. 
     <span class="femaleSpeech">
@@ -224,7 +224,7 @@
 </p>
 
 
-:: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [prologue] {"position":"700,525"}
+:: FertiloInc_Prologue_InfoDump1_NotShowedDrFertTheTattoo [prologue] {"position":"700,25"}
 <p>
     You think to yourself for a moment before nodding sideways. 
     <span class="femaleSpeech">
