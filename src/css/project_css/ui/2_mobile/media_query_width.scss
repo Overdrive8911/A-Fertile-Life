@@ -14,6 +14,9 @@
 
 // For wide portrait and relatively narrower landscape modes on mobile
 @media screen and (max-width: 780px) {
+    [id="ui-stat-bar"] {
+        padding-right: 1%;
+    }
     :root:has([id="ui-side-bar"]:not(.stowed)) {
         // Hide the original icons since the css ain't doing it
         [id="ui-settings-buttons"],
