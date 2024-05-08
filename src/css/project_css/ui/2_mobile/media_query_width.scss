@@ -17,6 +17,15 @@
     [id="ui-stat-bar"] {
         padding-right: 1%;
     }
+
+    div[id|="passage"] {
+        & input {
+            min-width: auto;
+            max-width: 70%;
+            width: 40vw;
+        }
+    }
+
     :root:has([id="ui-side-bar"]:not(.stowed)) {
         // Hide the original icons since the css ain't doing it
         [id="ui-settings-buttons"],
@@ -114,13 +123,6 @@
 
         [id^="ui-side-bar-backup-container"] {
             display: none;
-        }
-
-        [id|="passage"] {
-            & input {
-                min-width: auto;
-                max-width: 70%;
-            }
         }
     }
 }
