@@ -1,4 +1,4 @@
-:: Prologue_ArrivedAtFertiloInc [prologue characterCreation location_fertiloInc subLocation_foyer] {"position":"25,275"}
+:: Prologue_ArrivedAtFertiloInc [prologue characterCreation location_fertiloInc subLocation_foyer] {"position":"150,275"}
 <<ctp Prologue_ArrivedAtFertiloInc_ctpId1>>
     <div class="maleSpeech">
         <p>
@@ -95,7 +95,7 @@
 <</ctp>>
 
 
-:: Prologue_ArrivedAtFertiloInc_1 [prologue location_fertiloInc subLocation_reception] {"position":"150,350"}
+:: Prologue_ArrivedAtFertiloInc_1 [prologue location_fertiloInc subLocation_reception] {"position":"25,275"}
 <p>
     You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, 
     <span class="femaleSpeech">
@@ -115,6 +115,7 @@
     </span> she adds, pushing a pen and a thick-covered leather book to you.
 </p>
 
+/* [[FertiloInc_CharacterCreation_TalkToReceptionist]] */
 <<ctp "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
     <<link "Take the pen.">>
         <<ctpAdvance "Prologue_ArrivedAtFertiloInc_1_ctpId1">>
@@ -126,7 +127,7 @@
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation location_fertiloInc subLocation_reception] {"position":"475,25"}
+:: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation location_fertiloInc subLocation_reception] {"position":"25,400"}
 <p>
     You return the book after dropping your name and signature. The receptionist takes it while saying, 
     <span class="femaleSpeech1">
@@ -229,7 +230,7 @@
 </p>
 
 
-:: FertiloInc_CharacterCreation [characterCreation location_fertiloInc subLocation_measurementCloset] {"position":"600,25"}
+:: FertiloInc_CharacterCreation [characterCreation location_fertiloInc subLocation_measurementCloset] {"position":"150,400"}
 /* Handle getting the PC's weight */
 <<ctp "FertiloInc_CharacterCreation_ctpId1">>
     <p>
@@ -456,7 +457,7 @@
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue location_fertiloInc subLocation_measurementCloset] {"position":"475,150"}
+:: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue location_fertiloInc subLocation_measurementCloset] {"position":"275,400"}
 <p>
     You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight.
 </p>

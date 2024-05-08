@@ -1,4 +1,4 @@
-:: uiPassage_bottom_section
+:: uiPassage_bottom_section {"position":"1600,100"}
 <div id="ui-navigation-options-container">
     <button id="ui-navigation-option-button-north">North (W)</button>
     <button id="ui-navigation-option-button-east">East (D)</button>

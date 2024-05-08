@@ -1,3 +1,3 @@
-:: GeneralVariables [variables]
+:: GeneralVariables [variables] {"position":"1700,300"}
 /* February 3rd 2021 */
 <<set $gameDateAndTime = new Date(Date.UTC(2021, 1, 3, 20))>>

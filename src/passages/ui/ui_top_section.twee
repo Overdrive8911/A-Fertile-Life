@@ -1,4 +1,4 @@
-:: uiPassage_top_bar
+:: uiPassage_top_bar {"position":"1700,100"}
 <!-- Container for inventory, settings, saves, restart, etc icons and time -->
 <div id="ui-top-bar-left">
     <!-- TODO - Change the name if this id. also consider adding the names of the icons right beneath the icons themselves or revealing the names via a hover popup -->
