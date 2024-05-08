@@ -1,4 +1,4 @@
-:: uiPassage_side_section
+:: uiPassage_side_section {"position":"1700,0"}
 /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
 <div id="ui-side-bar" class="stowed">
     <div id="ui-side-bar-game-info">

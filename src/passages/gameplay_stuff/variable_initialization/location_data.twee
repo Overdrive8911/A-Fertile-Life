@@ -1,4 +1,4 @@
-:: LocationData [variables]
+:: LocationData [variables] {"position":"1900,400"}
 
 /* // setup.locations[index: number] = {name: string, coords: [x: number, y: number, z?: number], subLocation = [{name: string, coords: [x: number, y: number, z?: number]}, ...]} */
 /* The coords stand for it's x and y positions as well as an optional z level (which has a default of 0 and is used in buildings with multiple floors) on the global map (or in a particular location as for the subLocations)*/
