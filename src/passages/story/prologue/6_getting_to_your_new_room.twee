@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc] {"position":"250,500"}
+:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"250,500"}
 <p>
     Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, practically dragging /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
 </p>
@@ -133,7 +133,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc] {"position":"50,550"}
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc subLocation_playerRoom] {"position":"50,550"}
 <p>
     /* TODO - Add the sound of a ringing phone here */
     <span class="otherSpeech">
@@ -175,6 +175,78 @@
 [[Enter->FertiloInc_Prologue_EnteredYourRoom]]
 
 
-:: FertiloInc_Prologue_EnteredYourRoom {"position":"175,725"}
+:: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"175,725"}
+<p>
+    You shudder as you walk into the dark cold interior of the room. It has a faint scent of that "hospital room smell" which is quite unusual since you haven't noticed it elsewhere.
+    <span class="femaleSpeech">
+        <i>Of course… There should be a light switch somewhere around here</i>
+    </span>
+</p>
 
-<<set $displayNewUI = true>>
+<p>
+    Choosing to brave the darkness, you slowly shuffle along the length of the wall. The wall feels very smooth and is quite cold to touch. You run your fingers along it, feeling for any bump that might indicate a light switch.
+</p>
+
+<p>
+    After a while, you bump into what you assume as the corner of the room and sigh. You shuffling backwards and searching on the other side but the cold is starting to be uncomfortable. In an attempt to warm yourself, you clasp your hands together.
+</p>
+
+<p>
+    No sooner do you do this when your room makes a buzzing sound. The lights glow to life and the air conditioning seems to calm down. Your room still makes the buzzing sound although at much lower volume. Eventually, it stops and you hear a—.
+</p>
+
+<p>
+    <span class="otherSpeech">
+        <p><b>DING!</b></p>
+
+        “Good evening, ma'am. I am the main pseudo-AI in charge of your room's surveillance and household duties. The doctor told me a lot about you and I assume you are weary now. A meal and resting area has been prepared in advance for you. Feel free to utilize them and any of my other services once you are well-rested. If you require any aid, simply call out to me.”
+
+        <p><b>DING!</b></p>
+    </span>
+</p>
+
+<p>
+    The room promptly returns to silence, aside from the low hum of the air conditioning and refrigerator you recently noticed. An AI was quite the startle; they are very uncommon but <i>not</i> unheard of. It makes sense that an establishment as big as Fertilo Inc would have at least one.
+</p>
+
+<p>
+    <span class="otherSpeech">
+        [INSERT STOMACH NOISES]
+    </span>
+</p>
+
+<p>
+    It dawns on you that you haven't had anything to eat for a while now. Fortunately, a ding from the microwave behind reminds you of what the AI said. You move over to it and pull the microwave open with its handle.
+</p>
+
+<p>
+    Inside, you find a relatively-hot air-tight food pack. Upon opening it, you see what can only be described as meat-coloured splooge. 
+    <span class="femaleSpeech">
+        “Mystery meat, my <i>favourite</i>.”
+    </span>
+</p>
+
+<p>
+    After vainly checking the refrigerator and cabinets for anything that actually looked edible, you return to the ultra-processed "food" and decide it's better than nothing. The first spoonful of the thick sludge doesn't help with your appetite. A short whiff of it tells you it has no discernable odour in particular.
+</p>
+
+<p>
+    You raise the spoon to your mouth and clamp shut on it. The texture's about as weird as you thought — a fairly slimy yet thick ooze that easily slides down the throat. What you weren't expecting though, was the fact that it was tasteless. Not in the sense that it has no taste at all, rather, a multitude of toned-down flavours indiscernible to your tongue resulting in the final combination being somewhat bland. Still, you shovel it all down surprisingly quickly and feel quite satiated afterwards.
+</p>
+
+<p>
+    Drowsiness comes over as you let out an especially long yawn. To your convenience, a door on the side of the room opens up — almost as if triggered by your yawn — and reveals what looks to be a bedroom. You drag your tired body over to the room and promptly fall onto the bed.
+</p>
+
+<p>
+    It's really soft but with enough firmness that it doesn't sink in too much or become annoying. Soon enough, your eyelids shut and breathing slow as you drift off from this world…
+</p>
+
+/* [[Next|FertiloInc_Prologue_TutorialForYourRoom]] */
+<<link "Next" "FertiloInc_Prologue_TutorialForYourRoom">>
+    <<updateGameTime "nextDay" 7 30>>
+<</link>>
+
+/* <<set $displayNewUI = true>> */
+
+:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom]
