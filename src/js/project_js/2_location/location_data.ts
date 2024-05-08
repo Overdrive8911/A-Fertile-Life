@@ -180,7 +180,6 @@ setup.getDistanceToTravelFromLocation = (
 
   currPassageLocationCoords = setup.locations.get(currPassageLocation).coords;
 
-  console.log("Beans");
   if (
     setup.locations.get(currPassageLocation).subLocations !== undefined &&
     currPassageSubLocation
@@ -238,9 +237,6 @@ setup.getDistanceToTravelFromLocation = (
     return Math.sqrt(
       Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + Math.pow(z1 - z2, 2)
     );
-  };
-  const getRandomNumberFromRangeInclusive = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
   };
 
   distBetweenPrevPassageLocationAndSubLocation = getDistanceBetweenTwoPoints(

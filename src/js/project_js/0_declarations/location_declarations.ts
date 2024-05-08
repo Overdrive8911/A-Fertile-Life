@@ -1,3 +1,35 @@
+const getLocationFromPassageTitle = (passageTitle: string) => {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let locationArr = tag.match(/location_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (locationArr) {
+      return locationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+};
+
+const getSubLocationFromPassageTitle = (passageTitle: string) => {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let subLocationArr = tag.match(/subLocation_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (subLocationArr) {
+      return subLocationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+};
+
 const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
 ];
