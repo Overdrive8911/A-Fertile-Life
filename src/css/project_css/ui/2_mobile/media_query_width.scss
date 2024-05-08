@@ -112,6 +112,13 @@
         [id^="ui-side-bar-backup-container"] {
             display: none;
         }
+
+        [id|="passage"] {
+            & input {
+                min-width: auto;
+                max-width: 70%;
+            }
+        }
     }
 }
 

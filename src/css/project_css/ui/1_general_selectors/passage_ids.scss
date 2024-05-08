@@ -20,7 +20,7 @@
     left: var(--ui-side-bar-width);
     z-index: -1;
 
-    padding-bottom: 2.5em;
+    padding-bottom: calc(var(--ui-bottom-bar-height) + 1.5rem);
 
     background-color: var(--ui-bar-background-color);
 
@@ -31,6 +31,17 @@
     & > div[id|="passage"] {
         /* max-width: 54em; */
         width: 70%;
+
+        & input:not(:disabled):focus,
+        input:not(:disabled):hover,
+        select:not(:disabled):focus,
+        select:not(:disabled):hover,
+        textarea:not(:disabled):focus,
+        textarea:not(:disabled):hover {
+            background-color: var(--ui-bar-background-color);
+            border-color: var(--ui-bar-border-color);
+            filter: brightness(135%);
+        }
     }
 }
 
