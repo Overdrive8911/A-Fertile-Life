@@ -28,6 +28,8 @@
     display: flex;
     justify-content: space-around;
 
+    overflow-x: hidden;
+
     & > div[id|="passage"] {
         /* max-width: 54em; */
         width: 70%;
