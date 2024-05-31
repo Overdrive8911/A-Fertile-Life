@@ -1,4 +1,4 @@
-@import "../partials/mixin.scss";
+@import "../../partials/mixin.scss";
 
 [id="interface"] {
     position: absolute;
@@ -27,6 +27,8 @@
     /* Turn the main passage area into a flex box and manipulate the actual passages within it */
     display: flex;
     justify-content: space-around;
+
+    overflow-x: hidden;
 
     & > div[id|="passage"] {
         /* max-width: 54em; */

@@ -1,4 +1,4 @@
-@import "../partials/mixin.scss";
+@import "../../partials/mixin.scss";
 
 // Pretty much just to include those long samsung phones or smth while in landscape mode
 @media screen and (max-width: 900px) {
@@ -14,6 +14,18 @@
 
 // For wide portrait and relatively narrower landscape modes on mobile
 @media screen and (max-width: 780px) {
+    [id="ui-stat-bar"] {
+        padding-right: 1%;
+    }
+
+    div[id|="passage"] {
+        & input {
+            min-width: auto;
+            max-width: 70%;
+            width: 40vw;
+        }
+    }
+
     :root:has([id="ui-side-bar"]:not(.stowed)) {
         // Hide the original icons since the css ain't doing it
         [id="ui-settings-buttons"],
@@ -111,13 +123,6 @@
 
         [id^="ui-side-bar-backup-container"] {
             display: none;
-        }
-
-        [id|="passage"] {
-            & input {
-                min-width: auto;
-                max-width: 70%;
-            }
         }
     }
 }
