@@ -246,7 +246,3 @@
 <<link "Next" "FertiloInc_Prologue_TutorialForYourRoom">>
     <<updateGameTime "nextDay" 7 30>>
 <</link>>
-
-/* <<set $displayNewUI = true>> */
-
-:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,775"}
