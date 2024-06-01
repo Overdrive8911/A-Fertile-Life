@@ -50,3 +50,19 @@ sugarcube-2:
           ```
           <<updatePlayerStats>>
           ```
+    character:
+      name: character
+      container: true
+      description: |-
+        Adds an appropriate character icon to the text.
+
+        It can have 3 values; a mandatory character name, a mandatory gender (Male/Female/Other) and an optional emotion. Note that the name must be a valid folder in assets/img/characters/icons/ while the emotion is a valid image file in the folder.
+
+        ```
+          i.e <<character <NAME> <GENDER COLOR CLASS> <EMOTION=optional> >> Content <</character>>
+          e.g <<character "Dummy" "maleSpeech1" "Happy">> "I'm a happy, male dummy ;p." <</character>> 
+              <<character "Dummy" "otherSpeech">> "I'm a default dummy. My gender falls beyond a binary classifications ;p." <</character>>
+              <<character "Dummy" "femaleSpeech" "Sad" >> "I'm a sad, female gender dummy ;p." <</character>>
+        ```
+      parameters:
+        - text &+ text |+ text

@@ -1,0 +1,40 @@
+:: Character_Widgets [widget]
+
+/* Adds an appropriate character icon to the text.
+    It can have 3 values; a mandatory character name, a mandatory gender (Male/Female/Other) and an optional emotion. Note that the name must be a valid folder in assets/img/characters/icons/ while the emotion is a valid image file in the folder. 
+    i.e <<character <NAME> <GENDER COLOR CLASS> <EMOTION=optional> >> Content <<character>>
+    e.g <<character "Dummy" "maleSpeech1" "Happy">> "I'm a happy, male dummy ;p." <</character>> 
+        <<character "Dummy" "otherSpeech">> "I'm a default dummy. My gender falls beyond a binary classifications ;p." <</character>>
+        <<character "Dummy" "femaleSpeech" "Sad" >> "I'm a sad, female gender dummy ;p." <</character>> */
+<<nosp>>
+    <<widget "character" container>>
+        <<set _characterName = _args[0].toLowerCase()>>
+        <<set _gender = _args[1]>>
+        <<set _emotion = _args[2]>>
+
+        /* if the value of gender doesn't exist, default to "Other" */
+        /* <<if _gender.toLowerCase() !== "male" 
+        && _gender.toLowerCase() !== "female" 
+        && _gender.toLowerCase() !== "other">>
+            <<set _gender = "other">>
+        <</if>> */
+
+        /* if there's no value for emotion, set it to the default */
+        <<if _emotion === undefined>>
+            <<set _emotion = "default">>
+        <</if>>
+        
+        /* e.g assets/img/character/fertilo/happy.webp */
+        <<set _imagePath = "assets/img/characters/icons/" + _characterName + "/" + _emotion.toLowerCase() + ".webp">>
+
+        /* Decide the color of the text */
+        /* <<switch _gender.toLowerCase()>>
+            <<case "male">>
+                <<set _textColor = >>
+        
+        <</switch>> */
+
+        /* Display the appropriate image with the text */
+        <img @src="_imagePath" class="characterIconInPassage"> <span @class="_gender">_contents</span>
+    <</widget>>
+<</nosp>>

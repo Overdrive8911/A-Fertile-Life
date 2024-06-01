@@ -1,0 +1,7 @@
+:root {
+    --global-font-size: 16px;
+}
+
+html {
+    font-size: var(--global-font-size);
+}

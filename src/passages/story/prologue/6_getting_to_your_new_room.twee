@@ -176,7 +176,12 @@
 
 
 :: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"275,775"}
+/* <p>
+    <<character "Robo" "maleSpeech">>TEST ME MASTER UWU ;3. sfsdjfnifnenfiernfidnfsdfd fsf f sf sd fs f sdf sd fsd fsd f sd fwkefwe ijw ig f wrgieig eri ge gei geji gr grj grj gj gjr gjr gr gjr gjr gjr grj g g r w ee.<</character>>
+</p> */
+
 <p>
+    /* <img class="characterIconInPassage" src="assets/img/characters/icons/robo/default.webp"> */
     You shudder as you walk into the dark cold interior of the room. It has a faint scent of that "hospital room smell" which is quite unusual since you haven't noticed it elsewhere.
     <span class="femaleSpeech">
         <i>Of course… There should be a light switch somewhere around here</i>
