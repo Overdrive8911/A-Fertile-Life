@@ -2,17 +2,17 @@
 
 ## Regular Stuff
 
-- **Name:**
-- **Alias (if any):**
-- **Job:**
-- **Age:**
-- **Alignment:**
+- **Name:** General Artificial Intelligence for Gynaecological Insights
+- **Alias (if any):** G.A.I.G.I or G.I.G.I (The latter is preferred by them)
+- **Job:** Medical Assistant
+- **Age:** Not applicable
+- **Alignment:** True Neutral
 - **Born:**
-- **Favorite Color:**
+- **Favorite Color:** Turquoise
 
 ## Physical features
 
-- **Race:**
+- **Race:** Prototype 0.9.1a
 - **Physical Age:**
 - **Height:**
 - **Weight:**
