@@ -13,10 +13,14 @@
   // The width of what will be displayed in the action interface when it's opened
   --ui-side-bar-action-interface-content-width: 200px;
   // There'll be a gap on either side which adds with ui-side-bar-action-menu-content-width to get it's width
-  --ui-side-bar-action-interface-total-width: calc(var(--ui-side-bar-action-interface-content-width) + 5rem);
+  --ui-side-bar-action-interface-total-width: calc(
+    var(--ui-side-bar-action-interface-content-width) + 5rem
+  );
 
   // This goofy ahh calculation is just to give it the right size in the top bar. Not sure how it scales if the value is changed but eh
-  --ui-top-bar-left-digital-clock-font-size: calc(var(--ui-top-bar-height) * (56.04 / 100));
+  --ui-top-bar-left-digital-clock-font-size: calc(
+    var(--ui-top-bar-height) * (56.04 / 100)
+  );
 }
 
 // Specifically for colors
@@ -67,7 +71,8 @@
 // Filters
 :root {
   --icon-border-filter: drop-shadow(1px 0px 0 var(--ui-image-border-color))
-    drop-shadow(0px 1px 0px var(--ui-image-border-color)) drop-shadow(-1px 0px 0px var(--ui-image-border-color))
+    drop-shadow(0px 1px 0px var(--ui-image-border-color))
+    drop-shadow(-1px 0px 0px var(--ui-image-border-color))
     drop-shadow(0px -1px 0px var(--ui-image-border-color));
   --icon-brightness-filter: brightness(95%);
 }
