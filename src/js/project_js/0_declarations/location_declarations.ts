@@ -39,7 +39,7 @@ const averageWalkingSpeed: [
   timeUnit: string
 ] = [1.42, "metres", "second"];
 
-// This stores EVERY possible location while setup.locations stores every location available in-game
+// This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
 const locationDataObject: {
   [nameOfLocation: string]: {
     // name: string,
@@ -70,19 +70,11 @@ const locationDataObject: {
     location_fertiloInc: {
       coords: [45000, 45000],
       subLocations: {
-        subLocation_reception: {
-          coords: [2, 7],
-        },
-        subLocation_measurementCloset: {
-          coords: [5, 10],
-        },
-        subLocation_mrFertiloOffice: {
-          coords: [8, 6, 10],
-        },
+        subLocation_reception: { coords: [2, 7] },
+        subLocation_measurementCloset: { coords: [5, 10] },
+        subLocation_mrFertiloOffice: { coords: [8, 6, 10] },
 
-        subLocation_playerRoom: {
-          coords: [11, 9],
-        },
+        subLocation_playerRoom: { coords: [11, 9] },
       },
     },
 
@@ -94,23 +86,15 @@ const locationDataObject: {
     location_playerHouse: {
       coords: [500, 500],
       subLocations: {
-        subLocation_livingRoom: {
-          coords: [1, 30],
-        },
+        subLocation_livingRoom: { coords: [1, 30] },
         subLocation_bathroom: {
           coords: [15, 20],
-          nav_locations: {
-            east: "subLocation_bedroom",
-          },
+          nav_locations: { east: "subLocation_bedroom" },
         },
-        subLocation_porch: {
-          coords: [0, -23],
-        },
+        subLocation_porch: { coords: [0, -23] },
         subLocation_bedroom: {
           coords: [21, 36],
-          nav_locations: {
-            west: "subLocation_bathroom",
-          },
+          nav_locations: { west: "subLocation_bathroom" },
         },
       },
     },
@@ -118,10 +102,6 @@ const locationDataObject: {
     // Central Hirtheford
 
     // Others
-    location_bus: {
-      coords: [0, 0],
-    },
-    location_dream: {
-      coords: [0, 0],
-    },
+    location_bus: { coords: [0, 0] },
+    location_dream: { coords: [0, 0] },
   };
