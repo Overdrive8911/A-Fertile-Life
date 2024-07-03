@@ -1,3 +1,164 @@
 /* <<set $displayNewUI = true>> */
 
 :: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,775"}
+<p>
+    You feel a warmth gradually gather on your face and pull you out of your dreams. Slowly opening your eyes, you see that blinds have been opened.
+</p>
+
+<p>
+    <span class="femaleSpeech">
+        “Wasn't it closed yesterday? It's probably automated.”
+    </span>
+</p>
+
+<p>
+    <span class="roboSpeech">
+        “To an extent, yes,” 
+    </span> an unfamiliar voice answers.
+</p>
+
+<p>
+    <span class="femaleSpeech">
+        “Huh?”
+    </span>
+</p>
+
+<p>
+    <span class="roboSpeech">
+        “Look at the table.” 
+    </span>
+</p>
+
+<p>
+    You slowly raise your head towards the large white table in the center of your room. There, your eyes widen as you see a small floating thing with a holographic screen; most likely what issued the command.
+</p>
+
+/* TODO - Insert a picture of the player looking at G.I.G.I */
+
+<p>
+    <<character "G.I.G.I" "roboSpeech" "default">>
+        “Morning sleepy head. It's almost time for work!”
+    <</character>>
+</p>
+
+<p>
+    You're still quite dumbfounded by the confident little thing so a short while of staring, you ask for it to explain itself.
+</p>
+
+<p>
+    <<character "G.I.G.I" "roboSpeech" "hmm">>
+        “Ah! Pardon me for the unexplained surprise.
+    <</character>>
+</p>
+
+<p>
+    <<character "G.I.G.I" "roboSpeech" "happy_2">>
+        “I am your General Artificial Intelligence for Gynaecological Insights; G.A.I.G.I, but I'd prefer you exclude the "A". You're looking at the prototype of one of the greatest achievements in all of medical history! I'll be tracking your vitals and be monitoring your condition for the duration of your stay here. And before you ask about my origins, they're confidential. All that's important for you to know is that the doctor assigned me to you…”
+    <</character>>
+</p>
+
+<p>
+    The introduction, of what you now believe to be a robot, ends with it looking around your room with curiosity. It levitates towards different corners, shelves and wardrobes, opening a few to inspect the contents, before descending to simply floating above the table.
+<p>
+
+<p>
+    <<character "G.I.G.I" "roboSpeech" "happy">>
+        “Nice room you got here. Much nicer than the bleak white ones I'm used to.”
+    <</character>>
+</p>
+
+<p>
+    After the robot stops talking, it stares silently at you for almost a minute, seemingly waiting for something.
+</p>
+
+<p>
+    <<character "G.I.G.I" "roboSpeech" "hmm">>
+        “…Uh, this is the part where you ask some questions. We're kinda pressed for time.”
+    <</character>>
+</p>
+
+<p>
+    <span class="femaleSpeech">
+        “Oh! I'm <<PC>>. So, G.I.G.I, um…”
+    </span>
+</p>
+
+/* This is where the info links start */
+/*
+    How did you get here?
+    Your voice is a bit odd.
+    What job am I meant to do?
+    Can I touch you?
+    Let's go.
+*/
+<<linkreplace "How did you get in here? <br>">>
+    <hr>
+    <p>
+        <span class="femaleSpeech">
+            “How did you even get in my room?”
+        </span>
+    </p>
+
+    <p>
+        <<character "G.I.G.I" "roboSpeech" "default">>
+            “I have authorized access to a <i>lot</i> of locations in this hospital.”
+        <</character>>
+    </p>
+<</linkreplace>>
+
+<<linkreplace "Your voice is a bit odd. <br>">>
+    <hr>
+    <p>
+        <span class="femaleSpeech">
+            “Your voice sounds… strange.”
+        </span>
+    </p>
+
+    <p>
+        <<character "G.I.G.I" "roboSpeech" "hmm">>
+            “…”
+        <</character>>
+    </p>
+
+    <p>
+        <<character "G.I.G.I" "roboSpeech" "default">>
+            “I greatly dislike its filter effect but my creators prefer that I'm not too "human-like".”
+        <</character>>
+    </p>
+<</linkreplace>>
+
+<<linkreplace "What job am I meant to do? <br>">>
+    <hr>
+    <p>
+        <span class="femaleSpeech">
+            “What job did you guys want me to do?”
+        </span>
+    </p>
+
+    <p>
+        <<character "G.I.G.I" "roboSpeech" "default">>
+            “Nothing much really, I'll say more when we're on our way.”
+        <</character>>
+    </p>
+<</linkreplace>>
+
+<<linkreplace "Can I feel you? <br>">>
+    <hr>
+    <p>
+        <span class="femaleSpeech">
+            “Is it okay if I feel you?”
+        </span>
+    </p>
+
+    <<character "G.I.G.I" "roboSpeech" "default">>
+        “As long as you're very gentle, however that can wait till later.”
+    <</character>>
+<</linkreplace>>
+
+<p>
+    [[Let's go.->FertiloInc_Prologue_TutorialToWork]]
+</p>
+
+
+:: FertiloInc_Prologue_TutorialToWork [prologue location_fertiloInc subLocation_nursery]
+/* TODO - TDLR: The player gets inseminated. Write this scene later */
