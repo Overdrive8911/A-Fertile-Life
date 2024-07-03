@@ -1,0 +1,8 @@
+:: GameStart
+/* The first passage the game loads, duh */
+/* TODO - Make it pretty ;3 */
+<h2>
+    [[Regular Start->Prologue_Beginning]]
+    <br><br><br>
+    <<link "Debug" "PlayerSandbox">><</link>>
+</h2>
