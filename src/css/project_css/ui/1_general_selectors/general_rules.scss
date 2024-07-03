@@ -1,51 +1,54 @@
 :root {
-    // Edit the scrollbar
-    scrollbar-color: var(--ui-scrollbar-thumb-color) var(--ui-scrollbar-track-color);
-    scrollbar-width: thin;
+  // Edit the scrollbar
+  scrollbar-color: var(--ui-scrollbar-thumb-color)
+    var(--ui-scrollbar-track-color);
+  scrollbar-width: thin;
 
-    & div {
-        // Edit all inner scrollbars
-        scrollbar-color: var(--ui-scrollbar-thumb-color) var(--ui-scrollbar-track-color);
-        scrollbar-width: thin;
-    }
+  & div {
+    // Edit all inner scrollbars
+    scrollbar-color: var(--ui-scrollbar-thumb-color)
+      var(--ui-scrollbar-track-color);
+    scrollbar-width: thin;
+  }
 }
 
 body {
-    color: var(--ui-default-text-color);
-    background-color: var(--ui-bar-background-color);
+  color: var(--ui-default-text-color);
+  background-color: var(--ui-bar-background-color);
 }
 
 button {
+  background-color: var(--ui-side-bar-action-menu-button-color);
+  border-color: var(--ui-bar-border-color);
+
+  &:hover {
     background-color: var(--ui-side-bar-action-menu-button-color);
     border-color: var(--ui-bar-border-color);
 
-    &:hover {
-        background-color: var(--ui-side-bar-action-menu-button-color);
-        border-color: var(--ui-bar-border-color);
-
-        filter: brightness(110%);
-    }
-    color: var(--ui-side-bar-action-menu-button-text-color);
+    filter: brightness(110%);
+  }
+  color: var(--ui-side-bar-action-menu-button-text-color);
 }
 
 input,
 select,
-textarea {
-    border-color: var(--ui-bar-border-color);
+textarea,
+hr {
+  border-color: var(--ui-bar-border-color);
 }
 
 ::-webkit-slider-thumb,
 ::-moz-range-thumb {
-    -webkit-appearance: none;
-    background-color: var(--ui-side-bar-action-menu-button-color);
-    border-color: var(--ui-bar-border-color);
+  -webkit-appearance: none;
+  background-color: var(--ui-side-bar-action-menu-button-color);
+  border-color: var(--ui-bar-border-color);
 }
 
 ::-webkit-slider-runnable-track,
 ::-moz-range-track {
-    -webkit-appearance: none;
-    background-color: var(--ui-bar-background-color);
-    border-color: var(--ui-bar-border-color);
+  -webkit-appearance: none;
+  background-color: var(--ui-bar-background-color);
+  border-color: var(--ui-bar-border-color);
 }
 
 // Commented out for now since it looks weird lol
