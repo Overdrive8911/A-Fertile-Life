@@ -94,8 +94,11 @@ setup.initializePlayerVariables = () => {
     /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */
     /* The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has */
     /* Capacity is in cubic centimetres(CCs) */
+    // NOTE - This MUST mirror the structure found in the interface `Womb` in `preg_declarations.ts`
     womb: {
       hp: 100 /* Healthy wombs gestate faster at the cost of this stat, going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
+      belongToPlayer:
+        true /* Some values and calculations change if the player is the owner */,
       maxHp: 100,
       fertility: 78 /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
       curCapacity: 0 /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'. -1 - Postpartum, 0 - Not Pregnant, >=1 Pregnant */,
@@ -189,7 +192,7 @@ setup.initializePlayerVariables = () => {
         ] /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
       },
       fetusData:
-        new Map() /* This array gets filled up when the pc is inseminated using template data in setup.player */,
+        new Map() /* This array gets filled up when the pc is inseminated in `tryToImpregnate()` */,
     },
 
     /* Breast and Lactation */
@@ -245,6 +248,7 @@ setup.initializePlayerVariables = () => {
   };
 
   // SECTION - static data
+  // NOTE - FUCK THIS
   setup.player = {
     /* ID */
     id: 1 /* Id of the player. Mainly used to determine the baby's. */ /*NOTE - No use atm */,
