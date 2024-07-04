@@ -4,9 +4,19 @@ sugarcube-2:
       name: updateGameTime
       description: |-
         <<updateGameTime "nextDay" 7 30>> to skip to 7:30 am on the next day
-        
+
         <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards
 
         Easy enough?
       parameters:
         - (text|number) &+ number &+ number
+    skipTime:
+      name: skipTime
+      description: |-
+        <<skipTime 0 5 2>> will skip 5 hours and 2 minutes into the future 
+
+        <<skipTime 0 -5 2>> will skip 5 hours backwards and then, 2 minutes forwards
+
+        <<skipTime 1 3 5>> will skip 1 day, 3 hours and 5 minutes forwards.
+      parameters:
+        - number &+ number &+ number
