@@ -73,10 +73,10 @@ const tryToImpregnate = (
     let numOfFoetusToSpawn = 1;
 
     // The chance of more than 1 sperm fertilizing an egg. It's not really much :p
-    while (i < chanceOfNaturalMultipleOvaFertilization.length) {
+    while (i < gChanceOfNaturalMultipleOvaFertilization.length) {
       // Use the virility bonus to boost the chance a bit, like by ~0.3...
       let chance =
-        chanceOfNaturalMultipleOvaFertilization[i] +
+        gChanceOfNaturalMultipleOvaFertilization[i] +
         (totalVirility * 0.1) / virility +
         (virility * 0.25) / 100;
 
@@ -90,9 +90,9 @@ const tryToImpregnate = (
     }
 
     // The ova splitting part
-    while (j < chanceOfNaturalOvaSplit.length) {
+    while (j < gChanceOfNaturalOvaSplit.length) {
       let chance =
-        chanceOfNaturalOvaSplit[i] +
+        gChanceOfNaturalOvaSplit[i] +
         (totalFertility * 0.1) / wombData.fertility +
         (wombData.fertility * 0.1) / 100 +
         (fertilityBonus * 0.75) / 100; // 0.455 is the extra bonus gotten with 100 fertility and 30 fertilityBonus
@@ -142,11 +142,17 @@ const tryToImpregnate = (
       // Generate the gender
       let fGender = either("M", "F");
       // Pick a random growth rate but be biased to values closer to 1
+      // NOTE - This is the default rate. For the player, its different since their pregnancy initially takes around a month or so. It's around 10 times as fast
       let fGrowthRate = either(0.9, 0.95, 1, 1, 1, 1.05, 1.1);
-      // These 3 will be dealt with later
+      if (wombData.belongToPlayer)
+        fGrowthRate = either(9.1, 9.5, 9.7, 10, 10, 10, 10.3, 10.5, 10.9);
+
+      // These 4 will be dealt with later
       let fHeight = 0;
       let fWeight = 0;
-      let fDevelopmentWeek = 0;
+      let fDevelopmentRatio = 1; // 1 percent
+
+      let fAmnioticFluidVolume = 0;
 
       // Push da foetus into the womb
       wombData.fetusData.set(i, {
@@ -154,12 +160,16 @@ const tryToImpregnate = (
         growthRate: fGrowthRate,
         height: fHeight,
         weight: fWeight,
-        developmentWeek: fDevelopmentWeek,
+        developmentRatio: fDevelopmentRatio,
+        amnioticFluidVolume: fAmnioticFluidVolume,
+        dateOfConception: variables().gameDateAndTime,
+        lastPregUpdate: variables().gameDateAndTime,
       });
 
       // Also increase the capacity of the womb so it'll be known that the player is expecting
       wombData.curCapacity++;
     }
+    return true;
   } else {
     return false;
   }
