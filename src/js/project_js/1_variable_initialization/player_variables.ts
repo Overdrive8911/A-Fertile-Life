@@ -97,7 +97,7 @@ setup.initializePlayerVariables = () => {
     womb: {
       hp: 100 /* Healthy wombs gestate faster at the cost of this stat, going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
       maxHp: 100,
-      fertility: 100 /* How fertile the user is. 0 -> Barren, 100 -> Fertility Idol */,
+      fertility: 78 /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
       curCapacity: 0 /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'. -1 - Postpartum, 0 - Not Pregnant, >=1 Pregnant */,
       comfortCapacity: 30000 /* How bug she can get without losing any comfort. Slowly increases as womb.exp increases */,
       maxCapacity: 60000 /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
@@ -117,8 +117,8 @@ setup.initializePlayerVariables = () => {
           0, 5000, 10,
         ] /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
         hyperFertility: [
-          0, 3000, 10,
-        ] /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can be conceived at once */,
+          0, 3000, 5,
+        ] /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
         superfet: [
           0, 15000, 5,
         ] /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
