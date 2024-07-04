@@ -1,0 +1,10 @@
+sugarcube-2:
+  macros:
+    impregnate:
+      name: impregnate
+      description: |-
+        <<impregnate 70 10 $player.womb>> to try and fertilize the player using a source with a high virility of 70% and a slight boost of 10 (out of 30) 
+
+        Easy enough?
+      parameters:
+        - number &+ number &+ receiver
