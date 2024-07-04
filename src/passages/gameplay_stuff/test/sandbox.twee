@@ -7,3 +7,8 @@
     It's time to get down to business, so go on and manipulate this new world to how you see fit!
 </p>
 
+<p>
+    <<link "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!">>
+        <<impregnate 70 10 $player.womb>>
+    <</link>>
+</p>
