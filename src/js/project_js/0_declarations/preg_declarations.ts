@@ -46,6 +46,7 @@ interface Womb {
 }
 
 interface FetusData {
+  id: number; // decides the gender, growthRate, weight, and height
   gender: string; // e.g M, F, NB
   dateOfConception: Date; // Just here :p
   lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
@@ -71,10 +72,63 @@ enum Trimesters {
   Second = 5 / 12,
   Third = 4 / 12,
 }
+// These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
+const gMinDevelopmentState = 0; // 0 Percent
 const gMaxDevelopmentState = 100; // 100 Percent
 
-const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // From 0 to 25
+const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // 25 i.e 0 to 25
 const gSecondTrimesterState =
-  Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // To 66.67 i.e 25 to 66.67
+  Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // 66.67 i.e 25 to 66.67
 const gThirdTrimesterState =
-  Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // To 100 i.e 66.67 to 100
+  Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
+
+const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
+const gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
+
+enum GestationalWeek {
+  One = 1 / gActualPregnancyLength,
+  Two = 2 / gActualPregnancyLength,
+  Three = 3 / gActualPregnancyLength,
+  Four = 4 / gActualPregnancyLength,
+  Five = 5 / gActualPregnancyLength,
+  Six = 6 / gActualPregnancyLength,
+  Seven = 7 / gActualPregnancyLength,
+  Eight = 8 / gActualPregnancyLength,
+  Nine = 9 / gActualPregnancyLength,
+  Ten = 10 / gActualPregnancyLength,
+  Eleven = 11 / gActualPregnancyLength,
+  Twelve = 12 / gActualPregnancyLength,
+  Thirteen = 13 / gActualPregnancyLength,
+  Fourteen = 14 / gActualPregnancyLength,
+  Fifteen = 15 / gActualPregnancyLength,
+  Sixteen = 16 / gActualPregnancyLength,
+  Seventeen = 17 / gActualPregnancyLength,
+  Eighteen = 18 / gActualPregnancyLength,
+  Nineteen = 19 / gActualPregnancyLength,
+  Twenty = 20 / gActualPregnancyLength,
+  TwentyOne = 21 / gActualPregnancyLength,
+  TwentyTwo = 22 / gActualPregnancyLength,
+  TwentyThree = 23 / gActualPregnancyLength,
+  TwentyFour = 24 / gActualPregnancyLength,
+  TwentyFive = 25 / gActualPregnancyLength,
+  TwentySix = 26 / gActualPregnancyLength,
+  TwentySeven = 27 / gActualPregnancyLength,
+  TwentyEight = 28 / gActualPregnancyLength,
+  TwentyNine = 29 / gActualPregnancyLength,
+  Thirty = 30 / gActualPregnancyLength,
+  ThirtyOne = 31 / gActualPregnancyLength,
+  ThirtyTwo = 32 / gActualPregnancyLength,
+  ThirtyThree = 33 / gActualPregnancyLength,
+  ThirtyFour = 34 / gActualPregnancyLength,
+  ThirtyFive = 35 / gActualPregnancyLength,
+  ThirtySix = 36 / gActualPregnancyLength,
+  ThirtySeven = 37 / gActualPregnancyLength,
+  ThirtyEight = 38 / gActualPregnancyLength,
+  ThirtyNine = 39 / gActualPregnancyLength,
+  Forty = 40 / gActualPregnancyLength,
+
+  // Extra overdue weeks. I'll deal with them later
+  FortyOne,
+  FortyTwo,
+  FortyThree,
+}
