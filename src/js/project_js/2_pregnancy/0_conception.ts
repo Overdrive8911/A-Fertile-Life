@@ -139,23 +139,31 @@ const tryToImpregnate = (
 
     // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
     for (i = 0; i < numOfFoetusToSpawn; i++) {
-      // Generate the gender
-      let fGender = either("M", "F");
+      // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
+      let fId = generateFetusId(wombData);
+
+      // Generate the gender. Even IDs are female while odd ids are male
+      let fGender = fId % 2 ? "M" : "F";
+
       // Pick a random growth rate but be biased to values closer to 1
       // NOTE - This is the default rate. For the player, its different since their pregnancy initially takes around a month or so. It's around 10 times as fast
-      let fGrowthRate = either(0.9, 0.95, 1, 1, 1, 1.05, 1.1);
+      let fGrowthRateArray = [0.9, 0.95, 0.95, 1, 1, 1, 1, 1.05, 1.05, 1.1];
       if (wombData.belongToPlayer)
-        fGrowthRate = either(9.1, 9.5, 9.7, 10, 10, 10, 10.3, 10.5, 10.9);
+        fGrowthRateArray = [
+          9.1, 9.5, 9.5, 9.7, 9.7, 10, 10, 10, 10, 10, 10.3, 10.3, 10.5, 10.5,
+          10.9,
+        ];
+      let fGrowthRate = fGrowthRateArray[fId % fGrowthRateArray.length];
 
       // These 4 will be dealt with later
       let fHeight = 0;
       let fWeight = 0;
-      let fDevelopmentRatio = 1; // 1 percent
-
+      let fDevelopmentRatio = 0;
       let fAmnioticFluidVolume = 0;
 
       // Push da foetus into the womb
       wombData.fetusData.set(i, {
+        id: fId,
         gender: fGender,
         growthRate: fGrowthRate,
         height: fHeight,
