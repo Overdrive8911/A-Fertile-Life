@@ -46,6 +46,7 @@ interface Womb {
 }
 
 interface FetusData {
+  id: number; // decides the gender, growthRate, weight, and height
   gender: string; // e.g M, F, NB
   dateOfConception: Date; // Just here :p
   lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
@@ -71,10 +72,69 @@ enum Trimesters {
   Second = 5 / 12,
   Third = 4 / 12,
 }
+// These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
+const gMinDevelopmentState = 0; // 0 Percent
 const gMaxDevelopmentState = 100; // 100 Percent
 
-const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // From 0 to 25
+const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // 25 i.e 0 to 25
 const gSecondTrimesterState =
-  Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // To 66.67 i.e 25 to 66.67
+  Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // 66.67 i.e 25 to 66.67
 const gThirdTrimesterState =
-  Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // To 100 i.e 66.67 to 100
+  Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
+
+const gNumOfGestationalWeeks = 40;
+const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
+let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
+
+// There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
+enum GestationalWeek {
+  One = 1 / gNumOfGestationalWeeks,
+  Two = 2 / gNumOfGestationalWeeks,
+  Three = 3 / gNumOfGestationalWeeks,
+  Four = 4 / gNumOfGestationalWeeks,
+  Five = 5 / gNumOfGestationalWeeks,
+  Six = 6 / gNumOfGestationalWeeks,
+  Seven = 7 / gNumOfGestationalWeeks,
+  Eight = 8 / gNumOfGestationalWeeks,
+  Nine = 9 / gNumOfGestationalWeeks,
+  Ten = 10 / gNumOfGestationalWeeks,
+  Eleven = 11 / gNumOfGestationalWeeks,
+  Twelve = 12 / gNumOfGestationalWeeks,
+  Thirteen = 13 / gNumOfGestationalWeeks,
+  Fourteen = 14 / gNumOfGestationalWeeks,
+  Fifteen = 15 / gNumOfGestationalWeeks,
+  Sixteen = 16 / gNumOfGestationalWeeks,
+  Seventeen = 17 / gNumOfGestationalWeeks,
+  Eighteen = 18 / gNumOfGestationalWeeks,
+  Nineteen = 19 / gNumOfGestationalWeeks,
+  Twenty = 20 / gNumOfGestationalWeeks,
+  TwentyOne = 21 / gNumOfGestationalWeeks,
+  TwentyTwo = 22 / gNumOfGestationalWeeks,
+  TwentyThree = 23 / gNumOfGestationalWeeks,
+  TwentyFour = 24 / gNumOfGestationalWeeks,
+  TwentyFive = 25 / gNumOfGestationalWeeks,
+  TwentySix = 26 / gNumOfGestationalWeeks,
+  TwentySeven = 27 / gNumOfGestationalWeeks,
+  TwentyEight = 28 / gNumOfGestationalWeeks,
+  TwentyNine = 29 / gNumOfGestationalWeeks,
+  Thirty = 30 / gNumOfGestationalWeeks,
+  ThirtyOne = 31 / gNumOfGestationalWeeks,
+  ThirtyTwo = 32 / gNumOfGestationalWeeks,
+  ThirtyThree = 33 / gNumOfGestationalWeeks,
+  ThirtyFour = 34 / gNumOfGestationalWeeks,
+  ThirtyFive = 35 / gNumOfGestationalWeeks,
+  ThirtySix = 36 / gNumOfGestationalWeeks,
+  ThirtySeven = 37 / gNumOfGestationalWeeks,
+  ThirtyEight = 38 / gNumOfGestationalWeeks,
+  ThirtyNine = 39 / gNumOfGestationalWeeks,
+  Forty = 40 / gNumOfGestationalWeeks,
+}
+
+enum PregnancyState {
+  NOT_PREGNANT,
+  JUST_CONCEIVED,
+  NOT_SHOWING,
+  PREGNANT_AND_SHOWING,
+  READY_TO_DROP,
+  OVERDUE,
+}
