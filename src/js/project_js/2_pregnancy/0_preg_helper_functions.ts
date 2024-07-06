@@ -15,6 +15,12 @@ const generateFetusId = (womb: Womb) => {
   return newFetusId;
 };
 
+const isPregnant = (womb: Womb) => {
+  // There is at least one fetus
+  if (womb.fetusData.size > 0) return PregnancyState.PREGNANT;
+  else return PregnancyState.NOT_PREGNANT;
+};
+
 const getCurrentTrimester = (fetus: FetusData) => {
   // Since the growth progress for the trimesters are in a ratio 3:5:4, we can use the `developmentRatio` to determine the current trimester since it has a max of 100 (%)
 
@@ -27,10 +33,7 @@ const getCurrentTrimester = (fetus: FetusData) => {
     growthProgress <= gSecondTrimesterState
   ) {
     return Trimesters.Second;
-  } else if (
-    growthProgress > gSecondTrimesterState &&
-    growthProgress <= gThirdTrimesterState
-  ) {
+  } else {
     return Trimesters.Third;
   }
 };
@@ -172,11 +175,11 @@ const getGestationalWeek = (fetus: FetusData, womb: Womb) => {
     getTotalGestationDuration(fetus, womb);
 
   for (const value of Object.values(GestationalWeek)) {
-    if (parseInt(value as string) < gestationalRange) {
+    if (parseFloat(value as string) < gestationalRange) {
       continue;
     } else {
-      // It just found the gestational week
-      return parseInt(value as string);
+      // It just found the gestational week. the result will be one of the members of GestationalWeek
+      return parseFloat(value as string);
     }
   }
 

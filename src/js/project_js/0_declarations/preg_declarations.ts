@@ -53,8 +53,15 @@ interface FetusData {
   developmentRatio: number; // e.g 50%, 23%, 87%, 100%
   growthRate: number; // e.g 1.5, 0.5, 2.0
   weight: number; // in grams e.g 360, 501, 600
-  height: number; // in inches e.g 11.38, 10.94
+  height: number; // in cm e.g 11.38, 10.94
   amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
+}
+
+// This will serve as the format for a lookup table used to determine a fetus's stats
+interface FetalGrowthStats {
+  height: number; // in cm
+  weight: number; // in grams
+  amnioticFluidProduced: number; // in ml
 }
 
 // The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
@@ -82,7 +89,7 @@ const gSecondTrimesterState =
 const gThirdTrimesterState =
   Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
 
-const gNumOfGestationalWeeks = 40;
+const gNumOfGestationalWeeks = 40; // Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
 let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
 
@@ -132,9 +139,202 @@ enum GestationalWeek {
 
 enum PregnancyState {
   NOT_PREGNANT,
-  JUST_CONCEIVED,
-  NOT_SHOWING,
-  PREGNANT_AND_SHOWING,
+  PREGNANT,
   READY_TO_DROP,
   OVERDUE,
 }
+
+// This is mainly for singleton pregnancies
+const gFetalGrowthOverGestationalWeeks: {
+  [key in GestationalWeek]?: FetalGrowthStats;
+} = {
+  // I'll just hallucinate some values
+  [GestationalWeek.One]: {
+    height: 0.005,
+    weight: 0.005,
+    amnioticFluidProduced: 0.5,
+  },
+  [GestationalWeek.Two]: { height: 0.02, weight: 1, amnioticFluidProduced: 1 },
+  [GestationalWeek.Three]: {
+    height: 0.035,
+    weight: 3,
+    amnioticFluidProduced: 2,
+  },
+  [GestationalWeek.Four]: {
+    height: 0.065,
+    weight: 5,
+    amnioticFluidProduced: 3.5,
+  },
+  [GestationalWeek.Five]: { height: 0.1, weight: 7, amnioticFluidProduced: 5 },
+  [GestationalWeek.Six]: { height: 0.6, weight: 10, amnioticFluidProduced: 7 },
+  [GestationalWeek.Seven]: {
+    height: 1.1,
+    weight: 14,
+    amnioticFluidProduced: 10,
+  },
+  // From here, it's more accurate
+  [GestationalWeek.Eight]: {
+    height: 1.57,
+    weight: 20,
+    amnioticFluidProduced: 13,
+  },
+  [GestationalWeek.Nine]: {
+    height: 2.3,
+    weight: 27,
+    amnioticFluidProduced: 27.5,
+  },
+  [GestationalWeek.Ten]: { height: 3.1, weight: 35, amnioticFluidProduced: 50 },
+  [GestationalWeek.Eleven]: {
+    height: 4.1,
+    weight: 45,
+    amnioticFluidProduced: 57.5,
+  },
+  [GestationalWeek.Twelve]: {
+    height: 5.4,
+    weight: 58,
+    amnioticFluidProduced: 75,
+  },
+  [GestationalWeek.Thirteen]: {
+    height: 7.4,
+    weight: 76,
+    amnioticFluidProduced: 95,
+  },
+  [GestationalWeek.Fourteen]: {
+    height: 8.7,
+    weight: 93,
+    amnioticFluidProduced: 125,
+  },
+  [GestationalWeek.Fifteen]: {
+    height: 10.1,
+    weight: 117,
+    amnioticFluidProduced: 155,
+  },
+  [GestationalWeek.Sixteen]: {
+    height: 11.6,
+    weight: 146,
+    amnioticFluidProduced: 175,
+  },
+  [GestationalWeek.Seventeen]: {
+    height: 13,
+    weight: 181,
+    amnioticFluidProduced: 225,
+  },
+  [GestationalWeek.Eighteen]: {
+    height: 14.2,
+    weight: 223,
+    amnioticFluidProduced: 260,
+  },
+  [GestationalWeek.Nineteen]: {
+    height: 15.3,
+    weight: 273,
+    amnioticFluidProduced: 300,
+  },
+  [GestationalWeek.Twenty]: {
+    height: 16.4,
+    weight: 331,
+    amnioticFluidProduced: 350,
+  },
+  [GestationalWeek.TwentyOne]: {
+    height: 26.7,
+    weight: 399,
+    amnioticFluidProduced: 375,
+  },
+  [GestationalWeek.TwentyTwo]: {
+    height: 27.8,
+    weight: 478,
+    amnioticFluidProduced: 425,
+  },
+  [GestationalWeek.TwentyThree]: {
+    height: 28.9,
+    weight: 568,
+    amnioticFluidProduced: 475,
+  },
+  [GestationalWeek.TwentyFour]: {
+    height: 30,
+    weight: 670,
+    amnioticFluidProduced: 525,
+  },
+  [GestationalWeek.TwentyFive]: {
+    height: 34.6,
+    weight: 785,
+    amnioticFluidProduced: 600,
+  },
+  [GestationalWeek.TwentySix]: {
+    height: 35.6,
+    weight: 913,
+    amnioticFluidProduced: 675,
+  },
+  [GestationalWeek.TwentySeven]: {
+    height: 36.6,
+    weight: 1055,
+    amnioticFluidProduced: 750,
+  },
+  [GestationalWeek.TwentyEight]: {
+    height: 37.6,
+    weight: 1210,
+    amnioticFluidProduced: 825,
+  },
+  [GestationalWeek.TwentyNine]: {
+    height: 38.6,
+    weight: 1379,
+    amnioticFluidProduced: 900,
+  },
+  [GestationalWeek.Thirty]: {
+    height: 39.9,
+    weight: 1559,
+    amnioticFluidProduced: 975,
+  },
+  [GestationalWeek.ThirtyOne]: {
+    height: 41.1,
+    weight: 1751,
+    amnioticFluidProduced: 1050,
+  },
+  [GestationalWeek.ThirtyTwo]: {
+    height: 42.4,
+    weight: 1953,
+    amnioticFluidProduced: 1125,
+  },
+  [GestationalWeek.ThirtyThree]: {
+    height: 43.7,
+    weight: 2162,
+    amnioticFluidProduced: 1200,
+  },
+  [GestationalWeek.ThirtyFour]: {
+    height: 45,
+    weight: 2377,
+    amnioticFluidProduced: 1275,
+  },
+  [GestationalWeek.ThirtyFive]: {
+    height: 46.2,
+    weight: 2595,
+    amnioticFluidProduced: 1350,
+  },
+  [GestationalWeek.ThirtySix]: {
+    height: 47.4,
+    weight: 2813,
+    amnioticFluidProduced: 1375,
+  },
+  [GestationalWeek.ThirtySeven]: {
+    height: 48.6,
+    weight: 3028,
+    amnioticFluidProduced: 1400, // Amniotic fluid maxes around the 37/38th week
+  },
+  [GestationalWeek.ThirtyEight]: {
+    height: 49.8,
+    weight: 3236,
+    amnioticFluidProduced: 1200,
+  },
+  [GestationalWeek.ThirtyNine]: {
+    height: 50.7,
+    weight: 3435,
+    // amnioticFluidProduced: 1000,
+    amnioticFluidProduced: 1100,
+  },
+  [GestationalWeek.Forty]: {
+    height: 51.2,
+    weight: 3619,
+    // amnioticFluidProduced: 800,
+    amnioticFluidProduced: 900,
+  },
+  // NOTE - From here onwards, the weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
+};

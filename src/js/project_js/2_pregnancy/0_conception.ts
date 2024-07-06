@@ -112,11 +112,12 @@ const tryToImpregnate = (
           k++;
         }
       }
-      if (wombData.curCapacity > 0) {
+      if (isPregnant(wombData) == PregnancyState.PREGNANT) {
         if (wombData.perks.superfet) {
           // Applies to superfetation, lets make it difficult >:D
           chance *= 0.1;
         } else {
+          // No chance to make more babies :p
           chance = 0;
         }
       }
@@ -156,10 +157,14 @@ const tryToImpregnate = (
       let fGrowthRate = fGrowthRateArray[fId % fGrowthRateArray.length];
 
       // These 4 will be dealt with later
-      let fHeight = 0;
-      let fWeight = 0;
+      let fHeight =
+        gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height;
+      let fWeight =
+        gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight;
       let fDevelopmentRatio = 0;
-      let fAmnioticFluidVolume = 0;
+      let fAmnioticFluidVolume =
+        gFetalGrowthOverGestationalWeeks[GestationalWeek.One]
+          .amnioticFluidProduced;
 
       // Push da foetus into the womb
       wombData.fetusData.set(i, {
