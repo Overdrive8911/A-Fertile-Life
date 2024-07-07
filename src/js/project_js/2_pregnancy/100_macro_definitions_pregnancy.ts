@@ -8,3 +8,11 @@ Macro.add("impregnate", {
     tryToImpregnate(sourceVirility, sourceVirilityBonus, targetWomb);
   },
 });
+
+Macro.add("updatePregnancy", {
+  handler: function () {
+    const womb: Womb = this.args[0];
+
+    updatePregnancyGrowth(womb);
+  },
+});
