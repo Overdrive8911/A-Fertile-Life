@@ -122,8 +122,6 @@ const tryToImpregnate = (
         }
       }
 
-      console.log(chance);
-
       if (parseFloat(randomFloat(1).toFixed(2)) < chance) {
         // If the probability passes, add another fetus
         numOfFoetusToSpawn++;

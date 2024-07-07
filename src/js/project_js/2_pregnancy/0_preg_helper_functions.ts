@@ -179,7 +179,6 @@ const getGestationalWeek = (fetus: FetusData, womb: Womb) => {
       continue;
     } else if (typeof value == "number") {
       // It just found the gestational week. the result will be one of the members of GestationalWeek
-      console.log(value);
       return value;
     }
   }
@@ -223,7 +222,6 @@ const getStatDiffBetweenTwoGestationalWeeks = (
         // Its the first week of preg so assume the previous stat is zero
         previousWeekStat = 0;
       }
-      console.log(currentStat - previousWeekStat);
 
       break;
 
@@ -245,7 +243,6 @@ const getStatDiffBetweenTwoGestationalWeeks = (
 
     default:
       // Don't get here >~<
-      console.log("What the heck???");
       break;
   }
 
