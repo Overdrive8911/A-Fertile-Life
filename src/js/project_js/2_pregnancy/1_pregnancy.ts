@@ -52,7 +52,6 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
       let additionalDevelopmentProgress = 0; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage
 
-      // console.log(
       //   `Actual Preg Length: ${gActualPregnancyLength}, Current Trimester: ${currTrimester}, Trimester Gest. Time: ${trimesterGestationTime}, Trim. Progress: ${trimesterProgress}, remaining trim. time: ${remainingTrimesterTime}, Add. dev progress: ${additionalDevelopmentProgress}, time elapsed since last preg update: ${timeElapsedSinceLastPregUpdate}`
       // );
 
@@ -182,12 +181,11 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         gMaxDevelopmentState
       );
 
+      // Get the initial gestation week for the fetus, before having important data overwritten
       const initialFetalGestationalWeek = getGestationalWeek(
         targetFetus,
         targetWomb
       );
-
-      // console.log(additionalDevelopmentProgress);
 
       // Update the data
       targetFetus.developmentRatio =
@@ -199,12 +197,10 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // NOTE - These values are only calculated per gestational week, and will not change for any other smaller time measurement
       // TODO - Add drugs, eating habits and conditions that can also affect these.
 
+      // Get the new gestation week after having the developmentRatio updated
       const newFetalGestationalWeek = getGestationalWeek(
         targetFetus,
         targetWomb
-      );
-      console.log(
-        `initialFetalGestationalWeek: ${initialFetalGestationalWeek}, newFetalGestationalWeek: ${newFetalGestationalWeek}`
       );
 
       let newWeight = targetFetus.weight;
@@ -235,9 +231,6 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
           initialFetalGestationalWeek,
           newFetalGestationalWeek,
           FetalGrowthStatsEnum.AMNIOTIC_FLUID
-        );
-        console.log(
-          `weight diff: ${weightWeeklyDiff}, height diff: ${weightWeeklyDiff}, fluid diff: ${fluidWeeklyDiff}`
         );
       } else if (initialFetalGestationalWeek == PregnancyState.OVERDUE) {
         // Handle the growth of overdue pregnancies when the character is currently overdue
