@@ -44,12 +44,17 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
 
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
-        currentTime.getTime() - targetFetus.lastPregUpdate.getTime();
+        currentTime.getTime() / 1000 -
+        targetFetus.lastPregUpdate.getTime() / 1000;
 
       // NOTE - The growth progress in between the trimesters will be shared in a 3:5:4 ratio. Each trimester will have 1/3 of the total gestation duration for that particular growth
 
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
       let additionalDevelopmentProgress = 0; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage
+
+      // console.log(
+      //   `Actual Preg Length: ${gActualPregnancyLength}, Current Trimester: ${currTrimester}, Trimester Gest. Time: ${trimesterGestationTime}, Trim. Progress: ${trimesterProgress}, remaining trim. time: ${remainingTrimesterTime}, Add. dev progress: ${additionalDevelopmentProgress}, time elapsed since last preg update: ${timeElapsedSinceLastPregUpdate}`
+      // );
 
       if (timeElapsedSinceLastPregUpdate <= remainingTrimesterTime) {
         // Since the elapsed time isn't going to bleed over into another trimester, can can turn it into a percentage and add it directly to the fetus's data
@@ -79,10 +84,11 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       } else {
         // It's going to enter a new trimester so split `timeElapsedSinceLastPregUpdate` into separate parts and deal with the extra time as if it was a new trimester.
         // NOTE - It may be possible that `timeElapsedSinceLastPregUpdate` will cause a first trimester pregnancy to jump into the third trimester. I'll use an extra variable to check that
-        let extraTime = null;
-        let extraTime2 = null;
-        let newTrimester = null;
-        let newTrimester2 = null;
+        let extraTime: number = null;
+        let extraTime2: number = null;
+        let newTrimester: Trimesters = null;
+        let newTrimester2: Trimesters = null;
+        let newTrimesterDuration: number = null;
 
         switch (currTrimester) {
           case Trimesters.First:
@@ -91,7 +97,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
             newTrimester = Trimesters.Second;
 
             // Check if the extraTime is still large enough to bleed over into the third trimester
-            const newTrimesterDuration = getTrimesterDuration(
+            newTrimesterDuration = getTrimesterDuration(
               targetFetus,
               newTrimester,
               targetWomb
@@ -140,6 +146,13 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
               (remainingTrimesterTime / trimesterGestationTime) *
               gFirstTrimesterState;
 
+            // Check if the extraTime is still large enough to bleed over into the third trimester
+            newTrimesterDuration = getTrimesterDuration(
+              targetFetus,
+              newTrimester,
+              targetWomb
+            );
+
             // Now deal with the third trimester
             additionalDevelopmentProgress += Math.clamp(
               (extraTime / newTrimesterDuration) *
@@ -169,182 +182,139 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         gMaxDevelopmentState
       );
 
-      // SECTION - Determine the newHeight, newWeight, and amnioticFluidVolume (and also the belly size) using newDevelopmentRatio
-      // NOTE - These first 3 are only calculated/updated after the 8th gestational week, while the last one begins to be noticeable at the 10th ~ 12th gestational week. These values are only calculated per gestational week, and will not change for any other smaller time measurement
-      // REVIEW - There will be 3 stages of growth to note; from week 8 till week 13, week 13 till week 27 and week 27 till week 40. The first would be a simple formula, the second will average around ~60/61 (closer to 61) grams per week and from week 27, it enters overdrive (190~202 grams per week). For Height, it will be somewhat similar in the sense that the first stage will be very slow, but the second stage will be faster WHILE third stages would be a bit slower (but still faster than the first)
-      // TODO - Add drugs and conditions that can also affect these.
-      const gestationalWeekAfterWhichMeasurementsStart = 8;
-      const fetalGestationalWeek = getGestationalWeek(targetFetus, targetWomb);
-      let newWeight = targetFetus.weight;
-      let newHeight = targetFetus.height;
-      let amnioticFluidVolume = targetFetus.amnioticFluidVolume;
+      const initialFetalGestationalWeek = getGestationalWeek(
+        targetFetus,
+        targetWomb
+      );
 
-      // TODO - Add little variations to newWeight and newHeight based off the fetus's id
-      if (fetalGestationalWeek > GestationalWeek.Eight) {
-        // SECTION - 1st stage of growth
-        if (fetalGestationalWeek <= GestationalWeek.Thirteen) {
-          // WEIGHT. fetalGestationalWeek * gNumOfGestationalWeeks will give a whole integer that represents the week e.g 8, 1, 23, etc
-          newWeight +=
-            fetalGestationalWeek * gNumOfGestationalWeeks -
-            gestationalWeekAfterWhichMeasurementsStart +
-            1;
+      // console.log(additionalDevelopmentProgress);
 
-          // HEIGHT. Todo
-          newHeight +=
-            fetalGestationalWeek * gNumOfGestationalWeeks -
-            gestationalWeekAfterWhichMeasurementsStart +
-            either(-0.25, 0, 0.25);
-        }
-        // SECTION - 2nd stage of growth
-        else if (fetalGestationalWeek <= GestationalWeek.TwentySeven) {
-          // WEIGHT
-          newWeight += either(
-            60,
-            60,
-            60.5,
-            60.5,
-            60.5,
-            61,
-            61,
-            61,
-            61,
-            61,
-            61,
-            61,
-            61
-          );
-
-          // HEIGHT
-          newHeight += either(
-            2,
-            2,
-            2,
-            2,
-            2,
-            2.05,
-            2.075,
-            2.1,
-            2.1,
-            2.1,
-            2.1,
-            2.1,
-            2.1
-          );
-        }
-        // SECTION - 3rd stage of growth
-        else if (fetalGestationalWeek <= GestationalWeek.Forty) {
-          // WEIGHT
-          newWeight += either(
-            189,
-            190,
-            193,
-            194,
-            195,
-            198,
-            199,
-            199,
-            199,
-            199,
-            200,
-            201,
-            202
-          );
-
-          // HEIGHT
-          newHeight += either(
-            0.9,
-            1,
-            1,
-            1,
-            1,
-            1.1,
-            1.1,
-            1.1,
-            1.1,
-            1.1,
-            1.15,
-            1.15,
-            1.15
-          );
-        }
-        // SECTION - Overdue
-        else {
-          // NOTE - This is just extra, continue with the previous stage's growth although a tad smaller
-          // WEIGHT
-          newWeight += either(
-            159,
-            160,
-            161,
-            162,
-            163,
-            164,
-            165,
-            166,
-            167,
-            168,
-            169,
-            170,
-            171
-          );
-
-          // HEIGHT
-          newHeight += either(
-            0.3,
-            0.3,
-            0.3,
-            0.3,
-            0.35,
-            0.35,
-            0.35,
-            0.4,
-            0.4,
-            0.45,
-            0.45,
-            0.5,
-            0.55
-          );
-        }
-
-        // SECTION - Using the fetus's id to alter the stats a bit
-        const bitCheck = (targetFetus.id & (1 << random(0, 15))) !== 0; // Randomly pick the index of a bit and check if it's true
-        const bitCheck2 = (targetFetus.id & (1 << random(0, 15))) !== 0; // Do it again :3
-
-        // WEIGHT
-        const minWeightBonusOrReduction = 0;
-        const maxWeightBonusOrReduction = random(5, 10);
-        let randomWeightBonusOrReduction = Math.clamp(
-          0.1 * newWeight,
-          minWeightBonusOrReduction,
-          maxWeightBonusOrReduction
-        );
-
-        // HEIGHT
-        const minHeightBonusOrReduction = 0;
-        const maxHeightBonusOrReduction = parseFloat(
-          Math.clamp(Math.random(), 0.15, 0.65).toFixed(2)
-        );
-        let randomHeightBonusOrReduction = Math.clamp(
-          0.005 * newHeight,
-          minHeightBonusOrReduction,
-          maxHeightBonusOrReduction
-        );
-
-        if (bitCheck) newWeight += randomWeightBonusOrReduction;
-        else newWeight -= randomWeightBonusOrReduction;
-
-        if (bitCheck2) newHeight += randomHeightBonusOrReduction;
-        else newHeight -= randomHeightBonusOrReduction;
-      }
-
-      // SECTION - Update relevant values abt the fetus. Make sure that the values don't reduce
+      // Update the data
       targetFetus.developmentRatio =
         targetFetus.developmentRatio < newDevelopmentRatio
           ? newDevelopmentRatio
           : targetFetus.developmentRatio;
+
+      // SECTION - Determine the newHeight, newWeight, and newFluidVolume (and also the belly size) using newDevelopmentRatio
+      // NOTE - These values are only calculated per gestational week, and will not change for any other smaller time measurement
+      // TODO - Add drugs, eating habits and conditions that can also affect these.
+
+      const newFetalGestationalWeek = getGestationalWeek(
+        targetFetus,
+        targetWomb
+      );
+      console.log(
+        `initialFetalGestationalWeek: ${initialFetalGestationalWeek}, newFetalGestationalWeek: ${newFetalGestationalWeek}`
+      );
+
+      let newWeight = targetFetus.weight;
+      let newHeight = targetFetus.height;
+      let newFluidVolume = targetFetus.amnioticFluidVolume;
+
+      let weightWeeklyDiff: number = null;
+      let heightWeeklyDiff: number = null;
+      let fluidWeeklyDiff: number = null;
+
+      // TODO - Add little variations to newWeight and newHeight based off the fetus's id
+      if (
+        initialFetalGestationalWeek !== PregnancyState.OVERDUE &&
+        newFetalGestationalWeek !== PregnancyState.OVERDUE
+      ) {
+        // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id
+        weightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+          initialFetalGestationalWeek,
+          newFetalGestationalWeek,
+          FetalGrowthStatsEnum.WEIGHT
+        );
+        heightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+          initialFetalGestationalWeek,
+          newFetalGestationalWeek,
+          FetalGrowthStatsEnum.HEIGHT
+        );
+        fluidWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+          initialFetalGestationalWeek,
+          newFetalGestationalWeek,
+          FetalGrowthStatsEnum.AMNIOTIC_FLUID
+        );
+        console.log(
+          `weight diff: ${weightWeeklyDiff}, height diff: ${weightWeeklyDiff}, fluid diff: ${fluidWeeklyDiff}`
+        );
+      } else if (initialFetalGestationalWeek == PregnancyState.OVERDUE) {
+        // Handle the growth of overdue pregnancies when the character is currently overdue
+      } else if (newFetalGestationalWeek == PregnancyState.OVERDUE) {
+        // Handle the growth of overdue pregnancies when the character will become overdue
+      }
+      // SECTION - Using the fetus's id to alter the gained a bit
+      const bitCheck = (targetFetus.id & (1 << random(0, 15))) !== 0; // Randomly pick the index of a bit and check if it's true
+      const bitCheck2 = (targetFetus.id & (1 << random(0, 15))) !== 0; // Do it again :3
+      const bitCheck3 = (targetFetus.id & (1 << random(0, 15))) !== 0; // And again :D
+
+      // WEIGHT
+      const minWeightBonusOrReduction = 0;
+      const maxWeightBonusOrReduction = random(2.5, 5.5);
+      let randomWeightBonusOrReduction = Math.clamp(
+        0.1 * weightWeeklyDiff,
+        minWeightBonusOrReduction,
+        maxWeightBonusOrReduction
+      );
+
+      // HEIGHT
+      const minHeightBonusOrReduction = 0;
+      const maxHeightBonusOrReduction = parseFloat(
+        Math.clamp(Math.random(), 0.15, 0.55).toFixed(2)
+      );
+      let randomHeightBonusOrReduction = Math.clamp(
+        0.05 * heightWeeklyDiff,
+        minHeightBonusOrReduction,
+        maxHeightBonusOrReduction
+      );
+
+      // FLUID. For fluid, there will be no deductions, only additions/no change
+      const minFluidBonus = 0;
+      const maxFluidBonus = random(1, 15);
+      let randomFluidBonus = Math.clamp(
+        0.1 * fluidWeeklyDiff,
+        minFluidBonus,
+        maxFluidBonus
+      );
+
+      // Add the regular weekly diffs before the bonus/reductions
+      newWeight += weightWeeklyDiff;
+      newHeight += heightWeeklyDiff;
+      // TODO - Make this amount fluctuate depending on the amount of fetuses in the womb
+      newFluidVolume += fluidWeeklyDiff;
+
+      if (bitCheck) newWeight += randomWeightBonusOrReduction;
+      else newWeight -= randomWeightBonusOrReduction;
+
+      if (bitCheck2) newHeight += randomHeightBonusOrReduction;
+      else newHeight -= randomHeightBonusOrReduction;
+
+      if (bitCheck3) newFluidVolume += randomFluidBonus;
+
+      // SECTION - Update relevant values abt the fetus. Make sure that the values don't reduce
       targetFetus.weight =
         targetFetus.weight < newWeight ? newWeight : targetFetus.weight;
       targetFetus.height =
         targetFetus.height < newHeight ? newHeight : targetFetus.height;
+      targetFetus.amnioticFluidVolume =
+        targetFetus.amnioticFluidVolume < newFluidVolume
+          ? newFluidVolume
+          : targetFetus.amnioticFluidVolume;
+      targetFetus.lastPregUpdate = variables().gameDateAndTime;
+
+      targetWomb.fetusData.set(i, {
+        height: targetFetus.height,
+        weight: targetFetus.weight,
+        amnioticFluidVolume: targetFetus.amnioticFluidVolume,
+        developmentRatio: targetFetus.developmentRatio,
+        lastPregUpdate: targetFetus.lastPregUpdate,
+
+        id: targetFetus.id,
+        gender: targetFetus.gender,
+        dateOfConception: targetFetus.dateOfConception,
+        growthRate: targetFetus.growthRate,
+      });
     }
   }
 };
