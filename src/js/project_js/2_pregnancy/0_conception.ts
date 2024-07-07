@@ -148,12 +148,10 @@ const tryToImpregnate = (
 
       // Pick a random growth rate but be biased to values closer to 1
       // NOTE - This is the default rate. For the player, its different since their pregnancy initially takes around a month or so. It's around 10 times as fast
-      let fGrowthRateArray = [0.9, 0.95, 0.95, 1, 1, 1, 1, 1.05, 1.05, 1.1];
-      if (wombData.belongToPlayer)
-        fGrowthRateArray = [
-          9.1, 9.5, 9.5, 9.7, 9.7, 10, 10, 10, 10, 10, 10.3, 10.3, 10.5, 10.5,
-          10.9,
-        ];
+      let fGrowthRateArray = [
+        0.9, 0.91, 0.95, 0.97, 0.97, 1, 1, 1, 1, 1, 1.03, 1.03, 1.05, 1.05,
+        1.09,
+      ];
       let fGrowthRate = fGrowthRateArray[fId % fGrowthRateArray.length];
 
       // These 4 will be dealt with later

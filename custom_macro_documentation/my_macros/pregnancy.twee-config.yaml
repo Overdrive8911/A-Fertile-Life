@@ -10,3 +10,13 @@ sugarcube-2:
         Easy enough?
       parameters:
         - number &+ number &+ receiver
+    updatePregnancy:
+      name: updatePregnancy
+      description: |-
+        ```
+        <<updatePregnancy $player.womb>> will update the growth of the fetuses in the womb
+        ```
+
+        Easy enough?
+      parameters:
+        - receiver
