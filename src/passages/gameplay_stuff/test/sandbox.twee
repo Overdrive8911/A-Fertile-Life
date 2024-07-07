@@ -14,6 +14,12 @@
 </p>
 
 <p>
+    <<link "Update Pregnancy">>
+        <<updatePregnancy $player.womb>>
+    <</link>>
+</p>
+
+<p>
     <<link "Skip 30 minutes">>
         <<skipTime 0 0 30>>
         <<run setup.updateGameDateAndTimeDisplay()>>
@@ -28,15 +34,33 @@
 </p>
 
 <p>
-    <<link "Skip 1 hour">>
-        <<skipTime 0 1 0>>
+    <<link "Skip 1 day">>
+        <<skipTime 1 0 0>>
         <<run setup.updateGameDateAndTimeDisplay()>>
     <</link>>
 </p>
 
 <p>
-    <<link "Rewind 1 hour">>
-        <<skipTime 0 -1 0>>
+    <<link "Rewind 1 day">>
+        <<skipTime -1 0 0>>
         <<run setup.updateGameDateAndTimeDisplay()>>
     <</link>>
+</p>
+
+<p>
+    <<link "Skip 1 week">>
+        <<skipTime 7 0 0>>
+        <<run setup.updateGameDateAndTimeDisplay()>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Rewind 1 week">>
+        <<skipTime -7 0 0>>
+        <<run setup.updateGameDateAndTimeDisplay()>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Reload Passage" "PlayerSandbox">><</link>>
 </p>

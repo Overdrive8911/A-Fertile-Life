@@ -175,15 +175,79 @@ const getGestationalWeek = (fetus: FetusData, womb: Womb) => {
     getTotalGestationDuration(fetus, womb);
 
   for (const value of Object.values(GestationalWeek)) {
-    if (parseFloat(value as string) < gestationalRange) {
+    if (typeof value == "number" && value < gestationalRange) {
       continue;
-    } else {
+    } else if (typeof value == "number") {
       // It just found the gestational week. the result will be one of the members of GestationalWeek
-      return parseFloat(value as string);
+      console.log(value);
+      return value;
     }
   }
 
   // Character is overdue
 
   return PregnancyState.OVERDUE;
+};
+
+// Pass 2 gestational weeks and the stat required (e.g height, weight, amnioticFluidProduced) and it will return the difference with the stat of the gestational weeks
+const getStatDiffBetweenTwoGestationalWeeks = (
+  previousGestationalWeek: GestationalWeek,
+  newGestationalWeek: GestationalWeek,
+  stat: FetalGrowthStatsEnum
+) => {
+  let currentStat: number = null;
+  let previousWeekStat: number = null;
+  // let previousGestationalWeek: GestationalWeek = null;
+
+  switch (stat) {
+    case FetalGrowthStatsEnum.WEIGHT:
+      currentStat = gFetalGrowthOverGestationalWeeks[newGestationalWeek].weight;
+
+      if (previousGestationalWeek > GestationalWeek.One) {
+        previousWeekStat =
+          gFetalGrowthOverGestationalWeeks[previousGestationalWeek].weight;
+      } else {
+        // Its the first week of preg so assume the previous stat is zero
+        previousWeekStat = 0;
+      }
+
+      break;
+
+    case FetalGrowthStatsEnum.HEIGHT:
+      currentStat = gFetalGrowthOverGestationalWeeks[newGestationalWeek].height;
+
+      if (previousGestationalWeek > GestationalWeek.One) {
+        previousWeekStat =
+          gFetalGrowthOverGestationalWeeks[previousGestationalWeek].height;
+      } else {
+        // Its the first week of preg so assume the previous stat is zero
+        previousWeekStat = 0;
+      }
+      console.log(currentStat - previousWeekStat);
+
+      break;
+
+    case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
+      currentStat =
+        gFetalGrowthOverGestationalWeeks[newGestationalWeek]
+          .amnioticFluidProduced;
+
+      if (previousGestationalWeek > GestationalWeek.One) {
+        previousWeekStat =
+          gFetalGrowthOverGestationalWeeks[previousGestationalWeek]
+            .amnioticFluidProduced;
+      } else {
+        // Its the first week of preg so assume the previous stat is zero
+        previousWeekStat = 0;
+      }
+
+      break;
+
+    default:
+      // Don't get here >~<
+      console.log("What the heck???");
+      break;
+  }
+
+  return currentStat - previousWeekStat;
 };
