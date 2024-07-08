@@ -71,6 +71,8 @@ enum FetalGrowthStatsEnum {
   AMNIOTIC_FLUID,
 }
 
+const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
+
 // The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
 const gChanceOfNaturalOvaSplit = [
   // 0.25, 0.2, 0.2, 0.15, 0.15, 0.1, 0.1, 0.05, 0.01,
@@ -80,11 +82,24 @@ const gChanceOfNaturalOvaSplit = [
 // The chance that more than one sperm will find and successfully fertilize more than one egg
 const gChanceOfNaturalMultipleOvaFertilization = [0.1, 0.05, 0.03];
 
+enum PregnancyState {
+  NOT_PREGNANT = 1 << 0,
+  PREGNANT = 1 << 1,
+  READY_TO_DROP = 1 << 2,
+  OVERDUE = 1 << 3,
+
+  // The bitwise combinations
+  NOT_OVERDUE = NOT_PREGNANT | PREGNANT | READY_TO_DROP,
+}
+
 // The enums for the trimesters. The growth progress for the trimesters are in a ratio 3:5:4
+// TODO - The last one is for overdue pregnancies and continues growth at a flat pace of 2.5~3.5
 enum Trimesters {
   First = 3 / 12,
   Second = 5 / 12,
   Third = 4 / 12,
+
+  Overdue,
 }
 // These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
 const gMinDevelopmentState = 0; // 0 Percent
@@ -99,6 +114,7 @@ const gThirdTrimesterState =
 const gNumOfGestationalWeeks = 40; // Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
 let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
+const gOverduePregnancyLength = Infinity; // Overdue pregnancies have an indefinite length
 
 // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
 enum GestationalWeek {
@@ -142,13 +158,9 @@ enum GestationalWeek {
   ThirtyEight = 38 / gNumOfGestationalWeeks,
   ThirtyNine = 39 / gNumOfGestationalWeeks,
   Forty = 40 / gNumOfGestationalWeeks,
-}
 
-enum PregnancyState {
-  NOT_PREGNANT,
-  PREGNANT,
-  READY_TO_DROP,
-  OVERDUE,
+  //
+  MAX = GestationalWeek.Forty,
 }
 
 // This is mainly for singleton pregnancies
@@ -343,5 +355,5 @@ const gFetalGrowthOverGestationalWeeks: {
     // amnioticFluidProduced: 800,
     amnioticFluidProduced: 900,
   },
-  // NOTE - From here onwards, the weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
+  // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
 };
