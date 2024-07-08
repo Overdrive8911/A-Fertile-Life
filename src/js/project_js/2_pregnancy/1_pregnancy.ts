@@ -7,13 +7,13 @@ $("html").on(":passageend", () => {
 // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidProduced by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
 const updatePregnancyGrowth = (targetWomb: Womb) => {
   // The target is pregnant so do everything required under here
-  if (isPregnant(targetWomb) == PregnancyState.PREGNANT) {
+  if (isPregnant(targetWomb) | PregnancyState.PREGNANT) {
     const currentTime = variables().gameDateAndTime;
 
     for (let i = 0; i < targetWomb.fetusData.size; i++) {
       // Determine how much to progress the fetus since the last update
 
-      // Copy over the fetus data to avoid repetition
+      // Copy over the fetus data to avoid unnecessary repetition
       const targetFetus = targetWomb.fetusData.get(i);
 
       // Get the total gestation time
@@ -40,7 +40,12 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       );
 
       // Get the amount of time remaining in the trimester (in seconds)
-      const remainingTrimesterTime = trimesterGestationTime - trimesterProgress;
+      let remainingTrimesterTime: number = null;
+      if (currTrimester != Trimesters.Overdue) {
+        remainingTrimesterTime = trimesterGestationTime - trimesterProgress;
+      } else {
+        remainingTrimesterTime = gOverduePregnancyLength;
+      }
 
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
@@ -50,12 +55,10 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // NOTE - The growth progress in between the trimesters will be shared in a 3:5:4 ratio. Each trimester will have 1/3 of the total gestation duration for that particular growth
 
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
-      let additionalDevelopmentProgress = 0; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage
-
-      //   `Actual Preg Length: ${gActualPregnancyLength}, Current Trimester: ${currTrimester}, Trimester Gest. Time: ${trimesterGestationTime}, Trim. Progress: ${trimesterProgress}, remaining trim. time: ${remainingTrimesterTime}, Add. dev progress: ${additionalDevelopmentProgress}, time elapsed since last preg update: ${timeElapsedSinceLastPregUpdate}`
-      // );
+      let additionalDevelopmentProgress = 0; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
 
       if (timeElapsedSinceLastPregUpdate <= remainingTrimesterTime) {
+        // NOTE - If currTrimester is Trimesters.Overdue, then this will always be true
         // Since the elapsed time isn't going to bleed over into another trimester, can can turn it into a percentage and add it directly to the fetus's data
 
         switch (currTrimester) {
@@ -77,6 +80,11 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
               (gThirdTrimesterState - gSecondTrimesterState);
             break;
 
+          case Trimesters.Overdue:
+            additionalDevelopmentProgress =
+              (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
+              gMaxDevelopmentState;
+
           default:
             break;
         }
@@ -85,33 +93,34 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         // NOTE - It may be possible that `timeElapsedSinceLastPregUpdate` will cause a first trimester pregnancy to jump into the third trimester. I'll use an extra variable to check that
         let extraTime: number = null;
         let extraTime2: number = null;
+        let extraTime3: number = null;
         let newTrimester: Trimesters = null;
         let newTrimester2: Trimesters = null;
+        let newTrimester3: Trimesters = null;
         let newTrimesterDuration: number = null;
+        let newTrimesterDuration2: number = null;
+        let newTrimesterDuration3: number = null;
+        // console.log(
+        //   `timeElapsedSinceLastPregUpdate: ${timeElapsedSinceLastPregUpdate}, remainingTrimesterTime: ${remainingTrimesterTime}, gActualPregnancyLength: ${gActualPregnancyLength}`
+        // );
 
         switch (currTrimester) {
           case Trimesters.First:
+            // Deal with the additional progress for the current (first) trimester that would be ending before moving over to the new one
+            additionalDevelopmentProgress =
+              (remainingTrimesterTime / trimesterGestationTime) *
+              gFirstTrimesterState;
+
             // Get the extra time that bleeds over into a new (second) trimester
             extraTime = timeElapsedSinceLastPregUpdate - remainingTrimesterTime;
             newTrimester = Trimesters.Second;
 
-            // Check if the extraTime is still large enough to bleed over into the third trimester
+            // Now deal with the new (second) trimester
             newTrimesterDuration = getTrimesterDuration(
               targetFetus,
               newTrimester,
               targetWomb
             );
-            if (extraTime > newTrimesterDuration) {
-              extraTime2 = extraTime - newTrimesterDuration;
-              newTrimester2 = Trimesters.Third;
-            }
-
-            // Deal with the additional progress for the current trimester that would be ending before moving over to the new one
-            additionalDevelopmentProgress =
-              (remainingTrimesterTime / trimesterGestationTime) *
-              gFirstTrimesterState;
-
-            // Now deal with the new (second) trimester
             additionalDevelopmentProgress += Math.clamp(
               (extraTime / newTrimesterDuration) *
                 (gSecondTrimesterState - gFirstTrimesterState),
@@ -119,33 +128,45 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
               gSecondTrimesterState - gFirstTrimesterState
             );
 
-            // Now deal with the third trimester if it actually bleeds over into it
+            // Check if the extraTime is still large enough to bleed over into the third trimester
             if (extraTime > newTrimesterDuration) {
+              extraTime2 = extraTime - newTrimesterDuration;
+              newTrimester2 = Trimesters.Third;
+              newTrimesterDuration2 = getTrimesterDuration(
+                targetFetus,
+                newTrimester2,
+                targetWomb
+              );
+
+              // Now deal with the third trimester if it actually bleeds over into it
               additionalDevelopmentProgress += Math.clamp(
-                (extraTime2 /
-                  getTrimesterDuration(
-                    targetFetus,
-                    newTrimester2,
-                    targetWomb
-                  )) *
+                (extraTime2 / newTrimesterDuration2) *
                   (gThirdTrimesterState - gSecondTrimesterState),
                 gMinDevelopmentState,
                 gThirdTrimesterState - gSecondTrimesterState
               );
+
+              // Check if the extraTime2 is STILL large enough to enter overdue territory
+              if (extraTime2 > newTrimesterDuration2) {
+                extraTime3 = extraTime2 - newTrimesterDuration2;
+                newTrimester3 = Trimesters.Overdue;
+
+                additionalDevelopmentProgress +=
+                  (extraTime3 / gActualPregnancyLength) * gMaxDevelopmentState;
+              }
             }
+
             break;
 
           case Trimesters.Second:
-            // Get the extra time that bleeds over into the third trimester
-            extraTime = timeElapsedSinceLastPregUpdate - remainingTrimesterTime;
-            newTrimester = Trimesters.Third;
-
             // Deal with the additional progress for the current trimester that would be ending before moving over to the new one
             additionalDevelopmentProgress =
               (remainingTrimesterTime / trimesterGestationTime) *
               gFirstTrimesterState;
 
-            // Check if the extraTime is still large enough to bleed over into the third trimester
+            // Get the extra time that bleeds over into the third trimester
+            extraTime = timeElapsedSinceLastPregUpdate - remainingTrimesterTime;
+            newTrimester = Trimesters.Third;
             newTrimesterDuration = getTrimesterDuration(
               targetFetus,
               newTrimester,
@@ -160,25 +181,44 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
               gThirdTrimesterState - gSecondTrimesterState
             );
 
+            // Check if it still bleeds over into Overdue territory
+            if (extraTime > newTrimesterDuration) {
+              extraTime2 = extraTime - newTrimesterDuration;
+              newTrimester2 = Trimesters.Overdue;
+
+              additionalDevelopmentProgress +=
+                (extraTime2 / gActualPregnancyLength) * gMaxDevelopmentState;
+            }
+
           case Trimesters.Third:
-            // Since this one can't bleed over into any other trimester so just clamp the result
-            additionalDevelopmentProgress = Math.clamp(
+            // Since this one can't bleed over into any other trimester (except when entering overdue territory) so just clamp the result
+            additionalDevelopmentProgress += Math.clamp(
               (remainingTrimesterTime / trimesterGestationTime) *
                 gThirdTrimesterState,
               gMinDevelopmentState,
               gThirdTrimesterState
             );
+
+            if (timeElapsedSinceLastPregUpdate > remainingTrimesterTime) {
+              // Get the extra time that bleeds over into being overdue
+              extraTime =
+                timeElapsedSinceLastPregUpdate - remainingTrimesterTime;
+              newTrimester = Trimesters.Overdue;
+
+              additionalDevelopmentProgress +=
+                (extraTime / gActualPregnancyLength) * gMaxDevelopmentState;
+            }
             break;
           default:
             break;
         }
       }
 
-      // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit
+      // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
       const newDevelopmentRatio = Math.clamp(
         targetFetus.developmentRatio + additionalDevelopmentProgress,
         gMinDevelopmentState,
-        gMaxDevelopmentState
+        targetFetus.developmentRatio + additionalDevelopmentProgress
       );
 
       // Get the initial gestation week for the fetus, before having important data overwritten
@@ -212,31 +252,24 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       let fluidWeeklyDiff: number = null;
 
       // TODO - Add little variations to newWeight and newHeight based off the fetus's id
-      if (
-        initialFetalGestationalWeek !== PregnancyState.OVERDUE &&
-        newFetalGestationalWeek !== PregnancyState.OVERDUE
-      ) {
-        // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id
-        weightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-          initialFetalGestationalWeek,
-          newFetalGestationalWeek,
-          FetalGrowthStatsEnum.WEIGHT
-        );
-        heightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-          initialFetalGestationalWeek,
-          newFetalGestationalWeek,
-          FetalGrowthStatsEnum.HEIGHT
-        );
-        fluidWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-          initialFetalGestationalWeek,
-          newFetalGestationalWeek,
-          FetalGrowthStatsEnum.AMNIOTIC_FLUID
-        );
-      } else if (initialFetalGestationalWeek == PregnancyState.OVERDUE) {
-        // Handle the growth of overdue pregnancies when the character is currently overdue
-      } else if (newFetalGestationalWeek == PregnancyState.OVERDUE) {
-        // Handle the growth of overdue pregnancies when the character will become overdue
-      }
+
+      // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
+      weightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+        initialFetalGestationalWeek,
+        newFetalGestationalWeek,
+        FetalGrowthStatsEnum.WEIGHT
+      );
+      heightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+        initialFetalGestationalWeek,
+        newFetalGestationalWeek,
+        FetalGrowthStatsEnum.HEIGHT
+      );
+      fluidWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
+        initialFetalGestationalWeek,
+        newFetalGestationalWeek,
+        FetalGrowthStatsEnum.AMNIOTIC_FLUID
+      );
+
       // SECTION - Using the fetus's id to alter the gained a bit
       const bitCheck = (targetFetus.id & (1 << random(0, 15))) !== 0; // Randomly pick the index of a bit and check if it's true
       const bitCheck2 = (targetFetus.id & (1 << random(0, 15))) !== 0; // Do it again :3
@@ -290,10 +323,16 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetFetus.weight < newWeight ? newWeight : targetFetus.weight;
       targetFetus.height =
         targetFetus.height < newHeight ? newHeight : targetFetus.height;
-      targetFetus.amnioticFluidVolume =
-        targetFetus.amnioticFluidVolume < newFluidVolume
-          ? newFluidVolume
-          : targetFetus.amnioticFluidVolume;
+      // Amniotic fluid volume is the only one (out of the 3) that can reduce
+      if (newFetalGestationalWeek > GestationalWeek.MAX) {
+        // Amniotic volume begins to reduce close to the end of the gestational weeks so clamp it somewhere to prevent "absurd" values
+        targetFetus.amnioticFluidVolume =
+          newFluidVolume < gMinimumVolumeOfAmnioticFluid
+            ? gMinimumVolumeOfAmnioticFluid
+            : newFluidVolume;
+      } else {
+        targetFetus.amnioticFluidVolume = newFluidVolume;
+      }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
 
       targetWomb.fetusData.set(i, {
