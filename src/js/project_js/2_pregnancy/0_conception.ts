@@ -133,8 +133,12 @@ const tryToImpregnate = (
       j++;
     }
 
-    // NOTE - For now, the max amount of offspring is limited to 10 so
-    if (numOfFoetusToSpawn > 10) numOfFoetusToSpawn = 10;
+    // NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
+    const maxFetusNumber = getMinimumNumOfFullTermFetusesAtBellyState(
+      wombData.maxCapacity
+    );
+    if (numOfFoetusToSpawn > maxFetusNumber)
+      numOfFoetusToSpawn = maxFetusNumber;
 
     // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
     for (i = 0; i < numOfFoetusToSpawn; i++) {

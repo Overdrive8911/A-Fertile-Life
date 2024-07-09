@@ -471,3 +471,10 @@ const getTotalOfFetalStats = (womb: Womb, stat: FetalGrowthStatsEnum) => {
 
   return sumOfFetalStats;
 };
+
+// Accepts any value from the enum BellyState but will only work with members that have `FULL_TERM` appended. Returns the minimum number of full grown, non-overdue fetuses that can achieve the inputted size
+const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
+  if (bellyState < BellyState.FULL_TERM) return 0;
+
+  return Math.floor(bellyState / BellyState.FULL_TERM);
+};

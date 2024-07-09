@@ -82,6 +82,7 @@ const gChanceOfNaturalOvaSplit = [
 // The chance that more than one sperm will find and successfully fertilize more than one egg
 const gChanceOfNaturalMultipleOvaFertilization = [0.1, 0.05, 0.03];
 
+// Man this thing is nearly useless
 enum PregnancyState {
   NOT_PREGNANT = 1 << 0,
   PREGNANT = 1 << 1,
