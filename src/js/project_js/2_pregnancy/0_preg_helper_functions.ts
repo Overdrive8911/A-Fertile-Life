@@ -270,8 +270,8 @@ const getStatForGestationalWeekInOverduePregnancy = (
   }
   averageStatDiffInLastFourWeeksOfPregnancy /= numOfWeeksToGetAverageFor;
 
-  // Reduce it by around 33% since growth now would be slower
-  averageStatDiffInLastFourWeeksOfPregnancy *= 0.64;
+  // Reduce it by around 66% since growth now would be much slower. This deduction is just to make things more believable
+  averageStatDiffInLastFourWeeksOfPregnancy *= gOverdueStatMultiplier;
 
   // Multiply the average with the extra weeks that have passed while overdue
   overdueStatDiffToAdd =
@@ -444,4 +444,30 @@ const getNumberOfGestationalWeeksAfterDueDate = (
     // Not overdue
     return 0;
   }
+};
+
+// Gets the sum of either the height, weight and amniotic volume of the fetuses in the womb. Returns 0 if it can't find any offspring
+const getTotalOfFetalStats = (womb: Womb, stat: FetalGrowthStatsEnum) => {
+  let sumOfFetalStats = 0;
+
+  for (let i = 0; i < womb.fetusData.size; i++) {
+    switch (stat) {
+      case FetalGrowthStatsEnum.WEIGHT:
+        sumOfFetalStats += womb.fetusData.get(i).weight;
+        break;
+
+      case FetalGrowthStatsEnum.HEIGHT:
+        sumOfFetalStats += womb.fetusData.get(i).height;
+        break;
+
+      case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
+        sumOfFetalStats += womb.fetusData.get(i).amnioticFluidVolume;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return sumOfFetalStats;
 };

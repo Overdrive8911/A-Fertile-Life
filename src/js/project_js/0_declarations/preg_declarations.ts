@@ -111,10 +111,14 @@ const gSecondTrimesterState =
 const gThirdTrimesterState =
   Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
 
-const gNumOfGestationalWeeks = 40; // Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
+const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
 let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
 const gOverduePregnancyLength = Infinity; // Overdue pregnancies have an indefinite length
+
+// The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
+// Best leave it at small ratios and below 1
+const gOverdueStatMultiplier = 0.34;
 
 // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
 enum GestationalWeek {
@@ -357,3 +361,70 @@ const gFetalGrowthOverGestationalWeeks: {
   },
   // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
 };
+
+// This is only here because I'm using it in the enum below
+const getWombVolumeFromFetusStats = (
+  height: number,
+  weight: number,
+  fluidVolume: number
+) => {
+  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml
+  return (weight + height * 0.75 + fluidVolume * 0.5) * (10 / 4);
+};
+
+// Contains the thresholds for different belly sizes.
+// NOTE - This may also be used for stuffing content too
+enum BellyState {
+  SAG = -1,
+  FLAT = 0,
+  // BLOATED = 100,
+  // STUFFED = 500,
+
+  EARLY_PREGNANCY = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].amnioticFluidProduced
+  ), // 12 weeks or less
+  EARLY_PREGNANCY_2 = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen]
+      .amnioticFluidProduced
+  ), // Week 13 till Week 19
+  VISIBLE_PREGNANCY = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty]
+      .amnioticFluidProduced
+  ), // Week 20 till Week 27
+  LATE_PREGNANCY = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight]
+      .amnioticFluidProduced
+  ), // Week 28 till Week 35
+  LATE_PREGNANCY_2 = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix]
+      .amnioticFluidProduced
+  ), // Week 36 till Week 40
+  FULL_TERM = getWombVolumeFromFetusStats(
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty]
+      .amnioticFluidProduced
+  ), // Week 40. Should be around 10000
+
+  FULL_TERM_TWINS = FULL_TERM * 2,
+  FULL_TERM_TRIPLETS = FULL_TERM * 3,
+  FULL_TERM_QUADS = FULL_TERM * 4,
+  FULL_TERM_QUINTS = FULL_TERM * 5,
+  FULL_TERM_SEXTUPLETS = FULL_TERM * 6,
+  FULL_TERM_SEPTUPLETS = FULL_TERM * 7,
+  FULL_TERM_OCTUPLETS = FULL_TERM * 8,
+  FULL_TERM_NONUPLETS = FULL_TERM * 9,
+  FULL_TERM_DECUPLETS = FULL_TERM * 10,
+
+  PREG_MAX = FULL_TERM_DECUPLETS,
+}
