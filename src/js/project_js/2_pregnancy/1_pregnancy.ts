@@ -52,6 +52,10 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         currentTime.getTime() / 1000 -
         targetFetus.lastPregUpdate.getTime() / 1000;
 
+      // If, for some reason, time moves backwards, just exit the function (for now at least)
+      // TODO - Add a way to reverse growth
+      if (timeElapsedSinceLastPregUpdate < 0) return;
+
       // NOTE - The growth progress in between the trimesters will be shared in a 3:5:4 ratio. Each trimester will have 1/3 of the total gestation duration for that particular growth
 
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
@@ -348,5 +352,8 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         growthRate: targetFetus.growthRate,
       });
     }
+
+    // Update belly size during pregnancy
+    updatePregnantBellySize(targetWomb);
   }
 };

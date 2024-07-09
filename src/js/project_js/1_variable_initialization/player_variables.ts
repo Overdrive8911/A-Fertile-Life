@@ -101,9 +101,13 @@ setup.initializePlayerVariables = () => {
         true /* Some values and calculations change if the player is the owner */,
       maxHp: 100,
       fertility: 78 /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
-      curCapacity: 0 /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'. -1 - Postpartum, 0 - Not Pregnant, >=1 Pregnant */,
-      comfortCapacity: 30000 /* How bug she can get without losing any comfort. Slowly increases as womb.exp increases */,
-      maxCapacity: 60000 /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
+      curCapacity:
+        BellyState.FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
+      comfortCapacity:
+        BellyState.FULL_TERM +
+        BellyState.EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */,
+      maxCapacity:
+        BellyState.FULL_TERM_TRIPLETS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
       lvl: 1 /* Ranges from 1 to 15. Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Lvl 1 -> 1000exp, lvl 2 -> 3000exp, lvl 3 -> 7000exp, lvl 4 -> 12000exp, lvl 5 -> 20000exp, lvl 6 -> 30000exp, lvl 7 -> 45000exp, lvl 8 -> 70000exp, lvl 9 -> 100000exp, lvl 10 -> 150000exp, lvl 11 -> 220000exp, lvl 12 -> 310000exp, lvl 13 -> 420000exp, lvl 14 -> 550000exp, lvl 15 -> 1000000exp */,
       exp: 1 /* Increases when pregnant; the amount depends on the womb.fetusData.fetus[].day, womb.fetusData.fetus[].amnioticFluidProduced, womb.fetusData.fetus[].growthModifier, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain */,
       maxExp: 100,
