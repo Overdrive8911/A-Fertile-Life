@@ -21,7 +21,8 @@ const updatePregnantBellySize = (womb: Womb) => {
 };
 
 // Returns the an index in BellyState to get a rough idea of the size range the character's belly is in
-const getPregnantBellySize = (womb: Womb): BellyState => {
+// TODO - Add a macro for this or just add it to setup
+setup.getPregnantBellySize = (womb: Womb): BellyState => {
   // Copy over the actual numbers from the enum
   const bellySizeArray = Object.values(BellyState).filter(
     (value) => typeof value == typeof BellyState
