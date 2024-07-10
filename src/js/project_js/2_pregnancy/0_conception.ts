@@ -177,6 +177,8 @@ const tryToImpregnate = (
         amnioticFluidVolume: fAmnioticFluidVolume,
         dateOfConception: variables().gameDateAndTime,
         lastPregUpdate: variables().gameDateAndTime,
+        shouldBirth: false,
+        species: FetusSpecies.HUMAN,
       });
 
       // Also increase the capacity of the womb so it'll be known that the player is expecting
