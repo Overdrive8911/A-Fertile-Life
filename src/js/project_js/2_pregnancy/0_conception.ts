@@ -1,5 +1,5 @@
 // This will try to create a pregnancy and return a boolean
-const tryCreatePregnancy = (
+const tryToImpregnate = (
   virility: number,
   fertility: number,
   virilityBonus: number | undefined,
@@ -42,7 +42,7 @@ const tryCreatePregnancy = (
 };
 
 // The main function for making babies
-const tryToImpregnate = (
+const tryCreatePregnancy = (
   virility: number,
   virilityBonus: number | undefined,
   wombData: Womb
@@ -53,12 +53,7 @@ const tryToImpregnate = (
   // const isPregnancySuccessful =
 
   if (
-    tryCreatePregnancy(
-      virility,
-      wombData.fertility,
-      virilityBonus,
-      fertilityBonus
-    )
+    tryToImpregnate(virility, wombData.fertility, virilityBonus, fertilityBonus)
   ) {
     let i = 0,
       j = 0;
@@ -156,7 +151,7 @@ const tryToImpregnate = (
       ];
       let fGrowthRate = fGrowthRateArray[fId % fGrowthRateArray.length];
 
-      // These 4 will be dealt with later
+      // These 4 will be dealt with later when the pregnancy is updated
       let fHeight =
         gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height;
       let fWeight =
