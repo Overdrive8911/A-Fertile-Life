@@ -47,7 +47,7 @@ interface Womb {
 
 interface FetusData {
   id: number; // decides the gender, growthRate, weight, and height
-  gender: string; // e.g M, F, NB
+  gender: string;
   dateOfConception: Date; // Just here :p
   lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
   developmentRatio: number; // e.g 50%, 23%, 87%, 100%
@@ -55,6 +55,9 @@ interface FetusData {
   weight: number; // in grams e.g 360, 501, 600
   height: number; // in cm e.g 11.38, 10.94
   amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
+  shouldBirth: boolean; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
+
+  species: FetusSpecies; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
 }
 
 // This will serve as the format for a lookup table used to determine a fetus's stats
@@ -69,6 +72,22 @@ enum FetalGrowthStatsEnum {
   HEIGHT,
   WEIGHT,
   AMNIOTIC_FLUID,
+}
+
+enum PregPerkElements {
+  CURRENT_LVL,
+  PRICE,
+  MAX_LVL,
+}
+
+enum PregSideEffectElements {
+  CURRENT_DURATION,
+  MAX_DURATION,
+}
+
+enum FetusSpecies {
+  HUMAN,
+  TENTACLE,
 }
 
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
@@ -105,6 +124,9 @@ enum Trimesters {
 // These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
 const gMinDevelopmentState = 0; // 0 Percent
 const gMaxDevelopmentState = 100; // 100 Percent
+
+// In most cases, birth can only happen when above this threshold
+const gMinBirthThreshold = 85; // 85 Percent
 
 const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // 25 i.e 0 to 25
 const gSecondTrimesterState =
