@@ -2,6 +2,7 @@
 const tryToImpregnate = (
   virility: number,
   fertility: number,
+  areContraceptivesActive: boolean,
   virilityBonus: number | undefined,
   fertilityBonus: number | undefined
 ): boolean => {
@@ -11,6 +12,9 @@ const tryToImpregnate = (
 
   // Having a virility or fertility above 100 makes one basically a fertility idol and guarantees pregnancies
   if (virility > 100 || fertility > 100) return true;
+
+  // Contraceptives greatly reduce the chance for pregnancy by 90%
+  if (areContraceptivesActive && random(0, 100) < 10) return false;
 
   // Virility has more a bit more importance than fertility
   let virileChance = randomFloat(0.85, 1.1);
@@ -53,7 +57,13 @@ const tryCreatePregnancy = (
   // const isPregnancySuccessful =
 
   if (
-    tryToImpregnate(virility, wombData.fertility, virilityBonus, fertilityBonus)
+    tryToImpregnate(
+      virility,
+      wombData.fertility,
+      wombData.contraceptives,
+      virilityBonus,
+      fertilityBonus
+    )
   ) {
     let i = 0,
       j = 0;
