@@ -273,6 +273,12 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         newFetalGestationalWeek,
         FetalGrowthStatsEnum.AMNIOTIC_FLUID
       );
+      console.log(
+        `initialFetalGestationalWeek: ${initialFetalGestationalWeek}, newFetalGestationalWeek: ${newFetalGestationalWeek}`
+      );
+      console.log(
+        `weightWeeklyDiff: ${weightWeeklyDiff}, heightWeeklyDiff: ${heightWeeklyDiff}, fluidWeeklyDiff: ${fluidWeeklyDiff}`
+      );
 
       // SECTION - Using the fetus's id to alter the gained a bit
       const bitCheck = (targetFetus.id & (1 << random(0, 15))) !== 0; // Randomly pick the index of a bit and check if it's true
