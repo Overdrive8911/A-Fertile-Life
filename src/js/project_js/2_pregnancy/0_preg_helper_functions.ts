@@ -195,28 +195,10 @@ const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
 };
 
 const getGestationalWeek = (fetus: FetusData, womb: Womb): GestationalWeek => {
-  const gestationalRange =
-    getGestationDurationElapsed(fetus, womb) /
-    getTotalGestationDuration(fetus, womb);
-
-  for (const value of Object.values(GestationalWeek)) {
-    if (typeof value == "number" && value < gestationalRange) {
-      continue;
-    } else if (typeof value == "number") {
-      // It just found the gestational week. the result will be one of the members of GestationalWeek
-      return value;
-    }
-  }
-
-  // Character is overdue
-  const extraGestationalWeeks = getNumberOfGestationalWeeksAfterDueDate(
-    fetus,
-    womb
-  );
-
-  // To get a ratio similar to the ones in the enum GestationalWeek
-  return (
-    (gNumOfGestationalWeeks + extraGestationalWeeks) / gNumOfGestationalWeeks
+  return Math.floor(
+    (getGestationDurationElapsed(fetus, womb) /
+      getTotalGestationDuration(fetus, womb)) *
+      gNumOfGestationalWeeks
   );
 };
 
@@ -233,10 +215,9 @@ const getStatForGestationalWeekInOverduePregnancy = (
 
   // Get the average weight gain over the last 4~5 weeks
   for (let i = 0; i <= numOfWeeksToGetAverageFor; i++) {
-    const gestationalWeekArrayIndex: GestationalWeek =
-      GestationalWeek.MAX - i / gNumOfGestationalWeeks;
+    const gestationalWeekArrayIndex: GestationalWeek = GestationalWeek.MAX - i;
     const precedingGestationalWeekArrayIndex: GestationalWeek =
-      GestationalWeek.MAX - (i + 1) / gNumOfGestationalWeeks;
+      GestationalWeek.MAX - (i + 1);
 
     switch (stat) {
       case FetalGrowthStatsEnum.WEIGHT:
@@ -276,7 +257,7 @@ const getStatForGestationalWeekInOverduePregnancy = (
   // Multiply the average with the extra weeks that have passed while overdue
   overdueStatDiffToAdd =
     averageStatDiffInLastFourWeeksOfPregnancy *
-    ((overdueGestWeek - GestationalWeek.MAX) * gNumOfGestationalWeeks);
+    (overdueGestWeek - GestationalWeek.MAX);
 
   // Add some variation
   overdueStatDiffToAdd = random(
@@ -433,8 +414,8 @@ const getNumberOfGestationalWeeksAfterDueDate = (
       womb
     );
 
-    // Round it up
-    const gestationalWeeks = Math.ceil(
+    // Round it
+    const gestationalWeeks = Math.round(
       (overdueGestationPeriod / getTotalGestationDuration(fetus, womb)) *
         gNumOfGestationalWeeks
     );
