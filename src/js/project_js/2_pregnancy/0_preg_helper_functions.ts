@@ -146,6 +146,7 @@ const getTotalGestationDuration = (fetus: FetusData, womb: Womb) => {
 // Gets the time in seconds that have elapsed since gestation began
 const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
   // Since the different trimesters have different rates at which fetal development will progress, I can't calculate straight off the bat
+  // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now
 
   // Find out the current trimester
   const trimester = getCurrentTrimester(fetus);
