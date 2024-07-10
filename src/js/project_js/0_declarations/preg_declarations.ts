@@ -11,9 +11,8 @@ interface Womb {
   curCapacity: BellyState;
   comfortCapacity: BellyState;
   maxCapacity: BellyState;
-  lvl: number;
   exp: number;
-  maxExp: number;
+  maxExp: WombExpLimit;
   postpartum: number;
   contraceptives: boolean;
   birthRecord: number;
@@ -117,6 +116,8 @@ enum WombExpLimit {
   LVL_13 = 420000,
   LVL_14 = 550000,
   LVL_15 = 1000000,
+
+  LVL_NOT_AVAILABLE = 0,
 }
 
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
