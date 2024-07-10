@@ -96,11 +96,12 @@ setup.initializePlayerVariables = () => {
     /* Capacity is in cubic centimetres(CCs) */
     // NOTE - This MUST mirror the structure found in the interface `Womb` in `preg_declarations.ts`
     womb: {
-      hp: 100 /* Healthy wombs gestate faster at the cost of this stat, going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
+      hp: gDefaultMaxWombHP /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
       belongToPlayer:
         true /* Some values and calculations change if the player is the owner */,
-      maxHp: 100,
-      fertility: 78 /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
+      maxHp: gDefaultMaxWombHP,
+      fertility:
+        FertilityLevel.EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
       curCapacity:
         BellyState.FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
       comfortCapacity:
@@ -108,9 +109,10 @@ setup.initializePlayerVariables = () => {
         BellyState.EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */,
       maxCapacity:
         BellyState.FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
+      // TODO - Get rid of the 'lvl' member. Instead use the exp and max exp to dynamically find out its value
       lvl: 1 /* Ranges from 1 to 15. Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Lvl 1 -> 1000exp, lvl 2 -> 3000exp, lvl 3 -> 7000exp, lvl 4 -> 12000exp, lvl 5 -> 20000exp, lvl 6 -> 30000exp, lvl 7 -> 45000exp, lvl 8 -> 70000exp, lvl 9 -> 100000exp, lvl 10 -> 150000exp, lvl 11 -> 220000exp, lvl 12 -> 310000exp, lvl 13 -> 420000exp, lvl 14 -> 550000exp, lvl 15 -> 1000000exp */,
       exp: 1 /* Increases when pregnant; the amount depends on the womb.fetusData.fetus[].day, womb.fetusData.fetus[].amnioticFluidProduced, womb.fetusData.fetus[].growthModifier, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain */,
-      maxExp: 100,
+      maxExp: WombExpLimit.LVL_1,
       postpartum: 0 /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */,
       contraceptives: false,
       birthRecord: 0 /* Number of times the user has given birth */,
