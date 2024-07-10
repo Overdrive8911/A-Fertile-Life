@@ -1,10 +1,21 @@
 // `updatePregnancyGrowth` is run here
-$("html").on(":passageend", () => {
-  updatePregnancyGrowth(variables().player.womb);
+$(document).on(":passageinit", (incomingPassage) => {
+  // THis just basically means that the following should run if both the current and incoming passage have the word "location_" in their tags
+  if (
+    getLocationFromPassageTitle(State.active.title) &&
+    getLocationFromPassageTitle(incomingPassage.passage.title)
+  ) {
+    const playerWomb = variables().player.womb;
+
+    updatePregnancyGrowth(playerWomb);
+
+    if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
+  }
 });
 
 // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
 // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidProduced by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
+// TODO - Add side effects to womb health
 const updatePregnancyGrowth = (targetWomb: Womb) => {
   // The target is pregnant so do everything required under here
   if (isPregnant(targetWomb) | PregnancyState.PREGNANT) {
@@ -226,10 +237,12 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       );
 
       // Get the initial gestation week for the fetus, before having important data overwritten
-      const initialFetalGestationalWeek = getGestationalWeek(
+      let initialFetalGestationalWeek = getGestationalWeek(
         targetFetus,
         targetWomb
       );
+      if (!initialFetalGestationalWeek)
+        initialFetalGestationalWeek = GestationalWeek.One;
 
       // Update the data
       targetFetus.developmentRatio =
@@ -242,10 +255,9 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // TODO - Add drugs, eating habits and conditions that can also affect these.
 
       // Get the new gestation week after having the developmentRatio updated
-      const newFetalGestationalWeek = getGestationalWeek(
-        targetFetus,
-        targetWomb
-      );
+      let newFetalGestationalWeek = getGestationalWeek(targetFetus, targetWomb);
+      if (!newFetalGestationalWeek)
+        newFetalGestationalWeek = GestationalWeek.One;
 
       let newWeight = targetFetus.weight;
       let newHeight = targetFetus.height;
@@ -258,6 +270,8 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // TODO - Add little variations to newWeight and newHeight based off the fetus's id
 
       // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
+      // TODO - Allow height and weight changes to occur with passage transition (or day if that's too much work)
+
       weightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
         initialFetalGestationalWeek,
         newFetalGestationalWeek,
@@ -345,18 +359,8 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
 
-      targetWomb.fetusData.set(i, {
-        height: targetFetus.height,
-        weight: targetFetus.weight,
-        amnioticFluidVolume: targetFetus.amnioticFluidVolume,
-        developmentRatio: targetFetus.developmentRatio,
-        lastPregUpdate: targetFetus.lastPregUpdate,
-
-        id: targetFetus.id,
-        gender: targetFetus.gender,
-        dateOfConception: targetFetus.dateOfConception,
-        growthRate: targetFetus.growthRate,
-      });
+      // Replace the data of the fetus with the updated one
+      targetWomb.fetusData.set(i, targetFetus);
     }
 
     // Update belly size during pregnancy
