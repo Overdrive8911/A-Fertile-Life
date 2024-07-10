@@ -90,6 +90,35 @@ enum FetusSpecies {
   TENTACLE,
 }
 
+enum FertilityLevel {
+  BARREN,
+  ALMOST_BARREN = 10,
+  POOR_FERTILITY = 25,
+  AVERAGE_FERTILITY = random(45, 55),
+  HIGH_FERTILITY = 65,
+  EXTREME_FERTILITY = random(75, 80),
+  UNFATHOMABLE_FERTILITY = 100,
+  FERTILITY_IDOL = 101,
+}
+
+enum WombExpLimit {
+  LVL_1 = 1000,
+  LVL_2 = 3000,
+  LVL_3 = 7000,
+  LVL_4 = 12000,
+  LVL_5 = 20000,
+  LVL_6 = 30000,
+  LVL_7 = 45000,
+  LVL_8 = 70000,
+  LVL_9 = 100000,
+  LVL_10 = 150000,
+  LVL_11 = 220000,
+  LVL_12 = 310000,
+  LVL_13 = 420000,
+  LVL_14 = 550000,
+  LVL_15 = 1000000,
+}
+
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
 
 // The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
@@ -142,6 +171,8 @@ const gOverduePregnancyLength = Infinity; // Overdue pregnancies have an indefin
 // The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
 // Best leave it at small ratios and below 1
 const gOverdueStatMultiplier = 0.34;
+
+const gDefaultMaxWombHP = 100;
 
 // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
 enum GestationalWeek {
