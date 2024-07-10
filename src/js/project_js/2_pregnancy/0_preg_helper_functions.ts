@@ -460,3 +460,20 @@ const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
 
   return Math.floor(bellyState / BellyState.FULL_TERM);
 };
+
+// Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
+const getWombLvl = (womb: Womb) => {
+  // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with 0
+  const wombExpLimitArray = Object.values(WombExpLimit).filter(
+    (value) => typeof value == typeof WombExpLimit && value
+  ) as WombExpLimit[];
+
+  for (let i = 0; i < wombExpLimitArray.length; i++) {
+    const expLimit = wombExpLimitArray[i];
+
+    if (expLimit == womb.maxExp) return i + 1;
+  }
+
+  // For some reason, the lvl is unavailable
+  return WombExpLimit.LVL_NOT_AVAILABLE;
+};
