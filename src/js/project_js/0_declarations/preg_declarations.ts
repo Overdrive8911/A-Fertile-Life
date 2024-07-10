@@ -8,9 +8,9 @@ interface Womb {
   hp: number;
   maxHp: number;
   fertility: number;
-  curCapacity: number;
-  comfortCapacity: number;
-  maxCapacity: number;
+  curCapacity: BellyState;
+  comfortCapacity: BellyState;
+  maxCapacity: BellyState;
   lvl: number;
   exp: number;
   maxExp: number;

@@ -5,7 +5,7 @@ Macro.add("impregnate", {
     const sourceVirilityBonus: number = this.args[1];
     const targetWomb: Womb = this.args[2];
 
-    tryToImpregnate(sourceVirility, sourceVirilityBonus, targetWomb);
+    tryCreatePregnancy(sourceVirility, sourceVirilityBonus, targetWomb);
   },
 });
 
