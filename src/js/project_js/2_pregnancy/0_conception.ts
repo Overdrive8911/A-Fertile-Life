@@ -106,29 +106,32 @@ const tryCreatePregnancy = (
 
       // TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
 
-      const perkLevel = 0;
       // The player has the hyper fertility perk
-      if (wombData.perks.hyperFertility[perkLevel]) {
+      if (wombData.perks.hyperFertility[PregPerkElements.CURRENT_LVL]) {
         // Give a large multiplier to the chance for multiples.
         chance *= 1.55;
 
         // Gently add a flat increase it with every extra level
         let k = 1;
-        while (k < wombData.perks.hyperFertility[perkLevel]) {
+        while (
+          k < wombData.perks.hyperFertility[PregPerkElements.CURRENT_LVL]
+        ) {
           chance += 0.055;
           k++;
         }
       }
       if (isPregnant(wombData)) {
-        if (wombData.perks.superfet) {
+        if (wombData.perks.superfet[PregPerkElements.CURRENT_LVL]) {
           // Applies to superfetation, lets make it difficult >:D
           chance *= 0.1;
         } else {
           // No chance to make more babies :p
           chance = 0;
+          numOfFoetusToSpawn = 0;
         }
       }
 
+      // This is on the woman's side so superfet genes affect this chance
       if (parseFloat(randomFloat(1).toFixed(2)) < chance) {
         // If the probability passes, add another fetus
         numOfFoetusToSpawn++;
