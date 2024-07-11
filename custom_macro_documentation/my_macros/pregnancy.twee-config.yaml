@@ -5,11 +5,13 @@ sugarcube-2:
       description: |-
         ```
         <<impregnate 70 10 $player.womb>> to try and fertilize the player using a source with a high virility of 70% and a slight boost of 10 (out of 30)
+
+        <<impregnate 62 21 $player.womb 3>> will fertilize the player using a source with a decent virility of 62% and a high boost of 21 (out of 30). However, since the number of fetuses to spawn, `3`, was supplied, pregnancy with triplets is guaranteed
         ```
 
         Easy enough?
       parameters:
-        - number &+ number &+ receiver
+        - number &+ number &+ receiver |+ number
     updatePregnancy:
       name: updatePregnancy
       description: |-

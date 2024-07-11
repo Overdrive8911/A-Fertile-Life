@@ -4,8 +4,14 @@ Macro.add("impregnate", {
     const sourceVirility: number = this.args[0];
     const sourceVirilityBonus: number = this.args[1];
     const targetWomb: Womb = this.args[2];
+    const numOfFetusesToForceToSpawn: number | undefined = this.args[3];
 
-    tryCreatePregnancy(sourceVirility, sourceVirilityBonus, targetWomb);
+    tryCreatePregnancy(
+      sourceVirility,
+      sourceVirilityBonus,
+      targetWomb,
+      numOfFetusesToForceToSpawn
+    );
   },
 });
 
