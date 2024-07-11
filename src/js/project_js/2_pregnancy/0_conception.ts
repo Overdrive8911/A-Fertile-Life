@@ -117,7 +117,7 @@ const tryCreatePregnancy = (
           k++;
         }
       }
-      if (isPregnant(wombData) == PregnancyState.PREGNANT) {
+      if (isPregnant(wombData)) {
         if (wombData.perks.superfet) {
           // Applies to superfetation, lets make it difficult >:D
           chance *= 0.1;
@@ -189,6 +189,9 @@ const tryCreatePregnancy = (
       // Also increase the capacity of the womb so it'll be known that the player is expecting
       wombData.curCapacity++;
     }
+
+    // Update specific data for the womb
+    wombData.lastFertilized = variables().gameDateAndTime;
     return true;
   } else {
     return false;

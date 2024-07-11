@@ -24,9 +24,12 @@ const updatePregnantBellySize = (womb: Womb) => {
 // TODO - Add a macro for this or just add it to setup
 setup.getPregnantBellySize = (womb: Womb): BellyState => {
   // Copy over the actual numbers from the enum
-  const bellySizeArray = Object.values(BellyState).filter(
+  let bellySizeArray = Object.values(BellyState).filter(
     (value) => typeof value == typeof BellyState
   ) as BellyState[];
+
+  // Convert to set and return it back to an array so all duplicates are gone
+  bellySizeArray = [...new Set(bellySizeArray)];
 
   // Loop 👍
   for (let index = 1; index < bellySizeArray.length; index++) {

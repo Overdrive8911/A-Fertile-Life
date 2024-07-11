@@ -18,7 +18,7 @@ $(document).on(":passageinit", (incomingPassage) => {
 // TODO - Add side effects to womb health
 const updatePregnancyGrowth = (targetWomb: Womb) => {
   // The target is pregnant so do everything required under here
-  if (isPregnant(targetWomb) | PregnancyState.PREGNANT) {
+  if (isPregnant(targetWomb)) {
     const currentTime = variables().gameDateAndTime;
 
     for (let i = 0; i < targetWomb.fetusData.size; i++) {
@@ -358,6 +358,9 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetFetus.amnioticFluidVolume = newFluidVolume;
       }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
+
+      // Increase the womb's exp
+      targetWomb.exp += updateWombExp(targetWomb);
 
       // Replace the data of the fetus with the updated one
       targetWomb.fetusData.set(i, targetFetus);
