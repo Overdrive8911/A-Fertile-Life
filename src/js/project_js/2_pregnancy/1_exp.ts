@@ -8,14 +8,14 @@ const updateWombExp = (womb: Womb) => {
   expToAdd += Math.clamp(
     (womb.curCapacity / womb.comfortCapacity) * (womb.curCapacity * wombLvl),
     0,
-    getWombExpLimit(wombLvl) * (womb.curCapacity / womb.maxCapacity)
+    (getWombExpLimit(wombLvl) + 1) * (womb.curCapacity / womb.maxCapacity)
   );
 
   if (womb.curCapacity > womb.comfortCapacity) {
     // Since the current capacity is greater than the comfort capacity, provide a little more exp
     expToAdd +=
       ((womb.curCapacity - womb.comfortCapacity) / womb.maxCapacity) *
-      getWombExpLimit(wombLvl);
+      (getWombExpLimit(wombLvl) + 1);
   }
 
   // If not pregnant, reduce the exp depending on how it has been since the character was last pregnant
