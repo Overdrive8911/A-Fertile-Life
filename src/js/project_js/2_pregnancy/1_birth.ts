@@ -7,6 +7,7 @@ const triggerBirth = (womb: Womb) => {
     // Handle postpartum, birth scenes, etc
     // Just clear out the womb
     womb.fetusData.clear;
+    womb.lastBirth = variables().gameDateAndTime;
   }
 };
 const isLiableForBirth = (womb: Womb) => {

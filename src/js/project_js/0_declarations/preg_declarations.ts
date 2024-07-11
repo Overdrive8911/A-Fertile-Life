@@ -8,6 +8,7 @@ interface Womb {
   hp: number;
   maxHp: number;
   fertility: number;
+  // TODO - Rename this 'capacity' stuff to 'size'
   curCapacity: BellyState;
   comfortCapacity: BellyState;
   maxCapacity: BellyState;
@@ -15,6 +16,8 @@ interface Womb {
   postpartum: number;
   contraceptives: boolean;
   birthRecord: number;
+  lastFertilized: Date;
+  lastBirth: Date;
   belongToPlayer: boolean;
   perks: {
     gestator: [currLevel: number, price: number, maxLevel: number];
@@ -122,6 +125,9 @@ enum WombExpLimit {
   LVL_MAX = LVL_15,
   LVL_NOT_AVAILABLE = -999,
 }
+
+const gMinWombLevel = 1;
+const gMaxWombLevel = 15;
 
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
 
