@@ -49,7 +49,8 @@ const tryToImpregnate = (
 const tryCreatePregnancy = (
   virility: number,
   virilityBonus: number | undefined,
-  wombData: Womb
+  wombData: Womb,
+  numOfFetusesToForceToSpawn?: number
 ) => {
   if (!virilityBonus) virilityBonus = 0;
   let fertilityBonus = 0;
@@ -63,7 +64,8 @@ const tryCreatePregnancy = (
       wombData.contraceptives,
       virilityBonus,
       fertilityBonus
-    )
+    ) ||
+    numOfFetusesToForceToSpawn
   ) {
     let i = 0,
       j = 0;
@@ -137,6 +139,10 @@ const tryCreatePregnancy = (
 
       j++;
     }
+
+    // If this parameter is given, override the regular number of fetuses to spawn
+    if (numOfFetusesToForceToSpawn && numOfFetusesToForceToSpawn != 0)
+      numOfFoetusToSpawn = numOfFetusesToForceToSpawn;
 
     // NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
     const maxFetusNumber = getMinimumNumOfFullTermFetusesAtBellyState(
