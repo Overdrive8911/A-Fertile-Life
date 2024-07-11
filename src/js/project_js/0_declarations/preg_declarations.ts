@@ -12,7 +12,6 @@ interface Womb {
   comfortCapacity: BellyState;
   maxCapacity: BellyState;
   exp: number;
-  maxExp: WombExpLimit;
   postpartum: number;
   contraceptives: boolean;
   birthRecord: number;
@@ -89,6 +88,7 @@ enum FetusSpecies {
   TENTACLE,
 }
 
+// Enum constants to dictate the level of fertility (it's over 100)
 enum FertilityLevel {
   BARREN,
   ALMOST_BARREN = 10,
@@ -100,24 +100,27 @@ enum FertilityLevel {
   FERTILITY_IDOL = 101,
 }
 
+// The amount of exp it takes for the character's womb to reach the next level
 enum WombExpLimit {
-  LVL_1 = 1000,
-  LVL_2 = 3000,
-  LVL_3 = 7000,
-  LVL_4 = 12000,
-  LVL_5 = 20000,
-  LVL_6 = 30000,
-  LVL_7 = 45000,
-  LVL_8 = 70000,
-  LVL_9 = 100000,
-  LVL_10 = 150000,
-  LVL_11 = 220000,
-  LVL_12 = 310000,
-  LVL_13 = 420000,
-  LVL_14 = 550000,
-  LVL_15 = 1000000,
+  LVL_1 = 0,
+  LVL_2 = 1000,
+  LVL_3 = 3000,
+  LVL_4 = 7000,
+  LVL_5 = 12000,
+  LVL_6 = 20000,
+  LVL_7 = 30000,
+  LVL_8 = 45000,
+  LVL_9 = 70000,
+  LVL_10 = 100000,
+  LVL_11 = 150000,
+  LVL_12 = 220000,
+  LVL_13 = 310000,
+  LVL_14 = 420000,
+  LVL_15 = 550000,
+  // LVL_16 = 1000000,
 
-  LVL_NOT_AVAILABLE = 0,
+  LVL_MAX = LVL_15,
+  LVL_NOT_AVAILABLE = -999,
 }
 
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
