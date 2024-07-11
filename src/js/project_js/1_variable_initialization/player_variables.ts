@@ -111,10 +111,12 @@ setup.initializePlayerVariables = () => {
         BellyState.FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
       exp: 1 /* Increases when pregnant; the amount depends on size and number of fetuses, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
       
-      Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Lvl 1 -> 1000exp, lvl 2 -> 3000exp, lvl 3 -> 7000exp, lvl 4 -> 12000exp, lvl 5 -> 20000exp, lvl 6 -> 30000exp, lvl 7 -> 45000exp, lvl 8 -> 70000exp, lvl 9 -> 100000exp, lvl 10 -> 150000exp, lvl 11 -> 220000exp, lvl 12 -> 310000exp, lvl 13 -> 420000exp, lvl 14 -> 550000exp, lvl 15 -> 1000000exp */,
+      Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */,
       postpartum: 0 /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */,
       contraceptives: false,
       birthRecord: 0 /* Number of times the user has given birth */,
+      lastFertilized: null /* The date when the womb was last impregnated */,
+      lastBirth: null /* The date of the last brith */,
       perks: {
         /* If a perk's value is 0, it hasn't been enabled. Any number above 0 is its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
         /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
