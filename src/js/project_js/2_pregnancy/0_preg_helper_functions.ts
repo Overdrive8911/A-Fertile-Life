@@ -463,15 +463,21 @@ const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
 
 // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
 const getWombLvl = (womb: Womb) => {
-  // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with 0
+  // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
   const wombExpLimitArray = Object.values(WombExpLimit).filter(
-    (value) => typeof value == typeof WombExpLimit && value
+    (value) =>
+      typeof value == typeof WombExpLimit && (value as WombExpLimit) >= 0
   ) as WombExpLimit[];
 
-  for (let i = 0; i < wombExpLimitArray.length; i++) {
+  for (let i = 1; i < wombExpLimitArray.length; i++) {
     const expLimit = wombExpLimitArray[i];
+    const previousExpLimit = wombExpLimitArray[i - 1];
 
-    if (expLimit == womb.maxExp) return i + 1;
+    if (expLimit > womb.exp && previousExpLimit <= womb.exp) return i;
+    else if (womb.exp >= WombExpLimit.LVL_MAX) {
+      // The user's womb is at or above the max level and the iteration has ended on the highest possible level
+      return wombExpLimitArray[i];
+    }
   }
 
   // For some reason, the lvl is unavailable
