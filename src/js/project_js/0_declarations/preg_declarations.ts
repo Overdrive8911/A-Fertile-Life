@@ -173,6 +173,9 @@ const gSecondTrimesterState =
 const gThirdTrimesterState =
   Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
 
+const gNumOfHoursInAWeek = 168; // 604800 seconds, 7 days
+const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
+
 const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
 let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
