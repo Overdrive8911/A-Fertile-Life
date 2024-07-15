@@ -129,6 +129,9 @@ enum WombExpLimit {
 const gMinWombLevel = 1;
 const gMaxWombLevel = 15;
 
+const gNumOfHoursInAWeek = 168; // 604800 seconds, 7 days
+const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
+
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
 
 // The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
@@ -172,9 +175,6 @@ const gSecondTrimesterState =
   Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // 66.67 i.e 25 to 66.67
 const gThirdTrimesterState =
   Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
-
-const gNumOfHoursInAWeek = 168; // 604800 seconds, 7 days
-const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
 
 const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
