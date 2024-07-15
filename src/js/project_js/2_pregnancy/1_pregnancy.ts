@@ -16,6 +16,7 @@ $(document).on(":passageinit", (incomingPassage) => {
 // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
 // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidProduced by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
 // TODO - Add side effects to womb health
+// NOTE - Calling this function within the number of hours denoted by `gHoursBetweenPregUpdate` can lead to inaccurate values
 const updatePregnancyGrowth = (targetWomb: Womb) => {
   // The target is pregnant so do everything required under here
   if (isPregnant(targetWomb)) {
@@ -23,12 +24,17 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
 
     for (let i = 0; i < targetWomb.fetusData.size; i++) {
       // Determine how much to progress the fetus since the last update
+      // Also get useful data
 
       // Copy over the fetus data to avoid unnecessary repetition
       const targetFetus = targetWomb.fetusData.get(i);
 
       // Get the total gestation time
       gActualPregnancyLength = getTotalGestationDuration(
+        targetFetus,
+        targetWomb
+      );
+      const pregDurationMod = getPregnancyLengthModifier(
         targetFetus,
         targetWomb
       );
@@ -263,35 +269,38 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       let newHeight = targetFetus.height;
       let newFluidVolume = targetFetus.amnioticFluidVolume;
 
-      let weightWeeklyDiff: number = null;
-      let heightWeeklyDiff: number = null;
-      let fluidWeeklyDiff: number = null;
+      let weightDiff: number = null;
+      let heightDiff: number = null;
+      let fluidDiff: number = null;
 
       // TODO - Add little variations to newWeight and newHeight based off the fetus's id
 
       // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
       // TODO - Allow height and weight changes to occur with passage transition (or day if that's too much work)
 
-      weightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-        initialFetalGestationalWeek,
-        newFetalGestationalWeek,
-        FetalGrowthStatsEnum.WEIGHT
-      );
-      heightWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-        initialFetalGestationalWeek,
-        newFetalGestationalWeek,
-        FetalGrowthStatsEnum.HEIGHT
-      );
-      fluidWeeklyDiff = getStatDiffBetweenTwoGestationalWeeks(
-        initialFetalGestationalWeek,
-        newFetalGestationalWeek,
-        FetalGrowthStatsEnum.AMNIOTIC_FLUID
-      );
+      // To remove repetition
+      const getStatDiff = (stat: FetalGrowthStatsEnum) => {
+        console.log(
+          `1initialFetalGestationalWeek: ${initialFetalGestationalWeek}, 1newFetalGestationalWeek: ${newFetalGestationalWeek}`
+        );
+        return getStatDiffBetweenTwoGestationalWeeksDependingOnPregUpdatePeriod(
+          initialFetalGestationalWeek,
+          newFetalGestationalWeek,
+          stat,
+          timeElapsedSinceLastPregUpdate,
+          pregDurationMod
+        );
+      };
+
+      weightDiff = getStatDiff(FetalGrowthStatsEnum.WEIGHT);
+      heightDiff = getStatDiff(FetalGrowthStatsEnum.HEIGHT);
+      fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
+
       console.log(
         `initialFetalGestationalWeek: ${initialFetalGestationalWeek}, newFetalGestationalWeek: ${newFetalGestationalWeek}`
       );
       console.log(
-        `weightWeeklyDiff: ${weightWeeklyDiff}, heightWeeklyDiff: ${heightWeeklyDiff}, fluidWeeklyDiff: ${fluidWeeklyDiff}`
+        `weightDiff: ${weightDiff}, heightDiff: ${heightDiff}, fluidDiff: ${fluidDiff}`
       );
 
       // SECTION - Using the fetus's id to alter the gained a bit
@@ -300,47 +309,34 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       const bitCheck3 = (targetFetus.id & (1 << random(0, 15))) !== 0; // And again :D
 
       // WEIGHT
-      const minWeightBonusOrReduction = 0;
-      const maxWeightBonusOrReduction = random(2.5, 5.5);
-      let randomWeightBonusOrReduction = Math.clamp(
-        0.1 * weightWeeklyDiff,
-        minWeightBonusOrReduction,
-        maxWeightBonusOrReduction
+      const weightBonusOrReduction = randomFloat(
+        weightDiff * 0,
+        weightDiff * 0.1
       );
 
       // HEIGHT
-      const minHeightBonusOrReduction = 0;
-      const maxHeightBonusOrReduction = parseFloat(
-        Math.clamp(Math.random(), 0.15, 0.55).toFixed(2)
-      );
-      let randomHeightBonusOrReduction = Math.clamp(
-        0.05 * heightWeeklyDiff,
-        minHeightBonusOrReduction,
-        maxHeightBonusOrReduction
+      const heightBonusOrReduction = randomFloat(
+        heightDiff * 0.0,
+        heightDiff * 0.1
       );
 
-      // FLUID. For fluid, there will be no deductions, only additions/no change
-      const minFluidBonus = 0;
-      const maxFluidBonus = random(1, 15);
-      let randomFluidBonus = Math.clamp(
-        0.1 * fluidWeeklyDiff,
-        minFluidBonus,
-        maxFluidBonus
-      );
+      // FLUID.
+      const fluidBonus = randomFloat(fluidDiff * 0.0, fluidDiff * 0.1);
 
-      // Add the regular weekly diffs before the bonus/reductions
-      newWeight += weightWeeklyDiff;
-      newHeight += heightWeeklyDiff;
+      // Add the regular diffs before the bonus/reductions
+      newWeight += weightDiff;
+      newHeight += heightDiff;
       // TODO - Make this amount fluctuate depending on the amount of fetuses in the womb
-      newFluidVolume += fluidWeeklyDiff;
+      newFluidVolume += fluidDiff;
 
-      if (bitCheck) newWeight += randomWeightBonusOrReduction;
-      else newWeight -= randomWeightBonusOrReduction;
+      if (bitCheck) newWeight += weightBonusOrReduction;
+      else newWeight -= weightBonusOrReduction;
 
-      if (bitCheck2) newHeight += randomHeightBonusOrReduction;
-      else newHeight -= randomHeightBonusOrReduction;
+      if (bitCheck2) newHeight += heightBonusOrReduction;
+      else newHeight -= heightBonusOrReduction;
 
-      if (bitCheck3) newFluidVolume += randomFluidBonus;
+      // For fluid, there will be no deductions, only additions/no change
+      if (bitCheck3) newFluidVolume += fluidBonus;
 
       // SECTION - Update relevant values abt the fetus. Make sure that the values don't reduce
       targetFetus.weight =
