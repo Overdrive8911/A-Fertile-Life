@@ -1,4 +1,4 @@
-let saveVar_player = {
+let saveVar_player: Player = {
   /* Money */
   money: 5800 /* The currency isn't something irl */,
 

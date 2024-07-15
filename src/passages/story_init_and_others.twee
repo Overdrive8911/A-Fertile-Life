@@ -1,7 +1,6 @@
 :: StoryInit {"position":"1000,100"}
 /* The use of these variables can be found in notes\variables.md */
 <<include "VariableInitialization">>
-<<include "GeneralVariables">>
 <<include "LocationData">>
 
 <<include "GeneralSettings">>
