@@ -1,3 +1,3 @@
-:: PlayerVariables [variables] {"position":"1600,300"}
+:: VariableInitialization [variables] {"position":"1600,300"}
 
-<<run setup.initializePlayerVariables()>>
+<<run setup.initializeSaveVariables()>>
