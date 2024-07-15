@@ -124,11 +124,13 @@ const getProgressInGivenTrimester = (
   return trimesterProgress;
 };
 
-// Returns in seconds(s). If the `womb` parameter is provided, check for genetic conditions
-const getTotalGestationDuration = (fetus: FetusData, womb: Womb) => {
+// If the `womb` parameter is provided, check for genetic conditions
+const getPregnancyLengthModifier = (fetus: FetusData, womb?: Womb) => {
   // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
-  const normalGestationDuration = gDefaultPregnancyLength / fetus.growthRate;
-  let effectiveGestationDuration = normalGestationDuration;
+  let modifier = 1;
+
+  // Account for the fetus's growth rate
+  modifier /= fetus.growthRate;
 
   // SECTION - Determine the actual pregnancy duration by factoring genetic conditions, drugs, growthRate, etc
   // if (womb) {
@@ -136,17 +138,22 @@ const getTotalGestationDuration = (fetus: FetusData, womb: Womb) => {
 
   if (womb.belongToPlayer) {
     // x10 faster pregnancies for the player
-    effectiveGestationDuration /= 10;
+    modifier /= 10;
   }
   // }
 
-  return effectiveGestationDuration;
+  return modifier;
+};
+
+// Returns in seconds(s).
+const getTotalGestationDuration = (fetus: FetusData, womb?: Womb) => {
+  return getPregnancyLengthModifier(fetus, womb) * gDefaultPregnancyLength;
 };
 
 // Gets the time in seconds that have elapsed since gestation began
 const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
   // Since the different trimesters have different rates at which fetal development will progress, I can't calculate straight off the bat
-  // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now
+  // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now (or maybe not)
 
   // Find out the current trimester
   const trimester = getCurrentTrimester(fetus);
@@ -290,14 +297,17 @@ const getStatForGestationalWeekInOverduePregnancy = (
   }
 };
 
-// Pass 2 gestational weeks and the stat required (e.g height, weight, amnioticFluidProduced) and it will return the difference with the stat of the gestational weeks
-const getStatDiffBetweenTwoGestationalWeeks = (
+// Pass 2 gestational weeks and the stat required (e.g height, weight, amnioticFluidProduced) and it will return the difference with the stat of the gestational weeks (that is, per the number of hours specified in gHoursBetweenPregUpdate). If the optional parameter `timeDiff` (it's value is in seconds) is supplied, it will be used to calculate the number of times the result should be multiplied
+const getStatDiffBetweenTwoGestationalWeeksDependingOnPregUpdatePeriod = (
   previousGestationalWeek: GestationalWeek,
   newGestationalWeek: GestationalWeek,
-  stat: FetalGrowthStatsEnum
+  stat: FetalGrowthStatsEnum,
+  timeDiff: number,
+  pregLengthModifier: number
 ) => {
   let currentStat: number = null;
   let previousWeekStat: number = null;
+  if (timeDiff == undefined) timeDiff = 3600 * gHoursBetweenPregUpdate; // So it won't give me a NaN issue
 
   switch (stat) {
     case FetalGrowthStatsEnum.WEIGHT:
@@ -400,7 +410,26 @@ const getStatDiffBetweenTwoGestationalWeeks = (
       break;
   }
 
-  return currentStat - previousWeekStat;
+  console.log(
+    `currentStat: ${currentStat} previousStat: ${previousWeekStat}, statDiff: ${
+      currentStat - previousWeekStat
+    }, actualTimeDiff: ${timeDiff}, calculatedTimeDiff: ${Math.floor(
+      timeDiff / (3600 * gHoursBetweenPregUpdate * pregLengthModifier)
+    )}`
+  );
+
+  // If this is 0, the return formula will give us a NaN in some cases
+  const weekDiff =
+    newGestationalWeek - previousGestationalWeek > 0
+      ? newGestationalWeek - previousGestationalWeek
+      : 1;
+
+  return (
+    ((((currentStat - previousWeekStat) / gNumOfHoursInAWeek) *
+      gHoursBetweenPregUpdate) /
+      weekDiff) *
+    Math.floor(timeDiff / (3600 * gHoursBetweenPregUpdate * pregLengthModifier)) // The 3600 here is to convert the `timeDiff` to hours
+  );
 };
 
 const getNumberOfGestationalWeeksAfterDueDate = (
