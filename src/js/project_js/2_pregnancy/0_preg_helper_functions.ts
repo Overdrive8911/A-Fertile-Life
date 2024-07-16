@@ -15,10 +15,69 @@ const generateFetusId = (womb: Womb) => {
   return newFetusId;
 };
 
+const generateFetus = (id: number) => {
+  // A value of 1 produces "normal" growth
+  const growthRateValues = [
+    0.97, 0.97, 0.97, 0.975, 0.975, 1, 1, 1, 1, 1, 1.03, 1.03, 1.03, 1.035,
+    1.035,
+  ];
+
+  const gender = id << id % 16 ? "M" : "F";
+  const growthRate = growthRateValues[id % growthRateValues.length];
+  const developmentRatio = gMinDevelopmentState;
+  // Just trying to get an arbitrarily small number
+  const height = id / Math.pow(10, 9);
+  const weight = id / Math.pow(10, 9);
+  const amnioticFluidVolume = id / Math.pow(10, 9);
+  const dateOfConception = variables().gameDateAndTime;
+  const lastPregUpdate = variables().gameDateAndTime;
+
+  const shouldBirth = false;
+  const species = FetusSpecies.HUMAN;
+
+  // Create the fetus object
+  let fetus = {
+    id: id,
+    gender: gender,
+    growthRate: growthRate,
+    developmentRatio: developmentRatio,
+    height: height,
+    weight: weight,
+    amnioticFluidVolume: amnioticFluidVolume,
+    dateOfConception: dateOfConception,
+    lastPregUpdate: lastPregUpdate,
+    shouldBirth: shouldBirth,
+    species: species,
+  };
+
+  return fetus as FetusData;
+};
+
 const isPregnant = (womb: Womb) => {
   // There is at least one fetus
   if (womb.fetusData.size > 0) return true;
   else return false;
+};
+
+const getCurrentTrimester = (fetus: FetusData) => {
+  const growthProgress = fetus.developmentRatio;
+
+  if (growthProgress <= gFirstTrimesterState) {
+    return Trimesters.First;
+  } else if (
+    growthProgress > gFirstTrimesterState &&
+    growthProgress <= gSecondTrimesterState
+  ) {
+    return Trimesters.Second;
+  } else if (
+    growthProgress > gSecondTrimesterState &&
+    growthProgress <= gThirdTrimesterState
+  ) {
+    return Trimesters.Third;
+  } else {
+    // Overdue
+    return Trimesters.Overdue;
+  }
 };
 
 const getTrimesterDuration = (
@@ -133,7 +192,7 @@ const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
   // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now (or maybe not)
 
   // Find out the current trimester
-  const trimester = fetus.getCurrentTrimester();
+  const trimester = getCurrentTrimester(fetus);
 
   // While each trimester has different rates of growth, they all consume 33% of the total gestation time (except the 2nd, its 34%)
   // Then, compare the current development progress with the current trimester
