@@ -1,11 +1,6 @@
 // Yes, the filename was meant to be that
-html {
-    height: 100%;
-}
 
 body {
-    min-height: 100%;
-
-    position: relative;
-    z-index: -10;
+  position: relative;
+  z-index: -10;
 }
