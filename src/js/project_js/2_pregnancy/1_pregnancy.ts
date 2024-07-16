@@ -43,7 +43,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       );
 
       // Get the current trimester
-      const currTrimester = getCurrentTrimester(targetFetus);
+      const currTrimester = targetFetus.getCurrentTrimester();
 
       // Get the total time needed to complete the current trimester
       const trimesterGestationTime = getTrimesterDuration(
