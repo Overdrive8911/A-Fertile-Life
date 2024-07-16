@@ -159,7 +159,7 @@ const tryCreatePregnancy = (
       // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
       let fId = generateFetusId(wombData);
 
-      let fetus = new FetusData(fId);
+      let fetus = generateFetus(fId);
       // Push da foetus into the womb
       wombData.fetusData.set(i, fetus);
     }
