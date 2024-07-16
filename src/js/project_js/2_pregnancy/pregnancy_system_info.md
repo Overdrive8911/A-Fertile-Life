@@ -1,3 +1,4 @@
 1. Pregnancy is started when the function `tryCreatePregnancy()` is called. It accepts the virility and a special bonus for it (which is affected by other things including drugs) as well as a `Womb` object, of which, the required fertility and appropriate bonuses are calculated.
-2. In it, it calls `tryToImpregnate()` which determines if conception suceeds, after which, the rest of the original function is run.
-3. Depending on the fertility, verility and some randomness, a specific amount of fetuses that can grow to maturity without much complications are generated
+2. In it, it calls `tryToImpregnate()` which determines if conception succeeds, after which, the rest of the original function is run.
+3. Depending on the fertility, virility and some randomness, a specific amount of fetuses that can grow to maturity without much complications are generated. However, if one of its parameters, `numOfFetusesToForceToSpawn` is supplied, pregnancy with the required number of fetuses is guaranteed.
+4. `updatePregnancyGrowth()` is called at every time, the player moves to a passage with a location tag from a passage that also has a location tag. This could've been run every time the in-game time changes but that may not always be desirable. It only really has an effect so long as the  player has exceeded `gHoursBetweenPregUpdate`
