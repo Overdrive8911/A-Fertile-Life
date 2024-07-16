@@ -21,29 +21,6 @@ const isPregnant = (womb: Womb) => {
   else return false;
 };
 
-const getCurrentTrimester = (fetus: FetusData) => {
-  // Since the growth progress for the trimesters are in a ratio 3:5:4, we can use the `developmentRatio` to determine the current trimester since it has a max of 100 (%)
-
-  const growthProgress = fetus.developmentRatio;
-
-  if (growthProgress <= gFirstTrimesterState) {
-    return Trimesters.First;
-  } else if (
-    growthProgress > gFirstTrimesterState &&
-    growthProgress <= gSecondTrimesterState
-  ) {
-    return Trimesters.Second;
-  } else if (
-    growthProgress > gSecondTrimesterState &&
-    growthProgress <= gThirdTrimesterState
-  ) {
-    return Trimesters.Third;
-  } else {
-    // Overdue
-    return Trimesters.Overdue;
-  }
-};
-
 const getTrimesterDuration = (
   fetus: FetusData,
   trimester: Trimesters,
@@ -156,7 +133,7 @@ const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
   // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now (or maybe not)
 
   // Find out the current trimester
-  const trimester = getCurrentTrimester(fetus);
+  const trimester = fetus.getCurrentTrimester();
 
   // While each trimester has different rates of growth, they all consume 33% of the total gestation time (except the 2nd, its 34%)
   // Then, compare the current development progress with the current trimester

@@ -159,44 +159,9 @@ const tryCreatePregnancy = (
       // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
       let fId = generateFetusId(wombData);
 
-      // Generate the gender. Even IDs are female while odd ids are male
-      let fGender = fId % 2 ? "M" : "F";
-
-      // Pick a random growth rate but be biased to values closer to 1
-      // NOTE - This is the default rate. For the player, its different since their pregnancy initially takes around a month or so. It's around 10 times as fast
-      let fGrowthRateArray = [
-        0.97, 0.97, 0.97, 0.975, 0.975, 1, 1, 1, 1, 1, 1.03, 1.03, 1.03, 1.035,
-        1.035,
-      ];
-      let fGrowthRate = fGrowthRateArray[fId % fGrowthRateArray.length];
-
-      // These 4 will be dealt with later when the pregnancy is updated
-      let fHeight =
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height;
-      let fWeight =
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight;
-      let fDevelopmentRatio = 0;
-      let fAmnioticFluidVolume =
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.One]
-          .amnioticFluidProduced;
-
+      let fetus = new FetusData(fId);
       // Push da foetus into the womb
-      wombData.fetusData.set(i, {
-        id: fId,
-        gender: fGender,
-        growthRate: fGrowthRate,
-        height: fHeight,
-        weight: fWeight,
-        developmentRatio: fDevelopmentRatio,
-        amnioticFluidVolume: fAmnioticFluidVolume,
-        dateOfConception: variables().gameDateAndTime,
-        lastPregUpdate: variables().gameDateAndTime,
-        shouldBirth: false,
-        species: FetusSpecies.HUMAN,
-      });
-
-      // Also increase the capacity of the womb so it'll be known that the player is expecting
-      wombData.curCapacity++;
+      wombData.fetusData.set(i, fetus);
     }
 
     // Update specific data for the womb
