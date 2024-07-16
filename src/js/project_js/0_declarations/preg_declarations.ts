@@ -46,21 +46,6 @@ interface Womb {
   fetusData: Map<number /* fetusId */, FetusData>;
 }
 
-interface FetusData {
-  id: number; // decides the gender, growthRate, weight, and height
-  gender: string;
-  dateOfConception: Date; // Just here :p
-  lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
-  developmentRatio: number; // e.g 50%, 23%, 87%, 100%
-  growthRate: number; // e.g 1.5, 0.5, 2.0
-  weight: number; // in grams e.g 360, 501, 600
-  height: number; // in cm e.g 11.38, 10.94
-  amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
-  shouldBirth: boolean; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
-
-  species: FetusSpecies; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
-}
-
 // This will serve as the format for a lookup table used to determine a fetus's stats
 interface FetalGrowthStats {
   height: number; // in cm
@@ -494,4 +479,66 @@ enum BellyState {
   FULL_TERM_DECUPLETS = FULL_TERM * 10,
 
   PREG_MAX = FULL_TERM_DECUPLETS,
+}
+
+// SECTION - CLASSES BELOW
+class FetusData {
+  // PRIVATE FIELDS
+  id: number; // decides the gender, growthRate, weight, and height
+  gender: string;
+  dateOfConception: Date; // Just here :p
+  lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
+  developmentRatio: number; // e.g 50%, 23%, 87%, 100%
+  growthRate: number; // e.g 1.5, 0.5, 2.0
+  weight: number; // in grams e.g 360, 501, 600
+  height: number; // in cm e.g 11.38, 10.94
+  amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
+  shouldBirth: boolean; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
+  species: FetusSpecies; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
+
+  // PUBLIC FIELDS
+  static growthRateValues = [
+    0.97, 0.97, 0.97, 0.975, 0.975, 1, 1, 1, 1, 1, 1.03, 1.03, 1.03, 1.035,
+    1.035,
+  ];
+
+  constructor(id: number) {
+    this.id = id;
+    // To make the gender more random instead of letting even and odd ids be female and male respectively
+    this.gender = random(id) % 2 ? "M" : "F";
+    this.growthRate =
+      FetusData.growthRateValues[id % FetusData.growthRateValues.length];
+    this.developmentRatio = gMinDevelopmentState;
+    // Just trying to get an arbitrarily small number
+    this.height = id / Math.pow(10, 9);
+    this.weight = id / Math.pow(10, 9);
+    this.amnioticFluidVolume = id / Math.pow(10, 9);
+    this.dateOfConception = variables().gameDateAndTime;
+    this.lastPregUpdate = variables().gameDateAndTime;
+
+    this.shouldBirth = false;
+    this.species = FetusSpecies.HUMAN;
+  }
+
+  // GETTERS
+  getCurrentTrimester() {
+    const growthProgress = this.developmentRatio;
+
+    if (growthProgress <= gFirstTrimesterState) {
+      return Trimesters.First;
+    } else if (
+      growthProgress > gFirstTrimesterState &&
+      growthProgress <= gSecondTrimesterState
+    ) {
+      return Trimesters.Second;
+    } else if (
+      growthProgress > gSecondTrimesterState &&
+      growthProgress <= gThirdTrimesterState
+    ) {
+      return Trimesters.Third;
+    } else {
+      // Overdue
+      return Trimesters.Overdue;
+    }
+  }
 }
