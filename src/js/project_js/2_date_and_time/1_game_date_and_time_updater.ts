@@ -42,6 +42,21 @@ const updateGameTimeAfterChangingPassage = (
   );
 };
 
+// Update the game time after changing location but not when the browser window is restarted/refreshed
+$(document).one(":passageinit", () => {
+  $(document).on(":passageinit", (incomingPassage) => {
+    const currentPassageTitle = State.active.title;
+    updateGameTimeAfterChangingPassage(
+      currentPassageTitle,
+      incomingPassage.passage.title,
+      averageWalkingSpeed[0]
+    );
+
+    return 0;
+  });
+  // ev.preventDefault();
+});
+
 // Skip forward `day` times to the specified time (in hrs and minutes)
 const skipSomeDaysToSpecificTime = (
   days: number,
