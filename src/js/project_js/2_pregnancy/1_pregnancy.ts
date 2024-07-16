@@ -1,9 +1,12 @@
 // `updatePregnancyGrowth` is run here
-$(document).on(":passageinit", (incomingPassage) => {
-  // THis just basically means that the following should run if both the current and incoming passage have the word "location_" in their tags
+$(document).on(":passagerender", (incomingPassage) => {
+  // THis just basically means that the following should run if both the current and incoming passage have the word "location_" in their tags and at least the number of hours in `gHoursBetweenPregUpdate` have been passed since the last update
   if (
     getLocationFromPassageTitle(State.active.title) &&
-    getLocationFromPassageTitle(incomingPassage.passage.title)
+    getLocationFromPassageTitle(incomingPassage.passage.title) &&
+    variables().gameDateAndTime.getTime() -
+      variables().lastPregUpdateFunctionCall.getTime() >=
+      gHoursBetweenPregUpdate * 3600 * 1000
   ) {
     const playerWomb = variables().player.womb;
 
@@ -364,5 +367,8 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
 
     // Update belly size during pregnancy
     updatePregnantBellySize(targetWomb);
+
+    // Update the last time this function was called
+    variables().lastPregUpdateFunctionCall = variables().gameDateAndTime;
   }
 };
