@@ -43,7 +43,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       );
 
       // Get the current trimester
-      const currTrimester = targetFetus.getCurrentTrimester();
+      const currTrimester = getCurrentTrimester(targetFetus);
 
       // Get the total time needed to complete the current trimester
       const trimesterGestationTime = getTrimesterDuration(
@@ -307,9 +307,9 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       );
 
       // SECTION - Using the fetus's id to alter the gained a bit
-      const bitCheck = (targetFetus.id & (1 << random(0, 15))) !== 0; // Randomly pick the index of a bit and check if it's true
-      const bitCheck2 = (targetFetus.id & (1 << random(0, 15))) !== 0; // Do it again :3
-      const bitCheck3 = (targetFetus.id & (1 << random(0, 15))) !== 0; // And again :D
+      const bitCheck = (targetFetus.id & (1 << random(0, 16))) !== 0; // Randomly pick the index of a bit and check if it's true
+      const bitCheck2 = (targetFetus.id & (1 << random(0, 16))) !== 0; // Do it again :3
+      const bitCheck3 = (targetFetus.id & (1 << random(0, 16))) !== 0; // And again :D
 
       // WEIGHT
       const weightBonusOrReduction = randomFloat(
