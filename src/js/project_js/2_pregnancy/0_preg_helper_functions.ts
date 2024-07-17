@@ -287,141 +287,236 @@ const getStatForGestationalWeekInOverduePregnancy = (
   }
 };
 
-// Pass 2 gestational weeks and the stat required (e.g height, weight, amnioticFluidProduced) and it will return the difference with the stat of the gestational weeks (that is, per the number of hours specified in gHoursBetweenPregUpdate). If the optional parameter `timeDiff` (it's value is in seconds) is supplied, it will be used to calculate the number of times the result should be multiplied
-const getStatDiffBetweenTwoGestationalWeeksDependingOnPregUpdatePeriod = (
-  previousGestationalWeek: GestationalWeek,
-  newGestationalWeek: GestationalWeek,
-  stat: FetalGrowthStatsEnum,
-  timeDiff: number,
-  pregLengthModifier: number
+// Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased
+const getStatToAddAfterDevelopmentProgress = (
+  oldDevRatio: number,
+  newDevRatio: number,
+  stat: FetalGrowthStatsEnum
 ) => {
-  let currentStat: number = null;
-  let previousWeekStat: number = null;
-  if (timeDiff == undefined) timeDiff = 3600 * gHoursBetweenPregUpdate; // So it won't give me a NaN issue
+  let oldStat = 0;
+  let newStat = 0;
 
+  // Get the gestational weeks of each development ratio
+  const oldGestWeek: GestationalWeek = Math.floor(
+    (oldDevRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks
+  );
+  const newGestWeek: GestationalWeek = Math.floor(
+    (newDevRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks
+  );
+
+  const oldGestWeekNoFloor =
+    (oldDevRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks;
+  const newGestWeekNoFloor =
+    (newDevRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks;
+
+  // Determine the EXACT stats at each of the development ratios
   switch (stat) {
-    case FetalGrowthStatsEnum.WEIGHT:
-      if (newGestationalWeek <= GestationalWeek.MAX) {
-        currentStat =
-          gFetalGrowthOverGestationalWeeks[newGestationalWeek].weight;
-      } else {
-        // Is Overdue
-        currentStat = getStatForGestationalWeekInOverduePregnancy(
-          newGestationalWeek,
-          FetalGrowthStatsEnum.WEIGHT
-        );
-      }
-
-      if (
-        previousGestationalWeek > GestationalWeek.One &&
-        previousGestationalWeek <= GestationalWeek.MAX
+    case FetalGrowthStatsEnum.HEIGHT:
+      // For the old one
+      if (oldGestWeek < GestationalWeek.One) {
+        oldStat = 0;
+      } else if (
+        oldGestWeek >= GestationalWeek.One &&
+        oldGestWeek < gNumOfGestationalWeeks
       ) {
-        previousWeekStat =
-          gFetalGrowthOverGestationalWeeks[previousGestationalWeek].weight;
-      } else if (previousGestationalWeek <= GestationalWeek.One) {
-        // Its the first week of preg so assume the previous stat is zero
-        previousWeekStat = 0;
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].height +
+          (gFetalGrowthOverGestationalWeeks[
+            (oldGestWeek + 1) as GestationalWeek
+          ].height -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].height) *
+            (oldGestWeekNoFloor - oldGestWeek);
+      } else if (
+        oldGestWeek <= gNumOfGestationalWeeks &&
+        oldGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].height +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].height) *
+            (oldGestWeekNoFloor - oldGestWeek);
       } else {
-        // Is Overdue
-        previousWeekStat = getStatForGestationalWeekInOverduePregnancy(
-          previousGestationalWeek,
-          FetalGrowthStatsEnum.WEIGHT
-        );
+        oldStat =
+          getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat)) *
+            (oldGestWeekNoFloor - oldGestWeek);
       }
 
+      // For the new one
+      if (newGestWeek < GestationalWeek.One) {
+        newStat = 0;
+      } else if (
+        newGestWeek >= GestationalWeek.One &&
+        newGestWeek < gNumOfGestationalWeeks
+      ) {
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].height +
+          (gFetalGrowthOverGestationalWeeks[
+            (newGestWeek + 1) as GestationalWeek
+          ].height -
+            gFetalGrowthOverGestationalWeeks[newGestWeek].height) *
+            (newGestWeekNoFloor - newGestWeek);
+      } else if (
+        newGestWeek <= gNumOfGestationalWeeks &&
+        newGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].height +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[newGestWeek].height) *
+            (newGestWeekNoFloor - newGestWeek);
+      } else {
+        newStat =
+          getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat)) *
+            (newGestWeekNoFloor - newGestWeek);
+      }
       break;
 
-    case FetalGrowthStatsEnum.HEIGHT:
-      if (newGestationalWeek <= GestationalWeek.MAX) {
-        currentStat =
-          gFetalGrowthOverGestationalWeeks[newGestationalWeek].height;
+    case FetalGrowthStatsEnum.WEIGHT:
+      // For the old one
+      if (oldGestWeek < GestationalWeek.One) {
+        oldStat = 0;
+      } else if (
+        oldGestWeek >= GestationalWeek.One &&
+        oldGestWeek < gNumOfGestationalWeeks
+      ) {
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].weight +
+          (gFetalGrowthOverGestationalWeeks[
+            (oldGestWeek + 1) as GestationalWeek
+          ].weight -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].weight) *
+            (oldGestWeekNoFloor - oldGestWeek);
+      } else if (
+        oldGestWeek <= gNumOfGestationalWeeks &&
+        oldGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].weight +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].weight) *
+            (oldGestWeekNoFloor - oldGestWeek);
       } else {
-        // Is Overdue
-        currentStat = getStatForGestationalWeekInOverduePregnancy(
-          newGestationalWeek,
-          FetalGrowthStatsEnum.HEIGHT
-        );
+        oldStat =
+          getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat)) *
+            (oldGestWeekNoFloor - oldGestWeek);
       }
 
-      if (
-        previousGestationalWeek > GestationalWeek.One &&
-        previousGestationalWeek <= GestationalWeek.MAX
+      // For the new one
+      if (newGestWeek < GestationalWeek.One) {
+        newStat = 0;
+      } else if (
+        newGestWeek >= GestationalWeek.One &&
+        newGestWeek < gNumOfGestationalWeeks
       ) {
-        previousWeekStat =
-          gFetalGrowthOverGestationalWeeks[previousGestationalWeek].height;
-      } else if (previousGestationalWeek <= GestationalWeek.One) {
-        // Its the first week of preg so assume the previous stat is zero
-        previousWeekStat = 0;
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].weight +
+          (gFetalGrowthOverGestationalWeeks[
+            (newGestWeek + 1) as GestationalWeek
+          ].weight -
+            gFetalGrowthOverGestationalWeeks[newGestWeek].weight) *
+            (newGestWeekNoFloor - newGestWeek);
+      } else if (
+        newGestWeek <= gNumOfGestationalWeeks &&
+        newGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].weight +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[newGestWeek].weight) *
+            (newGestWeekNoFloor - newGestWeek);
       } else {
-        // Is Overdue
-        previousWeekStat = getStatForGestationalWeekInOverduePregnancy(
-          previousGestationalWeek,
-          FetalGrowthStatsEnum.HEIGHT
-        );
+        newStat =
+          getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat)) *
+            (newGestWeekNoFloor - newGestWeek);
       }
 
       break;
 
     case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
-      if (newGestationalWeek <= GestationalWeek.MAX) {
-        currentStat =
-          gFetalGrowthOverGestationalWeeks[newGestationalWeek]
-            .amnioticFluidProduced;
+      // For the old one
+      if (oldGestWeek < GestationalWeek.One) {
+        oldStat = 0;
+      } else if (
+        oldGestWeek >= GestationalWeek.One &&
+        oldGestWeek < gNumOfGestationalWeeks
+      ) {
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidProduced +
+          (gFetalGrowthOverGestationalWeeks[
+            (oldGestWeek + 1) as GestationalWeek
+          ].amnioticFluidProduced -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek]
+              .amnioticFluidProduced) *
+            (oldGestWeekNoFloor - oldGestWeek);
+      } else if (
+        oldGestWeek <= gNumOfGestationalWeeks &&
+        oldGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        oldStat =
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidProduced +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek]
+              .amnioticFluidProduced) *
+            (oldGestWeekNoFloor - oldGestWeek);
       } else {
-        // Is Overdue
-        currentStat = getStatForGestationalWeekInOverduePregnancy(
-          newGestationalWeek,
-          FetalGrowthStatsEnum.AMNIOTIC_FLUID
-        );
+        oldStat =
+          getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(oldGestWeek, stat)) *
+            (oldGestWeekNoFloor - oldGestWeek);
       }
 
-      if (
-        previousGestationalWeek > GestationalWeek.One &&
-        previousGestationalWeek <= GestationalWeek.MAX
+      // For the new one
+      if (newGestWeek < GestationalWeek.One) {
+        newStat = 0;
+      } else if (
+        newGestWeek >= GestationalWeek.One &&
+        newGestWeek < gNumOfGestationalWeeks
       ) {
-        previousWeekStat =
-          gFetalGrowthOverGestationalWeeks[previousGestationalWeek]
-            .amnioticFluidProduced;
-      } else if (previousGestationalWeek <= GestationalWeek.One) {
-        // Its the first week of preg so assume the previous stat is zero
-        previousWeekStat = 0;
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidProduced +
+          (gFetalGrowthOverGestationalWeeks[
+            (newGestWeek + 1) as GestationalWeek
+          ].amnioticFluidProduced -
+            gFetalGrowthOverGestationalWeeks[newGestWeek]
+              .amnioticFluidProduced) *
+            (newGestWeekNoFloor - newGestWeek);
+      } else if (
+        newGestWeek <= gNumOfGestationalWeeks &&
+        newGestWeek + 1 > gNumOfGestationalWeeks
+      ) {
+        newStat =
+          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidProduced +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            gFetalGrowthOverGestationalWeeks[newGestWeek]
+              .amnioticFluidProduced) *
+            (newGestWeekNoFloor - newGestWeek);
       } else {
-        // Is Overdue
-        previousWeekStat = getStatForGestationalWeekInOverduePregnancy(
-          previousGestationalWeek,
-          FetalGrowthStatsEnum.AMNIOTIC_FLUID
-        );
+        newStat =
+          getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat) +
+          (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
+            getStatForGestationalWeekInOverduePregnancy(newGestWeek, stat)) *
+            (newGestWeekNoFloor - newGestWeek);
       }
 
       break;
 
     default:
-      // Don't get here >~<
       break;
   }
-
-  console.log(
-    `currentStat: ${currentStat} previousStat: ${previousWeekStat}, statDiff: ${
-      currentStat - previousWeekStat
-    }, actualTimeDiff: ${timeDiff}, calculatedTimeDiff: ${Math.floor(
-      timeDiff / (3600 * gHoursBetweenPregUpdate * pregLengthModifier)
-    )}`
-  );
-
-  // If this is 0, the return formula will give us a NaN in some cases
-  const weekDiff =
-    newGestationalWeek - previousGestationalWeek > 0
-      ? newGestationalWeek - previousGestationalWeek
-      : 1;
-
-  return (
-    ((((currentStat - previousWeekStat) / gNumOfHoursInAWeek) *
-      gHoursBetweenPregUpdate) /
-      weekDiff) *
-    Math.floor(timeDiff / (3600 * gHoursBetweenPregUpdate * pregLengthModifier)) // The 3600 here is to convert the `timeDiff` to hours
-  );
+  console.log(`newStat: ${newStat}, oldStat: ${oldStat}`);
+  return newStat - oldStat;
 };
 
+// Unused
 const getNumberOfGestationalWeeksAfterDueDate = (
   fetus: FetusData,
   womb: Womb
