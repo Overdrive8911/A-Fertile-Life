@@ -52,21 +52,6 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetWomb
       );
 
-      // Get the amount of time already completed in the trimester
-      const trimesterProgress = getProgressInGivenTrimester(
-        targetFetus,
-        currTrimester,
-        targetWomb
-      );
-
-      // Get the amount of time remaining in the trimester (in seconds)
-      let remainingTrimesterTime: number = null;
-      if (currTrimester != Trimesters.Overdue) {
-        remainingTrimesterTime = trimesterGestationTime - trimesterProgress;
-      } else {
-        remainingTrimesterTime = gOverduePregnancyLength;
-      }
-
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
         currentTime.getTime() / 1000 -
@@ -86,14 +71,8 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
       const newDevelopmentRatio =
         targetFetus.developmentRatio + additionalDevelopmentProgress;
-
-      // Get the initial gestation week for the fetus, before having important data overwritten
-      let initialFetalGestationalWeek = getGestationalWeek(
-        targetFetus,
-        targetWomb
-      );
-      if (!initialFetalGestationalWeek)
-        initialFetalGestationalWeek = GestationalWeek.One;
+      // Save the current development ratio for use later
+      const oldDevelopmentRatio = targetFetus.developmentRatio;
 
       // Update the data
       targetFetus.developmentRatio =
@@ -125,15 +104,10 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
 
       // To remove repetition
       const getStatDiff = (stat: FetalGrowthStatsEnum) => {
-        console.log(
-          `1initialFetalGestationalWeek: ${initialFetalGestationalWeek}, 1newFetalGestationalWeek: ${newFetalGestationalWeek}`
-        );
-        return getStatDiffBetweenTwoGestationalWeeksDependingOnPregUpdatePeriod(
-          initialFetalGestationalWeek,
-          newFetalGestationalWeek,
-          stat,
-          timeElapsedSinceLastPregUpdate,
-          pregDurationMod
+        return getStatToAddAfterDevelopmentProgress(
+          oldDevelopmentRatio,
+          newDevelopmentRatio,
+          stat
         );
       };
 
@@ -142,7 +116,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
 
       console.log(
-        `initialFetalGestationalWeek: ${initialFetalGestationalWeek}, newFetalGestationalWeek: ${newFetalGestationalWeek}`
+        `oldDevelopmentRatio: ${oldDevelopmentRatio}, newDevelopmentRatio: ${newDevelopmentRatio}`
       );
       console.log(
         `weightDiff: ${weightDiff}, heightDiff: ${heightDiff}, fluidDiff: ${fluidDiff}`
@@ -156,17 +130,17 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // WEIGHT
       const weightBonusOrReduction = randomFloat(
         weightDiff * 0,
-        weightDiff * 0.1
+        weightDiff * 0.15
       );
 
       // HEIGHT
       const heightBonusOrReduction = randomFloat(
         heightDiff * 0.0,
-        heightDiff * 0.1
+        heightDiff * 0.15
       );
 
       // FLUID.
-      const fluidBonus = randomFloat(fluidDiff * 0.0, fluidDiff * 0.1);
+      const fluidBonus = randomFloat(fluidDiff * 0.0, fluidDiff * 0.15);
 
       // Add the regular diffs before the bonus/reductions
       newWeight += weightDiff;
