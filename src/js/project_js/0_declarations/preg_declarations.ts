@@ -153,13 +153,11 @@ enum PregnancyState {
   NOT_OVERDUE = NOT_PREGNANT | PREGNANT | READY_TO_DROP,
 }
 
-// The enums for the trimesters. The growth progress for the trimesters are in a ratio 3:5:4
-// TODO - The last one is for overdue pregnancies and continues growth at a flat pace of 2.5~3.5
+// The enums for the trimesters.
 enum Trimesters {
-  First = 3 / 12,
-  Second = 5 / 12,
-  Third = 4 / 12,
-
+  First,
+  Second,
+  Third,
   Overdue,
 }
 // These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
@@ -169,11 +167,13 @@ const gMaxDevelopmentState = 100; // 100 Percent
 // In most cases, birth can only happen when above this threshold
 const gMinBirthThreshold = 85; // 85 Percent
 
-const gFirstTrimesterState = Trimesters.First * gMaxDevelopmentState; // 25 i.e 0 to 25
+// Since the trimesters are roughly 1/3 the length of a pregnancy
+
+const gFirstTrimesterState = 0.33 * gMaxDevelopmentState; // 33 i.e 0 to 33
 const gSecondTrimesterState =
-  Trimesters.Second * gMaxDevelopmentState + gFirstTrimesterState; // 66.67 i.e 25 to 66.67
+  0.34 * gMaxDevelopmentState + gFirstTrimesterState; // 67 i.e 33 to 67
 const gThirdTrimesterState =
-  Trimesters.Third * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 66.67 to 100
+  0.33 * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 67 to 100
 
 const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
