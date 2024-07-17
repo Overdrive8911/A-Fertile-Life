@@ -205,11 +205,13 @@ const getStatForGestationalWeekInOverduePregnancy = (
   stat: FetalGrowthStatsEnum
 ) => {
   // Use the average stat difference (and a bit of variation) to get a result for overdue pregnancies that don't have an entry in gFetalGrowthOverGestationalWeeks[]
-  // PLEASE, DON'T PASS IN A GESTATIONAL WEEK THAT ISN'T OVERDUE
 
   let averageStatDiffInLastFourWeeksOfPregnancy = 0;
   let overdueStatDiffToAdd = 0;
   const numOfWeeksToGetAverageFor = 4;
+
+  if (overdueGestWeek <= GestationalWeek.MAX)
+    overdueGestWeek = GestationalWeek.MAX + 1;
 
   // Get the average weight gain over the last 4~5 weeks
   for (let i = 0; i <= numOfWeeksToGetAverageFor; i++) {
@@ -512,34 +514,7 @@ const getStatToAddAfterDevelopmentProgress = (
     default:
       break;
   }
-  console.log(`newStat: ${newStat}, oldStat: ${oldStat}`);
   return newStat - oldStat;
-};
-
-// Unused
-const getNumberOfGestationalWeeksAfterDueDate = (
-  fetus: FetusData,
-  womb: Womb
-) => {
-  if (fetus.developmentRatio > gMaxDevelopmentState) {
-    // Character is overdue
-    const overdueGestationPeriod = getProgressInGivenTrimester(
-      fetus,
-      Trimesters.Overdue,
-      womb
-    );
-
-    // Round it
-    const gestationalWeeks = Math.round(
-      (overdueGestationPeriod / getTotalGestationDuration(fetus, womb)) *
-        gNumOfGestationalWeeks
-    );
-
-    return gestationalWeeks;
-  } else {
-    // Not overdue
-    return 0;
-  }
 };
 
 // Gets the sum of either the height, weight and amniotic volume of the fetuses in the womb. Returns 0 if it can't find any offspring
