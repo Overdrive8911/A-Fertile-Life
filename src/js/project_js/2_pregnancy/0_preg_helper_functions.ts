@@ -59,6 +59,14 @@ const isPregnant = (womb: Womb) => {
   else return false;
 };
 
+// Gets the time in seconds that have elapsed since gestation began. This should not be used to determine when a pregnancy is complete
+const getGestationDurationElapsed = (fetus: FetusData) => {
+  return (
+    (variables().gameDateAndTime.getTime() - fetus.dateOfConception.getTime()) /
+    1000
+  );
+};
+
 const getCurrentTrimester = (fetus: FetusData) => {
   const growthProgress = fetus.developmentRatio;
 
@@ -186,63 +194,9 @@ const getTotalGestationDuration = (fetus: FetusData, womb?: Womb) => {
   return getPregnancyLengthModifier(fetus, womb) * gDefaultPregnancyLength;
 };
 
-// Gets the time in seconds that have elapsed since gestation began
-const getGestationDurationElapsed = (fetus: FetusData, womb: Womb) => {
-  // Since the different trimesters have different rates at which fetal development will progress, I can't calculate straight off the bat
-  // Or I could just use the date of conception and the date of the last time the pregnancy was updated, but i'll keep that thought for now (or maybe not)
-
-  // Find out the current trimester
-  const trimester = getCurrentTrimester(fetus);
-
-  // While each trimester has different rates of growth, they all consume 33% of the total gestation time (except the 2nd, its 34%)
-  // Then, compare the current development progress with the current trimester
-  let trimesterDurationConsumed = getProgressInGivenTrimester(
-    fetus,
-    trimester,
-    womb
-  ); // This is the time that has actually been spent in the trimester
-  let gestationTimeConsumed = 0; // This is the sum of `trimesterDurationConsumed` and the time from the other trimesters (if any)
-
-  switch (trimester) {
-    case Trimesters.First:
-      gestationTimeConsumed = trimesterDurationConsumed;
-      break;
-
-    case Trimesters.Second:
-      // Add back the the time it took to complete the first trimester
-      gestationTimeConsumed =
-        trimesterDurationConsumed +
-        getTrimesterDuration(fetus, Trimesters.First, womb);
-      break;
-
-    case Trimesters.Third:
-      // Add back the the time it took to complete the first and second trimester
-      gestationTimeConsumed =
-        trimesterDurationConsumed +
-        getTrimesterDuration(fetus, Trimesters.First, womb) +
-        getTrimesterDuration(fetus, Trimesters.Second, womb);
-      break;
-
-    case Trimesters.Overdue:
-      // Add back the the time it took to complete the first, second and third trimester
-      gestationTimeConsumed =
-        trimesterDurationConsumed +
-        getTrimesterDuration(fetus, Trimesters.First, womb) +
-        getTrimesterDuration(fetus, Trimesters.Second, womb) +
-        getTrimesterDuration(fetus, Trimesters.Third, womb);
-    default:
-      break;
-  }
-
-  // This might not be completely accurate but I think it'll do for now
-  return gestationTimeConsumed;
-};
-
 const getGestationalWeek = (fetus: FetusData, womb: Womb): GestationalWeek => {
   return Math.floor(
-    (getGestationDurationElapsed(fetus, womb) /
-      getTotalGestationDuration(fetus, womb)) *
-      gNumOfGestationalWeeks
+    (fetus.developmentRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks
   );
 };
 
