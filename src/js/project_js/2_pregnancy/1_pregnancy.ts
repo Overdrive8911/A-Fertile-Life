@@ -130,17 +130,20 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // WEIGHT
       const weightBonusOrReduction = randomFloat(
         weightDiff * 0,
-        weightDiff * 0.15
+        weightDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
       );
 
       // HEIGHT
       const heightBonusOrReduction = randomFloat(
         heightDiff * 0.0,
-        heightDiff * 0.15
+        heightDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
       );
 
       // FLUID.
-      const fluidBonus = randomFloat(fluidDiff * 0.0, fluidDiff * 0.15);
+      const fluidBonus = randomFloat(
+        fluidDiff * 0.0,
+        fluidDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
+      );
 
       // Add the regular diffs before the bonus/reductions
       newWeight += weightDiff;
