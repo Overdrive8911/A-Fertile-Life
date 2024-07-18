@@ -104,6 +104,18 @@ enum FertilityLevel {
   FERTILITY_IDOL = 101,
 }
 
+// Imagine these as percentages (womb.hp / womb.maxHp)
+enum WombHealth {
+  RIP,
+  CRITICAL = 15,
+  VERY_POOR = 35,
+  POOR = 50,
+  MEDIOCRE = 70,
+  HEALTHY = 80,
+  VERY_HEALTHY = 90,
+  FULL_VITALITY = 100,
+}
+
 // The amount of exp it takes for the character's womb to reach the next level
 enum WombExpLimit {
   LVL_1 = 0,
