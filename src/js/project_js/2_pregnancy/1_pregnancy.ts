@@ -97,10 +97,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       let heightDiff: number = null;
       let fluidDiff: number = null;
 
-      // TODO - Add little variations to newWeight and newHeight based off the fetus's id
-
       // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
-      // TODO - Allow height and weight changes to occur with passage transition (or day if that's too much work)
 
       // To remove repetition
       const getStatDiff = (stat: FetalGrowthStatsEnum) => {
@@ -176,6 +173,10 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetFetus.amnioticFluidVolume = newFluidVolume;
       }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
+
+      // Apply womb damage
+      // console.log(`womb Damage: ${calculateWombDamage(targetWomb)}`);
+      targetWomb.hp -= calculateWombDamage(targetWomb);
 
       // Increase the womb's exp
       targetWomb.exp += updateWombExp(targetWomb);

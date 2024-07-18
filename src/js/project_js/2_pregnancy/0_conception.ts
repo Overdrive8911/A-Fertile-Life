@@ -57,14 +57,16 @@ const tryCreatePregnancy = (
   // TODO - calculate all the fertility bonuses from the womb
   // const isPregnancySuccessful =
 
+  // Only allow if the impregnation chance comes up true and the womb health is >= 80 OR if a designated number of fetuses to spawn has been given.
   if (
-    tryToImpregnate(
+    (tryToImpregnate(
       virility,
       wombData.fertility,
       wombData.contraceptives,
       virilityBonus,
       fertilityBonus
-    ) ||
+    ) &&
+      wombData.hp / wombData.maxHp > 0.8) ||
     numOfFetusesToForceToSpawn
   ) {
     let i = 0,
@@ -86,6 +88,7 @@ const tryCreatePregnancy = (
         gChanceOfNaturalMultipleOvaFertilization[i] +
         (totalVirility * 0.1) / virility +
         (virility * 0.25) / 100;
+      console.log(`virile chance: ${chance}`);
 
       if (parseFloat(randomFloat(1).toFixed(2)) < chance) {
         numOfFoetusToSpawn++;
@@ -131,6 +134,7 @@ const tryCreatePregnancy = (
         }
       }
 
+      console.log(`fertile chance: ${chance}`);
       // This is on the woman's side so superfet genes affect this chance
       if (parseFloat(randomFloat(1).toFixed(2)) < chance) {
         // If the probability passes, add another fetus
