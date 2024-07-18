@@ -9,7 +9,7 @@
 
 <p>
     <<link "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!">>
-        <<impregnate 70 10 $player.womb>>
+        <<impregnate 60 5 $player.womb>>
     <</link>>
 </p>
 
