@@ -1,5 +1,5 @@
 interface GameLocation {
-  coords: [x: number, y: number, z?: number];
+  coords: LocationCoords;
   nav_locations?: NavigationLocations;
   subLocations?: {
     [nameOfSubLocation: string]: GameSubLocation;
@@ -7,9 +7,11 @@ interface GameLocation {
 }
 
 interface GameSubLocation {
-  coords: [x: number, y: number, z?: number];
+  coords: LocationCoords;
   nav_locations?: NavigationLocations;
 }
+
+type LocationCoords = [x: number, y: number, z?: number];
 
 interface NavigationLocations {
   north?: string;
