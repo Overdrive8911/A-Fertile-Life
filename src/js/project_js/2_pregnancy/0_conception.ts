@@ -66,7 +66,8 @@ const tryCreatePregnancy = (
       virilityBonus,
       fertilityBonus
     ) &&
-      wombData.hp / wombData.maxHp > 0.8) ||
+      (wombData.hp / wombData.maxHp) * WombHealth.FULL_VITALITY >
+        WombHealth.HEALTHY) ||
     numOfFetusesToForceToSpawn
   ) {
     let i = 0,
