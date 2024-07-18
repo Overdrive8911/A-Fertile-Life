@@ -11,6 +11,7 @@ $(document).on(":passagerender", (incomingPassage) => {
     const playerWomb = variables().player.womb;
 
     updatePregnancyGrowth(playerWomb);
+    gradualWombHealthIncreaser(playerWomb);
 
     if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
   }
