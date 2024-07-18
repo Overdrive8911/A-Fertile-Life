@@ -1,34 +1,22 @@
-const getLocationFromPassageTitle = (passageTitle: string) => {
-  const passageTags = tags(passageTitle);
+interface GameLocation {
+  coords: [x: number, y: number, z?: number];
+  nav_locations?: NavigationLocations;
+  subLocations?: {
+    [nameOfSubLocation: string]: GameSubLocation;
+  };
+}
 
-  for (const tag of passageTags) {
-    let locationArr = tag.match(/location_[^\s]*/);
+interface GameSubLocation {
+  coords: [x: number, y: number, z?: number];
+  nav_locations?: NavigationLocations;
+}
 
-    // There should only be 1 location tag
-    if (locationArr) {
-      return locationArr[0];
-    }
-  }
-
-  // Location tag was not found
-  return undefined;
-};
-
-const getSubLocationFromPassageTitle = (passageTitle: string) => {
-  const passageTags = tags(passageTitle);
-
-  for (const tag of passageTags) {
-    let subLocationArr = tag.match(/subLocation_[^\s]*/);
-
-    // There should only be 1 location tag
-    if (subLocationArr) {
-      return subLocationArr[0];
-    }
-  }
-
-  // Location tag was not found
-  return undefined;
-};
+interface NavigationLocations {
+  north?: string;
+  east?: string;
+  south?: string;
+  west?: string;
+}
 
 const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
@@ -41,28 +29,7 @@ const averageWalkingSpeed: [
 
 // This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
 const locationDataObject: {
-  [nameOfLocation: string]: {
-    // name: string,
-    coords: [x: number, y: number, z?: number];
-    nav_locations?: {
-      north?: string;
-      east?: string;
-      south?: string;
-      west?: string;
-    };
-    subLocations?: {
-      [nameOfSubLocation: string]: {
-        // name: string,
-        coords: [x: number, y: number, z?: number];
-        nav_locations?: {
-          north?: string;
-          east?: string;
-          south?: string;
-          west?: string;
-        };
-      };
-    };
-  };
+  [nameOfLocation: string]: GameLocation;
 } =
   // TODO - Add the navigation locations
   {
@@ -105,3 +72,35 @@ const locationDataObject: {
     location_bus: { coords: [0, 0] },
     location_dream: { coords: [0, 0] },
   };
+
+const getLocationFromPassageTitle = (passageTitle: string) => {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let locationArr = tag.match(/location_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (locationArr) {
+      return locationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+};
+
+const getSubLocationFromPassageTitle = (passageTitle: string) => {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let subLocationArr = tag.match(/subLocation_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (subLocationArr) {
+      return subLocationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+};
