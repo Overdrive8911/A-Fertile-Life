@@ -46,12 +46,14 @@ interface Womb {
   fetusData: Map<number /* fetusId */, FetusData>;
 }
 
+type DevelopmentRatio = number;
+
 interface FetusData {
   id: number; // decides the gender, growthRate, weight, and height
   gender: string;
   dateOfConception: Date; // Just here :p
   lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
-  developmentRatio: number; // e.g 50%, 23%, 87%, 100%
+  developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
   growthRate: number; // e.g 1.5, 0.5, 2.0
   weight: number; // in grams e.g 360, 501, 600
   height: number; // in cm e.g 11.38, 10.94
