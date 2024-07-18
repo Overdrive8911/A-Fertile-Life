@@ -169,12 +169,15 @@ const getProgressInGivenTrimester = (
 };
 
 // If the `womb` parameter is provided, check for genetic conditions
-const getPregnancyLengthModifier = (fetus: FetusData, womb?: Womb) => {
+const getPregnancyLengthModifier = (fetus: FetusData, womb: Womb) => {
   // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
   let modifier = 1;
 
   // Account for the fetus's growth rate
   modifier /= fetus.growthRate;
+
+  //  Account for the womb health. Lower hp make pregnancies slightly longer
+  modifier *= Math.clamp(Math.sqrt(womb.maxHp / womb.hp), 1, 1.2);
 
   // SECTION - Determine the actual pregnancy duration by factoring genetic conditions, drugs, growthRate, etc
   // if (womb) {
@@ -291,10 +294,11 @@ const getStatForGestationalWeekInOverduePregnancy = (
 
 // Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased
 const getStatToAddAfterDevelopmentProgress = (
-  oldDevRatio: number,
-  newDevRatio: number,
+  oldDevRatio: DevelopmentRatio,
+  newDevRatio: DevelopmentRatio,
   stat: FetalGrowthStatsEnum
 ) => {
+  if (oldDevRatio == newDevRatio) return 0;
   let oldStat = 0;
   let newStat = 0;
 
@@ -548,6 +552,30 @@ const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
   if (bellyState < BellyState.FULL_TERM) return 0;
 
   return Math.floor(bellyState / BellyState.FULL_TERM);
+};
+
+const calculateWombDamage = (womb: Womb) => {
+  // TODO - Consider having the weight affect this. Also superfetation
+
+  // Get the average developmentRatio of all fetuses
+  let averageDevelopmentRatio = 0;
+  for (let i = 0; i < womb.fetusData.size; i++) {
+    averageDevelopmentRatio += womb.fetusData.get(i).developmentRatio;
+  }
+  averageDevelopmentRatio /= womb.fetusData.size;
+
+  // Every 10% progress in pregnancy has a 15% chance to subtract 0.5 womb health. This number is increased by the number of fetuses the user is pregnant with
+  let timesToRunDamageCheck = Math.floor(averageDevelopmentRatio / 10);
+
+  let wombDamage = 0;
+  while (timesToRunDamageCheck > 0) {
+    if (random(100) < 15) {
+      wombDamage += womb.fetusData.size * 0.5;
+    }
+    timesToRunDamageCheck--;
+  }
+
+  return wombDamage;
 };
 
 // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
