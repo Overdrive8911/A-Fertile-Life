@@ -556,6 +556,11 @@ const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
 
 const calculateWombDamage = (womb: Womb) => {
   if (!gIsWombDamageEnabled) return 0;
+  // Don't allow negative values
+  if ((womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY < WombHealth.RIP) {
+    womb.hp = WombHealth.RIP;
+    return 0;
+  }
   // TODO - Consider having the weight affect this. Also superfetation
 
   // Get the average developmentRatio of all fetuses
@@ -577,6 +582,33 @@ const calculateWombDamage = (womb: Womb) => {
   }
 
   return wombDamage;
+};
+
+// Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
+const gradualWombHealthIncreaser = (womb: Womb) => {
+  // Don't allow too large values
+  if (womb.hp > womb.maxHp) {
+    womb.hp = womb.maxHp;
+    return 0;
+  }
+
+  const hpRatio = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
+  if (hpRatio >= WombHealth.VERY_HEALTHY) {
+    return 5;
+  } else if (
+    hpRatio > WombHealth.VERY_HEALTHY &&
+    hpRatio >= WombHealth.HEALTHY
+  ) {
+    return 4;
+  } else if (hpRatio > WombHealth.HEALTHY && hpRatio >= WombHealth.MEDIOCRE) {
+    return 3;
+  } else if (hpRatio > WombHealth.MEDIOCRE && hpRatio >= WombHealth.POOR) {
+    return 2;
+  } else if (hpRatio > WombHealth.POOR && hpRatio >= WombHealth.VERY_POOR) {
+    return 1;
+  }
+
+  return 0.5;
 };
 
 // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
