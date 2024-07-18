@@ -555,6 +555,7 @@ const getMinimumNumOfFullTermFetusesAtBellyState = (bellyState: BellyState) => {
 };
 
 const calculateWombDamage = (womb: Womb) => {
+  if (!gIsWombDamageEnabled) return 0;
   // TODO - Consider having the weight affect this. Also superfetation
 
   // Get the average developmentRatio of all fetuses
