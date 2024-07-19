@@ -2,7 +2,9 @@ const updateWombExp = (womb: Womb) => {
   let expToAdd = 0;
   const wombLvl = getWombLvl(womb);
 
-  console.log(`womb exp limit: ${getWombExpLimit(wombLvl)}`);
+  console.log(
+    `womb exp limit: ${getWombExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
+  );
 
   // TODO - Revise this ass formula. It's very wack
   expToAdd += Math.clamp(
@@ -33,6 +35,7 @@ const updateWombExp = (womb: Womb) => {
 
     expToAdd -= timeSinceLastPregnancyInDays * getWombExpLimit(wombLvl) * 0.01;
   }
+  console.log(`expToAdd: ${expToAdd}`);
 
   return expToAdd;
 };

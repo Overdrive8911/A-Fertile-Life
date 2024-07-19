@@ -136,7 +136,7 @@ enum WombExpLimit {
   // LVL_16 = 1000000,
 
   LVL_MAX = LVL_15,
-  LVL_NOT_AVAILABLE = -999,
+  NOT_AVAILABLE = -999,
 }
 
 const gMinWombLevel = 1;

@@ -615,9 +615,9 @@ const gradualWombHealthIncreaser = (womb: Womb) => {
 const getWombLvl = (womb: Womb) => {
   // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
   let wombExpLimitArray = Object.values(WombExpLimit).filter(
-    (value) =>
-      typeof value == typeof WombExpLimit && (value as WombExpLimit) >= 0
-  ) as WombExpLimit[];
+    (value) => typeof value == "number" && (value as number) >= 0
+  ) as number[];
+  console.log(WombExpLimit);
 
   // Remove duplicates by converting to a Set and then back to an array
   wombExpLimitArray = [...new Set(wombExpLimitArray)];
@@ -634,7 +634,7 @@ const getWombLvl = (womb: Womb) => {
   }
 
   // For some reason, the lvl is unavailable
-  return WombExpLimit.LVL_NOT_AVAILABLE;
+  return WombExpLimit.NOT_AVAILABLE;
 };
 
 // Give it the level and it'll return the appropriate exp cap
@@ -642,7 +642,11 @@ const getWombExpLimit = (lvl: number) => {
   if (lvl < gMinWombLevel) lvl = gMinWombLevel;
   if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
 
-  const lvlMember = `LVL_${lvl}` as any;
+  if (lvl == gMaxWombLevel) {
+    return WombExpLimit.NOT_AVAILABLE;
+  }
+
+  const lvlMember = `LVL_${lvl + 1}` as any;
 
   // The members of WombExpLimit include LVL_1, LVL_2, LVL_3, etc
   return WombExpLimit[lvlMember] as unknown as WombExpLimit;
