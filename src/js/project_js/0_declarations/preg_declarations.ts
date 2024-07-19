@@ -490,10 +490,9 @@ enum BellyState {
       .amnioticFluidProduced
   ), // Week 36 till Week 40
   FULL_TERM = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Forty]
-      .amnioticFluidProduced
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height,
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].amnioticFluidProduced
   ), // Week 40. Should be around 10000
 
   FULL_TERM_TWINS = FULL_TERM * 2,
