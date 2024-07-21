@@ -242,9 +242,9 @@ const getStatForGestationalWeekInOverduePregnancy = (
       case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
         averageStatDiffInLastFourWeeksOfPregnancy +=
           gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex]
-            .amnioticFluidProduced -
+            .amnioticFluidVolume -
           gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex]
-            .amnioticFluidProduced;
+            .amnioticFluidVolume;
 
         break;
 
@@ -284,12 +284,59 @@ const getStatForGestationalWeekInOverduePregnancy = (
     case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
       return (
         gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX]
-          .amnioticFluidProduced + overdueStatDiffToAdd
+          .amnioticFluidVolume + overdueStatDiffToAdd
       );
 
     default:
       return 0;
   }
+};
+
+const getAccurateFetalStatForDevelopmentStage = (
+  devRatio: DevelopmentRatio,
+  stat: FetalGrowthStatsEnum
+) => {
+  let fetalStat = 0;
+
+  const gestationalWeek: GestationalWeek =
+    (devRatio / gMaxDevelopmentState) * gNumOfGestationalWeeks;
+
+  const gestationalWeekFloor: GestationalWeek = Math.floor(gestationalWeek);
+
+  // Need a better name for this
+  const extraWeekDuration = gestationalWeek - gestationalWeekFloor;
+
+  if (gestationalWeek < GestationalWeek.One) {
+    return 0;
+  } else if (
+    gestationalWeek < gNumOfGestationalWeeks &&
+    gestationalWeek + 1 < gNumOfGestationalWeeks
+  ) {
+    fetalStat =
+      gFetalGrowthOverGestationalWeeks[gestationalWeek][`${stat}`] +
+      (gFetalGrowthOverGestationalWeeks[
+        (gestationalWeek + 1) as GestationalWeek
+      ][`${stat}`] -
+        gFetalGrowthOverGestationalWeeks[gestationalWeek][`${stat}`] *
+          (gestationalWeek - gestationalWeekFloor));
+  } else if (
+    gestationalWeek <= gNumOfGestationalWeeks &&
+    gestationalWeek + 1 > gNumOfGestationalWeeks
+  ) {
+    fetalStat =
+      gFetalGrowthOverGestationalWeeks[gestationalWeek][`${stat}`] +
+      (getStatForGestationalWeekInOverduePregnancy(gestationalWeek + 1, stat) -
+        gFetalGrowthOverGestationalWeeks[gestationalWeek][`${stat}`] *
+          (gestationalWeek - gestationalWeekFloor));
+  } else {
+    fetalStat =
+      getStatForGestationalWeekInOverduePregnancy(gestationalWeek, stat) +
+      (getStatForGestationalWeekInOverduePregnancy(gestationalWeek + 1, stat) -
+        getStatForGestationalWeekInOverduePregnancy(gestationalWeek, stat) *
+          (gestationalWeek - gestationalWeekFloor));
+  }
+
+  return fetalStat;
 };
 
 // Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased
@@ -456,22 +503,20 @@ const getStatToAddAfterDevelopmentProgress = (
         oldGestWeek < gNumOfGestationalWeeks
       ) {
         oldStat =
-          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidProduced +
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidVolume +
           (gFetalGrowthOverGestationalWeeks[
             (oldGestWeek + 1) as GestationalWeek
-          ].amnioticFluidProduced -
-            gFetalGrowthOverGestationalWeeks[oldGestWeek]
-              .amnioticFluidProduced) *
+          ].amnioticFluidVolume -
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidVolume) *
             (oldGestWeekNoFloor - oldGestWeek);
       } else if (
         oldGestWeek <= gNumOfGestationalWeeks &&
         oldGestWeek + 1 > gNumOfGestationalWeeks
       ) {
         oldStat =
-          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidProduced +
+          gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidVolume +
           (getStatForGestationalWeekInOverduePregnancy(oldGestWeek + 1, stat) -
-            gFetalGrowthOverGestationalWeeks[oldGestWeek]
-              .amnioticFluidProduced) *
+            gFetalGrowthOverGestationalWeeks[oldGestWeek].amnioticFluidVolume) *
             (oldGestWeekNoFloor - oldGestWeek);
       } else {
         oldStat =
@@ -489,22 +534,20 @@ const getStatToAddAfterDevelopmentProgress = (
         newGestWeek < gNumOfGestationalWeeks
       ) {
         newStat =
-          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidProduced +
+          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidVolume +
           (gFetalGrowthOverGestationalWeeks[
             (newGestWeek + 1) as GestationalWeek
-          ].amnioticFluidProduced -
-            gFetalGrowthOverGestationalWeeks[newGestWeek]
-              .amnioticFluidProduced) *
+          ].amnioticFluidVolume -
+            gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidVolume) *
             (newGestWeekNoFloor - newGestWeek);
       } else if (
         newGestWeek <= gNumOfGestationalWeeks &&
         newGestWeek + 1 > gNumOfGestationalWeeks
       ) {
         newStat =
-          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidProduced +
+          gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidVolume +
           (getStatForGestationalWeekInOverduePregnancy(newGestWeek + 1, stat) -
-            gFetalGrowthOverGestationalWeeks[newGestWeek]
-              .amnioticFluidProduced) *
+            gFetalGrowthOverGestationalWeeks[newGestWeek].amnioticFluidVolume) *
             (newGestWeekNoFloor - newGestWeek);
       } else {
         newStat =

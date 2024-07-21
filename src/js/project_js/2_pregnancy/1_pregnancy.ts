@@ -18,7 +18,7 @@ $(document).on(":passagerender", (incomingPassage) => {
 });
 
 // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
-// REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidProduced by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
+// REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
 // TODO - Add side effects to womb health
 // NOTE - Calling this function within the number of hours denoted by `gHoursBetweenPregUpdate` can lead to inaccurate values
 const updatePregnancyGrowth = (targetWomb: Womb) => {
