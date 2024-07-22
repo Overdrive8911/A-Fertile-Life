@@ -18,8 +18,8 @@ const generateFetusId = (womb: Womb) => {
 const generateFetus = (id: number) => {
   // A value of 1 produces "normal" growth
   const growthRateValues = [
-    0.97, 0.97, 0.97, 0.975, 0.975, 1, 1, 1, 1, 1, 1.03, 1.03, 1.03, 1.035,
-    1.035,
+    0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1, 1, 1, 1, 1, 1.005, 1.01, 1.015,
+    1.02, 1.025, 1.03, 1.035,
   ];
 
   const gender = id << id % 16 ? "M" : "F";
@@ -36,7 +36,7 @@ const generateFetus = (id: number) => {
   const species = FetusSpecies.HUMAN;
 
   // Create the fetus object
-  let fetus = {
+  let fetus: FetusData = {
     id: id,
     gender: gender,
     growthRate: growthRate,
@@ -50,7 +50,7 @@ const generateFetus = (id: number) => {
     species: species,
   };
 
-  return fetus as FetusData;
+  return fetus;
 };
 
 const isPregnant = (womb: Womb) => {
