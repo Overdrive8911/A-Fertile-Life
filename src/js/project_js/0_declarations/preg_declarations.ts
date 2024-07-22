@@ -117,7 +117,6 @@ enum WombHealth {
   FULL_VITALITY = 100,
 }
 
-const gNumOfHoursInAWeek = 168; // 604800 seconds, 7 days
 const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
 
 const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
@@ -131,24 +130,6 @@ const gChanceOfNaturalOvaSplit = [
 // The chance that more than one sperm will find and successfully fertilize more than one egg
 const gChanceOfNaturalMultipleOvaFertilization = [0.1, 0.05, 0.03];
 
-// Man this thing is nearly useless
-enum PregnancyState {
-  NOT_PREGNANT = 1 << 0,
-  PREGNANT = 1 << 1,
-  READY_TO_DROP = 1 << 2,
-  OVERDUE = 1 << 3,
-
-  // The bitwise combinations
-  NOT_OVERDUE = NOT_PREGNANT | PREGNANT | READY_TO_DROP,
-}
-
-// The enums for the trimesters.
-enum Trimesters {
-  First,
-  Second,
-  Third,
-  Overdue,
-}
 // These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
 const gMinDevelopmentState = 0; // 0 Percent
 const gMaxDevelopmentState = 100; // 100 Percent
@@ -156,18 +137,9 @@ const gMaxDevelopmentState = 100; // 100 Percent
 // In most cases, birth can only happen when above this threshold
 const gMinBirthThreshold = 85; // 85 Percent
 
-// Since the trimesters are roughly 1/3 the length of a pregnancy
-
-const gFirstTrimesterState = 0.33 * gMaxDevelopmentState; // 33 i.e 0 to 33
-const gSecondTrimesterState =
-  0.34 * gMaxDevelopmentState + gFirstTrimesterState; // 67 i.e 33 to 67
-const gThirdTrimesterState =
-  0.33 * gMaxDevelopmentState + gSecondTrimesterState; // 100 i.e 67 to 100
-
 const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
 let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
-const gOverduePregnancyLength = Infinity; // Overdue pregnancies have an indefinite length
 
 // The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
 // Best leave it at small ratios and below 1
@@ -514,3 +486,7 @@ enum WombExpLimit {
 
 const gMinWombLevel = 1;
 const gMaxWombLevel = 15;
+
+const gExpPerSinglePregnancy = 1000; // Singleton, non-overdue, full-term pregnancies award this in total. However, 40% of it is only given during birth.
+const gExpPerSingleBirth = gExpPerSinglePregnancy * 0.4;
+const gExpPerSingleFetusGestation = gExpPerSinglePregnancy - gExpPerSingleBirth;
