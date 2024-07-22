@@ -38,6 +38,7 @@ const generateFetus = (id: number) => {
   // Create the fetus object
   let fetus: FetusData = {
     id: id,
+    hp: WombHealth.FULL_VITALITY,
     gender: gender,
     growthRate: growthRate,
     developmentRatio: developmentRatio,
