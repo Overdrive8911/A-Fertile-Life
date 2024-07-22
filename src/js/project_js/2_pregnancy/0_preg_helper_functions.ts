@@ -22,7 +22,13 @@ const generateFetus = (id: number) => {
     1.02, 1.025, 1.03, 1.035,
   ];
 
-  const gender = id << id % 16 ? "M" : "F";
+  // TODO - Do this better
+  let gender: Gender;
+  const randNum = random(id);
+  if (randNum < 0.05 * id) gender = "I";
+  else if (randNum >= 0.05 * id && randNum < 0.5 * id) gender = "F";
+  else gender = "M";
+
   const growthRate = growthRateValues[id % growthRateValues.length];
   const developmentRatio = gMinDevelopmentState;
   // Just trying to get an arbitrarily small number
