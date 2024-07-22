@@ -18,6 +18,7 @@ interface Womb {
   birthRecord: number;
   lastFertilized: Date;
   lastBirth: Date;
+  lastExpUpdate: Date;
   belongToPlayer: boolean;
   perks: {
     gestator: [currLevel: number, price: number, maxLevel: number];
@@ -422,8 +423,8 @@ const getWombVolumeFromFetusStats = (
   weight: number,
   fluidVolume: number
 ) => {
-  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml
-  return (weight + height * 0.75 + fluidVolume * 0.5) * (10 / 4);
+  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
+  return (weight + height * 0.75 + fluidVolume * 0.5) * (10 / 4) * 1.25;
 };
 
 // Contains the thresholds for different belly sizes.
