@@ -38,20 +38,6 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetFetus,
         targetWomb
       );
-      const pregDurationMod = getPregnancyLengthModifier(
-        targetFetus,
-        targetWomb
-      );
-
-      // Get the current trimester
-      const currTrimester = getCurrentTrimester(targetFetus);
-
-      // Get the total time needed to complete the current trimester
-      const trimesterGestationTime = getTrimesterDuration(
-        targetFetus,
-        currTrimester,
-        targetWomb
-      );
 
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
@@ -61,8 +47,6 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       // If, for some reason, time moves backwards, just exit the function (for now at least)
       // TODO - Add a way to reverse growth
       if (timeElapsedSinceLastPregUpdate < 0) return;
-
-      // NOTE - The growth progress in between the trimesters will be shared in a 3:5:4 ratio. Each trimester will have 1/3 of the total gestation duration for that particular growth
 
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
       let additionalDevelopmentProgress =
