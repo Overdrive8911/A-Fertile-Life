@@ -55,7 +55,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
 
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
-        currentTime.getTime() / 1000 -
+        variables().gameDateAndTime.getTime() / 1000 -
         targetFetus.lastPregUpdate.getTime() / 1000;
 
       // If, for some reason, time moves backwards, just exit the function (for now at least)
