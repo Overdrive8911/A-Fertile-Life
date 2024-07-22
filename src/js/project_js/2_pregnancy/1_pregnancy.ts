@@ -159,16 +159,19 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
 
-      // Apply womb damage
-      // console.log(`womb Damage: ${calculateWombDamage(targetWomb)}`);
-      targetWomb.hp -= calculateWombDamage(targetWomb);
-
-      // Increase the womb's exp
-      targetWomb.exp += updateWombExp(targetWomb);
+      // Adjust fetal hp
+      targetFetus.hp =
+        (targetWomb.hp / targetWomb.maxHp) * WombHealth.FULL_VITALITY;
 
       // Replace the data of the fetus with the updated one
       targetWomb.fetusData.set(i, targetFetus);
     }
+
+    // Apply womb damage
+    targetWomb.hp -= calculateWombDamage(targetWomb);
+
+    // Increase the womb's exp
+    targetWomb.exp += updateWombExp(targetWomb);
 
     // Update belly size during pregnancy
     updatePregnantBellySize(targetWomb);
