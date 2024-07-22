@@ -114,7 +114,9 @@ let saveVar_player: Player = {
     contraceptives: false,
     birthRecord: 0 /* Number of times the user has given birth */,
     lastFertilized: null /* The date when the womb was last impregnated */,
-    lastBirth: null /* The date of the last brith */,
+    lastBirth: null /* The date of the last birth */,
+    lastExpUpdate:
+      null /* The last time the exp update function was ran on this womb*/,
     perks: {
       /* If a perk's value is 0, it hasn't been enabled. Any number above 0 is its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
       /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
