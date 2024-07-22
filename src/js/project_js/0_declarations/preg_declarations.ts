@@ -51,6 +51,7 @@ type DevelopmentRatio = number;
 
 interface FetusData {
   id: number; // decides the gender, growthRate, weight, and height
+  hp: number; // scales with the womb's health. don't let it get to zero
   gender: string;
   dateOfConception: Date; // Just here :p
   lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
