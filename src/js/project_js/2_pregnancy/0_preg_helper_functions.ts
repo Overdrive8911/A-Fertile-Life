@@ -222,35 +222,11 @@ const getStatForGestationalWeekInOverduePregnancy = (
     const precedingGestationalWeekArrayIndex: GestationalWeek =
       GestationalWeek.MAX - (i + 1);
 
-    switch (stat) {
-      case FetalGrowthStatsEnum.WEIGHT:
-        averageStatDiffInLastFourWeeksOfPregnancy +=
-          gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex].weight -
-          gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex]
-            .weight;
-
-        break;
-
-      case FetalGrowthStatsEnum.HEIGHT:
-        averageStatDiffInLastFourWeeksOfPregnancy +=
-          gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex].height -
-          gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex]
-            .height;
-
-        break;
-
-      case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
-        averageStatDiffInLastFourWeeksOfPregnancy +=
-          gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex]
-            .amnioticFluidVolume -
-          gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex]
-            .amnioticFluidVolume;
-
-        break;
-
-      default:
-        break;
-    }
+    averageStatDiffInLastFourWeeksOfPregnancy +=
+      gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex][`${stat}`] -
+      gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex][
+        `${stat}`
+      ];
   }
   averageStatDiffInLastFourWeeksOfPregnancy /= numOfWeeksToGetAverageFor;
 
@@ -268,28 +244,10 @@ const getStatForGestationalWeekInOverduePregnancy = (
     overdueStatDiffToAdd + overdueStatDiffToAdd * 0.15
   );
 
-  switch (stat) {
-    case FetalGrowthStatsEnum.WEIGHT:
-      return (
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight +
-        overdueStatDiffToAdd
-      );
-
-    case FetalGrowthStatsEnum.HEIGHT:
-      return (
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height +
-        overdueStatDiffToAdd
-      );
-
-    case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
-      return (
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX]
-          .amnioticFluidVolume + overdueStatDiffToAdd
-      );
-
-    default:
-      return 0;
-  }
+  return (
+    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX][`${stat}`] +
+    overdueStatDiffToAdd
+  );
 };
 
 const getAccurateFetalStatForDevelopmentStage = (
@@ -317,8 +275,8 @@ const getAccurateFetalStatForDevelopmentStage = (
       (gFetalGrowthOverGestationalWeeks[
         (gestationalWeekFloor + 1) as GestationalWeek
       ][`${stat}`] -
-        gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`] *
-          (gestationalWeek - gestationalWeekFloor));
+        gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`]) *
+        extraWeekDuration;
   } else if (
     gestationalWeek <= gNumOfGestationalWeeks &&
     gestationalWeek + 1 > gNumOfGestationalWeeks
@@ -329,8 +287,8 @@ const getAccurateFetalStatForDevelopmentStage = (
         gestationalWeekFloor + 1,
         stat
       ) -
-        gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`] *
-          (gestationalWeek - gestationalWeekFloor));
+        gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`]) *
+        extraWeekDuration;
   } else {
     fetalStat =
       getStatForGestationalWeekInOverduePregnancy(gestationalWeekFloor, stat) +
@@ -341,9 +299,12 @@ const getAccurateFetalStatForDevelopmentStage = (
         getStatForGestationalWeekInOverduePregnancy(
           gestationalWeekFloor,
           stat
-        ) *
-          (gestationalWeekFloor - gestationalWeekFloor));
+        )) *
+        extraWeekDuration;
   }
+  console.log(
+    `devRatio: ${devRatio}, gestationalWeek: ${gestationalWeekFloor}, fetalStat: ${fetalStat}`
+  );
 
   return fetalStat;
 };
@@ -370,22 +331,7 @@ const getTotalOfFetalStats = (womb: Womb, stat: FetalGrowthStatsEnum) => {
   let sumOfFetalStats = 0;
 
   for (let i = 0; i < womb.fetusData.size; i++) {
-    switch (stat) {
-      case FetalGrowthStatsEnum.WEIGHT:
-        sumOfFetalStats += womb.fetusData.get(i).weight;
-        break;
-
-      case FetalGrowthStatsEnum.HEIGHT:
-        sumOfFetalStats += womb.fetusData.get(i).height;
-        break;
-
-      case FetalGrowthStatsEnum.AMNIOTIC_FLUID:
-        sumOfFetalStats += womb.fetusData.get(i).amnioticFluidVolume;
-        break;
-
-      default:
-        break;
-    }
+    sumOfFetalStats += womb.fetusData.get(i)[`${stat}`];
   }
 
   return sumOfFetalStats;
