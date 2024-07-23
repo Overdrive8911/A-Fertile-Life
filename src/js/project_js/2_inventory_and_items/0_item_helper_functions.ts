@@ -1,8 +1,8 @@
-const storeItem = (item: Item) => {
+const storeItem = (itemId: ItemIds) => {
   // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
   const inventoryItem: InventoryItem = {
-    itemId: item.itemId,
+    itemId: itemId,
     locationObtained: variables().player.locationData.location,
   };
 
@@ -16,6 +16,12 @@ const getItem = (itemId: ItemIds) => {
   // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just check the static copy in `gInGameItems`
 
   return gInGameItems[itemId];
+};
+
+const validateItemId = (itemId: ItemIds) => {
+  if (!gInGameItems[itemId]) return false;
+
+  return true;
 };
 
 const returnNoDuplicateArrayOfInventoryIds = () => {
