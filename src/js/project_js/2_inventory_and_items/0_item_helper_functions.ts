@@ -19,7 +19,7 @@ const getItem = (itemId: ItemIds) => {
 };
 
 const returnNoDuplicateArrayOfInventoryIds = () => {
-  let arr: number[] = [];
+  let arr: ItemIds[] = [];
 
   variables().player.inventory.forEach((value) => {
     arr.push(value.itemId);
