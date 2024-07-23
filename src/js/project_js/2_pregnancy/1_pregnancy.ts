@@ -11,13 +11,14 @@ $(document).on(":passagerender", (incomingPassage) => {
     const playerWomb = variables().player.womb;
 
     updatePregnancyGrowth(playerWomb);
+    gradualWombHealthIncreaser(playerWomb);
 
     if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
   }
 });
 
 // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
-// REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidProduced by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
+// REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
 // TODO - Add side effects to womb health
 // NOTE - Calling this function within the number of hours denoted by `gHoursBetweenPregUpdate` can lead to inaccurate values
 const updatePregnancyGrowth = (targetWomb: Womb) => {
@@ -37,31 +38,15 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
         targetFetus,
         targetWomb
       );
-      const pregDurationMod = getPregnancyLengthModifier(
-        targetFetus,
-        targetWomb
-      );
-
-      // Get the current trimester
-      const currTrimester = getCurrentTrimester(targetFetus);
-
-      // Get the total time needed to complete the current trimester
-      const trimesterGestationTime = getTrimesterDuration(
-        targetFetus,
-        currTrimester,
-        targetWomb
-      );
 
       // Get the time elapsed in seconds since the pregnancy was updated
       const timeElapsedSinceLastPregUpdate =
-        currentTime.getTime() / 1000 -
+        variables().gameDateAndTime.getTime() / 1000 -
         targetFetus.lastPregUpdate.getTime() / 1000;
 
       // If, for some reason, time moves backwards, just exit the function (for now at least)
       // TODO - Add a way to reverse growth
       if (timeElapsedSinceLastPregUpdate < 0) return;
-
-      // NOTE - The growth progress in between the trimesters will be shared in a 3:5:4 ratio. Each trimester will have 1/3 of the total gestation duration for that particular growth
 
       // SECTION - Determine how much to increase the `developmentRatio` of the fetus
       let additionalDevelopmentProgress =
@@ -97,10 +82,7 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       let heightDiff: number = null;
       let fluidDiff: number = null;
 
-      // TODO - Add little variations to newWeight and newHeight based off the fetus's id
-
       // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
-      // TODO - Allow height and weight changes to occur with passage transition (or day if that's too much work)
 
       // To remove repetition
       const getStatDiff = (stat: FetalGrowthStatsEnum) => {
@@ -177,12 +159,19 @@ const updatePregnancyGrowth = (targetWomb: Womb) => {
       }
       targetFetus.lastPregUpdate = variables().gameDateAndTime;
 
-      // Increase the womb's exp
-      targetWomb.exp += updateWombExp(targetWomb);
+      // Adjust fetal hp
+      targetFetus.hp =
+        (targetWomb.hp / targetWomb.maxHp) * WombHealth.FULL_VITALITY;
 
       // Replace the data of the fetus with the updated one
       targetWomb.fetusData.set(i, targetFetus);
     }
+
+    // Apply womb damage
+    targetWomb.hp -= calculateWombDamage(targetWomb);
+
+    // Increase the womb's exp
+    targetWomb.exp += updateWombExp(targetWomb);
 
     // Update belly size during pregnancy
     updatePregnantBellySize(targetWomb);
