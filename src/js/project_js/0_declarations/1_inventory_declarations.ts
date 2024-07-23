@@ -1,6 +1,6 @@
 // Will probably be extended to more specific types (especially those with dynamic data like ammunition)
 interface Item {
-  itemId: number; // Entry in `InventoryItemIds`. Also used to get the name of the items
+  itemId: number; // Entry in `ItemIds`. Also used to get the name of the items
   price: number; // For the player to obtain it. The selling price is 45% of this value :p
   weight: number; // In grams
   handler?: () => void; // A handler function called when the item is used. Unusable items don't need this
