@@ -1,6 +1,7 @@
 // Will probably be extended to more specific types (especially those with dynamic data like ammunition)
 interface Item {
   itemId: number; // Entry in `ItemIds`. Also used to get the name of the items
+  name: string;
   description: string; // Make it gud
   price: number; // For the player to obtain it. The selling price is 45% of this value :p
   weight: number; // In grams
