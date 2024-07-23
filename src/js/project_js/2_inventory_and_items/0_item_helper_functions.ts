@@ -28,7 +28,6 @@ const returnNoDuplicateArrayOfInventoryIds = () => {
   return [...new Set(arr)];
 };
 
-// Make a function to get the number of duplicates
 const getNumberOfItemDuplicates = (itemId: number) => {
   let arr: number[] = [];
 
