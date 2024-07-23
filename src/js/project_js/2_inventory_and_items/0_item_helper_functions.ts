@@ -17,3 +17,24 @@ const getItem = (itemId: ItemIds) => {
 
   return gInGameItems[itemId];
 };
+
+const returnNoDuplicateArrayOfInventoryIds = () => {
+  let arr: number[] = [];
+
+  variables().player.inventory.forEach((value) => {
+    arr.push(value.itemId);
+  });
+
+  return [...new Set(arr)];
+};
+
+// Make a function to get the number of duplicates
+const getNumberOfItemDuplicates = (itemId: number) => {
+  let arr: number[] = [];
+
+  variables().player.inventory.forEach((value) => {
+    arr.push(value.itemId);
+  });
+
+  return arr.count(itemId);
+};
