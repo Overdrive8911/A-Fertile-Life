@@ -398,7 +398,7 @@ const getWombVolumeFromFetusStats = (
   fluidVolume: number
 ) => {
   // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
-  return (weight + height * 0.75 + fluidVolume * 0.5) * (10 / 4) * 1.25;
+  return (weight + height + fluidVolume * 0.4) * (10 / 4);
 };
 
 // Contains the thresholds for different belly sizes.
