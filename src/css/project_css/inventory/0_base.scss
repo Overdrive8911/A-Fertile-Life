@@ -1,0 +1,18 @@
+.inventory-dialog {
+  max-width: 50vw;
+}
+
+.inventory-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.inventory-row .inventory-item {
+  width: 80px;
+  height: 80px;
+
+  border: 1px black solid;
+}
