@@ -42,7 +42,7 @@ type Player = {
   makeup: string;
   nails: string;
 
-  inventory: Map<number /* itemId */, {} /* item */>;
+  inventory: Inventory;
 
   mentalStats: {
     mood: number;
