@@ -56,7 +56,7 @@ type Player = {
   energy: number;
   maxEnergy: number;
 
-  womb?: {};
+  womb?: {}; // No use on this branch
 
   breasts: {
     individualSize: number;
