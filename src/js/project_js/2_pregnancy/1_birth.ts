@@ -5,6 +5,18 @@ const triggerBirth = (womb: Womb) => {
     // Deal with superfetation
   } else {
     // Handle postpartum, birth scenes, etc
+
+    // Give exp
+    let expToAdd = 0;
+    for (let i = 0; i < womb.fetusData.size; i++) {
+      const fetus = womb.fetusData.get(i);
+
+      // Longer gestating babies take longer
+      expToAdd +=
+        (fetus.developmentRatio / gMaxDevelopmentState) * gExpPerSingleBirth;
+    }
+    womb.exp += expToAdd;
+
     // Just clear out the womb
     womb.fetusData.clear;
     womb.lastBirth = variables().gameDateAndTime;
