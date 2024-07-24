@@ -1,6 +1,31 @@
 .inventory-dialog {
   max-width: 50vw;
   max-height: 70vh;
+
+  --inventory-border: 2px var(--ui-image-border-color) solid;
+  --inventory-image-size: 64px;
+  --inventory-curved-border-radius: 10px;
+}
+
+.inventory-tabs {
+  display: flex;
+
+  overflow-x: auto;
+
+  & > button {
+    border-top: var(--inventory-border);
+    border-bottom: var(--inventory-border);
+
+    &:first-child {
+      border-left: var(--inventory-border);
+      border-top-left-radius: var(--inventory-curved-border-radius);
+    }
+
+    &:last-child {
+      border-right: var(--inventory-border);
+      border-top-right-radius: var(--inventory-curved-border-radius);
+    }
+  }
 }
 
 .inventory-row {
@@ -10,8 +35,11 @@
   gap: 0.75rem;
   justify-content: center;
 
-  --inventory-border: 2px var(--ui-image-border-color) solid;
-  --inventory-image-size: 64px;
+  border: var(--inventory-border);
+  border-bottom-left-radius: var(--inventory-curved-border-radius);
+  border-bottom-right-radius: var(--inventory-curved-border-radius);
+
+  padding: 0.5rem;
 }
 
 .inventory-item {
@@ -72,14 +100,14 @@
   display: none;
 
   position: absolute;
-  top: calc(var(--inventory-image-size) * 2);
+  top: calc(var(--inventory-image-size) * 3);
 
   width: fit-content;
 
   background-color: black;
 
   border: 1px var(--ui-image-border-color) solid;
-  border-radius: 10px;
+  border-radius: var(--inventory-curved-border-radius);
 
   padding: 0 0.5rem;
 

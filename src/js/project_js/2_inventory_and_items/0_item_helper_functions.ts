@@ -62,7 +62,7 @@ const returnNoDuplicateArrayOfInventoryIds = () => {
   return [...new Set(arr)];
 };
 
-const getNumberOfItemDuplicates = (itemId: number) => {
+const getNumberOfItemDuplicates = (itemId: ItemId) => {
   let arr: number[] = [];
 
   variables().player.inventory.forEach((value) => {
@@ -70,4 +70,18 @@ const getNumberOfItemDuplicates = (itemId: number) => {
   });
 
   return arr.count(itemId);
+};
+
+const doesItemHaveTag = (itemId: ItemId, tag: ItemTag) => {
+  const itemTags = getItem(itemId).tags;
+
+  if (
+    itemTags.find((value) => {
+      return value == tag;
+    })
+  ) {
+    return true;
+  }
+
+  return false;
 };
