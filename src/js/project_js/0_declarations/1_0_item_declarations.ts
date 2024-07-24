@@ -15,6 +15,15 @@ enum ItemId {
   DRUG_FERTILITY_BOOST_3,
 }
 
+enum ItemTag {
+  DUMMY,
+  FOOD,
+  CLOTHING,
+  MISCELLANEOUS,
+  DRUG,
+  PLAYER,
+}
+
 // This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC
 const gInGameItems: { [key in ItemId]?: Item } = {
   [ItemId.DUMMY]: {
@@ -25,6 +34,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     weight: 0,
     description: "Dummy",
     imageUrl: "assets/img/items/dummy.webp",
+    tags: [ItemTag.DUMMY],
     handler: function () {},
   },
   [ItemId.FOOD_CHEESE]: {
@@ -35,5 +45,6 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     weight: 30,
     description: `A piece of soft yellow divine goodness from heaven.`,
     imageUrl: "assets/img/items/cheese.webp",
+    tags: [ItemTag.FOOD],
   },
 };
