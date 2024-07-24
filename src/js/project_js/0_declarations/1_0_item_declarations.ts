@@ -29,7 +29,6 @@ enum ItemTag {
 const gInGameItems: { [key in ItemId]?: Item } = {
   [ItemId.DUMMY]: {
     itemId: ItemId.DUMMY,
-    itemIdString: "DUMMY",
     name: "Dummy",
     price: 0,
     weight: 0,
@@ -40,7 +39,6 @@ const gInGameItems: { [key in ItemId]?: Item } = {
   },
   [ItemId.FOOD_CHEESE]: {
     itemId: ItemId.FOOD_CHEESE,
-    itemIdString: "FOOD_CHEESE",
     name: "Cheese",
     price: 100,
     weight: 30,
@@ -50,7 +48,6 @@ const gInGameItems: { [key in ItemId]?: Item } = {
   },
   [ItemId.FOOD_MOULDY_CHEESE]: {
     itemId: ItemId.FOOD_MOULDY_CHEESE,
-    itemIdString: "FOOD_MOULDY_CHEESE",
     name: "Mouldy Cheese",
     price: 10000,
     weight: 35,

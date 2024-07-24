@@ -39,15 +39,15 @@ const validateItemId = (itemId: ItemId) => {
 };
 
 const getItemIdFromStringId = (itemIdString: string) => {
-  for (const i in gInGameItems) {
-    if (Object.prototype.hasOwnProperty.call(gInGameItems, i)) {
-      const item = gInGameItems[i as unknown as ItemId];
+  const itemIdStrings = Object.values(ItemId).filter((value) => {
+    return typeof value == "string";
+  }) as string[];
 
-      if (item.itemIdString == itemIdString) {
-        return item.itemId;
-      }
-    }
-  }
+  const itemId = itemIdStrings.findIndex((value) => {
+    return itemIdString == value;
+  });
+
+  if (itemId > ItemId.DUMMY) return itemId;
 
   return ItemId.DUMMY;
 };

@@ -7,7 +7,7 @@ sugarcube-2:
 
         <<giveItem "FOOD_CHEESE" 7>> adds 7 cheese to the player's inventory
 
-        Items can be found in `gInGameItems` and `ItemId`. Use the `itemIdString`
+        Items can be found in `gInGameItems` and `ItemId`
       parameters:
         - text |+ number
     deleteItem:
@@ -17,6 +17,6 @@ sugarcube-2:
 
         <<deleteItem "FOOD_CHEESE" 7>> removes 7 cheese from the player's inventory
 
-        Items can be found in `gInGameItems` and `ItemId`. Use the `itemIdString`
+        Items can be found in `gInGameItems` and `ItemId`
       parameters:
         - text |+ number
