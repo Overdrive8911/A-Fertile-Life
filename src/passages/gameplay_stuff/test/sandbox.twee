@@ -7,16 +7,13 @@
     It's time to get down to business, so go on and manipulate this new world to how you see fit!
 </p>
 
+<<textbox "$addToInventory" "FOOD_CHEESE">>
 <p>
-    <<link "Add Cheese To Inventory">>
-        <<giveItem "FOOD_CHEESE">>
-    <</link>>
+    <<link "Add the Item above to Inventory (Click 'Enter' before this link)">><<giveItem $addToInventory>><</link>>
 </p>
 
 <p>
-    <<link "Add 5 Cheese To Inventory">>
-        <<giveItem "FOOD_CHEESE" 5>>
-    <</link>>
+    <<link "Add the 5 of them">><<giveItem $addToInventory 5>><</link>>
 </p>
 
 <p>
