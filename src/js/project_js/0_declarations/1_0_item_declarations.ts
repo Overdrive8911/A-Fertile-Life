@@ -17,6 +17,7 @@ enum ItemId {
 
 enum ItemTag {
   DUMMY,
+  KEY_ITEM,
   FOOD,
   CLOTHING,
   MISCELLANEOUS,
