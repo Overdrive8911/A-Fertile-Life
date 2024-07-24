@@ -2,8 +2,8 @@ enum ItemId {
   DUMMY,
 
   // Food
-  FOOD_CHEAP_CHEESE,
   FOOD_CHEESE,
+  FOOD_MOULDY_CHEESE,
 
   // Player House
   PLAYER_HOUSE_KEY,
@@ -33,7 +33,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     name: "Cheese",
     price: 100,
     weight: 30,
-    description: `A piece of soft yellow goodness from heaven.`,
+    description: `A piece of soft yellow divine goodness from heaven.`,
     imageUrl: "assets/img/items/cheese.webp",
   },
 };
