@@ -2,7 +2,7 @@
 Macro.add("giveItem", {
   handler: function () {
     const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-    const itemId: ItemIds = getItemIdFromStringId(itemIdString);
+    const itemId: ItemId = getItemIdFromStringId(itemIdString);
     let amount: number = this.args[1];
 
     if (!validateItemId(itemId)) {
@@ -21,7 +21,7 @@ Macro.add("giveItem", {
 Macro.add("deleteItem", {
   handler: function () {
     const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-    const itemId: ItemIds = getItemIdFromStringId(itemIdString);
+    const itemId: ItemId = getItemIdFromStringId(itemIdString);
     let amount: number = this.args[1];
 
     if (!validateItemId(itemId)) {
