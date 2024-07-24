@@ -69,7 +69,7 @@ setup.initializePlayerVariables = () => {
     nails: "normal",
 
     /* Inventory */
-    /* This will contain itemIds in an array */
+    /* This will contain ItemId in an array */
     inventory: new Map(),
 
     /* Mental Stats */

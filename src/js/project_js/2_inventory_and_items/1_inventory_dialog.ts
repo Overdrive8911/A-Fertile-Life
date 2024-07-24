@@ -1,7 +1,7 @@
 setup.openInventoryDialog = () => {
   let inventoryRow = $('<div class="inventory-row"></div>');
 
-  // let arr: ItemIds[] = [];
+  // let arr: ItemId[] = [];
 
   // variables().player.inventory.forEach((value) => {
   //   arr.push(value.itemId);
@@ -35,7 +35,7 @@ setup.openInventoryDialog = () => {
             <p>
               <i>${itemDescription}</i>
             </p>
-            
+
             <p>
                 Selling Price = <span class="playerStatNeutral">${itemSellingPrice}</span>
                 <br>

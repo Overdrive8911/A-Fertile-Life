@@ -1,4 +1,4 @@
-const storeItem = (itemId: ItemIds) => {
+const storeItem = (itemId: ItemId) => {
   // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
   const inventoryItem: InventoryItem = {
@@ -13,7 +13,7 @@ const storeItem = (itemId: ItemIds) => {
 };
 
 // Deletes the inventory item object from the player's inventory (multiple times if `amount` is specified)
-const removeItem = (itemId: ItemIds, amount?: number) => {
+const removeItem = (itemId: ItemId, amount?: number) => {
   if (amount === undefined) amount = 1;
 
   while (amount > 0) {
@@ -26,13 +26,13 @@ const removeItem = (itemId: ItemIds, amount?: number) => {
   }
 };
 
-const getItem = (itemId: ItemIds) => {
+const getItem = (itemId: ItemId) => {
   // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just check the static copy in `gInGameItems`
 
   return gInGameItems[itemId];
 };
 
-const validateItemId = (itemId: ItemIds) => {
+const validateItemId = (itemId: ItemId) => {
   if (!gInGameItems[itemId]) return false;
 
   return true;
@@ -41,7 +41,7 @@ const validateItemId = (itemId: ItemIds) => {
 const getItemIdFromStringId = (itemIdString: string) => {
   for (const i in gInGameItems) {
     if (Object.prototype.hasOwnProperty.call(gInGameItems, i)) {
-      const item = gInGameItems[i as unknown as ItemIds];
+      const item = gInGameItems[i as unknown as ItemId];
 
       if (item.itemIdString == itemIdString) {
         return item.itemId;
@@ -49,11 +49,11 @@ const getItemIdFromStringId = (itemIdString: string) => {
     }
   }
 
-  return ItemIds.DUMMY;
+  return ItemId.DUMMY;
 };
 
 const returnNoDuplicateArrayOfInventoryIds = () => {
-  let arr: ItemIds[] = [];
+  let arr: ItemId[] = [];
 
   variables().player.inventory.forEach((value) => {
     arr.push(value.itemId);
