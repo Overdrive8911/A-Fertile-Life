@@ -1,4 +1,4 @@
-enum ItemIds {
+enum ItemId {
   DUMMY,
 
   // Food
@@ -16,9 +16,9 @@ enum ItemIds {
 }
 
 // This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC
-const gInGameItems: { [key in ItemIds]?: Item } = {
-  [ItemIds.DUMMY]: {
-    itemId: ItemIds.DUMMY,
+const gInGameItems: { [key in ItemId]?: Item } = {
+  [ItemId.DUMMY]: {
+    itemId: ItemId.DUMMY,
     itemIdString: "DUMMY",
     name: "Dummy",
     price: 0,
@@ -27,8 +27,8 @@ const gInGameItems: { [key in ItemIds]?: Item } = {
     imageUrl: "assets/img/items/dummy.webp",
     handler: function () {},
   },
-  [ItemIds.FOOD_CHEESE]: {
-    itemId: ItemIds.FOOD_CHEESE,
+  [ItemId.FOOD_CHEESE]: {
+    itemId: ItemId.FOOD_CHEESE,
     itemIdString: "FOOD_CHEESE",
     name: "Cheese",
     price: 100,
