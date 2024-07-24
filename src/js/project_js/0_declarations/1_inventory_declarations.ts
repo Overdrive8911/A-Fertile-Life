@@ -9,7 +9,7 @@ interface Item {
   price: number; // For the player to obtain it. The selling price is 45% of this value :p
   weight: number; // In grams
   tags?: ItemTag[]; // For sorting items
-  handler?: () => void; // A handler function called when the item is used. Unusable items don't need this
+  handler?: (arg: any[]) => void; // A handler function called when the item is used. Unusable items don't need this
 }
 
 // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
