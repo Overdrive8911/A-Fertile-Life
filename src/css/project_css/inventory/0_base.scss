@@ -8,6 +8,8 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
+
+  --inventory-border: 2px var(--ui-image-border-color) solid;
 }
 
 .inventory-item {
@@ -16,7 +18,7 @@
   width: fit-content;
   height: fit-content;
 
-  border: 1px black solid;
+  border: var(--inventory-border);
 
   display: flex;
   flex-direction: column;
@@ -29,6 +31,8 @@
   text-wrap: nowrap;
 
   font-weight: bold;
+
+  border-bottom: var(--inventory-border);
 }
 
 .inventory-item-image {
@@ -47,4 +51,6 @@
 .inventory-item-footer {
   display: flex;
   flex-direction: row-reverse;
+
+  border-top: var(--inventory-border);
 }
