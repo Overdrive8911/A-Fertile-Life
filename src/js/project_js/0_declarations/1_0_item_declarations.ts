@@ -20,10 +20,11 @@ const gInGameItems: { [key in ItemIds]?: Item } = {
   [ItemIds.DUMMY]: {
     itemId: ItemIds.DUMMY,
     itemIdString: "DUMMY",
-    name: "",
+    name: "Dummy",
     price: 0,
     weight: 0,
-    description: "",
+    description: "Dummy",
+    imageUrl: "assets/img/items/dummy.webp",
     handler: function () {},
   },
   [ItemIds.FOOD_CHEESE]: {
@@ -33,5 +34,6 @@ const gInGameItems: { [key in ItemIds]?: Item } = {
     price: 100,
     weight: 30,
     description: `A piece of soft yellow goodness from heaven.`,
+    imageUrl: "assets/img/items/cheese.webp",
   },
 };
