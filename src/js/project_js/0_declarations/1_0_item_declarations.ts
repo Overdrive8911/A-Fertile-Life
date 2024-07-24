@@ -17,11 +17,11 @@ enum ItemId {
 
 enum ItemTag {
   DUMMY,
-  KEY_ITEM,
+  KEY_ITEMS,
   FOOD,
   CLOTHING,
   MISCELLANEOUS,
-  DRUG,
+  DRUGS,
   PLAYER,
 }
 
@@ -54,7 +54,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     name: "Mouldy Cheese",
     price: 10000,
     weight: 35,
-    description: `An antiquated piece of "food" that should've been discarded for far too long.`,
+    description: `An antiquated piece of "food" that should've been discarded long ago.`,
     imageUrl: "assets/img/items/mouldy_cheese.webp",
     tags: [ItemTag.FOOD],
   },
