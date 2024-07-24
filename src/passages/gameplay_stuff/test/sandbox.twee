@@ -9,17 +9,13 @@
 
 <p>
     <<link "Add Cheese To Inventory">>
-        <<script>>
-            const inventoryItem = {
-                itemId: "cheese",
-                locationObtained: variables().player.locationData.location,
-            };
+        <<giveItem "FOOD_CHEESE">>
+    <</link>>
+</p>
 
-            variables().player.inventory.set(
-                variables().player.inventory.size,
-                inventoryItem
-            );
-        <</script>>
+<p>
+    <<link "Add 5 Cheese To Inventory">>
+        <<giveItem "FOOD_CHEESE" 5>>
     <</link>>
 </p>
 
