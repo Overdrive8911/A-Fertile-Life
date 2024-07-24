@@ -1,7 +1,9 @@
 // Will probably be extended to more specific types (especially those with dynamic data like ammunition)
+// Default to ItemIds.DUMMY if any required member is unavailable
 interface Item {
   itemId: number; // Entry in `ItemIds`. Also used to get the name of the items
   itemIdString: string; // The entry in `ItemIds` but as a string. e.g "DUMMY" instead of ItemIds.DUMMY. It's what the macro for twee files uses to get an item's actual id
+  imageUrl: string; // The relative url to its image file in relations to the compiled html file
   name: string;
   description: string; // Make it gud
   price: number; // For the player to obtain it. The selling price is 45% of this value :p
