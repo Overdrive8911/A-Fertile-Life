@@ -1,11 +1,31 @@
 setup.openInventoryDialog = () => {
   let inventoryRow = $('<div class="inventory-row"></div>');
 
-  for (let i = 0; i < variables().player.inventory.size; i++) {
-    const item = variables().player.inventory.get(i);
+  // let arr: ItemIds[] = [];
+
+  // variables().player.inventory.forEach((value) => {
+  //   arr.push(value.itemId);
+  // });
+
+  const noDupeItemArr = returnNoDuplicateArrayOfInventoryIds();
+  for (let i = 0; i < noDupeItemArr.length; i++) {
+    const itemId = noDupeItemArr[i];
+    const numOfDuplicates = getNumberOfItemDuplicates(itemId);
+    const nameOfItem = getItem(itemId).name;
+    const itemImageUrl = getItem(itemId).imageUrl;
 
     // Append the name, amount and image of the item
-    inventoryRow.append(`<div class="inventory-item">CHEESE</div>`);
+    inventoryRow.append(
+      `<div class="inventory-item">
+        <div class="inventory-item-name">${nameOfItem}</div>
+
+        <div class="inventory-item-image pixel-art">
+          <img src=${itemImageUrl}>
+        </div>
+
+        <div class="inventory-item-footer">x${numOfDuplicates}</div>
+      </div>`
+    );
   }
 
   Dialog.setup("Inventory", "inventory-dialog");

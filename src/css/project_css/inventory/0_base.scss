@@ -10,9 +10,41 @@
   justify-content: center;
 }
 
-.inventory-row .inventory-item {
-  width: 80px;
-  height: 80px;
+.inventory-item {
+  // width: 112px;
+  // height: 112px;
+  width: fit-content;
+  height: fit-content;
 
   border: 1px black solid;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+}
+
+.inventory-item-name {
+  text-align: center;
+  text-wrap: nowrap;
+
+  font-weight: bold;
+}
+
+.inventory-item-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-grow: 2;
+
+  & img {
+    width: 64px;
+    height: auto;
+  }
+}
+
+.inventory-item-footer {
+  display: flex;
+  flex-direction: row-reverse;
 }
