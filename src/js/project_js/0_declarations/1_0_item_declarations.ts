@@ -19,6 +19,7 @@ enum ItemIds {
 const gInGameItems: { [key in ItemIds]?: Item } = {
   [ItemIds.DUMMY]: {
     itemId: ItemIds.DUMMY,
+    itemIdString: "DUMMY",
     name: "",
     price: 0,
     weight: 0,
@@ -27,6 +28,7 @@ const gInGameItems: { [key in ItemIds]?: Item } = {
   },
   [ItemIds.FOOD_CHEESE]: {
     itemId: ItemIds.FOOD_CHEESE,
+    itemIdString: "FOOD_CHEESE",
     name: "Cheese",
     price: 100,
     weight: 30,
