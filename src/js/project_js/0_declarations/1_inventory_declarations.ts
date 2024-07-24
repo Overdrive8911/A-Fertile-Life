@@ -8,6 +8,7 @@ interface Item {
   description: string; // Make it gud
   price: number; // For the player to obtain it. The selling price is 45% of this value :p
   weight: number; // In grams
+  tags?: ItemTag[]; // For sorting items
   handler?: () => void; // A handler function called when the item is used. Unusable items don't need this
 }
 
