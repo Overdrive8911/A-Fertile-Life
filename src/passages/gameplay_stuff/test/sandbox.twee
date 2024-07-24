@@ -9,12 +9,23 @@
 
 <<textbox "$addToInventory" "FOOD_CHEESE">>
 <p>
-    <<link "Add the Item above to Inventory (Click 'Enter' before this link)">><<giveItem $addToInventory>><</link>>
+    <<link "Add the Item above to Inventory (Click 'Enter' before this link)">>
+        <<giveItem $addToInventory>>
+    <</link>>
+    <br>
+    <<link "Add 5 of them">><<giveItem $addToInventory 5>><</link>>
 </p>
 
+<<textbox "$removeFromInventory" "FOOD_CHEESE">>
 <p>
-    <<link "Add the 5 of them">><<giveItem $addToInventory 5>><</link>>
+    <<link "Remove the Item above to Inventory (Click 'Enter' before this link)">>
+        <<deleteItem $removeFromInventory>>
+    <</link>>
+    <br>
+    <<link "Remove 5 of them">><<deleteItem $removeFromInventory 5>><</link>>
 </p>
+
+
 
 <p>
     <<link "Open Inventory Dialog">>
