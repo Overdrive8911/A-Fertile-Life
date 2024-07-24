@@ -17,13 +17,13 @@ setup.openInventoryDialog = () => {
     // Append the name, amount and image of the item
     inventoryRow.append(
       `<div class="inventory-item">
-        <div class="inventory-item-name">${nameOfItem}</div>
+        <div class="inventory-item-name">&nbsp${nameOfItem}&nbsp</div>
 
         <div class="inventory-item-image pixel-art">
           <img src=${itemImageUrl}>
         </div>
 
-        <div class="inventory-item-footer">x${numOfDuplicates}</div>
+        <div class="inventory-item-footer">x${numOfDuplicates}&nbsp</div>
       </div>`
     );
   }
