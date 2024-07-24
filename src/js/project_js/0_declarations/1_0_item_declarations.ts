@@ -17,6 +17,7 @@ enum ItemId {
 
 enum ItemTag {
   DUMMY,
+  ALL, // Don't give this tag to anything. It applies to every item already
   KEY_ITEMS,
   FOOD,
   CLOTHING,
