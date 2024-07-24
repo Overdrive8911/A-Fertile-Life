@@ -2,7 +2,6 @@
 // Default to ItemId.DUMMY if any required member is unavailable
 interface Item {
   itemId: number; // Entry in `ItemId`. Also used to get the name of the items
-  itemIdString: string; // The entry in `ItemId` but as a string. e.g "DUMMY" instead of ItemId.DUMMY. It's what the macro for twee files uses to get an item's actual id
   imageUrl: string; // The relative url to its image file in relations to the compiled html file
   name: string;
   description: string; // Make it gud
