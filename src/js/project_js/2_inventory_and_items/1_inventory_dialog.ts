@@ -1,3 +1,9 @@
+$(window).on("resize", () => {
+  // Run this on resizing too
+  console.log("run");
+  inventoryTabsHandler();
+});
+
 setup.openInventoryDialog = () => {
   // For stuff like All, Food, Key Items, Drugs, etc
   let inventoryTabs = $('<div class="inventory-tabs"></div>');
@@ -41,6 +47,9 @@ setup.openInventoryDialog = () => {
   Dialog.setup("Inventory", "inventory-dialog");
   Dialog.append(inventoryTabs).append(inventoryRow);
   Dialog.open();
+
+  // Make the tabs as long as the rows
+  inventoryTabsHandler();
 
   // Add the mouseover event to the items. This ensures it happens on the first time the dialog is opened
   inventoryTooltipHandler();
@@ -199,4 +208,19 @@ function inventoryTooltipHandler() {
       });
     }
   });
+}
+
+// Deal with the inventory tabs (basically making them as long as inventory-row is)
+function inventoryTabsHandler() {
+  const inventoryTabsContainer = $(`.inventory-tabs`);
+
+  const inventoryRowContainer = $(`.inventory-row`);
+
+  // Set the width of the tabs to that of the inventory row (including the latter's padding)
+  inventoryTabsContainer.width(
+    inventoryRowContainer.width() +
+      parseInt(inventoryRowContainer.css("padding-left")) +
+      parseInt(inventoryRowContainer.css("padding-right")) +
+      4
+  );
 }
