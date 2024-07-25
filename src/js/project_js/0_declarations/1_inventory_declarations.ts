@@ -22,7 +22,3 @@ interface InventoryItem {
 type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
 
 type Inventory = Map<SortingId, InventoryItem>;
-
-enum InventoryItemProperties {
-  PRICE_CANNOT_BE_BOUGHT = -1,
-}
