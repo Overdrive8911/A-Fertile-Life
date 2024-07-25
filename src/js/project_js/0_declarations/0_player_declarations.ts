@@ -42,7 +42,7 @@ type Player = {
   makeup: string;
   nails: string;
 
-  inventory: Inventory;
+  inventory: Map<number /* itemId */, InventoryItem>;
 
   mentalStats: {
     mood: number;
@@ -56,7 +56,7 @@ type Player = {
   energy: number;
   maxEnergy: number;
 
-  womb?: {}; // No use on this branch
+  womb: Womb;
 
   breasts: {
     individualSize: number;
