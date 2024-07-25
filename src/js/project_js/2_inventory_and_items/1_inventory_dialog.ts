@@ -200,7 +200,7 @@ function inventoryTooltipHandler() {
     // Make sure that the tool tip doesn't cut out of the view port. Instead, shift it above the image
     const tooltipContainerBottom =
       tooltipContainer.offset().top + tooltipContainer.height();
-    const viewportBottom = $(document).height();
+    const viewportBottom = $(window).height();
 
     if (tooltipContainerBottom > viewportBottom) {
       tooltipContainer.offset({
