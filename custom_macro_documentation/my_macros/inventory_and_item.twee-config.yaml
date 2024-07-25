@@ -1,0 +1,22 @@
+sugarcube-2:
+  macros:
+    giveItem:
+      name: giveItem
+      description: |-
+        <<giveItem "FOOD_CHEESE">> adds 1 cheese to the player's inventory
+
+        <<giveItem "FOOD_CHEESE" 7>> adds 7 cheese to the player's inventory
+
+        Items can be found in `gInGameItems` and `ItemId`
+      parameters:
+        - text |+ number
+    deleteItem:
+      name: deleteItem
+      description: |-
+        <<deleteItem "FOOD_CHEESE">> removes 1 cheese from the player's inventory
+
+        <<deleteItem "FOOD_CHEESE" 7>> removes 7 cheese from the player's inventory
+
+        Items can be found in `gInGameItems` and `ItemId`
+      parameters:
+        - text |+ number
