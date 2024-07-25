@@ -169,68 +169,33 @@ function getSortingValueFromSelectedBtn(button: JQuery<HTMLElement>): ItemTag {
 // Deal with the inventory tooltip and its quirks
 function inventoryTooltipHandler() {
   $(".inventory-item-image").on("mouseover", () => {
-    let isToolTipOverflowingOutOfDialogContainer = false;
-
-    const dialogContainer = $("#ui-dialog-body.inventory-dialog");
     let tooltipContainer: JQuery<HTMLElement>;
-    // console.log(":p");
+    let inventoryImageContainer: JQuery<HTMLElement>;
 
     for (let i of $(".inventory-tooltip")) {
       if ($(i).css("display") != "none") {
         // The active tooltip
         tooltipContainer = $(i);
+
+        // The image container that is the parent to the active tooltip
+        inventoryImageContainer = tooltipContainer.parent();
       }
     }
-    // console.log(
-    //   `dialogContainer top offset: ${
-    //     dialogContainer.offset().top
-    //   }, tooltip container top offset: ${tooltipContainer.offset().top}`
-    // );
 
-    const tooltipContainerBot =
+    const inventoryImageContainerBottom =
+      inventoryImageContainer.offset().top + inventoryImageContainer.height();
+
+    // Ensure that the tooltip container stays right beneath the inventory item's image
+    tooltipContainer.offset({ top: inventoryImageContainerBottom });
+
+    // Make sure that the tool tip doesn't cut out of the view port. Instead, shift it above the image
+    const tooltipContainerBottom =
       tooltipContainer.offset().top + tooltipContainer.height();
-    const dialogContainerBot =
-      dialogContainer.offset().top + dialogContainer.height();
+    const viewportBottom = $(document).height();
 
-    const tooltipContainerRight =
-      tooltipContainer.offset().left + tooltipContainer.width();
-    const dialogContainerRight =
-      dialogContainer.offset().left + dialogContainer.width();
-
-    // Check whether the tooltip is overflowing and push the tooltip away if so
-    // Check the bottom
-    if (tooltipContainerBot > dialogContainerBot) {
-      console.log(
-        `tooltip: ${
-          tooltipContainer.offset().top + tooltipContainer.height()
-        }, dialog: ${dialogContainer.offset().top + dialogContainer.height()}`
-      );
+    if (tooltipContainerBottom > viewportBottom) {
       tooltipContainer.offset({
-        top:
-          tooltipContainer.offset().top -
-          (tooltipContainerBot - dialogContainerBot) +
-          30,
-      });
-    } else {
-      // Clear the css added
-      tooltipContainer.css("top", "");
-    }
-
-    // Check the left
-    if (tooltipContainer.offset().left < dialogContainer.offset().left) {
-      tooltipContainer.offset({
-        left:
-          tooltipContainer.offset().left +
-          (dialogContainer.offset().left - tooltipContainer.offset().left),
-      });
-    }
-
-    // Check the right
-    if (tooltipContainerRight > dialogContainerRight) {
-      tooltipContainer.offset({
-        left:
-          tooltipContainer.offset().left -
-          (tooltipContainerRight - dialogContainerRight),
+        top: inventoryImageContainer.offset().top - tooltipContainer.height(),
       });
     }
   });
