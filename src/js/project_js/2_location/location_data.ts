@@ -159,10 +159,10 @@ setup.getDistanceToTravelFromLocation = (
   }
 
   // Access the coords using the indexes
-  let prevPassageLocationCoords: [x: number, y: number, z?: number];
-  let prevPassageSubLocationCoords: [x: number, y: number, z?: number];
-  let currPassageLocationCoords: [x: number, y: number, z?: number];
-  let currPassageSubLocationCoords: [x: number, y: number, z?: number];
+  let prevPassageLocationCoords: LocationCoords;
+  let prevPassageSubLocationCoords: LocationCoords;
+  let currPassageLocationCoords: LocationCoords;
+  let currPassageSubLocationCoords: LocationCoords;
 
   prevPassageLocationCoords = setup.locations.get(prevPassageLocation)!.coords;
 
