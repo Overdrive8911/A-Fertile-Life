@@ -36,3 +36,15 @@ Macro.add("deleteItem", {
     }
   },
 });
+
+setup.addAllItems = () => {
+  for (const key in gInGameItems) {
+    if (Object.prototype.hasOwnProperty.call(gInGameItems, key)) {
+      const item = gInGameItems[key as unknown as ItemId];
+
+      if (item !== undefined) {
+        storeItem(item.itemId);
+      }
+    }
+  }
+};

@@ -25,6 +25,12 @@
     <<link "Remove 5 of them">><<deleteItem $removeFromInventory 5>><</link>>
 </p>
 
+<p>
+    <<link "Add All Items Once">>
+        <<run setup.addAllItems()>>
+    <</link>>
+</p>
+
 
 
 <p>
