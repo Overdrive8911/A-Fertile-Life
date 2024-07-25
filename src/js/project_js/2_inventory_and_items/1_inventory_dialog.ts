@@ -64,7 +64,10 @@ function populateInventoryRowItems(
     const nameOfItem = getItem(itemId).name;
     const itemImageUrl = getItem(itemId).imageUrl;
 
-    const itemSellingPrice = `$${getItem(itemId).price * 0.45}`;
+    const itemSellingPrice =
+      getItem(itemId).price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
+        ? `$0`
+        : `$${getItem(itemId).price * 0.45}`;
     const itemWeight =
       getItem(itemId).weight < 1000
         ? `${getItem(itemId).weight}g`
