@@ -50,6 +50,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     tags: [ItemTag.DUMMY],
     handler: function () {},
   },
+
   [ItemId.FOOD_CHEESE]: {
     itemId: ItemId.FOOD_CHEESE,
     name: "Cheese",
@@ -59,6 +60,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/cheese.webp",
     tags: [ItemTag.FOOD],
   },
+
   [ItemId.FOOD_MOULDY_CHEESE]: {
     itemId: ItemId.FOOD_MOULDY_CHEESE,
     name: "Mouldy Cheese",
@@ -68,6 +70,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/mouldy_cheese.webp",
     tags: [ItemTag.FOOD],
   },
+
   [ItemId.KEY_CARD_LVL_1]: {
     itemId: ItemId.KEY_CARD_LVL_1,
     name: "Key Card",
@@ -77,6 +80,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/keycard_lvl_1.webp",
     tags: [ItemTag.KEY_ITEMS],
   },
+
   [ItemId.KEY_CARD_LVL_2]: {
     itemId: ItemId.KEY_CARD_LVL_2,
     name: "Key Card",
@@ -86,6 +90,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/keycard_lvl_2.webp",
     tags: [ItemTag.KEY_ITEMS],
   },
+
   [ItemId.KEY_CARD_LVL_3]: {
     itemId: ItemId.KEY_CARD_LVL_3,
     name: "Key Card",
@@ -95,6 +100,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/keycard_lvl_3.webp",
     tags: [ItemTag.KEY_ITEMS],
   },
+
   [ItemId.KEY_CARD_LVL_4]: {
     itemId: ItemId.KEY_CARD_LVL_4,
     name: "Key Card",
@@ -104,6 +110,7 @@ const gInGameItems: { [key in ItemId]?: Item } = {
     imageUrl: "assets/img/items/keycard_lvl_4.webp",
     tags: [ItemTag.KEY_ITEMS],
   },
+
   [ItemId.KEY_CARD_LVL_5]: {
     itemId: ItemId.KEY_CARD_LVL_5,
     name: "Key Card",
