@@ -31,7 +31,7 @@ enum ItemTag {
   CLOTHING,
   MISCELLANEOUS,
   DRUGS,
-  PLAYER,
+  TRASH,
 }
 
 enum ItemProperties {
