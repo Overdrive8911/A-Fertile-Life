@@ -31,4 +31,3 @@
         }        
     ]
 */
-<<run setup.initializeLocationDataArray()>>

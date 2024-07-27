@@ -16,65 +16,67 @@ interface GameSubLocation {
 type LocationCoords = [x: number, y: number, z?: number];
 
 interface NavigationLocations {
-  north?: string;
-  east?: string;
-  south?: string;
-  west?: string;
+  north?: MapLocation | MapSubLocation;
+  east?: MapLocation | MapSubLocation;
+  south?: MapLocation | MapSubLocation;
+  west?: MapLocation | MapSubLocation;
 }
 
 // An enum of all locations
+// NOTE - Ensure that the name of a member (e.g FERTILO_INC) can be converted into a subLocation string (e.g location_fertiloInc)
 enum MapLocation {
-  FERTILO_INC = "location_fertiloInc",
-  PLAYER_HOUSE = "location_playerHouse",
-  GENERAL_BUS = "location_bus",
-  DREAMSCAPE = "location_dream",
-  UNKNOWN = "location_???",
+  FERTILO_INC,
+  PLAYER_HOUSE,
+  BUS,
+  DREAM,
+  UNKNOWN,
 }
 
 // An enum of all sub locations. Multiple sub locations can share the same name as long as they're in different locations
 // Some sub locations can occur multiple times in a single location and as such have a number appended to them.
+// NOTE - Ensure that the name of a member (e.g RECEPTION) can be converted into a subLocation string (e.g subLocation_reception) as well as be used to get the appropriate image (e.g assets/img/map/sub_location/reception.webp)
 enum MapSubLocation {
-  RECEPTION = "subLocation_reception",
-  CLOSET = "subLocation_closet",
-  MEASURING_CLOSET = "subLocation_measuringCloset",
-  CEO_OFFICE = "subLocation_CEOOffice",
-  PHARMACY = "subLocation_pharmacy",
-  CONSULTATION = "subLocation_consultation",
-  LAB = "subLocation_lab",
-  OFFICE_WORK = "subLocation_officeWork",
+  RECEPTION,
+  CLOSET,
+  MEASUREMENT_CLOSET,
+  CEO_OFFICE,
+  PHARMACY,
+  CONSULTATION,
+  LAB,
+  OFFICE_WORK,
 
-  ROOM = "subLocation_room",
-  PLAYER_ROOM = "subLocation_playerRoom",
-  LIVING_ROOM = "subLocation_livingRoom",
-  BATHROOM = "subLocation_bathroom",
-  BEDROOM = "subLocation_bedroom",
-  PORCH = "subLocation_porch",
+  ROOM,
+  PLAYER_ROOM,
+  LIVING_ROOM,
+  BATHROOM,
+  BEDROOM,
+  PORCH,
 
   // Hallways
-  HALLWAY = "subLocation_hallway",
-  HALLWAY_1 = MapSubLocation.HALLWAY + "1",
-  HALLWAY_2 = MapSubLocation.HALLWAY + "2",
-  HALLWAY_3 = MapSubLocation.HALLWAY + "3",
-  HALLWAY_4 = MapSubLocation.HALLWAY + "4",
-  HALLWAY_5 = MapSubLocation.HALLWAY + "5",
+  HALLWAY,
+  HALLWAY_1,
+  HALLWAY_2,
+  HALLWAY_3,
+  HALLWAY_4,
+  HALLWAY_5,
 
   // Corridors
-  CORRIDOR = "subLocation_corridor",
-  CORRIDOR_1 = MapSubLocation.CORRIDOR + "1",
-  CORRIDOR_2 = MapSubLocation.CORRIDOR + "2",
-  CORRIDOR_3 = MapSubLocation.CORRIDOR + "3",
+  CORRIDOR,
+  CORRIDOR_1,
+  CORRIDOR_2,
+  CORRIDOR_3,
 
   // Staircases
-  STAIRCASE = "subLocation_staircase",
-  STAIRCASE_1 = MapSubLocation.STAIRCASE + "1",
-  STAIRCASE_2 = MapSubLocation.STAIRCASE + "2",
-  STAIRCASE_3 = MapSubLocation.STAIRCASE + "3",
+  STAIRCASE,
+  STAIRCASE_1,
+  STAIRCASE_2,
+  STAIRCASE_3,
 
   // Elevators
-  ELEVATOR = "subLocation_elevator",
-  ELEVATOR_1 = MapSubLocation.ELEVATOR + "1",
-  ELEVATOR_2 = MapSubLocation.ELEVATOR + "2",
-  ELEVATOR_3 = MapSubLocation.ELEVATOR + "3",
+  ELEVATOR,
+  ELEVATOR_1,
+  ELEVATOR_2,
+  ELEVATOR_3,
 }
 
 function subLocationSprite(spriteName: string) {
@@ -109,13 +111,13 @@ const gSubLocationSprites: { [nameOfSubLocation in MapSubLocation]?: string } =
     [MapSubLocation.STAIRCASE_3]: subLocationSprite("staircase"),
 
     [MapSubLocation.LAB]: subLocationSprite("lab"),
-    [MapSubLocation.MEASURING_CLOSET]: subLocationSprite("measuring_closet"),
+    [MapSubLocation.MEASUREMENT_CLOSET]: subLocationSprite("measuring_closet"),
     [MapSubLocation.OFFICE_WORK]: subLocationSprite("office_work"),
     [MapSubLocation.PHARMACY]: subLocationSprite("pharmacy"),
   };
 
 // This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
-const locationDataObject: {
+const gLocationData: {
   [nameOfLocation in MapLocation]: GameLocation;
 } = {
   // North Hirtheford
@@ -123,11 +125,15 @@ const locationDataObject: {
     name: "Fertilo Inc",
     coords: [45000, 45000],
     subLocations: {
+      [MapSubLocation.PORCH]: {
+        name: "Fertilo Inc",
+        coords: [2, 5],
+      },
       [MapSubLocation.RECEPTION]: {
         name: "Fertilo Inc Reception",
         coords: [2, 7],
       },
-      [MapSubLocation.CLOSET]: {
+      [MapSubLocation.MEASUREMENT_CLOSET]: {
         name: "Measurement Closet",
         coords: [5, 10],
       },
@@ -174,8 +180,8 @@ const locationDataObject: {
   // Central Hirtheford
 
   // Others
-  [MapLocation.GENERAL_BUS]: { name: "Bus", coords: [0, 0] },
-  [MapLocation.DREAMSCAPE]: { name: "???", coords: [0, 0] },
+  [MapLocation.BUS]: { name: "Bus", coords: [0, 0] },
+  [MapLocation.DREAM]: { name: "???", coords: [0, 0] },
   [MapLocation.UNKNOWN]: { name: "???", coords: [0, 0] },
 };
 
