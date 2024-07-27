@@ -1,95 +1,3 @@
-// Called at startup by StoryInit.
-// Initializes setup.locations with all the possible locations, subLocations and nav_locations gotten from tags on passages
-setup.initializeLocationDataArray = function () {
-  // Create setup.locations if it doesn't exist
-  if (setup.locations === undefined) {
-    setup.locations = new Map();
-  }
-
-  let location_coords: [x: number, y: number, z?: number];
-  let subLocation_coords: [x: number, y: number, z?: number];
-  let location_navigations: {
-    north?: string;
-    east?: string;
-    south?: string;
-    west?: string;
-  };
-  let subLocation_navigations: {
-    north?: string;
-    east?: string;
-    south?: string;
-    west?: string;
-  };
-
-  // Loop over each story passage
-  for (const i of $("tw-storydata").children()) {
-    const storyPassage: JQuery<HTMLElement> = $(i);
-
-    // Get the location and subLocation tags
-    if (storyPassage.attr("tags")) {
-      const tags: string = storyPassage.attr("tags") as string;
-
-      if (tags.includes("location")) {
-        // Reset them with every iteration.
-        location_coords = [0, 0];
-        subLocation_coords = [0, 0];
-        location_navigations = {};
-        subLocation_navigations = {};
-        // console.log(storyPassage.attr("tags"));
-
-        // Match characters with "location_"
-        const location = tags.match(/location_[^\s]*/) as RegExpMatchArray;
-        // console.log(location);
-
-        location_coords = locationDataObject[location[0]]?.coords;
-        location_navigations = locationDataObject[location[0]]?.nav_locations;
-
-        // Create a new location data object for the location and append it into setup.locations if not already present
-        let locationDataExists = setup.locations.has(location[0]);
-        if (!locationDataExists) {
-          setup.locations?.set(location[0], {
-            name: location[0],
-            coords: location_coords,
-            nav_locations: location_navigations,
-          });
-        }
-
-        // Deal with the sub locations
-        if (tags.includes("subLocation")) {
-          // Match characters with "subLocation_"
-          const subLocation = tags.match(
-            /subLocation_[^\s]*/
-          ) as RegExpMatchArray;
-          // console.log(subLocation);
-
-          let subLocationDataExists = setup.locations
-            .get(location[0])
-            ?.subLocations?.has(subLocation[0]);
-          if (!subLocationDataExists) {
-            // Initialize the subLocation sub-map if it doesn't exist
-            if (setup.locations.get(location[0])!.subLocations === undefined) {
-              setup.locations.get(location[0])!.subLocations = new Map();
-            }
-
-            subLocation_coords =
-              locationDataObject[location[0]]?.subLocations[subLocation[0]]
-                ?.coords;
-            subLocation_navigations =
-              locationDataObject[location[0]]?.subLocations[subLocation[0]]
-                ?.nav_locations;
-
-            setup.locations.get(location[0])!.subLocations.set(subLocation[0], {
-              name: subLocation[0],
-              coords: subLocation_coords,
-              nav_locations: subLocation_navigations,
-            });
-          }
-        }
-      }
-    }
-  }
-};
-
 // Determines the distance between the location/subLocation of the the previous and current passage using their tags
 setup.getDistanceToTravelFromLocation = (
   prevPassageTitle: string,
@@ -153,40 +61,43 @@ setup.getDistanceToTravelFromLocation = (
   //   currPassageLocation
   // );
 
-  // Appease typescript. This should never happen
-  if (setup.locations === undefined) {
-    setup.locations = new Map();
-  }
-
   // Access the coords using the indexes
   let prevPassageLocationCoords: LocationCoords;
   let prevPassageSubLocationCoords: LocationCoords;
   let currPassageLocationCoords: LocationCoords;
   let currPassageSubLocationCoords: LocationCoords;
 
-  prevPassageLocationCoords = setup.locations.get(prevPassageLocation)!.coords;
+  prevPassageLocationCoords =
+    gLocationData[getMapLocationValueFromLocation(prevPassageLocation)].coords;
 
   if (
-    setup.locations.get(prevPassageLocation).subLocations !== undefined &&
+    gLocationData[getMapLocationValueFromLocation(prevPassageLocation)]
+      .subLocations !== undefined &&
     prevPassageSubLocation
   ) {
-    prevPassageSubLocationCoords = setup.locations
-      .get(prevPassageLocation)
-      .subLocations.get(prevPassageSubLocation).coords;
+    prevPassageSubLocationCoords =
+      gLocationData[getMapLocationValueFromLocation(prevPassageLocation)]
+        .subLocations[
+        getMapSubLocationValueFromSubLocation(prevPassageSubLocation)
+      ].coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
     prevPassageSubLocationCoords = [0, 0, 0];
   }
 
-  currPassageLocationCoords = setup.locations.get(currPassageLocation).coords;
+  currPassageLocationCoords =
+    gLocationData[getMapLocationValueFromLocation(currPassageLocation)].coords;
 
   if (
-    setup.locations.get(currPassageLocation).subLocations !== undefined &&
+    gLocationData[getMapLocationValueFromLocation(currPassageLocation)]
+      .subLocations !== undefined &&
     currPassageSubLocation
   ) {
-    currPassageSubLocationCoords = setup.locations
-      .get(currPassageLocation)
-      .subLocations.get(currPassageSubLocation).coords;
+    currPassageSubLocationCoords =
+      gLocationData[getMapLocationValueFromLocation(currPassageLocation)]
+        .subLocations[
+        getMapSubLocationValueFromSubLocation(currPassageSubLocation)
+      ].coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
     currPassageSubLocationCoords = [0, 0, 0];
@@ -302,3 +213,171 @@ setup.getDistanceToTravelFromLocation = (
   // Return a floating point number with 2 decimal places
   return parseFloat(totalDistanceBetweenLocationsInMetres.toFixed(2));
 };
+
+function getLocationFromMapLocationValue(input: MapLocation) {
+  // Assume we're using MapLocation.FERTILO_INC as the input
+
+  // The result here would be "FERTILO_INC"
+  const rawLocationString = MapLocation[input];
+
+  // The result here would be ["FERTILO", "INC"]
+  const rawLocationStringArray = rawLocationString.split("_");
+
+  // The result here would be ["fertilo", "Inc"]
+  const convertedLocationStringArray = rawLocationStringArray.map(
+    (string, index) => {
+      if (index == 0) {
+        // Convert the first word to lowercase
+        string = string.toLocaleLowerCase();
+      } else {
+        // Convert every other word to capital case (e.g "ROOM" to "Room")
+        string = string.charAt(0) + string.slice(1).toLocaleLowerCase();
+      }
+    }
+  );
+
+  // Concatenate the words in the array and add "location_" to the beginning
+  let location = "location_";
+  convertedLocationStringArray.forEach((string) => {
+    location += string;
+  });
+
+  // We should have Location_fertiloInc here
+  return location;
+}
+
+function getSubLocationFromMapSubLocationValue(input: MapSubLocation) {
+  // Assume we're using MapSubLocation.LIVING_ROOM as the input
+
+  // The result here would be "LIVING_ROOM"
+  const rawSubLocationString = MapSubLocation[input];
+
+  // The result here would be ["LIVING", "ROOM"]
+  const rawSubLocationStringArray = rawSubLocationString.split("_");
+
+  // The result here would be ["living", "Room"]
+  const convertedSubLocationStringArray = rawSubLocationStringArray.map(
+    (string, index) => {
+      if (index == 0) {
+        // Convert the first word to lowercase
+        return string.toLocaleLowerCase();
+      } else {
+        // Convert every other word to capital case (e.g "ROOM" to "Room")
+        return string.charAt(0) + string.slice(1).toLocaleLowerCase();
+      }
+    }
+  );
+
+  // Concatenate the words in the array and add "subLocation_" to the beginning
+  let subLocation = "subLocation_";
+  convertedSubLocationStringArray.forEach((string) => {
+    subLocation += string;
+  });
+
+  // We should have subLocation_livingRoom here
+  return subLocation;
+}
+
+function getMapLocationValueFromLocation(
+  input: string
+): MapLocation | undefined {
+  // Assume we are working with Location_fertiloInc
+
+  // Remove "location_". We should have "fertiloInc" here
+  const cleanInput = input.split("location_")[1];
+
+  // Split the input at points wherever it finds a capital letter (e.g ["fertilo", "nc"])
+  const regexp = /(?<=[a-z])[A-Z]/;
+  let splitInput = cleanInput.split(regexp);
+
+  // Loop through a portion of original string to find the cut-off values from the split (e.g Look for the index of "nc" in "Inc" ("fertilo" will be sliced off) and re-add the character at index - 1)
+  for (let i = 1; i < splitInput.length; i++) {
+    let indexToSpliceTo = 0;
+
+    splitInput.forEach((value, index) => {
+      if (index < i) {
+        indexToSpliceTo += value.length;
+      }
+    });
+
+    const splicedInput = cleanInput.slice(indexToSpliceTo);
+
+    splitInput[i] =
+      splicedInput.charAt(splicedInput.indexOf(splitInput[i]) - 1) +
+      splitInput[i];
+  }
+  // We should have ["fertilo", "Inc"] now
+
+  // Convert the substrings to upper case and combine them with "_"
+  // We should have "FERTILO_INC"
+  let combinedUpperCaseString = "";
+  splitInput.forEach((value, index) => {
+    if (index == 0) {
+      // Just convert the first one to uppercase and append it
+      combinedUpperCaseString += value.toLocaleUpperCase();
+    } else {
+      // Do the same but append an underscore before the string itself
+      combinedUpperCaseString += `_${value.toLocaleUpperCase()}`;
+    }
+  });
+
+  console.log(
+    `MapLocation entry: ${
+      MapLocation[combinedUpperCaseString as any] as any as number
+    }, index String: ${combinedUpperCaseString}`
+  );
+
+  return MapLocation[combinedUpperCaseString as any] as any as number;
+}
+
+function getMapSubLocationValueFromSubLocation(
+  input: string
+): MapSubLocation | undefined {
+  // Assume we are working with subLocation_playerRoom
+
+  // Remove "subLocation_". We should have "playerRoom" here
+  const cleanInput = input.split("subLocation_")[1];
+
+  // Split the input at points wherever it finds a capital letter (e.g ["player", "oom"])
+  const regexp = /(?<=[a-z])[A-Z]/;
+  let splitInput = cleanInput.split(regexp);
+
+  // Loop through a portion of original string to find the cut-off values from the split (e.g Look for the index of "oom" in "Room" ("player" will be sliced off) and re-add the character at index - 1)
+  for (let i = 1; i < splitInput.length; i++) {
+    let indexToSpliceTo = 0;
+
+    splitInput.forEach((value, index) => {
+      if (index < i) {
+        indexToSpliceTo += value.length;
+      }
+    });
+
+    const splicedInput = cleanInput.slice(indexToSpliceTo);
+
+    splitInput[i] =
+      splicedInput.charAt(splicedInput.indexOf(splitInput[i]) - 1) +
+      splitInput[i];
+  }
+  // We should have ["player", "Room"] now
+
+  // Convert the substrings to upper case and combine them with "_"
+  // We should have "PLAYER_ROOM"
+  let combinedUpperCaseString = "";
+  splitInput.forEach((value, index) => {
+    if (index == 0) {
+      // Just convert the first one to uppercase and append it
+      combinedUpperCaseString += value.toLocaleUpperCase();
+    } else {
+      // Do the same but append an underscore before the string itself
+      combinedUpperCaseString += `_${value.toLocaleUpperCase()}`;
+    }
+  });
+
+  console.log(
+    `MapSubLocation entry: ${
+      MapSubLocation[combinedUpperCaseString as any] as any as number
+    }, index String: ${combinedUpperCaseString}`
+  );
+
+  return MapSubLocation[combinedUpperCaseString as any] as any as number;
+}
