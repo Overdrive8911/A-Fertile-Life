@@ -79,43 +79,6 @@ enum MapSubLocation {
   ELEVATOR_3,
 }
 
-function subLocationSprite(spriteName: string) {
-  return `assets/img/map/sub_location/${spriteName}.webp`;
-}
-
-const gSubLocationSprites: { [nameOfSubLocation in MapSubLocation]?: string } =
-  {
-    [MapSubLocation.RECEPTION]: subLocationSprite("reception"),
-    [MapSubLocation.CONSULTATION]: subLocationSprite("consultation"),
-
-    [MapSubLocation.CORRIDOR]: subLocationSprite("corridor"),
-    [MapSubLocation.CORRIDOR_1]: subLocationSprite("corridor"),
-    [MapSubLocation.CORRIDOR_2]: subLocationSprite("corridor"),
-    [MapSubLocation.CORRIDOR_3]: subLocationSprite("corridor"),
-
-    [MapSubLocation.ELEVATOR]: subLocationSprite("elevator"),
-    [MapSubLocation.ELEVATOR_1]: subLocationSprite("elevator"),
-    [MapSubLocation.ELEVATOR_2]: subLocationSprite("elevator"),
-    [MapSubLocation.ELEVATOR_3]: subLocationSprite("elevator"),
-
-    [MapSubLocation.HALLWAY]: subLocationSprite("hallway"),
-    [MapSubLocation.HALLWAY_1]: subLocationSprite("hallway"),
-    [MapSubLocation.HALLWAY_2]: subLocationSprite("hallway"),
-    [MapSubLocation.HALLWAY_3]: subLocationSprite("hallway"),
-    [MapSubLocation.HALLWAY_4]: subLocationSprite("hallway"),
-    [MapSubLocation.HALLWAY_5]: subLocationSprite("hallway"),
-
-    [MapSubLocation.STAIRCASE]: subLocationSprite("staircase"),
-    [MapSubLocation.STAIRCASE_1]: subLocationSprite("staircase"),
-    [MapSubLocation.STAIRCASE_2]: subLocationSprite("staircase"),
-    [MapSubLocation.STAIRCASE_3]: subLocationSprite("staircase"),
-
-    [MapSubLocation.LAB]: subLocationSprite("lab"),
-    [MapSubLocation.MEASUREMENT_CLOSET]: subLocationSprite("measuring_closet"),
-    [MapSubLocation.OFFICE_WORK]: subLocationSprite("office_work"),
-    [MapSubLocation.PHARMACY]: subLocationSprite("pharmacy"),
-  };
-
 // This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
 const gLocationData: {
   [nameOfLocation in MapLocation]: GameLocation;
