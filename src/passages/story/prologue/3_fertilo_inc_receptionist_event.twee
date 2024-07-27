@@ -1,4 +1,4 @@
-:: Prologue_ArrivedAtFertiloInc [prologue characterCreation location_fertiloInc subLocation_foyer] {"position":"150,275"}
+:: Prologue_ArrivedAtFertiloInc [prologue characterCreation location_fertiloInc subLocation_porch] {"position":"150,275"}
 <<ctp Prologue_ArrivedAtFertiloInc_ctpId1>>
     <div class="maleSpeech">
         <p>
