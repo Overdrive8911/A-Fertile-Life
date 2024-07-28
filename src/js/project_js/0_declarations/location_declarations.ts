@@ -22,15 +22,41 @@ interface NavigationLocations {
   west?: MapLocation | MapSubLocation;
 }
 
-// An enum of all locations
+// An enum of all locations. Locations are basically just containers of related areas. They are also the only areas that may be displayed on the world map
 // NOTE - Ensure that the name of a member (e.g FERTILO_INC) can be converted into a subLocation string (e.g location_fertiloInc)
+// NOTE - Arrange related locations right after each other
 enum MapLocation {
-  FERTILO_INC,
+  //
+  FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
+  FERTILO_INC_GROUND_FLOOR,
+  FERTILO_INC_FIRST_FLOOR,
+  FERTILO_INC_SECOND_FLOOR,
+  FERTILO_INC_THIRD_FLOOR,
+  FERTILO_INC_TOP_FLOOR,
+
   PLAYER_HOUSE,
   BUS,
   DREAM,
   UNKNOWN,
 }
+
+// For ease of use later. Add the first and last related MapLocation in the enum
+type RelatedMapLocations = {
+  [groupNameOfLocations: string]: {
+    name: string;
+    coords: LocationCoords;
+    firstRelatedLocation: MapLocation;
+    lastRelatedLocation: MapLocation;
+  };
+};
+const gRelatedLocations: RelatedMapLocations = {
+  FERTILO_INC: {
+    name: "Fertilo Inc",
+    coords: [45000, 45000],
+    firstRelatedLocation: MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
+    lastRelatedLocation: MapLocation.FERTILO_INC_TOP_FLOOR,
+  },
+};
 
 // An enum of all sub locations. Multiple sub locations can share the same name as long as they're in different locations
 // Some sub locations can occur multiple times in a single location and as such have a number appended to them.
@@ -41,6 +67,7 @@ enum MapSubLocation {
   MEASUREMENT_CLOSET,
   CEO_OFFICE,
   PHARMACY,
+  PHARMACY_1,
   CONSULTATION,
   LAB,
   OFFICE_WORK,
@@ -80,35 +107,167 @@ enum MapSubLocation {
 }
 
 // This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
+// NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
 const gLocationData: {
-  [nameOfLocation in MapLocation]: GameLocation;
+  [nameOfLocation in MapLocation]?: GameLocation;
 } = {
   // North Hirtheford
-  [MapLocation.FERTILO_INC]: {
-    name: "Fertilo Inc",
-    coords: [45000, 45000],
+  [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
+    name: "Fertilo Inc (Ground Floor)",
+    coords: gRelatedLocations.FERTILO_INC.coords,
     subLocations: {
       [MapSubLocation.PORCH]: {
-        name: "Fertilo Inc",
+        name: "Porch",
         coords: [2, 5],
+        nav_locations: {
+          north: MapSubLocation.RECEPTION,
+        },
       },
       [MapSubLocation.RECEPTION]: {
-        name: "Fertilo Inc Reception",
+        name: "Reception",
         coords: [2, 7],
+        nav_locations: {
+          south: MapSubLocation.PORCH,
+          east: MapSubLocation.MEASUREMENT_CLOSET,
+          west: MapSubLocation.PHARMACY,
+          north: MapSubLocation.CORRIDOR,
+        },
       },
       [MapSubLocation.MEASUREMENT_CLOSET]: {
         name: "Measurement Closet",
-        coords: [5, 10],
+        coords: [5, 7],
+        nav_locations: { west: MapSubLocation.RECEPTION },
+      },
+      [MapSubLocation.PHARMACY]: {
+        name: "Pharmacy",
+        coords: [-1, 7],
+        nav_locations: { east: MapSubLocation.RECEPTION },
+      },
+      [MapSubLocation.CORRIDOR]: {
+        name: "Corridor",
+        coords: [2, 10],
+        nav_locations: {
+          north: MapSubLocation.HALLWAY_2,
+          south: MapSubLocation.RECEPTION,
+        },
       },
       [MapSubLocation.HALLWAY]: {
         name: "Hallway",
         coords: [0, 0],
+        nav_locations: {
+          west: MapSubLocation.ELEVATOR,
+          south: MapSubLocation.STAIRCASE,
+          east: MapSubLocation.HALLWAY_1,
+        },
       },
+      [MapSubLocation.ELEVATOR]: {
+        name: "Elevator",
+        coords: [0, 0],
+        nav_locations: { east: MapSubLocation.HALLWAY },
+      },
+      [MapSubLocation.STAIRCASE]: {
+        name: "Staircase",
+        coords: [0, 0],
+        nav_locations: { north: MapSubLocation.HALLWAY },
+      },
+      [MapSubLocation.HALLWAY_1]: {
+        name: "Hallway",
+        coords: [2, 0],
+        nav_locations: {
+          north: MapSubLocation.ELEVATOR_1,
+          south: MapSubLocation.LAB,
+          west: MapSubLocation.HALLWAY,
+          east: MapSubLocation.HALLWAY_2,
+        },
+      },
+      [MapSubLocation.ELEVATOR_1]: {
+        name: "Elevator",
+        coords: [0, 0],
+        nav_locations: { south: MapSubLocation.HALLWAY_1 },
+      },
+      [MapSubLocation.LAB]: {
+        name: "Laboratory",
+        coords: [0, 0],
+        nav_locations: { north: MapSubLocation.HALLWAY_1 },
+      },
+      [MapSubLocation.HALLWAY_2]: {
+        name: "Hallway",
+        coords: [6, 0],
+        nav_locations: {
+          south: MapSubLocation.CORRIDOR,
+          north: MapSubLocation.STAIRCASE_1,
+          west: MapSubLocation.HALLWAY_1,
+          east: MapSubLocation.HALLWAY_3,
+        },
+      },
+      [MapSubLocation.STAIRCASE_1]: {
+        name: "Staircase",
+        coords: [0, 0],
+        nav_locations: { south: MapSubLocation.HALLWAY },
+      },
+      [MapSubLocation.HALLWAY_3]: {
+        name: "Hallway",
+        coords: [8, 0],
+        nav_locations: {
+          north: MapSubLocation.CONSULTATION,
+          south: MapSubLocation.PHARMACY_1,
+          east: MapSubLocation.HALLWAY_4,
+          west: MapSubLocation.HALLWAY_2,
+        },
+      },
+      [MapSubLocation.CONSULTATION]: {
+        name: "Consultation Office",
+        coords: [0, 0],
+        nav_locations: { south: MapSubLocation.HALLWAY_3 },
+      },
+      [MapSubLocation.PHARMACY_1]: {
+        name: "Pharmacy",
+        coords: [0, 0],
+        nav_locations: { north: MapSubLocation.HALLWAY_3 },
+      },
+      [MapSubLocation.HALLWAY_4]: {
+        name: "Hallway",
+        coords: [10, 0],
+        nav_locations: {
+          north: MapSubLocation.OFFICE_WORK,
+          east: MapSubLocation.ELEVATOR_2,
+          west: MapSubLocation.HALLWAY_3,
+        },
+      },
+      [MapSubLocation.OFFICE_WORK]: {
+        name: "Office",
+        coords: [0, 0],
+        nav_locations: { south: MapSubLocation.HALLWAY_4 },
+      },
+      [MapSubLocation.ELEVATOR_2]: {
+        name: "Elevator",
+        coords: [0, 0],
+        nav_locations: { west: MapSubLocation.HALLWAY_4 },
+      },
+    },
+  },
+  [MapLocation.FERTILO_INC_TOP_FLOOR]: {
+    name: "Top Floor",
+    coords: [
+      gRelatedLocations.FERTILO_INC.coords[0],
+      gRelatedLocations.FERTILO_INC.coords[1],
+      5,
+    ],
+    subLocations: {
       [MapSubLocation.CEO_OFFICE]: {
         name: "Mr Fertilo's Office",
-        coords: [8, 6, 10],
+        coords: [8, 6],
       },
-
+    },
+  },
+  [MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND]: {
+    name: "???",
+    coords: [
+      gRelatedLocations.FERTILO_INC.coords[0],
+      gRelatedLocations.FERTILO_INC.coords[1],
+      -1,
+    ],
+    subLocations: {
       [MapSubLocation.PLAYER_ROOM]: { name: "Your Room", coords: [11, 9] },
     },
   },
