@@ -214,6 +214,38 @@ setup.getDistanceToTravelFromLocation = (
   return parseFloat(totalDistanceBetweenLocationsInMetres.toFixed(2));
 };
 
+function getLocationFromPassageTitle(passageTitle: string) {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let locationArr = tag.match(/location_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (locationArr) {
+      return locationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+}
+
+function getSubLocationFromPassageTitle(passageTitle: string) {
+  const passageTags = tags(passageTitle);
+
+  for (const tag of passageTags) {
+    let subLocationArr = tag.match(/subLocation_[^\s]*/);
+
+    // There should only be 1 location tag
+    if (subLocationArr) {
+      return subLocationArr[0];
+    }
+  }
+
+  // Location tag was not found
+  return undefined;
+}
+
 function getLocationFromMapLocationValue(input: MapLocation) {
   // Assume we're using MapLocation.FERTILO_INC as the input
 
