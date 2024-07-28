@@ -353,12 +353,15 @@ function getMapLocationValueFromLocation(
     }
   });
 
-  console.log(
-    `MapLocation entry: ${
-      MapLocation[combinedUpperCaseString as any] as any as number
-    }, index String: ${combinedUpperCaseString}`
-  );
-
+  if (
+    (MapLocation[combinedUpperCaseString as any] as any as number) == undefined
+  ) {
+    console.error(
+      `MapLocation entry: ${
+        MapLocation[combinedUpperCaseString as any] as any as number
+      }, index String: ${combinedUpperCaseString}\n\nMapLocation.${combinedUpperCaseString} does not exist`
+    );
+  }
   return MapLocation[combinedUpperCaseString as any] as any as number;
 }
 
@@ -405,11 +408,16 @@ function getMapSubLocationValueFromSubLocation(
     }
   });
 
-  console.log(
-    `MapSubLocation entry: ${
-      MapSubLocation[combinedUpperCaseString as any] as any as number
-    }, index String: ${combinedUpperCaseString}`
-  );
+  if (
+    (MapSubLocation[combinedUpperCaseString as any] as any as number) ==
+    undefined
+  ) {
+    console.error(
+      `MapSubLocation entry: ${
+        MapSubLocation[combinedUpperCaseString as any] as any as number
+      }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not exist.`
+    );
+  }
 
   return MapSubLocation[combinedUpperCaseString as any] as any as number;
 }
