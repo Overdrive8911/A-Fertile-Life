@@ -426,5 +426,82 @@ function addLocation(
   locationId: MapLocation,
   name: string,
   coords: LocationCoords,
-  subLocations: MapSubLocation[]
-) {}
+  subLocations: { id: MapSubLocation; subLocationData: GameSubLocation }[]
+) {
+  gLocationData[locationId] = {
+    name: name,
+    coords: coords,
+  };
+
+  // Deal with sub locations
+  // Declare subLocations if it isn't already present
+  if (!gLocationData[locationId].subLocations) {
+    gLocationData[locationId].subLocations = {};
+  }
+
+  subLocations.forEach((data) => {
+    // If the name is not supplied, default it to the name of the id in capital case, i.e MapSubLocation.HALLWAY_4 will have a default name of "Hallway", MapSubLocation.CORRIDOR will have a default name of "Corridor"
+    if (data.subLocationData.name == undefined) {
+      const rawName = MapSubLocation[data.id].split(/(?<=[A-Z])_\d+$/)[0];
+
+      data.subLocationData.name =
+        rawName.charAt(0) + rawName.slice(1).toLocaleLowerCase();
+    }
+
+    // if the coords are not supplied, default to [0, 0]
+    if (data.subLocationData.coords == undefined)
+      data.subLocationData.coords = [0, 0];
+
+    // Add the name and coords
+    gLocationData[locationId].subLocations[data.id] = {
+      name: data.subLocationData.name,
+      coords: data.subLocationData.coords,
+    };
+
+    // Deal with the navigation locations.
+    // When a navigation location is given, go to the linked location/sub location and set it's own navigation location data to return to this specific sub location
+    if (data.subLocationData.nav_locations) {
+      // Declare nav locations if it sin't already present
+      if (!gLocationData[locationId].subLocations[data.id].nav_locations) {
+        gLocationData[locationId].subLocations[data.id].nav_locations = {};
+      }
+
+      for (const direction in data.subLocationData.nav_locations) {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            data.subLocationData.nav_locations,
+            direction
+          )
+        ) {
+          const linkedSubLocation =
+            data.subLocationData.nav_locations[
+              direction as keyof NavigationLocations
+            ];
+
+          // Add the navigation location to the current sub location
+          gLocationData[locationId].subLocations[data.id].nav_locations[
+            direction as keyof NavigationLocations
+          ] = linkedSubLocation;
+
+          // Add the corresponding navigation location to the linked sub location
+          // Declare the linked sub location if it doesn't already exist
+          if (!gLocationData[locationId].subLocations[linkedSubLocation]) {
+            gLocationData[locationId].subLocations[linkedSubLocation] = {
+              name: "",
+              coords: [0, 0],
+              nav_locations: {},
+            };
+          }
+
+          gLocationData[locationId].subLocations[
+            linkedSubLocation
+          ].nav_locations[
+            gOppositeNavigationDirections[
+              direction as keyof NavigationLocations
+            ] as keyof NavigationLocations
+          ] = data.id;
+        }
+      }
+    }
+  });
+}
