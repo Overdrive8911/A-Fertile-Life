@@ -106,9 +106,9 @@ enum MapSubLocation {
   ELEVATOR_3,
 }
 
-// This stores EVERY possible location while setup.locations stores every location that is AVAILABLE in-game
+// This stores EVERY possible location. `addLocation()` is used to add locations and sub locations to this object. `setup.initializeLocationDataObject()` contains many instances of the previous function to populate this object with locations and their respective sub locations.
 // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
-const gLocationData: {
+let gLocationData: {
   [nameOfLocation in MapLocation]?: GameLocation;
 } = {
   // North Hirtheford
