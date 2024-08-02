@@ -421,3 +421,10 @@ function getMapSubLocationValueFromSubLocation(
 
   return MapSubLocation[combinedUpperCaseString as any] as any as number;
 }
+
+function addLocation(
+  locationId: MapLocation,
+  name: string,
+  coords: LocationCoords,
+  subLocations: MapSubLocation[]
+) {}
