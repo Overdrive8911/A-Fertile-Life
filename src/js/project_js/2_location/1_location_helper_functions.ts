@@ -68,15 +68,16 @@ setup.getDistanceToTravelFromLocation = (
   let currPassageSubLocationCoords: LocationCoords;
 
   prevPassageLocationCoords =
-    gLocationData[getMapLocationIdFromLocation(prevPassageLocation)].coords;
+    setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
+      .coords;
 
   if (
-    gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
+    setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
       .subLocations !== undefined &&
     prevPassageSubLocation
   ) {
     prevPassageSubLocationCoords =
-      gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
+      setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
         .subLocations[
         getMapSubLocationIdFromSubLocation(prevPassageSubLocation)
       ].coords;
@@ -86,15 +87,16 @@ setup.getDistanceToTravelFromLocation = (
   }
 
   currPassageLocationCoords =
-    gLocationData[getMapLocationIdFromLocation(currPassageLocation)].coords;
+    setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
+      .coords;
 
   if (
-    gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
+    setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
       .subLocations !== undefined &&
     currPassageSubLocation
   ) {
     currPassageSubLocationCoords =
-      gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
+      setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
         .subLocations[
         getMapSubLocationIdFromSubLocation(currPassageSubLocation)
       ].coords;
@@ -425,8 +427,9 @@ function getDefaultNameOfSubLocation(
   subLocationId: MapSubLocation
 ) {
   // Check if there's an entry in `gLocationData`
-  if (gLocationData[locationId].subLocations[subLocationId]) {
-    const subLocation = gLocationData[locationId].subLocations[subLocationId];
+  if (setup.locationData[locationId].subLocations[subLocationId]) {
+    const subLocation =
+      setup.locationData[locationId].subLocations[subLocationId];
 
     // If there's already a name set, return it
     if (subLocation.name) return subLocation.name;
@@ -438,14 +441,14 @@ function getDefaultNameOfSubLocation(
 }
 
 function populateSubLocationMap(location: MapLocation) {
-  if (!gLocationData[location].subLocationMap) {
+  if (!setup.locationData[location].subLocationMap) {
     // Create an empty array first and set its length to the `GameMapArraySize`
-    gLocationData[location].subLocationMap =
+    setup.locationData[location].subLocationMap =
       [] as any as GameMapForSubLocations<typeof gGameMapSubLocationArraySize>;
-    gLocationData[location].subLocationMap.length =
+    setup.locationData[location].subLocationMap.length =
       gGameMapSubLocationArraySize;
 
-    let mapOfSubLocations = gLocationData[location].subLocationMap;
+    let mapOfSubLocations = setup.locationData[location].subLocationMap;
 
     // Fill the sub location map with "empty" elements
     for (let x = 0; x < gGameMapSubLocationArraySize; x++) {
@@ -467,17 +470,17 @@ function populateSubLocationMap(location: MapLocation) {
 
     // Store the sub locations in this map using their coordinates
     // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
-    for (const id in gLocationData[location].subLocations) {
+    for (const id in setup.locationData[location].subLocations) {
       if (
         Object.prototype.hasOwnProperty.call(
-          gLocationData[location].subLocations,
+          setup.locationData[location].subLocations,
           id
         )
       ) {
         if (parseInt(id)) {
           const subLocationId = parseInt(id) as MapSubLocation;
           const subLocationCoords =
-            gLocationData[location].subLocations[subLocationId].coords;
+            setup.locationData[location].subLocations[subLocationId].coords;
 
           // Get the relative indexes and make sure they aren't out of bounds. Please do not allow the latter to happen. This check I'm doing for it is to prevent the game from erroring out.
           let relativeXIndex =
