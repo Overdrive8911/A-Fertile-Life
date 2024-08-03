@@ -5,7 +5,7 @@ interface GameLocation {
   subLocations?: {
     [nameOfSubLocation in MapSubLocation]?: GameSubLocation;
   };
-  subLocationMap?: GameMapForSubLocations<typeof GameMapSubLocationArraySize>;
+  subLocationMap?: GameMapForSubLocations<typeof gGameMapSubLocationArraySize>;
 }
 
 interface GameSubLocation {
@@ -45,13 +45,13 @@ type GameMapTuple<Coord, AxisLength extends number> = [Coord, ...Coord[]] & {
 };
 // type GameMapTuple<Coord> = GameMapTupleType<Coord, 100>
 
+// To create 100x100 or 100x100x100 arrays
+const gGameMapSubLocationArraySize = 100;
+
 // In the 2d/3d game map array, each numeric member has a value to determine properties, like if it is passable/empty/blocked/etc
 enum GameMapCoordinate {
-  EMPTY = -1,
+  EMPTY = (1 << 0) * gGameMapSubLocationArraySize,
 }
-
-// To create 100x100 or 100x100x100 arrays
-const GameMapSubLocationArraySize = 100;
 
 const gOppositeNavigationDirections: {
   [key in keyof NavigationLocations]: keyof NavigationLocations;
@@ -150,7 +150,7 @@ enum MapSubLocation {
 
 // NOTE - This stores EVERY possible location.
 // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
-// NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49
+// NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49. Also keep the values as whole integers
 let gLocationData: {
   [nameOfLocation in MapLocation]?: GameLocation;
 } = {
