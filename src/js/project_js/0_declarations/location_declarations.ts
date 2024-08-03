@@ -127,9 +127,10 @@ enum MapSubLocation {
   ELEVATOR_3,
 }
 
-// NOTE - This stores EVERY possible location.
+// NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
 // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
 // NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49. Also keep the values as whole integers
+// It's best to have an image to visualize how the coords would work
 setup.locationData = {
   // North Hirtheford
   [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
@@ -137,84 +138,84 @@ setup.locationData = {
     coords: gRelatedLocations.FERTILO_INC.coords,
     subLocations: {
       [MapSubLocation.PORCH]: {
-        coords: [2, 5],
+        coords: [0, 0],
       },
       [MapSubLocation.RECEPTION]: {
-        coords: [2, 7],
+        coords: [0, 2],
       },
       [MapSubLocation.MEASUREMENT_CLOSET]: {
         name: "Measurement Closet",
-        coords: [5, 7],
+        coords: [1, 2],
       },
 
       [MapSubLocation.PHARMACY_1]: {
-        coords: [-1, 7],
+        coords: [-1, 2],
       },
       [MapSubLocation.PHARMACY_2]: {
-        coords: [-1, 7],
+        coords: [2, 5],
       },
 
       [MapSubLocation.CORRIDOR_1]: {
-        coords: [2, 10],
+        coords: [0, 4],
       },
-      [MapSubLocation.CORRIDOR_2]: {
-        coords: [2, 10],
-      },
-      [MapSubLocation.CORRIDOR_3]: {
-        coords: [2, 10],
-      },
+      // [MapSubLocation.CORRIDOR_2]: {
+      //   coords: [2, 10],
+      // },
+      // [MapSubLocation.CORRIDOR_3]: {
+      //   coords: [0, 0],
+      // },
 
       [MapSubLocation.HALLWAY_1]: {
-        coords: [2, 0],
+        coords: [-6, 7],
       },
       [MapSubLocation.HALLWAY_2]: {
-        coords: [6, 0],
+        coords: [-4, 7],
       },
       [MapSubLocation.HALLWAY_3]: {
-        coords: [8, 0],
+        coords: [-2, 7],
       },
       [MapSubLocation.HALLWAY_4]: {
-        coords: [10, 0],
+        coords: [0, 7],
       },
       [MapSubLocation.HALLWAY_5]: {
-        coords: [10, 0],
+        coords: [2, 7],
       },
       [MapSubLocation.HALLWAY_6]: {
-        coords: [10, 0],
+        coords: [4, 7],
       },
       [MapSubLocation.HALLWAY_7]: {
-        coords: [10, 0],
+        coords: [6, 7],
       },
 
       [MapSubLocation.ELEVATOR_1]: {
-        coords: [10, 21],
+        coords: [-7, 7],
       },
       [MapSubLocation.ELEVATOR_2]: {
-        coords: [30, 0],
+        coords: [-2, 8],
       },
       [MapSubLocation.ELEVATOR_3]: {
-        coords: [47, 0],
+        coords: [7, 7],
       },
 
       [MapSubLocation.STAIRCASE_1]: {
-        coords: [0, 21],
+        coords: [-6, 6],
       },
       [MapSubLocation.STAIRCASE_2]: {
-        coords: [23, 0],
+        coords: [0, 8],
       },
 
       [MapSubLocation.LAB]: {
         name: "Laboratory",
-        coords: [6, 44],
+        coords: [-2, 5],
       },
       [MapSubLocation.CONSULTATION]: {
         name: "Consultation Office",
-        coords: [8, 7],
+        coords: [2, 9],
       },
 
       [MapSubLocation.OFFICE_WORK]: {
         name: "Office",
-        coords: [2, 6],
+        coords: [6, 9],
       },
     },
   },
