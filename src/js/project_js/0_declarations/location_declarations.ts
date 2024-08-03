@@ -83,6 +83,7 @@ const gRelatedLocations: RelatedMapLocations = {
 // An enum of all sub locations. Multiple sub locations can share the same name as long as they're in different locations
 // Some sub locations can occur multiple times in a single location and as such have a number appended to them.
 // NOTE - Ensure that the name of a member (e.g RECEPTION) can be converted into a subLocation string (e.g subLocation_reception) as well as be used to get the appropriate image (e.g assets/img/map/sub_location/reception.webp)
+// NOTE - Assign the duplicates to the map from left to right
 enum MapSubLocation {
   RECEPTION,
   CLOSET,
@@ -127,9 +128,44 @@ enum MapSubLocation {
   ELEVATOR_3,
 }
 
+// Only here to avoid repetition since it's used in `setup.locationData`
+function getSubLocationCoords(
+  locationId: MapLocation,
+  subLocationId: MapSubLocation
+): LocationCoords {
+  const coords =
+    setup.locationData[locationId].subLocations[subLocationId].coords;
+  return coords != undefined ? coords : [0, 0, 0];
+}
+
+// Same case with the above function. Use zeroes for x/y/z if you're not using them
+function getCoordsRelativeToOtherSubLocation(
+  locationId: MapLocation,
+  subLocationId: MapSubLocation,
+  xIncrement: number,
+  yIncrement: number,
+  zIncrement: number
+): LocationCoords {
+  const otherSubLocationCoords = getSubLocationCoords(
+    locationId,
+    subLocationId
+  );
+
+  // Prevent undefined values
+  if (otherSubLocationCoords[LocationCoordIndex.Z] == undefined)
+    otherSubLocationCoords[LocationCoordIndex.Z] = 0;
+
+  return [
+    otherSubLocationCoords[LocationCoordIndex.X] + xIncrement,
+    otherSubLocationCoords[LocationCoordIndex.Y] + yIncrement,
+    otherSubLocationCoords[LocationCoordIndex.Z] + zIncrement,
+  ];
+}
+
 // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
 // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
 // NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49. Also keep the values as whole integers
+// NOTE - Using getters for the coords of sub locations makes it easier to do edits down the line. It's also easier to understand what is connected to what
 // It's best to have an image to visualize how the coords would work
 setup.locationData = {
   // North Hirtheford
@@ -141,22 +177,72 @@ setup.locationData = {
         coords: [0, 0],
       },
       [MapSubLocation.RECEPTION]: {
-        coords: [0, 2],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.PORCH,
+            0,
+            2,
+            0
+          );
+        },
       },
+      // get [MapSubLocation.RECEPTION](): GameSubLocation {
+      //   const porchCoords = this[MapSubLocation.PORCH].coords;
+      //   return {
+      //     name: "Reception",
+      //     coords: [
+      //       porchCoords[LocationCoordIndex.X],
+      //       porchCoords[LocationCoordIndex.Y] + 2,
+      //     ],
+      //   };
+      // },
       [MapSubLocation.MEASUREMENT_CLOSET]: {
         name: "Measurement Closet",
-        coords: [1, 2],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.RECEPTION,
+            1,
+            0,
+            0
+          );
+        },
       },
 
       [MapSubLocation.PHARMACY_1]: {
-        coords: [-1, 2],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.RECEPTION,
+            -1,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.PHARMACY_2]: {
-        coords: [2, 5],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_5,
+            0,
+            -2,
+            0
+          );
+        },
       },
 
       [MapSubLocation.CORRIDOR_1]: {
-        coords: [0, 4],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.RECEPTION,
+            0,
+            2,
+            0
+          );
+        },
       },
       // [MapSubLocation.CORRIDOR_2]: {
       //   coords: [2, 10],
@@ -166,56 +252,176 @@ setup.locationData = {
       // },
 
       [MapSubLocation.HALLWAY_1]: {
-        coords: [-6, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            -6,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_2]: {
-        coords: [-4, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            -4,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_3]: {
-        coords: [-2, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            -2,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_4]: {
-        coords: [0, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.CORRIDOR_1,
+            0,
+            3,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_5]: {
-        coords: [2, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            2,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_6]: {
-        coords: [4, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            4,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.HALLWAY_7]: {
-        coords: [6, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            6,
+            0,
+            0
+          );
+        },
       },
 
       [MapSubLocation.ELEVATOR_1]: {
-        coords: [-7, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_1,
+            -1,
+            0,
+            0
+          );
+        },
       },
       [MapSubLocation.ELEVATOR_2]: {
-        coords: [-2, 8],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_3,
+            0,
+            1,
+            0
+          );
+        },
       },
       [MapSubLocation.ELEVATOR_3]: {
-        coords: [7, 7],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_7,
+            1,
+            0,
+            0
+          );
+        },
       },
 
       [MapSubLocation.STAIRCASE_1]: {
-        coords: [-6, 6],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_1,
+            0,
+            -1,
+            0
+          );
+        },
       },
       [MapSubLocation.STAIRCASE_2]: {
-        coords: [0, 8],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_4,
+            0,
+            1,
+            0
+          );
+        },
       },
 
       [MapSubLocation.LAB]: {
         name: "Laboratory",
-        coords: [-2, 5],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_3,
+            0,
+            -2,
+            0
+          );
+        },
       },
       [MapSubLocation.CONSULTATION]: {
         name: "Consultation Office",
-        coords: [2, 9],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_5,
+            0,
+            2,
+            0
+          );
+        },
       },
 
       [MapSubLocation.OFFICE_WORK]: {
         name: "Office",
-        coords: [6, 9],
+        get [`coords`](): LocationCoords {
+          return getCoordsRelativeToOtherSubLocation(
+            MapLocation.FERTILO_INC_GROUND_FLOOR,
+            MapSubLocation.HALLWAY_7,
+            0,
+            2,
+            0
+          );
+        },
       },
     },
   },
@@ -266,6 +472,17 @@ setup.locationData = {
   [MapLocation.BUS]: { name: "Bus", coords: [0, 0] },
   [MapLocation.DREAM]: { name: "???", coords: [0, 0] },
   [MapLocation.UNKNOWN]: { name: "???", coords: [0, 0] },
+};
+
+let a = {
+  b: 2,
+  get c() {
+    return this.b * 2;
+  },
+
+  get d() {
+    return this.c * 4;
+  },
 };
 
 const distanceToMetresConversionRange: [min: number, max: number] = [
