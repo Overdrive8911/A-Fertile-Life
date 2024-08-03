@@ -88,11 +88,12 @@ enum MapSubLocation {
   CLOSET,
   MEASUREMENT_CLOSET,
   CEO_OFFICE,
-  PHARMACY,
-  PHARMACY_1,
   CONSULTATION,
   LAB,
   OFFICE_WORK,
+
+  PHARMACY_1,
+  PHARMACY_2,
 
   ROOM,
   PLAYER_ROOM,
@@ -102,7 +103,6 @@ enum MapSubLocation {
   PORCH,
 
   // Hallways
-  HALLWAY,
   HALLWAY_1,
   HALLWAY_2,
   HALLWAY_3,
@@ -112,19 +112,16 @@ enum MapSubLocation {
   HALLWAY_7,
 
   // Corridors
-  CORRIDOR,
   CORRIDOR_1,
   CORRIDOR_2,
   CORRIDOR_3,
 
   // Staircases
-  STAIRCASE,
   STAIRCASE_1,
   STAIRCASE_2,
   STAIRCASE_3,
 
   // Elevators
-  ELEVATOR,
   ELEVATOR_1,
   ELEVATOR_2,
   ELEVATOR_3,
@@ -151,17 +148,24 @@ let gLocationData: {
         name: "Measurement Closet",
         coords: [5, 7],
       },
-      [MapSubLocation.PHARMACY]: {
+
+      [MapSubLocation.PHARMACY_1]: {
+        coords: [-1, 7],
+      },
+      [MapSubLocation.PHARMACY_2]: {
         coords: [-1, 7],
       },
 
-      [MapSubLocation.CORRIDOR]: {
+      [MapSubLocation.CORRIDOR_1]: {
+        coords: [2, 10],
+      },
+      [MapSubLocation.CORRIDOR_2]: {
+        coords: [2, 10],
+      },
+      [MapSubLocation.CORRIDOR_3]: {
         coords: [2, 10],
       },
 
-      [MapSubLocation.HALLWAY]: {
-        coords: [0, 0],
-      },
       [MapSubLocation.HALLWAY_1]: {
         coords: [2, 0],
       },
@@ -174,21 +178,30 @@ let gLocationData: {
       [MapSubLocation.HALLWAY_4]: {
         coords: [10, 0],
       },
+      [MapSubLocation.HALLWAY_5]: {
+        coords: [10, 0],
+      },
+      [MapSubLocation.HALLWAY_6]: {
+        coords: [10, 0],
+      },
+      [MapSubLocation.HALLWAY_7]: {
+        coords: [10, 0],
+      },
 
-      [MapSubLocation.ELEVATOR]: {
+      [MapSubLocation.ELEVATOR_1]: {
         coords: [10, 21],
       },
-      [MapSubLocation.ELEVATOR_1]: {
+      [MapSubLocation.ELEVATOR_2]: {
         coords: [30, 0],
       },
-      [MapSubLocation.ELEVATOR_2]: {
+      [MapSubLocation.ELEVATOR_3]: {
         coords: [47, 0],
       },
 
-      [MapSubLocation.STAIRCASE]: {
+      [MapSubLocation.STAIRCASE_1]: {
         coords: [0, 21],
       },
-      [MapSubLocation.STAIRCASE_1]: {
+      [MapSubLocation.STAIRCASE_2]: {
         coords: [23, 0],
       },
 
