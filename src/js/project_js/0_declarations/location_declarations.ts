@@ -1,7 +1,6 @@
 interface GameLocation {
   name: string;
   coords: LocationCoords;
-  nav_locations?: NavigationLocations;
   subLocations?: {
     [nameOfSubLocation in MapSubLocation]?: GameSubLocation;
   };
@@ -11,7 +10,6 @@ interface GameLocation {
 interface GameSubLocation {
   name?: string;
   coords: LocationCoords;
-  // nav_locations?: NavigationLocations;
 }
 
 type LocationCoords = [x: number, y: number, z?: number];
@@ -20,13 +18,6 @@ enum LocationCoordIndex {
   X,
   Y,
   Z,
-}
-
-interface NavigationLocations {
-  north?: GameSubLocation | MapSubLocation;
-  east?: GameSubLocation | MapSubLocation;
-  south?: GameSubLocation | MapSubLocation;
-  west?: GameSubLocation | MapSubLocation;
 }
 
 // The game map would be a 2d/3d array to store all 3 possible coords for locations or sub locations. The id's for the respective location/sub locations are stored in the spot that their coords point to
@@ -52,15 +43,6 @@ const gGameMapSubLocationArraySize = 100;
 enum GameMapCoordinate {
   EMPTY = (1 << 0) * gGameMapSubLocationArraySize,
 }
-
-const gOppositeNavigationDirections: {
-  [key in keyof NavigationLocations]: keyof NavigationLocations;
-} = {
-  north: "south",
-  east: "west",
-  south: "north",
-  west: "east",
-};
 
 // An enum of all locations. Locations are basically just containers of related areas. They are also the only areas that may be displayed on the world map
 // NOTE - Ensure that the name of a member (e.g FERTILO_INC) can be converted into a subLocation string (e.g location_fertiloInc)
