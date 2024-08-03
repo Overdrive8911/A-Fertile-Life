@@ -441,24 +441,25 @@ function populateSubLocationMap(location: MapLocation) {
   if (!gLocationData[location].subLocationMap) {
     // Create an empty array first and set its length to the `GameMapArraySize`
     gLocationData[location].subLocationMap =
-      [] as any as GameMapForSubLocations<typeof GameMapSubLocationArraySize>;
-    gLocationData[location].subLocationMap.length = GameMapSubLocationArraySize;
+      [] as any as GameMapForSubLocations<typeof gGameMapSubLocationArraySize>;
+    gLocationData[location].subLocationMap.length =
+      gGameMapSubLocationArraySize;
 
     let mapOfSubLocations = gLocationData[location].subLocationMap;
 
     // Fill the sub location map with "empty" elements
-    for (let x = 0; x < GameMapSubLocationArraySize; x++) {
+    for (let x = 0; x < gGameMapSubLocationArraySize; x++) {
       // let yAxis = mapOfSubLocations[x];
 
       if (mapOfSubLocations[x] == undefined) {
         // Initialize an empty sub array
         mapOfSubLocations[x] = [] as any as GameMapTuple<
           number,
-          typeof GameMapSubLocationArraySize
+          typeof gGameMapSubLocationArraySize
         >;
-        mapOfSubLocations[x].length = GameMapSubLocationArraySize;
+        mapOfSubLocations[x].length = gGameMapSubLocationArraySize;
 
-        for (let y = 0; y < GameMapSubLocationArraySize; y++) {
+        for (let y = 0; y < gGameMapSubLocationArraySize; y++) {
           mapOfSubLocations[x][y] = GameMapCoordinate.EMPTY;
         }
       }
@@ -482,13 +483,13 @@ function populateSubLocationMap(location: MapLocation) {
           let relativeXIndex =
             Math.abs(
               subLocationCoords[LocationCoordIndex.X] +
-                GameMapSubLocationArraySize / 2
-            ) % GameMapSubLocationArraySize;
+                gGameMapSubLocationArraySize / 2
+            ) % gGameMapSubLocationArraySize;
           let relativeYIndex =
             Math.abs(
               subLocationCoords[LocationCoordIndex.Y] +
-                GameMapSubLocationArraySize / 2
-            ) % GameMapSubLocationArraySize;
+                gGameMapSubLocationArraySize / 2
+            ) % gGameMapSubLocationArraySize;
 
           mapOfSubLocations[relativeXIndex][relativeYIndex] = subLocationId;
         }
