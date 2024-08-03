@@ -5,22 +5,53 @@ interface GameLocation {
   subLocations?: {
     [nameOfSubLocation in MapSubLocation]?: GameSubLocation;
   };
+  subLocationMap?: GameMapForSubLocations<typeof GameMapSubLocationArraySize>;
 }
 
 interface GameSubLocation {
   name?: string;
-  coords?: LocationCoords;
-  nav_locations?: NavigationLocations;
+  coords: LocationCoords;
+  // nav_locations?: NavigationLocations;
 }
 
 type LocationCoords = [x: number, y: number, z?: number];
 
-interface NavigationLocations {
-  north?: MapSubLocation;
-  east?: MapSubLocation;
-  south?: MapSubLocation;
-  west?: MapSubLocation;
+enum LocationCoordIndex {
+  X,
+  Y,
+  Z,
 }
+
+interface NavigationLocations {
+  north?: GameSubLocation | MapSubLocation;
+  east?: GameSubLocation | MapSubLocation;
+  south?: GameSubLocation | MapSubLocation;
+  west?: GameSubLocation | MapSubLocation;
+}
+
+// The game map would be a 2d/3d array to store all 3 possible coords for locations or sub locations. The id's for the respective location/sub locations are stored in the spot that their coords point to
+// NOTE - Any locations/sub locations that can be navigated to via north, east, south or west directions must share the same axis, i.e the x axis in east/ west and y axis in north/south.
+// NOTE - The first array represents the x axis, the second represents the y axis and the third (if present) represents the z axis
+type GameMapForLocations<Size extends number> = GameMapTuple<
+  GameMapTuple<GameMapTuple<number, Size>, Size>,
+  Size
+>; // 3d array
+type GameMapForSubLocations<Size extends number> = GameMapTuple<
+  GameMapTuple<number, Size>,
+  Size
+>; // 2d array
+type GameMapTuple<Coord, AxisLength extends number> = [Coord, ...Coord[]] & {
+  length: AxisLength;
+};
+// type GameMapTuple<Coord> = GameMapTupleType<Coord, 100>
+
+// In the 2d/3d game map array, each numeric member has a value to determine properties, like if it is passable/empty/blocked/etc
+enum GameMapCoordinate {
+  EMPTY = -1,
+}
+
+// To create 100x100 or 100x100x100 arrays
+const GameMapSubLocationArraySize = 100;
 
 const gOppositeNavigationDirections: {
   [key in keyof NavigationLocations]: keyof NavigationLocations;
@@ -117,146 +148,84 @@ enum MapSubLocation {
   ELEVATOR_3,
 }
 
-// This stores EVERY possible location. `addLocation()` is used to add locations and sub locations to this object. `setup.initializeLocationDataObject()` contains many instances of the previous function to populate this object with locations and their respective sub locations.
+// NOTE - This stores EVERY possible location.
 // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
+// NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49
 let gLocationData: {
   [nameOfLocation in MapLocation]?: GameLocation;
 } = {
-  // // North Hirtheford
-  // [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
-  //   name: "Fertilo Inc (Ground Floor)",
-  //   coords: gRelatedLocations.FERTILO_INC.coords,
-  //   subLocations: {
-  //     [MapSubLocation.PORCH]: {
-  //       name: "Porch",
-  //       coords: [2, 5],
-  //       nav_locations: {
-  //         north: MapSubLocation.RECEPTION,
-  //       },
-  //     },
-  //     [MapSubLocation.RECEPTION]: {
-  //       name: "Reception",
-  //       coords: [2, 7],
-  //       nav_locations: {
-  //         south: MapSubLocation.PORCH,
-  //         east: MapSubLocation.MEASUREMENT_CLOSET,
-  //         west: MapSubLocation.PHARMACY,
-  //         north: MapSubLocation.CORRIDOR,
-  //       },
-  //     },
-  //     [MapSubLocation.MEASUREMENT_CLOSET]: {
-  //       name: "Measurement Closet",
-  //       coords: [5, 7],
-  //       nav_locations: { west: MapSubLocation.RECEPTION },
-  //     },
-  //     [MapSubLocation.PHARMACY]: {
-  //       name: "Pharmacy",
-  //       coords: [-1, 7],
-  //       nav_locations: { east: MapSubLocation.RECEPTION },
-  //     },
-  //     [MapSubLocation.CORRIDOR]: {
-  //       name: "Corridor",
-  //       coords: [2, 10],
-  //       nav_locations: {
-  //         north: MapSubLocation.HALLWAY_2,
-  //         south: MapSubLocation.RECEPTION,
-  //       },
-  //     },
-  //     [MapSubLocation.HALLWAY]: {
-  //       name: "Hallway",
-  //       coords: [0, 0],
-  //       nav_locations: {
-  //         west: MapSubLocation.ELEVATOR,
-  //         south: MapSubLocation.STAIRCASE,
-  //         east: MapSubLocation.HALLWAY_1,
-  //       },
-  //     },
-  //     [MapSubLocation.ELEVATOR]: {
-  //       name: "Elevator",
-  //       coords: [0, 0],
-  //       nav_locations: { east: MapSubLocation.HALLWAY },
-  //     },
-  //     [MapSubLocation.STAIRCASE]: {
-  //       name: "Staircase",
-  //       coords: [0, 0],
-  //       nav_locations: { north: MapSubLocation.HALLWAY },
-  //     },
-  //     [MapSubLocation.HALLWAY_1]: {
-  //       name: "Hallway",
-  //       coords: [2, 0],
-  //       nav_locations: {
-  //         north: MapSubLocation.ELEVATOR_1,
-  //         south: MapSubLocation.LAB,
-  //         west: MapSubLocation.HALLWAY,
-  //         east: MapSubLocation.HALLWAY_2,
-  //       },
-  //     },
-  //     [MapSubLocation.ELEVATOR_1]: {
-  //       name: "Elevator",
-  //       coords: [0, 0],
-  //       nav_locations: { south: MapSubLocation.HALLWAY_1 },
-  //     },
-  //     [MapSubLocation.LAB]: {
-  //       name: "Laboratory",
-  //       coords: [0, 0],
-  //       nav_locations: { north: MapSubLocation.HALLWAY_1 },
-  //     },
-  //     [MapSubLocation.HALLWAY_2]: {
-  //       name: "Hallway",
-  //       coords: [6, 0],
-  //       nav_locations: {
-  //         south: MapSubLocation.CORRIDOR,
-  //         north: MapSubLocation.STAIRCASE_1,
-  //         west: MapSubLocation.HALLWAY_1,
-  //         east: MapSubLocation.HALLWAY_3,
-  //       },
-  //     },
-  //     [MapSubLocation.STAIRCASE_1]: {
-  //       name: "Staircase",
-  //       coords: [0, 0],
-  //       nav_locations: { south: MapSubLocation.HALLWAY },
-  //     },
-  //     [MapSubLocation.HALLWAY_3]: {
-  //       name: "Hallway",
-  //       coords: [8, 0],
-  //       nav_locations: {
-  //         north: MapSubLocation.CONSULTATION,
-  //         south: MapSubLocation.PHARMACY_1,
-  //         east: MapSubLocation.HALLWAY_4,
-  //         west: MapSubLocation.HALLWAY_2,
-  //       },
-  //     },
-  //     [MapSubLocation.CONSULTATION]: {
-  //       name: "Consultation Office",
-  //       coords: [0, 0],
-  //       nav_locations: { south: MapSubLocation.HALLWAY_3 },
-  //     },
-  //     [MapSubLocation.PHARMACY_1]: {
-  //       name: "Pharmacy",
-  //       coords: [0, 0],
-  //       nav_locations: { north: MapSubLocation.HALLWAY_3 },
-  //     },
-  //     [MapSubLocation.HALLWAY_4]: {
-  //       name: "Hallway",
-  //       coords: [10, 0],
-  //       nav_locations: {
-  //         north: MapSubLocation.OFFICE_WORK,
-  //         east: MapSubLocation.ELEVATOR_2,
-  //         west: MapSubLocation.HALLWAY_3,
-  //       },
-  //     },
-  //     [MapSubLocation.OFFICE_WORK]: {
-  //       name: "Office",
-  //       coords: [0, 0],
-  //       nav_locations: { south: MapSubLocation.HALLWAY_4 },
-  //     },
-  //     [MapSubLocation.ELEVATOR_2]: {
-  //       name: "Elevator",
-  //       coords: [0, 0],
-  //       nav_locations: { west: MapSubLocation.HALLWAY_4 },
-  //     },
-  //   },
-  // },
+  // North Hirtheford
+  [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
+    name: "Fertilo Inc (Ground Floor)",
+    coords: gRelatedLocations.FERTILO_INC.coords,
+    subLocations: {
+      [MapSubLocation.PORCH]: {
+        coords: [2, 5],
+      },
+      [MapSubLocation.RECEPTION]: {
+        coords: [2, 7],
+      },
+      [MapSubLocation.MEASUREMENT_CLOSET]: {
+        name: "Measurement Closet",
+        coords: [5, 7],
+      },
+      [MapSubLocation.PHARMACY]: {
+        coords: [-1, 7],
+      },
+
+      [MapSubLocation.CORRIDOR]: {
+        coords: [2, 10],
+      },
+
+      [MapSubLocation.HALLWAY]: {
+        coords: [0, 0],
+      },
+      [MapSubLocation.HALLWAY_1]: {
+        coords: [2, 0],
+      },
+      [MapSubLocation.HALLWAY_2]: {
+        coords: [6, 0],
+      },
+      [MapSubLocation.HALLWAY_3]: {
+        coords: [8, 0],
+      },
+      [MapSubLocation.HALLWAY_4]: {
+        coords: [10, 0],
+      },
+
+      [MapSubLocation.ELEVATOR]: {
+        coords: [10, 21],
+      },
+      [MapSubLocation.ELEVATOR_1]: {
+        coords: [30, 0],
+      },
+      [MapSubLocation.ELEVATOR_2]: {
+        coords: [47, 0],
+      },
+
+      [MapSubLocation.STAIRCASE]: {
+        coords: [0, 21],
+      },
+      [MapSubLocation.STAIRCASE_1]: {
+        coords: [23, 0],
+      },
+
+      [MapSubLocation.LAB]: {
+        name: "Laboratory",
+        coords: [6, 44],
+      },
+      [MapSubLocation.CONSULTATION]: {
+        name: "Consultation Office",
+        coords: [8, 7],
+      },
+
+      [MapSubLocation.OFFICE_WORK]: {
+        name: "Office",
+        coords: [2, 6],
+      },
+    },
+  },
+
   [MapLocation.FERTILO_INC_TOP_FLOOR]: {
     name: "Top Floor",
     coords: [
@@ -269,17 +238,6 @@ let gLocationData: {
         name: "Mr Fertilo's Office",
         coords: [8, 6],
       },
-    },
-  },
-  [MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND]: {
-    name: "???",
-    coords: [
-      gRelatedLocations.FERTILO_INC.coords[0],
-      gRelatedLocations.FERTILO_INC.coords[1],
-      -1,
-    ],
-    subLocations: {
-      [MapSubLocation.PLAYER_ROOM]: { name: "Your Room", coords: [11, 9] },
     },
   },
 
@@ -299,13 +257,11 @@ let gLocationData: {
       [MapSubLocation.BATHROOM]: {
         name: "Your Old Bathroom",
         coords: [15, 20],
-        nav_locations: { east: MapSubLocation.BEDROOM },
       },
       [MapSubLocation.PORCH]: { name: "Your Old Porch", coords: [0, -23] },
       [MapSubLocation.BEDROOM]: {
         name: "Your Old Bedroom",
         coords: [21, 36],
-        nav_locations: { west: MapSubLocation.BATHROOM },
       },
     },
   },

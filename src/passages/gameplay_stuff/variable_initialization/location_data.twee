@@ -1,2 +1,2 @@
 :: LocationData [variables] {"position":"1900,400"}
-<<run setup.initializeLocationDataObject()>>
+<<run setup.initializeExtraLocationData()>>
