@@ -45,6 +45,16 @@ const updateGameTimeAfterChangingPassage = (
   setup.updateGameTimeVariable(
     timeToTravel + extraTimeForRemainingInALocationInSeconds
   );
+
+  // Update the location data of the player
+  if (passage2Location != undefined) {
+    variables().player.locationData.location =
+      getMapLocationIdFromLocation(passage2Location);
+  }
+  if (passage2SubLocation != undefined) {
+    variables().player.locationData.subLocation =
+      getMapSubLocationIdFromSubLocation(passage2SubLocation);
+  }
 };
 
 // Skip forward `day` times to the specified time (in hrs and minutes)
