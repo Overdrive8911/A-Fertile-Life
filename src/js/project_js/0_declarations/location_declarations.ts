@@ -432,6 +432,16 @@ setup.locationData = {
       },
     },
   },
+  [MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND]: {
+    name: "Fertilo Inc",
+    coords: [...(gRelatedLocations.FERTILO_INC.coords as [number, number]), -5],
+    subLocations: {
+      [MapSubLocation.PLAYER_ROOM]: {
+        name: "Your Room",
+        coords: [5, 5],
+      },
+    },
+  },
 
   [MapLocation.FERTILO_INC_TOP_FLOOR]: {
     name: "Top Floor",
