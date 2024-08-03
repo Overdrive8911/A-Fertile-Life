@@ -6,8 +6,8 @@ setup.initializePlayerVariables = () => {
 
     /* Location */
     locationData: {
-      location: "playerHouse",
-      subLocation: "bedroom",
+      location: MapLocation.PLAYER_HOUSE,
+      subLocation: MapSubLocation.BEDROOM,
     },
 
     /* Personality and Mood(?) */
