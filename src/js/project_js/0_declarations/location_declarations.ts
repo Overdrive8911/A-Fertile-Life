@@ -155,11 +155,18 @@ function getCoordsRelativeToOtherSubLocation(
   if (otherSubLocationCoords[LocationCoordIndex.Z] == undefined)
     otherSubLocationCoords[LocationCoordIndex.Z] = 0;
 
-  return [
+  let newCoords: LocationCoords = [
     otherSubLocationCoords[LocationCoordIndex.X] + xIncrement,
     otherSubLocationCoords[LocationCoordIndex.Y] + yIncrement,
     otherSubLocationCoords[LocationCoordIndex.Z] + zIncrement,
   ];
+
+  if (newCoords[LocationCoordIndex.Z] == 0) {
+    // No use of keeping it
+    delete newCoords[LocationCoordIndex.Z];
+  }
+
+  return newCoords;
 }
 
 // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
