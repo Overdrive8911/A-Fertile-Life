@@ -32,8 +32,7 @@ const updateGameTimeAfterChangingPassage = (
       !passage2SubLocation)
   ) {
     // If the first and second location both exist and are the same, as well as their sub-locations regardless if either doesn't exist, then the player is still in the same location so calculate a random amount of time in seconds to spend
-    extraTimeForRemainingInALocationInSeconds =
-      getRandomNumberFromRangeInclusive(25, 65);
+    extraTimeForRemainingInALocationInSeconds = random(25, 65);
   }
 
   // Change the in-game time
