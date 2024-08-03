@@ -362,6 +362,18 @@ function getMapLocationIdFromLocation(input: string): MapLocation | undefined {
       }, index String: ${combinedUpperCaseString}\n\nMapLocation.${combinedUpperCaseString} does not exist`
     );
   }
+
+  if (
+    setup.locationData[
+      MapLocation[combinedUpperCaseString as any] as any as MapLocation
+    ] == undefined
+  ) {
+    console.error(
+      `MapLocation entry: ${
+        MapLocation[combinedUpperCaseString as any] as any as number
+      }, index String: ${combinedUpperCaseString}\n\nMapLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
+    );
+  }
   return MapLocation[combinedUpperCaseString as any] as any as number;
 }
 
@@ -416,6 +428,20 @@ function getMapSubLocationIdFromSubLocation(
       `MapSubLocation entry: ${
         MapSubLocation[combinedUpperCaseString as any] as any as number
       }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not exist.`
+    );
+  }
+
+  if (
+    setup.locationData[
+      variables().player.locationData.location as any as MapLocation
+    ].subLocations[
+      MapSubLocation[combinedUpperCaseString as any] as any as MapSubLocation
+    ] == undefined
+  ) {
+    console.error(
+      `MapSubLocation entry: ${
+        MapSubLocation[combinedUpperCaseString as any] as any as number
+      }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
     );
   }
 
