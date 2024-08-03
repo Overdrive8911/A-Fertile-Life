@@ -198,7 +198,7 @@ setup.getDistanceToTravelFromLocation = (
       (distBetweenPrevPassageLocationAndSubLocation +
         distBetweenCurrPassageLocationAndSubLocation +
         distBetweenPrevPassageLocationAndCurrPassageLocation) *
-      getRandomNumberFromRangeInclusive(
+      randomFloat(
         distanceToMetresConversionRange[min],
         distanceToMetresConversionRange[max]
       );
@@ -206,7 +206,7 @@ setup.getDistanceToTravelFromLocation = (
     // Just use the distance between subLocations
     totalDistanceBetweenLocationsInMetres =
       distBetweenPrevPassageSubLocationAndCurrPassageSubLocation *
-      getRandomNumberFromRangeInclusive(
+      randomFloat(
         distanceToMetresConversionRange[min],
         distanceToMetresConversionRange[max]
       );
