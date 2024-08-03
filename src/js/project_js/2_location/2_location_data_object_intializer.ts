@@ -8,15 +8,15 @@ setup.initializeExtraLocationData = () => {
     // TODO - Populate all Location Maps
 
     // Proceed if an entry in `gLocationData` exists
-    if (gLocationData[location]) {
+    if (setup.locationData[location]) {
       // Populate all Sub Location Maps
       populateSubLocationMap(location);
 
       // Set the names of all sub locations (since some rely on their defaults)
-      if (gLocationData[location].subLocations) {
-        Object.entries(gLocationData[location].subLocations).forEach(
+      if (setup.locationData[location].subLocations) {
+        Object.entries(setup.locationData[location].subLocations).forEach(
           ([subLocationId]) => {
-            gLocationData[location].subLocations[
+            setup.locationData[location].subLocations[
               parseInt(subLocationId) as MapSubLocation
             ].name = getDefaultNameOfSubLocation(
               location,
@@ -28,5 +28,5 @@ setup.initializeExtraLocationData = () => {
     }
   });
 
-  console.log(gLocationData);
+  console.log(setup.locationData);
 };
