@@ -68,17 +68,17 @@ setup.getDistanceToTravelFromLocation = (
   let currPassageSubLocationCoords: LocationCoords;
 
   prevPassageLocationCoords =
-    gLocationData[getMapLocationValueFromLocation(prevPassageLocation)].coords;
+    gLocationData[getMapLocationIdFromLocation(prevPassageLocation)].coords;
 
   if (
-    gLocationData[getMapLocationValueFromLocation(prevPassageLocation)]
+    gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
       .subLocations !== undefined &&
     prevPassageSubLocation
   ) {
     prevPassageSubLocationCoords =
-      gLocationData[getMapLocationValueFromLocation(prevPassageLocation)]
+      gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
         .subLocations[
-        getMapSubLocationValueFromSubLocation(prevPassageSubLocation)
+        getMapSubLocationIdFromSubLocation(prevPassageSubLocation)
       ].coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
@@ -86,17 +86,17 @@ setup.getDistanceToTravelFromLocation = (
   }
 
   currPassageLocationCoords =
-    gLocationData[getMapLocationValueFromLocation(currPassageLocation)].coords;
+    gLocationData[getMapLocationIdFromLocation(currPassageLocation)].coords;
 
   if (
-    gLocationData[getMapLocationValueFromLocation(currPassageLocation)]
+    gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
       .subLocations !== undefined &&
     currPassageSubLocation
   ) {
     currPassageSubLocationCoords =
-      gLocationData[getMapLocationValueFromLocation(currPassageLocation)]
+      gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
         .subLocations[
-        getMapSubLocationValueFromSubLocation(currPassageSubLocation)
+        getMapSubLocationIdFromSubLocation(currPassageSubLocation)
       ].coords;
   } else {
     // no sub location exists so default the coords to [0, 0, 0]
@@ -246,7 +246,7 @@ function getSubLocationFromPassageTitle(passageTitle: string) {
   return undefined;
 }
 
-function getLocationFromMapLocationValue(input: MapLocation) {
+function getLocationFromMapLocationId(input: MapLocation) {
   // Assume we're using MapLocation.FERTILO_INC as the input
 
   // The result here would be "FERTILO_INC"
@@ -278,7 +278,7 @@ function getLocationFromMapLocationValue(input: MapLocation) {
   return location;
 }
 
-function getSubLocationFromMapSubLocationValue(input: MapSubLocation) {
+function getSubLocationFromMapSubLocationId(input: MapSubLocation) {
   // Assume we're using MapSubLocation.LIVING_ROOM as the input
 
   // The result here would be "LIVING_ROOM"
@@ -310,9 +310,7 @@ function getSubLocationFromMapSubLocationValue(input: MapSubLocation) {
   return subLocation;
 }
 
-function getMapLocationValueFromLocation(
-  input: string
-): MapLocation | undefined {
+function getMapLocationIdFromLocation(input: string): MapLocation | undefined {
   // Assume we are working with Location_fertiloInc
 
   // Remove "location_". We should have "fertiloInc" here
@@ -365,7 +363,7 @@ function getMapLocationValueFromLocation(
   return MapLocation[combinedUpperCaseString as any] as any as number;
 }
 
-function getMapSubLocationValueFromSubLocation(
+function getMapSubLocationIdFromSubLocation(
   input: string
 ): MapSubLocation | undefined {
   // Assume we are working with subLocation_playerRoom
@@ -422,86 +420,79 @@ function getMapSubLocationValueFromSubLocation(
   return MapSubLocation[combinedUpperCaseString as any] as any as number;
 }
 
-function addLocation(
+function getDefaultNameOfSubLocation(
   locationId: MapLocation,
-  name: string,
-  coords: LocationCoords,
-  subLocations: { id: MapSubLocation; subLocationData: GameSubLocation }[]
+  subLocationId: MapSubLocation
 ) {
-  gLocationData[locationId] = {
-    name: name,
-    coords: coords,
-  };
+  // Check if there's an entry in `gLocationData`
+  if (gLocationData[locationId].subLocations[subLocationId]) {
+    const subLocation = gLocationData[locationId].subLocations[subLocationId];
 
-  // Deal with sub locations
-  // Declare subLocations if it isn't already present
-  if (!gLocationData[locationId].subLocations) {
-    gLocationData[locationId].subLocations = {};
-  }
+    // If there's already a name set, return it
+    if (subLocation.name) return subLocation.name;
 
-  subLocations.forEach((data) => {
     // If the name is not supplied, default it to the name of the id in capital case, i.e MapSubLocation.HALLWAY_4 will have a default name of "Hallway", MapSubLocation.CORRIDOR will have a default name of "Corridor"
-    if (data.subLocationData.name == undefined) {
-      const rawName = MapSubLocation[data.id].split(/(?<=[A-Z])_\d+$/)[0];
+    const rawName = MapSubLocation[subLocationId].split(/(?<=[A-Z])_\d+$/)[0];
+    return rawName.charAt(0) + rawName.slice(1).toLocaleLowerCase();
+  }
+}
 
-      data.subLocationData.name =
-        rawName.charAt(0) + rawName.slice(1).toLocaleLowerCase();
-    }
+function populateSubLocationMap(location: MapLocation) {
+  if (!gLocationData[location].subLocationMap) {
+    // Create an empty array first and set its length to the `GameMapArraySize`
+    gLocationData[location].subLocationMap =
+      [] as any as GameMapForSubLocations<typeof GameMapSubLocationArraySize>;
+    gLocationData[location].subLocationMap.length = GameMapSubLocationArraySize;
 
-    // if the coords are not supplied, default to [0, 0]
-    if (data.subLocationData.coords == undefined)
-      data.subLocationData.coords = [0, 0];
+    let mapOfSubLocations = gLocationData[location].subLocationMap;
 
-    // Add the name and coords
-    gLocationData[locationId].subLocations[data.id] = {
-      name: data.subLocationData.name,
-      coords: data.subLocationData.coords,
-    };
+    // Fill the sub location map with "empty" elements
+    for (let x = 0; x < GameMapSubLocationArraySize; x++) {
+      // let yAxis = mapOfSubLocations[x];
 
-    // Deal with the navigation locations.
-    // When a navigation location is given, go to the linked location/sub location and set it's own navigation location data to return to this specific sub location
-    if (data.subLocationData.nav_locations) {
-      // Declare nav locations if it sin't already present
-      if (!gLocationData[locationId].subLocations[data.id].nav_locations) {
-        gLocationData[locationId].subLocations[data.id].nav_locations = {};
-      }
+      if (mapOfSubLocations[x] == undefined) {
+        // Initialize an empty sub array
+        mapOfSubLocations[x] = [] as any as GameMapTuple<
+          number,
+          typeof GameMapSubLocationArraySize
+        >;
+        mapOfSubLocations[x].length = GameMapSubLocationArraySize;
 
-      for (const direction in data.subLocationData.nav_locations) {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            data.subLocationData.nav_locations,
-            direction
-          )
-        ) {
-          const linkedSubLocation =
-            data.subLocationData.nav_locations[
-              direction as keyof NavigationLocations
-            ];
-
-          // Add the navigation location to the current sub location
-          gLocationData[locationId].subLocations[data.id].nav_locations[
-            direction as keyof NavigationLocations
-          ] = linkedSubLocation;
-
-          // Add the corresponding navigation location to the linked sub location
-          // Declare the linked sub location if it doesn't already exist
-          if (!gLocationData[locationId].subLocations[linkedSubLocation]) {
-            gLocationData[locationId].subLocations[linkedSubLocation] = {
-              name: "",
-              coords: [0, 0],
-              nav_locations: {},
-            };
-          }
-
-          gLocationData[locationId].subLocations[
-            linkedSubLocation
-          ].nav_locations[
-            gOppositeNavigationDirections[
-              direction as keyof NavigationLocations
-            ] as keyof NavigationLocations
-          ] = data.id;
+        for (let y = 0; y < GameMapSubLocationArraySize; y++) {
+          mapOfSubLocations[x][y] = GameMapCoordinate.EMPTY;
         }
       }
     }
-  });
+
+    // Store the sub locations in this map using their coordinates
+    // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
+    for (const id in gLocationData[location].subLocations) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          gLocationData[location].subLocations,
+          id
+        )
+      ) {
+        if (parseInt(id)) {
+          const subLocationId = parseInt(id) as MapSubLocation;
+          const subLocationCoords =
+            gLocationData[location].subLocations[subLocationId].coords;
+
+          // Get the relative indexes and make sure they aren't out of bounds. Please do not allow the latter to happen. This check I'm doing for it is to prevent the game from erroring out.
+          let relativeXIndex =
+            Math.abs(
+              subLocationCoords[LocationCoordIndex.X] +
+                GameMapSubLocationArraySize / 2
+            ) % GameMapSubLocationArraySize;
+          let relativeYIndex =
+            Math.abs(
+              subLocationCoords[LocationCoordIndex.Y] +
+                GameMapSubLocationArraySize / 2
+            ) % GameMapSubLocationArraySize;
+
+          mapOfSubLocations[relativeXIndex][relativeYIndex] = subLocationId;
+        }
+      }
+    }
+  }
 }
