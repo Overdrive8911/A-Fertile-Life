@@ -431,18 +431,25 @@ function getMapSubLocationIdFromSubLocation(
     );
   }
 
+  // TODO - Make stuff like Buses have a location and sub location with the same name
   if (
     setup.locationData[
       variables().player.locationData.location as any as MapLocation
-    ].subLocations[
-      MapSubLocation[combinedUpperCaseString as any] as any as MapSubLocation
-    ] == undefined
+    ].subLocations
   ) {
-    console.error(
-      `MapSubLocation entry: ${
-        MapSubLocation[combinedUpperCaseString as any] as any as number
-      }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
-    );
+    if (
+      setup.locationData[
+        variables().player.locationData.location as any as MapLocation
+      ].subLocations[
+        MapSubLocation[combinedUpperCaseString as any] as any as MapSubLocation
+      ] == undefined
+    ) {
+      console.error(
+        `MapSubLocation entry: ${
+          MapSubLocation[combinedUpperCaseString as any] as any as number
+        }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
+      );
+    }
   }
 
   return MapSubLocation[combinedUpperCaseString as any] as any as number;
