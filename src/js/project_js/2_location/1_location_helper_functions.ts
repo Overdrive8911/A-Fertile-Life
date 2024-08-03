@@ -477,7 +477,7 @@ function populateSubLocationMap(location: MapLocation) {
           id
         )
       ) {
-        if (parseInt(id)) {
+        if (parseInt(id) != undefined) {
           const subLocationId = parseInt(id) as MapSubLocation;
           const subLocationCoords =
             setup.locationData[location].subLocations[subLocationId].coords;
