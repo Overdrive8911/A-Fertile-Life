@@ -10,6 +10,13 @@ interface GameLocation {
 interface GameSubLocation {
   name?: string;
   coords: LocationCoords;
+  // Defaults to `GameMapCoordinate.EMPTY` if undefined
+  passableDirections?: {
+    north?: GameMapCoordinate;
+    east?: GameMapCoordinate;
+    south?: GameMapCoordinate;
+    west?: GameMapCoordinate;
+  };
 }
 
 type LocationCoords = [x: number, y: number, z?: number];
