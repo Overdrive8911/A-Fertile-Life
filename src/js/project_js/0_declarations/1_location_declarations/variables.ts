@@ -196,63 +196,6 @@ setup.locationData = {
         },
       },
 
-      [MapSubLocation.ELEVATOR_1]: {
-        get [`coords`](): LocationCoords {
-          return getCoordsRelativeToOtherSubLocation(
-            MapLocation.FERTILO_INC_GROUND_FLOOR,
-            MapSubLocation.HALLWAY_1,
-            -1,
-            0,
-            0
-          );
-        },
-      },
-      [MapSubLocation.ELEVATOR_2]: {
-        get [`coords`](): LocationCoords {
-          return getCoordsRelativeToOtherSubLocation(
-            MapLocation.FERTILO_INC_GROUND_FLOOR,
-            MapSubLocation.HALLWAY_3,
-            0,
-            1,
-            0
-          );
-        },
-      },
-      [MapSubLocation.ELEVATOR_3]: {
-        get [`coords`](): LocationCoords {
-          return getCoordsRelativeToOtherSubLocation(
-            MapLocation.FERTILO_INC_GROUND_FLOOR,
-            MapSubLocation.HALLWAY_7,
-            1,
-            0,
-            0
-          );
-        },
-      },
-
-      [MapSubLocation.STAIRCASE_1]: {
-        get [`coords`](): LocationCoords {
-          return getCoordsRelativeToOtherSubLocation(
-            MapLocation.FERTILO_INC_GROUND_FLOOR,
-            MapSubLocation.HALLWAY_1,
-            0,
-            -1,
-            0
-          );
-        },
-      },
-      [MapSubLocation.STAIRCASE_2]: {
-        get [`coords`](): LocationCoords {
-          return getCoordsRelativeToOtherSubLocation(
-            MapLocation.FERTILO_INC_GROUND_FLOOR,
-            MapSubLocation.HALLWAY_4,
-            0,
-            1,
-            0
-          );
-        },
-      },
-
       [MapSubLocation.LAB]: {
         name: "Laboratory",
         get [`coords`](): LocationCoords {

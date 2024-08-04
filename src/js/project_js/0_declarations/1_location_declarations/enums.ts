@@ -70,14 +70,4 @@ enum MapSubLocation {
   CORRIDOR_1,
   CORRIDOR_2,
   CORRIDOR_3,
-
-  // Staircases
-  STAIRCASE_1,
-  STAIRCASE_2,
-  STAIRCASE_3,
-
-  // Elevators
-  ELEVATOR_1,
-  ELEVATOR_2,
-  ELEVATOR_3,
 }
