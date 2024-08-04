@@ -30,7 +30,7 @@ type GameMapTuple<Coord, AxisLength extends number> = [Coord, ...Coord[]] & {
 };
 // type GameMapTuple<Coord> = GameMapTupleType<Coord, 100>
 
-// For ease of use later. Add the first and last related MapLocation in the enum
+// For grouping related locations under a single id
 type RelatedMapLocations = {
   [key in MapLocationContainer]: {
     name: string;
