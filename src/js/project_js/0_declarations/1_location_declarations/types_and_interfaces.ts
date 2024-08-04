@@ -11,7 +11,7 @@ interface GameSubLocation {
   name?: string;
   coords: LocationCoords;
   // Defaults to `GameMapCoordinate.EMPTY` if undefined
-  passableDirections?: {
+  extraDirectionInfo?: {
     north?: GameMapCoordinate;
     east?: GameMapCoordinate;
     south?: GameMapCoordinate;
