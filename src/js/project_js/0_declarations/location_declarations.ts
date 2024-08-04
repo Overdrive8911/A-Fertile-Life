@@ -46,7 +46,7 @@ enum GameMapCoordinate {
 
 // An enum of all locations. Locations are basically just containers of related areas. They are also the only areas that may be displayed on the world map
 // NOTE - Ensure that the name of a member (e.g FERTILO_INC) can be converted into a subLocation string (e.g location_fertiloInc)
-// NOTE - Arrange related locations right after each other
+// NOTE - Arrange related locations right after each other for clarity
 enum MapLocation {
   //
   FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
@@ -64,19 +64,29 @@ enum MapLocation {
 
 // For ease of use later. Add the first and last related MapLocation in the enum
 type RelatedMapLocations = {
-  [groupNameOfLocations: string]: {
+  [key in MapLocationContainer]: {
     name: string;
-    coords: LocationCoords;
-    firstRelatedLocation: MapLocation;
-    lastRelatedLocation: MapLocation;
+    generalCoords: LocationCoords;
+    relatedLocations: MapLocation[];
   };
 };
+
+// Stores the general name of a group of multiple locations. Is used in `gRelatedLocations`
+enum MapLocationContainer {
+  FERTILO_INC,
+}
 const gRelatedLocations: RelatedMapLocations = {
-  FERTILO_INC: {
+  [MapLocationContainer.FERTILO_INC]: {
     name: "Fertilo Inc",
-    coords: [45000, 45000],
-    firstRelatedLocation: MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
-    lastRelatedLocation: MapLocation.FERTILO_INC_TOP_FLOOR,
+    generalCoords: [45000, 45000],
+    relatedLocations: [
+      MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
+      MapLocation.FERTILO_INC_GROUND_FLOOR,
+      MapLocation.FERTILO_INC_FIRST_FLOOR,
+      MapLocation.FERTILO_INC_SECOND_FLOOR,
+      MapLocation.FERTILO_INC_THIRD_FLOOR,
+      MapLocation.FERTILO_INC_TOP_FLOOR,
+    ],
   },
 };
 
@@ -178,7 +188,7 @@ setup.locationData = {
   // North Hirtheford
   [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
     name: "Fertilo Inc (Ground Floor)",
-    coords: gRelatedLocations.FERTILO_INC.coords,
+    coords: gRelatedLocations[MapLocationContainer.FERTILO_INC].generalCoords,
     subLocations: {
       [MapSubLocation.PORCH]: {
         coords: [0, 0],
@@ -434,7 +444,13 @@ setup.locationData = {
   },
   [MapLocation.FERTILO_INC_FIRST_FLOOR_UNDERGROUND]: {
     name: "Fertilo Inc",
-    coords: [...(gRelatedLocations.FERTILO_INC.coords as [number, number]), -5],
+    coords: [
+      ...(gRelatedLocations[MapLocationContainer.FERTILO_INC].generalCoords as [
+        number,
+        number
+      ]),
+      -5,
+    ],
     subLocations: {
       [MapSubLocation.PLAYER_ROOM]: {
         name: "Your Room",
@@ -446,8 +462,8 @@ setup.locationData = {
   [MapLocation.FERTILO_INC_TOP_FLOOR]: {
     name: "Top Floor",
     coords: [
-      gRelatedLocations.FERTILO_INC.coords[0],
-      gRelatedLocations.FERTILO_INC.coords[1],
+      gRelatedLocations[MapLocationContainer.FERTILO_INC].generalCoords[0],
+      gRelatedLocations[MapLocationContainer.FERTILO_INC].generalCoords[1],
       5,
     ],
     subLocations: {
