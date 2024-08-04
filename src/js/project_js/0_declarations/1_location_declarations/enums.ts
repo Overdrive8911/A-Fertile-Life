@@ -7,7 +7,7 @@ enum LocationCoordIndex {
 
 // In the 2d/3d game map array, each numeric member has a value to determine properties, like if it is passable/empty/blocked/etc
 enum GameMapCoordinate {
-  EMPTY = (1 << 0) * gGameMapSubLocationArraySize,
+  EMPTY = -1,
 }
 
 // An enum of all locations. Locations are basically just containers of related areas. They are also the only areas that may be displayed on the world map
