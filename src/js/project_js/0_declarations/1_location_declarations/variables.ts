@@ -89,6 +89,7 @@ setup.locationData = {
         },
       },
       [MapSubLocation.PHARMACY_2]: {
+        extraDirectionInfo: { west: GameMapCoordinate.BLOCKED },
         get [`coords`](): LocationCoords {
           return getCoordsRelativeToOtherSubLocation(
             MapLocation.FERTILO_INC_GROUND_FLOOR,
@@ -198,6 +199,7 @@ setup.locationData = {
 
       [MapSubLocation.LAB]: {
         name: "Laboratory",
+        extraDirectionInfo: { east: GameMapCoordinate.BLOCKED },
         get [`coords`](): LocationCoords {
           return getCoordsRelativeToOtherSubLocation(
             MapLocation.FERTILO_INC_GROUND_FLOOR,
@@ -210,6 +212,7 @@ setup.locationData = {
       },
       [MapSubLocation.CONSULTATION]: {
         name: "Consultation Office",
+        extraDirectionInfo: { east: GameMapCoordinate.BLOCKED },
         get [`coords`](): LocationCoords {
           return getCoordsRelativeToOtherSubLocation(
             MapLocation.FERTILO_INC_GROUND_FLOOR,
@@ -223,6 +226,7 @@ setup.locationData = {
 
       [MapSubLocation.OFFICE_WORK]: {
         name: "Office",
+        extraDirectionInfo: { west: GameMapCoordinate.BLOCKED },
         get [`coords`](): LocationCoords {
           return getCoordsRelativeToOtherSubLocation(
             MapLocation.FERTILO_INC_GROUND_FLOOR,
