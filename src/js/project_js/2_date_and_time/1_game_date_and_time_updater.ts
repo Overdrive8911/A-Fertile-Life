@@ -1,4 +1,3 @@
-// Run this in a ":passagedisplay" event
 const updateGameTimeAfterChangingPassage = (
   passageName1: string,
   passageName2: string,

@@ -262,10 +262,10 @@ function getLocationFromMapLocationId(input: MapLocation) {
     (string, index) => {
       if (index == 0) {
         // Convert the first word to lowercase
-        string = string.toLocaleLowerCase();
+        return string.toLocaleLowerCase();
       } else {
         // Convert every other word to capital case (e.g "ROOM" to "Room")
-        string = string.charAt(0) + string.slice(1).toLocaleLowerCase();
+        return string.charAt(0) + string.slice(1).toLocaleLowerCase();
       }
     }
   );
@@ -532,4 +532,17 @@ function populateSubLocationMap(location: MapLocation) {
       }
     }
   }
+}
+
+function loadGameMap(locationId: MapLocation, mapArea: JQuery<HTMLElement>) {
+  // Load up the map by copying the svg contents of the corresponding map into the map popout section (clear the previous contents first)
+  mapArea.empty();
+  // Set a default image for locations without a custom image/sub locations
+  let mapData = `<img src="assets/img/map/location/default.webp" class="pixel-art" style="width:inherit; height:auto;"/>`;
+  if (
+    gLocationMapSvgTable[locationId] &&
+    setup.locationData[locationId].subLocations
+  )
+    mapData = gLocationMapSvgTable[locationId];
+  mapArea.append(mapData);
 }
