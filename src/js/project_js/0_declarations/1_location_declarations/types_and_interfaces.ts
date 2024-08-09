@@ -45,3 +45,5 @@ type RelatedMapLocations = {
     relatedLocations: MapLocation[];
   };
 };
+
+type SvgString = string;
