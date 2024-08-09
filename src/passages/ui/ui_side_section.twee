@@ -43,5 +43,5 @@
 /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
 <div id="ui-side-bar-action-interface" class="stowed">
     /*  TODO - Will be a canvas */
-    <div class="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
+    <div class="ui-side-bar-popout-map" class="hidden"></div>
 </div>
