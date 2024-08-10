@@ -6,7 +6,8 @@
   position: fixed;
   left: 0;
   width: calc(
-    var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width) + var(--ui-side-bar-action-interface-total-width)
+    var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width) +
+      var(--ui-side-bar-action-interface-total-width)
   );
   height: 100%;
 
@@ -216,6 +217,8 @@
   flex: 0 0 auto;
   justify-content: center;
 
+  position: relative;
+
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
   width: var(--ui-side-bar-action-interface-total-width);
@@ -266,6 +269,11 @@
 // If the action interface is currently stowed, shrink it
 :root:has([id="ui-side-bar-action-interface"].stowed) {
   --ui-side-bar-action-interface-total-width: 0px;
+
+  & [class="ui-side-bar-popout-map-button-bar"] > button {
+    padding: 0;
+    border: 0;
+  }
 }
 
 [class="ui-side-bar-popout-map"] {
@@ -277,4 +285,44 @@
   font-size: 3em;
 
   text-align: center;
+}
+
+[class="ui-side-bar-popout-map-button-bar"] {
+  --button-dimension: 12.5%;
+
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  // 5px was the width I got for thick borders
+  width: calc(
+    (
+        (
+            var(--ui-side-bar-action-interface-total-width) -
+              var(--ui-side-bar-action-interface-content-width)
+          ) / 2
+      ) - 5px
+  );
+
+  @include actionInterfaceTransition;
+
+  // Will delete this once I make the icons
+  font-size: 12px;
+
+  > button {
+    position: relative;
+    z-index: 11;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+  }
 }
