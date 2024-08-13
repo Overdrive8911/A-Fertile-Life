@@ -308,26 +308,22 @@ setup.locationData = {
 // Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values
 const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
   [MapLocation.FERTILO_INC_GROUND_FLOOR]: `
-  <svg id="svg1" width="66.146mm" height="47.625mm" version="1.1" viewBox="0 0 66.146 47.625" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g transform="translate(-144.01 -247.3)">
-      <image x="144.01" y="247.3" width="66.146" height="47.625" class="pixel-art" preserveAspectRatio="none" href="assets/img/map/location/fertilo_inc_ground_floor.webp"/>
-
-      <path id="RECEPTION" d="m172.58 283.55-.003.26017-.26309-.003.003.26894-.26602-.003-.004 8.9963.26455-.002.003.26164.25724.003.005.003.002.26149 8.4617.00052.004-.27478.25724.009.002-.28064.26017.0131v-8.9846l-.27186-.003.003-.26602h-.26017v-.26309z"/>
-      <path id="CORRIDOR_1" d="m174.7 274.82.0331 8.4326h4.1341v-8.4336z"/>
-      <path id="LAB" d="m164.64 274.82.002 7.1313 8.4636.001.003-7.1417z"/>
-      <path id="HALLWAY_7" d="m198.25 266.64.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_6" d="m189.78 266.63.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_5" d="m181.3 266.59.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_4" d="m172.87 266.63.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_3" d="m164.38 266.62.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_2" d="m155.92 266.61.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="HALLWAY_1" d="m147.45 266.61.018 7.9169 7.9124.0135-.004-7.9214z"/>
-      <path id="PHARMACY_1" d="m164.38 283.56.008 5.7878 7.3835-.0165.018-5.2728.26309.0117-.0117-.26894h.25724l.006-.23971z"/>
-      <path id="MEASUREMENT_CLOSET" d="m181.32 283.55-.008.23978.24391.0124.008.008h.0165l-.008.24391.24805.0124.0248.008-.004 5.2834 5.5521.004-.00053-5.8133z"/>
-      <path id="PHARMACY_2" d="m182.11 274.81.0165 6.0854 6.3086-.008-.003-6.045z"/>
-      <path id="CONSULTATION_ROOM" d="m188.69 266.32.0234-6.0336-6.8755-.0234.0234 6.0804z"/>
-      <path id="OFFICE_WORK" d="m198.52 266.35v-.0331l-.008-7.1024 7.3753.008.0165 7.0941z"/>
-    </g>
-  </svg>
-`,
+  <svg id="svg1" version="1.1" viewBox="0 0 66 48">
+    <image id="image1" x="-5.5e-6" y="3.1e-6" width="66" height="48" image-rendering="crisp-edges" onmouseover="" preserveAspectRatio="none" href="assets/img/map/location/fertilo_inc_ground_floor.webp"/>
+    <path id="RECEPTION" d="m28.6 36.2-.003.26-.263-.003.003.269-.266-.003-.004 9 .265-.002.003.262.257.003.005.003.002.261 8.46.00052.004-.275.257.009.002-.281.26.0131v-8.98l-.272-.003.003-.266h-.26v-.263z"/>
+    <path id="CORRIDOR_1" d="m30.7 27.5.0331 8.43h4.13v-8.43z"/>
+    <path id="LAB" d="m20.6 27.5.002 7.13 8.46.001.003-7.14z"/>
+    <path id="HALLWAY_7" d="m54.2 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_6" d="m45.8 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_5" d="m37.3 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_4" d="m28.9 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_3" d="m20.4 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_2" d="m11.9 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="HALLWAY_1" d="m3.44 19.3.018 7.92 7.91.0135-.004-7.92z"/>
+    <path id="PHARMACY_1" d="m20.4 36.3.008 5.79 7.38-.0165.018-5.27.263.0117-.0117-.269h.257l.006-.24z"/>
+    <path id="MEASUREMENT_CLOSET" d="m37.3 36.2-.008.24.244.0124.008.008h.0165l-.008.244.248.0124.0248.008-.004 5.28 5.55.004-.00053-5.81z"/>
+    <path id="PHARMACY_2" d="m38.1 27.5.0165 6.09 6.31-.008-.003-6.04z"/>
+    <path id="CONSULTATION_ROOM" d="m44.7 19 .0234-6.03-6.88-.0234.0234 6.08z"/>
+    <path id="OFFICE_WORK" d="m54.5 19v-.0331l-.008-7.1 7.38.008.0165 7.09z"/>
+  </svg>`,
 };

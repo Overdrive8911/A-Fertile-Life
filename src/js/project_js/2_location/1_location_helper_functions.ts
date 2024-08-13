@@ -535,8 +535,12 @@ function populateSubLocationMap(location: MapLocation) {
 }
 
 function loadGameMap(locationId: MapLocation, mapArea: JQuery<HTMLElement>) {
+  // Copy away the zoom buttons and their events (they'll be added back at the end)
+  const mapButtonBar = $(".ui-side-bar-popout-map-button-bar").clone(true);
+
   // Load up the map by copying the svg contents of the corresponding map into the map popout section (clear the previous contents first)
   mapArea.empty();
+
   // Set a default image for locations without a custom image/sub locations
   let mapData = `<img src="assets/img/map/location/default.webp" class="pixel-art" style="width:inherit; height:auto;"/>`;
   if (
@@ -544,5 +548,38 @@ function loadGameMap(locationId: MapLocation, mapArea: JQuery<HTMLElement>) {
     setup.locationData[locationId].subLocations
   )
     mapData = gLocationMapSvgTable[locationId];
-  mapArea.append(mapData);
+
+  mapArea.append(mapData).append(mapButtonBar);
+
+  // For the panning
+  const imagePanning = (area: JQuery<HTMLElement>) => {
+    let isPan = false;
+    let initialCoords: { x: number; y: number } = { x: 0, y: 0 };
+    let transformOffset: { x: number; y: number } = { x: 0, y: 0 };
+
+    // PointerEvent.movementX/movementY wasn't working for some reason so :p
+
+    area
+      .on("pointerdown" as any, (e: PointerEvent) => {
+        e.preventDefault();
+        isPan = true;
+        initialCoords.x = e.clientX - transformOffset.x;
+        initialCoords.y = e.clientY - transformOffset.y;
+      })
+      .on("pointermove" as any, (e: PointerEvent) => {
+        if (!isPan) return;
+
+        transformOffset.x = e.clientX - initialCoords.x;
+        transformOffset.y = e.clientY - initialCoords.y;
+        area.css("translate", `${transformOffset.x}px ${transformOffset.y}px`);
+      })
+      .on("pointerup", () => {
+        isPan = false;
+      })
+      .on("dragstart", () => {
+        // Stop the image from being draggable
+        return false;
+      });
+  };
+  imagePanning(mapArea.children("svg") as any);
 }
