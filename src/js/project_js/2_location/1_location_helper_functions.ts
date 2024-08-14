@@ -534,7 +534,11 @@ function populateSubLocationMap(location: MapLocation) {
   }
 }
 
-function loadGameMap(locationId: MapLocation, mapArea: JQuery<HTMLElement>) {
+function loadGameMap(
+  locationId: MapLocation,
+  mapArea: JQuery<HTMLElement>,
+  includeZoomButtons = true
+) {
   // Copy away the zoom buttons and their events (they'll be added back at the end)
   const mapButtonBar = $(".ui-side-bar-popout-map-button-bar").clone(true);
 
@@ -549,7 +553,9 @@ function loadGameMap(locationId: MapLocation, mapArea: JQuery<HTMLElement>) {
   )
     mapData = gLocationMapSvgTable[locationId];
 
-  mapArea.append(mapData).append(mapButtonBar);
+  // By default, the zoom buttons will be included
+  if (includeZoomButtons) mapArea.append(mapData).append(mapButtonBar);
+  else mapArea.append(mapData);
 
   // For the panning
   const imagePanning = (area: JQuery<HTMLElement>) => {

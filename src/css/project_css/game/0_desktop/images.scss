@@ -34,6 +34,26 @@ img[src^="assets/img/general/envelope"] {
 }
 
 // For displayed maps
-.ui-side-bar-popout-map > svg {
+// .ui-side-bar-popout-map > svg {
+//   fill-opacity: 0;
+// }
+[class*="map"] > svg {
   fill-opacity: 0;
+}
+
+// For the map in the "Large View" dialog
+.map-large-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > svg {
+    width: 80vw;
+    max-height: 80vh;
+  }
+
+  // hide this button, it's unnecessary
+  & .button-large-view {
+    display: none;
+  }
 }
