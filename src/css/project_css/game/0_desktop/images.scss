@@ -38,7 +38,15 @@ img[src^="assets/img/general/envelope"] {
 //   fill-opacity: 0;
 // }
 [class*="map"] > svg {
-  fill-opacity: 0;
+  fill: transparent;
+
+  height: auto;
+  width: auto;
+
+  & img[class~="pixel-art"],
+  & image[class~="pixel-art"] {
+    image-rendering: crisp-edges;
+  }
 }
 
 // For the map in the "Large View" dialog

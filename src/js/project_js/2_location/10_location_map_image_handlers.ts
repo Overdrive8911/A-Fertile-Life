@@ -132,4 +132,99 @@ function loadGameMap(
       });
   };
   imagePanning(mapArea.children("svg") as any);
+
+  // For displaying a mini player sprite on the right sub location
+  const subLocation: MapSubLocation =
+    variables().player.locationData.subLocation;
+  // Check whether the sub location and it's entry exist
+  if (
+    subLocation != undefined &&
+    setup.locationData[locationId].subLocations[subLocation] != undefined
+  ) {
+    // In our svg map, all the paths are given text values like "HALLWAY_2" or "RECEPTION". These will be used to determine what path/area to display the player sprite
+
+    // Find the required path
+    const subLocationString = MapSubLocation[subLocation];
+    const path = $(`#${subLocationString}`);
+
+    if (path.length == 0) {
+      console.error(
+        `There is no path in the map with an id matching "${subLocationString}"`
+      );
+      return;
+    }
+
+    // The function to spawn the sprite on the path
+    const spawnPlayerSpriteOnMap = () => {
+      // NOTE - Each map svg is basically an image with paths on it. That's why, we can use the width and height of the image itself over the svg (since the latter doesn't respond well to transforms in my testing)
+      const mapDimensions = mapArea
+        .children("svg")
+        .children("image")[0]
+        .getBoundingClientRect();
+      const pathDimensions = path[0].getBoundingClientRect();
+
+      // Get the view box dimensions too
+      const viewBoxWidth = parseInt(
+        mapArea.children("svg").attr("viewBox").split(" ")[2]
+      );
+      const viewBoxHeight = parseInt(
+        mapArea.children("svg").attr("viewBox").split(" ")[3]
+      );
+
+      // Get the x, y, width and height for the nested <svg>. I could've used <foreignObject> instead but for some reason it kept on messing up the position of my image
+      let x =
+        ((pathDimensions.left - mapDimensions.left) / mapDimensions.width) *
+        viewBoxWidth;
+      let y =
+        ((pathDimensions.top - mapDimensions.top) / mapDimensions.height) *
+        viewBoxHeight;
+      let width = (pathDimensions.width / mapDimensions.width) * viewBoxWidth;
+      let height =
+        (pathDimensions.height / mapDimensions.height) * viewBoxHeight;
+
+      mapArea.children("svg").append(
+        `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
+          <image x="${x}" y="${y}" width="50%" height="auto" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' />
+        </svg>`
+      );
+
+      // To center the image, get half of the difference between the image's bounding box (height and width) and the svg's/original path's
+      const playerMapSprite = mapArea
+        .children("svg")
+        .children("svg")
+        .children("image");
+      const playerMapSpriteDimensions =
+        playerMapSprite[0].getBoundingClientRect();
+
+      const imageX =
+        ((pathDimensions.width - playerMapSpriteDimensions.width) /
+          2 /
+          pathDimensions.width) *
+          width +
+        x;
+      const imageY =
+        ((pathDimensions.height - playerMapSpriteDimensions.height) /
+          2 /
+          pathDimensions.height) *
+          height +
+        y;
+
+      // Now center it
+      playerMapSprite.attr("x", imageX);
+      playerMapSprite.attr("y", imageY);
+
+      // "Reload" the map after changes
+      mapArea.children("svg").html(mapArea.children("svg").html());
+    };
+
+    // If there's a transition, then this event handler should take care of it
+    if (mapArea.css("transition") == "") {
+      spawnPlayerSpriteOnMap();
+    } else {
+      // This should be long enough to get values close enough
+      mapArea.one("transitionend", () => {
+        spawnPlayerSpriteOnMap();
+      });
+    }
+  }
 }
