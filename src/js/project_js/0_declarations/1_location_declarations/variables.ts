@@ -308,7 +308,7 @@ setup.locationData = {
 // Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values
 const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
   [MapLocation.FERTILO_INC_GROUND_FLOOR]: `
-  <svg id="svg1" version="1.1" viewBox="0 0 66 48">
+  <svg version="1.1" viewBox="0 0 66 48" width="100%" height="100%">
     <image id="image1" x="-5.5e-6" y="3.1e-6" width="66" height="48" image-rendering="crisp-edges" onmouseover="" preserveAspectRatio="none" href="assets/img/map/location/fertilo_inc_ground_floor.webp"/>
     <path id="RECEPTION" d="m28.6 36.2-.003.26-.263-.003.003.269-.266-.003-.004 9 .265-.002.003.262.257.003.005.003.002.261 8.46.00052.004-.275.257.009.002-.281.26.0131v-8.98l-.272-.003.003-.266h-.26v-.263z"/>
     <path id="CORRIDOR_1" d="m30.7 27.5.0331 8.43h4.13v-8.43z"/>
