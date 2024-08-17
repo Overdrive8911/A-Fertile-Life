@@ -4,6 +4,7 @@
 [id="ui-top-bar"] {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 
   right: 0;
 
@@ -224,4 +225,26 @@
 
     box-sizing: border-box;
   }
+}
+
+[id="ui-top-bar-current-location-view"] {
+  height: 2rem;
+  width: 50%;
+  max-width: 35vw;
+  min-width: fit-content;
+
+  padding: 0 0.5rem;
+
+  border: thin solid var(--ui-bar-border-color);
+
+  background-color: hsl(240, 47.5%, 25%);
+  // color: green;
+  color: hsl(120, 90%, 55%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.5rem;
+  text-align: center;
 }
