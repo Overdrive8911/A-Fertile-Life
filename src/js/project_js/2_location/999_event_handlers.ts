@@ -73,3 +73,54 @@ $(document).one(":passageend", () => {
     loadGameMap(variables().player.locationData.location, $(".map-large-view"));
   });
 });
+
+$(document).on(":passageend", () => {
+  // Update the name of the location/sub location shown in "#ui-top-bar-current-location-view". An attribute "is-location-name" will store whether what is displayed is "true" or "false"
+  const element = $("#ui-top-bar-current-location-view");
+  const attrName = "is-location-name";
+
+  const setSubLocationName = () => {
+    element.text(
+      setup.locationData[
+        variables().player.locationData.location as MapLocation
+      ].subLocations[
+        variables().player.locationData.subLocation as MapSubLocation
+      ].name
+    );
+    element.attr(attrName, "false");
+  };
+  const setLocationName = () => {
+    element.text(
+      setup.locationData[
+        variables().player.locationData.location as MapLocation
+      ].name
+    );
+    element.attr(attrName, "true");
+  };
+
+  if (
+    setup.locationData[variables().player.locationData.location as MapLocation]
+      .subLocations
+  ) {
+    setSubLocationName();
+  } else {
+    setLocationName();
+  }
+
+  // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
+  element.ariaClick(() => {
+    if (element.attr(attrName) == "true") {
+      // The location's name is currently displayed so try to display the sub location (if any)
+      if (
+        setup.locationData[
+          variables().player.locationData.location as MapLocation
+        ].subLocations
+      ) {
+        setSubLocationName();
+      }
+    } else if (element.attr(attrName) == "false") {
+      // The sub location's name is currently displayed so display it's location
+      setLocationName();
+    }
+  });
+});
