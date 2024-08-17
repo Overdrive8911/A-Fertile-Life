@@ -145,7 +145,7 @@ function loadGameMap(
 
     // Find the required path
     const subLocationString = MapSubLocation[subLocation];
-    const path = $(`#${subLocationString}`);
+    const path = mapArea.find(`path#${subLocationString}`);
 
     if (path.length == 0) {
       console.error(
@@ -156,18 +156,14 @@ function loadGameMap(
 
     // The function to spawn the sprite on the path
     const spawnPlayerSpriteOnMap = () => {
-      // NOTE - Each map svg is basically an image with paths on it. That's why, we can use the width and height of the image itself over the svg (since the latter doesn't respond well to transforms in my testing)
-      const mapDimensions = mapArea
-        .children("svg")
-        .children("image")[0]
-        .getBoundingClientRect();
+      const mapDimensions = mapArea.children("svg")[0].getBoundingClientRect();
       const pathDimensions = path[0].getBoundingClientRect();
 
       // Get the view box dimensions too
-      const viewBoxWidth = parseInt(
+      const viewBoxWidth = parseFloat(
         mapArea.children("svg").attr("viewBox").split(" ")[2]
       );
-      const viewBoxHeight = parseInt(
+      const viewBoxHeight = parseFloat(
         mapArea.children("svg").attr("viewBox").split(" ")[3]
       );
 
@@ -212,6 +208,12 @@ function loadGameMap(
       // Now center it
       playerMapSprite.attr("x", imageX);
       playerMapSprite.attr("y", imageY);
+
+      // Ensure that if the current path has a text as its sibling, remove it. It'll be displayed in the passage
+      // NOTE - This assumes that related text and path are grouped (honestly, this should be expected)
+      if (path.siblings("text").length == 1) {
+        path.siblings("text").detach();
+      }
 
       // "Reload" the map after changes
       mapArea.children("svg").html(mapArea.children("svg").html());
