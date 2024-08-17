@@ -111,3 +111,6 @@
         </div>
     </div>
 </div>
+
+<!-- It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in -->
+<div id="ui-top-bar-current-location-view">Fertilo Inc Reception</div>
