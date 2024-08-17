@@ -358,3 +358,5 @@ const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
   </svg>
   `,
 };
+
+const gPlayerMapSpriteId = "player-map-sprite"; // The id for the image serving as the player sprite on the map
