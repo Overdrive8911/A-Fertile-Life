@@ -1,16 +1,21 @@
 $(document).one(":passageend", () => {
   // Load the map whenever the side bar button for the map is clicked
   $("#ui-side-bar-toggle-map-button").on("click", function () {
-    loadGameMap(
-      variables().player.locationData.location,
-      $(".ui-side-bar-popout-map")
-    );
+    // Don't question this. It works
+    if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
+      loadGameMap(
+        variables().player.locationData.location,
+        $(".ui-side-bar-popout-map")
+      );
+    }
   });
   $(document).on("keypress", function () {
-    loadGameMap(
-      variables().player.locationData.location,
-      $(".ui-side-bar-popout-map")
-    );
+    if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
+      loadGameMap(
+        variables().player.locationData.location,
+        $(".ui-side-bar-popout-map")
+      );
+    }
   });
 
   const getZoomRatio = (element: JQuery<HTMLElement>) => {
