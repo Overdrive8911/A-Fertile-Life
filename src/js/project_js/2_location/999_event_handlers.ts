@@ -23,45 +23,37 @@ $(document).one(":passageend", () => {
       : 1;
   };
 
+  const zoomMap = (element: JQuery<HTMLElement>, amountToZoom: number) => {
+    // Make sure the scale value doesn't go below 1
+    element.css(
+      "transform",
+      `scale(${
+        getZoomRatio(element) + amountToZoom > 1
+          ? getZoomRatio(element) + amountToZoom
+          : 1
+      })`
+    );
+  };
+
   // Handlers for the zooming functionality of the map popout
   $(".ui-side-bar-popout-map-button-bar > .button-zoom-in").ariaClick(() => {
     // Check if the dialog for "Large View" is open
     if (!Dialog.isOpen("map-large-view")) {
       // Increment the zoom ratio by 0.5
-      $(".ui-side-bar-popout-map > svg").css(
-        "transform",
-        `scale(${getZoomRatio($(".ui-side-bar-popout-map > svg")) + 0.5})`
-      );
+      zoomMap($(".ui-side-bar-popout-map > svg"), 0.5);
     } else {
       // Do the same but for the large view of the map
-      $(".map-large-view > svg").css(
-        "transform",
-        `scale(${getZoomRatio($(".map-large-view > svg")) + 0.5})`
-      );
+      zoomMap($(".map-large-view > svg"), 0.5);
     }
   });
   $(".ui-side-bar-popout-map-button-bar > .button-zoom-out").ariaClick(() => {
     // Check if the dialog for "Large View" is open
     if (!Dialog.isOpen("map-large-view")) {
-      // Decrement the zoom ratio by 0.5 but don't go lower than 1
-      $(".ui-side-bar-popout-map > svg").css(
-        "transform",
-        `scale(${
-          getZoomRatio($(".ui-side-bar-popout-map > svg")) - 0.5 > 1
-            ? getZoomRatio($(".ui-side-bar-popout-map > svg")) - 0.5
-            : 1
-        })`
-      );
+      // Decrement the zoom ratio by 0.5
+      zoomMap($(".ui-side-bar-popout-map > svg"), -0.5);
     } else {
       // Do the same for the large view of the map
-      $(".map-large-view > svg").css(
-        "transform",
-        `scale(${
-          getZoomRatio($(".map-large-view > svg")) - 0.5 > 1
-            ? getZoomRatio($(".map-large-view > svg")) - 0.5
-            : 1
-        })`
-      );
+      zoomMap($(".map-large-view > svg"), -0.5);
     }
   });
 
