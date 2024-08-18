@@ -27,6 +27,4 @@ setup.initializeExtraLocationData = () => {
       }
     }
   });
-
-  console.log(setup.locationData);
 };
