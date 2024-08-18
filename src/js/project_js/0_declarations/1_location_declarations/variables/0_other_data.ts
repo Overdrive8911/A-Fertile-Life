@@ -14,3 +14,5 @@ const averageWalkingSpeed: [
 const gGameMapSubLocationArraySize = 100;
 
 const gPlayerMapSpriteId = "player-map-sprite"; // The id for the image serving as the player sprite on the map
+
+const gLeftShiftValue = 8;
