@@ -1,3 +1,4 @@
+// SECTION - For everything belonging to the map
 $(document).one(":passageend", () => {
   // Load the map whenever the side bar button for the map is clicked
   $("#ui-side-bar-toggle-map-button").on("click", function () {
@@ -74,6 +75,7 @@ $(document).one(":passageend", () => {
   });
 });
 
+// SECTION - For everything relating to the location/subLocation display that resides right below the top bar
 $(document).on(":passageend", () => {
   // Update the name of the location/sub location shown in "#ui-top-bar-current-location-view". An attribute "is-location-name" will store whether what is displayed is "true" or "false"
   const element = $("#ui-top-bar-current-location-view");
@@ -81,11 +83,10 @@ $(document).on(":passageend", () => {
 
   const setSubLocationName = () => {
     element.text(
-      setup.locationData[
-        variables().player.locationData.location as MapLocation
-      ].subLocations[
-        variables().player.locationData.subLocation as MapSubLocation
-      ].name
+      getDefaultNameOfSubLocation(
+        variables().player.locationData.location,
+        variables().player.locationData.subLocation
+      )
     );
     element.attr(attrName, "false");
   };
