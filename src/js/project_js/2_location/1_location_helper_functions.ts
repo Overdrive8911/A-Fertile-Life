@@ -319,31 +319,35 @@ function getMapLocationIdFromLocation(input: string): MapLocation | undefined {
   const cleanInput = input.split("location_")[1];
 
   // Split the input at points wherever it finds a capital letter (e.g ["fertilo", "nc"])
-  const regexp = /(?<=[a-z])[A-Z]/;
+  const regexp = /(?<=[a-z])([A-Z0-9])/;
   let splitInput = cleanInput.split(regexp);
 
-  // Loop through a portion of original string to find the cut-off values from the split (e.g Look for the index of "nc" in "Inc" ("fertilo" will be sliced off) and re-add the character at index - 1)
-  for (let i = 1; i < splitInput.length; i++) {
-    let indexToSpliceTo = 0;
-
-    splitInput.forEach((value, index) => {
-      if (index < i) {
-        indexToSpliceTo += value.length;
-      }
-    });
-
-    const splicedInput = cleanInput.slice(indexToSpliceTo);
-
-    splitInput[i] =
-      splicedInput.charAt(splicedInput.indexOf(splitInput[i]) - 1) +
-      splitInput[i];
+  // Aside from index[0], combine every remaining 2 pairs of elements (so [..., "R", "oom"] becomes [..., "Room"])
+  let processedInput: string[] = [];
+  for (let i = 0; i < (splitInput.length - 1) / 2 + 1; i++) {
+    // const element = array[i];
+    if (i == 0) {
+      // Add the first string
+      processedInput[i] = splitInput[i];
+    } else {
+      /* Use the formula `processedInput[i] = splitInput[(i*2) - 1] + splitInput[i * 2]` since it matches up well with
+      index 0 = 0
+      index 1 = 1 + 2;
+      index 2 = 3 + 4;
+      index 3 = 5 + 6;
+      index 4 = 7 + 8;
+      index 5 = 9 + 10;
+      and so on
+      */
+      processedInput[i] = splitInput[i * 2 - 1] + splitInput[i * 2];
+    }
   }
   // We should have ["fertilo", "Inc"] now
 
   // Convert the substrings to upper case and combine them with "_"
   // We should have "FERTILO_INC"
   let combinedUpperCaseString = "";
-  splitInput.forEach((value, index) => {
+  processedInput.forEach((value, index) => {
     if (index == 0) {
       // Just convert the first one to uppercase and append it
       combinedUpperCaseString += value.toLocaleUpperCase();
@@ -385,32 +389,36 @@ function getMapSubLocationIdFromSubLocation(
   // Remove "subLocation_". We should have "playerRoom" here
   const cleanInput = input.split("subLocation_")[1];
 
-  // Split the input at points wherever it finds a capital letter (e.g ["player", "oom"])
-  const regexp = /(?<=[a-z])[A-Z]/;
+  // Split the input at points wherever it finds a capital letter (or a number; which would be situated at the end) (e.g ["player", "R", "oom"])
+  const regexp = /(?<=[a-z])([A-Z0-9])/;
   let splitInput = cleanInput.split(regexp);
 
-  // Loop through a portion of original string to find the cut-off values from the split (e.g Look for the index of "oom" in "Room" ("player" will be sliced off) and re-add the character at index - 1)
-  for (let i = 1; i < splitInput.length; i++) {
-    let indexToSpliceTo = 0;
-
-    splitInput.forEach((value, index) => {
-      if (index < i) {
-        indexToSpliceTo += value.length;
-      }
-    });
-
-    const splicedInput = cleanInput.slice(indexToSpliceTo);
-
-    splitInput[i] =
-      splicedInput.charAt(splicedInput.indexOf(splitInput[i]) - 1) +
-      splitInput[i];
+  // Aside from index[0], combine every remaining 2 pairs of elements (so [..., "R", "oom"] becomes [..., "Room"])
+  let processedInput: string[] = [];
+  for (let i = 0; i < (splitInput.length - 1) / 2 + 1; i++) {
+    // const element = array[i];
+    if (i == 0) {
+      // Add the first string
+      processedInput[i] = splitInput[i];
+    } else {
+      /* Use the formula `processedInput[i] = splitInput[(i*2) - 1] + splitInput[i * 2]` since it matches up well with
+      index 0 = 0
+      index 1 = 1 + 2;
+      index 2 = 3 + 4;
+      index 3 = 5 + 6;
+      index 4 = 7 + 8;
+      index 5 = 9 + 10;
+      and so on
+      */
+      processedInput[i] = splitInput[i * 2 - 1] + splitInput[i * 2];
+    }
   }
-  // We should have ["player", "Room"] now
+  // We should have ["player", "Room"] here
 
   // Convert the substrings to upper case and combine them with "_"
   // We should have "PLAYER_ROOM"
   let combinedUpperCaseString = "";
-  splitInput.forEach((value, index) => {
+  processedInput.forEach((value, index) => {
     if (index == 0) {
       // Just convert the first one to uppercase and append it
       combinedUpperCaseString += value.toLocaleUpperCase();
