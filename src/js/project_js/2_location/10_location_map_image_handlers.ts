@@ -60,16 +60,14 @@ function populateSubLocationMap(location: MapLocation) {
             setup.locationData[location].subLocations[subLocationId].coords;
 
           // Get the relative indexes and make sure they aren't out of bounds. Please do not allow the latter to happen. This check I'm doing for it is to prevent the game from erroring out.
-          let relativeXIndex =
-            Math.abs(
-              subLocationCoords[LocationCoordIndex.X] +
-                gGameMapSubLocationArraySize / 2
-            ) % gGameMapSubLocationArraySize;
-          let relativeYIndex =
-            Math.abs(
-              subLocationCoords[LocationCoordIndex.Y] +
-                gGameMapSubLocationArraySize / 2
-            ) % gGameMapSubLocationArraySize;
+          let relativeXIndex = getEffectiveCoordInGameMap(
+            subLocationCoords[LocationCoordIndex.X],
+            gGameMapSubLocationArraySize
+          );
+          let relativeYIndex = getEffectiveCoordInGameMap(
+            subLocationCoords[LocationCoordIndex.Y],
+            gGameMapSubLocationArraySize
+          );
 
           mapOfSubLocations[relativeXIndex][relativeYIndex] = subLocationId;
         }

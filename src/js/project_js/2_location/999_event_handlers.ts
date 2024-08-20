@@ -1,5 +1,5 @@
 // SECTION - For everything belonging to the map
-$(document).one(":passageend", () => {
+$(document).on(":passageend", () => {
   // Load the map whenever the side bar button for the map is clicked
   $("#ui-side-bar-toggle-map-button").on("click", function () {
     // Don't question this. It works
@@ -123,5 +123,34 @@ $(document).on(":passageend", () => {
       // The sub location's name is currently displayed so display it's location
       setLocationName();
     }
+  });
+});
+
+// SECTION - For everything relating to the navigational buttons
+$(document).on(":passageend", () => {
+  const northButton = $("#ui-navigation-option-button-north");
+  const eastButton = $("#ui-navigation-option-button-east");
+  const southButton = $("#ui-navigation-option-button-south");
+  const westButton = $("#ui-navigation-option-button-west");
+
+  const navigate = (direction: GameMapDirection) => {
+    navigateInDirectionOnMap(
+      direction,
+      variables().player.locationData.location as MapLocation,
+      variables().player.locationData.subLocation as MapSubLocation
+    );
+  };
+
+  northButton.ariaClick(() => {
+    navigate(GameMapDirection.NORTH);
+  });
+  eastButton.ariaClick(() => {
+    navigate(GameMapDirection.EAST);
+  });
+  southButton.ariaClick(() => {
+    navigate(GameMapDirection.SOUTH);
+  });
+  westButton.ariaClick(() => {
+    navigate(GameMapDirection.WEST);
   });
 });
