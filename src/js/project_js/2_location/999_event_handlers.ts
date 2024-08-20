@@ -10,12 +10,14 @@ $(document).on(":passageend", () => {
       );
     }
   });
-  $(document).on("keypress", function () {
-    if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
-      loadGameMap(
-        variables().player.locationData.location,
-        $(".ui-side-bar-popout-map")
-      );
+  $(document).on("keyup", function (e) {
+    if (e.key.toLocaleLowerCase() == "z") {
+      if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
+        loadGameMap(
+          variables().player.locationData.location,
+          $(".ui-side-bar-popout-map")
+        );
+      }
     }
   });
 
@@ -141,6 +143,7 @@ $(document).on(":passageend", () => {
     );
   };
 
+  // Click Events
   northButton.ariaClick(() => {
     navigate(GameMapDirection.NORTH);
   });
@@ -153,4 +156,19 @@ $(document).on(":passageend", () => {
   westButton.ariaClick(() => {
     navigate(GameMapDirection.WEST);
   });
+
+  // Key Events
+  $(document)
+    .on("keyup", (e) => {
+      if (e.key.toLocaleLowerCase() == "w") navigate(GameMapDirection.NORTH);
+    })
+    .on("keyup", (e) => {
+      if (e.key.toLocaleLowerCase() == "d") navigate(GameMapDirection.EAST);
+    })
+    .on("keyup", (e) => {
+      if (e.key.toLocaleLowerCase() == "s") navigate(GameMapDirection.SOUTH);
+    })
+    .on("keyup", (e) => {
+      if (e.key.toLocaleLowerCase() == "a") navigate(GameMapDirection.WEST);
+    });
 });
