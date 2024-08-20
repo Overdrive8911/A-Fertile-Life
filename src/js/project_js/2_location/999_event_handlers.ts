@@ -135,12 +135,12 @@ $(document).on(":passageend", () => {
   const southButton = $("#ui-navigation-option-button-south");
   const westButton = $("#ui-navigation-option-button-west");
 
+  const currLocation = variables().player.locationData.location as MapLocation;
+  const currSubLocation = variables().player.locationData
+    .subLocation as MapSubLocation;
+
   const navigate = (direction: GameMapDirection) => {
-    navigateInDirectionOnMap(
-      direction,
-      variables().player.locationData.location as MapLocation,
-      variables().player.locationData.subLocation as MapSubLocation
-    );
+    navigateInDirectionOnMap(direction, currLocation, currSubLocation);
   };
 
   // Click Events
@@ -159,16 +159,37 @@ $(document).on(":passageend", () => {
 
   // Key Events
   $(document)
-    .on("keyup", (e) => {
+    .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
+    .on("keyup.navigation_buttons", (e) => {
       if (e.key.toLocaleLowerCase() == "w") navigate(GameMapDirection.NORTH);
     })
-    .on("keyup", (e) => {
+    .on("keyup.navigation_buttons", (e) => {
       if (e.key.toLocaleLowerCase() == "d") navigate(GameMapDirection.EAST);
     })
-    .on("keyup", (e) => {
+    .on("keyup.navigation_buttons", (e) => {
       if (e.key.toLocaleLowerCase() == "s") navigate(GameMapDirection.SOUTH);
     })
-    .on("keyup", (e) => {
+    .on("keyup.navigation_buttons", (e) => {
       if (e.key.toLocaleLowerCase() == "a") navigate(GameMapDirection.WEST);
     });
+
+  const navButtonUsabilityActions = (
+    direction: GameMapDirection,
+    button: JQuery<HTMLElement>
+  ) => {
+    if (!isNavigationButtonUsable(direction)) {
+      // button.off("click keyup");
+      button.prop("disabled", true);
+      button.css("filter", "brightness(45%)");
+    } else {
+      button.prop("disabled", false);
+    }
+  };
+
+  // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
+  navButtonUsabilityActions(GameMapDirection.NORTH, northButton);
+  navButtonUsabilityActions(GameMapDirection.EAST, eastButton);
+  navButtonUsabilityActions(GameMapDirection.SOUTH, southButton);
+  navButtonUsabilityActions(GameMapDirection.WEST, westButton);
+  console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
 });
