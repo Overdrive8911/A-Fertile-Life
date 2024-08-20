@@ -182,7 +182,7 @@ function loadGameMap(
 
       mapArea.children("svg").append(
         `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
-          <image x="${x}" y="${y}" width="50%" height="auto" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' id = '${gPlayerMapSpriteId}'/>
+          <image x="${x}" y="${y}" width="50%" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' id = '${gPlayerMapSpriteId}'/>
         </svg>`
       );
 
