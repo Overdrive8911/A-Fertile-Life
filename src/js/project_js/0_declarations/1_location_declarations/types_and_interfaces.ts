@@ -35,6 +35,11 @@ type GameMapForSubLocations<Size extends number> = GameMapTuple<
 type GameMapTuple<Coord, AxisLength extends number> = [Coord, ...Coord[]] & {
   length: AxisLength;
 };
+
+// General type for stuff that can expect either
+type GameMap<Size extends number> =
+  | GameMapForLocations<Size>
+  | GameMapForSubLocations<Size>;
 // type GameMapTuple<Coord> = GameMapTupleType<Coord, 100>
 
 // For grouping related locations under a single id
