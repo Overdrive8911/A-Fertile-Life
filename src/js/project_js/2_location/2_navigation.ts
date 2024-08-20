@@ -98,7 +98,7 @@ function warpToArea(
   if (!defaultPassageToLoad) {
     // Undefined. It didn't find any passage matching the tags
     console.warn(
-      `Did not find any passage with tags matching ${locationTag}, ${subLocationTag}, and ${defaultTag}. \n\nThe navigation button(s), if any, that warp to the passage in question may be disabled.`
+      `Did not find any passage with tags matching "${locationTag}", "${subLocationTag}", and "${defaultTag}". \n\nThe navigation button(s), if any, that warp to the passage in question may be disabled.`
     );
     return false;
   } else {
