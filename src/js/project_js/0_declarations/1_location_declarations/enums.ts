@@ -11,6 +11,14 @@ enum GameMapCoordinate {
   BLOCKED = -2, // Cannot be passed through
 }
 
+// The values passed into a function when any of the navigation buttons are clicked
+enum GameMapDirection {
+  NORTH,
+  EAST,
+  SOUTH,
+  WEST,
+}
+
 // Stores the general name of a group of multiple locations. Is used in `gRelatedLocations`
 enum MapLocationContainer {
   FERTILO_INC,
