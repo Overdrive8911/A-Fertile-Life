@@ -1,8 +1,9 @@
-// This will try to move the player in a particular direction from an initial location (and an optional sub location) in the 2d/3d location/sub location map array. If the direction is unblocked and another location/sub location is found, then "warp" to that map
+// This will try to move the player in a particular direction from an initial location (and an optional sub location) in the 2d/3d location/sub location map array. If the direction is unblocked and another location/sub location is found, then "warp" to that map and return true else return false. If the parameter, "doNotWarp", is set to true, no navigation actually happens and the function can be used to check if a path is navigable
 function navigateInDirectionOnMap(
   direction: GameMapDirection,
   initialLocationId: MapLocation,
-  initialSubLocationId?: MapSubLocation
+  initialSubLocationId?: MapSubLocation,
+  doNotWarp = false
 ) {
   // TODO - Add proper support for location maps later
   let mapArray: GameMap<typeof gGameMapSubLocationArraySize>;
@@ -10,7 +11,7 @@ function navigateInDirectionOnMap(
 
   const locationData = setup.locationData[initialLocationId];
 
-  if (initialSubLocationId != undefined) {
+  if (initialSubLocationId != undefined || initialSubLocationId != null) {
     if (
       canMoveInDirectionOnMap(
         direction,
@@ -47,9 +48,12 @@ function navigateInDirectionOnMap(
         possibleSubLocationToWarpTo != GameMapCoordinate.BLOCKED &&
         possibleSubLocationToWarpTo != GameMapCoordinate.EMPTY
       ) {
-        // Warp to the sub location
-        warpToArea(initialLocationId, possibleSubLocationToWarpTo);
-        return true;
+        // Warp to the sub location if "doNotWarp" is false
+        return warpToArea(
+          initialLocationId,
+          possibleSubLocationToWarpTo,
+          doNotWarp
+        );
       }
 
       // Either nothing was found or the direction was blocked
@@ -61,10 +65,11 @@ function navigateInDirectionOnMap(
   }
 }
 
-// "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data
+// "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 function warpToArea(
   locationIdToWarpTo: MapLocation,
-  subLocationIdToWarpTo?: MapSubLocation
+  subLocationIdToWarpTo?: MapSubLocation,
+  doNotWarp = false
 ) {
   const locationTag = getLocationFromMapLocationId(locationIdToWarpTo);
   let subLocationTag = "";
@@ -92,13 +97,15 @@ function warpToArea(
 
   if (!defaultPassageToLoad) {
     // Undefined. It didn't find any passage matching the tags
-    console.error(
-      `Did not find any passage with tags matching ${locationTag}, ${subLocationTag}, and ${defaultTag}`
+    console.warn(
+      `Did not find any passage with tags matching ${locationTag}, ${subLocationTag}, and ${defaultTag}. \n\nThe navigation button(s), if any, that warp to the passage in question may be disabled.`
     );
+    return false;
   } else {
     // load the passage
-    console.log(defaultPassageToLoad.title);
-    Engine.play(defaultPassageToLoad.title);
+    // console.log(defaultPassageToLoad.title);
+    if (!doNotWarp) Engine.play(defaultPassageToLoad.title);
+    return true;
   }
 }
 // MapLocation.FERTILO_INC_GROUND_FLOOR;
@@ -136,6 +143,7 @@ function canMoveInDirectionOnMap(
   }
 }
 
+// TODO - Make this more performant
 function findClosestSubLocationInDirection(
   direction: GameMapDirection,
   currentCoordsInMapArray: LocationCoords,
@@ -170,7 +178,7 @@ function findClosestSubLocationInDirection(
       break;
   }
 
-  console.log(`axisToSearch: ${axisToSearch}`);
+  // console.log(`axisToSearch: ${axisToSearch}`);
 
   const arrayOfSubLocations = Object.values(MapSubLocation).filter(
     (subLocation) => {
@@ -183,10 +191,10 @@ function findClosestSubLocationInDirection(
     position[axisToSearch] < gGameMapSubLocationArraySize - 1 &&
     position[axisToSearch] > 0
   ) {
-    console.log(position);
-    console.log(
-      mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
-    );
+    // console.log(position);
+    // console.log(
+    //   mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
+    // );
 
     const indexOfSubLocationToWarpTo = arrayOfSubLocations.indexOf(
       mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
@@ -217,4 +225,16 @@ function findClosestSubLocationInDirection(
 
   // Didn't find anything
   return GameMapCoordinate.EMPTY;
+}
+
+function isNavigationButtonUsable(direction: GameMapDirection) {
+  const currLocation: MapLocation = variables().player.locationData.location;
+  const currSubLocation: MapSubLocation =
+    variables().player.locationData.subLocation;
+
+  // Check if the current passage has the "defaultTag" and if `navigateInDirectionOnMap()` is true. It will also consider whether the passage to warp to exists
+  return (
+    Story.get(passage()).tags.includes("default") &&
+    navigateInDirectionOnMap(direction, currLocation, currSubLocation, true)
+  );
 }
