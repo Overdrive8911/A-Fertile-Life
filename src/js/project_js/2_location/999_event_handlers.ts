@@ -10,16 +10,18 @@ $(document).on(":passageend", () => {
       );
     }
   });
-  $(document).on("keyup", function (e) {
-    if (e.key.toLocaleLowerCase() == "z") {
-      if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
-        loadGameMap(
-          variables().player.locationData.location,
-          $(".ui-side-bar-popout-map")
-        );
+  $(document)
+    .off("keyup.map")
+    .on("keyup.map", function (e) {
+      if (e.key.toLocaleLowerCase() == "z") {
+        if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
+          loadGameMap(
+            variables().player.locationData.location,
+            $(".ui-side-bar-popout-map")
+          );
+        }
       }
-    }
-  });
+    });
 
   const getZoomRatio = (element: JQuery<HTMLElement>) => {
     // Check the transform value on the svg (It should be a scaled value i.e "matrix(2, 0, 0, 2, 0, 0)" corresponds with scale(2) ). If the property doesn't exist or if it's less than 1, default to 1
@@ -139,6 +141,12 @@ $(document).on(":passageend", () => {
   const currSubLocation = variables().player.locationData
     .subLocation as MapSubLocation;
 
+  const isNorthNavigable = isNavigationButtonUsable(GameMapDirection.NORTH);
+  const isEastNavigable = isNavigationButtonUsable(GameMapDirection.EAST);
+  const isSouthNavigable = isNavigationButtonUsable(GameMapDirection.SOUTH);
+  const isWestNavigable = isNavigationButtonUsable(GameMapDirection.WEST);
+  console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
+
   const navigate = (direction: GameMapDirection) => {
     navigateInDirectionOnMap(direction, currLocation, currSubLocation);
   };
@@ -161,35 +169,39 @@ $(document).on(":passageend", () => {
   $(document)
     .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
     .on("keyup.navigation_buttons", (e) => {
-      if (e.key.toLocaleLowerCase() == "w") navigate(GameMapDirection.NORTH);
+      if (e.key.toLocaleLowerCase() == "w" && isNorthNavigable)
+        navigate(GameMapDirection.NORTH);
     })
     .on("keyup.navigation_buttons", (e) => {
-      if (e.key.toLocaleLowerCase() == "d") navigate(GameMapDirection.EAST);
+      if (e.key.toLocaleLowerCase() == "d" && isEastNavigable)
+        navigate(GameMapDirection.EAST);
     })
     .on("keyup.navigation_buttons", (e) => {
-      if (e.key.toLocaleLowerCase() == "s") navigate(GameMapDirection.SOUTH);
+      if (e.key.toLocaleLowerCase() == "s" && isSouthNavigable)
+        navigate(GameMapDirection.SOUTH);
     })
     .on("keyup.navigation_buttons", (e) => {
-      if (e.key.toLocaleLowerCase() == "a") navigate(GameMapDirection.WEST);
+      if (e.key.toLocaleLowerCase() == "a" && isWestNavigable)
+        navigate(GameMapDirection.WEST);
     });
 
   const navButtonUsabilityActions = (
-    direction: GameMapDirection,
+    canMoveInDirection: boolean,
     button: JQuery<HTMLElement>
   ) => {
-    if (!isNavigationButtonUsable(direction)) {
-      // button.off("click keyup");
+    if (!canMoveInDirection) {
       button.prop("disabled", true);
-      button.css("filter", "brightness(45%)");
+      button.css("filter", "brightness(45%)").css("pointer-events", "none");
+      // button.is(":hover")
+      // $(`#${button[0].id}:hover`).css()
     } else {
       button.prop("disabled", false);
     }
   };
 
   // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
-  navButtonUsabilityActions(GameMapDirection.NORTH, northButton);
-  navButtonUsabilityActions(GameMapDirection.EAST, eastButton);
-  navButtonUsabilityActions(GameMapDirection.SOUTH, southButton);
-  navButtonUsabilityActions(GameMapDirection.WEST, westButton);
-  console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
+  navButtonUsabilityActions(isNorthNavigable, northButton);
+  navButtonUsabilityActions(isEastNavigable, eastButton);
+  navButtonUsabilityActions(isSouthNavigable, southButton);
+  navButtonUsabilityActions(isWestNavigable, westButton);
 });
