@@ -480,3 +480,27 @@ function getDefaultNameOfSubLocation(
     return rawName.charAt(0) + rawName.slice(1).toLocaleLowerCase();
   }
 }
+
+function getEffectiveCoordInGameMap(coord: number, mapArraySize: number) {
+  if (
+    coord < (mapArraySize / 2) * -1 /* Below lower bounds */ ||
+    coord > mapArraySize / 2 - 1 /* Above upper bounds */
+  ) {
+    console.error(
+      `The location/sub location coordinate, ${coord}, is too small to have a valid (without truncating) relative value in a map ${mapArraySize} elements long. Increase the map's size to a higher even number OR ensure that the coordinate is not below ${
+        (mapArraySize / 2) * -1
+      } and not above ${
+        mapArraySize / 2 - 1
+      } OTHERWISE the location/sub location position may have unintended values`
+    );
+  }
+
+  return Math.abs(coord + mapArraySize / 2) % mapArraySize;
+}
+
+function getActualCoordFromGameMapCoord(
+  gameMapCoord: number,
+  mapArraySize: number
+) {
+  return gameMapCoord - mapArraySize / 2;
+}

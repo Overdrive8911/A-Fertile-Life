@@ -10,7 +10,7 @@ const averageWalkingSpeed: [
   timeUnit: string
 ] = [1.35, "metres", "second"];
 
-// To create 100x100 or 100x100x100 arrays
+// To create 100x100 or 100x100x100 arrays.
 const gGameMapSubLocationArraySize = 100;
 
 const gPlayerMapSpriteId = "player-map-sprite"; // The id for the image serving as the player sprite on the map
