@@ -49,10 +49,13 @@ const updateGameTimeAfterChangingPassage = (
   if (passage2Location != undefined) {
     variables().player.locationData.location =
       getMapLocationIdFromLocation(passage2Location);
-  }
-  if (passage2SubLocation != undefined) {
-    variables().player.locationData.subLocation =
-      getMapSubLocationIdFromSubLocation(passage2SubLocation);
+
+    if (passage2SubLocation != undefined) {
+      variables().player.locationData.subLocation =
+        getMapSubLocationIdFromSubLocation(passage2SubLocation);
+    } else {
+      variables().player.locationData.subLocation = null;
+    }
   }
 };
 
