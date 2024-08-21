@@ -180,9 +180,36 @@ function loadGameMap(
       let height =
         (pathDimensions.height / mapDimensions.height) * viewBoxHeight;
 
+      // Copy over the image in the svg to a new image object and get the natural width and height there
+      const svgMainImg = mapArea.children("svg").children("image");
+      const newImgCopy = new Image();
+      newImgCopy.src =
+        svgMainImg.attr("xlink:href") != undefined
+          ? svgMainImg.attr("xlink:href")
+          : svgMainImg.attr("href");
+
+      const naturalImgWidth = newImgCopy.naturalWidth;
+      const naturalImgHeight = newImgCopy.naturalHeight;
+
+      // const playerSpriteWidthInPercent = 7;
+      const playerSpriteDimensionInPixels = 16; // It's a square
+      let svgPlayerSpriteDimension =
+        (playerSpriteDimensionInPixels /
+          ((naturalImgWidth + naturalImgHeight) / 2)) *
+        ((viewBoxWidth + viewBoxHeight) / 2);
+
+      svgPlayerSpriteDimension =
+        width < height
+          ? svgPlayerSpriteDimension > width
+            ? width * 0.75
+            : svgPlayerSpriteDimension
+          : svgPlayerSpriteDimension > height
+          ? height * 0.75
+          : svgPlayerSpriteDimension;
+
       mapArea.children("svg").append(
         `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
-          <image x="${x}" y="${y}" width="50%" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' id = '${gPlayerMapSpriteId}'/>
+          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' id = '${gPlayerMapSpriteId}'/>
         </svg>`
       );
 
