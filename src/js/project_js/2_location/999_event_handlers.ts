@@ -43,6 +43,14 @@ $(document).on(":passageend", () => {
           : 1
       })`
     );
+
+    if (element[0] == $(".ui-side-bar-popout-map > svg")[0]) {
+      // Note that `element` represents the svg/image getting zoomed
+      gMapPopoutZoomLvl =
+        getZoomRatio(element) + amountToZoom > 1
+          ? getZoomRatio(element) + amountToZoom
+          : 1;
+    }
   };
 
   // Handlers for the zooming functionality of the map popout

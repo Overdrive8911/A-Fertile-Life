@@ -76,12 +76,20 @@ function populateSubLocationMap(location: MapLocation) {
   }
 }
 
+let lastSVGTranslateOffset = { x: 0, y: 0 };
+// NOTE - `defaultZoomLevel` requires `shouldChangeDefaultZoomLevel` to be true to work
 function loadGameMap(
   locationId: MapLocation,
   mapArea: JQuery<HTMLElement>,
   includeZoomButtons = true,
-  shouldChangeDefaultZoomLevel = true
+  shouldChangeDefaultZoomLevel = true,
+  defaultZoomLevel: number = null
 ) {
+  const attrToDenoteIfMapHasLoaded = "has-map-loaded";
+  const attrValue = "true";
+  // If the map is already loaded, do nothing
+  if (mapArea.attr(attrToDenoteIfMapHasLoaded) == attrValue) return;
+
   // Copy away the zoom buttons and their events (they'll be added back at the end)
   const mapButtonBar = $(".ui-side-bar-popout-map-button-bar").clone(true);
 
@@ -127,6 +135,9 @@ function loadGameMap(
       })
       .on("pointerup", () => {
         isPan = false;
+
+        // Copy away the last transform offset. It will be used to ensure a smother flow during map navigation
+        lastSVGTranslateOffset = { x: transformOffset.x, y: transformOffset.y };
       })
       .on("dragstart", () => {
         // Stop the image from being draggable
@@ -136,6 +147,9 @@ function loadGameMap(
   imagePanning(mapArea.children("svg") as any);
 
   // For displaying a mini player sprite on the right sub location
+  const isParentUIDialog = mapArea.parent()[0] == $("#ui-dialog")[0];
+  const isParentMapPopout =
+    mapArea.parent()[0] == $(".ui-side-bar-popout-map")[0];
   const subLocation: MapSubLocation =
     variables().player.locationData.subLocation;
   // Check whether the sub location and it's entry exist
@@ -160,6 +174,8 @@ function loadGameMap(
     const spawnPlayerSpriteOnMap = () => {
       const mapDimensions = mapArea.children("svg")[0].getBoundingClientRect();
       const pathDimensions = path[0].getBoundingClientRect();
+      console.log(mapDimensions);
+      console.log(pathDimensions);
 
       // Get the view box dimensions too
       const viewBoxWidth = parseFloat(
@@ -261,62 +277,94 @@ function loadGameMap(
           minPlayerMapSpriteSize / playerMapSpriteDimensions.width;
         const roundedTransformValue = Math.round(rawTransformValue);
 
-        // The aim is to get a transform value like 2, 2.5, 3, 3.5, 4, 4.5, etc
-        if (roundedTransformValue > rawTransformValue) {
-          // rounded up so our answer is roundedTransformValue - 0.5
-          element.css("transform", `scale(${roundedTransformValue - 0.5})`);
+        if (defaultZoomLevel == null) {
+          // The aim is to get a transform value like 2, 2.5, 3, 3.5, 4, 4.5, etc
+          if (roundedTransformValue > rawTransformValue) {
+            // rounded up so our answer is roundedTransformValue - 0.5
+            element.css("transform", `scale(${roundedTransformValue - 0.5})`);
+            if (isParentMapPopout)
+              gMapPopoutZoomLvl = roundedTransformValue - 0.5;
+          } else {
+            element.css("transform", `scale(${roundedTransformValue})`);
+            if (isParentMapPopout) gMapPopoutZoomLvl = roundedTransformValue;
+          }
         } else {
-          element.css("transform", `scale(${roundedTransformValue})`);
+          // Use the default zoom level given to scale
+          element.css("transform", `scale(${defaultZoomLevel})`);
+          if (isParentMapPopout) gMapPopoutZoomLvl = defaultZoomLevel;
         }
-
-        //
-        // Translate the view from the center of the map to the center of player's sprite
-        const elementCenterDimensions = element[0].getBoundingClientRect();
-        const mapCenter = {
-          x: elementCenterDimensions.x + elementCenterDimensions.width / 2,
-          y: elementCenterDimensions.y + elementCenterDimensions.height / 2,
-        };
-        const newPlayerMapSpriteDimensions = element
-          .find(`#${gPlayerMapSpriteId}`)[0]
-          .getBoundingClientRect();
-        const playerMapSpriteCenter = {
-          x:
-            newPlayerMapSpriteDimensions.x +
-            newPlayerMapSpriteDimensions.width / 2,
-          y:
-            newPlayerMapSpriteDimensions.y +
-            newPlayerMapSpriteDimensions.height / 2,
-        };
-
-        element.css(
-          "translate",
-          `${mapCenter.x - playerMapSpriteCenter.x}px ${
-            mapCenter.y - playerMapSpriteCenter.y
-          }px`
-        );
-
-        // Alter the transform offset for the panning else it'll jump back to the middle when the user tries to pan
-        transformOffset = {
-          x: mapCenter.x - playerMapSpriteCenter.x,
-          y: mapCenter.y - playerMapSpriteCenter.y,
-        };
       }
     };
 
+    const centerMapOnPlayerSprite = (
+      element: JQuery<HTMLElement> /* Give it the svg/img */
+    ) => {
+      // Translate the view from the center of the map to the center of player's sprite
+      const elementCenterDimensions = element[0].getBoundingClientRect();
+      const mapCenter = {
+        x: elementCenterDimensions.x + elementCenterDimensions.width / 2,
+        y: elementCenterDimensions.y + elementCenterDimensions.height / 2,
+      };
+      const newPlayerMapSpriteDimensions = element
+        .find(`#${gPlayerMapSpriteId}`)[0]
+        .getBoundingClientRect();
+      const playerMapSpriteCenter = {
+        x:
+          newPlayerMapSpriteDimensions.x +
+          newPlayerMapSpriteDimensions.width / 2,
+        y:
+          newPlayerMapSpriteDimensions.y +
+          newPlayerMapSpriteDimensions.height / 2,
+      };
+      
+      element.css(
+        "translate",
+        `${mapCenter.x - playerMapSpriteCenter.x}px ${
+          mapCenter.y - playerMapSpriteCenter.y
+        }px`
+      );
+
+      // Alter the transform offset for the panning else it'll jump back to the middle when the user tries to pan
+      transformOffset = {
+        x: mapCenter.x - playerMapSpriteCenter.x,
+        y: mapCenter.y - playerMapSpriteCenter.y,
+      };
+    };
+
     // If there's a transition, then this event handler should take care of it
-    if (mapArea.css("transition") == "") {
-      spawnPlayerSpriteOnMap();
-      if (shouldChangeDefaultZoomLevel) {
-        setInitialZoomLvl(mapArea.children("svg") as any);
+    if (mapArea.css("transition") == "" || mapArea.css("transition") == "all") {
+      if (defaultZoomLevel != null) {
+        // Set the zoom level instantly instead of waiting for the setTimeout
+        mapArea.children("svg").css("transform", `scale(${gMapPopoutZoomLvl})`);
+
+        // Set the translate value of the newly made svg to the previous one (to look smoother when eventually overwritten by the settimeout function
+        mapArea
+          .children("svg")
+          .css(
+            "translate",
+            `${lastSVGTranslateOffset.x}px ${lastSVGTranslateOffset.y}px`
+          );
       }
+
+      setTimeout(() => {
+        spawnPlayerSpriteOnMap();
+        if (shouldChangeDefaultZoomLevel) {
+          setInitialZoomLvl(mapArea.children("svg") as any);
+          centerMapOnPlayerSprite(mapArea.children("svg") as any);
+        }
+      }, 200); // This delay is to make sure that all the coordinate data from getBoundingClientRect() is ready
     } else {
       // This should be long enough to get values close enough
       mapArea.one("transitionend", () => {
         spawnPlayerSpriteOnMap();
         if (shouldChangeDefaultZoomLevel) {
           setInitialZoomLvl(mapArea.children("svg") as any);
+          centerMapOnPlayerSprite(mapArea.children("svg") as any);
         }
       });
     }
   }
+
+  // Set an attribute to denote that the map has been loaded (don't do this for any dialog though)
+  if (!isParentUIDialog) mapArea.attr(attrToDenoteIfMapHasLoaded, attrValue);
 }

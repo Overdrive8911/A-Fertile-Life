@@ -24,8 +24,8 @@ $(document).on(":passageend", () => {
     }
     uiSideBarToggleHandler();
   });
-  $(window).on("keyup", (keyEvent) => {
-    console.log(keyEvent.key);
+  $(document).on("keyup", (keyEvent) => {
+    // console.log(keyEvent.key);
     if (keyEvent.key === "q") {
       // Open or stow the side bar
       uiSideBarToggleState = !uiSideBarToggleState;
@@ -43,17 +43,17 @@ $(document).on(":passageend", () => {
     // Wait for 1 second so the button can't be infinitely spammed
     setTimeout(() => {
       // Open or stow the map interface
-      actionInterfaceToggleHandler("#ui-side-bar-popout-map");
+      actionInterfaceToggleHandler(".ui-side-bar-popout-map");
       uiSideBarActionInterfaceShadowHandler();
     }, 150);
   });
-  $(window).on("keyup", (keyEvent) => {
-    console.log(keyEvent.key);
+  $(document).on("keyup", (keyEvent) => {
+    // console.log(keyEvent.key);
     if (keyEvent.key === "z") {
       // Wait for 1 second so the button can't be infinitely spammed
       setTimeout(() => {
         // Open or stow the map interface
-        actionInterfaceToggleHandler("#ui-side-bar-popout-map");
+        actionInterfaceToggleHandler(".ui-side-bar-popout-map");
         uiSideBarActionInterfaceShadowHandler();
       }, 150);
     }
@@ -83,6 +83,30 @@ $(document).on(":passageend", () => {
   //     innerPassagePrependedContainerSpacer
   //   );
   // });
+
+  // Will allow the action interface to stay open after passage navigation
+  // NOTE - Every new item for the action interface needs some code here
+  if (ui_isActionInterfaceOpen) {
+    $("#ui-side-bar-action-interface").removeClass("stowed");
+
+    // Check if the map is meant to be displayed
+    if (ui_isMapInActionInterfaceOpen) {
+      // Reload the map with the previous zoom lvl
+      console.log(`zoomLvl: ${gMapPopoutZoomLvl}`);
+      loadGameMap(
+        variables().player.locationData.location,
+        $("#ui-side-bar-action-interface").children("[class*=map]"),
+        true,
+        true,
+        gMapPopoutZoomLvl
+      );
+    }
+  } else {
+    // Temporarily disable any transition
+    // $("#ui-side-bar-action-interface").css("transition", "");
+
+    $("#ui-side-bar-action-interface").addClass("stowed");
+  }
 });
 
 // // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
