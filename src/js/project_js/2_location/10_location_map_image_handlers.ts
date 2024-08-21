@@ -316,7 +316,7 @@ function loadGameMap(
           newPlayerMapSpriteDimensions.y +
           newPlayerMapSpriteDimensions.height / 2,
       };
-      
+
       element.css(
         "translate",
         `${mapCenter.x - playerMapSpriteCenter.x}px ${
@@ -352,7 +352,7 @@ function loadGameMap(
           setInitialZoomLvl(mapArea.children("svg") as any);
           centerMapOnPlayerSprite(mapArea.children("svg") as any);
         }
-      }, 200); // This delay is to make sure that all the coordinate data from getBoundingClientRect() is ready
+      }, 175); // This delay is to make sure that all the coordinate data from getBoundingClientRect() is ready
     } else {
       // This should be long enough to get values close enough
       mapArea.one("transitionend", () => {
