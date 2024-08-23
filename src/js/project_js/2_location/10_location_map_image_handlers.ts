@@ -174,8 +174,6 @@ function loadGameMap(
     const spawnPlayerSpriteOnMap = () => {
       const mapDimensions = mapArea.children("svg")[0].getBoundingClientRect();
       const pathDimensions = path[0].getBoundingClientRect();
-      console.log(mapDimensions);
-      console.log(pathDimensions);
 
       // Get the view box dimensions too
       const viewBoxWidth = parseFloat(
@@ -260,6 +258,32 @@ function loadGameMap(
       // "Reload" the map after changes
       mapArea.children("svg").html(mapArea.children("svg").html());
     };
+    // This observer will make sure that the map for the player sprite has its dimensions ready
+    const playerMapSpriteSpawnObserver = new ResizeObserver(() => {
+      if (
+        mapArea.children("svg")[0].getBoundingClientRect().width != 0 &&
+        mapArea.children("svg")[0].getBoundingClientRect().height != 0
+      ) {
+        spawnPlayerSpriteOnMap();
+
+        const ensureCorrectPlayerSpriteDimensions = new ResizeObserver(() => {
+          if (
+            mapArea.find(`#${gPlayerMapSpriteId}`)[0].getBoundingClientRect()
+              .width != 0 &&
+            mapArea.find(`#${gPlayerMapSpriteId}`)[0].getBoundingClientRect()
+              .height != 0
+          ) {
+            setInitialZoomLvl(mapArea.children("svg") as any);
+            centerMapOnPlayerSprite(mapArea.children("svg") as any);
+            ensureCorrectPlayerSpriteDimensions.disconnect();
+          }
+        });
+
+        ensureCorrectPlayerSpriteDimensions.observe(mapArea[0]);
+
+        playerMapSpriteSpawnObserver.disconnect();
+      }
+    });
 
     // SECTION - The function to set the initial zoom level of the map as well as adjust the view to the player's sprite
     const minPlayerMapSpriteSize = 32; // in px. This is the minimum size that the player sprite should be when the map is opened. Use transform() to get a value close to this
@@ -346,21 +370,11 @@ function loadGameMap(
           );
       }
 
-      setTimeout(() => {
-        spawnPlayerSpriteOnMap();
-        if (shouldChangeDefaultZoomLevel) {
-          setInitialZoomLvl(mapArea.children("svg") as any);
-          centerMapOnPlayerSprite(mapArea.children("svg") as any);
-        }
-      }, 175); // This delay is to make sure that all the coordinate data from getBoundingClientRect() is ready
+      playerMapSpriteSpawnObserver.observe(mapArea[0]);
     } else {
       // This should be long enough to get values close enough
       mapArea.one("transitionend", () => {
-        spawnPlayerSpriteOnMap();
-        if (shouldChangeDefaultZoomLevel) {
-          setInitialZoomLvl(mapArea.children("svg") as any);
-          centerMapOnPlayerSprite(mapArea.children("svg") as any);
-        }
+        playerMapSpriteSpawnObserver.observe(mapArea[0]);
       });
     }
   }
