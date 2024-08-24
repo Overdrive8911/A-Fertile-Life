@@ -18,3 +18,5 @@ const gPlayerMapSpriteId = "player-map-sprite"; // The id for the image serving 
 const gLeftShiftValue = 8;
 
 let gMapPopoutZoomLvl = 1; // May be updated in `loadGameMap()` but will always be updated when the zoom buttons are clicked
+
+const gPlayerMapSpriteSrc = "assets/img/map/icons/player_map_sprite.webp";
