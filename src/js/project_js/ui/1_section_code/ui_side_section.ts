@@ -24,19 +24,20 @@ $(document).on(":passageend", () => {
     }
     uiSideBarToggleHandler();
   });
-  $(document).on("keyup", (keyEvent) => {
-    // console.log(keyEvent.key);
-    if (keyEvent.key === "q") {
-      // Open or stow the side bar
-      uiSideBarToggleState = !uiSideBarToggleState;
-      if (uiSideBarToggleState) {
-        $("[id='ui-side-bar']").addClass("stowed");
-      } else {
-        $("[id='ui-side-bar']").removeClass("stowed");
+  $(document)
+    .off("keyup.sideBarToggleState")
+    .on("keyup.sideBarToggleState", (keyEvent) => {
+      if (keyEvent.key === "q") {
+        // Open or stow the side bar
+        uiSideBarToggleState = !uiSideBarToggleState;
+        if (uiSideBarToggleState) {
+          $("[id='ui-side-bar']").addClass("stowed");
+        } else {
+          $("[id='ui-side-bar']").removeClass("stowed");
+        }
+        uiSideBarToggleHandler();
       }
-      uiSideBarToggleHandler();
-    }
-  });
+    });
 
   // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-map-button").ariaClick(() => {
@@ -47,17 +48,18 @@ $(document).on(":passageend", () => {
       uiSideBarActionInterfaceShadowHandler();
     }, 150);
   });
-  $(document).on("keyup", (keyEvent) => {
-    // console.log(keyEvent.key);
-    if (keyEvent.key === "z") {
-      // Wait for 1 second so the button can't be infinitely spammed
-      setTimeout(() => {
-        // Open or stow the map interface
-        actionInterfaceToggleHandler(".ui-side-bar-popout-map");
-        uiSideBarActionInterfaceShadowHandler();
-      }, 150);
-    }
-  });
+  $(document)
+    .off("keyup.sideBarToggleMap")
+    .on("keyup.sideBarToggleMap", (keyEvent) => {
+      if (keyEvent.key === "z") {
+        // Wait for 1 second so the button can't be infinitely spammed
+        setTimeout(() => {
+          // Open or stow the map interface
+          actionInterfaceToggleHandler(".ui-side-bar-popout-map");
+          uiSideBarActionInterfaceShadowHandler();
+        }, 150);
+      }
+    });
 
   // Create a div container in the actual passage and use it to push the passage's content to the right depending on the dimensions of #ui-side-bar-action-interface and the extra space between it and the side bar
   $("[id|='passage']").prepend(
@@ -92,7 +94,6 @@ $(document).on(":passageend", () => {
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
       // Reload the map with the previous zoom lvl
-      console.log(`zoomLvl: ${gMapPopoutZoomLvl}`);
       loadGameMap(
         variables().player.locationData.location,
         $("#ui-side-bar-action-interface").children("[class*=map]"),

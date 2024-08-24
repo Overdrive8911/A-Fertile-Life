@@ -103,7 +103,6 @@ function warpToArea(
     return false;
   } else {
     // load the passage
-    // console.log(defaultPassageToLoad.title);
     if (!doNotWarp) Engine.play(defaultPassageToLoad.title);
     return true;
   }
@@ -178,8 +177,6 @@ function findClosestSubLocationInDirection(
       break;
   }
 
-  // console.log(`axisToSearch: ${axisToSearch}`);
-
   const arrayOfSubLocations = Object.values(MapSubLocation).filter(
     (subLocation) => {
       return typeof subLocation == "number";
@@ -191,11 +188,6 @@ function findClosestSubLocationInDirection(
     position[axisToSearch] < gGameMapSubLocationArraySize - 1 &&
     position[axisToSearch] > 0
   ) {
-    // console.log(position);
-    // console.log(
-    //   mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
-    // );
-
     const indexOfSubLocationToWarpTo = arrayOfSubLocations.indexOf(
       mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
     );

@@ -46,10 +46,7 @@ $(document).on(":passageend", () => {
 
     if (element[0] == $(".ui-side-bar-popout-map > svg")[0]) {
       // Note that `element` represents the svg/image getting zoomed
-      gMapPopoutZoomLvl =
-        getZoomRatio(element) + amountToZoom > 1
-          ? getZoomRatio(element) + amountToZoom
-          : 1;
+      gMapPopoutZoomLvl = getZoomRatio(element);
     }
   };
 
@@ -85,6 +82,13 @@ $(document).on(":passageend", () => {
     // Load the map into here
     loadGameMap(variables().player.locationData.location, $(".map-large-view"));
   });
+
+  // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
+  let preloadImage: HTMLImageElement = null;
+  if (!preloadImage) {
+    preloadImage = new Image();
+    preloadImage.src = gPlayerMapSpriteSrc;
+  }
 });
 
 // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
