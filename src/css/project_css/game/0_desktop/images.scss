@@ -1,33 +1,36 @@
 // Preload image frames
 html::after {
-    content: url("assets/img/general/envelope_in-between.webp") url("assets/img/general/envelope_open.webp");
-    opacity: 0;
+  content: url("assets/img/general/envelope_in-between.webp")
+    url("assets/img/general/envelope_open.webp");
+  visibility: hidden;
+  position: absolute;
+  top: -99px;
 }
 
 @keyframes basicEnvelopeAnimation {
-    0% {
-        content: url("assets/img/general/envelope_closed.webp");
-    }
+  0% {
+    content: url("assets/img/general/envelope_closed.webp");
+  }
 
-    50% {
-        content: url("assets/img/general/envelope_in-between.webp");
-    }
+  50% {
+    content: url("assets/img/general/envelope_in-between.webp");
+  }
 
-    100% {
-        content: url("assets/img/general/envelope_open.webp");
-    }
+  100% {
+    content: url("assets/img/general/envelope_open.webp");
+  }
 }
 
 img[src^="assets/img/general/envelope"] {
-    --img-envelope-width: 64px;
-    width: var(--img-envelope-width);
-    height: auto;
-    position: relative;
-    left: calc(50% - (0.5 * var(--img-envelope-width)));
+  --img-envelope-width: 64px;
+  width: var(--img-envelope-width);
+  height: auto;
+  position: relative;
+  left: calc(50% - (0.5 * var(--img-envelope-width)));
 
-    image-rendering: auto;
+  image-rendering: auto;
 
-    &.envelope_play_animation {
-        animation: forwards ease-out 0.25s basicEnvelopeAnimation;
-    }
+  &.envelope_play_animation {
+    animation: forwards ease-out 0.25s basicEnvelopeAnimation;
+  }
 }
