@@ -2,7 +2,9 @@
 html::after {
   content: url("assets/img/general/envelope_in-between.webp")
     url("assets/img/general/envelope_open.webp");
-  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: -99px;
 }
 
 @keyframes basicEnvelopeAnimation {
