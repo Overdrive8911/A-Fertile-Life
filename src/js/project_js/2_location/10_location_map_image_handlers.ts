@@ -145,11 +145,11 @@ function loadGameMap(
       });
   };
   imagePanning(mapArea.children("svg") as any);
+  // !SECTION
 
   // For displaying a mini player sprite on the right sub location
   const isParentUIDialog = mapArea.parent()[0] == $("#ui-dialog")[0];
-  const isParentMapPopout =
-    mapArea.parent()[0] == $(".ui-side-bar-popout-map")[0];
+  const isParentMapPopout = mapArea[0] == $(".ui-side-bar-popout-map")[0];
   const subLocation: MapSubLocation =
     variables().player.locationData.subLocation;
   // Check whether the sub location and it's entry exist
@@ -223,7 +223,7 @@ function loadGameMap(
 
       mapArea.children("svg").append(
         `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
-          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href="assets/img/map/icons/player_map_sprite.webp" class='pixel-art' id = '${gPlayerMapSpriteId}'/>
+          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href=${gPlayerMapSpriteSrc} class='pixel-art' id = '${gPlayerMapSpriteId}'/>
         </svg>`
       );
 
@@ -265,25 +265,13 @@ function loadGameMap(
         mapArea.children("svg")[0].getBoundingClientRect().height != 0
       ) {
         spawnPlayerSpriteOnMap();
-
-        const ensureCorrectPlayerSpriteDimensions = new ResizeObserver(() => {
-          if (
-            mapArea.find(`#${gPlayerMapSpriteId}`)[0].getBoundingClientRect()
-              .width != 0 &&
-            mapArea.find(`#${gPlayerMapSpriteId}`)[0].getBoundingClientRect()
-              .height != 0
-          ) {
-            setInitialZoomLvl(mapArea.children("svg") as any);
-            centerMapOnPlayerSprite(mapArea.children("svg") as any);
-            ensureCorrectPlayerSpriteDimensions.disconnect();
-          }
-        });
-
-        ensureCorrectPlayerSpriteDimensions.observe(mapArea[0]);
+        setInitialZoomLvl(mapArea.children("svg") as any);
+        centerMapOnPlayerSprite(mapArea.children("svg") as any);
 
         playerMapSpriteSpawnObserver.disconnect();
       }
     });
+    // !SECTION
 
     // SECTION - The function to set the initial zoom level of the map as well as adjust the view to the player's sprite
     const minPlayerMapSpriteSize = 32; // in px. This is the minimum size that the player sprite should be when the map is opened. Use transform() to get a value close to this
@@ -354,12 +342,13 @@ function loadGameMap(
         y: mapCenter.y - playerMapSpriteCenter.y,
       };
     };
+    //!SECTION
 
     // If there's a transition, then this event handler should take care of it
     if (mapArea.css("transition") == "" || mapArea.css("transition") == "all") {
       if (defaultZoomLevel != null) {
         // Set the zoom level instantly instead of waiting for the setTimeout
-        mapArea.children("svg").css("transform", `scale(${gMapPopoutZoomLvl})`);
+        mapArea.children("svg").css("transform", `scale(${defaultZoomLevel})`);
 
         // Set the translate value of the newly made svg to the previous one (to look smoother when eventually overwritten by the settimeout function
         mapArea
