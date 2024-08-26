@@ -226,35 +226,6 @@ $(document).on(":passageend", () => {
   // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
   if (Story.get(passage()).tags.includes("default")) {
     // TODO - Add *proper* support for regular locations
-    const currentCoordsInMapArray: LocationCoords =
-      currSubLocation != null && currSubLocation != undefined
-        ? [
-            getEffectiveCoordInGameMap(
-              setup.locationData[currLocation].subLocations[currSubLocation]
-                .coords[LocationCoordIndex.X],
-              gGameMapSubLocationArraySize
-            ),
-            getEffectiveCoordInGameMap(
-              setup.locationData[currLocation].subLocations[currSubLocation]
-                .coords[LocationCoordIndex.Y],
-              gGameMapSubLocationArraySize
-            ),
-          ]
-        : [
-            getEffectiveCoordInGameMap(
-              setup.locationData[currLocation].coords[LocationCoordIndex.X],
-              gGameMapSubLocationArraySize
-            ),
-            getEffectiveCoordInGameMap(
-              setup.locationData[currLocation].coords[LocationCoordIndex.Y],
-              gGameMapSubLocationArraySize
-            ),
-          ];
-    const mapArray =
-      currSubLocation != null && currSubLocation != undefined
-        ? setup.locationData[currLocation].subLocationMap
-        : /* NO EQUIVALENT FOR LOCATION AT THE MOMENT SO JUST REPEAT THE LAST VALUE */ setup
-            .locationData[currLocation].subLocationMap;
     const isLocationOrSubLocationValid = (
       locationOrSubLocation: MapLocation | MapSubLocation | null
     ) => {
