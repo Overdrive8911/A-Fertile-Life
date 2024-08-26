@@ -349,7 +349,7 @@ $(document).on(":passageend", () => {
       [
         `If you were to leave ${CURR_LOCATION},`,
 
-        `${LOCATION[1].direction} is to the ${LOCATION[1].locOrSubLocName},`,
+        `${LOCATION[1].locOrSubLocName} is to the ${LOCATION[1].direction},`,
 
         `and ${LOCATION[2].locOrSubLocName}, ${LOCATION[2].direction}.`,
 
