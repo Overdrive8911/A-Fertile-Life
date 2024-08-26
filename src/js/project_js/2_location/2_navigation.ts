@@ -8,6 +8,9 @@ function navigateInDirectionOnMap(
   // Don't do anything if a dialog is open
   if (Dialog.isOpen()) return false;
 
+  // Set the last warp destination to null. If this function returns true, then this variable will be re-updated with a proper value
+  lastWarpDestination = { location: null, subLocation: null };
+
   // TODO - Add proper support for location maps later
   let mapArray: GameMap<typeof gGameMapSubLocationArraySize>;
   let position: LocationCoords; // Stores a copy for use in a loop
@@ -105,6 +108,15 @@ function warpToArea(
     );
     return false;
   } else {
+    // Update the last warp destination
+    lastWarpDestination = {
+      location: locationIdToWarpTo,
+      subLocation:
+        subLocationIdToWarpTo != undefined && subLocationIdToWarpTo != null
+          ? subLocationIdToWarpTo
+          : null,
+    };
+
     // load the passage
     if (!doNotWarp) Engine.play(defaultPassageToLoad.title);
     return true;

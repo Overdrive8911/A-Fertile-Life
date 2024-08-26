@@ -20,3 +20,8 @@ const gLeftShiftValue = 8;
 let gMapPopoutZoomLvl = 1; // May be updated in `loadGameMap()` but will always be updated when the zoom buttons are clicked
 
 const gPlayerMapSpriteSrc = "assets/img/map/icons/player_map_sprite.webp";
+
+let lastWarpDestination: {
+  location: MapLocation;
+  subLocation: MapSubLocation | null;
+} = { location: null, subLocation: null }; // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
