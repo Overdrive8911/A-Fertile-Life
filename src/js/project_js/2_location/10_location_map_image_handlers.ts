@@ -109,7 +109,7 @@ function loadGameMap(
   else mapArea.append(mapData);
 
   // SECTION - For the panning
-  let transformOffset: { x: number; y: number } = { x: 0, y: 0 };
+  let translateOffset: { x: number; y: number } = { x: 0, y: 0 };
   const imagePanning = (area: JQuery<HTMLElement>) => {
     let isPan = false;
     let initialCoords: { x: number; y: number } = {
@@ -123,21 +123,21 @@ function loadGameMap(
       .on("pointerdown" as any, (e: PointerEvent) => {
         e.preventDefault();
         isPan = true;
-        initialCoords.x = e.clientX - transformOffset.x;
-        initialCoords.y = e.clientY - transformOffset.y;
+        initialCoords.x = e.clientX - translateOffset.x;
+        initialCoords.y = e.clientY - translateOffset.y;
       })
       .on("pointermove" as any, (e: PointerEvent) => {
         if (!isPan) return;
 
-        transformOffset.x = e.clientX - initialCoords.x;
-        transformOffset.y = e.clientY - initialCoords.y;
-        area.css("translate", `${transformOffset.x}px ${transformOffset.y}px`);
+        translateOffset.x = e.clientX - initialCoords.x;
+        translateOffset.y = e.clientY - initialCoords.y;
+        area.css("translate", `${translateOffset.x}px ${translateOffset.y}px`);
       })
       .on("pointerup", () => {
         isPan = false;
 
         // Copy away the last transform offset. It will be used to ensure a smother flow during map navigation
-        lastSVGTranslateOffset = { x: transformOffset.x, y: transformOffset.y };
+        lastSVGTranslateOffset = { x: translateOffset.x, y: translateOffset.y };
       })
       .on("dragstart", () => {
         // Stop the image from being draggable
@@ -337,7 +337,7 @@ function loadGameMap(
       );
 
       // Alter the transform offset for the panning else it'll jump back to the middle when the user tries to pan
-      transformOffset = {
+      translateOffset = {
         x: mapCenter.x - playerMapSpriteCenter.x,
         y: mapCenter.y - playerMapSpriteCenter.y,
       };
