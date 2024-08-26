@@ -29,20 +29,10 @@ function navigateInDirectionOnMap(
       mapArray = locationData.subLocationMap;
 
       // initialPosition = locationData.subLocations[initialSubLocationId].coords;
-      position = [
-        getEffectiveCoordInGameMap(
-          locationData.subLocations[initialSubLocationId].coords[
-            LocationCoordIndex.X
-          ],
-          gGameMapSubLocationArraySize
-        ),
-        getEffectiveCoordInGameMap(
-          locationData.subLocations[initialSubLocationId].coords[
-            LocationCoordIndex.Y
-          ],
-          gGameMapSubLocationArraySize
-        ),
-      ];
+      position = getEffectiveCoordInGameMap(
+        locationData.subLocations[initialSubLocationId].coords,
+        gGameMapSubLocationArraySize
+      ) as LocationCoords;
 
       const possibleSubLocationToWarpTo = findClosestSubLocationInDirection(
         direction,

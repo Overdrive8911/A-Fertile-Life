@@ -481,21 +481,33 @@ function getDefaultNameOfSubLocation(
   }
 }
 
-function getEffectiveCoordInGameMap(coord: number, mapArraySize: number) {
-  if (
-    coord < (mapArraySize / 2) * -1 /* Below lower bounds */ ||
-    coord > mapArraySize / 2 - 1 /* Above upper bounds */
-  ) {
-    console.error(
-      `The location/sub location coordinate, ${coord}, is too small to have a valid (without truncating) relative value in a map ${mapArraySize} elements long. Increase the map's size to a higher even number OR ensure that the coordinate is not below ${
-        (mapArraySize / 2) * -1
-      } and not above ${
-        mapArraySize / 2 - 1
-      } OTHERWISE the location/sub location position may have unintended values`
-    );
-  }
+function getEffectiveCoordInGameMap(
+  coord: number | LocationCoords,
+  mapArraySize: number
+) {
+  const coordinates = typeof coord == "number" ? [coord] : [...coord];
 
-  return Math.abs(coord + mapArraySize / 2) % mapArraySize;
+  let adjustedCoords: typeof coordinates = [];
+  coordinates.forEach((coordinate) => {
+    if (
+      coordinate < (mapArraySize / 2) * -1 /* Below lower bounds */ ||
+      coordinate > mapArraySize / 2 - 1 /* Above upper bounds */
+    ) {
+      console.error(
+        `The location/sub location coordinate, ${coord}, is too small to have a valid (without truncating) relative value in a map ${mapArraySize} elements long. Increase the map's size to a higher even number OR ensure that the coordinate is not below ${
+          (mapArraySize / 2) * -1
+        } and not above ${
+          mapArraySize / 2 - 1
+        } OTHERWISE the location/sub location position may have unintended values`
+      );
+    }
+
+    adjustedCoords.push(Math.abs(coordinate + mapArraySize / 2) % mapArraySize);
+  });
+
+  return adjustedCoords.length == 1
+    ? adjustedCoords[0]
+    : (adjustedCoords as LocationCoords);
 }
 
 function getActualCoordFromGameMapCoord(
