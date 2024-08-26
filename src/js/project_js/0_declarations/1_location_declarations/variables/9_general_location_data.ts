@@ -80,6 +80,10 @@ setup.locationData = {
             0
           );
         },
+        extraDirectionInfo: {
+          west: GameMapCoordinate.BLOCKED,
+          east: GameMapCoordinate.BLOCKED,
+        },
       },
       // [MapSubLocation.CORRIDOR_2]: {
       //   coords: [2, 10],

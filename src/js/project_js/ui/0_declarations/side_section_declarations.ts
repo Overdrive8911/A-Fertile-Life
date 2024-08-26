@@ -52,23 +52,23 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   // );
 };
 
+// NOTE - Commented out since it's probably not worth the stress. It looks pretty
 const copyActionInterfaceContentsToSideBar = () => {
-  const verySlimMobileWidth = "screen and (max-width: 415px)";
-
-  if (window.matchMedia(verySlimMobileWidth).matches) {
-    const actionInterface = $("[id='ui-side-bar-action-interface']");
-    for (const actionInterfaceChild of actionInterface.children()) {
-      // Copy the each child in the action interface e.g the map popout
-      if (!actionInterface.hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
-          $(actionInterfaceChild).clone(true)
-        );
-      } else {
-        // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
-      }
-    }
-  }
+  // const verySlimMobileWidth = "screen and (max-width: 415px)";
+  // if (window.matchMedia(verySlimMobileWidth).matches) {
+  //   const actionInterface = $("[id='ui-side-bar-action-interface']");
+  //   for (const actionInterfaceChild of actionInterface.children()) {
+  //     // Copy the each child in the action interface e.g the map popout
+  //     if (!actionInterface.hasClass("stowed")) {
+  //       $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
+  //         $(actionInterfaceChild).clone(true)
+  //       );
+  //     } else {
+  //       // Empty the container
+  //       $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
+  //     }
+  //   }
+  // }
 };
 
 // Define the handler for toggling the sidebar
