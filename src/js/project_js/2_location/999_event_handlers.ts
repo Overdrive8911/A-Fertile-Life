@@ -155,11 +155,15 @@ $(document).on(":passageend", () => {
   const currSubLocation = variables().player.locationData
     .subLocation as MapSubLocation;
 
-  // Make isNavigationButtonUsable return a valid location/sub location
+  // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
   const isNorthNavigable = isNavigationButtonUsable(GameMapDirection.NORTH);
+  const northAreaId = lastWarpDestination;
   const isEastNavigable = isNavigationButtonUsable(GameMapDirection.EAST);
+  const eastAreaId = lastWarpDestination;
   const isSouthNavigable = isNavigationButtonUsable(GameMapDirection.SOUTH);
+  const southAreaId = lastWarpDestination;
   const isWestNavigable = isNavigationButtonUsable(GameMapDirection.WEST);
+  const westAreaId = lastWarpDestination;
   console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
 
   const navigate = (direction: GameMapDirection) => {
@@ -252,18 +256,9 @@ $(document).on(":passageend", () => {
         : /* NO EQUIVALENT FOR LOCATION AT THE MOMENT SO JUST REPEAT THE LAST VALUE */ setup
             .locationData[currLocation].subLocationMap;
     const isLocationOrSubLocationValid = (
-      locationOrSubLocation:
-        | MapLocation
-        | MapSubLocation
-        | GameMapCoordinate.BLOCKED
-        | GameMapCoordinate.EMPTY
+      locationOrSubLocation: MapLocation | MapSubLocation | null
     ) => {
-      if (
-        locationOrSubLocation == GameMapCoordinate.BLOCKED ||
-        locationOrSubLocation == GameMapCoordinate.EMPTY ||
-        locationOrSubLocation == null ||
-        locationOrSubLocation == undefined
-      )
+      if (locationOrSubLocation == null || locationOrSubLocation == undefined)
         return false;
 
       return true;
@@ -271,32 +266,12 @@ $(document).on(":passageend", () => {
 
     // Only accounting for sub locations here
     let closestLocationOrSubLocation: {
-      [key in GameMapDirection]:
-        | MapLocation
-        | MapSubLocation
-        | GameMapCoordinate.BLOCKED
-        | GameMapCoordinate.EMPTY;
+      [key in GameMapDirection]: MapLocation | MapSubLocation | null;
     } = {
-      [GameMapDirection.NORTH]: findClosestSubLocationInDirection(
-        GameMapDirection.NORTH,
-        currentCoordsInMapArray,
-        mapArray
-      ),
-      [GameMapDirection.EAST]: findClosestSubLocationInDirection(
-        GameMapDirection.EAST,
-        currentCoordsInMapArray,
-        mapArray
-      ),
-      [GameMapDirection.SOUTH]: findClosestSubLocationInDirection(
-        GameMapDirection.SOUTH,
-        currentCoordsInMapArray,
-        mapArray
-      ),
-      [GameMapDirection.WEST]: findClosestSubLocationInDirection(
-        GameMapDirection.WEST,
-        currentCoordsInMapArray,
-        mapArray
-      ),
+      [GameMapDirection.NORTH]: northAreaId.subLocation,
+      [GameMapDirection.EAST]: eastAreaId.subLocation,
+      [GameMapDirection.SOUTH]: southAreaId.subLocation,
+      [GameMapDirection.WEST]: westAreaId.subLocation,
     };
     let numOfValidLocationsOrSubLocations = 1; // The 1 stands for the current location/sub location
 
@@ -308,10 +283,7 @@ $(document).on(":passageend", () => {
         const direction = parseInt(key) as GameMapDirection;
         // TODO - Add better support for locations
         if (
-          !isLocationOrSubLocationValid(
-            closestLocationOrSubLocation[direction]
-          ) ||
-          !canMoveInDirectionOnMap(direction, currLocation, currSubLocation)
+          !isLocationOrSubLocationValid(closestLocationOrSubLocation[direction])
         )
           delete closestLocationOrSubLocation[direction];
         else numOfValidLocationsOrSubLocations++;
