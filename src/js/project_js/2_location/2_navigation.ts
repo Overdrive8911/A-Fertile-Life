@@ -5,6 +5,9 @@ function navigateInDirectionOnMap(
   initialSubLocationId?: MapSubLocation,
   doNotWarp = false
 ) {
+  // Don't do anything if a dialog is open
+  if (Dialog.isOpen()) return false;
+
   // TODO - Add proper support for location maps later
   let mapArray: GameMap<typeof gGameMapSubLocationArraySize>;
   let position: LocationCoords; // Stores a copy for use in a loop
@@ -150,7 +153,7 @@ function findClosestSubLocationInDirection(
 ) {
   let axisToSearch: LocationCoordIndex;
   let checkForward: boolean; // If true, follow the move towards positive values on an axis else move closer towards negatives (e.g if the current axis index is 6, checkForward = true means that it will look at 7,8,9,10... else it will look at 5,4,3,2...)
-  let position = currentCoordsInMapArray;
+  let position: LocationCoords = [...currentCoordsInMapArray]; // Don't pass by reference
 
   const subLocationId: MapSubLocation =
     mapArray[currentCoordsInMapArray[LocationCoordIndex.X]][
@@ -185,17 +188,17 @@ function findClosestSubLocationInDirection(
 
   // Loop towards the end of the axis (gGameMapSubLocationArraySize - 1 or 0) while checking if another sub location persists with each axis increment/decrement e.g (assuming the direction is east and the initial position is [52, 56], it will search elements [53, 56], [54, 56], [55, 56],... till the end of the axis's array. If a valid id to another sub location is found before then, stop the loop and warp to that sub location's default passage)
   while (
-    position[axisToSearch] < gGameMapSubLocationArraySize - 1 &&
-    position[axisToSearch] > 0
+    position[axisToSearch] <= gGameMapSubLocationArraySize - 1 &&
+    position[axisToSearch] >= 0
   ) {
+    const valueInCurrentPosition =
+      mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]];
     const indexOfSubLocationToWarpTo = arrayOfSubLocations.indexOf(
-      mapArray[position[LocationCoordIndex.X]][position[LocationCoordIndex.Y]]
+      valueInCurrentPosition
     );
 
     if (
-      mapArray[position[LocationCoordIndex.X]][
-        position[LocationCoordIndex.Y]
-      ] != subLocationId &&
+      valueInCurrentPosition != subLocationId &&
       // Check whether the value at the position in `mapArray` exists in MapSubLocation
       indexOfSubLocationToWarpTo != -1
     ) {
@@ -204,11 +207,7 @@ function findClosestSubLocationInDirection(
     }
 
     // Hit an impassable area on the map so return
-    if (
-      mapArray[position[LocationCoordIndex.X]][
-        position[LocationCoordIndex.Y]
-      ] == GameMapCoordinate.BLOCKED
-    ) {
+    if (valueInCurrentPosition == GameMapCoordinate.BLOCKED) {
       return GameMapCoordinate.BLOCKED;
     }
 

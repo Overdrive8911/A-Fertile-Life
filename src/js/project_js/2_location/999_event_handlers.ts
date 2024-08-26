@@ -90,6 +90,7 @@ $(document).on(":passageend", () => {
     preloadImage.src = gPlayerMapSpriteSrc;
   }
 });
+// !SECTION
 
 // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
 $(document).on(":passageend", () => {
@@ -141,8 +142,9 @@ $(document).on(":passageend", () => {
     }
   });
 });
+// !SECTION
 
-// SECTION - For everything relating to the navigational buttons
+// SECTION - For everything relating to the navigational buttons and the text displayed at the bottom of any "default" tagged passage
 $(document).on(":passageend", () => {
   const northButton = $("#ui-navigation-option-button-north");
   const eastButton = $("#ui-navigation-option-button-east");
@@ -153,6 +155,7 @@ $(document).on(":passageend", () => {
   const currSubLocation = variables().player.locationData
     .subLocation as MapSubLocation;
 
+  // Make isNavigationButtonUsable return a valid location/sub location
   const isNorthNavigable = isNavigationButtonUsable(GameMapDirection.NORTH);
   const isEastNavigable = isNavigationButtonUsable(GameMapDirection.EAST);
   const isSouthNavigable = isNavigationButtonUsable(GameMapDirection.SOUTH);
@@ -204,8 +207,6 @@ $(document).on(":passageend", () => {
     if (!canMoveInDirection) {
       button.prop("disabled", true);
       button.css("filter", "brightness(45%)").css("pointer-events", "none");
-      // button.is(":hover")
-      // $(`#${button[0].id}:hover`).css()
     } else {
       button.prop("disabled", false);
     }
@@ -216,4 +217,247 @@ $(document).on(":passageend", () => {
   navButtonUsabilityActions(isEastNavigable, eastButton);
   navButtonUsabilityActions(isSouthNavigable, southButton);
   navButtonUsabilityActions(isWestNavigable, westButton);
+
+  // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
+  // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
+  if (Story.get(passage()).tags.includes("default")) {
+    // TODO - Add *proper* support for regular locations
+    const currentCoordsInMapArray: LocationCoords =
+      currSubLocation != null && currSubLocation != undefined
+        ? [
+            getEffectiveCoordInGameMap(
+              setup.locationData[currLocation].subLocations[currSubLocation]
+                .coords[LocationCoordIndex.X],
+              gGameMapSubLocationArraySize
+            ),
+            getEffectiveCoordInGameMap(
+              setup.locationData[currLocation].subLocations[currSubLocation]
+                .coords[LocationCoordIndex.Y],
+              gGameMapSubLocationArraySize
+            ),
+          ]
+        : [
+            getEffectiveCoordInGameMap(
+              setup.locationData[currLocation].coords[LocationCoordIndex.X],
+              gGameMapSubLocationArraySize
+            ),
+            getEffectiveCoordInGameMap(
+              setup.locationData[currLocation].coords[LocationCoordIndex.Y],
+              gGameMapSubLocationArraySize
+            ),
+          ];
+    const mapArray =
+      currSubLocation != null && currSubLocation != undefined
+        ? setup.locationData[currLocation].subLocationMap
+        : /* NO EQUIVALENT FOR LOCATION AT THE MOMENT SO JUST REPEAT THE LAST VALUE */ setup
+            .locationData[currLocation].subLocationMap;
+    const isLocationOrSubLocationValid = (
+      locationOrSubLocation:
+        | MapLocation
+        | MapSubLocation
+        | GameMapCoordinate.BLOCKED
+        | GameMapCoordinate.EMPTY
+    ) => {
+      if (
+        locationOrSubLocation == GameMapCoordinate.BLOCKED ||
+        locationOrSubLocation == GameMapCoordinate.EMPTY ||
+        locationOrSubLocation == null ||
+        locationOrSubLocation == undefined
+      )
+        return false;
+
+      return true;
+    };
+
+    // Only accounting for sub locations here
+    let closestLocationOrSubLocation: {
+      [key in GameMapDirection]:
+        | MapLocation
+        | MapSubLocation
+        | GameMapCoordinate.BLOCKED
+        | GameMapCoordinate.EMPTY;
+    } = {
+      [GameMapDirection.NORTH]: findClosestSubLocationInDirection(
+        GameMapDirection.NORTH,
+        currentCoordsInMapArray,
+        mapArray
+      ),
+      [GameMapDirection.EAST]: findClosestSubLocationInDirection(
+        GameMapDirection.EAST,
+        currentCoordsInMapArray,
+        mapArray
+      ),
+      [GameMapDirection.SOUTH]: findClosestSubLocationInDirection(
+        GameMapDirection.SOUTH,
+        currentCoordsInMapArray,
+        mapArray
+      ),
+      [GameMapDirection.WEST]: findClosestSubLocationInDirection(
+        GameMapDirection.WEST,
+        currentCoordsInMapArray,
+        mapArray
+      ),
+    };
+    let numOfValidLocationsOrSubLocations = 1; // The 1 stands for the current location/sub location
+
+    // Remove invalid entries and get the number of valid locations/sub locations
+    for (const key in closestLocationOrSubLocation) {
+      if (
+        Object.prototype.hasOwnProperty.call(closestLocationOrSubLocation, key)
+      ) {
+        const direction = parseInt(key) as GameMapDirection;
+        // TODO - Add better support for locations
+        if (
+          !isLocationOrSubLocationValid(
+            closestLocationOrSubLocation[direction]
+          ) ||
+          !canMoveInDirectionOnMap(direction, currLocation, currSubLocation)
+        )
+          delete closestLocationOrSubLocation[direction];
+        else numOfValidLocationsOrSubLocations++;
+      }
+    }
+
+    // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
+    let CURR_LOCATION = "CURRENT_LOCATION";
+    let LOCATION = {
+      1: {
+        direction: "LOCATION_DIRECTION_1",
+        locOrSubLocName: "LOCATION_NAME_1",
+      },
+      2: {
+        direction: "LOCATION_DIRECTION_2",
+        locOrSubLocName: "LOCATION_NAME_2",
+      },
+      3: {
+        direction: "LOCATION_DIRECTION_3",
+        locOrSubLocName: "LOCATION_NAME_3",
+      },
+      4: {
+        direction: "LOCATION_DIRECTION_4",
+        locOrSubLocName: "LOCATION_NAME_4",
+      },
+    };
+
+    const greenColorClass = "otherSpeech";
+    const orangeColorClass = "playerStatNeutral";
+    const returnGreenText = (text: string) => {
+      return `<span class=${greenColorClass}>${text}</span>`;
+    };
+    const returnOrangeText = (text: string) => {
+      return `<span class=${orangeColorClass}>${text}</span>`;
+    };
+    /* NOTE 
+  - No need to add unnecessary/messy whitespace 
+  - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
+  */
+    const possibleHelpfulTextArray: string[][] = [
+      [
+        `From ${CURR_LOCATION},`,
+
+        `you can head ${LOCATION[1].direction} to ${LOCATION[1].locOrSubLocName},`,
+
+        `or perhaps ${LOCATION[2].direction} to ${LOCATION[2].locOrSubLocName}.`,
+
+        `You're pretty sure that ${LOCATION[3].locOrSubLocName} is in the ${LOCATION[3].direction},`,
+
+        `and ${LOCATION[4].locOrSubLocName} is in the ${LOCATION[4].direction}.`,
+      ],
+      [
+        `Currently, you're in ${CURR_LOCATION},`,
+
+        `${LOCATION[1].locOrSubLocName} is ${LOCATION[1].direction} of here,`,
+
+        `while ${LOCATION[2].locOrSubLocName} is likely ${LOCATION[2].direction}.`,
+
+        `${LOCATION[3].locOrSubLocName} is definitely ${LOCATION[3].direction},`,
+
+        `with ${LOCATION[4].locOrSubLocName} in the ${LOCATION[4].direction}.`,
+      ],
+      [
+        `If you were to leave ${CURR_LOCATION},`,
+
+        `${LOCATION[1].direction} is to the ${LOCATION[1].locOrSubLocName},`,
+
+        `and ${LOCATION[2].locOrSubLocName}, ${LOCATION[2].direction}.`,
+
+        `${LOCATION[3].locOrSubLocName} goes in the ${LOCATION[3].direction},`,
+
+        `while ${LOCATION[4].locOrSubLocName} is ${LOCATION[4].direction}.`,
+      ],
+    ];
+
+    // A function to randomly pick an entry in `possibleHelpfulTextArray[]` and fill in the variables
+    const returnUpdatedRandomEntry = () => {
+      // Get a random entry
+      let randomEntry = possibleHelpfulTextArray.pluck();
+
+      // Depending on the number of valid directions, reduce the size of the innermost array to match e.g 2 valid directions will only leave `LOCATION_1` and `LOCATION_2`
+      let trimmedEntry = randomEntry.filter((stringPortion, i) => {
+        return i < numOfValidLocationsOrSubLocations;
+      });
+
+      trimmedEntry[0] = trimmedEntry[0].replace(
+        CURR_LOCATION,
+        returnOrangeText(
+          currSubLocation != null && currSubLocation != undefined
+            ? getDefaultNameOfSubLocation(currLocation, currSubLocation)
+            : setup.locationData[currLocation].name
+        )
+      );
+
+      for (let i = 0; i < trimmedEntry.length - 1; i++) {
+        // NOTE - Add better support for location
+        // Store a random pair of key-values `closestLocationOrSubLocation` and then delete them from the original object
+        const randKeyValuePair = Object.entries(
+          closestLocationOrSubLocation
+        ).pluck() as [string, MapLocation | MapSubLocation];
+        const randKey = parseInt(randKeyValuePair[0]) as GameMapDirection;
+
+        delete closestLocationOrSubLocation[randKey];
+
+        trimmedEntry[i + 1] = trimmedEntry[i + 1]
+          .replace(
+            LOCATION[(i + 1) as 1 | 2 | 3 | 4].direction,
+            returnGreenText(GameMapDirection[randKey].toLocaleLowerCase())
+          )
+          .replace(
+            LOCATION[(i + 1) as 1 | 2 | 3 | 4].locOrSubLocName,
+            returnGreenText(
+              getDefaultNameOfSubLocation(
+                currLocation,
+                randKeyValuePair[1] as MapSubLocation
+              )
+            )
+          );
+      }
+
+      // Concatenate the strings in `trimmedEntry[]` together
+      let joinedString = "";
+      trimmedEntry.forEach((stringPortion, index) => {
+        if (index != trimmedEntry.length - 1) {
+          // Not at the end of the string so add whitespace at the end
+          joinedString += stringPortion + " ";
+        } else {
+          // No need for whitespace since this will be the last sentence/phrase. instead replace the last character with a period
+          let editedStr =
+            stringPortion.slice(0, stringPortion.length - 1) + ".";
+          joinedString += editedStr;
+        }
+      });
+
+      // Add the paragraph tags to the string and prepend it with a long horizontal line
+      const strToReturn = `<br><br><br><hr><p>${joinedString}</p>`;
+
+      return strToReturn;
+    };
+
+    const textToDisplay = returnUpdatedRandomEntry();
+    const currentPassageOnDOM = $("#passages > [id^=passage]");
+
+    // Append the text to the current passage
+    currentPassageOnDOM.append(textToDisplay);
+  }
+  // !SECTION
 });
+// !SECTION
