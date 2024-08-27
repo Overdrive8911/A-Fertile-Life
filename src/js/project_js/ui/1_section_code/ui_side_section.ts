@@ -94,12 +94,12 @@ $(document).on(":passageend", () => {
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
       // Reload the map with the previous zoom lvl
-      loadGameMap(
+      NSLocation.loadGameMap(
         variables().player.locationData.location,
         $("#ui-side-bar-action-interface").children("[class*=map]"),
         true,
         true,
-        gMapPopoutZoomLvl
+        NSLocation.gMapPopoutZoomLvl
       );
     }
   } else {
