@@ -19,16 +19,16 @@ namespace NSLocation {
   }
 
   export function populateSubLocationMap(location: MapLocation) {
-    if (!setup.locationData[location].subLocationMap) {
+    if (!gLocationData[location].subLocationMap) {
       // Create an empty array first and set its length to the `GameMapArraySize`
-      setup.locationData[location].subLocationMap =
+      gLocationData[location].subLocationMap =
         [] as any as GameMapForSubLocations<
           typeof gGameMapSubLocationArraySize
         >;
-      setup.locationData[location].subLocationMap.length =
+      gLocationData[location].subLocationMap.length =
         gGameMapSubLocationArraySize;
 
-      let mapOfSubLocations = setup.locationData[location].subLocationMap;
+      let mapOfSubLocations = gLocationData[location].subLocationMap;
 
       // Fill the sub location map with "empty" elements
       for (let x = 0; x < gGameMapSubLocationArraySize; x++) {
@@ -50,17 +50,17 @@ namespace NSLocation {
 
       // Store the sub locations in this map using their coordinates
       // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
-      for (const id in setup.locationData[location].subLocations) {
+      for (const id in gLocationData[location].subLocations) {
         if (
           Object.prototype.hasOwnProperty.call(
-            setup.locationData[location].subLocations,
+            gLocationData[location].subLocations,
             id
           )
         ) {
           if (parseInt(id) != undefined) {
             const subLocationId = parseInt(id) as MapSubLocation;
             const subLocationCoords =
-              setup.locationData[location].subLocations[subLocationId].coords;
+              gLocationData[location].subLocations[subLocationId].coords;
 
             // Get the relative indexes and make sure they aren't out of bounds. Please do not allow the latter to happen. This check I'm doing for it is to prevent the game from erroring out.
             let relativeXIndex = getEffectiveCoordInGameMap(
@@ -103,7 +103,7 @@ namespace NSLocation {
     let mapData = `<img src="assets/img/map/location/default.webp" class="pixel-art" style="width:inherit; height:auto;"/>`;
     if (
       gLocationMapSvgTable[locationId] &&
-      setup.locationData[locationId].subLocations
+      gLocationData[locationId].subLocations
     )
       mapData = gLocationMapSvgTable[locationId];
 
@@ -164,7 +164,7 @@ namespace NSLocation {
     // Check whether the sub location and it's entry exist
     if (
       subLocation != undefined &&
-      setup.locationData[locationId].subLocations[subLocation] != undefined
+      gLocationData[locationId].subLocations[subLocation] != undefined
     ) {
       // In our svg map, all the paths are given text values like "HALLWAY_2" or "RECEPTION". These will be used to determine what path/area to display the player sprite
 
