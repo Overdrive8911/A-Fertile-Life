@@ -1,7 +1,8 @@
-// The real stuff. This is where the svg image for the actual location is stored.
-// Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values. Also, give the svgs a fill colour else they won't get rendered (from my testing)
-const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
-  [MapLocation.FERTILO_INC_GROUND_FLOOR]: `
+namespace NSLocation {
+  // The real stuff. This is where the svg image for the actual location is stored.
+  // Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values. Also, give the svgs a fill colour else they won't get rendered (from my testing)
+  export const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
+    [MapLocation.FERTILO_INC_GROUND_FLOOR]: `
   <svg id="svg1" version="1.1" viewBox="0 0 66.667 48" xmlns="http://www.w3.org/2000/svg">
     <image id="image1" width="66.667" height="48" fill="none" image-rendering="crisp-edges" href="assets/img/map/location/fertilo_inc_ground_floor.webp" preserveAspectRatio="none"/>
     <g id="g1">
@@ -51,4 +52,5 @@ const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
     </g>
   </svg>
   `,
-};
+  };
+}

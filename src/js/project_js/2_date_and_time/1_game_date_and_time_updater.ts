@@ -13,20 +13,20 @@ const updateGameTimeAfterChangingPassage = (
   const timeToTravel = Math.floor(
     (distBetweenLocations / movementSpeed) *
       randomFloat(
-        averageWalkingSpeed[0] * 10 - 1,
-        averageWalkingSpeed[0] * 10 + 1
+        NSLocation.averageWalkingSpeed[0] * 10 - 1,
+        NSLocation.averageWalkingSpeed[0] * 10 + 1
       )
   );
 
   let extraTimeForRemainingInALocationInSeconds = 0;
   const passage1Location: string | undefined =
-    getLocationFromPassageTitle(passageName1);
+    NSLocation.getLocationFromPassageTitle(passageName1);
   const passage1SubLocation: string | undefined =
-    getSubLocationFromPassageTitle(passageName1);
+    NSLocation.getSubLocationFromPassageTitle(passageName1);
   const passage2Location: string | undefined =
-    getLocationFromPassageTitle(passageName2);
+    NSLocation.getLocationFromPassageTitle(passageName2);
   const passage2SubLocation: string | undefined =
-    getSubLocationFromPassageTitle(passageName2);
+    NSLocation.getSubLocationFromPassageTitle(passageName2);
 
   if (
     passage1Location &&
@@ -48,11 +48,11 @@ const updateGameTimeAfterChangingPassage = (
   // Update the location data of the player
   if (passage2Location != undefined) {
     variables().player.locationData.location =
-      getMapLocationIdFromLocation(passage2Location);
+      NSLocation.getMapLocationIdFromLocation(passage2Location);
 
     if (passage2SubLocation != undefined) {
       variables().player.locationData.subLocation =
-        getMapSubLocationIdFromSubLocation(passage2SubLocation);
+        NSLocation.getMapSubLocationIdFromSubLocation(passage2SubLocation);
     } else {
       variables().player.locationData.subLocation = null;
     }

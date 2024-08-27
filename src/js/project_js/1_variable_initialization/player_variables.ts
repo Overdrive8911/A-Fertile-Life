@@ -6,8 +6,8 @@ setup.initializePlayerVariables = () => {
 
     /* Location */
     locationData: {
-      location: MapLocation.PLAYER_HOUSE,
-      subLocation: MapSubLocation.BEDROOM,
+      location: NSLocation.MapLocation.PLAYER_HOUSE,
+      subLocation: NSLocation.MapSubLocation.BEDROOM,
     },
 
     /* Personality and Mood(?) */

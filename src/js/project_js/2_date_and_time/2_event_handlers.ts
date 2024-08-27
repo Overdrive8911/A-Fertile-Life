@@ -9,7 +9,7 @@ $(document).one(":passageinit", () => {
     updateGameTimeAfterChangingPassage(
       currentPassageTitle,
       incomingPassage.passage.title,
-      averageWalkingSpeed[0]
+      NSLocation.averageWalkingSpeed[0]
     );
 
     // Dispatch the event

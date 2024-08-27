@@ -9,4 +9,9 @@ declare module "twine-sugarcube" {
   }
 }
 
+declare global {
+  // Namespace for every location-related variable or function
+  namespace NSLocation {}
+}
+
 export {};
