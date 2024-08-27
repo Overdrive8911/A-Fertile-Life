@@ -22,6 +22,10 @@ namespace NSLocation {
     };
   }
 
+  export type LocationObject = {
+    [nameOfLocation in MapLocation]?: GameLocation;
+  };
+
   export type LocationCoords = [x: number, y: number, z?: number];
 
   // The game map would be a 2d/3d array to store all 3 possible coords for locations or sub locations. The id's for the respective location/sub locations are stored in the spot that their coords point to
