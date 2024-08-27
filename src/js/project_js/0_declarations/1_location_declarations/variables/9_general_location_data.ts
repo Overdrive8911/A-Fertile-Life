@@ -4,7 +4,7 @@ namespace NSLocation {
   // NOTE - Do not allow any of the sub location coord values to be less than `-(GameMapSubLocationArraySize/2)` or exceed `GameMapSubLocationArraySize/2 - 1`. If `GameMapSubLocationArraySize` is 100, then stay inclusively within -50 and 49. Also keep the values as whole integers
   // NOTE - Using getters for the coords of sub locations makes it easier to do edits down the line. It's also easier to understand what is connected to what
   // It's best to have an image to visualize how the coords would work
-  setup.locationData = {
+  export let gLocationData: LocationObject = {
     // North Hirtheford
     [MapLocation.FERTILO_INC_GROUND_FLOOR]: {
       name: "Fertilo Inc (Ground Floor)",
@@ -275,4 +275,7 @@ namespace NSLocation {
     [MapLocation.DREAM]: { name: "???", coords: [0, 0] },
     [MapLocation.UNKNOWN]: { name: "???", coords: [0, 0] },
   };
+
+  // Attach it to setup for use in the browser console
+  setup.locationData = gLocationData;
 }

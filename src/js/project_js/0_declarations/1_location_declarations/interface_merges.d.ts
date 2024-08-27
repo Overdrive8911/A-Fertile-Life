@@ -1,8 +1,6 @@
 declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
-    locationData: {
-      [nameOfLocation in NSLocation.MapLocation]?: NSLocation.GameLocation;
-    };
+    locationData: LocationObject;
     getDistanceToTravelFromLocation: (
       prevPassageTitle: string,
       currPassageTitle: string

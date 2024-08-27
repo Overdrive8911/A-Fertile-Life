@@ -115,17 +115,15 @@ namespace NSLocation {
     };
     const setLocationName = () => {
       element.text(
-        setup.locationData[
-          variables().player.locationData.location as MapLocation
-        ].name
+        gLocationData[variables().player.locationData.location as MapLocation]
+          .name
       );
       element.attr(attrName, "true");
     };
 
     if (
-      setup.locationData[
-        variables().player.locationData.location as MapLocation
-      ].subLocations
+      gLocationData[variables().player.locationData.location as MapLocation]
+        .subLocations
     ) {
       setSubLocationName();
     } else {
@@ -137,9 +135,8 @@ namespace NSLocation {
       if (element.attr(attrName) == "true") {
         // The location's name is currently displayed so try to display the sub location (if any)
         if (
-          setup.locationData[
-            variables().player.locationData.location as MapLocation
-          ].subLocations
+          gLocationData[variables().player.locationData.location as MapLocation]
+            .subLocations
         ) {
           setSubLocationName();
         }
@@ -358,7 +355,7 @@ namespace NSLocation {
           returnOrangeText(
             currSubLocation != null && currSubLocation != undefined
               ? getDefaultNameOfSubLocation(currLocation, currSubLocation)
-              : setup.locationData[currLocation].name
+              : gLocationData[currLocation].name
           )
         );
 

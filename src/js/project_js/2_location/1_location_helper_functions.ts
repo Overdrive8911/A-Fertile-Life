@@ -69,16 +69,15 @@ namespace NSLocation {
     let currPassageSubLocationCoords: LocationCoords;
 
     prevPassageLocationCoords =
-      setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
-        .coords;
+      gLocationData[getMapLocationIdFromLocation(prevPassageLocation)].coords;
 
     if (
-      setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
+      gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
         .subLocations !== undefined &&
       prevPassageSubLocation
     ) {
       prevPassageSubLocationCoords =
-        setup.locationData[getMapLocationIdFromLocation(prevPassageLocation)]
+        gLocationData[getMapLocationIdFromLocation(prevPassageLocation)]
           .subLocations[
           getMapSubLocationIdFromSubLocation(prevPassageSubLocation)
         ].coords;
@@ -88,16 +87,15 @@ namespace NSLocation {
     }
 
     currPassageLocationCoords =
-      setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
-        .coords;
+      gLocationData[getMapLocationIdFromLocation(currPassageLocation)].coords;
 
     if (
-      setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
+      gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
         .subLocations !== undefined &&
       currPassageSubLocation
     ) {
       currPassageSubLocationCoords =
-        setup.locationData[getMapLocationIdFromLocation(currPassageLocation)]
+        gLocationData[getMapLocationIdFromLocation(currPassageLocation)]
           .subLocations[
           getMapSubLocationIdFromSubLocation(currPassageSubLocation)
         ].coords;
@@ -372,14 +370,14 @@ namespace NSLocation {
     }
 
     if (
-      setup.locationData[
+      gLocationData[
         MapLocation[combinedUpperCaseString as any] as any as MapLocation
       ] == undefined
     ) {
       console.error(
         `MapLocation entry: ${
           MapLocation[combinedUpperCaseString as any] as any as number
-        }, index String: ${combinedUpperCaseString}\n\nMapLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
+        }, index String: ${combinedUpperCaseString}\n\nMapLocation.${combinedUpperCaseString} does not have its entry in gLocationData`
       );
     }
     return MapLocation[combinedUpperCaseString as any] as any as number;
@@ -445,12 +443,12 @@ namespace NSLocation {
 
     // TODO - Make stuff like Buses have a location and sub location with the same name
     if (
-      setup.locationData[
+      gLocationData[
         variables().player.locationData.location as any as MapLocation
       ].subLocations
     ) {
       if (
-        setup.locationData[
+        gLocationData[
           variables().player.locationData.location as any as MapLocation
         ].subLocations[
           MapSubLocation[
@@ -461,7 +459,7 @@ namespace NSLocation {
         console.error(
           `MapSubLocation entry: ${
             MapSubLocation[combinedUpperCaseString as any] as any as number
-          }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not have its entry in setup.locationData`
+          }, index String: ${combinedUpperCaseString}\n\nMapSubLocation.${combinedUpperCaseString} does not have its entry in gLocationData`
         );
       }
     }
@@ -474,9 +472,8 @@ namespace NSLocation {
     subLocationId: MapSubLocation
   ) {
     // Check if there's an entry in `gLocationData`
-    if (setup.locationData[locationId].subLocations[subLocationId]) {
-      const subLocation =
-        setup.locationData[locationId].subLocations[subLocationId];
+    if (gLocationData[locationId].subLocations[subLocationId]) {
+      const subLocation = gLocationData[locationId].subLocations[subLocationId];
 
       // If there's already a name set, return it
       if (subLocation.name) return subLocation.name;
