@@ -9,18 +9,15 @@ namespace NSLocation {
     // TODO - Populate all Location Maps
 
     // Proceed if an entry in `gLocationData` exists without a sub location map
-    if (
-      setup.locationData[location] &&
-      !setup.locationData[location].subLocationMap
-    ) {
+    if (gLocationData[location] && !gLocationData[location].subLocationMap) {
       // Populate all Sub Location Maps
       populateSubLocationMap(location);
 
       // Set the names of all sub locations (since some rely on their defaults)
-      if (setup.locationData[location].subLocations) {
-        Object.entries(setup.locationData[location].subLocations).forEach(
+      if (gLocationData[location].subLocations) {
+        Object.entries(gLocationData[location].subLocations).forEach(
           ([subLocationId]) => {
-            setup.locationData[location].subLocations[
+            gLocationData[location].subLocations[
               parseInt(subLocationId) as MapSubLocation
             ].name = getDefaultNameOfSubLocation(
               location,
@@ -32,5 +29,3 @@ namespace NSLocation {
     }
   });
 }
-
-NSLocation;

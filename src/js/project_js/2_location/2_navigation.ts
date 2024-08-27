@@ -16,7 +16,7 @@ namespace NSLocation {
     let mapArray: GameMapForSubLocations<typeof gGameMapSubLocationArraySize>;
     let position: LocationCoords; // Stores a copy for use in a loop
 
-    const locationData = setup.locationData[initialLocationId];
+    const locationData = gLocationData[initialLocationId];
 
     if (initialSubLocationId != undefined || initialSubLocationId != null) {
       if (
@@ -127,9 +127,7 @@ namespace NSLocation {
     // TODO - Add support for location maps
     if (initialSubLocationId != undefined) {
       const subLocationData =
-        setup.locationData[initialLocationId].subLocations[
-          initialSubLocationId
-        ];
+        gLocationData[initialLocationId].subLocations[initialSubLocationId];
 
       // If `subLocationData.extraDirectionInfo` is undefined (which means that none of the directions can be blocked so default to empty/passable), `subLocationData.extraDirectionInfo` exists but the related direction data is undefined (so default to empty/passable), or `subLocationData.extraDirectionInfo` exists and the related direction data exists but it isn't `GameMapCoordinate.BLOCKED`, then the player can move in that direction else return false
       if (

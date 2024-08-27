@@ -1,11 +1,10 @@
 namespace NSLocation {
-  // Only here to avoid repetition since it's used in `setup.locationData`
+  // Only here to avoid repetition since it's used in `gLocationData`
   export function getSubLocationCoords(
     locationId: MapLocation,
     subLocationId: MapSubLocation
   ): LocationCoords {
-    const coords =
-      setup.locationData[locationId].subLocations[subLocationId].coords;
+    const coords = gLocationData[locationId].subLocations[subLocationId].coords;
     return coords != undefined ? coords : [0, 0, 0];
   }
 
