@@ -5,7 +5,6 @@ declare module "twine-sugarcube" {
       prevPassageTitle: string,
       currPassageTitle: string
     ) => number;
-    initializeExtraLocationData: () => void;
   }
 }
 
