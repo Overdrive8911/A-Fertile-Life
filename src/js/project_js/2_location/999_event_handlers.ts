@@ -111,7 +111,7 @@ namespace NSLocation {
       let imgUrl =
         subLoc != null && subLoc != undefined
           ? gSubLocationIcons24x24[subLoc]
-          : gSubLocationIcons24x24[0];
+          : gSubLocationIcons24x24[MapSubLocation.DUMMY];
 
       element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
         // Use the icon as a mask over a color that will be set by css
