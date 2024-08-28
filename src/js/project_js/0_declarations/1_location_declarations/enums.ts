@@ -69,7 +69,6 @@ namespace NSLocation {
     PHARMACY_1,
     PHARMACY_2,
 
-    ROOM,
     PLAYER_ROOM,
     LIVING_ROOM,
     BATHROOM,
@@ -89,5 +88,12 @@ namespace NSLocation {
     CORRIDOR_1,
     CORRIDOR_2,
     CORRIDOR_3,
+
+    // Rooms
+    ROOM_1,
+    ROOM_2,
+    ROOM_3,
+    ROOM_4,
+    ROOM_5,
   }
 }

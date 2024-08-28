@@ -279,6 +279,7 @@ namespace NSLocation {
   setup.locationData = gLocationData;
 
   // Stores relative urls to the icons for sub locations
+  // NOTE - Add the urls of sub locations with mini icons here
   export const gSubLocationIcons24x24: { [key in MapSubLocation]?: string } = {
     [MapSubLocation.DUMMY]: getUrl("dummy"),
 
@@ -301,6 +302,12 @@ namespace NSLocation {
     [MapSubLocation.CORRIDOR_2]: getUrl("corridor"),
     [MapSubLocation.CORRIDOR_3]: getUrl("corridor"),
 
+    [MapSubLocation.ROOM_1]: getUrl("room"),
+    [MapSubLocation.ROOM_2]: getUrl("room"),
+    [MapSubLocation.ROOM_3]: getUrl("room"),
+    [MapSubLocation.ROOM_4]: getUrl("room"),
+    [MapSubLocation.ROOM_5]: getUrl("room"),
+
     [MapSubLocation.LAB]: getUrl("lab"),
 
     [MapSubLocation.CONSULTATION]: getUrl("consultation"),
@@ -308,6 +315,11 @@ namespace NSLocation {
     [MapSubLocation.OFFICE_WORK]: getUrl("office_work"),
 
     [MapSubLocation.MEASUREMENT_CLOSET]: getUrl("measurement_closet"),
+
+    [MapSubLocation.PLAYER_ROOM]: getUrl("room"),
+    [MapSubLocation.BEDROOM]: getUrl("bedroom"),
+    [MapSubLocation.BATHROOM]: getUrl("bathroom"),
+    [MapSubLocation.LIVING_ROOM]: getUrl("living_room"),
   };
   function getUrl(subLocation: string) {
     return `assets/img/map/icons/sub_location/${subLocation}.webp`.toLocaleLowerCase();
