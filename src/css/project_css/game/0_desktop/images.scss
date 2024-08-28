@@ -40,14 +40,26 @@ img[src^="assets/img/general/envelope"] {
 //   fill-opacity: 0;
 // }
 [class*="map"] > svg {
-  fill: transparent;
-
   height: auto;
   width: auto;
 
   & img[class~="pixel-art"],
   & image[class~="pixel-art"] {
     image-rendering: crisp-edges;
+    pointer-events: none;
+  }
+
+  & text {
+    pointer-events: none;
+  }
+
+  & path {
+    fill: transparent;
+
+    &:hover {
+      fill: var(--green-bright);
+      fill-opacity: 0.5;
+    }
   }
 }
 
