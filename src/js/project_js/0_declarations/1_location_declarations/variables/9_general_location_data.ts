@@ -275,7 +275,39 @@ namespace NSLocation {
     [MapLocation.DREAM]: { name: "???", coords: [0, 0] },
     [MapLocation.UNKNOWN]: { name: "???", coords: [0, 0] },
   };
-
   // Attach it to setup for use in the browser console
   setup.locationData = gLocationData;
+
+  // Stores relative urls to the icons for sub locations
+  export const gSubLocationIcons24x24: { [key in MapSubLocation]?: string } = {
+    [MapSubLocation.RECEPTION]: getUrl("reception"),
+
+    [MapSubLocation.HALLWAY_1]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_2]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_3]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_4]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_5]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_6]: getUrl("hallway"),
+    [MapSubLocation.HALLWAY_7]: getUrl("hallway"),
+
+    [MapSubLocation.PHARMACY_1]: getUrl("pharmacy"),
+    [MapSubLocation.PHARMACY_2]: getUrl("pharmacy"),
+
+    [MapSubLocation.PORCH]: getUrl("porch"),
+
+    [MapSubLocation.CORRIDOR_1]: getUrl("corridor"),
+    [MapSubLocation.CORRIDOR_2]: getUrl("corridor"),
+    [MapSubLocation.CORRIDOR_3]: getUrl("corridor"),
+
+    [MapSubLocation.LAB]: getUrl("lab"),
+
+    [MapSubLocation.CONSULTATION]: getUrl("consultation"),
+
+    [MapSubLocation.OFFICE_WORK]: getUrl("office_work"),
+
+    [MapSubLocation.MEASUREMENT_CLOSET]: getUrl("measurement_closet"),
+  };
+  function getUrl(subLocation: string) {
+    return `assets/img/map/icons/sub_location/${subLocation}.webp`.toLocaleLowerCase();
+  }
 }
