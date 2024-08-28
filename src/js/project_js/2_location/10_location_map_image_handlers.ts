@@ -174,7 +174,7 @@ namespace NSLocation {
 
       // Find the required path
       const subLocationString = MapSubLocation[subLocation];
-      const path = mapArea.find(`path#${subLocationString}`);
+      const path = mapArea.find(`path.${subLocationString}`);
 
       if (path.length == 0) {
         console.error(
@@ -264,14 +264,14 @@ namespace NSLocation {
         playerMapSprite.attr("x", imageX);
         playerMapSprite.attr("y", imageY);
 
-        // Ensure that if the current path has a text as its sibling, remove it. It'll be displayed in the passage
-        // NOTE - This assumes that related text and path are grouped (honestly, this should be expected)
-        if (path.siblings("text").length == 1) {
-          path.siblings("text").detach();
+        // Ensure that if the current path has a text with a corresponding class, remove it. It'll be displayed in the passage
+        const pathText = mapArea.find(`text.${subLocationString}`);
+        if (pathText.length == 1) {
+          pathText.detach();
         }
 
         // "Reload" the map after changes
-        mapArea.children("svg").html(mapArea.children("svg").html());
+        // mapArea.children("svg").html(mapArea.children("svg").html());
       };
       // This observer will make sure that the map for the player sprite has its dimensions ready
       const playerMapSpriteSpawnObserver = new ResizeObserver(() => {
@@ -304,7 +304,7 @@ namespace NSLocation {
             minPlayerMapSpriteSize / playerMapSpriteDimensions.width;
           const roundedTransformValue = Math.round(rawTransformValue);
 
-          if (defaultZoomLevel == null) {
+          if (defaultZoomLevel == null && shouldChangeDefaultZoomLevel) {
             // The aim is to get a transform value like 2, 2.5, 3, 3.5, 4, 4.5, etc
             if (roundedTransformValue > rawTransformValue) {
               // rounded up so our answer is roundedTransformValue - 0.5
@@ -364,7 +364,7 @@ namespace NSLocation {
         mapArea.css("transition") == "" ||
         mapArea.css("transition") == "all"
       ) {
-        if (defaultZoomLevel != null) {
+        if (defaultZoomLevel != null && shouldChangeDefaultZoomLevel) {
           // Set the zoom level instantly instead of waiting for the setTimeout
           mapArea
             .children("svg")

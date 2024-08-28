@@ -279,7 +279,7 @@ namespace NSLocation {
   setup.locationData = gLocationData;
 
   // Stores relative urls to the icons for sub locations
-  // NOTE - Add the urls of sub locations with mini icons here
+  // NOTE - Add the urls of sub locations with mini icons here. Use lowercase
   export const gSubLocationIcons24x24: { [key in MapSubLocation]?: string } = {
     [MapSubLocation.DUMMY]: getUrl("dummy"),
 
@@ -322,6 +322,6 @@ namespace NSLocation {
     [MapSubLocation.LIVING_ROOM]: getUrl("living_room"),
   };
   function getUrl(subLocation: string) {
-    return `assets/img/map/icons/sub_location/${subLocation}.webp`.toLocaleLowerCase();
+    return `assets/img/map/icons/sub_location/${subLocation}.webp`;
   }
 }
