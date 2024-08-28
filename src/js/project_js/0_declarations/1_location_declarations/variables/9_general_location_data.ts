@@ -280,6 +280,8 @@ namespace NSLocation {
 
   // Stores relative urls to the icons for sub locations
   export const gSubLocationIcons24x24: { [key in MapSubLocation]?: string } = {
+    [MapSubLocation.DUMMY]: getUrl("dummy"),
+
     [MapSubLocation.RECEPTION]: getUrl("reception"),
 
     [MapSubLocation.HALLWAY_1]: getUrl("hallway"),
