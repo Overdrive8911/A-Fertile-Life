@@ -105,11 +105,17 @@ namespace NSLocation {
     const attrName = "is-location-name";
 
     const setSubLocationName = () => {
-      element.text(
-        getDefaultNameOfSubLocation(
-          variables().player.locationData.location,
-          variables().player.locationData.subLocation
-        )
+      const loc: MapLocation = variables().player.locationData.location;
+      const subLoc: MapSubLocation =
+        variables().player.locationData.subLocation;
+      let imgUrl =
+        subLoc != null && subLoc != undefined
+          ? gSubLocationIcons24x24[subLoc]
+          : gSubLocationIcons24x24[0];
+
+      element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
+        // Use the icon as a mask over a color that will be set by css
+        `<img class="icon24x24" src="" alt="masked icon" style="mask: url('${imgUrl}') center/contain;" />`
       );
       element.attr(attrName, "false");
     };
@@ -359,7 +365,8 @@ namespace NSLocation {
           )
         );
 
-        for (let i = 0; i < trimmedEntry.length - 1; i++) {
+        let l = trimmedEntry.length - 1;
+        for (let i = 0; i < l; i++) {
           // NOTE - Add better support for location
           // Store a random pair of key-values `closestLocationOrSubLocation` and then delete them from the original object
           const randKeyValuePair = Object.entries(

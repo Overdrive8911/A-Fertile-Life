@@ -1,6 +1,6 @@
 namespace NSLocation {
-  // Get the appropriate image for a subLocation
-  export function getSubLocationMapImage(subLocation: MapSubLocation) {
+  // NOTE - UNUSED. Get the appropriate image for a subLocation
+  function getSubLocationMapImage(subLocation: MapSubLocation): any {
     // Assume the sub location we're dealing with is HALLWAY_2
 
     // We'll have "HALLWAY_2" here
@@ -12,10 +12,14 @@ namespace NSLocation {
     const splitSubLocationString = rawSubLocationString.split(regexp)[0];
 
     const img = new Image();
-    img.src = `assets/img/map/sub_location/${splitSubLocationString.toLocaleLowerCase()}.webp`;
-
-    // TODO - Check if the image is valid. If true, return the appropriate src else return the dummy image
-    return `assets/img/map/sub_location/${splitSubLocationString.toLocaleLowerCase()}.webp`;
+    img.src = `assets/img/map/icons/sub_location/${splitSubLocationString.toLocaleLowerCase()}.webp`;
+    img.onload = () => {
+      if (img.width && img.height) {
+        // image is valid
+        return img.src;
+      }
+      return `assets/img/map/icons/sub_location/dummy.webp`;
+    };
   }
 
   export function populateSubLocationMap(location: MapLocation) {
