@@ -34,8 +34,10 @@ namespace NSLocation {
   // NOTE - As long as the number of locations in each group doesn't exceed (2 ^ gLeftShiftValue), it'll be fine
   export enum MapLocation {
     //
+    DUMMY,
+
     FERTILO_INC_FIRST_FLOOR_UNDERGROUND = 0 |
-      (MapLocationContainer.FERTILO_INC << gLeftShiftValue),
+      ((MapLocationContainer.FERTILO_INC << gLeftShiftValue) + 1),
     FERTILO_INC_GROUND_FLOOR,
     FERTILO_INC_FIRST_FLOOR,
     FERTILO_INC_SECOND_FLOOR,
@@ -54,6 +56,8 @@ namespace NSLocation {
   // NOTE - Ensure that the name of a member (e.g RECEPTION) can be converted into a subLocation string (e.g subLocation_reception) as well as be used to get the appropriate image (e.g assets/img/map/sub_location/reception.webp)
   // NOTE - Assign the duplicates to the map from left to right
   export enum MapSubLocation {
+    DUMMY,
+
     RECEPTION,
     CLOSET,
     MEASUREMENT_CLOSET,
