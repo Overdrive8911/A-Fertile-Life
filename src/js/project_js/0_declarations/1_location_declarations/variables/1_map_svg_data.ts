@@ -2,55 +2,6 @@ namespace NSLocation {
   // The real stuff. This is where the svg image for the actual location is stored.
   // Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values. Also, give the svgs a fill colour else they won't get rendered (from my testing)
   export const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
-    [MapLocation.FERTILO_INC_GROUND_FLOOR]: `
-  <svg id="svg1" version="1.1" viewBox="0 0 66.667 48" xmlns="http://www.w3.org/2000/svg">
-    <image id="image1" width="66.667" height="48" fill="none" image-rendering="crisp-edges" href="assets/img/map/location/fertilo_inc_ground_floor.webp" preserveAspectRatio="none"/>
-    <g id="g1">
-      <path id="RECEPTION" d="m29.274 37.071-0.0027 0.23458-0.23592-0.0027 0.0027 0.2427-0.23861-0.0027-0.0036 8.1202 0.23771-0.0018 0.0027 0.23639 0.23053 0.0027 0.0045 0.0027 0.0017 0.23549 7.5888 4.69e-4 0.0036-0.24812 0.23053 0.0081 0.0017-0.25353 0.23322 0.01181v-8.1022l-0.24399-0.0027 0.0027-0.24h-0.23322v-0.23729z" fill-opacity=".24819"/>
-      <text id="text1" transform="rotate(-43.202)" x="-9.6072531" y="53.800423" fill="#000000" fill-opacity=".6537" font-size="2.271px" stroke-width="0" xml:space="preserve"><tspan id="tspan1" x="-9.6072531" y="53.800423" fill="#000000" fill-opacity=".6537" stroke-width="0">Reception</tspan></text>
-    </g>
-    <g id="g3">
-      <path id="MEASUREMENT_CLOSET" d="m38.392 37.071-0.0067 0.19816 0.20335 0.01024 0.0067 0.0066h0.01375l-0.0067 0.20147 0.20668 0.01024 0.02067 0.0066-0.0034 4.3596 4.6254 0.0033-4.42e-4 -4.7972z" fill-opacity=".24819"/>
-      <text id="text2" transform="rotate(-43.099)" x="0.3546485" y="57.453499" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="1.6983px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan2" x="0.3546485" y="57.453499" stroke-width="0">Closet</tspan></text>
-    </g>
-    <g id="g4">
-      <path id="PHARMACY_1" d="m21.068 37.07 0.0064 4.8177 5.9645-0.01373 0.01455-4.385 0.21256 0.0097-0.0095-0.22383h0.2077l0.0049-0.1997z" fill-opacity=".24819"/>
-      <text id="text3" transform="rotate(-32.855)" x="-3.9887943" y="46.957668" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="1.9088px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan3" x="-3.9887943" y="46.957668" stroke-width="0">Pharm</tspan></text>
-    </g>
-    <path id="CORRIDOR_1" d="m31.196 28.008 0.02972 7.9874h3.7087v-7.9874z" fill-opacity=".24819"/>
-    <g id="g6">
-      <path id="LAB" d="m21.345 28.301 0.0017 6.1002 7.458 8.56e-4 0.0026-6.1088z" fill-opacity=".24819"/>
-      <text id="text5" transform="rotate(-34.129)" x="0.38754654" y="41.102806" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="3.2016px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan5" x="0.38754654" y="41.102806" stroke-width="0">Lab</tspan></text>
-    </g>
-    <g id="g5" transform="matrix(.98965 0 0 .874 .64329 3.1306)">
-      <g fill-opacity=".24819">
-      <path id="HALLWAY_7" d="m54.605 19.3 0.01708 7.92 7.5057 0.0135-0.0038-7.92z"/>
-      <path id="HALLWAY_6" d="m45.974 19.3 0.01833 7.92 8.0544 0.0135-0.0041-7.92z"/>
-      <path id="HALLWAY_5" d="m37.343 19.3 0.01839 7.92 8.0833 0.0135-0.0041-7.92z" stroke-width="0"/>
-      </g>
-      <g id="g10">
-      <path id="HALLWAY_4" d="m28.716 19.3 0.01838 7.92 8.0746 0.0135-0.0041-7.92z" fill-opacity=".24819"/>
-      <text id="text4" transform="scale(.91627 1.0914)" x="28.137169" y="22.409613" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="4.2352px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan4" x="28.137169" y="22.409613" stroke-width="0">Hallway</tspan></text>
-      </g>
-      <g fill-opacity=".24819">
-      <path id="HALLWAY_3" d="m20.113 19.3 0.01837 7.92 8.0734 0.0135-4e-3 -7.92z"/>
-      <path id="HALLWAY_2" d="m11.47 19.3 0.01832 7.92 8.0529 0.0135-0.0041-7.92z"/>
-      <path id="HALLWAY_1" d="m3.44 19.3 0.017025 7.92 7.4812 0.0135-0.0038-7.92z"/>
-      </g>
-    </g>
-    <g id="g8">
-      <path id="OFFICE_WORK" d="m55.444 18.656v-0.02845l-7e-3 -6.102 6.4368 0.0069 0.01439 6.0935z" fill-opacity=".24819"/>
-      <text id="text7" transform="rotate(-38.162)" x="33.911911" y="49.124802" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="1.8846px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan7" x="33.911911" y="49.124802" stroke-width="0">Office</tspan></text>
-    </g>
-    <g id="g7">
-      <path id="PHARMACY_2" d="m38.902 28.273 0.01396 5.0874 5.3386-0.0067-0.0025-5.0456z" fill-opacity=".24819"/>
-      <text id="text6" transform="rotate(-44.118)" x="5.5276318" y="51.621925" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="1.8716px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan6" x="5.5276318" y="51.621925" stroke-width="0">Pharm</tspan></text>
-    </g>
-    <g id="g9">
-      <path id="CONSULTATION_ROOM" d="m44.521 18.66 0.02002-5.0657-5.8875-0.01966 0.02002 5.1077z" fill-opacity=".24819"/>
-      <text id="text8" transform="rotate(-34.627)" x="21.956957" y="37.248199" fill="#000000" fill-opacity=".6537" font-family="sans-serif" font-size="1.0577px" stroke-width="0" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan id="tspan8" x="21.956957" y="37.248199" stroke-width="0">Consultation</tspan></text>
-    </g>
-  </svg>
-  `,
+    [MapLocation.FERTILO_INC_GROUND_FLOOR]: `<svg version="1.1" viewBox="0 0 66.67 48" xmlns="http://www.w3.org/2000/svg"><style>text{fill-opacity:0.65;}path{fill-opacity:0.1;}</style><image width="66.67" height="48" image-rendering="crisp-edges" href="assets/img/map/location/fertilo_inc_ground_floor.webp" preserveAspectRatio="none"/><g stroke-width=".93"><path class="HALLWAY_7" d="m54.67 19.99-0.0065 6.942 6.944 7.9e-5 0.0063-0.2642 0.2621-0.0044-6.54e-4 -0.2658 0.2654-0.0036-0.0018-5.869-0.2579 3e-3 -0.0074-0.27-0.2568-0.0046-0.01219-0.2674z"/><path class="HALLWAY_6" d="m46.13 19.99 0.0025 6.949 8.006-0.0038 0.0038-6.946z"/><path class="HALLWAY_5" d="m37.6 20-0.0013 6.946 8.019-0.01164-0.0079-6.949z"/><path class="HALLWAY_4" d="m29.06 20 0.0071 6.944 8.002-0.0103-1.51e-4 -6.938z"/><path class="HALLWAY_3" d="m20.53 19.99-0.0052 6.946 8.013-0.0077 0.0039-6.942z"/><path class="HALLWAY_2" d="m11.99 20 0.0064 6.938 8.005-0.0038 0.0038-6.938z"/><path class="HALLWAY_1" d="m3.997 20.53 0.00513 5.864 0.2626 8e-3 -0.00314 0.265 0.2697 0.0027 0.00379 0.268 6.933-0.0085 0.0041-6.938-6.937 0.0087-0.00812 0.2592-0.2654 0.0021 0.00295 0.259z"/></g><path class="CORRIDOR_1" d="m31.19 28.53 0.0063 6.933 0.263 0.0033 0.0045 0.27 0.2645-8.42e-4 -6e-5 0.2704 2.673-0.0038 0.0012-0.261 0.2677-4e-3 9.5e-4 -0.2738 0.2599 3.37e-4 0.0015-6.929-0.2658-8e-3 0.0044-0.2645-0.267-0.0029-8e-3 -0.2715-2.672 0.0048 5e-3 0.265-0.2721 0.0049 0.0066 0.2652z"/><path class="PHARMACY_1" d="m21.33 37.33-0.2616-2.77e-4 -0.0055 4.274 0.2692 3.01e-4 -4.74e-4 0.2658 5.867-0.0022 1e-3 -0.2603 0.2668-0.0041-5.23e-4 -0.7974 0.0028-2.672-0.0056-0.7993-0.2611 7.12e-4 -0.0029-0.2739-5.868 0.0018z"/><path class="PHARMACY_2 " d="m38.93 28.53-0.0029 4.543 0.2646 0.0037-0.0016 0.2629 4.811-0.0033-0.0042-0.2631 0.2624-2e-3 0.0013-4.534-0.2589 4.65e-4 -0.0066-0.2696-4.803-0.0026 0.0041 0.2706z"/><path class="RECEPTION" d="m29.33 37.07 0.0012 0.2619-0.2672-0.0027-0.0012 0.274-0.262 0.0012-0.0036 8.003 0.2651-0.0018 0.0027 0.2637 0.2663 0.0054-0.0022 0.2667 7.479 4.69e-4 -0.0081-0.2716 0.2696 2.88e-4 -0.0022-0.2652 0.2723 9.1e-5v-8.001l-0.2713-0.0066 0.0066-0.2673-0.2723 0.0039v-0.2646z"/><path class="MEASURING_CLOSET" d="m38.93 37.06-0.0019 0.2734-0.2684-0.0017 7.91e-4 0.802 0.0038 2.671-0.0021 0.801 0.2651-0.0038 0.0033 0.2659 4.005 0.0092 0.0033-0.2672 0.2652-0.0043-0.0046-0.7968-7.44e-4 -2.676-0.0012-0.8051-0.2612-0.0044-0.0022-0.2613z"/><path class="LAB" d="m21.86 28.26 0.0026 0.2734-0.2641 1.49e-4 -6.65e-4 0.2651-0.2752-4e-3 0.0039 5.077 0.2744-0.0035-3.8e-5 0.266 0.2581-0.0018 0.0039 0.2695 6.405 6.37e-4 -0.0035-0.2601 0.2673-0.01195 0.01704-0.2615 0.2554 4e-3 -0.0015-5.082-0.26 0.0049-0.0041-0.2671-0.2653 0.0047-8e-3 -0.2776z"/><path class="OFFICE_WORK" d="m55.73 18.41-0.2656-5e-3 -0.0031-5.606 0.2778-0.0042-0.0044-0.2625 5.875 0.0076 0.01233 0.2551 0.2565 0.0032-0.0018 5.604-0.2657-1.82e-4 6.19e-4 0.2784-5.881-3e-3z"/><path class="CONSULTATION" d="m44.54 18.4-0.0065-4.539-0.2619 0.0039-0.0045-0.2731-5.338 0.0015 3.21e-4 0.2684-0.2644 0.0034-0.0036 4.532 0.2661 0.0076 0.0037 0.2679 5.334 2e-3 0.0074-0.2669z"/><text class="RECEPTION" transform="rotate(-43.2)" x="-9.6072531" y="53.800423" font-size="2.271px"><tspan x="-9.6072531" y="53.800423">Reception</tspan></text><text class="MEASURING_CLOSET" transform="rotate(-43.1)" x="0.3546485" y="57.453499" font-size="1.698px"><tspan x="0.3546485" y="57.453499">Closet</tspan></text><text class="PHARMACY_1" transform="rotate(-32.85)" x="-3.9887943" y="46.957668" font-size="1.909px"><tspan x="-3.9887943" y="46.957668">Pharm</tspan></text><text class="LAB" transform="rotate(-34.13)" x="0.38754654" y="41.102806" font-size="3.202px"><tspan x="0.38754654" y="41.102806">Lab</tspan></text><text class="HALLWAY_4 " transform="matrix(.9068 0 0 .9539 .6433 3.131)" x="28.137169" y="22.409613" font-size="4.235px"><tspan x="28.137169" y="22.409613">Hallway</tspan></text><text class="OFFICE_WORK" transform="rotate(-38.16)" x="33.911911" y="49.124802" font-size="1.885px"><tspan x="33.911911" y="49.124802">Office</tspan></text><text class="PHARMACY_2" transform="rotate(-44.12)" x="5.5276318" y="51.621925" font-size="1.872px"><tspan x="5.5276318" y="51.621925">Pharm</tspan></text><text class="CONSULTATION" transform="rotate(-34.63)" x="21.956957" y="37.248199" font-size="1.058px"><tspan x="21.956957" y="37.248199">Consultation</tspan></text></svg>`,
   };
 }
