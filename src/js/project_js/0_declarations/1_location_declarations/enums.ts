@@ -6,12 +6,6 @@ namespace NSLocation {
     Z,
   }
 
-  // In the 2d/3d game map array, each numeric member has a value to determine properties, like if it is passable/empty/blocked/etc
-  export enum GameMapCoordinate {
-    EMPTY = -1, // Can be passed through
-    BLOCKED = -2, // Cannot be passed through
-  }
-
   // The values passed into a function when any of the navigation buttons are clicked
   export enum GameMapDirection {
     NORTH,
@@ -95,5 +89,11 @@ namespace NSLocation {
     ROOM_3,
     ROOM_4,
     ROOM_5,
+  }
+
+  // In the 2d/3d game map array, each numeric member has a value to determine properties, like if it is passable/empty/blocked/etc
+  export enum GameMapCoordinate {
+    EMPTY = MapLocation.DUMMY, // Can be passed through
+    BLOCKED = MapLocation.DUMMY - 1, // Cannot be passed through
   }
 }
