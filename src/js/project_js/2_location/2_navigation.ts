@@ -79,17 +79,25 @@ namespace NSLocation {
 
     const defaultPassageToLoad = Story.lookup("tags", locationTag).filter(
       (passage) => {
+        const tags = passage.tags;
+        const hasDefaultTag = tags.includes(defaultTag);
+
+        if (!hasDefaultTag) return false;
+
         if (subLocationIdToWarpTo != undefined) {
-          return (
-            passage.tags.includes(defaultTag) &&
-            passage.tags.includes(subLocationTag)
-          );
+          const hasSubLocationTag = tags.includes(subLocationTag);
+
+          // Check for a passage with the specific location and sub location tag
+          if (hasSubLocationTag) return true;
+
+          // // Else look for a "common" passage e.g HALLWAY_1 and HALLWAY_2 have a "common" passage of HALLWAY and will load that if they don't have more specific ones. "Common" passages only apply to sub locations with numbers appended to the end but otherwise have the same text.
+          // const hasCommonSubLocationTag = tags.includes(
+          //   subLocationTag.split(/[0-9]/)[0]
+          // );
+          // if (hasCommonSubLocationTag) return true;
         } else {
-          // Pick the passage that has no sub location tag of any kind but also has the default tag
-          return (
-            passage.tags.includes(defaultTag) &&
-            !passage.tags.includes("subLocation_")
-          );
+          // Pick the passage that has no sub location tag of any kind but also has the default tag. For areas without sub locations
+          return !tags.includes("subLocation_");
         }
       }
     )[0];
