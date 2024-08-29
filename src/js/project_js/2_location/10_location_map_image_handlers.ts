@@ -23,43 +23,57 @@ namespace NSLocation {
   }
 
   export function populateSubLocationMap(location: MapLocation) {
-    if (!gLocationData[location].subLocationMap) {
-      // Create an empty array first and set its length to the `GameMapArraySize`
-      gLocationData[location].subLocationMap =
-        [] as any as GameMapForSubLocations<
-          typeof gGameMapSubLocationArraySize
-        >;
-      gLocationData[location].subLocationMap.length =
-        gGameMapSubLocationArraySize;
+    const locationData = gLocationData[location];
+    let mapOfSubLocations = locationData.subLocationMap;
 
-      let mapOfSubLocations = gLocationData[location].subLocationMap;
+    if (!mapOfSubLocations) {
+      // Get arrays containing the coordinates of each sub location
+      const coordArray = Object.values(locationData.subLocations).map(
+        (subLocationData) => {
+          return subLocationData.coords;
+        }
+      );
+      const xCoordArray = coordArray.map((coords) => {
+        return coords[LocationCoordIndex.X];
+      });
+      const yCoordArray = coordArray.map((coords) => {
+        return coords[LocationCoordIndex.Y];
+      });
 
-      // Fill the sub location map with "empty" elements
-      for (let x = 0; x < gGameMapSubLocationArraySize; x++) {
-        // let yAxis = mapOfSubLocations[x];
+      // Since this calculation is relatively expensive, cache the results
+      const maxX = Math.max(...xCoordArray);
+      const minX = Math.min(...xCoordArray);
+      const maxY = Math.max(...yCoordArray);
+      const minY = Math.min(...yCoordArray);
+      locationData.minSubLocationCoords = [minX, minY];
+      // locationData.maxSubLocationCoords = [maxX, maxY]; // Unused
 
+      // Get the size of the axis using the difference between the highest coord and lowest one
+      const xAxisLength = maxX - minX + 1;
+      const yAxisLength = maxY - minY + 1;
+
+      // Implement the xAxis's length
+      mapOfSubLocations = [] as any as GameMapForSubLocations<number>;
+      mapOfSubLocations.length = xAxisLength;
+
+      // Fill the xAxis with "empty" elements
+      for (let x = 0; x < xAxisLength; x++) {
         if (mapOfSubLocations[x] == undefined) {
-          // Initialize an empty sub array
-          mapOfSubLocations[x] = [] as any as GameMapTuple<
-            number,
-            typeof gGameMapSubLocationArraySize
-          >;
-          mapOfSubLocations[x].length = gGameMapSubLocationArraySize;
+          // Implement the yAxis as a sparse array
+          mapOfSubLocations[x] = [] as any as GameMapTuple<number, number>;
+          mapOfSubLocations[x].length = yAxisLength;
 
-          for (let y = 0; y < gGameMapSubLocationArraySize; y++) {
-            mapOfSubLocations[x][y] = GameMapCoordinate.EMPTY;
-          }
+          // for (let y = 0; y < yAxisLength; y++) {
+          //   mapOfSubLocations[x][y] = GameMapCoordinate.EMPTY;
+          // }
         }
       }
 
       // Store the sub locations in this map using their coordinates
       // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
-      for (const id in gLocationData[location].subLocations) {
+      for (const id in locationData.subLocations) {
         if (
-          Object.prototype.hasOwnProperty.call(
-            gLocationData[location].subLocations,
-            id
-          )
+          Object.prototype.hasOwnProperty.call(locationData.subLocations, id)
         ) {
           if (parseInt(id) != undefined) {
             const subLocationId = parseInt(id) as MapSubLocation;
@@ -69,17 +83,18 @@ namespace NSLocation {
             // Get the relative indexes and make sure they aren't out of bounds. Please do not allow the latter to happen. This check I'm doing for it is to prevent the game from erroring out.
             let relativeXIndex = getEffectiveCoordInGameMap(
               subLocationCoords[LocationCoordIndex.X],
-              gGameMapSubLocationArraySize
+              minX
             ) as number;
             let relativeYIndex = getEffectiveCoordInGameMap(
               subLocationCoords[LocationCoordIndex.Y],
-              gGameMapSubLocationArraySize
+              minY
             ) as number;
 
             mapOfSubLocations[relativeXIndex][relativeYIndex] = subLocationId;
           }
         }
       }
+      locationData.subLocationMap = structuredClone(mapOfSubLocations);
     }
   }
 

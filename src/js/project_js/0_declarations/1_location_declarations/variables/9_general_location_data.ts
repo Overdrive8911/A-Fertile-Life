@@ -254,16 +254,16 @@ namespace NSLocation {
       subLocations: {
         [MapSubLocation.LIVING_ROOM]: {
           name: "Your Old Living Room",
-          coords: [1, 30],
+          coords: [1, 3],
         },
         [MapSubLocation.BATHROOM]: {
           name: "Your Old Bathroom",
-          coords: [15, 20],
+          coords: [5, 2],
         },
-        [MapSubLocation.PORCH]: { name: "Your Old Porch", coords: [0, -23] },
+        [MapSubLocation.PORCH]: { name: "Your Old Porch", coords: [0, -3] },
         [MapSubLocation.BEDROOM]: {
           name: "Your Old Bedroom",
-          coords: [21, 36],
+          coords: [1, 6],
         },
       },
     },
