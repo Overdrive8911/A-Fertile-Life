@@ -8,8 +8,12 @@ namespace NSLocation {
   mapLocations.forEach((location) => {
     // TODO - Populate all Location Maps
 
-    // Proceed if an entry in `gLocationData` exists without a sub location map
-    if (gLocationData[location] && !gLocationData[location].subLocationMap) {
+    // Proceed if an entry in `gLocationData` exists without a sub location map but has sub locations
+    if (
+      gLocationData[location] &&
+      !gLocationData[location].subLocationMap &&
+      gLocationData[location].subLocations
+    ) {
       // Populate all Sub Location Maps
       populateSubLocationMap(location);
 
