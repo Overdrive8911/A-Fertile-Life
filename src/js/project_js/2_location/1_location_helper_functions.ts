@@ -484,41 +484,26 @@ namespace NSLocation {
     }
   }
 
+  /* Although coords can be negative, the game map can only have positive indexes so this function will take the length of the respective axis and use it as a basis for adjusting the coord.  -2 to 3 or -4 to 1 (should turn to 0 to 5). Length = 6 */
+  // NOTE - `minPossibleCoord` should not have fewer values than `coord`
   export function getEffectiveCoordInGameMap(
     coord: number | LocationCoords,
-    mapArraySize: number
+    minPossibleCoord: number | LocationCoords
   ) {
     const coordinates = typeof coord == "number" ? [coord] : [...coord];
+    const minCoords =
+      typeof minPossibleCoord == "number"
+        ? [minPossibleCoord]
+        : [...minPossibleCoord];
 
     let adjustedCoords: typeof coordinates = [];
-    coordinates.forEach((coordinate) => {
-      if (
-        coordinate < (mapArraySize / 2) * -1 /* Below lower bounds */ ||
-        coordinate > mapArraySize / 2 - 1 /* Above upper bounds */
-      ) {
-        console.error(
-          `The location/sub location coordinate, ${coord}, is too small to have a valid (without truncating) relative value in a map ${mapArraySize} elements long. Increase the map's size to a higher even number OR ensure that the coordinate is not below ${
-            (mapArraySize / 2) * -1
-          } and not above ${
-            mapArraySize / 2 - 1
-          } OTHERWISE the location/sub location position may have unintended values`
-        );
-      }
-
-      adjustedCoords.push(
-        Math.abs(coordinate + mapArraySize / 2) % mapArraySize
-      );
+    coordinates.forEach((coordinate, index) => {
+      // Since the game map starts from [0,0] or [0,0,0], find the value to add/deduct from minCoords[index] which will set it to 0. Then use this value and add/deduct it from the current coordinate which will then be pushed into the new array
+      adjustedCoords.push(Math.abs(coordinate + (0 - minCoords[index])));
     });
 
     return adjustedCoords.length == 1
       ? adjustedCoords[0]
       : (adjustedCoords as LocationCoords);
-  }
-
-  export function getActualCoordFromGameMapCoord(
-    gameMapCoord: number,
-    mapArraySize: number
-  ) {
-    return gameMapCoord - mapArraySize / 2;
   }
 }

@@ -13,7 +13,7 @@ namespace NSLocation {
     lastWarpDestination = { location: null, subLocation: null };
 
     // TODO - Add proper support for location maps later
-    let mapArray: GameMapForSubLocations<typeof gGameMapSubLocationArraySize>;
+    let mapArray: GameMapForSubLocations<number>;
     let position: LocationCoords; // Stores a copy for use in a loop
 
     const locationData = gLocationData[initialLocationId];
@@ -32,7 +32,7 @@ namespace NSLocation {
         // initialPosition = locationData.subLocations[initialSubLocationId].coords;
         position = getEffectiveCoordInGameMap(
           locationData.subLocations[initialSubLocationId].coords,
-          gGameMapSubLocationArraySize
+          locationData.minSubLocationCoords
         ) as LocationCoords;
 
         const possibleSubLocationToWarpTo = findClosestSubLocationInDirection(
@@ -154,7 +154,7 @@ namespace NSLocation {
   export function findClosestSubLocationInDirection(
     direction: GameMapDirection,
     currentCoordsInMapArray: LocationCoords,
-    mapArray: GameMapForSubLocations<typeof gGameMapSubLocationArraySize>
+    mapArray: GameMapForSubLocations<number>
   ) {
     let axisToSearch: LocationCoordIndex;
     let checkForward: boolean; // If true, follow the move towards positive values on an axis else move closer towards negatives (e.g if the current axis index is 6, checkForward = true means that it will look at 7,8,9,10... else it will look at 5,4,3,2...)
@@ -187,13 +187,18 @@ namespace NSLocation {
 
     const arrayOfSubLocations = Object.values(MapSubLocation).filter(
       (subLocation) => {
-        return typeof subLocation == "number";
+        return (
+          typeof subLocation == "number" && subLocation != MapSubLocation.DUMMY
+        );
       }
     ) as MapSubLocation[];
 
     // Loop towards the end of the axis (gGameMapSubLocationArraySize - 1 or 0) while checking if another sub location persists with each axis increment/decrement e.g (assuming the direction is east and the initial position is [52, 56], it will search elements [53, 56], [54, 56], [55, 56],... till the end of the axis's array. If a valid id to another sub location is found before then, stop the loop and warp to that sub location's default passage)
     while (
-      position[axisToSearch] <= gGameMapSubLocationArraySize - 1 &&
+      position[axisToSearch] <
+        (axisToSearch == LocationCoordIndex.X
+          ? mapArray.length
+          : mapArray[0].length) &&
       position[axisToSearch] >= 0
     ) {
       const valueInCurrentPosition =
