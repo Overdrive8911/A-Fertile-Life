@@ -5,7 +5,7 @@ namespace NSInventoryAndItem {
     inventoryTabsHandler();
   });
 
-  setup.openInventoryDialog = () => {
+  export const openInventoryDialog = () => {
     // For stuff like All, Food, Key Items, Drugs, etc
     let inventoryTabs = $('<div class="inventory-tabs"></div>');
     let inventoryRow = $('<div class="inventory-row"></div>');
