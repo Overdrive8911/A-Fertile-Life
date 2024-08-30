@@ -1,6 +1,6 @@
 /* <<set $displayNewUI = true>> */
 
-:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,775"}
+:: FertiloInc_Prologue_TutorialForYourRoom [prologue location_fertiloIncFirstFloorUnderground subLocation_playerRoom] {"position":"150,775"}
 <p>
     You feel a warmth gradually gather on your face and pull you out of your dreams. Slowly opening your eyes, you see that blinds have been opened.
 </p>
@@ -160,5 +160,5 @@
 </p>
 
 
-:: FertiloInc_Prologue_TutorialToWork [prologue location_fertiloInc subLocation_nursery]
+:: FertiloInc_Prologue_TutorialToWork [prologue location_fertiloIncGroundFloor subLocation_nursery]
 /* TODO - TDLR: The player gets inseminated. Write this scene later */

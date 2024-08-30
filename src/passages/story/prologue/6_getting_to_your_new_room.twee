@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"150,650"}
+:: FertiloInc_Prologue_GettingToYourNewRoom [prologue location_fertiloIncFirstFloorUnderground subLocation_playerRoom] {"position":"150,650"}
 <p>
     Mr. Fert quickly makes his way down the unassuming /* REVIEW - this word might be unnecessary */ corridor you followed earlier, practically dragging /* REVIEW - Find better synonyms for "practically" and "drags" */ you along with him. You think he's excited to show you the room he prepared but, other than his unexpected restlessness, it's hard to read into his exact intentions.
 </p>
@@ -133,7 +133,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloInc subLocation_playerRoom] {"position":"275,650"}
+:: FertiloInc_Prologue_GettingToYourNewRoom_MrFertHasToLeave [prologue location_fertiloIncFirstFloorUnderground subLocation_playerRoom] {"position":"275,650"}
 <p>
     /* TODO - Add the sound of a ringing phone here */
     <span class="otherSpeech">
@@ -175,7 +175,7 @@
 [[Enter->FertiloInc_Prologue_EnteredYourRoom]]
 
 
-:: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloInc subLocation_playerRoom] {"position":"275,775"}
+:: FertiloInc_Prologue_EnteredYourRoom [prologue location_fertiloIncFirstFloorUnderground subLocation_playerRoom] {"position":"275,775"}
 /* <p>
     <<character "Robo" "maleSpeech">>TEST ME MASTER UWU ;3. sfsdjfnifnenfiernfidnfsdfd fsf f sf sd fs f sdf sd fsd fsd f sd fwkefwe ijw ig f wrgieig eri ge gei geji gr grj grj gj gjr gjr gr gjr gjr gjr grj g g r w ee.<</character>>
 </p> */

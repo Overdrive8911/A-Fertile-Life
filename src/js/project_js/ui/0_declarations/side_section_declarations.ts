@@ -52,23 +52,23 @@ const uiSideBarActionInterfaceShadowHandler = () => {
   // );
 };
 
+// NOTE - Commented out since it's probably not worth the stress. It looks pretty
 const copyActionInterfaceContentsToSideBar = () => {
-  const verySlimMobileWidth = "screen and (max-width: 415px)";
-
-  if (window.matchMedia(verySlimMobileWidth).matches) {
-    const actionInterface = $("[id='ui-side-bar-action-interface']");
-    for (const actionInterfaceChild of actionInterface.children()) {
-      // Copy the each child in the action interface e.g the map popout
-      if (!actionInterface.hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
-          $(actionInterfaceChild).clone(true)
-        );
-      } else {
-        // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
-      }
-    }
-  }
+  // const verySlimMobileWidth = "screen and (max-width: 415px)";
+  // if (window.matchMedia(verySlimMobileWidth).matches) {
+  //   const actionInterface = $("[id='ui-side-bar-action-interface']");
+  //   for (const actionInterfaceChild of actionInterface.children()) {
+  //     // Copy the each child in the action interface e.g the map popout
+  //     if (!actionInterface.hasClass("stowed")) {
+  //       $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
+  //         $(actionInterfaceChild).clone(true)
+  //       );
+  //     } else {
+  //       // Empty the container
+  //       $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
+  //     }
+  //   }
+  // }
 };
 
 // Define the handler for toggling the sidebar
@@ -200,9 +200,32 @@ const uiSideBarToggleHandler = () => {
 };
 
 // SECTION - Define a handler for interacting with the action interface
+// NOTE - Every new item for the action interface needs some code here
+let ui_isActionInterfaceOpen = false;
+let ui_isMapInActionInterfaceOpen = false;
 const actionInterfaceToggleHandler = (actionInterfaceChild: string) => {
-  $("#ui-side-bar-action-interface").toggleClass("stowed");
-  $(actionInterfaceChild).toggleClass("hidden");
+  // $("#ui-side-bar-action-interface").toggleClass("stowed");
+  // if ($("#ui-side-bar-action-interface").hasClass("stowed")) ui_isActionInterfaceOpen = false;
+  // else ui_isActionInterfaceOpen = true;
+  ui_isActionInterfaceOpen = !ui_isActionInterfaceOpen;
+  if (ui_isActionInterfaceOpen) {
+    $("#ui-side-bar-action-interface").removeClass("stowed");
+    // $(actionInterfaceChild).addClass("hidden");
+  } else {
+    $("#ui-side-bar-action-interface").addClass("stowed");
+    // $(actionInterfaceChild).removeClass("hidden");
+  }
+
+  if (actionInterfaceChild == ".ui-side-bar-popout-map") {
+    ui_isMapInActionInterfaceOpen = !ui_isMapInActionInterfaceOpen;
+    if (ui_isMapInActionInterfaceOpen) {
+      $(actionInterfaceChild).removeClass("hidden");
+    } else {
+      $(actionInterfaceChild).addClass("hidden");
+    }
+  } else {
+    ui_isMapInActionInterfaceOpen = false;
+  }
 
   copyActionInterfaceContentsToSideBar();
 };
