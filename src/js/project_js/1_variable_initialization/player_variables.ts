@@ -4,8 +4,8 @@ let saveVar_player: Player = {
 
   /* Location */
   locationData: {
-    location: "playerHouse",
-    subLocation: "bedroom",
+    location: NSLocation.MapLocation.PLAYER_HOUSE,
+    subLocation: NSLocation.MapSubLocation.BEDROOM,
   },
 
   /* Personality and Mood(?) */

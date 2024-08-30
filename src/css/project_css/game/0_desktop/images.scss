@@ -34,3 +34,52 @@ img[src^="assets/img/general/envelope"] {
     animation: forwards ease-out 0.25s basicEnvelopeAnimation;
   }
 }
+
+// For displayed maps
+// .ui-side-bar-popout-map > svg {
+//   fill-opacity: 0;
+// }
+[class*="map"] > svg {
+  height: auto;
+  width: auto;
+
+  & img[class~="pixel-art"],
+  & image[class~="pixel-art"] {
+    image-rendering: crisp-edges;
+    pointer-events: none;
+  }
+
+  & text {
+    pointer-events: none;
+  }
+
+  & path {
+    fill: transparent;
+
+    &:hover {
+      fill: var(--green-bright);
+      fill-opacity: 0.5;
+    }
+  }
+}
+
+// For the map in the "Large View" dialog
+.map-large-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &#ui-dialog-body {
+    overflow: hidden;
+  }
+
+  > svg {
+    width: 80vw;
+    max-height: 80vh;
+  }
+
+  // hide this button, it's unnecessary
+  & .button-large-view {
+    display: none;
+  }
+}

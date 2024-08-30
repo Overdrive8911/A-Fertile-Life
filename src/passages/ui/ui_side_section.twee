@@ -42,6 +42,19 @@
 
 /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
 <div id="ui-side-bar-action-interface" class="stowed">
-    /*  TODO - Will be a canvas */
-    <div class="ui-side-bar-popout-map" class="hidden">INSERT MAP HERE PLS</div>
+    <div class="ui-side-bar-popout-map" class="hidden">
+        INSERT MAP HERE PLS
+        /* This is be an invisible bar at the bottom of the map area that holds the "Zoom In", "Zoom Out", and "Large view" buttons. NOTE - It's positioned respective to "ui-side-bar-action-interface" not the map area itself */
+        <div class="ui-side-bar-popout-map-button-bar">
+            <button class="button-zoom-in">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/zoom_in.webp">
+            </button>
+            <button class="button-zoom-out">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/zoom_out.webp">
+            </button>
+            <button class="button-large-view">
+                <img class="icon20x20 pixel-art" src="assets/img/ui/icons/20x20/large_view.webp">
+            </button>
+        </div>
+    </div>
 </div>

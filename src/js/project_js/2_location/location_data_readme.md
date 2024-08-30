@@ -22,3 +22,9 @@
 - It is assumed that the player walks from a location/sub-location to another location/sub-location. Conditions can affect the time taken.
 - The player is also capable of running however, it consumes more energy.
 - Using transportation like a car or bus reduces the amount taken to move through locations by a random percentage within a set range. This range can be affected by various factors.
+
+## How sub location co-ordinates are calculated on the map
+
+* Sub locations have a `24x24` image that will be displayed (see `export/assets/img/map/sub_location/`for all the available images and `export\assets\img\map\sub_location_map_example.webp` for an example of how it'd look for the ground floor of Fertilo Inc)
+* A large canvas would be created (`1200x1200`), the center of which will be used as the new origin for the coordinates of the sub locations (i.e so a sublocation with coordinates, `[6, 7]` would be rendered at `[606, 607]`)
+* A connector line would be drawn from the center of each sub location to the other sub location referenced in the former's `nav_locations` member. A sub location can have, at most, 4 connectors in each of the cardinal directions.
