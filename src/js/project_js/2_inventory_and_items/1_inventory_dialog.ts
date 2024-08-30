@@ -129,8 +129,9 @@ namespace NSInventoryAndItem {
     // Set the selected button to the one from the argument
     if (currentSelectedBtn != currentButton) currentButton.addClass("selected");
 
-    // If not undefined, remove the selected class from currentSelectedBtn
-    if (currentSelectedBtn) currentSelectedBtn.removeClass("selected");
+    // If not undefined and not the same button, remove the selected class from currentSelectedBtn
+    if (currentSelectedBtn && currentSelectedBtn[0] != currentButton[0])
+      currentSelectedBtn.removeClass("selected");
 
     // Resort the items shown in the inventory
     // but first, get the value we'll be sorting with
@@ -176,41 +177,6 @@ namespace NSInventoryAndItem {
 
     // Shouldn't happen if this function is called correctly
     return undefined;
-  }
-
-  // Deal with the inventory tooltip and its quirks
-  function inventoryTooltipHandler() {
-    $(".inventory-item-image").on("mouseover", () => {
-      let tooltipContainer: JQuery<HTMLElement>;
-      let inventoryImageContainer: JQuery<HTMLElement>;
-
-      for (let i of $(".inventory-tooltip")) {
-        if ($(i).css("display") != "none") {
-          // The active tooltip
-          tooltipContainer = $(i);
-
-          // The image container that is the parent to the active tooltip
-          inventoryImageContainer = tooltipContainer.parent();
-        }
-      }
-
-      const inventoryImageContainerBottom =
-        inventoryImageContainer.offset().top + inventoryImageContainer.height();
-
-      // Ensure that the tooltip container stays right beneath the inventory item's image
-      tooltipContainer.offset({ top: inventoryImageContainerBottom });
-
-      // Make sure that the tool tip doesn't cut out of the view port. Instead, shift it above the image
-      const tooltipContainerBottom =
-        tooltipContainer.offset().top + tooltipContainer.height();
-      const viewportBottom = $(window).height();
-
-      if (tooltipContainerBottom > viewportBottom) {
-        tooltipContainer.offset({
-          top: inventoryImageContainer.offset().top - tooltipContainer.height(),
-        });
-      }
-    });
   }
 
   // Deal with the inventory tabs (basically making them as long as inventory-row is)
