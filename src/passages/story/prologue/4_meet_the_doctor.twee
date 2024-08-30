@@ -1,4 +1,4 @@
-:: FertiloInc_Prologue_MeetTheDoctor [prologue location_fertiloInc subLocation_mrFertiloOffice] {"position":"275,525"}
+:: FertiloInc_Prologue_MeetTheDoctor [prologue location_fertiloIncTopFloor subLocation_ceoOffice] {"position":"275,525"}
 <p>
     You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, ride an elevator, as well as a couple of escalators until you finally reach the doctor's office. You don't encounter much of the staff, but the majority of the few you do see were all pregnant; some even more than Katie but strangely unfazed by their gravidity/* Maybe I can use "condition" instead of "gravidity" */. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times.
 </p>
@@ -108,7 +108,7 @@
 <</ctp>>
 
 
-:: FertiloInc_Prologue_InfoDump [prologue location_fertiloInc subLocation_mrFertiloOffice] {"position":"150,525"}
+:: FertiloInc_Prologue_InfoDump [prologue location_fertiloIncTopFloor subLocation_ceoOffice] {"position":"150,525"}
 <p>
     A quick prick to your neck silences you and quickly drains your energy, forcing you back to your seat. You try to speak, but your mouth refuses to move. All you can do is to struggle quietly watch Mr. Fert who you see is beside you, holding a syringe. Now is probably not the best time to notice it, but you see that he's pretty tall; probably above 6 feet by a good margin. 
     <span class="femaleSpeech">
@@ -210,7 +210,7 @@
 [[Next->FertiloInc_Prologue_InfoDump1]]
 
 
-:: FertiloInc_Prologue_InfoDump1 [prologue location_fertiloInc subLocation_mrFertiloOffice] {"position":"25,525"}
+:: FertiloInc_Prologue_InfoDump1 [prologue location_fertiloIncTopFloor subLocation_ceoOffice] {"position":"25,525"}
 <p>
     Almost immediately, you feel a surge of energy coursing within yourself and, in seconds, you're back on your feet. You look back at Mr. Fert who's now standing beside his desk and waiting for your reply. 
     <span class="femaleSpeech">
