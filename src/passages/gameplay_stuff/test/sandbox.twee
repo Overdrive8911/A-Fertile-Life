@@ -31,14 +31,6 @@
     <</link>>
 </p>
 
-
-
-<p>
-    <<link "Open Inventory Dialog">>
-        <<run setup.openInventoryDialog()>>
-    <</link>>
-</p>
-
 <p>
     <<link "Skip 30 minutes">>
         <<updateGameTime 0 0 30>>
