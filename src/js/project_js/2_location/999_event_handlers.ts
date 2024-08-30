@@ -14,6 +14,8 @@ namespace NSLocation {
     $(document)
       .off("keyup.map")
       .on("keyup.map", function (e) {
+        if (NSGlobal.isEditableElementSelected(e)) return;
+
         if (e.key.toLocaleLowerCase() == "z") {
           if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
             loadGameMap(
@@ -199,18 +201,22 @@ namespace NSLocation {
     $(document)
       .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
       .on("keyup.navigation_buttons", (e) => {
+        if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "w" && isNorthNavigable)
           navigate(GameMapDirection.NORTH);
       })
       .on("keyup.navigation_buttons", (e) => {
+        if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "d" && isEastNavigable)
           navigate(GameMapDirection.EAST);
       })
       .on("keyup.navigation_buttons", (e) => {
+        if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "s" && isSouthNavigable)
           navigate(GameMapDirection.SOUTH);
       })
       .on("keyup.navigation_buttons", (e) => {
+        if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "a" && isWestNavigable)
           navigate(GameMapDirection.WEST);
       });

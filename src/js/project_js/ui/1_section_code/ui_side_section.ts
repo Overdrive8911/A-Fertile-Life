@@ -27,6 +27,7 @@ $(document).on(":passageend", () => {
   $(document)
     .off("keyup.sideBarToggleState")
     .on("keyup.sideBarToggleState", (keyEvent) => {
+      if (NSGlobal.isEditableElementSelected(keyEvent)) return;
       if (keyEvent.key === "q") {
         // Open or stow the side bar
         uiSideBarToggleState = !uiSideBarToggleState;
@@ -51,6 +52,7 @@ $(document).on(":passageend", () => {
   $(document)
     .off("keyup.sideBarToggleMap")
     .on("keyup.sideBarToggleMap", (keyEvent) => {
+      if (NSGlobal.isEditableElementSelected(keyEvent)) return;
       if (keyEvent.key === "z") {
         // Wait for 1 second so the button can't be infinitely spammed
         setTimeout(() => {
