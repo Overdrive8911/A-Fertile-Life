@@ -1,0 +1,30 @@
+:: Fertilo_Inc_Hallway_General_Default [default location_fertiloIncGroundFloor subLocation_hallway]
+Skibidi
+
+:: Fertilo_Inc_Hallway1_Default [default location_fertiloIncGroundFloor subLocation_hallway1]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway2_Default [default location_fertiloIncGroundFloor subLocation_hallway2]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway3_Default [default location_fertiloIncGroundFloor subLocation_hallway3]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway4_Default [default location_fertiloIncGroundFloor subLocation_hallway4]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway5_Default [default location_fertiloIncGroundFloor subLocation_hallway5]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway6_Default [default location_fertiloIncGroundFloor subLocation_hallway6]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+:: Fertilo_Inc_Hallway7_Default [default location_fertiloIncGroundFloor subLocation_hallway7]
+<<include "Fertilo_Inc_Hallway_General_Default">>
+
+
+:: Fertilo_Inc_Corridor_General_Default [default location_fertiloIncGroundFloor subLocation_corridor]
+Corridor?
+
+:: Fertilo_Inc_Corridor1_Default [default location_fertiloIncGroundFloor subLocation_corridor1]
+<<include "Fertilo_Inc_Corridor_General_Default">>

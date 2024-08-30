@@ -1,8 +1,8 @@
 type Player = {
   money: number;
   locationData: {
-    location: string;
-    subLocation: string;
+    location: NSLocation.MapLocation;
+    subLocation: NSLocation.MapSubLocation;
   };
   personality: {
     enthusiasm: number;

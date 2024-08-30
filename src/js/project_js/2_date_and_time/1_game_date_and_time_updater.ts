@@ -1,4 +1,3 @@
-// Run this in a ":passagedisplay" event
 const updateGameTimeAfterChangingPassage = (
   passageName1: string,
   passageName2: string,
@@ -11,17 +10,23 @@ const updateGameTimeAfterChangingPassage = (
   );
 
   // Get the time to travel in seconds
-  const timeToTravel = Math.floor(distBetweenLocations / movementSpeed);
+  const timeToTravel = Math.floor(
+    (distBetweenLocations / movementSpeed) *
+      randomFloat(
+        NSLocation.averageWalkingSpeed[0] * 10 - 1,
+        NSLocation.averageWalkingSpeed[0] * 10 + 1
+      )
+  );
 
   let extraTimeForRemainingInALocationInSeconds = 0;
   const passage1Location: string | undefined =
-    getLocationFromPassageTitle(passageName1);
+    NSLocation.getLocationFromPassageTitle(passageName1);
   const passage1SubLocation: string | undefined =
-    getSubLocationFromPassageTitle(passageName1);
+    NSLocation.getSubLocationFromPassageTitle(passageName1);
   const passage2Location: string | undefined =
-    getLocationFromPassageTitle(passageName2);
+    NSLocation.getLocationFromPassageTitle(passageName2);
   const passage2SubLocation: string | undefined =
-    getSubLocationFromPassageTitle(passageName2);
+    NSLocation.getSubLocationFromPassageTitle(passageName2);
 
   if (
     passage1Location &&
@@ -32,14 +37,26 @@ const updateGameTimeAfterChangingPassage = (
       !passage2SubLocation)
   ) {
     // If the first and second location both exist and are the same, as well as their sub-locations regardless if either doesn't exist, then the player is still in the same location so calculate a random amount of time in seconds to spend
-    extraTimeForRemainingInALocationInSeconds =
-      getRandomNumberFromRangeInclusive(25, 65);
+    extraTimeForRemainingInALocationInSeconds = random(15, 65);
   }
 
   // Change the in-game time
   setup.updateGameTimeVariable(
     timeToTravel + extraTimeForRemainingInALocationInSeconds
   );
+
+  // Update the location data of the player
+  if (passage2Location != undefined) {
+    variables().player.locationData.location =
+      NSLocation.getMapLocationIdFromLocation(passage2Location);
+
+    if (passage2SubLocation != undefined) {
+      variables().player.locationData.subLocation =
+        NSLocation.getMapSubLocationIdFromSubLocation(passage2SubLocation);
+    } else {
+      variables().player.locationData.subLocation = null;
+    }
+  }
 };
 
 // Update the game time after changing location but not when the browser window is restarted/refreshed
@@ -49,7 +66,7 @@ $(document).one(":passageinit", () => {
     updateGameTimeAfterChangingPassage(
       currentPassageTitle,
       incomingPassage.passage.title,
-      averageWalkingSpeed[0]
+      NSLocation.averageWalkingSpeed[0]
     );
 
     return 0;

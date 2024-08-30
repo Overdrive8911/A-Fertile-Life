@@ -3,5 +3,5 @@
     <button id="ui-navigation-option-button-north">North (W)</button>
     <button id="ui-navigation-option-button-east">East (D)</button>
     <button id="ui-navigation-option-button-south">South (S)</button>
-    <button id="ui-navigation-option-button-west">West (W)</button>
+    <button id="ui-navigation-option-button-west">West (A)</button>
 </div>
