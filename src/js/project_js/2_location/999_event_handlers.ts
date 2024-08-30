@@ -89,12 +89,12 @@ namespace NSLocation {
       }
     );
 
-    // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
-    let preloadImage: HTMLImageElement = null;
-    if (!preloadImage) {
-      preloadImage = new Image();
-      preloadImage.src = gPlayerMapSpriteSrc;
-    }
+    // // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
+    // let preloadImage: HTMLImageElement = null;
+    // if (!preloadImage) {
+    //   preloadImage = new Image();
+    //   preloadImage.src = gPlayerMapSpriteSrc;
+    // }
   });
   // !SECTION
 
@@ -421,4 +421,30 @@ namespace NSLocation {
     // !SECTION
   });
   // !SECTION
+
+  // SECTION - For preloading related images
+  $(document).one(":passageend", () => {
+    // NOTE - Move this function out of this namespace in the main branch
+    (function preloadImages() {
+      // NOTE - INSERT ALL IMAGES NEEDED HERE
+      const imageUrls = [
+        gPlayerMapSpriteSrc,
+        gLocationMapSvgTable[
+          variables().player.locationData.location as MapLocation
+        ],
+      ];
+
+      imageUrls.forEach((url) => {
+        if (!url) return;
+
+        if (url.includes("svg")) {
+          // Extract the value of the first's image's url in the svg
+          url = url.split(/(?<=href\=\")([a-zA-Z0-9/_.-]+)/)[1];
+        }
+
+        const image = new Image();
+        image.src = url;
+      });
+    })();
+  });
 }
