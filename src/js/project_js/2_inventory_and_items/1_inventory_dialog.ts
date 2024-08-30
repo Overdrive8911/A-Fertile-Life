@@ -12,7 +12,7 @@ namespace NSInventoryAndItem {
 
     // SECTION - Populate inventoryTabs
     let arrayOfTabStrings = Object.values(ItemTag).filter((value) => {
-      return typeof value == "string" && value != "DUMMY";
+      return typeof value == "string" && value != ItemId[ItemId.DUMMY];
     }) as string[];
 
     // Leave the old array untouched
