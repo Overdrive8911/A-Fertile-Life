@@ -21,3 +21,10 @@ Skibidi
 
 :: Fertilo_Inc_Hallway7_Default [default location_fertiloIncGroundFloor subLocation_hallway7]
 <<include "Fertilo_Inc_Hallway_General_Default">>
+
+
+:: Fertilo_Inc_Corridor_General_Default [default location_fertiloIncGroundFloor subLocation_corridor]
+Corridor?
+
+:: Fertilo_Inc_Corridor1_Default [default location_fertiloIncGroundFloor subLocation_corridor1]
+<<include "Fertilo_Inc_Corridor_General_Default">>

@@ -1,0 +1,8 @@
+:: Fertilo_Inc_Pharmacy_General_Default [default location_fertiloIncGroundFloor subLocation_pharmacy]
+Yo, Pharm
+
+:: Fertilo_Inc_Pharmacy1_Default [default location_fertiloIncGroundFloor subLocation_pharmacy1]
+<<include "Fertilo_Inc_Pharmacy_General_Default">>
+
+:: Fertilo_Inc_Pharmacy2_Default [default location_fertiloIncGroundFloor subLocation_pharmacy2]
+<<include "Fertilo_Inc_Pharmacy_General_Default">>
