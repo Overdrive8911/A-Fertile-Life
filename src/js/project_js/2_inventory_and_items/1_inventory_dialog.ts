@@ -19,12 +19,25 @@ namespace NSInventoryAndItem {
     let editedArr = [...arrayOfTabStrings];
 
     // To turn stuff like "DUMMY" to "Dummy"
-    // TODO - Make "KEY_ITEMS" turn to "Key Items" not "Key_items"
     editedArr.forEach((tabString, index) => {
-      editedArr[index] = tabString.toLocaleLowerCase();
-      editedArr[index] =
-        editedArr[index].charAt(0).toLocaleUpperCase() +
-        editedArr[index].slice(1);
+      let str = tabString.toLocaleLowerCase();
+      str = str.charAt(0).toLocaleUpperCase() + str.slice(1);
+
+      if (str.includes("_")) {
+        // Remove hyphenations and adjust the case of successive words
+        const splitStr = str.split("_");
+
+        splitStr.forEach((string, index) => {
+          // replace `str` with the final string
+          if (index == 0) {
+            str = string;
+          } else {
+            str += ` ${string.charAt(0).toLocaleUpperCase() + string.slice(1)}`;
+          }
+        });
+      }
+
+      editedArr[index] = str;
     });
     // I'll just hardcode it for now
     console.log(editedArr);
