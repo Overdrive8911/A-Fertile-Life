@@ -14,7 +14,8 @@ namespace NSInventoryAndItem {
 
   // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
   export interface InventoryItem {
-    itemId: number;
+    itemId: number; // To know what type of item it is
+    storageId?: number; // To identify a particular stored item in the inventory, it will always be unique
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
     price?: number;
     weight?: number;
