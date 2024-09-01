@@ -1,10 +1,10 @@
 namespace NSInventoryAndItem {
   // type NotFunc<T> = Exclude<T, Function>;
 
-  class Inventory1 {
-    protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
+  export class Inventory1 {
+    // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
-    protected itemLimit = 256;
+    #itemLimit = 256;
 
     constructor(classProperties: Inventory1 = null) {
       this.items = new Map();
@@ -57,7 +57,7 @@ namespace NSInventoryAndItem {
 
       if (!amount) amount = 1;
 
-      const limit = this.itemLimit;
+      const limit = this.#itemLimit;
       const currSize = this.items.size;
       if (currSize == limit) {
         return false;
@@ -138,8 +138,12 @@ namespace NSInventoryAndItem {
       return true;
     }
 
-    // Returns the number of items found
-    hasItem(itemId: ItemId | string) {
+    removeAllMatchingItems(itemId: ItemId | string) {
+      return this.removeItem(itemId, this.#itemLimit);
+    }
+
+    // Actually returns the number of items found
+    getItemCount(itemId: ItemId | string) {
       itemId = this.#tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
@@ -154,6 +158,29 @@ namespace NSInventoryAndItem {
       return itemCount;
     }
 
+    get arrOfUniqueItemIds() {
+      let arr: ItemId[] = [];
+
+      this.items.forEach((value) => {
+        arr.push(value.itemId);
+      });
+
+      return [...new Set(arr)];
+    }
+
+    get getItemLimit() {
+      return this.#itemLimit;
+    }
+
+    set setItemLimit(val: number) {
+      const size = this.items.size;
+
+      // Don't allow the inventory's limit to go lower than the amount of items the user currently has
+      if (val < size) val = size;
+
+      this.#itemLimit = val;
+    }
+
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
     getItemData(itemId: ItemId | string) {
@@ -164,6 +191,27 @@ namespace NSInventoryAndItem {
       if (itemId == undefined) return false;
 
       return gInGameItems[itemId];
+    }
+
+    // REVIEW - This might not fit here. Also, add a check to only work on items in the inventory
+    static doesItemHaveTag(itemId: ItemId, tag: ItemTag) {
+      itemId = this.prototype.#tryConvertStringItemId(
+        itemId,
+        `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
+      );
+      if (itemId == undefined) return false;
+
+      const itemTags = getItem(itemId).tags;
+
+      if (
+        itemTags.find((value) => {
+          return value == tag;
+        })
+      ) {
+        return true;
+      }
+
+      return false;
     }
 
     #validateItemId(itemId: ItemId) {
@@ -197,7 +245,7 @@ namespace NSInventoryAndItem {
     }
 
     clone() {
-      return new this._construct(this);
+      return new (this.constructor as typeof Inventory1)(this);
     }
 
     toJSON() {
@@ -208,13 +256,14 @@ namespace NSInventoryAndItem {
       }, this);
 
       return JSON.reviveWrapper(
-        `new ${this._construct.name}($ReviveData$)`,
+        `new ${(this.constructor as typeof Inventory1).name}($ReviveData$)`,
         ownData
       );
     }
   }
 
   window.test = new Inventory1();
+  window.test2 = Inventory1;
   window.testFunc = () => {
     for (let i = 0; i < test.maxAmountOfItems; i++) {
       window.test.storeItem(i);
