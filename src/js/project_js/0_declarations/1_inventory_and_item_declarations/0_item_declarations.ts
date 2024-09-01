@@ -47,6 +47,7 @@ namespace NSInventoryAndItem {
       price: 0,
       weight: 0,
       description: "Dummy",
+      // TODO - use a lazy getter to get the url
       imageUrl: "assets/img/items/dummy.webp",
       tags: [ItemTag.DUMMY],
       handler: function () {},
