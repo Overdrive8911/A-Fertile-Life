@@ -39,7 +39,9 @@ namespace NSInventoryAndItem {
     return true;
   };
 
-  export const getItemIdFromStringId = (itemIdString: string) => {
+  export const getItemIdFromStringId = (
+    itemIdString: string
+  ): ItemId | undefined => {
     const itemIdStrings = Object.values(ItemId).filter((value) => {
       return typeof value == "string";
     }) as string[];

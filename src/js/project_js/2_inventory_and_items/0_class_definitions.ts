@@ -21,7 +21,7 @@ namespace NSInventoryAndItem {
       }
     }
 
-    #tryConvertStringItemId(
+    tryConvertStringItemId(
       itemId: ItemId | string,
       consoleErrorTextForInvalidItemId: string
     ): ItemId | undefined {
@@ -47,7 +47,7 @@ namespace NSInventoryAndItem {
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
-      itemId = this.#tryConvertStringItemId(
+      itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -103,7 +103,7 @@ namespace NSInventoryAndItem {
       amount?: number,
       useUniqueStorageId = false
     ) {
-      itemOrStorageId = this.#tryConvertStringItemId(
+      itemOrStorageId = this.tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was stored.`
       );
@@ -144,7 +144,7 @@ namespace NSInventoryAndItem {
 
     // Actually returns the number of items found
     getItemCount(itemId: ItemId | string) {
-      itemId = this.#tryConvertStringItemId(
+      itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -183,8 +183,8 @@ namespace NSInventoryAndItem {
 
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
-    getItemData(itemId: ItemId | string) {
-      itemId = this.#tryConvertStringItemId(
+    static getItemData(itemId: ItemId | string) {
+      itemId = this.prototype.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -194,14 +194,14 @@ namespace NSInventoryAndItem {
     }
 
     // REVIEW - This might not fit here. Also, add a check to only work on items in the inventory
-    static doesItemHaveTag(itemId: ItemId, tag: ItemTag) {
-      itemId = this.prototype.#tryConvertStringItemId(
+    static doesItemHaveTag(itemId: ItemId | string, tag: ItemTag) {
+      itemId = this.prototype.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
       if (itemId == undefined) return false;
 
-      const itemTags = getItem(itemId).tags;
+      const itemTags = (this.getItemData(itemId) as Item).tags;
 
       if (
         itemTags.find((value) => {
@@ -262,10 +262,15 @@ namespace NSInventoryAndItem {
     }
   }
 
+  // @ts-expect-error
   window.test = new Inventory1();
+  // @ts-expect-error
   window.test2 = Inventory1;
+  // @ts-expect-error
   window.testFunc = () => {
+    // @ts-expect-error
     for (let i = 0; i < test.maxAmountOfItems; i++) {
+      // @ts-expect-error
       window.test.storeItem(i);
     }
   };
