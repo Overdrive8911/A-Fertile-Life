@@ -69,7 +69,7 @@ namespace NSInventoryAndItem {
   function populateInventoryRowItems(
     inventoryRow: JQuery<HTMLElement>,
     sortingTag?: ItemTag,
-    inventory?: Inventory1
+    inventory?: Inventory
   ) {
     if (sortingTag == undefined) sortingTag = ItemTag.ALL;
 
@@ -80,7 +80,7 @@ namespace NSInventoryAndItem {
     // Sort using the sortingTag (except if its `ItemTag.ALL`)
     if (sortingTag != ItemTag.ALL) {
       noDupeItemArr = noDupeItemArr.filter((id) => {
-        return Inventory1.doesItemHaveTag(id, sortingTag);
+        return Inventory.doesItemHaveTag(id, sortingTag);
       });
     }
 

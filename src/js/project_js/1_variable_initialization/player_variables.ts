@@ -70,7 +70,7 @@ setup.initializePlayerVariables = () => {
 
     /* Inventory */
     /* This will contain ItemId in an array */
-    inventory: new NSInventoryAndItem.Inventory1(),
+    inventory: new NSInventoryAndItem.Inventory(),
 
     /* Mental Stats */
     /* All of them have a max of 100 */

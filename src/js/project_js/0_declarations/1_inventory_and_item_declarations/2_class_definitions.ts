@@ -1,10 +1,10 @@
 namespace NSInventoryAndItem {
-  export class Inventory1 {
+  export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
     #itemLimit = 256;
 
-    constructor(classProperties: Inventory1 = null) {
+    constructor(classProperties: Inventory = null) {
       this.items = new Map();
 
       // Overwrite the default values with `classProperties` if it exists
@@ -45,13 +45,13 @@ namespace NSInventoryAndItem {
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
-      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
       if (itemId == undefined) return false;
 
-      if (!(this.constructor as typeof Inventory1).validateItemId(itemId))
+      if (!(this.constructor as typeof Inventory).validateItemId(itemId))
         return false;
 
       if (!amount) amount = 1;
@@ -103,7 +103,7 @@ namespace NSInventoryAndItem {
       useUniqueStorageId = false
     ) {
       itemOrStorageId = (
-        this.constructor as typeof Inventory1
+        this.constructor as typeof Inventory
       ).tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was stored.`
@@ -145,7 +145,7 @@ namespace NSInventoryAndItem {
 
     // Actually returns the number of items found
     getItemCount(itemId: ItemId | string) {
-      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -192,7 +192,7 @@ namespace NSInventoryAndItem {
       useUniqueStorageId = false
     ) {
       itemOrStorageId = (
-        this.constructor as typeof Inventory1
+        this.constructor as typeof Inventory
       ).tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was retrieved.`
@@ -280,29 +280,29 @@ namespace NSInventoryAndItem {
     }
 
     clone() {
-      return new (this.constructor as typeof Inventory1)(this);
+      return new (this.constructor as typeof Inventory)(this);
     }
 
     toJSON() {
       const ownData: { [key: string]: any } = {};
 
       Object.keys(this).forEach((prop) => {
-        ownData[prop] = clone(this[prop as any as keyof Inventory1]);
+        ownData[prop] = clone(this[prop as any as keyof Inventory]);
       }, this);
 
       return JSON.reviveWrapper(
-        `new ${(this.constructor as typeof Inventory1).name}($ReviveData$)`,
+        `new ${(this.constructor as typeof Inventory).name}($ReviveData$)`,
         ownData
       );
     }
   }
   // @ts-expect-error
-  window[`${Inventory1.name}`] = Inventory1; // Attach the class to the window object to ensure that sugarcube always finds it
+  window[`${Inventory.name}`] = Inventory; // Attach the class to the window object to ensure that sugarcube always finds it
 
   // @ts-expect-error
-  window.test = new Inventory1();
+  window.test = new Inventory();
   // @ts-expect-error
-  window.test2 = Inventory1;
+  window.test2 = Inventory;
   // @ts-expect-error
   window.testFunc = () => {
     // @ts-expect-error
