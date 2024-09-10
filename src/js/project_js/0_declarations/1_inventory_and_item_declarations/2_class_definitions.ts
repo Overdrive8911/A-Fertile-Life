@@ -169,17 +169,21 @@ namespace NSInventoryAndItem {
       return [...new Set(arr)];
     }
 
-    get getItemLimit() {
+    get itemLimit() {
       return this.#itemLimit;
     }
 
-    set setItemLimit(val: number) {
+    set itemLimit(val: number) {
       const size = this.items.size;
 
       // Don't allow the inventory's limit to go lower than the amount of items the user currently has
       if (val < size) val = size;
 
       this.#itemLimit = val;
+    }
+
+    get remainingCapacity() {
+      return this.#itemLimit - this.items.size;
     }
 
     // Gets all data of the first item in the inventory the id matches. Returns false if no item is present. DOES NOT DELETE ANYTHING
