@@ -2,7 +2,7 @@ namespace NSInventoryAndItem {
   // Will probably be extended to more specific types (especially those with dynamic data like ammunition)
   // Default to ItemId.DUMMY if any required member is unavailable
   export interface Item {
-    itemId: number; // Entry in `ItemId`. Also used to get the name of the items
+    itemId: ItemId; // Entry in `ItemId`. Also used to get the name of the items
     imageUrl: string; // The relative url to its image file in relations to the compiled html file
     name: string;
     description: string; // Make it gud
@@ -14,8 +14,8 @@ namespace NSInventoryAndItem {
 
   // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
   export interface InventoryItem {
-    itemId: number; // To know what type of item it is
-    storageId?: number; // To identify a particular stored item in the inventory, it will always be unique
+    itemId: ItemId; // To know what type of item it is
+    storageId?: number; // UNUSED - To identify a particular stored item in the inventory, it will always be unique
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
     price?: number;
     weight?: number;

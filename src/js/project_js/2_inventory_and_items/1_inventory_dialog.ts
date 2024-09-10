@@ -1,7 +1,6 @@
 namespace NSInventoryAndItem {
   $(window).on("resize", () => {
     // Run this on resizing too
-    console.log("run");
     inventoryTabsHandler();
   });
 
@@ -39,8 +38,6 @@ namespace NSInventoryAndItem {
 
       editedArr[index] = str;
     });
-    // I'll just hardcode it for now
-    console.log(editedArr);
 
     for (let i = 0; i < editedArr.length; i++) {
       const tabString = editedArr[i];
@@ -71,34 +68,39 @@ namespace NSInventoryAndItem {
 
   function populateInventoryRowItems(
     inventoryRow: JQuery<HTMLElement>,
-    sortingTag?: ItemTag
+    sortingTag?: ItemTag,
+    inventory?: Inventory1
   ) {
     if (sortingTag == undefined) sortingTag = ItemTag.ALL;
 
-    let noDupeItemArr = returnNoDuplicateArrayOfInventoryIds();
+    if (!inventory) inventory = variables().player.inventory; // default to the player inventory if not explicitly given
+
+    let noDupeItemArr = inventory.arrOfUniqueItemIds;
 
     // Sort using the sortingTag (except if its `ItemTag.ALL`)
     if (sortingTag != ItemTag.ALL) {
       noDupeItemArr = noDupeItemArr.filter((id) => {
-        return doesItemHaveTag(id, sortingTag);
+        return Inventory1.doesItemHaveTag(id, sortingTag);
       });
     }
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
       const itemId = noDupeItemArr[i];
-      const numOfDuplicates = getNumberOfItemDuplicates(itemId);
-      const nameOfItem = getItem(itemId).name;
-      const itemImageUrl = getItem(itemId).imageUrl;
+      let item = inventory.getItem(itemId);
+      if (!item) item = gInGameItems[ItemId.DUMMY];
+      const numOfDuplicates = inventory.getItemCount(itemId);
+      const nameOfItem = item.name;
+      const itemImageUrl = item.imageUrl;
 
       const itemSellingPrice =
-        getItem(itemId).price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
+        item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
           ? `$0`
-          : `$${getItem(itemId).price * 0.45}`;
+          : `$${item.price * 0.45}`;
       const itemWeight =
-        getItem(itemId).weight < 1000
-          ? `${getItem(itemId).weight}g`
-          : `${(getItem(itemId).weight / 1000).toFixed(2)}kg`;
-      const itemDescription = getItem(itemId).description;
+        item.weight < 1000
+          ? `${item.weight}g`
+          : `${(item.weight / 1000).toFixed(2)}kg`;
+      const itemDescription = item.description;
 
       // TODO - Add at most 3 different locations the item was found and finally a Use button
 

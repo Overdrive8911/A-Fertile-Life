@@ -3,17 +3,17 @@ namespace NSInventoryAndItem {
   Macro.add("giveItem", {
     handler: function () {
       const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = getItemIdFromStringId(itemIdString);
+      const itemId: ItemId = Inventory1.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!validateItemId(itemId)) {
+      if (!Inventory1.validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
       if (amount === undefined) amount = 1;
 
       while (amount > 0) {
-        storeItem(itemId);
+        variables().player.inventory.storeItem(itemId);
         amount--;
       }
     },
@@ -22,17 +22,17 @@ namespace NSInventoryAndItem {
   Macro.add("deleteItem", {
     handler: function () {
       const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = getItemIdFromStringId(itemIdString);
+      const itemId: ItemId = Inventory1.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!validateItemId(itemId)) {
+      if (!Inventory1.validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
       if (amount === undefined) amount = 1;
 
       while (amount > 0) {
-        removeItem(itemId, amount);
+        variables().player.inventory.removeItem(itemId, amount);
         amount--;
       }
     },
@@ -44,7 +44,7 @@ namespace NSInventoryAndItem {
         const item = gInGameItems[key as unknown as ItemId];
 
         if (item !== undefined) {
-          storeItem(item.itemId);
+          variables().player.inventory.storeItem(item.itemId);
         }
       }
     }
