@@ -1,5 +1,4 @@
 namespace NSInventoryAndItem {
-  // type NotFunc<T> = Exclude<T, Function>;
   export class Inventory1 {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
