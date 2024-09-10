@@ -22,6 +22,4 @@ namespace NSInventoryAndItem {
     dynamicData?: {}; // In case an object has dynamicData, just put the required data here and read it as necessary
   }
   export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
-
-  export type Inventory = Map<SortingId, InventoryItem>;
 }
