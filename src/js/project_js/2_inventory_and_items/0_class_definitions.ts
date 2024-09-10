@@ -1,6 +1,5 @@
 namespace NSInventoryAndItem {
   // type NotFunc<T> = Exclude<T, Function>;
-
   export class Inventory1 {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
@@ -21,14 +20,14 @@ namespace NSInventoryAndItem {
       }
     }
 
-    tryConvertStringItemId(
+    static tryConvertStringItemId(
       itemId: ItemId | string,
-      consoleErrorTextForInvalidItemId: string
+      consoleErrorTextForInvalidItemId?: string
     ): ItemId | undefined {
       if (typeof itemId == "string") {
         // convert `itemId` to an actual id, if possible
         const tempItemId: ItemId | undefined =
-          this.#getItemIdFromStringId(itemId);
+          this.getItemIdFromStringId(itemId);
 
         if (tempItemId == undefined || tempItemId == null) {
           console.error(consoleErrorTextForInvalidItemId);
@@ -47,13 +46,14 @@ namespace NSInventoryAndItem {
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
-      itemId = this.tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
       if (itemId == undefined) return false;
 
-      if (!this.#validateItemId(itemId)) return false;
+      if (!(this.constructor as typeof Inventory1).validateItemId(itemId))
+        return false;
 
       if (!amount) amount = 1;
 
@@ -84,7 +84,7 @@ namespace NSInventoryAndItem {
 
         const inventoryItem: InventoryItem = {
           itemId: itemId,
-          storageId: newRandStorageId,
+          // storageId: newRandStorageId,
           locationObtained:
             locationObtained != undefined
               ? locationObtained
@@ -103,7 +103,9 @@ namespace NSInventoryAndItem {
       amount?: number,
       useUniqueStorageId = false
     ) {
-      itemOrStorageId = this.tryConvertStringItemId(
+      itemOrStorageId = (
+        this.constructor as typeof Inventory1
+      ).tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was stored.`
       );
@@ -144,7 +146,7 @@ namespace NSInventoryAndItem {
 
     // Actually returns the number of items found
     getItemCount(itemId: ItemId | string) {
-      itemId = this.tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -181,10 +183,40 @@ namespace NSInventoryAndItem {
       this.#itemLimit = val;
     }
 
+    // Gets all data of the first item in the inventory the id matches. Returns false if no item is present. DOES NOT DELETE ANYTHING
+    getItem(
+      itemOrStorageId: ItemId | string | number,
+      useUniqueStorageId = false
+    ) {
+      itemOrStorageId = (
+        this.constructor as typeof Inventory1
+      ).tryConvertStringItemId(
+        itemOrStorageId,
+        `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was retrieved.`
+      );
+      if (itemOrStorageId == undefined) return false;
+
+      if (useUniqueStorageId) {
+        return gInGameItems[this.items.get(itemOrStorageId).itemId];
+        // TODO - Handle dynamic data
+      }
+
+      let inGameItem: Item | false = false;
+      this.items.forEach((item, key) => {
+        const id = item.itemId;
+        if (id == itemOrStorageId) {
+          inGameItem = gInGameItems[id];
+          // TODO - Handle dynamic data
+        }
+      });
+
+      return inGameItem;
+    }
+
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
     static getItemData(itemId: ItemId | string) {
-      itemId = this.prototype.tryConvertStringItemId(
+      itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -195,7 +227,7 @@ namespace NSInventoryAndItem {
 
     // REVIEW - This might not fit here. Also, add a check to only work on items in the inventory
     static doesItemHaveTag(itemId: ItemId | string, tag: ItemTag) {
-      itemId = this.prototype.tryConvertStringItemId(
+      itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -214,13 +246,13 @@ namespace NSInventoryAndItem {
       return false;
     }
 
-    #validateItemId(itemId: ItemId) {
+    static validateItemId(itemId: ItemId) {
       if (!gInGameItems[itemId]) return false;
 
       return true;
     }
 
-    #getItemIdFromStringId(itemIdString: string) {
+    static getItemIdFromStringId(itemIdString: string) {
       let actualItemId = ItemId[
         itemIdString.toLocaleUpperCase() as any
       ] as unknown as ItemId;
@@ -261,6 +293,8 @@ namespace NSInventoryAndItem {
       );
     }
   }
+  // @ts-expect-error
+  window[`${Inventory1.name}`] = Inventory1; // Attach the class to the window object to ensure that sugarcube always finds it
 
   // @ts-expect-error
   window.test = new Inventory1();
@@ -269,7 +303,8 @@ namespace NSInventoryAndItem {
   // @ts-expect-error
   window.testFunc = () => {
     // @ts-expect-error
-    for (let i = 0; i < test.maxAmountOfItems; i++) {
+    const lim = test.getItemLimit;
+    for (let i = 0; i < lim; i++) {
       // @ts-expect-error
       window.test.storeItem(i);
     }
