@@ -31,14 +31,6 @@
     <</link>>
 </p>
 
-
-
-<p>
-    <<link "Open Inventory Dialog">>
-        <<run setup.openInventoryDialog()>>
-    <</link>>
-</p>
-
 <p>
     <<link "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!">>
         <<impregnate 60 5 $player.womb 1>>

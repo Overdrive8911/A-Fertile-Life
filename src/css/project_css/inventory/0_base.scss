@@ -21,6 +21,8 @@
 
     flex: 2 1 auto;
 
+    white-space: nowrap;
+
     &:first-child {
       border-left: var(--inventory-border);
       border-top-left-radius: var(--inventory-curved-border-radius);
