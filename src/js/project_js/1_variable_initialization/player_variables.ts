@@ -94,19 +94,23 @@ let saveVar_player: Player = {
   /* Capacity is in cubic centimetres(CCs) */
   // NOTE - This MUST mirror the structure found in the interface `Womb` in `preg_declarations.ts`
   womb: {
-    hp: gDefaultMaxWombHP /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
+    hp: NSPregnancy.gDefaultMaxWombHP /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
     belongToPlayer:
       true /* Some values and calculations change if the player is the owner */,
-    maxHp: gDefaultMaxWombHP,
+    maxHp: NSPregnancy.gDefaultMaxWombHP,
     fertility:
-      FertilityLevel.EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
+      NSPregnancy.FertilityLevel
+        .EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
     curCapacity:
-      BellyState.FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
+      NSPregnancy.BellyState
+        .FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
     comfortCapacity:
-      BellyState.FULL_TERM +
-      BellyState.EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */,
+      NSPregnancy.BellyState.FULL_TERM +
+      NSPregnancy.BellyState
+        .EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */,
     maxCapacity:
-      BellyState.FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
+      NSPregnancy.BellyState
+        .FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
     exp: 1 /* Increases when pregnant; the amount depends on size and number of fetuses, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
       
       Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */,
