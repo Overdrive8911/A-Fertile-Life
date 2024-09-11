@@ -42,7 +42,7 @@ type Player = {
   makeup: string;
   nails: string;
 
-  inventory: NSInventoryAndItem.Inventory1;
+  inventory: NSInventoryAndItem.Inventory;
 
   mentalStats: {
     mood: number;

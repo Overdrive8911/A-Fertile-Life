@@ -69,7 +69,7 @@ namespace NSInventoryAndItem {
   function populateInventoryRowItems(
     inventoryRow: JQuery<HTMLElement>,
     sortingTag?: ItemTag,
-    inventory?: Inventory1
+    inventory?: Inventory
   ) {
     if (sortingTag == undefined) sortingTag = ItemTag.ALL;
 
@@ -80,13 +80,13 @@ namespace NSInventoryAndItem {
     // Sort using the sortingTag (except if its `ItemTag.ALL`)
     if (sortingTag != ItemTag.ALL) {
       noDupeItemArr = noDupeItemArr.filter((id) => {
-        return Inventory1.doesItemHaveTag(id, sortingTag);
+        return Inventory.doesItemHaveTag(id, sortingTag);
       });
     }
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
       const itemId = noDupeItemArr[i];
-      let item = inventory.getItem(itemId);
+      let item = Inventory.getItemStaticData(itemId);
       if (!item) item = gInGameItems[ItemId.DUMMY];
       const numOfDuplicates = inventory.getItemCount(itemId);
       const nameOfItem = item.name;

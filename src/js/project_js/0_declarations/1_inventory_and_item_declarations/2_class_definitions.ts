@@ -1,11 +1,10 @@
 namespace NSInventoryAndItem {
-  // type NotFunc<T> = Exclude<T, Function>;
-  export class Inventory1 {
+  export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
     #itemLimit = 256;
 
-    constructor(classProperties: Inventory1 = null) {
+    constructor(classProperties: Inventory = null) {
       this.items = new Map();
 
       // Overwrite the default values with `classProperties` if it exists
@@ -42,17 +41,18 @@ namespace NSInventoryAndItem {
     storeItem(
       itemId: ItemId | string,
       amount?: number,
-      locationObtained?: NSLocation.MapLocation
+      locationObtained?: NSLocation.MapLocation,
+      extraIdData?: number | string
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
-      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
       if (itemId == undefined) return false;
 
-      if (!(this.constructor as typeof Inventory1).validateItemId(itemId))
+      if (!(this.constructor as typeof Inventory).validateItemId(itemId))
         return false;
 
       if (!amount) amount = 1;
@@ -84,12 +84,14 @@ namespace NSInventoryAndItem {
 
         const inventoryItem: InventoryItem = {
           itemId: itemId,
-          // storageId: newRandStorageId,
           locationObtained:
             locationObtained != undefined
               ? locationObtained
               : variables().player.locationData.location,
         };
+        if (extraIdData != undefined && extraIdData != null) {
+          inventoryItem.extraIdData = extraIdData;
+        }
 
         this.items.set(newRandStorageId, inventoryItem);
         amount--;
@@ -104,7 +106,7 @@ namespace NSInventoryAndItem {
       useUniqueStorageId = false
     ) {
       itemOrStorageId = (
-        this.constructor as typeof Inventory1
+        this.constructor as typeof Inventory
       ).tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was stored.`
@@ -146,7 +148,7 @@ namespace NSInventoryAndItem {
 
     // Actually returns the number of items found
     getItemCount(itemId: ItemId | string) {
-      itemId = (this.constructor as typeof Inventory1).tryConvertStringItemId(
+      itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
       );
@@ -170,11 +172,11 @@ namespace NSInventoryAndItem {
       return [...new Set(arr)];
     }
 
-    get getItemLimit() {
+    get itemLimit() {
       return this.#itemLimit;
     }
 
-    set setItemLimit(val: number) {
+    set itemLimit(val: number) {
       const size = this.items.size;
 
       // Don't allow the inventory's limit to go lower than the amount of items the user currently has
@@ -183,13 +185,18 @@ namespace NSInventoryAndItem {
       this.#itemLimit = val;
     }
 
-    // Gets all data of the first item in the inventory the id matches. Returns false if no item is present. DOES NOT DELETE ANYTHING
+    get remainingCapacity() {
+      return this.#itemLimit - this.items.size;
+    }
+
+    // Returns the first item in the inventory the id matches. Returns false if no item is present. If `extraIdData` is provided, it will try to find a item with both the specified id and `extraIdData`. DOES NOT DELETE ANYTHING
     getItem(
       itemOrStorageId: ItemId | string | number,
-      useUniqueStorageId = false
+      useUniqueStorageId = false,
+      extraIdData: number | string
     ) {
       itemOrStorageId = (
-        this.constructor as typeof Inventory1
+        this.constructor as typeof Inventory
       ).tryConvertStringItemId(
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was retrieved.`
@@ -197,25 +204,77 @@ namespace NSInventoryAndItem {
       if (itemOrStorageId == undefined) return false;
 
       if (useUniqueStorageId) {
-        return gInGameItems[this.items.get(itemOrStorageId).itemId];
-        // TODO - Handle dynamic data
+        // return gInGameItems[this.items.get(itemOrStorageId).itemId];
+        return this.items.get(itemOrStorageId);
       }
 
-      let inGameItem: Item | false = false;
-      this.items.forEach((item, key) => {
+      let inGameInventoryItem: InventoryItem | false = false;
+
+      for (const [, item] of this.items) {
         const id = item.itemId;
         if (id == itemOrStorageId) {
-          inGameItem = gInGameItems[id];
+          if (extraIdData && item.extraIdData == extraIdData) {
+            inGameInventoryItem = item;
+            break; // Gotten the specific item so break
+          }
+
+          inGameInventoryItem = item;
           // TODO - Handle dynamic data
         }
-      });
+      }
 
-      return inGameItem;
+      return inGameInventoryItem;
+    }
+
+    // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
+    useItem(
+      inventoryItemOrStorageId: InventoryItem | number,
+      ...functionArgs: unknown[]
+    ) {
+      let item: InventoryItem;
+      let itemFunc: (...arg: unknown[]) => unknown;
+      if (
+        typeof inventoryItemOrStorageId == "number" &&
+        this.items.has(inventoryItemOrStorageId)
+      ) {
+        item = this.items.get(inventoryItemOrStorageId);
+        itemFunc = gInGameItems[item.itemId].handler;
+      } else if (typeof inventoryItemOrStorageId == "object") {
+        item = inventoryItemOrStorageId;
+        itemFunc = gInGameItems[inventoryItemOrStorageId.itemId].handler;
+      }
+
+      if (itemFunc) {
+        const returnedData = functionArgs
+          ? itemFunc(...functionArgs)
+          : itemFunc();
+
+        if (returnedData) {
+          item.dynamicData = clone(returnedData);
+        }
+
+        return true;
+      }
+
+      return false;
+    }
+
+    useItemWithDynamicData(inventoryItemOrStorageId: InventoryItem | number) {
+      const type = typeof inventoryItemOrStorageId == "object";
+
+      if (!type && !this.items.has(inventoryItemOrStorageId)) return false;
+
+      this.useItem(
+        inventoryItemOrStorageId,
+        type
+          ? inventoryItemOrStorageId.dynamicData
+          : this.items.get(inventoryItemOrStorageId).dynamicData
+      );
     }
 
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
-    static getItemData(itemId: ItemId | string) {
+    static getItemStaticData(itemId: ItemId | string) {
       itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
@@ -233,7 +292,7 @@ namespace NSInventoryAndItem {
       );
       if (itemId == undefined) return false;
 
-      const itemTags = (this.getItemData(itemId) as Item).tags;
+      const itemTags = (this.getItemStaticData(itemId) as Item).tags;
 
       if (
         itemTags.find((value) => {
@@ -277,29 +336,29 @@ namespace NSInventoryAndItem {
     }
 
     clone() {
-      return new (this.constructor as typeof Inventory1)(this);
+      return new (this.constructor as typeof Inventory)(this);
     }
 
     toJSON() {
       const ownData: { [key: string]: any } = {};
 
       Object.keys(this).forEach((prop) => {
-        ownData[prop] = clone(this[prop as any as keyof Inventory1]);
+        ownData[prop] = clone(this[prop as any as keyof Inventory]);
       }, this);
 
       return JSON.reviveWrapper(
-        `new ${(this.constructor as typeof Inventory1).name}($ReviveData$)`,
+        `new ${(this.constructor as typeof Inventory).name}($ReviveData$)`,
         ownData
       );
     }
   }
   // @ts-expect-error
-  window[`${Inventory1.name}`] = Inventory1; // Attach the class to the window object to ensure that sugarcube always finds it
+  window[`${Inventory.name}`] = Inventory; // Attach the class to the window object to ensure that sugarcube always finds it
 
   // @ts-expect-error
-  window.test = new Inventory1();
+  window.test = new Inventory();
   // @ts-expect-error
-  window.test2 = Inventory1;
+  window.test2 = Inventory;
   // @ts-expect-error
   window.testFunc = () => {
     // @ts-expect-error

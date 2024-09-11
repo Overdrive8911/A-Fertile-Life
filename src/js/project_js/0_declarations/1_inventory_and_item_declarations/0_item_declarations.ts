@@ -50,7 +50,11 @@ namespace NSInventoryAndItem {
       // TODO - use a lazy getter to get the url
       imageUrl: "assets/img/items/dummy.webp",
       tags: [ItemTag.DUMMY],
-      handler: function () {},
+      handler: function (...args) {
+        let dummyVar = args[0] as number | string;
+
+        return !dummyVar ? random(25) : `Dummy is ${dummyVar}`;
+      },
     },
 
     [ItemId.FOOD_CHEESE]: {

@@ -3,10 +3,10 @@ namespace NSInventoryAndItem {
   Macro.add("giveItem", {
     handler: function () {
       const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = Inventory1.tryConvertStringItemId(itemIdString);
+      const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!Inventory1.validateItemId(itemId)) {
+      if (!Inventory.validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
@@ -22,10 +22,10 @@ namespace NSInventoryAndItem {
   Macro.add("deleteItem", {
     handler: function () {
       const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = Inventory1.tryConvertStringItemId(itemIdString);
+      const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!Inventory1.validateItemId(itemId)) {
+      if (!Inventory.validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
