@@ -47,6 +47,46 @@ namespace NSPregnancy {
     };
     fetusData: Map<number /* fetusId */, FetusData>;
   }
+  export interface PregPerk {
+    currLevel: number;
+    price: number;
+    maxLevel: number;
+  }
+  export type PregPerksObject = Partial<
+    Record<
+      | "gestator"
+      | "hyperFertility"
+      | "superFet"
+      | "elasticity"
+      | "immunityBoost"
+      | "motherlyHips"
+      | "motherlyBoobs"
+      | "ironSpine"
+      | "sensitiveWomb"
+      | "healthyWomb"
+      | "fortifiedWomb"
+      | "noPostpartum",
+      PregPerk
+    >
+  >;
+
+  export interface PregSideEffect {
+    currDuration: number;
+    maxDuration: number[];
+  }
+  export type PregSideEffectsObject = Partial<
+    Record<
+      | "cravingCrisis"
+      | "motherHunger"
+      | "restlessBrood"
+      | "heavyWomb"
+      | "contractions"
+      | "labour"
+      | "sexCraving"
+      | "growthSpurt",
+      PregSideEffect
+    >
+  >;
 
   export type DevelopmentRatio = number;
   export type Gender = "M" | "F" | "I"; // male, female, intersex
