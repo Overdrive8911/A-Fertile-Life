@@ -86,7 +86,7 @@ namespace NSInventoryAndItem {
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
       const itemId = noDupeItemArr[i];
-      let item = inventory.getItem(itemId);
+      let item = Inventory.getItemStaticData(itemId);
       if (!item) item = gInGameItems[ItemId.DUMMY];
       const numOfDuplicates = inventory.getItemCount(itemId);
       const nameOfItem = item.name;
