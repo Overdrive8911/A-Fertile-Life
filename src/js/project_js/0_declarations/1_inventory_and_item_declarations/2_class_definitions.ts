@@ -41,7 +41,8 @@ namespace NSInventoryAndItem {
     storeItem(
       itemId: ItemId | string,
       amount?: number,
-      locationObtained?: string
+      locationObtained?: string,
+      extraIdData?: number | string
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
@@ -83,12 +84,14 @@ namespace NSInventoryAndItem {
 
         const inventoryItem: InventoryItem = {
           itemId: itemId,
-          // storageId: newRandStorageId,
           locationObtained:
             locationObtained != undefined
               ? locationObtained
               : variables().player.locationData.location,
         };
+        if (extraIdData != undefined && extraIdData != null) {
+          inventoryItem.extraIdData = extraIdData;
+        }
 
         this.items.set(newRandStorageId, inventoryItem);
         amount--;
@@ -186,10 +189,11 @@ namespace NSInventoryAndItem {
       return this.#itemLimit - this.items.size;
     }
 
-    // Gets all data of the first item in the inventory the id matches. Returns false if no item is present. DOES NOT DELETE ANYTHING
+    // Returns the first item in the inventory the id matches. Returns false if no item is present. If `extraIdData` is provided, it will try to find a item with both the specified id and `extraIdData`. DOES NOT DELETE ANYTHING
     getItem(
       itemOrStorageId: ItemId | string | number,
-      useUniqueStorageId = false
+      useUniqueStorageId = false,
+      extraIdData: number | string
     ) {
       itemOrStorageId = (
         this.constructor as typeof Inventory
@@ -200,25 +204,77 @@ namespace NSInventoryAndItem {
       if (itemOrStorageId == undefined) return false;
 
       if (useUniqueStorageId) {
-        return gInGameItems[this.items.get(itemOrStorageId).itemId];
-        // TODO - Handle dynamic data
+        // return gInGameItems[this.items.get(itemOrStorageId).itemId];
+        return this.items.get(itemOrStorageId);
       }
 
-      let inGameItem: Item | false = false;
-      this.items.forEach((item, key) => {
+      let inGameInventoryItem: InventoryItem | false = false;
+
+      for (const [, item] of this.items) {
         const id = item.itemId;
         if (id == itemOrStorageId) {
-          inGameItem = gInGameItems[id];
+          if (extraIdData && item.extraIdData == extraIdData) {
+            inGameInventoryItem = item;
+            break; // Gotten the specific item so break
+          }
+
+          inGameInventoryItem = item;
           // TODO - Handle dynamic data
         }
-      });
+      }
 
-      return inGameItem;
+      return inGameInventoryItem;
+    }
+
+    // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
+    useItem(
+      inventoryItemOrStorageId: InventoryItem | number,
+      ...functionArgs: unknown[]
+    ) {
+      let item: InventoryItem;
+      let itemFunc: (...arg: unknown[]) => unknown;
+      if (
+        typeof inventoryItemOrStorageId == "number" &&
+        this.items.has(inventoryItemOrStorageId)
+      ) {
+        item = this.items.get(inventoryItemOrStorageId);
+        itemFunc = gInGameItems[item.itemId].handler;
+      } else if (typeof inventoryItemOrStorageId == "object") {
+        item = inventoryItemOrStorageId;
+        itemFunc = gInGameItems[inventoryItemOrStorageId.itemId].handler;
+      }
+
+      if (itemFunc) {
+        const returnedData = functionArgs
+          ? itemFunc(...functionArgs)
+          : itemFunc();
+
+        if (returnedData) {
+          item.dynamicData = clone(returnedData);
+        }
+
+        return true;
+      }
+
+      return false;
+    }
+
+    useItemWithDynamicData(inventoryItemOrStorageId: InventoryItem | number) {
+      const type = typeof inventoryItemOrStorageId == "object";
+
+      if (!type && !this.items.has(inventoryItemOrStorageId)) return false;
+
+      this.useItem(
+        inventoryItemOrStorageId,
+        type
+          ? inventoryItemOrStorageId.dynamicData
+          : this.items.get(inventoryItemOrStorageId).dynamicData
+      );
     }
 
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
-    static getItemData(itemId: ItemId | string) {
+    static getItemStaticData(itemId: ItemId | string) {
       itemId = this.tryConvertStringItemId(
         itemId,
         `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
@@ -236,7 +292,7 @@ namespace NSInventoryAndItem {
       );
       if (itemId == undefined) return false;
 
-      const itemTags = (this.getItemData(itemId) as Item).tags;
+      const itemTags = (this.getItemStaticData(itemId) as Item).tags;
 
       if (
         itemTags.find((value) => {
