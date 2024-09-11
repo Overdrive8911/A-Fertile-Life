@@ -100,17 +100,17 @@ let saveVar_player: Player = {
     maxHp: NSPregnancy.gDefaultMaxWombHP,
     fertility:
       NSPregnancy.FertilityLevel
-        .EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */,
+        .EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */, //NOTE
     curCapacity:
       NSPregnancy.BellyState
         .FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
     comfortCapacity:
       NSPregnancy.BellyState.FULL_TERM +
       NSPregnancy.BellyState
-        .EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */,
+        .EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */, //NOTE
     maxCapacity:
       NSPregnancy.BellyState
-        .FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */,
+        .FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */, //NOTE
     exp: 1 /* Increases when pregnant; the amount depends on size and number of fetuses, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
       
       Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */,
