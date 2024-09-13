@@ -42,112 +42,8 @@ namespace NSPregnancy {
     // belongToPlayer: boolean;
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
 
-    perks: PregPerksObject = {
-      /* If a perk's value is 0, it hasn't been enabled. Any number above 0 is its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
-      /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
-      /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
-      /*TODO - Change the prices later to something more reasonable. Also, add more perks */
-
-      // TODO - Only store these if they're active
-      gestator: {
-        currLevel: 0,
-        price: 5000,
-        maxLevel: 10,
-      } /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
-      hyperFertility: {
-        currLevel: 0,
-        price: 3000,
-        maxLevel: 5,
-      } /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
-      superFet: {
-        currLevel: 0,
-        price: 15000,
-        maxLevel: 5,
-      } /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
-      elasticity: {
-        currLevel: 0,
-        price: 7000,
-        maxLevel: 10,
-      } /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
-      immunityBoost: {
-        currLevel: 0,
-        price: 2000,
-        maxLevel: 10,
-      } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
-      motherlyHips: {
-        currLevel: 0,
-        price: 5000,
-        maxLevel: 5,
-      } /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
-      motherlyBoobs: {
-        currLevel: 0,
-        price: 5000,
-        maxLevel: 5,
-      } /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
-      ironSpine: {
-        currLevel: 0,
-        price: 7000,
-        maxLevel: 5,
-      } /* Can carry bigger pregnancies and more weight before becoming bed bound */,
-      sensitiveWomb: {
-        currLevel: 0,
-        price: 6000,
-        maxLevel: 5,
-      } /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
-      healthyWomb: {
-        currLevel: 0,
-        price: 3000,
-        maxLevel: 10,
-      } /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
-      fortifiedWomb: {
-        currLevel: 0,
-        price: 10000,
-        maxLevel: 5,
-      } /* Reduces the increase rate of womb.comfortCapacity but raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
-      noPostpartum: {
-        currLevel: 0,
-        price: 2000,
-        maxLevel: 7,
-      } /* Reduces the postpartum period of the PC by 1 day (Note that the PC has a recovery period of a week) */,
-    };
-    sideEffects: PregSideEffectsObject = {
-      /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
-      /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
-      /* TODO - Add more side effects */
-
-      cravingCrisis: {
-        currDuration: 0,
-        maxDuration: [1, 2],
-      } /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
-      motherHunger: {
-        currDuration: 0,
-        maxDuration: [1, 2, 3],
-      } /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
-      restlessBrood: {
-        currDuration: 0,
-        maxDuration: [2, 3],
-      } /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
-      heavyWomb: {
-        currDuration: 0,
-        maxDuration: [3, 5, 7],
-      } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
-      contractions: {
-        currDuration: 0,
-        maxDuration: [0],
-      } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
-      labour: {
-        currDuration: 0,
-        maxDuration: [0],
-      } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
-      sexCraving: {
-        currDuration: 0,
-        maxDuration: [1, 3],
-      } /* Maxes out arousal once a day and keeps it above 75 */,
-      growthSpurt: {
-        currDuration: 0,
-        maxDuration: [0],
-      } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
-    };
+    perks: PregPerksObject;
+    sideEffects: PregSideEffectsObject;
     fetuses: Map<number /* fetusId */, Fetus1> = new Map();
 
     constructor(classProperties: Womb1 = null) {
@@ -850,6 +746,157 @@ namespace NSPregnancy {
       // Using `chanceOfBirth`, check if the character should birth or not
       if (randomFloat(0, 100) <= chanceOfBirth) return true;
       else return false;
+    }
+    // !SECTION
+
+    // SECTION - Perks and Side effects
+    applyPerk(perk: keyof typeof this.perks) {
+      const allPerks: PregPerksObject = {
+        /* its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
+        /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
+        /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
+        /*TODO - Change the prices later to something more reasonable. Also, add more perks */
+
+        // TODO - Only store these if they're active
+        gestator: {
+          currLevel: 1,
+          price: 5000,
+          maxLevel: 10,
+        } /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
+        hyperFertility: {
+          currLevel: 1,
+          price: 3000,
+          maxLevel: 5,
+        } /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
+        superFet: {
+          currLevel: 1,
+          price: 15000,
+          maxLevel: 5,
+        } /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
+        elasticity: {
+          currLevel: 1,
+          price: 7000,
+          maxLevel: 10,
+        } /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
+        immunityBoost: {
+          currLevel: 1,
+          price: 2000,
+          maxLevel: 10,
+        } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
+        motherlyHips: {
+          currLevel: 1,
+          price: 5000,
+          maxLevel: 5,
+        } /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
+        motherlyBoobs: {
+          currLevel: 1,
+          price: 5000,
+          maxLevel: 5,
+        } /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
+        ironSpine: {
+          currLevel: 1,
+          price: 7000,
+          maxLevel: 5,
+        } /* Can carry bigger pregnancies and more weight before becoming bed bound */,
+        sensitiveWomb: {
+          currLevel: 1,
+          price: 6000,
+          maxLevel: 5,
+        } /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
+        healthyWomb: {
+          currLevel: 1,
+          price: 3000,
+          maxLevel: 10,
+        } /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
+        fortifiedWomb: {
+          currLevel: 1,
+          price: 10000,
+          maxLevel: 5,
+        } /* Reduces the increase rate of womb.comfortCapacity but raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
+        noPostpartum: {
+          currLevel: 1,
+          price: 2000,
+          maxLevel: 7,
+        } /* Reduces the postpartum period of the PC by 1 day (Note that the PC has a recovery period of a week) */,
+      };
+
+      const selectedPerk: PregPerk | undefined = allPerks[perk];
+      if (selectedPerk && !this.isPerkActive(perk)) {
+        this.perks[perk] = clone(selectedPerk);
+        return true;
+      }
+      return false;
+    }
+    isPerkActive(perk: keyof typeof this.perks) {
+      return this.perks[perk] ? true : false;
+    }
+    removePerk(perk: keyof typeof this.perks) {
+      if (this.isPerkActive(perk)) {
+        delete this.perks[perk];
+        return true;
+      }
+      return false;
+    }
+
+    //
+
+    applySideEffect(sideEffect: keyof typeof this.sideEffects) {
+      const allSideEffects: PregSideEffectsObject = {
+        /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
+        /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
+        /* TODO - Add more side effects */
+
+        cravingCrisis: {
+          currDuration: 0,
+          maxDuration: [1, 2],
+        } /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
+        motherHunger: {
+          currDuration: 0,
+          maxDuration: [1, 2, 3],
+        } /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
+        restlessBrood: {
+          currDuration: 0,
+          maxDuration: [2, 3],
+        } /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
+        heavyWomb: {
+          currDuration: 0,
+          maxDuration: [3, 5, 7],
+        } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
+        contractions: {
+          currDuration: 0,
+          maxDuration: [0],
+        } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
+        labour: {
+          currDuration: 0,
+          maxDuration: [0],
+        } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
+        sexCraving: {
+          currDuration: 0,
+          maxDuration: [1, 3],
+        } /* Maxes out arousal once a day and keeps it above 75 */,
+        growthSpurt: {
+          currDuration: 0,
+          maxDuration: [0],
+        } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
+      };
+
+      const selectedSideEffect: PregSideEffect | undefined =
+        allSideEffects[sideEffect];
+      if (selectedSideEffect && !this.isSideEffectActive(sideEffect)) {
+        this.sideEffects[sideEffect] = clone(selectedSideEffect);
+        return true;
+      }
+      return false;
+    }
+    isSideEffectActive(sideEffect: keyof typeof this.sideEffects) {
+      return this.sideEffects[sideEffect] ? true : false;
+    }
+    removeSideEffect(sideEffect: keyof typeof this.sideEffects) {
+      if (this.isSideEffectActive(sideEffect)) {
+        delete this.sideEffects[sideEffect];
+        return true;
+      }
+      return false;
     }
     // !SECTION
   }
