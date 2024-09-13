@@ -9,19 +9,23 @@ namespace NSPregnancy {
         variables().lastPregUpdateFunctionCall.getTime() >=
         gHoursBetweenPregUpdate * 3600 * 1000
     ) {
-      const playerWomb = variables().player.womb;
+      const playerWomb = variables().player.womb as Womb1;
 
-      updatePregnancyGrowth(playerWomb);
-      gradualWombHealthIncreaser(playerWomb);
+      // updatePregnancyGrowth(playerWomb);
+      // gradualWombHealthIncreaser(playerWomb);
 
-      if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
+      // if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
+
+      playerWomb.updatePregnancyGrowth();
+      playerWomb.gradualWombHealthIncreaser();
+
+      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth;
     }
   });
 
   // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
   // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
   // TODO - Add side effects to womb health
-  // NOTE - Calling this function within the number of hours denoted by `gHoursBetweenPregUpdate` can lead to inaccurate values
   export const updatePregnancyGrowth = (targetWomb: Womb) => {
     // The target is pregnant so do everything required under here
     if (isPregnant(targetWomb)) {

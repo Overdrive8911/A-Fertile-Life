@@ -36,7 +36,7 @@ namespace NSPregnancy {
       null; /* The date when the womb was last impregnated */
     lastBirth: Date = null; /* The date of the last birth */
     lastExpUpdate: Date =
-      null; /* The last time the exp update function was ran on this womb*/
+      null; /* The last time the exp update function was ran on this womb*/ // REVIEW - Check whether its possible to use `lastPregUpdate` of the fetus. In fact, see if that variable can be moved to the womb instead
 
     // belongToPlayer: boolean;
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
@@ -147,9 +147,9 @@ namespace NSPregnancy {
         maxDuration: [0],
       } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
     };
-    fetusData: Map<number /* fetusId */, Fetus1> = new Map();
+    fetuses: Map<number /* fetusId */, Fetus1> = new Map();
 
-    constructor(classProperties: typeof Womb1 = null) {
+    constructor(classProperties: Womb1 = null) {
       if (classProperties != null) {
         Object.keys(classProperties).forEach((prop) => {
           //@ts-expect-error
@@ -159,7 +159,6 @@ namespace NSPregnancy {
     }
 
     clone() {
-      //@ts-expect-error
       return new (this.constructor as typeof Womb1)(this);
     }
     toJSON() {
@@ -177,8 +176,30 @@ namespace NSPregnancy {
 
     get isPregnant() {
       // There is at least one fetus
-      if (this.fetusData.size > 0) return true;
+      if (this.fetuses.size > 0) return true;
       else return false;
+    }
+
+    // get fetuses() {
+    //   return this.fetuses;
+    // }
+
+    get generateUnusedFetusId() {
+      // Check all fetuses in the womb (if any) and generate a random 16-bit number that isn't shared with any other existing fetus
+      let newFetusId = random(0, 65535);
+
+      const fetusData = this.fetuses;
+      for (let i = 0; i < fetusData.size; i++) {
+        const existingFetusId = fetusData.get(i).id;
+
+        if (newFetusId == existingFetusId) {
+          // Restart the function
+          this.generateUnusedFetusId;
+          break;
+        }
+      }
+
+      return newFetusId;
     }
 
     // Just a check to see if pregnancy can be started
@@ -228,6 +249,7 @@ namespace NSPregnancy {
       else return false;
     }
 
+    // ANCHOR - Call this to create a pregnancy
     tryCreatePregnancy(
       virility: number,
       virilityBonus: number | undefined,
@@ -337,12 +359,14 @@ namespace NSPregnancy {
         );
         if (numOfFoetusToSpawn > maxFetusNumber)
           numOfFoetusToSpawn = maxFetusNumber;
+        // !SECTION
 
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
         for (i = 0; i < numOfFoetusToSpawn; i++) {
           // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
-          this.addFetus(new Fetus1(this), i);
+          this.addFetus(new Fetus1(this.generateUnusedFetusId), i);
         }
+        // !SECTION
 
         // Update specific data for the womb
         this.lastFertilized = variables().gameDateAndTime;
@@ -353,31 +377,31 @@ namespace NSPregnancy {
     }
 
     addFetus(fetus: Fetus1, index: number = null) {
-      if (index == null) index = this.fetusData.size;
+      if (index == null) index = this.fetuses.size;
 
-      this.fetusData.set(index, fetus);
+      this.fetuses.set(index, fetus);
     }
     // If `fetus` is given, find a matching copy with the same id, else if an `index` is given instead, use it. If none are given, default to the first fetus
     removeFetus(fetus?: Fetus1, index?: number) {
       if (fetus) {
-        index = [...this.fetusData.values()].find((data) => {
+        index = [...this.fetuses.values()].find((data) => {
           return data.id == fetus.id;
         }).id;
       }
 
-      if (index == undefined) index = [...this.fetusData.keys()][0]; // Use the first fetus if no fetus data is explicitly given
+      if (index == undefined) index = [...this.fetuses.keys()][0]; // Use the first fetus if no fetus data is explicitly given
 
       if (index == undefined) return false;
 
-      this.fetusData.delete(index);
+      this.fetuses.delete(index);
       return true;
     }
 
     totalOfFetalStats(stat: FetalGrowthStatsEnum) {
       let sumOfFetalStats = 0;
 
-      for (let i = 0; i < this.fetusData.size; i++) {
-        sumOfFetalStats += this.fetusData.get(i)[`${stat}`];
+      for (let i = 0; i < this.fetuses.size; i++) {
+        sumOfFetalStats += this.fetuses.get(i)[stat];
       }
 
       return sumOfFetalStats;
@@ -389,11 +413,448 @@ namespace NSPregnancy {
 
       return Math.floor(bellyState / BellyState.FULL_TERM);
     }
+
+    calculateWombDamage() {
+      const womb = this as Womb1;
+      if (!gIsWombDamageEnabled) return 0;
+      // Don't allow negative values
+      if ((womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY < WombHealth.RIP) {
+        womb.hp = WombHealth.RIP;
+        return 0;
+      }
+      // TODO - Consider having the weight affect this. Also superfetation
+
+      // Get the average developmentRatio of all fetuses
+      let averageDevelopmentRatio = 0;
+      for (let i = 0; i < womb.fetuses.size; i++) {
+        averageDevelopmentRatio += womb.fetuses.get(i).developmentRatio;
+      }
+      averageDevelopmentRatio /= womb.fetuses.size;
+
+      // Every 10% progress in pregnancy has a 15% chance to subtract 0.5 womb health. This number is increased by the number of fetuses the user is pregnant with
+      let timesToRunDamageCheck = Math.floor(averageDevelopmentRatio / 10);
+
+      let wombDamage = 0;
+      while (timesToRunDamageCheck > 0) {
+        if (random(100) < 15) {
+          wombDamage += womb.fetuses.size * 0.5;
+        }
+        timesToRunDamageCheck--;
+      }
+
+      return wombDamage;
+    }
+
+    // Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
+    gradualWombHealthIncreaser() {
+      const womb = this as Womb1;
+      // Don't allow too large values
+      if (womb.hp > womb.maxHp) {
+        womb.hp = womb.maxHp;
+        return 0;
+      }
+
+      const hpRatio = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
+      if (hpRatio >= WombHealth.VERY_HEALTHY) {
+        return 5;
+      } else if (
+        hpRatio > WombHealth.VERY_HEALTHY &&
+        hpRatio >= WombHealth.HEALTHY
+      ) {
+        return 4;
+      } else if (
+        hpRatio > WombHealth.HEALTHY &&
+        hpRatio >= WombHealth.MEDIOCRE
+      ) {
+        return 3;
+      } else if (hpRatio > WombHealth.MEDIOCRE && hpRatio >= WombHealth.POOR) {
+        return 2;
+      } else if (hpRatio > WombHealth.POOR && hpRatio >= WombHealth.VERY_POOR) {
+        return 1;
+      }
+
+      return 0.5;
+    }
+
+    updatePregnantBellySize() {
+      let combinedWombVolume = 0;
+      this.fetuses.forEach((fetus) => {
+        combinedWombVolume += fetus.wombVolumeFromFetusStats;
+      });
+      this.curCapacity = combinedWombVolume;
+    }
+
+    // SECTION - Exp update code
+
+    /* How should the womb exp system work?
+    - The awarded exp increases depending on the fetal development and number
+    - Exp is only awarded every gHoursBetweenPregUpdate as long as the PC is expecting
+    - A huge chunk of the exp (40%) is awarded at birth depending on the size and number of fetuses (i think this implies that the exp gained during pregnancy would be relatively small)
+    - updateWombExp shouldn't grant more exp if it was called more often
+    - On average, it'd take (2*LVL + Math.floor(LVL/2)) full term singleton pregnancies to gain enough exp to reach the next level (i.e 2 from LVL_1 to LVL_2, 5 from LVL_2 to LVL_3, 7 from LVL_3 to LVL_4, 10 from LVL_4 to LVL_5)
+    - Each singleton full-term, non-overdue pregnancy gives about a 1000exp without bonuses
+    */
+
+    // TODO - Remember to add exp in the birth function
+    // NOTE - If this isn't run as frequently as in `gHoursBetweenPregUpdate`, the gained exp may be smaller than expected
+    updateWombExp() {
+      let expToAdd = 0;
+      const wombLvl = this.wombLvl;
+
+      if (wombLvl == gMaxWombLevel) {
+        // At max lvl, return no exp
+        return 0;
+      }
+
+      if (!this.lastExpUpdate) {
+        // Just set it to something that'll work
+        this.lastExpUpdate = this.lastFertilized;
+      }
+
+      if (
+        variables().gameDateAndTime.getTime() - this.lastExpUpdate.getTime() <
+        gHoursBetweenPregUpdate * 3600 * 1000
+      ) {
+        // Not enough time has passed before calling this function
+        return 0;
+      }
+
+      // 1000 exp = 1 single pregnancy and 400 exp = birth
+      // 600 exp = 10 gestational months or gDefaultPregnancyLength/gActualPregnancyLength
+      // if 600/10 exp = 10/10 gest. months then
+      // ??? exp = 600 * (gHoursBetweenPregUpdate * 3600)/gActualPregnancyLength
+      // We're only getting a max of 92.05% >~<
+
+      // SECTION - Actual exp stuff
+      const averageExpGain =
+        (gExpPerSingleFetusGestation * (gHoursBetweenPregUpdate * 3600)) /
+        gActualPregnancyLength;
+
+      for (let i = 0; i < this.fetuses.size; i++) {
+        // Calculate the exp for each fetus separately. Each fetus can produce up to 1000 exp in total at term (with 40% only give on birth so its actually 600 exp). Going overdue will add an extra 20% to the regular exp gain the fetus will provide
+        const fetus = this.fetuses.get(i);
+
+        // Make it so that exp starts off really small (x0.1) and then is much more abundant(x10) with greater development
+        expToAdd =
+          fetus.developmentRatio * (10 / gMaxDevelopmentState) * averageExpGain;
+      }
+      // !SECTION
+
+      console.log(
+        `womb exp limit: ${getWombExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
+      );
+
+      // Just let the player keep the exp
+      // // If not pregnant, reduce the exp depending on how it has been since the character was last pregnant
+      // if (!isPregnant(womb)) {
+      //   expToAdd = 0;
+      //   let timeSinceLastPregnancy = 0; // in seconds
+
+      //   if (womb.lastBirth.getTime())
+      //     timeSinceLastPregnancy = Math.floor(
+      //       (variables().gameDateAndTime.getTime() - womb.lastBirth.getTime()) /
+      //         1000
+      //     );
+
+      //   const timeSinceLastPregnancyInDays = timeSinceLastPregnancy / 86400;
+
+      //   expToAdd -= timeSinceLastPregnancyInDays * getWombExpLimit(wombLvl) * 0.01;
+      // }
+      console.log(`expToAdd: ${expToAdd}`);
+
+      this.lastExpUpdate = variables().gameDateAndTime;
+
+      return expToAdd;
+    }
+
+    // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
+    get wombLvl() {
+      const womb = this as Womb1;
+      // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
+      let wombExpLimitArray = Object.values(WombExpLimit).filter(
+        (value) => typeof value == "number" && (value as number) >= 0
+      ) as number[];
+      console.log(WombExpLimit);
+
+      // Remove duplicates by converting to a Set and then back to an array
+      wombExpLimitArray = [...new Set(wombExpLimitArray)];
+
+      for (let i = 1; i < wombExpLimitArray.length; i++) {
+        const expLimit = wombExpLimitArray[i];
+        const previousExpLimit = wombExpLimitArray[i - 1];
+
+        if (expLimit > womb.exp && previousExpLimit <= womb.exp) return i;
+        else if (womb.exp >= WombExpLimit.LVL_MAX) {
+          // The user's womb is at or above the max level and the iteration has ended on the highest possible level
+          return wombExpLimitArray[i];
+        }
+      }
+
+      // For some reason, the lvl is unavailable
+      return WombExpLimit.NOT_AVAILABLE;
+    }
+
+    // Give it the level and it'll return the appropriate exp cap
+    static getWombExpLimit = (lvl: number) => {
+      if (lvl < gMinWombLevel) lvl = gMinWombLevel;
+      if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
+
+      if (lvl == gMaxWombLevel) {
+        return WombExpLimit.NOT_AVAILABLE;
+      }
+
+      const lvlMember = `LVL_${lvl + 1}` as any;
+
+      // The members of WombExpLimit include LVL_1, LVL_2, LVL_3, etc
+      return WombExpLimit[lvlMember] as unknown as WombExpLimit;
+    };
+    // !SECTION
+
+    // SECTION - Pregnancy update code
+    // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
+    // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
+    // TODO - Add side effects to womb health
+    updatePregnancyGrowth() {
+      // const targetWomb = this as Womb1
+      // The target is pregnant so do everything required under here
+      if (this.isPregnant) {
+        const currentTime = variables().gameDateAndTime;
+
+        for (let i = 0; i < this.fetuses.size; i++) {
+          // Determine how much to progress the fetus since the last update
+          // Also get useful data
+
+          // Copy over the fetus data to avoid unnecessary repetition
+          const targetFetus = this.fetuses.get(i);
+
+          // Get the total gestation time for the fetus
+          gActualPregnancyLength = targetFetus.getTotalGestationDuration(this);
+
+          // Get the time elapsed in seconds since the pregnancy was updated
+          const timeElapsedSinceLastPregUpdate =
+            variables().gameDateAndTime.getTime() / 1000 -
+            targetFetus.lastPregUpdate.getTime() / 1000;
+
+          // If, for some reason, time moves backwards, just exit the function (for now at least)
+          // TODO - Add a way to reverse growth
+          if (timeElapsedSinceLastPregUpdate < 0) return;
+
+          // SECTION - Determine how much to increase the `developmentRatio` of the fetus
+          let additionalDevelopmentProgress =
+            (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
+            gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
+
+          // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
+          const newDevelopmentRatio =
+            targetFetus.developmentRatio + additionalDevelopmentProgress;
+          // Save the current development ratio for use later
+          const oldDevelopmentRatio = targetFetus.developmentRatio;
+
+          // Update the data
+          targetFetus.developmentRatio =
+            targetFetus.developmentRatio < newDevelopmentRatio
+              ? newDevelopmentRatio
+              : targetFetus.developmentRatio;
+          // !SECTION
+
+          // SECTION - Determine the newHeight, newWeight, and newFluidVolume (and also the belly size) using newDevelopmentRatio
+          // NOTE - These values are only calculated per gestational week, and will not change for any other smaller time measurement
+          // TODO - Add drugs, eating habits and conditions that can also affect these.
+
+          // Get the new gestation week after having the developmentRatio updated
+          let newFetalGestationalWeek = targetFetus.gestationalWeek;
+          if (!newFetalGestationalWeek)
+            newFetalGestationalWeek = GestationalWeek.One;
+
+          let newWeight = targetFetus.weight;
+          let newHeight = targetFetus.height;
+          let newFluidVolume = targetFetus.amnioticFluidVolume;
+
+          let weightDiff: number = null;
+          let heightDiff: number = null;
+          let fluidDiff: number = null;
+
+          // I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
+
+          // To remove repetition
+          const getStatDiff = (stat: FetalGrowthStatsEnum) => {
+            return Fetus1.getStatToAddAfterDevelopmentProgress(
+              oldDevelopmentRatio,
+              newDevelopmentRatio,
+              stat
+            );
+          };
+
+          weightDiff = getStatDiff(FetalGrowthStatsEnum.WEIGHT);
+          heightDiff = getStatDiff(FetalGrowthStatsEnum.HEIGHT);
+          fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
+
+          console.log(
+            `oldDevelopmentRatio: ${oldDevelopmentRatio}, newDevelopmentRatio: ${newDevelopmentRatio}`
+          );
+          console.log(
+            `weightDiff: ${weightDiff}, heightDiff: ${heightDiff}, fluidDiff: ${fluidDiff}`
+          );
+
+          // SECTION - Using the fetus's id to alter the gained a bit
+          const bitCheck = (targetFetus.id & (1 << random(0, 16))) !== 0; // Randomly pick the index of a bit and check if it's true
+          const bitCheck2 = (targetFetus.id & (1 << random(0, 16))) !== 0; // Do it again :3
+          const bitCheck3 = (targetFetus.id & (1 << random(0, 16))) !== 0; // And again :D
+          // !SECTION
+
+          // WEIGHT
+          const weightBonusOrReduction = randomFloat(
+            weightDiff * 0,
+            weightDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
+          );
+
+          // HEIGHT
+          const heightBonusOrReduction = randomFloat(
+            heightDiff * 0.0,
+            heightDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
+          );
+
+          // FLUID.
+          const fluidBonus = randomFloat(
+            fluidDiff * 0.0,
+            fluidDiff * (Math.abs(Math.sin(targetFetus.id)) / 5)
+          );
+
+          // Add the regular diffs before the bonus/reductions
+          newWeight += weightDiff;
+          newHeight += heightDiff;
+          // TODO - Make this amount fluctuate depending on the amount of fetuses in the womb
+          newFluidVolume += fluidDiff;
+
+          if (bitCheck) newWeight += weightBonusOrReduction;
+          else newWeight -= weightBonusOrReduction;
+
+          if (bitCheck2) newHeight += heightBonusOrReduction;
+          else newHeight -= heightBonusOrReduction;
+
+          // For fluid, there will be no deductions, only additions/no change
+          if (bitCheck3) newFluidVolume += fluidBonus;
+          // !SECTION
+
+          // SECTION - Update relevant values abt the fetus. Make sure that the values don't reduce
+          targetFetus.weight =
+            targetFetus.weight < newWeight ? newWeight : targetFetus.weight;
+          targetFetus.height =
+            targetFetus.height < newHeight ? newHeight : targetFetus.height;
+          // Amniotic fluid volume is the only one (out of the 3) that can reduce
+          if (newFetalGestationalWeek > GestationalWeek.MAX) {
+            // Amniotic volume begins to reduce close to the end of the gestational weeks so clamp it somewhere to prevent "absurd" values
+            targetFetus.amnioticFluidVolume =
+              newFluidVolume < gMinimumVolumeOfAmnioticFluid
+                ? gMinimumVolumeOfAmnioticFluid
+                : newFluidVolume;
+          } else {
+            targetFetus.amnioticFluidVolume = newFluidVolume;
+          }
+          targetFetus.lastPregUpdate = variables().gameDateAndTime;
+
+          // Adjust fetal hp
+          targetFetus.hp = (this.hp / this.maxHp) * WombHealth.FULL_VITALITY;
+
+          // Replace the data of the fetus with the updated one
+          this.fetuses.set(i, targetFetus);
+        }
+
+        // Apply womb damage
+        this.hp -= this.calculateWombDamage();
+
+        // Increase the womb's exp
+        this.exp += this.updateWombExp();
+
+        // Update belly size during pregnancy
+        this.updatePregnantBellySize();
+
+        // Update the last time this function was called
+        variables().lastPregUpdateFunctionCall = variables().gameDateAndTime;
+      }
+    }
+    // !SECTION
+
+    // SECTION - Birth methods
+    triggerBirth() {
+      // This is what will expunge the fetuses from the womb (except in the case for superfetation)
+      // TODO - It's just bare-bones now
+      if (this.perks.superFet.currLevel) {
+        // Deal with superfetation
+      } else {
+        // Handle postpartum, birth scenes, etc
+
+        // Give exp
+        let expToAdd = 0;
+        for (let i = 0; i < this.fetuses.size; i++) {
+          const fetus = this.fetuses.get(i);
+
+          // Longer gestating babies take longer
+          expToAdd +=
+            (fetus.developmentRatio / gMaxDevelopmentState) *
+            gExpPerSingleBirth;
+        }
+        this.exp += expToAdd;
+
+        // Just clear out the womb
+        this.fetuses.clear;
+        this.lastBirth = variables().gameDateAndTime;
+      }
+    }
+
+    get isLiableForBirth() {
+      // This will check to see if an inputted womb is ready to giving birth, regardless of the actual chance of a successful delivery
+      // NOTE - Drugs and conditions may affect this
+
+      let chanceOfBirth = 0;
+
+      // Include something to account for superfetation. Like a giant IF statement
+      if (this.perks.superFet.currLevel) {
+        // Handle superfetation
+      } else {
+        // Regular Birth (mostly)
+
+        // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
+        if (this.curCapacity >= this.maxCapacity * 0.9) return true;
+        else {
+          // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
+          let sumOfDevelopmentRatio = 0;
+
+          for (let i = 0; i < this.fetuses.size; i++) {
+            const fetus = this.fetuses.get(i);
+
+            // All fetuses must be at or above a particular threshold for birth to occur
+            if (fetus.developmentRatio < gMinBirthThreshold) return false;
+
+            //  Get the sum of the development of all fetuses. This will be used to determine the average which is what will be used to determine the chance of birth (if possible)
+            sumOfDevelopmentRatio += fetus.developmentRatio;
+          }
+
+          const averageDevelopmentOfFetus =
+            sumOfDevelopmentRatio / this.fetuses.size;
+
+          // Every 1% above gMaxDevelopmentState adds a 2.5% chance for the character's water to break
+          chanceOfBirth +=
+            (averageDevelopmentOfFetus - gMaxDevelopmentState) * 2.5;
+        }
+      }
+
+      // Unhealthy wombs are at higher risk of birthing, however, clamp the increased chance at 33%
+      chanceOfBirth += Math.clamp(
+        (this.maxHp / this.hp) * (this.maxHp - this.hp) * 0.75,
+        0,
+        33
+      );
+
+      // Using `chanceOfBirth`, check if the character should birth or not
+      if (randomFloat(0, 100) <= chanceOfBirth) return true;
+      else return false;
+    }
+    // !SECTION
   }
   // @ts-expect-error
   window[Womb1.name] = Womb1;
 
-  // NOTE - Creating a new fetus instance doesn't add it to any womb unless the womb itself directly adds it
   export class Fetus1 {
     id: number; // decides the gender, growthRate, weight, and height
     hp: number; // scales with the womb's health. don't let it get to zero
@@ -407,26 +868,9 @@ namespace NSPregnancy {
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
     shouldBirth = false; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
     species = FetusSpecies.HUMAN; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
-    creatorWomb: Womb1; // The womb used to spawn the fetus
 
-    constructor(womb: Womb1, classProp: typeof Fetus1 = null) {
-      const generateFetusId = (womb: Womb1) => {
-        // Check all fetuses in the womb (if any) and generate a random 16-bit number that isn't shared with any other existing fetus
-        let newFetusId = random(0, 65535);
-
-        for (let i = 0; i < womb.fetusData.size; i++) {
-          const existingFetusId = womb.fetusData.get(i).id;
-
-          if (newFetusId == existingFetusId) {
-            // Restart the function
-            generateFetusId(womb);
-            break;
-          }
-        }
-
-        return newFetusId;
-      };
-      this.id = generateFetusId(womb);
+    constructor(newId: number, classProp: typeof Fetus1 = null) {
+      this.id = newId;
 
       this.hp = WombHealth.FULL_VITALITY;
 
@@ -451,23 +895,22 @@ namespace NSPregnancy {
       this.dateOfConception = variables().gameDateAndTime;
       this.lastPregUpdate = variables().gameDateAndTime;
 
-      this.creatorWomb = womb;
-
       //
       if (classProp != null) {
         Object.keys(classProp).forEach((prop) => {
           //@ts-expect-error
-          this[prop] = clone(classProperties[prop]);
+          this[prop] = clone(classProp[prop]);
         }, this);
       }
     }
 
     clone() {
       //@ts-expect-error
-      return new (this.constructor as typeof Fetus1)(this.creatorWomb, this);
+      return new (this.constructor as typeof Fetus1)(this.id, this);
     }
     toJSON() {
-      const ownData: unknown = {};
+      //@ts-expect-error
+      const ownData: Fetus1 = {};
       Object.keys(this).forEach((prop) => {
         //@ts-expect-error
         ownData[prop] = clone(this[prop]);
@@ -475,13 +918,17 @@ namespace NSPregnancy {
 
       return JSON.reviveWrapper(
         `new ${(this.constructor as typeof Fetus1).name}(${
-          this.creatorWomb
+          this.id
         }, $ReviveData$)`,
         ownData
       );
     }
 
-    get pregnancyLengthModifier() {
+    get isOverdue() {
+      return this.developmentRatio > gMaxDevelopmentState;
+    }
+
+    getPregnancyLengthModifier(womb: Womb1) {
       // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
       let modifier = 1;
 
@@ -489,24 +936,16 @@ namespace NSPregnancy {
       modifier /= this.growthRate;
 
       //  Account for the womb health. Lower hp make pregnancies slightly longer
-      modifier *= Math.clamp(
-        Math.sqrt(this.creatorWomb.maxHp / this.creatorWomb.hp),
-        1,
-        1.2
-      );
-
-      // SECTION - Determine the actual pregnancy duration by factoring genetic conditions, drugs, growthRate, etc
-      // if (womb) {
-      // TODO
+      modifier *= Math.clamp(Math.sqrt(womb.maxHp / womb.hp), 1, 1.2);
 
       // x10 faster pregnancies for the player since the player's own is 10
-      modifier /= this.creatorWomb.naturalGrowthMod;
+      modifier /= womb.naturalGrowthMod;
 
       return modifier;
     }
 
-    get totalGestationDuration() {
-      return this.pregnancyLengthModifier * gDefaultPregnancyLength;
+    getTotalGestationDuration(womb: Womb1) {
+      return this.getPregnancyLengthModifier(womb) * gDefaultPregnancyLength;
     }
 
     get gestationalWeek() {
@@ -516,7 +955,7 @@ namespace NSPregnancy {
     }
 
     static #getStatForGestationalWeekInOverduePregnancy = (
-      overdueGestWeek: GestationalWeek,
+      overdueGestWeek: number,
       stat: FetalGrowthStatsEnum
     ) => {
       // Use the average stat difference (and a bit of variation) to get a result for overdue pregnancies that don't have an entry in gFetalGrowthOverGestationalWeeks[]
@@ -528,7 +967,7 @@ namespace NSPregnancy {
       if (overdueGestWeek <= GestationalWeek.MAX)
         overdueGestWeek = GestationalWeek.MAX + 1;
 
-      // Get the average weight gain over the last 4~5 weeks
+      // Get the average stat gain over the last 4~5 weeks
       for (let i = 0; i <= numOfWeeksToGetAverageFor; i++) {
         const gestationalWeekArrayIndex: GestationalWeek =
           GestationalWeek.MAX - i;
@@ -536,11 +975,9 @@ namespace NSPregnancy {
           GestationalWeek.MAX - (i + 1);
 
         averageStatDiffInLastFourWeeksOfPregnancy +=
-          gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex][
-            `${stat}`
-          ] -
+          gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex][stat] -
           gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex][
-            `${stat}`
+            stat
           ];
       }
       averageStatDiffInLastFourWeeksOfPregnancy /= numOfWeeksToGetAverageFor;
@@ -560,13 +997,22 @@ namespace NSPregnancy {
       );
 
       return (
-        gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX][`${stat}`] +
+        gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX][stat] +
         overdueStatDiffToAdd
       );
     };
 
-    getAccurateFetalStatForDevelopmentStage(stat: FetalGrowthStatsEnum) {
-      let devRatio = this.developmentRatio;
+    get wombVolumeFromFetusStats() {
+      // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
+      return (
+        (this.weight + this.height + this.amnioticFluidVolume * 0.4) * (10 / 4)
+      );
+    }
+
+    static getAccurateFetalStatForDevelopmentStage(
+      stat: FetalGrowthStatsEnum,
+      devRatio: DevelopmentRatio
+    ) {
       let fetalStat = 0;
 
       const gestationalWeek: GestationalWeek =
@@ -575,7 +1021,7 @@ namespace NSPregnancy {
       const gestationalWeekFloor: GestationalWeek = Math.floor(gestationalWeek);
 
       // Need a better name for this
-      const extraWeekDuration = gestationalWeek - gestationalWeekFloor;
+      const extraDurationAsFloat = gestationalWeek - gestationalWeekFloor;
 
       if (gestationalWeek < GestationalWeek.One) {
         return 0;
@@ -583,54 +1029,66 @@ namespace NSPregnancy {
         gestationalWeek < gNumOfGestationalWeeks &&
         gestationalWeek + 1 < gNumOfGestationalWeeks
       ) {
+        const gestationalWeekStat =
+          gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][stat];
         fetalStat =
-          gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`] +
+          gestationalWeekStat +
           (gFetalGrowthOverGestationalWeeks[
             (gestationalWeekFloor + 1) as GestationalWeek
-          ][`${stat}`] -
-            gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`]) *
-            extraWeekDuration;
+          ][stat] -
+            gestationalWeekStat) *
+            extraDurationAsFloat;
       } else if (
         gestationalWeek <= gNumOfGestationalWeeks &&
         gestationalWeek + 1 > gNumOfGestationalWeeks
       ) {
+        const gestationalWeekStat =
+          gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][stat];
         fetalStat =
-          gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`] +
-          ((
-            this.constructor as typeof Fetus1
-          ).#getStatForGestationalWeekInOverduePregnancy(
+          gestationalWeekStat +
+          (this.#getStatForGestationalWeekInOverduePregnancy(
             gestationalWeekFloor + 1,
             stat
           ) -
-            gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][`${stat}`]) *
-            extraWeekDuration;
-      } else {
-        fetalStat =
-          (
-            this.constructor as typeof Fetus1
-          ).#getStatForGestationalWeekInOverduePregnancy(
+            gestationalWeekStat) *
+            extraDurationAsFloat;
+      } else if (gestationalWeek > gNumOfGestationalWeeks) {
+        const gestationalWeekStat =
+          this.#getStatForGestationalWeekInOverduePregnancy(
             gestationalWeekFloor,
             stat
-          ) +
-          (
-            this.constructor as typeof Fetus1
-          ).#getStatForGestationalWeekInOverduePregnancy(
+          );
+        fetalStat =
+          gestationalWeekStat +
+          (this.#getStatForGestationalWeekInOverduePregnancy(
             gestationalWeekFloor + 1,
             stat
           ) -
-          (
-            this.constructor as typeof Fetus1
-          ).#getStatForGestationalWeekInOverduePregnancy(
-            gestationalWeekFloor,
-            stat
-          ) *
-            extraWeekDuration;
+            gestationalWeekStat) *
+            extraDurationAsFloat;
       }
       console.log(
         `devRatio: ${devRatio}, gestationalWeek: ${gestationalWeekFloor}, fetalStat: ${fetalStat}`
       );
 
       return fetalStat;
+    }
+
+    // Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased
+    // NOTE - What this function basically does is (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) which will usually give non-integer values. When Math.floor()'d, it gives up the most recent gestational week and we can pick a stat from there (call this value X). However, in order to be truly accurate, we also consider the truncated non-integer component of (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) by having the truncated value be subtracted from the regular result of that expression (e.g 7.8673029 - 7) and multiply this result with the difference of the required stats for the gestational week in use and the next one (e.g gestational week 7 and gestational week 8. Also call this value Y). Now, adding X and Y should give something quite accurate, so do this for both development ratios and return the difference between their values.
+    static getStatToAddAfterDevelopmentProgress(
+      oldDevRatio: DevelopmentRatio,
+      newDevRatio: DevelopmentRatio,
+      stat: FetalGrowthStatsEnum
+    ) {
+      if (oldDevRatio == newDevRatio) return 0;
+      let oldStat = 0;
+      let newStat = 0;
+
+      oldStat = this.getAccurateFetalStatForDevelopmentStage(stat, oldDevRatio);
+      newStat = this.getAccurateFetalStatForDevelopmentStage(stat, newDevRatio);
+
+      return newStat - oldStat;
     }
   }
   // @ts-expect-error
