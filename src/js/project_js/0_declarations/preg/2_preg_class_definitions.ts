@@ -35,8 +35,9 @@ namespace NSPregnancy {
     lastFertilized: Date =
       null; /* The date when the womb was last impregnated */
     lastBirth: Date = null; /* The date of the last birth */
-    lastExpUpdate: Date =
-      null; /* The last time the exp update function was ran on this womb*/ // REVIEW - Check whether its possible to use `lastPregUpdate` of the fetus. In fact, see if that variable can be moved to the womb instead
+    lastPregUpdate: Date = null; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
+    // lastExpUpdate: Date =
+    //   null; /* The last time the exp update function was ran on this womb*/ // REVIEW - Check whether its possible to use `lastPregUpdate` of the fetus. In fact, see if that variable can be moved to the womb instead
 
     // belongToPlayer: boolean;
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
@@ -186,7 +187,7 @@ namespace NSPregnancy {
 
     get generateUnusedFetusId() {
       // Check all fetuses in the womb (if any) and generate a random 16-bit number that isn't shared with any other existing fetus
-      let newFetusId = random(0, 65535);
+      let newFetusId = random(0, gNumOfPossibleFetusIds - 1);
 
       const fetusData = this.fetuses;
       for (let i = 0; i < fetusData.size; i++) {
@@ -364,7 +365,8 @@ namespace NSPregnancy {
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
         for (i = 0; i < numOfFoetusToSpawn; i++) {
           // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
-          this.addFetus(new Fetus1(this.generateUnusedFetusId), i);
+          const id = this.generateUnusedFetusId;
+          this.addFetus(new Fetus1(id), id);
         }
         // !SECTION
 
@@ -497,22 +499,23 @@ namespace NSPregnancy {
 
     // TODO - Remember to add exp in the birth function
     // NOTE - If this isn't run as frequently as in `gHoursBetweenPregUpdate`, the gained exp may be smaller than expected
-    updateWombExp() {
+    updateWombExp(lastExpUpdate?: Date) {
       let expToAdd = 0;
       const wombLvl = this.wombLvl;
+      let lastUpdate = lastExpUpdate; /* ? lastExpUpdate : this.lastExpUpdate;*/
 
       if (wombLvl == gMaxWombLevel) {
         // At max lvl, return no exp
         return 0;
       }
 
-      if (!this.lastExpUpdate) {
+      if (!lastUpdate) {
         // Just set it to something that'll work
-        this.lastExpUpdate = this.lastFertilized;
+        lastUpdate = this.lastFertilized;
       }
 
       if (
-        variables().gameDateAndTime.getTime() - this.lastExpUpdate.getTime() <
+        variables().gameDateAndTime.getTime() - lastUpdate.getTime() <
         gHoursBetweenPregUpdate * 3600 * 1000
       ) {
         // Not enough time has passed before calling this function
@@ -530,14 +533,13 @@ namespace NSPregnancy {
         (gExpPerSingleFetusGestation * (gHoursBetweenPregUpdate * 3600)) /
         gActualPregnancyLength;
 
-      for (let i = 0; i < this.fetuses.size; i++) {
+      this.fetuses.forEach((fetus) => {
         // Calculate the exp for each fetus separately. Each fetus can produce up to 1000 exp in total at term (with 40% only give on birth so its actually 600 exp). Going overdue will add an extra 20% to the regular exp gain the fetus will provide
-        const fetus = this.fetuses.get(i);
 
         // Make it so that exp starts off really small (x0.1) and then is much more abundant(x10) with greater development
         expToAdd =
           fetus.developmentRatio * (10 / gMaxDevelopmentState) * averageExpGain;
-      }
+      });
       // !SECTION
 
       console.log(
@@ -562,7 +564,7 @@ namespace NSPregnancy {
       // }
       console.log(`expToAdd: ${expToAdd}`);
 
-      this.lastExpUpdate = variables().gameDateAndTime;
+      lastUpdate = variables().gameDateAndTime;
 
       return expToAdd;
     }
@@ -619,21 +621,22 @@ namespace NSPregnancy {
       // The target is pregnant so do everything required under here
       if (this.isPregnant) {
         const currentTime = variables().gameDateAndTime;
+        const pregUpdateTimeBeforeGettingAffectedByThisFunction =
+          this.lastPregUpdate != null
+            ? this.lastPregUpdate
+            : this.lastFertilized;
 
-        for (let i = 0; i < this.fetuses.size; i++) {
+        this.fetuses.forEach((targetFetus) => {
           // Determine how much to progress the fetus since the last update
           // Also get useful data
-
-          // Copy over the fetus data to avoid unnecessary repetition
-          const targetFetus = this.fetuses.get(i);
 
           // Get the total gestation time for the fetus
           gActualPregnancyLength = targetFetus.getTotalGestationDuration(this);
 
           // Get the time elapsed in seconds since the pregnancy was updated
           const timeElapsedSinceLastPregUpdate =
-            variables().gameDateAndTime.getTime() / 1000 -
-            targetFetus.lastPregUpdate.getTime() / 1000;
+            currentTime.getTime() / 1000 -
+            pregUpdateTimeBeforeGettingAffectedByThisFunction.getTime() / 1000;
 
           // If, for some reason, time moves backwards, just exit the function (for now at least)
           // TODO - Add a way to reverse growth
@@ -751,26 +754,28 @@ namespace NSPregnancy {
           } else {
             targetFetus.amnioticFluidVolume = newFluidVolume;
           }
-          targetFetus.lastPregUpdate = variables().gameDateAndTime;
+          this.lastPregUpdate = currentTime;
 
           // Adjust fetal hp
           targetFetus.hp = (this.hp / this.maxHp) * WombHealth.FULL_VITALITY;
 
           // Replace the data of the fetus with the updated one
-          this.fetuses.set(i, targetFetus);
-        }
+          this.fetuses.set(targetFetus.id, targetFetus);
+        });
 
         // Apply womb damage
         this.hp -= this.calculateWombDamage();
 
         // Increase the womb's exp
-        this.exp += this.updateWombExp();
+        this.exp += this.updateWombExp(
+          pregUpdateTimeBeforeGettingAffectedByThisFunction
+        );
 
         // Update belly size during pregnancy
         this.updatePregnantBellySize();
 
         // Update the last time this function was called
-        variables().lastPregUpdateFunctionCall = variables().gameDateAndTime;
+        variables().lastPregUpdateFunctionCall = currentTime;
       }
     }
     // !SECTION
@@ -786,14 +791,12 @@ namespace NSPregnancy {
 
         // Give exp
         let expToAdd = 0;
-        for (let i = 0; i < this.fetuses.size; i++) {
-          const fetus = this.fetuses.get(i);
-
+        this.fetuses.forEach((fetus) => {
           // Longer gestating babies take longer
           expToAdd +=
             (fetus.developmentRatio / gMaxDevelopmentState) *
             gExpPerSingleBirth;
-        }
+        });
         this.exp += expToAdd;
 
         // Just clear out the womb
@@ -820,15 +823,13 @@ namespace NSPregnancy {
           // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
           let sumOfDevelopmentRatio = 0;
 
-          for (let i = 0; i < this.fetuses.size; i++) {
-            const fetus = this.fetuses.get(i);
-
+          this.fetuses.forEach((fetus) => {
             // All fetuses must be at or above a particular threshold for birth to occur
             if (fetus.developmentRatio < gMinBirthThreshold) return false;
 
             //  Get the sum of the development of all fetuses. This will be used to determine the average which is what will be used to determine the chance of birth (if possible)
             sumOfDevelopmentRatio += fetus.developmentRatio;
-          }
+          });
 
           const averageDevelopmentOfFetus =
             sumOfDevelopmentRatio / this.fetuses.size;
@@ -858,15 +859,12 @@ namespace NSPregnancy {
   export class Fetus1 {
     id: number; // decides the gender, growthRate, weight, and height
     hp: number; // scales with the womb's health. don't let it get to zero
-    gender: Gender;
     dateOfConception: Date; // Just here :p
-    lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    growthRate: number; // e.g 1.5, 0.5, 2.0
+    extraGrowthMod: number; // A modifier multiplied to the fetus's growth rate. Comes from other sources
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
-    shouldBirth = false; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
     species = FetusSpecies.HUMAN; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
 
     constructor(newId: number, classProp: typeof Fetus1 = null) {
@@ -875,17 +873,6 @@ namespace NSPregnancy {
       this.hp = WombHealth.FULL_VITALITY;
 
       const id = this.id;
-      const randNum = random(id);
-      if (randNum < 0.05 * id) this.gender = "I";
-      else if (randNum >= 0.05 * id && randNum < 0.5 * id) this.gender = "F";
-      else this.gender = "M";
-
-      // A value of 1 produces "normal" growth
-      const growthRateValues = [
-        0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1, 1, 1, 1, 1, 1.005, 1.01,
-        1.015, 1.02, 1.025, 1.03, 1.035,
-      ];
-      this.growthRate = growthRateValues[id % growthRateValues.length];
 
       this.developmentRatio = gMinDevelopmentState;
       // Just trying to get an arbitrarily small number
@@ -893,7 +880,6 @@ namespace NSPregnancy {
       this.weight = id / Math.pow(10, 9);
       this.amnioticFluidVolume = id / Math.pow(10, 9);
       this.dateOfConception = variables().gameDateAndTime;
-      this.lastPregUpdate = variables().gameDateAndTime;
 
       //
       if (classProp != null) {
@@ -922,6 +908,32 @@ namespace NSPregnancy {
         }, $ReviveData$)`,
         ownData
       );
+    }
+
+    get gender(): Gender {
+      const id = this.id;
+      // There are
+      if (id < 0.05 * (gNumOfPossibleFetusIds - 1)) return "I";
+      else if (
+        id >= 0.05 * (gNumOfPossibleFetusIds - 1) &&
+        id < 0.5 * (gNumOfPossibleFetusIds - 1)
+      )
+        return "F";
+      else return "M";
+    }
+
+    get growthRate() {
+      // A value of 1 produces "normal" growth
+      const growthRateValues = [
+        0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1, 1, 1, 1, 1, 1.005, 1.01,
+        1.015, 1.02, 1.025, 1.03, 1.035,
+      ];
+      return growthRateValues[this.id % growthRateValues.length];
+    }
+
+    // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
+    get shouldBirth() {
+      return false;
     }
 
     get isOverdue() {
