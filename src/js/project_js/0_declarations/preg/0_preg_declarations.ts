@@ -189,6 +189,7 @@ namespace NSPregnancy {
   export const gOverdueStatMultiplier = 0.34;
 
   export const gDefaultMaxWombHP = 100;
+  export const gNumOfPossibleFetusIds = 65536;
 
   // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
   export enum GestationalWeek {
@@ -427,7 +428,7 @@ namespace NSPregnancy {
       height: 51.2,
       weight: 3619,
       // amnioticFluidVolume: 800,
-      amnioticFluidVolume: 900,
+      amnioticFluidVolume: 950,
     },
     // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
   };
@@ -498,7 +499,7 @@ namespace NSPregnancy {
     PREG_MAX = FULL_TERM_DECUPLETS,
   }
 
-  export const calcWombExpReq = (previousLvl: number) => {
+  const calcWombExpReq = (previousLvl: number) => {
     return (
       ((2 * previousLvl + Math.floor(previousLvl / 2)) * BellyState.FULL_TERM) /
       10
