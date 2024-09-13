@@ -56,7 +56,7 @@ type Player = {
   energy: number;
   maxEnergy: number;
 
-  womb: Womb;
+  womb: NSPregnancy.Womb1;
 
   breasts: {
     individualSize: number;

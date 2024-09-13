@@ -4,13 +4,12 @@ namespace NSPregnancy {
     handler: function () {
       const sourceVirility: number = this.args[0];
       const sourceVirilityBonus: number = this.args[1];
-      const targetWomb: Womb = this.args[2];
+      const targetWomb: Womb1 = this.args[2];
       const numOfFetusesToForceToSpawn: number | undefined = this.args[3];
 
-      tryCreatePregnancy(
+      targetWomb.tryCreatePregnancy(
         sourceVirility,
         sourceVirilityBonus,
-        targetWomb,
         numOfFetusesToForceToSpawn
       );
     },
@@ -18,9 +17,9 @@ namespace NSPregnancy {
 
   Macro.add("updatePregnancy", {
     handler: function () {
-      const womb: Womb = this.args[0];
+      const womb: Womb1 = this.args[0];
 
-      updatePregnancyGrowth(womb);
+      womb.updatePregnancyGrowth();
     },
   });
 }
