@@ -92,119 +92,15 @@ let saveVar_player: Player = {
   /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */
   /* The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has */
   /* Capacity is in cubic centimetres(CCs) */
-  // NOTE - This MUST mirror the structure found in the interface `Womb` in `preg_declarations.ts`
-  womb: {
-    hp: NSPregnancy.gDefaultMaxWombHP /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */,
-    belongToPlayer:
-      true /* Some values and calculations change if the player is the owner */,
-    maxHp: NSPregnancy.gDefaultMaxWombHP,
-    fertility:
-      NSPregnancy.FertilityLevel
-        .EXTREME_FERTILITY /* How fertile the user is. 0 -> Barren, 45~55 - Standard fertility,  100 -> Extremely fertile - 100, 101 -> Fertility Idol */, //NOTE
-    curCapacity:
-      NSPregnancy.BellyState
-        .FLAT /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */,
+  // @ts-expect-error
+  // NOTE - Fix this ts error later
+  womb: new NSPregnancy.Womb1({
+    fertility: NSPregnancy.FertilityLevel.EXTREME_FERTILITY,
     comfortCapacity:
-      NSPregnancy.BellyState.FULL_TERM +
-      NSPregnancy.BellyState
-        .EARLY_PREGNANCY /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */, //NOTE
-    maxCapacity:
-      NSPregnancy.BellyState
-        .FULL_TERM_TWINS /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */, //NOTE
-    exp: 1 /* Increases when pregnant; the amount depends on size and number of fetuses, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
-      
-      Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */,
-    postpartum: 0 /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */,
-    contraceptives: false,
-    birthRecord: 0 /* Number of times the user has given birth */,
-    lastFertilized: null /* The date when the womb was last impregnated */,
-    lastBirth: null /* The date of the last birth */,
-    lastExpUpdate:
-      null /* The last time the exp update function was ran on this womb*/,
-    perks: {
-      /* If a perk's value is 0, it hasn't been enabled. Any number above 0 is its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
-      /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
-      /* Each perk is an array of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
-      /*TODO - Change the prices later to something more reasonable. Also, add more perks */
-
-      gestator: [
-        0, 5000, 10,
-      ] /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
-      hyperFertility: [
-        0, 3000, 5,
-      ] /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
-      superfet: [
-        0, 15000, 5,
-      ] /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
-      elasticity: [
-        0, 7000, 10,
-      ] /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
-      immunityBoost: [
-        0, 2000, 10,
-      ] /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
-      motherlyHips: [
-        0, 5000, 5,
-      ] /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
-      motherlyBoobs: [
-        0, 5000, 5,
-      ] /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
-      ironSpine: [
-        0, 7000, 5,
-      ] /* Can carry bigger pregnancies and more weight before becoming bed bound */,
-      sensitiveWomb: [
-        0, 6000, 5,
-      ] /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
-      healthyWomb: [
-        0, 3000, 10,
-      ] /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
-      fortifiedWomb: [
-        0, 10000, 5,
-      ] /* Reduces the increase rate of womb.comfortCapacity but raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
-      noPostpartum: [
-        0, 2000, 7,
-      ] /* Reduces the postpartum period of the PC by 1 day (Note that the PC has a recovery period of a week) */,
-    },
-    sideEffects: {
-      /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
-      /* They are arrays containing 2 values; the first decides if the user is afflicted with them and how long the condition will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
-      /* TODO - Add more side effects */
-
-      cravingCrisis: [
-        0,
-        [1, 2],
-      ] /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
-      motherHunger: [
-        0,
-        [1, 2, 3],
-      ] /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
-      restlessBrood: [
-        0,
-        [2, 3],
-      ] /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
-      heavyWomb: [
-        0,
-        [3, 5, 7],
-      ] /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
-      contractions: [
-        0,
-        [0],
-      ] /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
-      labour: [
-        0,
-        [0],
-      ] /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
-      sexCraving: [
-        0,
-        [1, 3],
-      ] /* Maxes out arousal once a day and keeps it above 75 */,
-      growthSpurt: [
-        0,
-        [0],
-      ] /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
-    },
-    fetusData:
-      new Map() /* This array gets filled up when the pc is inseminated in `tryToImpregnate()` */,
-  },
+      NSPregnancy.BellyState.FULL_TERM + NSPregnancy.BellyState.EARLY_PREGNANCY,
+    maxCapacity: NSPregnancy.BellyState.FULL_TERM_TWINS,
+    naturalGrowthMod: 10,
+  }),
 
   /* Breast and Lactation */
   breasts: {
