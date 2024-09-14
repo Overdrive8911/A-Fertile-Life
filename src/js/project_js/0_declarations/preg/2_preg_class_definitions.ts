@@ -4,7 +4,7 @@ namespace NSPregnancy {
   /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */
   /* The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has */
   /* Capacity is in cubic centimetres(CCs) */
-  export class Womb1 {
+  export class Womb {
     hp =
       gDefaultMaxWombHP; /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */
     maxHp = gDefaultMaxWombHP;
@@ -44,9 +44,9 @@ namespace NSPregnancy {
 
     perks: PregPerksObject = {};
     sideEffects: PregSideEffectsObject = {};
-    fetuses: Map<number /* fetusId */, Fetus1> = new Map();
+    fetuses: Map<number /* fetusId */, Fetus> = new Map();
 
-    constructor(classProperties: Womb1 = null) {
+    constructor(classProperties: Womb = null) {
       if (classProperties != null) {
         Object.keys(classProperties).forEach((prop) => {
           //@ts-expect-error
@@ -56,7 +56,7 @@ namespace NSPregnancy {
     }
 
     clone() {
-      return new (this.constructor as typeof Womb1)(this);
+      return new (this.constructor as typeof Womb)(this);
     }
     toJSON() {
       const ownData: unknown = {};
@@ -66,7 +66,7 @@ namespace NSPregnancy {
       }, this);
 
       return JSON.reviveWrapper(
-        `new ${(this.constructor as typeof Womb1).name}($ReviveData$)`,
+        `new ${(this.constructor as typeof Womb).name}($ReviveData$)`,
         ownData
       );
     }
@@ -223,7 +223,7 @@ namespace NSPregnancy {
               k++;
             }
           }
-          if (isPregnant) {
+          if (this.isPregnant) {
             if (perks && perks.superFet) {
               // Applies to superfetation, lets make it difficult >:D
               chance *= 0.1;
@@ -252,7 +252,7 @@ namespace NSPregnancy {
           numOfFoetusToSpawn = numOfFetusesToForceToSpawn;
 
         // NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
-        const maxFetusNumber = getMinimumNumOfFullTermFetusesAtBellyState(
+        const maxFetusNumber = this.getMinimumNumOfFullTermFetusesAtBellyState(
           this.maxCapacity
         );
         if (numOfFoetusToSpawn > maxFetusNumber)
@@ -263,7 +263,7 @@ namespace NSPregnancy {
         for (i = 0; i < numOfFoetusToSpawn; i++) {
           // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
           const id = this.generateUnusedFetusId;
-          this.addFetus(new Fetus1(id), id);
+          this.addFetus(new Fetus(id), id);
         }
         // !SECTION
 
@@ -275,13 +275,13 @@ namespace NSPregnancy {
       }
     }
 
-    addFetus(fetus: Fetus1, index: number = null) {
+    addFetus(fetus: Fetus, index: number = null) {
       if (index == null) index = this.fetuses.size;
 
       this.fetuses.set(index, fetus);
     }
     // If `fetus` is given, find a matching copy with the same id, else if an `index` is given instead, use it. If none are given, default to the first fetus
-    removeFetus(fetus?: Fetus1, index?: number) {
+    removeFetus(fetus?: Fetus, index?: number) {
       if (fetus) {
         index = [...this.fetuses.values()].find((data) => {
           return data.id == fetus.id;
@@ -314,7 +314,7 @@ namespace NSPregnancy {
     }
 
     calculateWombDamage() {
-      const womb = this as Womb1;
+      const womb = this as Womb;
       if (!gIsWombDamageEnabled) return 0;
       // Don't allow negative values
       if ((womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY < WombHealth.RIP) {
@@ -346,7 +346,7 @@ namespace NSPregnancy {
 
     // Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
     gradualWombHealthIncreaser() {
-      const womb = this as Womb1;
+      const womb = this as Womb;
       // Don't allow too large values
       if (womb.hp > womb.maxHp) {
         womb.hp = womb.maxHp;
@@ -440,7 +440,7 @@ namespace NSPregnancy {
       // !SECTION
 
       console.log(
-        `womb exp limit: ${getWombExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
+        `womb exp limit: ${Womb.getWombExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
       );
 
       // Just let the player keep the exp
@@ -468,7 +468,7 @@ namespace NSPregnancy {
 
     // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
     get wombLvl() {
-      const womb = this as Womb1;
+      const womb = this as Womb;
       // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
       let wombExpLimitArray = Object.values(WombExpLimit).filter(
         (value) => typeof value == "number" && (value as number) >= 0
@@ -578,7 +578,7 @@ namespace NSPregnancy {
 
           // To remove repetition
           const getStatDiff = (stat: FetalGrowthStatsEnum) => {
-            return Fetus1.getStatToAddAfterDevelopmentProgress(
+            return Fetus.getStatToAddAfterDevelopmentProgress(
               oldDevelopmentRatio,
               newDevelopmentRatio,
               stat
@@ -904,9 +904,9 @@ namespace NSPregnancy {
     // !SECTION
   }
   // @ts-expect-error
-  window[Womb1.name] = Womb1;
+  window[Womb.name] = Womb;
 
-  export class Fetus1 {
+  export class Fetus {
     id: number; // decides the gender, growthRate, weight, and height
     hp: number; // scales with the womb's health. don't let it get to zero
     dateOfConception: Date; // Just here :p
@@ -917,7 +917,7 @@ namespace NSPregnancy {
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
     species = FetusSpecies.HUMAN; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
 
-    constructor(newId: number, classProp: typeof Fetus1 = null) {
+    constructor(newId: number, classProp: typeof Fetus = null) {
       this.id = newId;
 
       this.hp = WombHealth.FULL_VITALITY;
@@ -942,18 +942,18 @@ namespace NSPregnancy {
 
     clone() {
       //@ts-expect-error
-      return new (this.constructor as typeof Fetus1)(this.id, this);
+      return new (this.constructor as typeof Fetus)(this.id, this);
     }
     toJSON() {
       //@ts-expect-error
-      const ownData: Fetus1 = {};
+      const ownData: Fetus = {};
       Object.keys(this).forEach((prop) => {
         //@ts-expect-error
         ownData[prop] = clone(this[prop]);
       }, this);
 
       return JSON.reviveWrapper(
-        `new ${(this.constructor as typeof Fetus1).name}(${
+        `new ${(this.constructor as typeof Fetus).name}(${
           this.id
         }, $ReviveData$)`,
         ownData
@@ -990,7 +990,7 @@ namespace NSPregnancy {
       return this.developmentRatio > gMaxDevelopmentState;
     }
 
-    getPregnancyLengthModifier(womb: Womb1) {
+    getPregnancyLengthModifier(womb: Womb) {
       // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
       let modifier = 1;
 
@@ -1006,7 +1006,7 @@ namespace NSPregnancy {
       return modifier;
     }
 
-    getTotalGestationDuration(womb: Womb1) {
+    getTotalGestationDuration(womb: Womb) {
       return this.getPregnancyLengthModifier(womb) * gDefaultPregnancyLength;
     }
 
@@ -1154,5 +1154,5 @@ namespace NSPregnancy {
     }
   }
   // @ts-expect-error
-  window[Fetus1.name] = Fetus1;
+  window[Fetus.name] = Fetus;
 }
