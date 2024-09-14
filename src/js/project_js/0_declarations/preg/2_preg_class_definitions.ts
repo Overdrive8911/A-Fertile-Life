@@ -42,8 +42,8 @@ namespace NSPregnancy {
     // belongToPlayer: boolean;
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
 
-    perks: PregPerksObject;
-    sideEffects: PregSideEffectsObject;
+    perks: PregPerksObject = {};
+    sideEffects: PregSideEffectsObject = {};
     fetuses: Map<number /* fetusId */, Fetus1> = new Map();
 
     constructor(classProperties: Womb1 = null) {
@@ -211,19 +211,20 @@ namespace NSPregnancy {
           // TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
 
           // The player has the hyper fertility perk
-          if (this.perks.hyperFertility.currLevel) {
+          const perks = this.perks;
+          if (perks && perks.hyperFertility) {
             // Give a large multiplier to the chance for multiples.
             chance *= 1.55;
 
             // Gently add a flat increase it with every extra level
             let k = 1;
-            while (k < this.perks.hyperFertility.currLevel) {
+            while (k < perks.hyperFertility.currLevel) {
               chance += 0.055;
               k++;
             }
           }
           if (isPregnant) {
-            if (this.perks.superFet.currLevel) {
+            if (perks && perks.superFet) {
               // Applies to superfetation, lets make it difficult >:D
               chance *= 0.1;
             } else {
@@ -679,8 +680,9 @@ namespace NSPregnancy {
     // SECTION - Birth methods
     triggerBirth() {
       // This is what will expunge the fetuses from the womb (except in the case for superfetation)
+      const perks = this.perks;
       // TODO - It's just bare-bones now
-      if (this.perks.superFet.currLevel) {
+      if (perks && perks.superFet) {
         // Deal with superfetation
       } else {
         // Handle postpartum, birth scenes, etc
@@ -708,7 +710,8 @@ namespace NSPregnancy {
       let chanceOfBirth = 0;
 
       // Include something to account for superfetation. Like a giant IF statement
-      if (this.perks.superFet.currLevel) {
+      const perks = this.perks;
+      if (perks && perks.superFet) {
         // Handle superfetation
       } else {
         // Regular Birth (mostly)
@@ -908,7 +911,7 @@ namespace NSPregnancy {
     hp: number; // scales with the womb's health. don't let it get to zero
     dateOfConception: Date; // Just here :p
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    extraGrowthMod: number; // A modifier multiplied to the fetus's growth rate. Comes from other sources
+    extraGrowthMod?: number; // A modifier multiplied to the fetus's growth rate. Comes from other sources
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
