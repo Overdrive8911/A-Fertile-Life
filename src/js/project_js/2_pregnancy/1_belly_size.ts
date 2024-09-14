@@ -1,26 +1,4 @@
 namespace NSPregnancy {
-  export const updatePregnantBellySize = (womb: Womb) => {
-    const totalFetalWeight = getTotalOfFetalStats(
-      womb,
-      FetalGrowthStatsEnum.WEIGHT
-    );
-    const totalFetalHeight = getTotalOfFetalStats(
-      womb,
-      FetalGrowthStatsEnum.HEIGHT
-    );
-    const totalFetalFluid = getTotalOfFetalStats(
-      womb,
-      FetalGrowthStatsEnum.AMNIOTIC_FLUID
-    );
-
-    // Update the size of the womb
-    womb.curCapacity = getWombVolumeFromFetusStats(
-      totalFetalHeight,
-      totalFetalWeight,
-      totalFetalFluid
-    );
-  };
-
   // Returns the an index in BellyState to get a rough idea of the size range the character's belly is in
   // TODO - Add a macro for this or just add it to setup
   setup.getPregnantBellySize = (womb: Womb): BellyState => {

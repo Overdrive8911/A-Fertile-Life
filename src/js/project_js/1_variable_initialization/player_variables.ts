@@ -94,7 +94,7 @@ let saveVar_player: Player = {
   /* Capacity is in cubic centimetres(CCs) */
   // @ts-expect-error
   // NOTE - Fix this ts error later
-  womb: new NSPregnancy.Womb1({
+  womb: new NSPregnancy.Womb({
     fertility: NSPregnancy.FertilityLevel.EXTREME_FERTILITY,
     comfortCapacity:
       NSPregnancy.BellyState.FULL_TERM + NSPregnancy.BellyState.EARLY_PREGNANCY,

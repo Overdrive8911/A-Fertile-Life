@@ -1,52 +1,4 @@
 namespace NSPregnancy {
-  /* Womb, Pregnancy and Birth */
-  /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
-  /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */
-  /* The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has */
-  /* Capacity is in cubic centimetres(CCs) */
-  // Just look for `player_variables.ts`
-  export interface Womb {
-    hp: number;
-    maxHp: number;
-    fertility: number;
-    // TODO - Rename this 'capacity' stuff to 'size'
-    curCapacity: BellyState;
-    comfortCapacity: BellyState;
-    maxCapacity: BellyState;
-    exp: number;
-    postpartum: number;
-    contraceptives: boolean;
-    birthRecord: number;
-    lastFertilized: Date;
-    lastBirth: Date;
-    lastExpUpdate: Date;
-    belongToPlayer: boolean;
-    perks: {
-      gestator: [currLevel: number, price: number, maxLevel: number];
-      hyperFertility: [currLevel: number, price: number, maxLevel: number];
-      superfet: [currLevel: number, price: number, maxLevel: number];
-      elasticity: [currLevel: number, price: number, maxLevel: number];
-      immunityBoost: [currLevel: number, price: number, maxLevel: number];
-      motherlyHips: [currLevel: number, price: number, maxLevel: number];
-      motherlyBoobs: [currLevel: number, price: number, maxLevel: number];
-      ironSpine: [currLevel: number, price: number, maxLevel: number];
-      sensitiveWomb: [currLevel: number, price: number, maxLevel: number];
-      healthyWomb: [currLevel: number, price: number, maxLevel: number];
-      fortifiedWomb: [currLevel: number, price: number, maxLevel: number];
-      noPostpartum: [currLevel: number, price: number, maxLevel: number];
-    };
-    sideEffects: {
-      cravingCrisis: [currDuration: number, maxDuration: number[]];
-      motherHunger: [currDuration: number, maxDuration: number[]];
-      restlessBrood: [currDuration: number, maxDuration: number[]];
-      heavyWomb: [currDuration: number, maxDuration: number[]];
-      contractions: [currDuration: number, maxDuration: number[]];
-      labour: [currDuration: number, maxDuration: number[]];
-      sexCraving: [currDuration: number, maxDuration: number[]];
-      growthSpurt: [currDuration: number, maxDuration: number[]];
-    };
-    fetusData: Map<number /* fetusId */, FetusData>;
-  }
   export interface PregPerk {
     currLevel: number;
     price: number;
@@ -90,21 +42,6 @@ namespace NSPregnancy {
 
   export type DevelopmentRatio = number;
   export type Gender = "M" | "F" | "I"; // male, female, intersex
-
-  export interface FetusData {
-    id: number; // decides the gender, growthRate, weight, and height
-    hp: number; // scales with the womb's health. don't let it get to zero
-    gender: Gender;
-    dateOfConception: Date; // Just here :p
-    lastPregUpdate: Date; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
-    developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    growthRate: number; // e.g 1.5, 0.5, 2.0
-    weight: number; // in grams e.g 360, 501, 600
-    height: number; // in cm e.g 11.38, 10.94
-    amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
-    shouldBirth: boolean; // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
-    species: FetusSpecies; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
-  }
 
   // This will serve as the format for a lookup table used to determine a fetus's stats
   export interface FetalGrowthStats {
