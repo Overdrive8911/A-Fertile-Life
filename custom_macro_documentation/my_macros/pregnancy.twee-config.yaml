@@ -22,3 +22,16 @@ sugarcube-2:
         Easy enough?
       parameters:
         - receiver
+    isPregBellySizeInRange:
+      name: isPregBellySizeInRange
+      description: |-
+        ```
+        <<isPregBellySizeInRange $player.womb _varToStoreResult "EARLY_PREGNANCY" "LATE_PREGNANCY">> will check if the player's womb's size ranges between BellyState.EARLY_PREGNANCY and BellyState.LATE_PREGNANCY (you can find the appropriate string values to use in "BellyState" in the preg declaration).
+        The last argument is optional.
+
+        To check if the belly size is below a specific value alone, set the 3rd argument to "MIN"
+        ```
+
+        Easy enough?
+      parameters:
+        - receiver &+ string &+ string |+ string
