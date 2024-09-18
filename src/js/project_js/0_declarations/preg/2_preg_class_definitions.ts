@@ -398,8 +398,7 @@ namespace NSPregnancy {
         value1 = BellyState[lowerRange];
 
         if (value1 == undefined)
-          // Default to FLAT
-          value1 = BellyState.FLAT;
+          throw new Error(`The lower range, ${lowerRange}, is not valid.`);
       } else {
         value1 = lowerRange;
       }
@@ -409,8 +408,7 @@ namespace NSPregnancy {
           value2 = BellyState[upperRange];
 
           if (value2 == undefined)
-            // Default to FLAT
-            value2 = BellyState.FLAT;
+            throw new Error(`The upper range, ${upperRange}, is not valid.`);
         } else {
           value2 = upperRange;
         }
