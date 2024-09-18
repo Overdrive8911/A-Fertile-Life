@@ -385,6 +385,7 @@ namespace NSPregnancy {
   export enum BellyState {
     SAG = -1,
     FLAT = 0,
+    PREG_MIN = 0,
     // BLOATED = 100,
     // STUFFED = 500,
 

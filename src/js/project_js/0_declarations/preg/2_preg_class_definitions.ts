@@ -375,6 +375,7 @@ namespace NSPregnancy {
       return 0.5;
     }
 
+    // SECTION - Preg belly size
     updatePregnantBellySize() {
       let combinedWombVolume = 0;
       this.fetuses.forEach((fetus) => {
@@ -382,6 +383,47 @@ namespace NSPregnancy {
       });
       this.curCapacity = combinedWombVolume;
     }
+
+    // Called (indirectly) .twee files since it's much easier and human readable to pass strings there
+    // If you want to
+    isPregnantBellySizeInRange(
+      lowerRange: BellyState | keyof typeof BellyState,
+      upperRange?: BellyState | keyof typeof BellyState
+    ) {
+      let value1: BellyState;
+      let value2: BellyState;
+
+      if (typeof lowerRange == "string") {
+        // `bellyStateInput` is hopefully something like `SAG`
+        value1 = BellyState[lowerRange];
+
+        if (value1 == undefined)
+          // Default to FLAT
+          value1 = BellyState.FLAT;
+      } else {
+        value1 = lowerRange;
+      }
+      // Do the same here
+      if (upperRange != undefined) {
+        if (typeof upperRange == "string") {
+          value2 = BellyState[upperRange];
+
+          if (value2 == undefined)
+            // Default to FLAT
+            value2 = BellyState.FLAT;
+        } else {
+          value2 = upperRange;
+        }
+      }
+
+      if (upperRange == undefined) {
+        if (value1 <= this.curCapacity) return true;
+      } else if (value1 <= this.curCapacity && this.curCapacity <= value2)
+        return true;
+
+      return false;
+    }
+    // !SECTION
 
     // SECTION - Exp update code
 
