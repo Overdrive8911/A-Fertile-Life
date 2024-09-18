@@ -395,27 +395,12 @@ namespace NSPregnancy {
     */
 
     // TODO - Remember to add exp in the birth function
-    // NOTE - If this isn't run as frequently as in `gHoursBetweenPregUpdate`, the gained exp may be smaller than expected
-    updateWombExp(lastExpUpdate?: Date) {
+    updateWombExp() {
       let expToAdd = 0;
       const wombLvl = this.wombLvl;
-      let lastUpdate = lastExpUpdate; /* ? lastExpUpdate : this.lastExpUpdate;*/
 
       if (wombLvl == gMaxWombLevel) {
         // At max lvl, return no exp
-        return 0;
-      }
-
-      if (!lastUpdate) {
-        // Just set it to something that'll work
-        lastUpdate = this.lastFertilized;
-      }
-
-      if (
-        variables().gameDateAndTime.getTime() - lastUpdate.getTime() <
-        gHoursBetweenPregUpdate * 3600 * 1000
-      ) {
-        // Not enough time has passed before calling this function
         return 0;
       }
 
@@ -426,16 +411,22 @@ namespace NSPregnancy {
       // We're only getting a max of 92.05% >~<
 
       // SECTION - Actual exp stuff
-      const averageExpGain =
-        (gExpPerSingleFetusGestation * (gHoursBetweenPregUpdate * 3600)) /
-        gActualPregnancyLength;
-
       this.fetuses.forEach((fetus) => {
         // Calculate the exp for each fetus separately. Each fetus can produce up to 1000 exp in total at term (with 40% only give on birth so its actually 600 exp). Going overdue will add an extra 20% to the regular exp gain the fetus will provide
-
-        // Make it so that exp starts off really small (x0.1) and then is much more abundant(x10) with greater development
+        // TODO - Make it so that exp starts off really small (x0.1), at a "normal" rate halfway through (x1), and then is much more abundant(x10) with greater development
         expToAdd =
-          fetus.developmentRatio * (10 / gMaxDevelopmentState) * averageExpGain;
+          (gExpPerSingleFetusGestation *
+            ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
+              gMaxDevelopmentState)) |
+          1;
+
+        // Add a random chance to bump it up or down by a random percentage between 1% and 10% because :3
+        const randPercentage = random(1, 10) / 100;
+        expToAdd = random(1)
+          ? expToAdd + expToAdd * randPercentage
+          : expToAdd - expToAdd * randPercentage;
+
+        fetus.devRatioAtLastExpUpdate = fetus.developmentRatio; // Update it
       });
       // !SECTION
 
@@ -460,8 +451,6 @@ namespace NSPregnancy {
       //   expToAdd -= timeSinceLastPregnancyInDays * getWombExpLimit(wombLvl) * 0.01;
       // }
       console.log(`expToAdd: ${expToAdd}`);
-
-      lastUpdate = variables().gameDateAndTime;
 
       return expToAdd;
     }
@@ -664,9 +653,7 @@ namespace NSPregnancy {
         this.hp -= this.calculateWombDamage();
 
         // Increase the womb's exp
-        this.exp += this.updateWombExp(
-          pregUpdateTimeBeforeGettingAffectedByThisFunction
-        );
+        this.exp += this.updateWombExp();
 
         // Update belly size during pregnancy
         this.updatePregnantBellySize();
@@ -911,7 +898,8 @@ namespace NSPregnancy {
     hp: number; // scales with the womb's health. don't let it get to zero
     dateOfConception: Date; // Just here :p
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    extraGrowthMod?: number; // A modifier multiplied to the fetus's growth rate. Comes from other sources
+    devRatioAtLastExpUpdate: DevelopmentRatio = 0;
+    extraGrowthMod?: number = null; // A modifier multiplied to the fetus's growth rate. Comes from other sources
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
