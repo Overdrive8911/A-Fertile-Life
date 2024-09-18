@@ -1,5 +1,4 @@
 namespace NSPregnancy {
-  // Add the `tryToImpregnate()` as a macro
   Macro.add("impregnate", {
     handler: function () {
       const sourceVirility: number = this.args[0];
@@ -20,6 +19,28 @@ namespace NSPregnancy {
       const womb: Womb = this.args[0];
 
       womb.updatePregnancyGrowth();
+    },
+  });
+
+  Macro.add("isPregBellySizeInRange", {
+    handler: function () {
+      const womb: Womb = this.args[0];
+      const varNameToStoreResult: string = this.args[0];
+      const lowerRange: BellyState | keyof typeof BellyState = this.args[1];
+      const upperRange: BellyState | keyof typeof BellyState | undefined =
+        this.args[2];
+
+      if (varNameToStoreResult.charAt(0) == "$") {
+        variables()[varNameToStoreResult] = womb.isPregnantBellySizeInRange(
+          lowerRange,
+          upperRange
+        );
+      } else {
+        temporary()[varNameToStoreResult] = womb.isPregnantBellySizeInRange(
+          lowerRange,
+          upperRange
+        );
+      }
     },
   });
 }
