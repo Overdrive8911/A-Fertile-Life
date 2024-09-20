@@ -371,7 +371,7 @@ namespace NSPregnancy {
     }
 
     // SECTION - Preg belly size
-    updatePregBellySize() {
+    updateBellySize() {
       let combinedWombVolume = 0;
       this.fetuses.forEach((fetus) => {
         combinedWombVolume += fetus.wombVolumeFromFetusStats;
@@ -379,9 +379,35 @@ namespace NSPregnancy {
       this.curCapacity = combinedWombVolume;
     }
 
+    // Returns the an index in BellyState to get a rough idea of the size range the character's belly is in
+    // TODO - Add a macro for this or just add it to setup
+    get bellySize(): BellyState {
+      // Copy over the actual numbers from the enum
+      let bellySizeArray = Object.values(BellyState).filter(
+        (value) => typeof value == typeof BellyState
+      ) as BellyState[];
+
+      // Convert to set and return it back to an array so all duplicates are gone
+      bellySizeArray = [...new Set(bellySizeArray)];
+
+      // Loop 👍
+      for (let index = 1; index < bellySizeArray.length; index++) {
+        const size = bellySizeArray[index];
+        const previousSize = bellySizeArray[index - 1];
+
+        if (size > this.curCapacity && previousSize <= this.curCapacity) {
+          // In the range for the previous size, so return that
+          return previousSize;
+        }
+      }
+
+      // Size is out of bounds so default to the largest belly state
+      return BellyState.PREG_MAX;
+    }
+
     // Called (indirectly) .twee files since it's much easier and human readable to pass strings there
     // If you want to
-    isPregBellySizeInRange(
+    isBellySizeInRange(
       lowerRange: BellyState | keyof typeof BellyState,
       upperRange?: BellyState | keyof typeof BellyState
     ) {
@@ -673,7 +699,7 @@ namespace NSPregnancy {
         this.exp += this.updateExpValue();
 
         // Update belly size during pregnancy
-        this.updatePregBellySize();
+        this.updateBellySize();
 
         // Update the last time this function was called
         variables().lastPregUpdateFunctionCall = currentTime;
