@@ -31,12 +31,12 @@ namespace NSPregnancy {
         this.args[2];
 
       if (varNameToStoreResult.charAt(0) == "$") {
-        variables()[varNameToStoreResult] = womb.isPregBellySizeInRange(
+        variables()[varNameToStoreResult] = womb.isBellySizeInRange(
           lowerRange,
           upperRange
         );
       } else {
-        temporary()[varNameToStoreResult] = womb.isPregBellySizeInRange(
+        temporary()[varNameToStoreResult] = womb.isBellySizeInRange(
           lowerRange,
           upperRange
         );
