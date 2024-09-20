@@ -36,10 +36,7 @@ namespace NSPregnancy {
       null; /* The date when the womb was last impregnated */
     lastBirth: Date = null; /* The date of the last birth */
     lastPregUpdate: Date = null; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
-    // lastExpUpdate: Date =
-    //   null; /* The last time the exp update function was ran on this womb*/ // REVIEW - Check whether its possible to use `lastPregUpdate` of the fetus. In fact, see if that variable can be moved to the womb instead
 
-    // belongToPlayer: boolean;
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
 
     perks: PregPerksObject = {};
@@ -85,16 +82,14 @@ namespace NSPregnancy {
       // Check all fetuses in the womb (if any) and generate a random 16-bit number that isn't shared with any other existing fetus
       let newFetusId = random(0, gNumOfPossibleFetusIds - 1);
 
-      const fetusData = this.fetuses;
-      for (let i = 0; i < fetusData.size; i++) {
-        const existingFetusId = fetusData.get(i).id;
+      this.fetuses.forEach((fetus) => {
+        const existingFetusId = fetus.id;
 
         if (newFetusId == existingFetusId) {
           // Restart the function
           this.generateUnusedFetusId;
-          break;
         }
-      }
+      });
 
       return newFetusId;
     }
@@ -313,7 +308,7 @@ namespace NSPregnancy {
       return Math.floor(bellyState / BellyState.FULL_TERM);
     }
 
-    calculateWombDamage() {
+    calculateHealthDamage() {
       const womb = this as Womb;
       if (!gIsWombDamageEnabled) return 0;
       // Don't allow negative values
@@ -376,7 +371,7 @@ namespace NSPregnancy {
     }
 
     // SECTION - Preg belly size
-    updatePregnantBellySize() {
+    updatePregBellySize() {
       let combinedWombVolume = 0;
       this.fetuses.forEach((fetus) => {
         combinedWombVolume += fetus.wombVolumeFromFetusStats;
@@ -386,7 +381,7 @@ namespace NSPregnancy {
 
     // Called (indirectly) .twee files since it's much easier and human readable to pass strings there
     // If you want to
-    isPregnantBellySizeInRange(
+    isPregBellySizeInRange(
       lowerRange: BellyState | keyof typeof BellyState,
       upperRange?: BellyState | keyof typeof BellyState
     ) {
@@ -435,9 +430,9 @@ namespace NSPregnancy {
     */
 
     // TODO - Remember to add exp in the birth function
-    updateWombExp() {
+    updateExpValue() {
       let expToAdd = 0;
-      const wombLvl = this.wombLvl;
+      const wombLvl = this.lvl;
 
       if (wombLvl == gMaxWombLevel) {
         // At max lvl, return no exp
@@ -454,11 +449,10 @@ namespace NSPregnancy {
       this.fetuses.forEach((fetus) => {
         // Calculate the exp for each fetus separately. Each fetus can produce up to 1000 exp in total at term (with 40% only give on birth so its actually 600 exp). Going overdue will add an extra 20% to the regular exp gain the fetus will provide
         // TODO - Make it so that exp starts off really small (x0.1), at a "normal" rate halfway through (x1), and then is much more abundant(x10) with greater development
-        expToAdd =
-          (gExpPerSingleFetusGestation *
+        expToAdd +=
+          gExpPerSingleFetusGestation *
             ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
-              gMaxDevelopmentState)) |
-          1;
+              gMaxDevelopmentState) || 1; // A minimum of 1 exp
 
         // Add a random chance to bump it up or down by a random percentage between 1% and 10% because :3
         const randPercentage = random(1, 10) / 100;
@@ -471,32 +465,15 @@ namespace NSPregnancy {
       // !SECTION
 
       console.log(
-        `womb exp limit: ${Womb.getWombExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
+        `womb exp limit: ${Womb.getExpLimit(wombLvl)}, wombLvl: ${wombLvl}`
       );
-
-      // Just let the player keep the exp
-      // // If not pregnant, reduce the exp depending on how it has been since the character was last pregnant
-      // if (!isPregnant(womb)) {
-      //   expToAdd = 0;
-      //   let timeSinceLastPregnancy = 0; // in seconds
-
-      //   if (womb.lastBirth.getTime())
-      //     timeSinceLastPregnancy = Math.floor(
-      //       (variables().gameDateAndTime.getTime() - womb.lastBirth.getTime()) /
-      //         1000
-      //     );
-
-      //   const timeSinceLastPregnancyInDays = timeSinceLastPregnancy / 86400;
-
-      //   expToAdd -= timeSinceLastPregnancyInDays * getWombExpLimit(wombLvl) * 0.01;
-      // }
       console.log(`expToAdd: ${expToAdd}`);
 
       return expToAdd;
     }
 
     // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
-    get wombLvl() {
+    get lvl() {
       const womb = this as Womb;
       // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
       let wombExpLimitArray = Object.values(WombExpLimit).filter(
@@ -523,7 +500,7 @@ namespace NSPregnancy {
     }
 
     // Give it the level and it'll return the appropriate exp cap
-    static getWombExpLimit = (lvl: number) => {
+    static getExpLimit = (lvl: number) => {
       if (lvl < gMinWombLevel) lvl = gMinWombLevel;
       if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
 
@@ -690,13 +667,13 @@ namespace NSPregnancy {
         });
 
         // Apply womb damage
-        this.hp -= this.calculateWombDamage();
+        this.hp -= this.calculateHealthDamage();
 
         // Increase the womb's exp
-        this.exp += this.updateWombExp();
+        this.exp += this.updateExpValue();
 
         // Update belly size during pregnancy
-        this.updatePregnantBellySize();
+        this.updatePregBellySize();
 
         // Update the last time this function was called
         variables().lastPregUpdateFunctionCall = currentTime;
