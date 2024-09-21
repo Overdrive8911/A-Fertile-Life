@@ -97,6 +97,15 @@ namespace NSPregnancy {
     FULL_VITALITY = 100,
   }
 
+  export enum BirthRecordThreshold {
+    NEWB,
+    INEXPERIENCED = 1,
+    STARTER = 3,
+    EXPERIENCED = 5,
+    VETERAN = 10,
+    MOTHER = 25,
+  }
+
   export const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
 
   export const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
