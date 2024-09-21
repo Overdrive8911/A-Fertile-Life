@@ -28,7 +28,7 @@ namespace NSPregnancy {
       
       Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */
 
-    postpartum = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */
+    postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */
     onContraceptives = false;
     birthRecord = 0; /* Number of times the user has given birth */
 
@@ -72,6 +72,10 @@ namespace NSPregnancy {
       // There is at least one fetus
       if (this.fetuses.size > 0) return true;
       else return false;
+    }
+
+    get isPostPartum() {
+      return this.postpartumCounter ? true : false;
     }
 
     // get fetuses() {
@@ -147,6 +151,7 @@ namespace NSPregnancy {
       virilityBonus: number | undefined,
       numOfFetusesToForceToSpawn?: number
     ) {
+      if (this.isPostPartum) return false;
       if (!virilityBonus) virilityBonus = 0;
       let fertilityBonus = 0;
       // TODO - calculate all the fertility bonuses from the womb
@@ -729,6 +734,7 @@ namespace NSPregnancy {
 
         // Just clear out the womb
         this.fetuses.clear;
+        this.postpartumCounter = 7;
         this.lastBirth = variables().gameDateAndTime;
       }
     }
