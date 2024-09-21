@@ -386,7 +386,7 @@ namespace NSPregnancy {
 
     // Returns the an index in BellyState to get a rough idea of the size range the character's belly is in
     // TODO - Add a macro for this or just add it to setup
-    get bellySize(): BellyState {
+    get lowerBellySizeThreshold(): BellyState {
       // Copy over the actual numbers from the enum
       let bellySizeArray = Object.values(BellyState).filter(
         (value) => typeof value == typeof BellyState
