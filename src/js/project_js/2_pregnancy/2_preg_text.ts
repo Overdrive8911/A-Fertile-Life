@@ -5,7 +5,7 @@ namespace NSPregnancy {
       "You ogle your body from the mirror positioned in front of you. ";
 
     const womb = variables().player.womb;
-    const bellySize = womb.bellySize;
+    const bellySize = womb.lowerBellySizeThreshold;
 
     const a = (textToAdd: string) => {
       pregText += textToAdd;
