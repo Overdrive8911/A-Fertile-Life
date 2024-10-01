@@ -389,7 +389,7 @@ namespace NSPregnancy {
     get lowerBellySizeThreshold(): BellyState {
       // Copy over the actual numbers from the enum
       let bellySizeArray = Object.values(BellyState).filter(
-        (value) => typeof value == typeof BellyState
+        (value) => typeof value == "number"
       ) as BellyState[];
 
       // Convert to set and return it back to an array so all duplicates are gone
