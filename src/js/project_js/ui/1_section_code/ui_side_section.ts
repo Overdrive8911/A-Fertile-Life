@@ -12,6 +12,19 @@ $(document).on(":passageend", () => {
   }
   uiSideBarToggleHandler();
 
+  // Pass in an event
+  function validateKeyEvent(e: unknown) {
+    const { target } = e as Event;
+    // Don't trigger in textboxes and similar elements
+    if (
+      target instanceof HTMLElement &&
+      (["INPUT", "TEXTAREA"].includes(target.nodeName) ||
+        target.isContentEditable)
+    )
+      return false;
+
+    return true;
+  }
   // TODO - Allow users add keyboard shortcuts they'd prefer
   // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-state-button").ariaClick(() => {
@@ -25,7 +38,7 @@ $(document).on(":passageend", () => {
     uiSideBarToggleHandler();
   });
   $(window).on("keyup", (keyEvent) => {
-    console.log(keyEvent.key);
+    if (!validateKeyEvent(e)) return false;
     if (keyEvent.key === "q") {
       // Open or stow the side bar
       uiSideBarToggleState = !uiSideBarToggleState;
@@ -48,7 +61,7 @@ $(document).on(":passageend", () => {
     }, 150);
   });
   $(window).on("keyup", (keyEvent) => {
-    console.log(keyEvent.key);
+    if (!validateKeyEvent(e)) return false;
     if (keyEvent.key === "z") {
       // Wait for 1 second so the button can't be infinitely spammed
       setTimeout(() => {
