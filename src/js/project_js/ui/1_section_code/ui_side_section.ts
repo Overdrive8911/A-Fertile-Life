@@ -71,37 +71,7 @@ $(document).on(":passageend", () => {
       }, 150);
     }
   });
-
-  // Create a div container in the actual passage and use it to push the passage's content to the right depending on the dimensions of #ui-side-bar-action-interface and the extra space between it and the side bar
-  $("[id|='passage']").prepend(
-    "<div id='ui-passage-action-interface-shadow'></div>"
-  );
-  // // Create another div container above #ui-passage-action-interface-shadow and use it to adjust its position as the user scrolls along the passage
-  // $("[id|='passage']").prepend(
-  //   "<div id='ui-passage-action-interface-shadow-spacer'></div>"
-  // );
-
-  //
-  //
-  // // Deal with the spacer container #ui-passage-action-interface-shadow-spacer
-  // let innerPassagePrependedContainerSpacer = $(
-  //   "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
-  // );
-
-  // // Set its constant properties
-  // innerPassagePrependedContainerSpacer.css("float", "left").css("width", "0px");
-  // // This callback makes sure that #'ui-passage-action-interface-shadow will always be adjusted correctly even when the page is scrolled
-  // window.addEventListener("scroll", () => {
-  //   uiSideBarActionInterfaceShadowSpacerHandler(
-  //     innerPassagePrependedContainerSpacer
-  //   );
-  // });
 });
-
-// // Re-run the sidebar handler function when the screen rotates to make sure all the icons are where they should be
-// window.matchMedia("(orientation: portrait)").addEventListener("change", () => {
-//   uiSideBarToggleHandler();
-// });
 
 // Also rerun when the handler when the browser resolution changes (for PC users)
 $(window).on("resize", () => {
