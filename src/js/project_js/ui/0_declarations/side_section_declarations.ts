@@ -1,57 +1,3 @@
-// // Define a handler for altering the height of #ui-passage-action-interface-shadow-spacer
-// const uiSideBarActionInterfaceShadowSpacerHandler = (
-//   spaceObject: JQuery<HTMLElement>
-// ) => {
-//   let scrollBarPosition = $("html").scrollTop();
-
-//   if (!$("[id='ui-side-bar-action-interface']").hasClass("stowed")) {
-//     spaceObject.css("height", scrollBarPosition);
-//     // Without this, increasing the size of innerPassagePrependedContainerSpacer will also alter the height of the passage and slightly move the scroll bar causing this function to be called again and again as it forcefully moves the scrollbar in either direction :(
-//     $("html").scrollTop(scrollBarPosition);
-//   }
-// };
-
-// Define handler for altering the dimensions and position of #ui-passage-action-interface-shadow as well as adjusting its position as the user scrolls through the passage
-const uiSideBarActionInterfaceShadowHandler = () => {
-  let innerPassagePrependedContainer = $(
-    "[id|='passage'] > [id='ui-passage-action-interface-shadow']"
-  );
-  let uiSideBarActionInterface = $("[id='ui-side-bar-action-interface']");
-
-  // For ease of clarity, define variables for the stuff I'll used to calculate the width of innerPassagePrependedContainer
-  let passagesWidth = $("[id='passages']").css("width");
-  let innerPassageWidth = $("[id|='passage']").css("width");
-  let uiSideBarActionInterfaceWidth = $("html").css(
-    "--ui-side-bar-action-interface-total-width"
-  );
-  let uiSideBarActionMenuWidth = $("html").css(
-    "--ui-side-bar-action-menu-width"
-  );
-
-  if (uiSideBarActionInterface.hasClass("stowed")) {
-    innerPassagePrependedContainer.css("width", "") /*.css("height", "0px")*/;
-  } else {
-    innerPassagePrependedContainer
-      // .css("float", "left")
-      // .css("clear", "left")
-      // .css("margin-top", uiSideBarActionInterface.css("margin-top"))
-      // .css("height", uiSideBarActionInterface.css("height"))
-      .css(
-        "width",
-        `calc(((${uiSideBarActionMenuWidth} + ${uiSideBarActionInterfaceWidth}) - ((${passagesWidth} - ${innerPassageWidth}) * 0.5)) + 0.25rem)`
-      );
-  }
-
-  //
-  // // Position the spacer container #ui-passage-action-interface-shadow-spacer properly
-  // let innerPassagePrependedContainerSpacer = $(
-  //   "[id|='passage'] > [id='ui-passage-action-interface-shadow-spacer']"
-  // );
-  // uiSideBarActionInterfaceShadowSpacerHandler(
-  //   innerPassagePrependedContainerSpacer
-  // );
-};
-
 const copyActionInterfaceContentsToSideBar = () => {
   const verySlimMobileWidth = "screen and (max-width: 415px)";
 
@@ -195,8 +141,6 @@ const uiSideBarToggleHandler = () => {
       generalMobileUISettingsReset();
     }
   }
-
-  uiSideBarActionInterfaceShadowHandler();
 };
 
 // SECTION - Define a handler for interacting with the action interface
