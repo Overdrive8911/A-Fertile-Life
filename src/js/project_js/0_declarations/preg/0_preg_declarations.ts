@@ -380,7 +380,7 @@ namespace NSPregnancy {
   };
 
   // This is only here because I'm using it in the enum below
-  export const getWombVolumeFromFetusStats = (
+  const getWombVolumeFromFetusStats = (
     height: number,
     weight: number,
     fluidVolume: number
