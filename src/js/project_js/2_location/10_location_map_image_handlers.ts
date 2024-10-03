@@ -70,7 +70,7 @@ namespace NSLocation {
       }
 
       // Store the sub locations in this map using their coordinates
-      // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
+      // NOTE - The sub locations will be added to the map in relative to the center of the map
       for (const id in locationData.subLocations) {
         if (
           Object.prototype.hasOwnProperty.call(locationData.subLocations, id)
