@@ -252,7 +252,7 @@
     filter: brightness(110%);
   }
 
-  > img {
+  > div {
     background-color: var(
       --green-bright
     ); // This color will be masked by the actual image. The image itself will be generated dynamically. Check the event handlers for the location code
