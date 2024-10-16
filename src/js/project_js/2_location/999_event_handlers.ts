@@ -130,7 +130,7 @@ namespace NSLocation {
 
       element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
         // Use the icon as a mask over a color that will be set by css
-        `<img class="icon24x24" src="" alt="masked icon" style="mask: url('${imgUrl}') center/contain;" />`
+        `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
       );
       element.attr(attrName, "false");
     };
