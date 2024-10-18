@@ -1,10 +1,12 @@
 // Preload image frames
 html::after {
-  content: url("assets/img/general/envelope_in-between.webp")
-    url("assets/img/general/envelope_open.webp");
-  visibility: hidden;
+  content: url(assets/img/general/envelope_in-between.webp)
+    url(assets/img/general/envelope_open.webp);
   position: absolute;
-  top: -99px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -999;
 }
 
 @keyframes basicEnvelopeAnimation {
