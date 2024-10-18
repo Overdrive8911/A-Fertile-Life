@@ -1,8 +1,3 @@
-
-A Fertile Life
-A Fertile Life.html
-export/(Debug)A Fertile Life.html
-src/A-Fertile-Life.twee
 *.code-workspace
 .vscode/**
 .history/**
@@ -12,5 +7,9 @@ src/passages/test.twee
 package.json
 package-lock.json
 .textlintrc
-**/dist/**
+**/dist/index.html
 tsconfig.json
+project/**/build.css
+project/**/build.js
+src/scripts/built_js/**/*.js
+src/styles/built_css/**/*.css
