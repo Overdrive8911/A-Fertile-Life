@@ -1,5 +1,5 @@
 // Preload image frames
-html::after {
+body::after {
   content: url(assets/img/general/envelope_in-between.webp)
     url(assets/img/general/envelope_open.webp);
   position: absolute;
