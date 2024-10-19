@@ -70,7 +70,7 @@ namespace NSLocation {
       }
 
       // Store the sub locations in this map using their coordinates
-      // NOTE - The sub locations will be added to the map in relative to the center of the map i.e `GameMapSubLocationArraySize/2`
+      // NOTE - The sub locations will be added to the map in relative to the center of the map
       for (const id in locationData.subLocations) {
         if (
           Object.prototype.hasOwnProperty.call(locationData.subLocations, id)
@@ -253,7 +253,7 @@ namespace NSLocation {
 
         mapArea.children("svg").append(
           `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
-          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href=${gPlayerMapSpriteSrc} class='pixel-art' id = '${gPlayerMapSpriteId}'/>
+          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href=${gPlayerMapSpriteSrc} id='${gPlayerMapSpriteId}'/>
         </svg>`
         );
 
