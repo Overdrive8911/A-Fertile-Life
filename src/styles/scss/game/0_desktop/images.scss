@@ -43,9 +43,7 @@ img[src^="assets/img/general/envelope"] {
   height: auto;
   width: auto;
 
-  & img[class~="pixel-art"],
-  & image[class~="pixel-art"] {
-    image-rendering: crisp-edges;
+  & image {
     pointer-events: none;
   }
 
@@ -81,5 +79,12 @@ img[src^="assets/img/general/envelope"] {
   // hide this button, it's unnecessary
   & .button-large-view {
     display: none;
+  }
+}
+
+svg {
+  & image {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 }
