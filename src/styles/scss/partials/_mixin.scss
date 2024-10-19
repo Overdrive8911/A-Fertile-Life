@@ -53,12 +53,7 @@
 }
 
 @mixin actionInterfaceTransition {
-  // transition: width 0.45s, border 0.45s, backdrop-filter 0.45s;
-  transition-duration: 0ms;
-
-  & * {
-    transition-duration: 0ms;
-  }
+  transition: width 0.45s, border 0.45s, backdrop-filter 0.45s;
 }
 
 @mixin pixelArt {
@@ -70,9 +65,4 @@
     // However, using X2 larger sprites and scaling them down plus `image-rendering: auto` fix the jagged line issue with some very slight blur :D
     image-rendering: auto;
   }
-}
-
-@mixin createImageBorder($color) {
-  filter: drop-shadow(0px 1px 0 $color) drop-shadow(1px 1px 0 $color)
-    drop-shadow(0px -1px 0 $color) drop-shadow(-1px 0px 0 $color);
 }
