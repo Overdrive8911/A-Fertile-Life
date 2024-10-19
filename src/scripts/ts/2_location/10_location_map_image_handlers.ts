@@ -253,7 +253,7 @@ namespace NSLocation {
 
         mapArea.children("svg").append(
           `<svg version="1.1" viewBox="${x} ${y} ${width} ${height}" width="${width}" height="${height}" x="${x}" y="${y}">
-          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href=${gPlayerMapSpriteSrc} class='pixel-art' id = '${gPlayerMapSpriteId}'/>
+          <image x="${x}" y="${y}" width="${svgPlayerSpriteDimension}" href=${gPlayerMapSpriteSrc} id='${gPlayerMapSpriteId}'/>
         </svg>`
         );
 
