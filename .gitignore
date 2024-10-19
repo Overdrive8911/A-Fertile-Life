@@ -7,8 +7,8 @@ passages/test.twee
 package.json
 package-lock.json
 .textlintrc
-tsconfig.json
 **/dist/index.html
-**/built_js/**
-**/built_css/**
+tsconfig.json
 project/compiled/**
+src/scripts/built_js/**/*.js
+src/styles/built_css/**/*.css

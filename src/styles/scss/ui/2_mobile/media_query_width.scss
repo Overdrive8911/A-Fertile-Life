@@ -173,11 +173,6 @@
       display: none;
     }
 
-    // It's not useful since the contents of the action interface will now show in the sidebar
-    & [id="ui-passage-action-interface-shadow"] {
-      display: none;
-    }
-
     [id="ui-top-bar-current-location-view"] {
       font-size: 1rem;
       width: calc(
