@@ -2,10 +2,10 @@
 // leave the arrays empty and the files in the relevant folders will be compiled in the order provided by the OS
 const files = {
     // if you choose to include lists of files, only the included files will be compiled!
-    js : [
+    js: [
         // if order of files is important, list them here in the correct order
     ],
-    css : [
+    css: [
         // if order of files is important, list them here in the correct order
     ]
 };
@@ -24,8 +24,8 @@ const terserOptions = {
 };
 const babelOptions = {
     // Babel options (https://babeljs.io/docs/en/options)
-    presets  : [['@babel/preset-env', {
-        targets : [
+    presets: [['@babel/preset-env', {
+        targets: [
             "> 1%",
             "last 3 versions",
             "last 10 Chrome versions",
@@ -45,27 +45,27 @@ const CleanCSS = require("clean-css");
 const Terser = require("terser");
 const Babel = require('@babel/core');
 
-function compileCSS () {
-    const css = (files.css && files.css instanceof Array && files.css.length > 0) ? 
-        files.css.map( fileName => {
+function compileCSS() {
+    const css = (files.css && files.css instanceof Array && files.css.length > 0) ?
+        files.css.map(fileName => {
             return jetpack.read(`${cssPath}${fileName}`);
         }).join("\n\n") :
-        jetpack.find(cssPath, { matching : "*.css" }).map( fileName => {
+        jetpack.find(cssPath, { matching: "*.css" }).map(fileName => {
             return jetpack.read(fileName);
         }).join("\n\n");
 
-    postcss([ autoprefixer ]).process(css, { from : undefined }).then(result => {
-        result.warnings().forEach( warn => console.warn(warn.text) );
-        jetpack.write(`${outputPath}build.css`, new CleanCSS(cleanCssOptions).minify(result.css).styles, { atomic : true });
+    postcss([autoprefixer]).process(css, { from: undefined }).then(result => {
+        result.warnings().forEach(warn => console.warn(warn.text));
+        jetpack.write(`${outputPath}build.css`, new CleanCSS(cleanCssOptions).minify(result.css).styles, { atomic: true });
     });
 }
 
-function compileJS () {
-    let js = (files.js && files.js instanceof Array && files.js.length > 0) ? 
-        files.js.map( fileName => {
+function compileJS() {
+    let js = (files.js && files.js instanceof Array && files.js.length > 0) ?
+        files.js.map(fileName => {
             return jetpack.read(`${jsPath}${fileName}`);
-        }).join("\n\n") : 
-        jetpack.find(jsPath, { matching : "*.js" }).map( fileName => {
+        }).join("\n\n") :
+        jetpack.find(jsPath, { matching: "*.js" }).map(fileName => {
             return jetpack.read(fileName);
         }).join("\n\n");
 
@@ -75,8 +75,8 @@ function compileJS () {
         if (result.error) {
             console.error(result.error);
         }
-    
-        jetpack.write(`${outputPath}build.js`, result.code, { atomic : true });
+
+        jetpack.write(`${outputPath}build.js`, result.code, { atomic: true });
     });
 }
 

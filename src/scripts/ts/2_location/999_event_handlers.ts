@@ -1,4 +1,18 @@
 namespace NSLocation {
+  // Pass in an Event
+  function validateKeyEvent(e: unknown) {
+    const { target } = e as Event;
+    // Don't trigger in textboxes and similar elements
+    if (
+      target instanceof HTMLElement &&
+      (["INPUT", "TEXTAREA"].includes(target.nodeName) ||
+        target.isContentEditable)
+    )
+      return false;
+
+    return true;
+  }
+
   // SECTION - For everything belonging to the map
   $(document).on(":passageend", () => {
     // Load the map whenever the side bar button for the map is clicked
@@ -14,9 +28,14 @@ namespace NSLocation {
     $(document)
       .off("keyup.map")
       .on("keyup.map", function (e) {
+<<<<<<< HEAD
         if (NSGlobal.isEditableElementSelected(e)) return;
 
         if (e.key.toLocaleLowerCase() == "z") {
+=======
+        if (!validateKeyEvent(e)) return false;
+        if (e.key == "z") {
+>>>>>>> location
           if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
             loadGameMap(
               variables().player.locationData.location,
@@ -117,7 +136,7 @@ namespace NSLocation {
 
       element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
         // Use the icon as a mask over a color that will be set by css
-        `<img class="icon24x24" src="" alt="masked icon" style="mask: url('${imgUrl}') center/contain;" />`
+        `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
       );
       element.attr(attrName, "false");
     };
@@ -201,6 +220,7 @@ namespace NSLocation {
     $(document)
       .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
       .on("keyup.navigation_buttons", (e) => {
+<<<<<<< HEAD
         if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "w" && isNorthNavigable)
           navigate(GameMapDirection.NORTH);
@@ -219,6 +239,22 @@ namespace NSLocation {
         if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "a" && isWestNavigable)
           navigate(GameMapDirection.WEST);
+=======
+        if (!validateKeyEvent(e)) return false;
+        if (e.key == "w" && isNorthNavigable) navigate(GameMapDirection.NORTH);
+      })
+      .on("keyup.navigation_buttons", (e) => {
+        if (!validateKeyEvent(e)) return false;
+        if (e.key == "d" && isEastNavigable) navigate(GameMapDirection.EAST);
+      })
+      .on("keyup.navigation_buttons", (e) => {
+        if (!validateKeyEvent(e)) return false;
+        if (e.key == "s" && isSouthNavigable) navigate(GameMapDirection.SOUTH);
+      })
+      .on("keyup.navigation_buttons", (e) => {
+        if (!validateKeyEvent(e)) return false;
+        if (e.key == "a" && isWestNavigable) navigate(GameMapDirection.WEST);
+>>>>>>> location
       });
 
     const navButtonUsabilityActions = (
