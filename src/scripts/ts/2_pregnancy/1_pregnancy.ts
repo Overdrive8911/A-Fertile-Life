@@ -3,8 +3,8 @@ namespace NSPregnancy {
   $(document).on(":passagerender", (incomingPassage) => {
     // THis just basically means that the following should run if both the current and incoming passage have the word "location_" in their tags and at least the number of hours in `gHoursBetweenPregUpdate` have been passed since the last update
     if (
-      getLocationFromPassageTitle(State.active.title) &&
-      getLocationFromPassageTitle(incomingPassage.passage.title) &&
+      NSLocation.getLocationFromPassageTitle(State.active.title) &&
+      NSLocation.getLocationFromPassageTitle(incomingPassage.passage.title) &&
       variables().gameDateAndTime.getTime() -
         variables().lastPregUpdateFunctionCall.getTime() >=
         gHoursBetweenPregUpdate * 3600 * 1000
