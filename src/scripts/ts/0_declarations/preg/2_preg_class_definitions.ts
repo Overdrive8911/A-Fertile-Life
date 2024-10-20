@@ -149,7 +149,7 @@ namespace NSPregnancy {
     tryCreatePregnancy(
       virility: number,
       virilityBonus: number | undefined,
-      numOfFetusesToForceToSpawn?: number
+      numOfFetusesToForceToSpawn?: number // Note that if this is present, a pregnancy will be forced regardless of other variables
     ) {
       if (this.isPostPartum) return false;
       if (!virilityBonus) virilityBonus = 0;
@@ -231,6 +231,14 @@ namespace NSPregnancy {
               // No chance to make more babies :p
               chance = 0;
               numOfFoetusToSpawn = 0;
+
+              if (numOfFetusesToForceToSpawn) {
+                console.warn(
+                  `Although currently pregnant and lacking the superfetation perk, this womb will still be impregnated with ${numOfFetusesToForceToSpawn} ${
+                    numOfFetusesToForceToSpawn == 1 ? "fetus" : "fetuses"
+                  }`
+                );
+              }
             }
           }
 
@@ -255,8 +263,14 @@ namespace NSPregnancy {
         const maxFetusNumber = this.getMinimumNumOfFullTermFetusesAtBellyState(
           this.maxCapacity
         );
-        if (numOfFoetusToSpawn > maxFetusNumber)
+        if (numOfFoetusToSpawn > maxFetusNumber) {
           numOfFoetusToSpawn = maxFetusNumber;
+
+          if (numOfFetusesToForceToSpawn)
+            console.warn(
+              `The number of fetuses forced to be spawned was truncated to ${maxFetusNumber}`
+            );
+        }
         // !SECTION
 
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway

@@ -28,14 +28,9 @@ namespace NSLocation {
     $(document)
       .off("keyup.map")
       .on("keyup.map", function (e) {
-<<<<<<< HEAD
         if (NSGlobal.isEditableElementSelected(e)) return;
 
         if (e.key.toLocaleLowerCase() == "z") {
-=======
-        if (!validateKeyEvent(e)) return false;
-        if (e.key == "z") {
->>>>>>> location
           if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
             loadGameMap(
               variables().player.locationData.location,
@@ -220,7 +215,6 @@ namespace NSLocation {
     $(document)
       .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
       .on("keyup.navigation_buttons", (e) => {
-<<<<<<< HEAD
         if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "w" && isNorthNavigable)
           navigate(GameMapDirection.NORTH);
@@ -239,22 +233,6 @@ namespace NSLocation {
         if (NSGlobal.isEditableElementSelected(e)) return;
         if (e.key.toLocaleLowerCase() == "a" && isWestNavigable)
           navigate(GameMapDirection.WEST);
-=======
-        if (!validateKeyEvent(e)) return false;
-        if (e.key == "w" && isNorthNavigable) navigate(GameMapDirection.NORTH);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (!validateKeyEvent(e)) return false;
-        if (e.key == "d" && isEastNavigable) navigate(GameMapDirection.EAST);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (!validateKeyEvent(e)) return false;
-        if (e.key == "s" && isSouthNavigable) navigate(GameMapDirection.SOUTH);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (!validateKeyEvent(e)) return false;
-        if (e.key == "a" && isWestNavigable) navigate(GameMapDirection.WEST);
->>>>>>> location
       });
 
     const navButtonUsabilityActions = (

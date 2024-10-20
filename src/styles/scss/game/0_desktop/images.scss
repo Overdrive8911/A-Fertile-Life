@@ -1,3 +1,4 @@
+@import "../../partials/mixin.scss";
 // Preload image frames
 body::after {
   content: url(assets/img/general/envelope_in-between.webp)
@@ -86,7 +87,6 @@ img[src^="assets/img/general/envelope"] {
 
 svg {
   & image {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
+    @include pixelArt;
   }
 }
