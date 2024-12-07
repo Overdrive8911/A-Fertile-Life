@@ -12,3 +12,7 @@ tsconfig.json
 project/compiled/**
 src/scripts/built_js/**/*.js
 src/styles/built_css/**/*.css
+
+# Ignore symlinks
+node_modules
+.vscode
