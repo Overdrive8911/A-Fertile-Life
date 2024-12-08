@@ -15,7 +15,7 @@ namespace NSPregnancy {
       FertilityLevel.HIGH_FERTILITY
     );
 
-    // TODO - Rename this 'capacity' stuff to 'size'
+    // These capacity variables also refer to the "size too"
     curCapacity =
       BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
     comfortCapacity =
@@ -460,7 +460,6 @@ namespace NSPregnancy {
     - Each singleton full-term, non-overdue pregnancy gives about a 1000exp without bonuses
     */
 
-    // TODO - Remember to add exp in the birth function
     updateExpValue() {
       let expToAdd = 0;
       const wombLvl = this.lvl;
@@ -754,6 +753,7 @@ namespace NSPregnancy {
       return clone(birthedChildren);
     }
 
+    //NOTE - THIS METHOD MUST BE CALLED RESPONSIBLY SINCE IT MAY RETURN A DIFFERENT ANSWER ON EACH RUN
     get isLiableForBirth() {
       // This will check to see if an inputted womb is ready to giving birth, regardless of the actual chance of a successful delivery
       // NOTE - Drugs and conditions may affect this
@@ -762,6 +762,7 @@ namespace NSPregnancy {
 
       // Include something to account for superfetation. Like a giant IF statement
       const perks = this.perks;
+      console.log("here");
       if (perks && perks.superFet) {
         // Handle superfetation
       } else {
@@ -771,22 +772,19 @@ namespace NSPregnancy {
         if (this.curCapacity >= this.maxCapacity * 0.9) return true;
         else {
           // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
-          let sumOfDevelopmentRatio = 0;
-          let eligibleFetusCount = 0;
+          let eligibleFetusDevRatio: number[] = [];
 
           this.fetuses.forEach((fetus) => {
             // All fetuses must be at or above a particular threshold for birth to occur
             if (!fetus.canBirth) return;
 
-            //  Get the sum of the development of all fetuses. This will be used to determine the average which is what will be used to determine the chance of birth (if possible)
-            sumOfDevelopmentRatio += fetus.developmentRatio;
-
-            eligibleFetusCount++;
+            eligibleFetusDevRatio.push(fetus.developmentRatio);
           });
 
-          // TODO - Need to make this be more affected by higher values than lower ones as well as to ignore greatly differing values
-          const averageDevelopmentOfFetus =
-            sumOfDevelopmentRatio / eligibleFetusCount;
+          // TODO - Need to make this favour higher values than lower ones
+          const averageDevelopmentOfFetus = getWeightedAverage(
+            ...eligibleFetusDevRatio
+          );
 
           chanceOfBirth +=
             (averageDevelopmentOfFetus / gMaxDevelopmentState) * 100;
@@ -809,7 +807,6 @@ namespace NSPregnancy {
         0,
         33
       );
-      console.log(chanceOfBirth);
 
       // Using `chanceOfBirth`, check if the character should birth or not
       if (randomFloat(0, 100) <= chanceOfBirth) return true;
@@ -825,7 +822,7 @@ namespace NSPregnancy {
         /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
         /*TODO - Change the prices later to something more reasonable. Also, add more perks */
 
-        // TODO - Only store these if they're active
+        // NOTE - Only store these if they're active
         gestator: {
           currLevel: 1,
           price: 5000,
