@@ -6,10 +6,13 @@ declare module "twine-sugarcube" {
     ) => number;
     updateGameTimeVariable: (timeInSeconds: number) => void;
     skipToNextDayWithSpecificTime: (hours: number, minutes: number) => void;
+    initializeSaveVariables: () => void;
   }
 
   export interface SugarCubeStoryVariables {
     gameDateAndTime: Date;
+    lastPregUpdateFunctionCall: Date;
+    player: Player;
   }
 }
 
