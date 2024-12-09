@@ -715,8 +715,10 @@ namespace NSPregnancy {
           // REVIEW -  Every 2% of `additionalDevelopmentProgress` consumes 1 fullness point.
           //        - Every 2kg of fetal weight consumes 1 fullness point.
           //        - However, `additionalDevelopmentProgress` must be above 0 for any calculation to occur. So spamming this function wouldn't lead to unintended issues.
-          const fullnessToConsume =
+          let fullnessToConsume =
             (additionalDevelopmentProgress * (targetFetus.weight / 1000)) / 2;
+          fullnessToConsume +=
+            fullnessToConsume * (gestatorPerkSpeedBoost * 0.3);
           inputUser.fullness -= fullnessToConsume;
 
           // Replace the data of the fetus with the updated one
