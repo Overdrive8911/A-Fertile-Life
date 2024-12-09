@@ -15,7 +15,7 @@ namespace NSPregnancy {
       FertilityLevel.HIGH_FERTILITY
     );
 
-    // TODO - Rename this 'capacity' stuff to 'size'
+    // These capacity variables also refer to the "size too"
     curCapacity =
       BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
     comfortCapacity =
@@ -474,7 +474,6 @@ namespace NSPregnancy {
     - Each singleton full-term, non-overdue pregnancy gives about a 1000exp without bonuses
     */
 
-    // TODO - Remember to add exp in the birth function
     updateExpValue() {
       let expToAdd = 0;
       const wombLvl = this.lvl;
@@ -729,30 +728,47 @@ namespace NSPregnancy {
     // SECTION - Birth methods
     triggerBirth() {
       // This is what will expunge the fetuses from the womb (except in the case for superfetation)
+      let birthedChildren: Fetus[] = [];
+
       const perks = this.perks;
       // TODO - It's just bare-bones now
-      if (perks && perks.superFet) {
-        // Deal with superfetation
-      } else {
+      // if (perks) {
+      //   // Deal with superfetation
+      //   if (perks.superFet) {
+      //   }
+      // }
+      // else
+      {
         // Handle postpartum, birth scenes, etc
 
         // Give exp
         let expToAdd = 0;
         this.fetuses.forEach((fetus) => {
-          // Longer gestating babies take longer
-          expToAdd +=
-            (fetus.developmentRatio / gMaxDevelopmentState) *
-            gExpPerSingleBirth;
+          if (fetus.canBirth) {
+            // Longer gestating babies give more exp
+            expToAdd +=
+              (fetus.developmentRatio / gMaxDevelopmentState) *
+              gExpPerSingleBirth;
+
+            // Also add it to an array that will be returned, containing data of all birthed children.
+            birthedChildren.push(clone(fetus));
+
+            // Remove the fetus since we're done with it. Note that the key of the fetus in the map, fetuses, is the same as its id.
+            this.fetuses.delete(fetus.id);
+          }
         });
         this.exp += expToAdd;
 
-        // Just clear out the womb
-        this.fetuses.clear;
+        this.updateBellySize();
         this.postpartumCounter = 7;
         this.lastBirth = variables().gameDateAndTime;
       }
+
+      // Get the data of born children. We can use this to determine birth stats and other scene data.
+      return clone(birthedChildren);
     }
 
+    //NOTE - THIS METHOD MUST BE CALLED RESPONSIBLY SINCE IT MAY RETURN A DIFFERENT ANSWER ON EACH RUN
     get isLiableForBirth() {
       // This will check to see if an inputted womb is ready to giving birth, regardless of the actual chance of a successful delivery
       // NOTE - Drugs and conditions may affect this
@@ -763,35 +779,44 @@ namespace NSPregnancy {
       const perks = this.perks;
       if (perks && perks.superFet) {
         // Handle superfetation
-      } else {
-        // Regular Birth (mostly)
-
+      } // Regular Birth (mostly)
+      else {
         // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
         if (this.curCapacity >= this.maxCapacity * 0.9) return true;
         else {
           // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
-          let sumOfDevelopmentRatio = 0;
+          let eligibleFetusDevRatio: number[] = [];
 
           this.fetuses.forEach((fetus) => {
             // All fetuses must be at or above a particular threshold for birth to occur
-            if (fetus.developmentRatio < gMinBirthThreshold) return false;
+            if (!fetus.canBirth) return;
 
-            //  Get the sum of the development of all fetuses. This will be used to determine the average which is what will be used to determine the chance of birth (if possible)
-            sumOfDevelopmentRatio += fetus.developmentRatio;
+            eligibleFetusDevRatio.push(fetus.developmentRatio);
           });
 
-          const averageDevelopmentOfFetus =
-            sumOfDevelopmentRatio / this.fetuses.size;
+          // TODO - Need to make this favour higher values than lower ones
+          const averageDevelopmentOfFetus = getWeightedAverage(
+            ...eligibleFetusDevRatio
+          );
 
-          // Every 1% above gMaxDevelopmentState adds a 2.5% chance for the character's water to break
           chanceOfBirth +=
-            (averageDevelopmentOfFetus - gMaxDevelopmentState) * 2.5;
+            (averageDevelopmentOfFetus / gMaxDevelopmentState) * 100;
+
+          // Further increase the birth chance when overdue
+          chanceOfBirth +=
+            ((averageDevelopmentOfFetus - gMaxDevelopmentState) /
+              gMaxDevelopmentState) *
+            100 *
+            0.2;
+
+          // Let's just reduce it by a bit
+          chanceOfBirth *= 0.85;
         }
       }
 
-      // Unhealthy wombs are at higher risk of birthing, however, clamp the increased chance at 33%
+      // Unhealthy wombs are at slightly higher risk of birthing, however, clamp the increased chance at 33%
       chanceOfBirth += Math.clamp(
-        (this.maxHp / this.hp) * (this.maxHp - this.hp) * 0.75,
+        (this.maxHp / this.hp) * (this.maxHp - this.hp) * 0.15,
         0,
         33
       );
@@ -810,7 +835,7 @@ namespace NSPregnancy {
         /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
         /*TODO - Change the prices later to something more reasonable. Also, add more perks */
 
-        // TODO - Only store these if they're active
+        // NOTE - Only store these if they're active
         gestator: {
           currLevel: 1,
           price: 5000,
@@ -1032,9 +1057,22 @@ namespace NSPregnancy {
       return growthRateValues[this.id % growthRateValues.length];
     }
 
-    // whether or not the fetus should be expunged when birth happens (only applies for superfetation)
-    get shouldBirth() {
-      return false;
+    // whether or not the fetus cqn be expunged when birth happens
+    // This will only consider whether the fetus is ready without concern for external factors.
+    get canBirth() {
+      return this.developmentRatio > gMaxDevelopmentState
+        ? true
+        : // 10% chance to not be born at the max number of weeks
+        this.developmentRatio > gMinNormalBirthThreshold &&
+          randomFloat(1) + 0.1 >= 1
+        ? true
+        : // Another 10% (or cumulative 0.01) for a preemie to be eligible for birth
+        this.developmentRatio > gPreemieBirthThreshold &&
+          randomFloat(1) + 0.05 >= 1
+        ? true
+        : // Another 10% (or cumulative 0.001%) chance for a very preemie fetus to be eligible for birth.
+          this.developmentRatio > gVeryPreemieBirthThreshold &&
+          randomFloat(1) + 0.05 >= 1;
     }
 
     get isOverdue() {
