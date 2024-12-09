@@ -14,12 +14,15 @@
 - [ ] Remove all unnecessary elements and optimize the game.
 - [ ] Make a splash screen appear whenever a day/week/month/year passes.
 - [ ] Include asset growth (bewbs, booty, thighs, hips, general rotundness, etc :D)
+- [ ] Implement hunger drain while pregnant
 
-## Perks and Side Effect Progress
+## Perks and Side Effect Progress `<!-- See `applyPerk()`and`applySideEffect()` in src\scripts\ts\0_declarations\preg\2_preg_class_definitions.ts -->`
 
 ### Perks
 
 - [ ] Gestator
+  - [x] Implement the speed boost for fetus growth
+  - [ ] Implement the hunger drain
 - [ ] Hyper Fertility
 - [ ] Superfetation
 - [ ] Elasticity
