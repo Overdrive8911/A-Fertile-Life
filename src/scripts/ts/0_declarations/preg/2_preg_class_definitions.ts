@@ -745,6 +745,7 @@ namespace NSPregnancy {
         });
         this.exp += expToAdd;
 
+        this.updateBellySize();
         this.postpartumCounter = 7;
         this.lastBirth = variables().gameDateAndTime;
       }
@@ -762,12 +763,10 @@ namespace NSPregnancy {
 
       // Include something to account for superfetation. Like a giant IF statement
       const perks = this.perks;
-      console.log("here");
       if (perks && perks.superFet) {
         // Handle superfetation
-      } else {
-        // Regular Birth (mostly)
-
+      } // Regular Birth (mostly)
+      else {
         // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
         if (this.curCapacity >= this.maxCapacity * 0.9) return true;
         else {
