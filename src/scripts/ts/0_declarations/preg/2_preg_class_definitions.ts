@@ -549,8 +549,8 @@ namespace NSPregnancy {
     // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
     // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
     // TODO - Add side effects to womb health
-    updatePregnancyGrowth() {
-      // const targetWomb = this as Womb1
+    updatePregnancyGrowth(customElapsedTime: number = null) {
+      // NOTE - `customTime` must be in seconds.
       // The target is pregnant so do everything required under here
       if (this.isPregnant) {
         const currentTime = variables().gameDateAndTime;
@@ -567,9 +567,11 @@ namespace NSPregnancy {
           gActualPregnancyLength = targetFetus.getTotalGestationDuration(this);
 
           // Get the time elapsed in seconds since the pregnancy was updated
-          const timeElapsedSinceLastPregUpdate =
-            currentTime.getTime() / 1000 -
-            pregUpdateTimeBeforeGettingAffectedByThisFunction.getTime() / 1000;
+          const timeElapsedSinceLastPregUpdate = customElapsedTime
+            ? customElapsedTime
+            : currentTime.getTime() / 1000 -
+              pregUpdateTimeBeforeGettingAffectedByThisFunction.getTime() /
+                1000;
 
           // If, for some reason, time moves backwards, just exit the function (for now at least)
           // TODO - Add a way to reverse growth
