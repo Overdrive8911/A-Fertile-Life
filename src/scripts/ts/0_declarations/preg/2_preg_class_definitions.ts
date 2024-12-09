@@ -574,13 +574,23 @@ namespace NSPregnancy {
                 1000;
 
           // If, for some reason, time moves backwards, just exit the function (for now at least)
-          // TODO - Add a way to reverse growth
+          // TODO - Add a way to reverse growth. I feel like letting it receive negative values would be exactly what I need but eh, feels like something else would break and I'm not in the mood for it yet.
           if (timeElapsedSinceLastPregUpdate < 0) return;
 
           // SECTION - Determine how much to increase the `developmentRatio` of the fetus
           let additionalDevelopmentProgress =
             (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
             gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
+
+          // Apply the gestator perk boost, if any
+          let gestatorPerkSpeedBoost =
+            this.perks && this.perks.gestator.currLevel >= 1
+              ? (this.perks.gestator.currLevel / this.perks.gestator.maxLevel) *
+                gGestatorPerkMaxSpeedBoost
+              : 1;
+
+          additionalDevelopmentProgress +=
+            additionalDevelopmentProgress * gestatorPerkSpeedBoost;
 
           // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
           const newDevelopmentRatio =
@@ -828,7 +838,7 @@ namespace NSPregnancy {
           currLevel: 1,
           price: 5000,
           maxLevel: 10,
-        } /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
+        } /* Increases the speed of pregnancies, but makes and keeps the user hungrier. At the maximum level, pregnancy duration sped up by `gGestatorPerkMaxSpeedBoost` and additional hunger drain is always 30% of that. */,
         hyperFertility: {
           currLevel: 1,
           price: 3000,

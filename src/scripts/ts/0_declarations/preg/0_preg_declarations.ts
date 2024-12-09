@@ -21,6 +21,7 @@ namespace NSPregnancy {
       PregPerk
     >
   >;
+  export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
 
   export interface PregSideEffect {
     currDuration: number;
