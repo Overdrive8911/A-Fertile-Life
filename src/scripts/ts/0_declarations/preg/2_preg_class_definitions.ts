@@ -549,8 +549,15 @@ namespace NSPregnancy {
     // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
     // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
     // TODO - Add side effects to womb health
-    updatePregnancyGrowth(customElapsedTime: number = null) {
+    updatePregnancyGrowth(
+      customElapsedTime: number = null,
+      inputUser: Player = null
+    ) {
       // NOTE - `customTime` must be in seconds.
+
+      // Default to the player character
+      if (!inputUser) inputUser = saveVar_player;
+
       // The target is pregnant so do everything required under here
       if (this.isPregnant) {
         const currentTime = variables().gameDateAndTime;
@@ -703,6 +710,14 @@ namespace NSPregnancy {
 
           // Adjust fetal hp
           targetFetus.hp = (this.hp / this.maxHp) * WombHealth.FULL_VITALITY;
+
+          // Consume some of the user's fullness
+          // REVIEW -  Every 2% of `additionalDevelopmentProgress` consumes 1 fullness point.
+          //        - Every 2kg of fetal weight consumes 1 fullness point.
+          //        - However, `additionalDevelopmentProgress` must be above 0 for any calculation to occur. So spamming this function wouldn't lead to unintended issues.
+          const fullnessToConsume =
+            (additionalDevelopmentProgress * (targetFetus.weight / 1000)) / 2;
+          inputUser.fullness -= fullnessToConsume;
 
           // Replace the data of the fetus with the updated one
           this.fetuses.set(targetFetus.id, targetFetus);
