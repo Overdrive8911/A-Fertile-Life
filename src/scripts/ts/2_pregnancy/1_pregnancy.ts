@@ -9,17 +9,12 @@ namespace NSPregnancy {
         variables().lastPregUpdateFunctionCall.getTime() >=
         gHoursBetweenPregUpdate * 3600 * 1000
     ) {
-      const playerWomb = variables().player.womb as Womb;
-
-      // updatePregnancyGrowth(playerWomb);
-      // gradualWombHealthIncreaser(playerWomb);
-
-      // if (isLiableForBirth(playerWomb)) triggerBirth(playerWomb);
+      const playerWomb = variables().player.womb;
 
       playerWomb.updatePregnancyGrowth();
       playerWomb.gradualWombHealthIncreaser();
 
-      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth;
+      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
     }
   });
 }
