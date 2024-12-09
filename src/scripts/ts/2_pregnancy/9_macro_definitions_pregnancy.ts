@@ -31,6 +31,7 @@ namespace NSPregnancy {
         this.args[2];
 
       if (varNameToStoreResult.charAt(0) == "$") {
+        // @ts-expect-error
         variables()[varNameToStoreResult] = womb.isBellySizeInRange(
           lowerRange,
           upperRange

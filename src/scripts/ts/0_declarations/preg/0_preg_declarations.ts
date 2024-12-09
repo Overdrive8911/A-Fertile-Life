@@ -123,8 +123,10 @@ namespace NSPregnancy {
   export const gMinDevelopmentState = 0; // 0 Percent
   export const gMaxDevelopmentState = 100; // 100 Percent
 
-  // In most cases, birth can only happen when above this threshold
-  export const gMinBirthThreshold = 85; // 85 Percent
+  // In most cases, birth is considered "full-term" from this week onwards. Week 37
+  export const gMinNormalBirthThreshold = 92.5;
+  export const gPreemieBirthThreshold = 82.5; // 33 weeks
+  export const gVeryPreemieBirthThreshold = 70; // 28 weeks. For simplicity, assume that this is the vey minimum threshold for birth to occur.
 
   export const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
   export const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
