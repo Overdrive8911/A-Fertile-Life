@@ -224,6 +224,8 @@ namespace NSPregnancy {
             }
           }
           // !SECTION
+
+          // SECTION - Superfetation's ability to allow pregnancy during pregnancy.
           if (this.isPregnant) {
             if (perks && perks.superFet) {
               // Applies to superfetation, lets make it difficult >:D
