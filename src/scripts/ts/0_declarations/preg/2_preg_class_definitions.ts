@@ -924,6 +924,19 @@ namespace NSPregnancy {
     isPerkActive(perk: keyof typeof this.perks) {
       return this.perks[perk] ? true : false;
     }
+    upgradePerk(perk: keyof typeof this.perks, lvlToAdd: number) {
+      if (this.isPerkActive(perk)) {
+        const perkData = this.perks[perk];
+        perkData.currLevel = Math.clamp(
+          perkData.currLevel + lvlToAdd,
+          1,
+          perkData.maxLevel
+        );
+
+        return perkData.currLevel;
+      }
+      return false;
+    }
     removePerk(perk: keyof typeof this.perks) {
       if (this.isPerkActive(perk)) {
         delete this.perks[perk];
