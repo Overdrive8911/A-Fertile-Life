@@ -210,7 +210,7 @@ namespace NSPregnancy {
 
           // TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
 
-          // The player has the hyper fertility perk
+          // SECTION - The player has the hyper fertility perk
           const perks = this.perks;
           if (perks && perks.hyperFertility) {
             // Give a large multiplier to the chance for multiples.
@@ -223,6 +223,7 @@ namespace NSPregnancy {
               k++;
             }
           }
+          // !SECTION
           if (this.isPregnant) {
             if (perks && perks.superFet) {
               // Applies to superfetation, lets make it difficult >:D
