@@ -16,6 +16,7 @@
 - [ ] Include asset growth (bewbs, booty, thighs, hips, general rotundness, etc :D)
 - [x] Implement hunger drain while pregnant (only applies to the player) (`2ce76f5efb79f3a6871485fead5cb8bf3a427ed1`)
   - [x] Should consider the development stage per fetus, number of fetuses, and a bit of each fetuses weight.
+- [ ] Implement proper functionality of `curCapacity` and `maxCapacity` of the class `Womb`.
 
 ## Perks and Side Effect Progress <!-- See `applyPerk()` and `applySideEffect()` in src\scripts\ts\0_declarations\preg\2_preg_class_definitions.ts -->
 
@@ -25,8 +26,10 @@
   - [x] Implement the speed boost for fetus growth (`0fd7a36aa1172685831a0dedcd7d698fd939698a`)
   - [x] Implement the hunger drain (`b7e164a4c160c81a08e76ca1b2c3b71af8cd3a86`)
 - [x] Hyper Fertility (`104f40e85467bbc8192145c55621fc231aaa909a`. See `tryCreatePregnancy()` in specific)
-- [ ] Superfetation
-- [ ] Elasticity
+- [x] Superfetation (`b0002902d972e0b343915c33efc64bf76f67b361`)
+- [x] Elasticity
+  - [x] Increase womb exp gained (up to 50%)
+  - [x] Slightly increase both comfort and max capacity (up to 20%)
 - [ ] Immunity Boost
 - [ ] Motherly Hips
 - [ ] Motherly Boobs
@@ -35,6 +38,7 @@
 - [ ] Healthy Womb
 - [ ] Fortified Womb
 - [ ] No Postpartum
+- [x] Add the ability to upgrade perks (`9af0138aeb123b7e31dc6dfa49517f7716c4a466`)
 
 ### Side Effects
 
@@ -46,4 +50,4 @@
 - [ ] Labour
 - [ ] Sex Craving (? Lol)
 - [ ] Growth Spurt (? Forgot what this actually means)
-- [x] Implement proper functionality of their duration.
+- [x] Implement proper functionality of their duration (`f73517177739a842494b84333638721aca527d3b`)
