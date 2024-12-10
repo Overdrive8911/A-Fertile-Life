@@ -16,6 +16,7 @@ namespace NSPregnancy {
     );
 
     // These capacity variables also refer to the "size too"
+    // NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here.
     curCapacity =
       BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
     comfortCapacity =
@@ -259,7 +260,7 @@ namespace NSPregnancy {
 
         // NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
         const maxFetusNumber = this.getMinimumNumOfFullTermFetusesAtBellyState(
-          this.maxCapacity
+          this.effectiveMaxCapacity
         );
         if (numOfFoetusToSpawn > maxFetusNumber)
           numOfFoetusToSpawn = maxFetusNumber;
@@ -497,6 +498,16 @@ namespace NSPregnancy {
 
         fetus.devRatioAtLastExpUpdate = fetus.developmentRatio; // Update it
       });
+      // !SECTION
+
+      // SECTION - Boost it if the elasticity perk is active
+      if (this.perks && this.perks.elasticity) {
+        const perkData = this.perks.elasticity;
+        expToAdd +=
+          expToAdd *
+          ((perkData.currLevel / perkData.maxLevel) *
+            gElasticityPerkMaxExpBoost);
+      }
       // !SECTION
 
       console.log(
@@ -796,7 +807,7 @@ namespace NSPregnancy {
 
       // Include something to account for superfetation. Like a giant IF statement
       // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
-      if (this.curCapacity >= this.maxCapacity * 0.9) return true;
+      if (this.curCapacity >= this.effectiveMaxCapacity * 0.9) return true;
       else {
         // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
         let eligibleFetusDevRatio: number[] = [];
@@ -1006,7 +1017,38 @@ namespace NSPregnancy {
       }
       return false;
     }
+
+    get elasticityPerkCapacityBoost() {
+      let mod = 1;
+
+      if (this.perks && this.perks.elasticity) {
+        const perkData = this.perks.elasticity;
+        mod +=
+          mod *
+          ((perkData.currLevel / perkData.maxLevel) *
+            gElasticityPerkCapacityMaxBoost);
+      }
+
+      return mod;
+    }
     // !SECTION
+
+    get effectiveComfortCapacity() {
+      let mod = 1;
+
+      // Consider if the elasticity perk is active
+      mod *= this.elasticityPerkCapacityBoost;
+
+      return this.comfortCapacity * mod;
+    }
+    get effectiveMaxCapacity() {
+      let mod = 1;
+
+      // Consider if the elasticity perk is active
+      mod *= this.elasticityPerkCapacityBoost;
+
+      return this.maxCapacity * mod;
+    }
   }
   // @ts-expect-error
   window[Womb.name] = Womb;
