@@ -239,7 +239,9 @@ namespace NSPregnancy {
               const superFetPerk = perks.superFet;
               // REVIEW - Half the chance plus a bit extra per perk level. That should be enough, right?
               chance *= 0.5;
-              chance += (superFetPerk.maxLevel - superFetPerk.currLevel) * 0.08;
+              chance +=
+                (gAllPregPerks.superFet.maxLevel - superFetPerk.currLevel) *
+                0.08;
             } else {
               // No chance to make more babies :p
               chance = 0;
@@ -512,7 +514,7 @@ namespace NSPregnancy {
         const perkData = this.perks.elasticity;
         expToAdd +=
           expToAdd *
-          ((perkData.currLevel / perkData.maxLevel) *
+          ((perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
             gElasticityPerkMaxExpBoost);
       }
       // !SECTION
@@ -626,7 +628,7 @@ namespace NSPregnancy {
           // Apply the gestator perk boost, if any
           let gestatorPerkSpeedBoost =
             perks && gestatorPerk
-              ? (gestatorPerk.currLevel / gestatorPerk.maxLevel) *
+              ? (gestatorPerk.currLevel / gAllPregPerks.gestator.maxLevel) *
                 gGestatorPerkMaxSpeedBoost
               : 0;
 
@@ -925,7 +927,7 @@ namespace NSPregnancy {
         const perkData = this.perks.elasticity;
         mod +=
           mod *
-          ((perkData.currLevel / perkData.maxLevel) *
+          ((perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
             gElasticityPerkCapacityMaxBoost);
       }
 
