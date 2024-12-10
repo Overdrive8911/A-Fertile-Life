@@ -25,7 +25,7 @@ namespace NSPregnancy {
 
   export interface PregSideEffect {
     currDuration: number;
-    maxDuration: number[];
+    maxDuration?: number[];
   }
   export type PregSideEffectsObject = Partial<
     Record<

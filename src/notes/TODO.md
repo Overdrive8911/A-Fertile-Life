@@ -46,3 +46,4 @@
 - [ ] Labour
 - [ ] Sex Craving (? Lol)
 - [ ] Growth Spurt (? Forgot what this actually means)
+- [x] Implement proper functionality of their duration.
