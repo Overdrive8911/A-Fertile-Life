@@ -621,12 +621,14 @@ namespace NSPregnancy {
             (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
             gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
 
+          const perks = this.perks;
+          const gestatorPerk = perks.gestator;
           // Apply the gestator perk boost, if any
           let gestatorPerkSpeedBoost =
-            this.perks && this.perks.gestator.currLevel >= 1
-              ? (this.perks.gestator.currLevel / this.perks.gestator.maxLevel) *
+            perks && gestatorPerk
+              ? (gestatorPerk.currLevel / gestatorPerk.maxLevel) *
                 gGestatorPerkMaxSpeedBoost
-              : 1;
+              : 0;
 
           additionalDevelopmentProgress +=
             additionalDevelopmentProgress * gestatorPerkSpeedBoost;
