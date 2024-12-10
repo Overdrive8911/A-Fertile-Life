@@ -21,10 +21,10 @@
 
 ### Perks
 
-- [ ] Gestator
+- [x] Gestator
   - [x] Implement the speed boost for fetus growth (`0fd7a36aa1172685831a0dedcd7d698fd939698a`)
   - [x] Implement the hunger drain (`b7e164a4c160c81a08e76ca1b2c3b71af8cd3a86`)
-- [ ] Hyper Fertility
+- [x] Hyper Fertility (`104f40e85467bbc8192145c55621fc231aaa909a`. See `tryCreatePregnancy()` in specific)
 - [ ] Superfetation
 - [ ] Elasticity
 - [ ] Immunity Boost
