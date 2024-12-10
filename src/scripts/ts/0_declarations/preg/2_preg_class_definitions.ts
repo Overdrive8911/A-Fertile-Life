@@ -585,6 +585,15 @@ namespace NSPregnancy {
           // TODO - Add a way to reverse growth. I feel like letting it receive negative values would be exactly what I need but eh, feels like something else would break and I'm not in the mood for it yet.
           if (timeElapsedSinceLastPregUpdate < 0) return;
 
+          // Reduce the duration of sideEffects
+          for (const key in this.sideEffects) {
+            if (Object.prototype.hasOwnProperty.call(this.sideEffects, key)) {
+              const data = this.sideEffects[key as keyof PregSideEffectsObject];
+
+              data.currDuration -= timeElapsedSinceLastPregUpdate;
+            }
+          }
+
           // SECTION - Determine how much to increase the `developmentRatio` of the fetus
           let additionalDevelopmentProgress =
             (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
@@ -776,6 +785,7 @@ namespace NSPregnancy {
         this.exp += expToAdd;
 
         this.updateBellySize();
+        this.sideEffects = {}; // Remove all side effects
         this.postpartumCounter = 7;
         this.lastBirth = variables().gameDateAndTime;
       }
@@ -950,7 +960,7 @@ namespace NSPregnancy {
     applySideEffect(sideEffect: keyof typeof this.sideEffects) {
       const allSideEffects: PregSideEffectsObject = {
         /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
-        /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
+        /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition (in seconds) will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
         /* TODO - Add more side effects */
 
         cravingCrisis: {
@@ -990,7 +1000,11 @@ namespace NSPregnancy {
       const selectedSideEffect: PregSideEffect | undefined =
         allSideEffects[sideEffect];
       if (selectedSideEffect && !this.isSideEffectActive(sideEffect)) {
-        this.sideEffects[sideEffect] = clone(selectedSideEffect);
+        // Set the duration in seconds
+        this.sideEffects[sideEffect] = {
+          currDuration:
+            either(...selectedSideEffect.maxDuration) * 24 * 60 * 60,
+        };
         return true;
       }
       return false;
