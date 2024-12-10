@@ -16,12 +16,12 @@ namespace NSPregnancy {
     );
 
     // These capacity variables also refer to the "size too"
-    // NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here.
+    // NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here when trying to READ. Since the variables here are write-only.
     curCapacity =
       BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
-    comfortCapacity =
+    #comfortCapacity =
       BellyState.FULL_TERM; /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */
-    maxCapacity =
+    #maxCapacity =
       BellyState.FULL_TERM +
       BellyState.LATE_PREGNANCY; /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */
 
@@ -43,6 +43,13 @@ namespace NSPregnancy {
     perks: PregPerksObject = {};
     sideEffects: PregSideEffectsObject = {};
     fetuses: Map<number /* fetusId */, Fetus> = new Map();
+
+    set comfortCapacity(value: BellyState | number) {
+      this.#comfortCapacity = value;
+    }
+    set maxCapacity(value: BellyState | number) {
+      this.#maxCapacity = value;
+    }
 
     constructor(classProperties: Womb = null) {
       if (classProperties != null) {
@@ -979,11 +986,11 @@ namespace NSPregnancy {
         } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
         contractions: {
           currDuration: 0,
-          maxDuration: [0],
+          maxDuration: [1, 2, 3, 5],
         } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
         labour: {
           currDuration: 0,
-          maxDuration: [0],
+          maxDuration: [3],
         } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
         sexCraving: {
           currDuration: 0,
@@ -1039,7 +1046,7 @@ namespace NSPregnancy {
       // Consider if the elasticity perk is active
       mod *= this.elasticityPerkCapacityBoost;
 
-      return this.comfortCapacity * mod;
+      return this.#comfortCapacity * mod;
     }
     get effectiveMaxCapacity() {
       let mod = 1;
@@ -1047,7 +1054,7 @@ namespace NSPregnancy {
       // Consider if the elasticity perk is active
       mod *= this.elasticityPerkCapacityBoost;
 
-      return this.maxCapacity * mod;
+      return this.#maxCapacity * mod;
     }
   }
   // @ts-expect-error
