@@ -124,7 +124,7 @@ namespace NSPregnancy {
   export const gHealthyWombPerkMaxHPDecrementNerf = 0.75; // -25% to all sources of negative hp
   export const gFortifiedWombPerkMaxCapacityBoost = 1.5; // +50% increase to `maxCapacity`
   export const gFortifiedWombPerkNaturalBirthDelay = 1.25; // +25% more time after becoming due before birth may occur
-  export const gFortifiedWombPerkPassiveHPDrainNerf = 0.75; // -25% to passive hp drain
+  export const gFortifiedWombPerkPassiveHPDrainNerf = 0.75; // (1 - 0.75). -25% to passive hp drain
 
   export type PregSideEffect =
     | PregSideEffectDynamicData
