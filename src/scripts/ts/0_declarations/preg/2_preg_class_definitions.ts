@@ -519,8 +519,8 @@ namespace NSPregnancy {
         // TODO - Make it so that exp starts off really small (x0.1), at a "normal" rate halfway through (x1), and then is much more abundant(x10) with greater development
         expToAdd +=
           gExpPerSingleFetusGestation *
-            ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
-              gMaxDevelopmentState) || 1; // A minimum of 1 exp
+          ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
+            gMaxDevelopmentState);
 
         // Add a random chance to bump it up or down by a random percentage between 1% and 10% because :3
         const randPercentage = random(1, 10) / 100;
