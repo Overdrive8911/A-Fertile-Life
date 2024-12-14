@@ -623,6 +623,9 @@ namespace NSPregnancy {
             (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
             gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
 
+          // SECTION - Apply the effects of relevant perks during pregnancy
+
+          // ANCHOR - GESTATOR PERK
           const perks = this.perks;
           const gestatorPerk = perks.gestator;
           // Apply the gestator perk boost, if any
@@ -634,6 +637,17 @@ namespace NSPregnancy {
 
           additionalDevelopmentProgress +=
             additionalDevelopmentProgress * gestatorPerkSpeedBoost;
+
+          // ANCHOR - IMMUNITY PERK
+          const immunityPerk = perks.immunityBoost;
+          inputUser.immunity +=
+            perks && immunityPerk
+              ? (immunityPerk.currLevel /
+                  gAllPregPerks.immunityBoost.maxLevel) *
+                gImmunityPerkMaxBoostPerFetus *
+                additionalDevelopmentProgress
+              : 0;
+          // !SECTION
 
           // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
           const newDevelopmentRatio =
