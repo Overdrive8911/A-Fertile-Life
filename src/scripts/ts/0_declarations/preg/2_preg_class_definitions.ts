@@ -328,6 +328,7 @@ namespace NSPregnancy {
       return Math.floor(bellyState / BellyState.FULL_TERM);
     }
 
+    // Returns a negative value
     calculateHealthDamage() {
       const womb = this as Womb;
       if (!gIsWombDamageEnabled) return 0;
@@ -336,25 +337,19 @@ namespace NSPregnancy {
         womb.hp = WombHealth.RIP;
         return 0;
       }
-      // TODO - Consider having the weight affect this. Also superfetation
-
-      // Get the average developmentRatio of all fetuses
-      let averageDevelopmentRatio = 0;
-      for (let i = 0; i < womb.fetuses.size; i++) {
-        averageDevelopmentRatio += womb.fetuses.get(i).developmentRatio;
-      }
-      averageDevelopmentRatio /= womb.fetuses.size;
-
-      // Every 10% progress in pregnancy has a 15% chance to subtract 0.5 womb health. This number is increased by the number of fetuses the user is pregnant with
-      let timesToRunDamageCheck = Math.floor(averageDevelopmentRatio / 10);
 
       let wombDamage = 0;
-      while (timesToRunDamageCheck > 0) {
-        if (random(100) < 15) {
-          wombDamage += womb.fetuses.size * 0.5;
-        }
-        timesToRunDamageCheck--;
-      }
+
+      // Calculate the damage per each fetus
+      this.fetuses.forEach((fetus) => {
+        let developmentProgressSinceLastUpdate =
+          fetus.developmentRatio - fetus.devRatioAtLastUpdate;
+
+        // Every 1% progress in pregnancy development does 0.25 damage.
+        wombDamage +=
+          Math.round((developmentProgressSinceLastUpdate / 1) * 0.25 * 100) /
+          100;
+      });
 
       // Consider if the fortified womb perk is active
       const perks = this.perks || {};
@@ -363,7 +358,7 @@ namespace NSPregnancy {
         wombDamage *= gFortifiedWombPerkPassiveHPDrainNerf;
       }
 
-      return wombDamage;
+      return -wombDamage;
     }
 
     // Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
@@ -526,7 +521,7 @@ namespace NSPregnancy {
         // TODO - Make it so that exp starts off really small (x0.1), at a "normal" rate halfway through (x1), and then is much more abundant(x10) with greater development
         expToAdd +=
           gExpPerSingleFetusGestation *
-          ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
+          ((fetus.developmentRatio - fetus.devRatioAtLastUpdate) /
             gMaxDevelopmentState);
 
         // Add a random chance to bump it up or down by a random percentage between 1% and 10% because :3
@@ -534,8 +529,6 @@ namespace NSPregnancy {
         expToAdd = random(1)
           ? expToAdd + expToAdd * randPercentage
           : expToAdd - expToAdd * randPercentage;
-
-        fetus.devRatioAtLastExpUpdate = fetus.developmentRatio; // Update it
       });
       // !SECTION
 
@@ -805,7 +798,7 @@ namespace NSPregnancy {
         });
 
         // Apply womb damage
-        this.hp -= this.calculateHealthDamage();
+        this.addHp(this.calculateHealthDamage());
 
         // Increase the womb's exp
         this.exp += this.updateExpValue();
@@ -813,8 +806,11 @@ namespace NSPregnancy {
         // Update belly size during pregnancy
         this.updateBellySize();
 
-        // Update the last time this function was called
+        // Update the last time this function was called as well the dev ratio record for all fetuses
         variables().lastPregUpdateFunctionCall = currentTime;
+        this.fetuses.forEach((fetus) => {
+          fetus.devRatioAtLastUpdate = fetus.developmentRatio; // Update it
+        });
 
         return true;
       }
@@ -1043,7 +1039,7 @@ namespace NSPregnancy {
     hp: number; // scales with the womb's health. don't let it get to zero
     dateOfConception: Date; // Just here :p
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    devRatioAtLastExpUpdate: DevelopmentRatio = 0;
+    devRatioAtLastUpdate: DevelopmentRatio = 0;
     extraGrowthMod?: number = null; // A modifier multiplied to the fetus's growth rate. Comes from other sources
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
