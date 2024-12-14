@@ -108,7 +108,7 @@ namespace NSPregnancy {
       // currLevel: 1,
       price: 10000,
       maxLevel: 5,
-    } /* Reduces the increase rate of womb.comfortCapacity but raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
+    } /* Raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
     noPostpartum: {
       // currLevel: 1,
       price: 2000,
@@ -122,6 +122,9 @@ namespace NSPregnancy {
   export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
   export const gHealthyWombPerkMaxHPIncrementBuff = 1.75; // +75% to all sources of positive hp
   export const gHealthyWombPerkMaxHPDecrementNerf = 0.75; // -25% to all sources of negative hp
+  export const gFortifiedWombPerkMaxCapacityBoost = 1.5; // +50% increase to `maxCapacity`
+  export const gFortifiedWombPerkNaturalBirthDelay = 1.25; // +25% more time after becoming due before birth may occur
+  export const gFortifiedWombPerkPassiveHPDrainNerf = 0.75; // -25% to passive hp drain
 
   export type PregSideEffect =
     | PregSideEffectDynamicData
