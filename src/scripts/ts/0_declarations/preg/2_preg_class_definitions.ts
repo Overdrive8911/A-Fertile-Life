@@ -394,6 +394,22 @@ namespace NSPregnancy {
     addHp(value: number) {
       let mod = 1;
 
+      const perks = this.perks;
+      const healthyWombPerk = perks.healthyWomb;
+      if (perks && healthyWombPerk) {
+        if (value >= 0) {
+          // Buff health increments
+          mod *=
+            (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+            gHealthyWombPerkMaxHPIncrementBuff;
+        } else {
+          // Nerf health decrements
+          mod *=
+            (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+            gHealthyWombPerkMaxHPDecrementNerf;
+        }
+      }
+
       this.hp += value * mod;
     }
 
