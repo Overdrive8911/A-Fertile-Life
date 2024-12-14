@@ -1,9 +1,33 @@
 namespace NSPregnancy {
-  export interface PregPerk {
-    currLevel?: number;
-    price?: number;
-    maxLevel?: number;
+  // SECTION - Unexported interfaces
+  interface PregPerkDynamicData {
+    // Only `currLevel` gets stored in the save file
+    currLevel: number;
+
+    price?: never;
+    maxLevel?: never;
   }
+  interface PregPerkStaticData {
+    price: number;
+    maxLevel: number;
+
+    currLevel?: never;
+  }
+
+  interface PregSideEffectDynamicData {
+    // Only `currDuration` gets stored in the save file
+    currDuration: number;
+
+    maxDuration?: never;
+  }
+  interface PregSideEffectStaticData {
+    maxDuration?: number[];
+
+    currDuration?: never;
+  }
+  // !SECTION
+  export type PregPerk = PregPerkDynamicData | PregPerkStaticData;
+
   export type PregPerksObject = Partial<
     Record<
       | "gestator"
@@ -51,7 +75,7 @@ namespace NSPregnancy {
     immunityBoost: {
       // currLevel: 1,
       price: 2000,
-      maxLevel: 10,
+      maxLevel: 5,
     } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
     motherlyHips: {
       // currLevel: 1,
@@ -99,10 +123,6 @@ namespace NSPregnancy {
     | PregSideEffectDynamicData
     | PregSideEffectStaticData;
 
-  export interface PregSideEffect {
-    currDuration?: number;
-    maxDuration?: number[];
-  }
   export type PregSideEffectsObject = Partial<
     Record<
       | "cravingCrisis"
