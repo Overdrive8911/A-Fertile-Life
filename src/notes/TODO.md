@@ -16,16 +16,15 @@
 - [ ] Include asset growth (bewbs, booty, thighs, hips, general rotundness, etc :D)
 - [x] Implement hunger drain while pregnant (only applies to the player) (`2ce76f5efb79f3a6871485fead5cb8bf3a427ed1`)
   - [x] Should consider the development stage per fetus, number of fetuses, and a bit of each fetuses weight.
-- [ ] Implement proper functionality of `curCapacity` and `maxCapacity` of the class `Womb`.
-- [ ] Improve the birthing formula and make it more consistent.
+- [ ] Implement proper functionality of `comfortCapacity` and `maxCapacity` of the class `Womb`.
+- [x] Improve the birthing formula and make it more consistent.
 - [ ] Implement perks. And the general ability to use items.
 - [ ] Milk production
   - [ ] Starts when pregnant
   - [ ] Ends after a while when not pregnant. This duration can be extended if the player regularly milks themselves
-
-Prevent `expToAdd` from returning a non-zero value if no time has passed.
-
-Slightly reduce the chance of birth
+- [x] Prevent `expToAdd` from returning a non-zero value if no time has passed (`46b2bfd35807c1baad3e678a6c55a5ccef2c95bf`)
+- [x] Slightly reduce the chance of birth (`a9a777ac4d71e3e189de63a182b1875f8ad53f76`)
+- [ ] Add bursting (?)
 
 ## Perks and Side Effect Progress <!-- See `applyPerk()` and `applySideEffect()` in src\scripts\ts\0_declarations\preg\2_preg_class_definitions.ts -->
 
@@ -44,7 +43,7 @@ Slightly reduce the chance of birth
 - [ ] Motherly Boobs
 - [ ] Iron Spine
 - [ ] Sensitive Womb
-- [ ] Healthy Womb
+- [x] Healthy Womb (`a85ddc47928ddb02020333274b77059bc3f0df03`)
 - [ ] Fortified Womb
 - [ ] No Postpartum
 - [x] Add the ability to upgrade perks (`9af0138aeb123b7e31dc6dfa49517f7716c4a466`)
