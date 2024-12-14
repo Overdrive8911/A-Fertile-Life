@@ -219,7 +219,7 @@ namespace NSPregnancy {
           // TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
 
           // SECTION - The player has the hyper fertility perk
-          const perks = this.perks;
+          const perks = this.perks || {};
           if (perks && perks.hyperFertility) {
             // Give a large multiplier to the chance for multiples.
             chance *= 1.55;
@@ -357,7 +357,7 @@ namespace NSPregnancy {
       }
 
       // Consider if the fortified womb perk is active
-      const perks = this.perks;
+      const perks = this.perks || {};
       const fortifiedWombPerk = perks.fortifiedWomb;
       if (perks && fortifiedWombPerk) {
         wombDamage *= gFortifiedWombPerkPassiveHPDrainNerf;
@@ -401,7 +401,7 @@ namespace NSPregnancy {
     addHp(value: number) {
       let mod = 1;
 
-      const perks = this.perks;
+      const perks = this.perks || {};
       const healthyWombPerk = perks.healthyWomb;
       if (perks && healthyWombPerk) {
         if (value >= 0) {
@@ -655,7 +655,7 @@ namespace NSPregnancy {
           // SECTION - Apply the effects of relevant perks during pregnancy
 
           // ANCHOR - GESTATOR PERK
-          const perks = this.perks;
+          const perks = this.perks || {};
           const gestatorPerk = perks.gestator;
           // Apply the gestator perk boost, if any
           let gestatorPerkSpeedBoost =
@@ -881,7 +881,6 @@ namespace NSPregnancy {
 
         // Reduce the development progress of each fetus to effectively reduce the chance of / delay birth if the fortified womb perk is active and has been upgraded to at least half of its maximum level
         const perks = this.perks;
-        // const fortifiedWombPerk = perks.fortifiedWomb
         if (perks && perks.fortifiedWomb) {
           const ratio =
             perks.fortifiedWomb.currLevel /
@@ -990,7 +989,7 @@ namespace NSPregnancy {
 
     get fortifiedWombPerkCapacityBoost() {
       let mod = 1;
-      const perks = this.perks;
+      const perks = this.perks || {};
       const fortifiedWombPerk = perks.fortifiedWomb;
 
       if (perks && fortifiedWombPerk) {
@@ -1003,11 +1002,12 @@ namespace NSPregnancy {
     }
     get elasticityPerkCapacityBoost() {
       let mod = 1;
+      const perks = this.perks || {};
+      const elasticityPerk = perks.elasticity;
 
-      if (this.perks && this.perks.elasticity) {
-        const perkData = this.perks.elasticity;
+      if (perks && elasticityPerk) {
         mod *=
-          (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
+          (elasticityPerk.currLevel / gAllPregPerks.elasticity.maxLevel) *
           gElasticityPerkCapacityMaxBoost;
       }
 
