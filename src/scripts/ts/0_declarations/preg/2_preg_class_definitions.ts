@@ -786,7 +786,10 @@ namespace NSPregnancy {
 
         // Update the last time this function was called
         variables().lastPregUpdateFunctionCall = currentTime;
+
+        return true;
       }
+      return false;
     }
     // !SECTION
 
