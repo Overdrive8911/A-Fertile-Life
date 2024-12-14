@@ -25,6 +25,8 @@
 - [x] Prevent `expToAdd` from returning a non-zero value if no time has passed (`46b2bfd35807c1baad3e678a6c55a5ccef2c95bf`)
 - [x] Slightly reduce the chance of birth (`a9a777ac4d71e3e189de63a182b1875f8ad53f76`)
 - [ ] Add bursting (?)
+- [ ] Once a term, the player can get induced if they desire.
+- [ ] Add more ways to increase womb health
 
 ## Perks and Side Effect Progress <!-- See `applyPerk()` and `applySideEffect()` in src\scripts\ts\0_declarations\preg\2_preg_class_definitions.ts -->
 
@@ -44,7 +46,10 @@
 - [ ] Iron Spine
 - [ ] Sensitive Womb
 - [x] Healthy Womb (`a85ddc47928ddb02020333274b77059bc3f0df03`)
-- [ ] Fortified Womb
+- [/] Fortified Womb
+  - [x] Apply `maxCapacity` boost
+  - [x] Apply womb heath drain nerf
+  - [x] Apply birth delay
 - [ ] No Postpartum
 - [x] Add the ability to upgrade perks (`9af0138aeb123b7e31dc6dfa49517f7716c4a466`)
 - [x] Only store the current level of perks in the save file. Use global variables for the other 2 (`1a598c034fce0b478d10e162f04ed246d2956523`)
