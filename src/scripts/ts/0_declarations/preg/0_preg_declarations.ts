@@ -8,6 +8,7 @@ namespace NSPregnancy {
     maxLevel?: never;
   }
   interface PregPerkStaticData {
+    // Is stored as a global static variable
     price: number;
     maxLevel: number;
 
@@ -21,6 +22,7 @@ namespace NSPregnancy {
     maxDuration?: never;
   }
   interface PregSideEffectStaticData {
+    // Is stored as a global static variable
     maxDuration?: number[];
 
     currDuration?: never;
@@ -115,8 +117,8 @@ namespace NSPregnancy {
   };
 
   export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
-  export const gElasticityPerkMaxExpBoost = 0.5; // +50% increase
-  export const gElasticityPerkCapacityMaxBoost = 0.2; // +20% increase
+  export const gElasticityPerkMaxExpBoost = 1.5; // +50% increase
+  export const gElasticityPerkCapacityMaxBoost = 1.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
   export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
   export const gHealthyWombPerkMaxHPIncrementBuff = 1.75; // +75% to all sources of positive hp
   export const gHealthyWombPerkMaxHPDecrementNerf = 0.25; // -25% to all sources of negative hp

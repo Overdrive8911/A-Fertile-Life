@@ -535,10 +535,9 @@ namespace NSPregnancy {
       // SECTION - Boost it if the elasticity perk is active
       if (this.perks && this.perks.elasticity) {
         const perkData = this.perks.elasticity;
-        expToAdd +=
-          expToAdd *
-          ((perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
-            gElasticityPerkMaxExpBoost);
+        expToAdd *=
+          (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
+          gElasticityPerkMaxExpBoost;
       }
       // !SECTION
 
@@ -967,10 +966,9 @@ namespace NSPregnancy {
 
       if (this.perks && this.perks.elasticity) {
         const perkData = this.perks.elasticity;
-        mod +=
-          mod *
-          ((perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
-            gElasticityPerkCapacityMaxBoost);
+        mod *=
+          (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
+          gElasticityPerkCapacityMaxBoost;
       }
 
       return mod;
