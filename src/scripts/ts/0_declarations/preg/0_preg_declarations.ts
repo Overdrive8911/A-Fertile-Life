@@ -121,7 +121,7 @@ namespace NSPregnancy {
   export const gElasticityPerkCapacityMaxBoost = 1.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
   export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
   export const gHealthyWombPerkMaxHPIncrementBuff = 1.75; // +75% to all sources of positive hp
-  export const gHealthyWombPerkMaxHPDecrementNerf = 0.25; // -25% to all sources of negative hp
+  export const gHealthyWombPerkMaxHPDecrementNerf = 0.75; // -25% to all sources of negative hp
 
   export type PregSideEffect =
     | PregSideEffectDynamicData
