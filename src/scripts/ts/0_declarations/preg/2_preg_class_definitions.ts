@@ -356,6 +356,13 @@ namespace NSPregnancy {
         timesToRunDamageCheck--;
       }
 
+      // Consider if the fortified womb perk is active
+      const perks = this.perks;
+      const fortifiedWombPerk = perks.fortifiedWomb;
+      if (perks && fortifiedWombPerk) {
+        wombDamage *= gFortifiedWombPerkPassiveHPDrainNerf;
+      }
+
       return wombDamage;
     }
 
@@ -872,6 +879,26 @@ namespace NSPregnancy {
           eligibleFetusDevRatio.push(fetus.developmentRatio);
         });
 
+        // Reduce the development progress of each fetus to effectively reduce the chance of / delay birth if the fortified womb perk is active and has been upgraded to at least half of its maximum level
+        const perks = this.perks;
+        // const fortifiedWombPerk = perks.fortifiedWomb
+        if (perks && perks.fortifiedWomb) {
+          const ratio =
+            perks.fortifiedWomb.currLevel /
+            gAllPregPerks.fortifiedWomb.maxLevel;
+          if (ratio >= 0.5) {
+            eligibleFetusDevRatio = eligibleFetusDevRatio.map((devRatio) => {
+              return (
+                devRatio -
+                (ratio *
+                  gFortifiedWombPerkNaturalBirthDelay *
+                  gMaxDevelopmentState -
+                  gMaxDevelopmentState)
+              );
+            });
+          }
+        }
+
         const averageDevelopmentOfFetus = getWeightedAverage(
           ...eligibleFetusDevRatio
         );
@@ -961,6 +988,19 @@ namespace NSPregnancy {
       return false;
     }
 
+    get fortifiedWombPerkCapacityBoost() {
+      let mod = 1;
+      const perks = this.perks;
+      const fortifiedWombPerk = perks.fortifiedWomb;
+
+      if (perks && fortifiedWombPerk) {
+        mod *=
+          (fortifiedWombPerk.currLevel / gAllPregPerks.fortifiedWomb.maxLevel) *
+          gFortifiedWombPerkMaxCapacityBoost;
+      }
+
+      return mod;
+    }
     get elasticityPerkCapacityBoost() {
       let mod = 1;
 
@@ -988,6 +1028,9 @@ namespace NSPregnancy {
 
       // Consider if the elasticity perk is active
       mod *= this.elasticityPerkCapacityBoost;
+
+      // Consider if the fortified womb perk is active
+      mod *= this.fortifiedWombPerkCapacityBoost;
 
       return this.#maxCapacity * mod;
     }
