@@ -12,7 +12,7 @@ namespace NSPregnancy {
       const playerWomb = variables().player.womb;
 
       playerWomb.updatePregnancyGrowth();
-      playerWomb.gradualWombHealthIncreaser();
+      playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
 
       if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
     }
