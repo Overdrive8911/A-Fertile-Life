@@ -799,10 +799,14 @@ namespace NSPregnancy {
           this.fetuses.delete(fetus.id);
         }
       });
+      // Sometimes, `isLiableForBirth()` returns true but no fetuses are ready :p
+      if (!birthedChildren.length) return false;
+
       this.exp += expToAdd;
 
       this.updateBellySize();
       this.sideEffects = {}; // Remove all side effects
+      this.birthRecord++;
       this.postpartumCounter = 7;
       this.lastBirth = variables().gameDateAndTime;
       // Get the data of born children. We can use this to determine birth stats and other scene data.
@@ -816,7 +820,6 @@ namespace NSPregnancy {
 
       let chanceOfBirth = 0;
 
-      // Include something to account for superfetation. Like a giant IF statement
       // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
       if (this.curCapacity >= this.effectiveMaxCapacity * 0.9) return true;
       else {
@@ -830,7 +833,6 @@ namespace NSPregnancy {
           eligibleFetusDevRatio.push(fetus.developmentRatio);
         });
 
-        // TODO - Need to make this favour higher values than lower ones
         const averageDevelopmentOfFetus = getWeightedAverage(
           ...eligibleFetusDevRatio
         );
@@ -844,9 +846,6 @@ namespace NSPregnancy {
             gMaxDevelopmentState) *
           100 *
           0.2;
-
-        // Let's just reduce it by a bit
-        chanceOfBirth *= 0.85;
       }
 
       // Unhealthy wombs are at slightly higher risk of birthing, however, clamp the increased chance at 33%
@@ -855,6 +854,9 @@ namespace NSPregnancy {
         0,
         33
       );
+
+      // Let's just reduce it by a bit
+      chanceOfBirth *= 0.8;
 
       // Using `chanceOfBirth`, check if the character should birth or not
       if (randomFloat(0, 100) <= chanceOfBirth) return true;
@@ -1033,20 +1035,25 @@ namespace NSPregnancy {
 
     // whether or not the fetus cqn be expunged when birth happens
     // This will only consider whether the fetus is ready without concern for external factors.
+    // Ensure that the result of this is consistent enough. The main birth function can have random oddities.
+    // - I could probably use the current time in milliseconds / seconds and the day and / or maybe their id. Instead of relying on random values.
     get canBirth() {
-      return this.developmentRatio > gMaxDevelopmentState
+      const sanitizedId = this.id || 1;
+      const chance =
+        ((((variables().gameDateAndTime.getTime() / 1000) * sanitizedId) %
+          this.developmentRatio) /
+          this.developmentRatio) *
+        100;
+
+      return this.developmentRatio >= gMaxDevelopmentState
         ? true
-        : // 10% chance to not be born at the max number of weeks
-        this.developmentRatio > gMinNormalBirthThreshold &&
-          randomFloat(1) + 0.1 >= 1
+        : this.developmentRatio >= gMinNormalBirthThreshold &&
+          chance % 100 <= 25
         ? true
-        : // Another 10% (or cumulative 0.01) for a preemie to be eligible for birth
-        this.developmentRatio > gPreemieBirthThreshold &&
-          randomFloat(1) + 0.05 >= 1
+        : this.developmentRatio >= gPreemieBirthThreshold && chance % 100 <= 10
         ? true
-        : // Another 10% (or cumulative 0.001%) chance for a very preemie fetus to be eligible for birth.
-          this.developmentRatio > gVeryPreemieBirthThreshold &&
-          randomFloat(1) + 0.05 >= 1;
+        : this.developmentRatio >= gVeryPreemieBirthThreshold &&
+          chance % 100 <= 10;
     }
 
     get isOverdue() {

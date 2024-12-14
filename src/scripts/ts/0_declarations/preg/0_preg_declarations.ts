@@ -234,7 +234,7 @@ namespace NSPregnancy {
   export const gMaxDevelopmentState = 100; // 100 Percent
 
   // In most cases, birth is considered "full-term" from this week onwards. Week 37
-  export const gMinNormalBirthThreshold = 92.5;
+  export const gMinNormalBirthThreshold = 92.5; // 37 weeks
   export const gPreemieBirthThreshold = 82.5; // 33 weeks
   export const gVeryPreemieBirthThreshold = 70; // 28 weeks. For simplicity, assume that this is the vey minimum threshold for birth to occur.
 
