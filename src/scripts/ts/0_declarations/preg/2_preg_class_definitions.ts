@@ -390,6 +390,13 @@ namespace NSPregnancy {
       return 0.5;
     }
 
+    // NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD
+    addHp(value: number) {
+      let mod = 1;
+
+      this.hp += value * mod;
+    }
+
     // SECTION - Preg belly size
     updateBellySize() {
       let combinedWombVolume = 0;
