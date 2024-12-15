@@ -806,8 +806,7 @@ namespace NSPregnancy {
         // Update belly size during pregnancy
         this.updateBellySize();
 
-        // Update the last time this function was called as well the dev ratio record for all fetuses
-        variables().lastPregUpdateFunctionCall = currentTime;
+        // Update the dev ratio record for all fetuses
         this.fetuses.forEach((fetus) => {
           fetus.devRatioAtLastUpdate = fetus.developmentRatio; // Update it
         });
@@ -867,6 +866,8 @@ namespace NSPregnancy {
     get isLiableForBirth() {
       // This will check to see if an inputted womb is ready to giving birth, regardless of the actual chance of a successful delivery
       // NOTE - Drugs and conditions may affect this
+
+      if (!this.isPregnant) return false;
 
       let chanceOfBirth = 0;
 
