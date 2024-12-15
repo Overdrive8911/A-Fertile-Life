@@ -43,7 +43,8 @@ namespace NSPregnancy {
       | "sensitiveWomb"
       | "healthyWomb"
       | "fortifiedWomb"
-      | "noPostpartum",
+      | "noPostpartum"
+      | "polyhydramnios",
       PregPerk
     >
   >;
@@ -114,6 +115,10 @@ namespace NSPregnancy {
       price: 2000,
       maxLevel: 10,
     } /* Reduces the postpartum period, completely erasing it at max FertilityLevel. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */,
+    polyhydramnios: {
+      price: 1500,
+      maxLevel: 10,
+    } /* Increases amniotic fluid production per fetus */,
   };
 
   export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
@@ -125,6 +130,7 @@ namespace NSPregnancy {
   export const gFortifiedWombPerkMaxCapacityBoost = 1.5; // +50% increase to `maxCapacity`
   export const gFortifiedWombPerkNaturalBirthDelay = 1.25; // +25% more time after becoming due before birth may occur
   export const gFortifiedWombPerkPassiveHPDrainNerf = 0.75; // (1 - 0.75). -25% to passive hp drain
+  export const gPolyhydramniosPerkMaxFluidProductionBoost = 0.5; // +50% more amniotic fluid per fetus
 
   export type PregSideEffect =
     | PregSideEffectDynamicData
