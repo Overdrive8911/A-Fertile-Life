@@ -46,11 +46,11 @@
 - [ ] Iron Spine
 - [ ] Sensitive Womb
 - [x] Healthy Womb (`a85ddc47928ddb02020333274b77059bc3f0df03`)
-- [/] Fortified Womb
+- [/] Fortified Womb (`7ea8c6abb11b4d9a66181b868a68bb77302e0f36`)
   - [x] Apply `maxCapacity` boost
   - [x] Apply womb heath drain nerf
   - [x] Apply birth delay
-- [ ] No Postpartum
+- [x] No Postpartum (`003e3c47a391ddcbaa0f1a12b5538b004aef0c25`)
 - [x] Add the ability to upgrade perks (`9af0138aeb123b7e31dc6dfa49517f7716c4a466`)
 - [x] Only store the current level of perks in the save file. Use global variables for the other 2 (`1a598c034fce0b478d10e162f04ed246d2956523`)
 - [ ] Add more perks like:

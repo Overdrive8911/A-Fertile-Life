@@ -14,7 +14,6 @@ declare module "twine-sugarcube" {
 
   export interface SugarCubeStoryVariables {
     gameDateAndTime: Date;
-    lastPregUpdateFunctionCall: Date;
     gameTimeDisplay: string;
     gameDateDisplay: string;
     player: Player;
