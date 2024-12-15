@@ -716,6 +716,15 @@ namespace NSPregnancy {
           heightDiff = getStatDiff(FetalGrowthStatsEnum.HEIGHT);
           fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
 
+          // check for the polyhydramnios condition
+          if (perks && perks.polyhydramnios) {
+            fluidDiff +=
+              (perks.polyhydramnios.currLevel /
+                gAllPregPerks.polyhydramnios.maxLevel) *
+              gPolyhydramniosPerkMaxFluidProductionBoost *
+              fluidDiff;
+          }
+
           console.log(
             `oldDevelopmentRatio: ${oldDevelopmentRatio}, newDevelopmentRatio: ${newDevelopmentRatio}`
           );
