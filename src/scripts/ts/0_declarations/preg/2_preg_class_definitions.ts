@@ -355,7 +355,11 @@ namespace NSPregnancy {
       const perks = this.perks || {};
       const fortifiedWombPerk = perks.fortifiedWomb;
       if (perks && fortifiedWombPerk) {
-        wombDamage *= gFortifiedWombPerkPassiveHPDrainNerf;
+        wombDamage -=
+          (perks.fortifiedWomb.currLevel /
+            gAllPregPerks.fortifiedWomb.maxLevel) *
+          gFortifiedWombPerkMaxPassiveHPDrainNerf *
+          wombDamage;
       }
 
       return -wombDamage;
@@ -401,14 +405,16 @@ namespace NSPregnancy {
       if (perks && healthyWombPerk) {
         if (value >= 0) {
           // Buff health increments
-          mod *=
+          mod +=
             (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
-            gHealthyWombPerkMaxHPIncrementBuff;
+            gHealthyWombPerkMaxHPIncrementBuff *
+            mod;
         } else {
           // Nerf health decrements
-          mod *=
+          mod +=
             (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
-            gHealthyWombPerkMaxHPDecrementNerf;
+            gHealthyWombPerkMaxHPDecrementNerf *
+            mod;
         }
       }
 
@@ -535,9 +541,10 @@ namespace NSPregnancy {
       // SECTION - Boost it if the elasticity perk is active
       if (this.perks && this.perks.elasticity) {
         const perkData = this.perks.elasticity;
-        expToAdd *=
+        expToAdd +=
           (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
-          gElasticityPerkMaxExpBoost;
+          gElasticityPerkMaxExpBoost *
+          expToAdd;
       }
       // !SECTION
 
@@ -685,7 +692,6 @@ namespace NSPregnancy {
           // !SECTION
 
           // SECTION - Determine the newHeight, newWeight, and newFluidVolume (and also the belly size) using newDevelopmentRatio
-          // NOTE - These values are only calculated per gestational week, and will not change for any other smaller time measurement
           // TODO - Add drugs, eating habits and conditions that can also affect these.
 
           // Get the new gestation week after having the developmentRatio updated
@@ -903,10 +909,10 @@ namespace NSPregnancy {
             eligibleFetusDevRatio = eligibleFetusDevRatio.map((devRatio) => {
               return (
                 devRatio -
-                (ratio *
-                  gFortifiedWombPerkNaturalBirthDelay *
-                  gMaxDevelopmentState -
-                  gMaxDevelopmentState)
+                (gMaxDevelopmentState -
+                  ratio *
+                    gFortifiedWombPerkMaxNaturalBirthDelay *
+                    gMaxDevelopmentState)
               );
             });
           }
@@ -1007,9 +1013,10 @@ namespace NSPregnancy {
       const fortifiedWombPerk = perks.fortifiedWomb;
 
       if (perks && fortifiedWombPerk) {
-        mod *=
+        mod +=
           (fortifiedWombPerk.currLevel / gAllPregPerks.fortifiedWomb.maxLevel) *
-          gFortifiedWombPerkMaxCapacityBoost;
+          gFortifiedWombPerkMaxCapacityBoost *
+          mod;
       }
 
       return mod;
@@ -1020,9 +1027,10 @@ namespace NSPregnancy {
       const elasticityPerk = perks.elasticity;
 
       if (perks && elasticityPerk) {
-        mod *=
+        mod +=
           (elasticityPerk.currLevel / gAllPregPerks.elasticity.maxLevel) *
-          gElasticityPerkCapacityMaxBoost;
+          gElasticityPerkCapacityMaxBoost *
+          mod;
       }
 
       return mod;

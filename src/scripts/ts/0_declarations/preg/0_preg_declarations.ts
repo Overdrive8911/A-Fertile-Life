@@ -122,14 +122,14 @@ namespace NSPregnancy {
   };
 
   export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
-  export const gElasticityPerkMaxExpBoost = 1.5; // +50% increase
-  export const gElasticityPerkCapacityMaxBoost = 1.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
+  export const gElasticityPerkMaxExpBoost = 0.5; // +50% increase
+  export const gElasticityPerkCapacityMaxBoost = 0.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
   export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
-  export const gHealthyWombPerkMaxHPIncrementBuff = 1.75; // +75% to all sources of positive hp
-  export const gHealthyWombPerkMaxHPDecrementNerf = 0.75; // -25% to all sources of negative hp
-  export const gFortifiedWombPerkMaxCapacityBoost = 1.5; // +50% increase to `maxCapacity`
-  export const gFortifiedWombPerkNaturalBirthDelay = 1.25; // +25% more time after becoming due before birth may occur
-  export const gFortifiedWombPerkPassiveHPDrainNerf = 0.75; // (1 - 0.75). -25% to passive hp drain
+  export const gHealthyWombPerkMaxHPIncrementBuff = 0.75; // +75% to all sources of positive hp
+  export const gHealthyWombPerkMaxHPDecrementNerf = 0.25; // -25% to all sources of negative hp
+  export const gFortifiedWombPerkMaxCapacityBoost = 0.5; // +50% increase to `maxCapacity`
+  export const gFortifiedWombPerkMaxNaturalBirthDelay = 0.25; // +25% more time after becoming due before birth may occur
+  export const gFortifiedWombPerkMaxPassiveHPDrainNerf = 0.25; // -25% to passive hp drain
   export const gPolyhydramniosPerkMaxFluidProductionBoost = 0.5; // +50% more amniotic fluid per fetus
 
   export type PregSideEffect =
