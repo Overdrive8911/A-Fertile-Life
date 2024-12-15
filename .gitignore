@@ -12,3 +12,5 @@ tsconfig.json
 **/built_js/**
 **/built_css/**
 **/dist/index.html
+.vscode
+node_modules
