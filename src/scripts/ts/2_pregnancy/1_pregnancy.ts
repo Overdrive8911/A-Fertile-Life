@@ -1,20 +1,28 @@
 namespace NSPregnancy {
   // `updatePregnancyGrowth` is run here
   $(document).on(":passagerender", (incomingPassage) => {
-    // THis just basically means that the following should run if both the current and incoming passage have the word "location_" in their tags and at least the number of hours in `gHoursBetweenPregUpdate` have been passed since the last update
+    // This just basically means that the following should run if both the current and incoming passage have the word "location_" (which mean's they're valid locations, not passages used for inventories and other game stuff) in their tags time has passed since the last update
+    const playerWomb = variables().player.womb;
+    const passedTimeAfterLastUpdate =
+      variables().gameDateAndTime.getTime() -
+      (playerWomb.lastPregUpdate
+        ? playerWomb.lastPregUpdate.getTime()
+        : playerWomb.lastFertilized
+        ? playerWomb.lastFertilized.getTime()
+        : variables().gameDateAndTime.getTime());
     if (
       getLocationFromPassageTitle(State.active.title) &&
       getLocationFromPassageTitle(incomingPassage.passage.title) &&
-      variables().gameDateAndTime.getTime() -
-        variables().lastPregUpdateFunctionCall.getTime() >=
-        gHoursBetweenPregUpdate * 3600 * 1000
+      passedTimeAfterLastUpdate
     ) {
-      const playerWomb = variables().player.womb;
-
       playerWomb.updatePregnancyGrowth();
       playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
 
       if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
+
+      if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
+        playerWomb.postpartumCounter -= passedTimeAfterLastUpdate / 1000;
+      }
     }
   });
 }
