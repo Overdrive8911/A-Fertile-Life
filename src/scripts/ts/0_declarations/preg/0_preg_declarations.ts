@@ -112,8 +112,8 @@ namespace NSPregnancy {
     noPostpartum: {
       // currLevel: 1,
       price: 2000,
-      maxLevel: 7,
-    } /* Reduces the postpartum period of the PC by 1 day (Note that the PC has a recovery period of a week) */,
+      maxLevel: 10,
+    } /* Reduces the postpartum period, completely erasing it at max FertilityLevel. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */,
   };
 
   export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
@@ -273,6 +273,8 @@ namespace NSPregnancy {
   export const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
   export const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
   export let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
+
+  export const gPostpartumPeriod = 4320000; // Time in seconds when the user can't be impregnated. Irl, it takes 6 ~ 8 weeks so I'll just go with a weighted average closer to 8 which is `getWeightedAverage(6, 8) * 7 * 24 * 60 * 60`
 
   // The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
   // Best leave it at small ratios and below 1

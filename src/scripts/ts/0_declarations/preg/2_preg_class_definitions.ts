@@ -29,7 +29,7 @@ namespace NSPregnancy {
       
       Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */
 
-    postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */
+    postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children */
     onContraceptives = false;
     birthRecord = 0; /* Number of times the user has given birth */
 
@@ -849,7 +849,15 @@ namespace NSPregnancy {
       this.updateBellySize();
       this.sideEffects = {}; // Remove all side effects
       this.birthRecord++;
-      this.postpartumCounter = 7;
+      this.postpartumCounter = gPostpartumPeriod / this.naturalGrowthMod;
+      // Reduce postpartum duration if the appropriate perk is active
+      const perks = this.perks || {};
+      const noPostpartumPerk = perks.noPostpartum;
+      if (perks && noPostpartumPerk) {
+        this.postpartumCounter -=
+          this.postpartumCounter *
+          (noPostpartumPerk.currLevel / gAllPregPerks.noPostpartum.maxLevel);
+      }
       this.lastBirth = variables().gameDateAndTime;
       // Get the data of born children. We can use this to determine birth stats and other scene data.
       return clone(birthedChildren);
