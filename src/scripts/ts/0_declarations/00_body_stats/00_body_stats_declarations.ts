@@ -24,11 +24,11 @@ namespace NSBodyStats {
       L = 2599,
       M = 2899,
       N = 3249,
-      O = 3599,
-      P = 3949,
-      Q = 4299,
-      R = 4699,
-      S = 5099,
+      // O = 3599, // Not using any of these rn
+      // P = 3949,
+      // Q = 4299,
+      // R = 4699,
+      // S = 5099,
     }
 
     export interface SingleBreast {
