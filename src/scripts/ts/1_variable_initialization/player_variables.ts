@@ -102,14 +102,7 @@ let saveVar_player: Player = {
     naturalGrowthMod: 10,
   }),
 
-  /* Breast and Lactation */
-  breasts: {
-    individualSize: 999 /* Size per breast in CCs. 0 - 299 -> flat, 300 - 399 -> A-cup, 400 - 499 -> B-cup, 500 - 649 -> C-cup, 650 - 799 -> D-cup, 800 - 999 -> DD-cup, 1000 - 1199 -> F-cup, 1200 - 1399 -> G-cup, 1400 - 1599 -> H-cup, 1600 - 1799 -> I-cup, 1800 - 2049 -> J-cup, 2050 - 2299 -> K-cup, 2300 - 2599 -> L-cup, 2600 - 2899 -> M-cup, 2900 - 3249 -> N-cup, 3250-3599 -> O-cup, 3600 - 3949 -> P-cup, 3950 - 4299 -> Q-cup, 4300 - 4699 -> R-cup, 4700 - 5099 -> S-cup, 5100 - 10499 -> massive */,
-    totalMilkCapacity: 500 /* In millilitres */,
-    isLactating: false,
-    nipples: "perky",
-    areola: "normal",
-  },
+  breasts: new NSBodyStats.Breasts(),
 
   /* Muscle */
   muscleDefinition: 44 /* 0 - 17 -> Very frail, 18 - 35 -> Frail, 36 - 53 -> Average, 54 - 66 -> Toned, 67 - 82 -> Well-Defined, 83 - 95 -> Jacked, 96 - 100 -> Body Builder */,
