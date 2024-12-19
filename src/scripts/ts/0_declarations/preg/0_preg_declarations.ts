@@ -198,7 +198,8 @@ namespace NSPregnancy {
     amnioticFluidVolume: number; // in ml
   }
 
-  // These are just function paramsZZ
+  // These are just function params
+  // REVIEW - I greatly regret hardcoding these values.
   export const enum FetalGrowthStatsEnum {
     HEIGHT = "height",
     WEIGHT = "weight",
