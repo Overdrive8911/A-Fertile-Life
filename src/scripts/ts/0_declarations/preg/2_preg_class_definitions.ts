@@ -1067,6 +1067,7 @@ namespace NSPregnancy {
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
     devRatioAtLastUpdate: DevelopmentRatio = 0;
     extraGrowthMod?: number = null; // A modifier multiplied to the fetus's growth rate. Comes from other sources
+    // NOTE - ANY CHANGES TO THE FOLLOWING THREE PROPERTIES MUST BE REFLECTED IN `FetalGrowthStatsEnum`
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
