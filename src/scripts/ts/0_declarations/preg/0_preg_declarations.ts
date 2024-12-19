@@ -199,24 +199,24 @@ namespace NSPregnancy {
   }
 
   // These are just function paramsZZ
-  export enum FetalGrowthStatsEnum {
+  export const enum FetalGrowthStatsEnum {
     HEIGHT = "height",
     WEIGHT = "weight",
     AMNIOTIC_FLUID = "amnioticFluidVolume",
   }
 
-  export enum PregPerkElements {
-    CURRENT_LVL,
-    PRICE,
-    MAX_LVL,
-  }
+  // export enum PregPerkElements {
+  //   CURRENT_LVL,
+  //   PRICE,
+  //   MAX_LVL,
+  // }
 
-  export enum PregSideEffectElements {
-    CURRENT_DURATION,
-    MAX_DURATION,
-  }
+  // export enum PregSideEffectElements {
+  //   CURRENT_DURATION,
+  //   MAX_DURATION,
+  // }
 
-  export enum FetusSpecies {
+  export const enum FetusSpecies {
     HUMAN,
     TENTACLE,
   }
@@ -290,7 +290,7 @@ namespace NSPregnancy {
   export const gNumOfPossibleFetusIds = 65536;
 
   // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
-  export enum GestationalWeek {
+  export const enum GestationalWeek {
     One = 1,
     Two,
     Three,
