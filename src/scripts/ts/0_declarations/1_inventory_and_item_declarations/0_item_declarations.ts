@@ -24,7 +24,7 @@ namespace NSInventoryAndItem {
     DRUG_FERTILITY_BOOST_3,
   }
 
-  export enum ItemTag {
+  export const enum ItemTag {
     DUMMY,
     ALL, // Don't give this tag to anything. It applies to every item already
     KEY_ITEMS,
@@ -35,7 +35,7 @@ namespace NSInventoryAndItem {
     TRASH,
   }
 
-  export enum ItemProperties {
+  export const enum ItemProperties {
     PRICE_CANNOT_BE_BOUGHT = -1,
   }
 
