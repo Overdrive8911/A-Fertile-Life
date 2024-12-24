@@ -469,22 +469,22 @@ namespace NSInventoryAndItem {
     // !SECTION
 
     // SECTION - Sugarcube specific methods
-    clone() {
-      return new (this.constructor as typeof Item)(this);
-    }
+    // clone() {
+    //   return new (this.constructor as typeof Item)(this);
+    // }
 
-    toJSON() {
-      const ownData: { [key: string]: any } = {};
+    // toJSON() {
+    //   const ownData: { [key: string]: any } = {};
 
-      Object.keys(this).forEach((prop) => {
-        ownData[prop] = clone(this[prop as any as keyof Item]);
-      }, this);
+    //   Object.keys(this).forEach((prop) => {
+    //     ownData[prop] = clone(this[prop as any as keyof Item]);
+    //   }, this);
 
-      return JSON.reviveWrapper(
-        `new ${(this.constructor as typeof Item).name}($ReviveData$)`,
-        ownData
-      );
-    }
+    //   return JSON.reviveWrapper(
+    //     `new ${(this.constructor as typeof Item).name}($ReviveData$)`,
+    //     ownData
+    //   );
+    // }
     // !SECTION
   }
 }
