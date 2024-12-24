@@ -424,7 +424,10 @@ namespace NSInventoryAndItem {
     get imageUrl() {
       return (
         this.#imageUrl ||
-        `assets/img/items/${ItemId[this.itemId].toLocaleLowerCase()}.webp`
+        `assets/img/items/${
+          ItemId[this.itemId].charAt(0) +
+          ItemId[this.itemId].slice(1).toLocaleLowerCase()
+        }.webp`
       );
     }
     get tags() {
