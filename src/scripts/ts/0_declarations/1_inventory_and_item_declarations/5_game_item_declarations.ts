@@ -15,7 +15,7 @@ namespace NSInventoryAndItem {
 
     [ItemId.MOULDY_CHEESE]: new Item({
       itemId: ItemId.MOULDY_CHEESE,
-      name: "Mouldy Cheese",
+      // name: "Mouldy Cheese",
       price: 10000,
       weight: 350,
       description: `An antiquated piece of "food" that should've been discarded long ago.`,
