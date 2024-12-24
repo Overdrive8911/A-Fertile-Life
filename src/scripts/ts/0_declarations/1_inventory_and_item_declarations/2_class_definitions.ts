@@ -407,7 +407,10 @@ namespace NSInventoryAndItem {
       return this.#name != undefined
         ? this.#name
         : this.itemId != ItemId.DUMMY
-        ? ItemId[this.itemId]
+        ? (
+            ItemId[this.itemId].charAt(0) +
+            ItemId[this.itemId].slice(1).toLocaleLowerCase()
+          ).replace("_", " ")
         : "Dummy";
     }
     // NOTE - Unless the item cannot be bought, put a value here, even zero yes
@@ -424,10 +427,7 @@ namespace NSInventoryAndItem {
     get imgUrl() {
       return (
         this.#imgUrl ||
-        `assets/img/items/${
-          ItemId[this.itemId].charAt(0) +
-          ItemId[this.itemId].slice(1).toLocaleLowerCase()
-        }.webp`
+        `assets/img/items/${ItemId[this.itemId].toLocaleLowerCase()}.webp`
       );
     }
     get tags() {
