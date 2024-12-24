@@ -407,10 +407,14 @@ namespace NSInventoryAndItem {
       return this.#name != undefined
         ? this.#name
         : this.itemId != ItemId.DUMMY
-        ? (
-            ItemId[this.itemId].charAt(0) +
-            ItemId[this.itemId].slice(1).toLocaleLowerCase()
-          ).replace("_", " ")
+        ? (() => {
+            const str = ItemId[this.itemId];
+            let splitStr = str.replace("_", " ").toLocaleLowerCase().split(" ");
+            splitStr = splitStr.map((val) => {
+              return val.toLocaleUpperFirst();
+            });
+            return splitStr.join(" ");
+          })()
         : "Dummy";
     }
     // NOTE - Unless the item cannot be bought, put a value here, even zero yes
