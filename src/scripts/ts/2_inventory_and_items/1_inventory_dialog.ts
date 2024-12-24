@@ -90,7 +90,7 @@ namespace NSInventoryAndItem {
       if (!item) item = gInGameItems[ItemId.DUMMY];
       const numOfDuplicates = inventory.getItemCount(itemId);
       const nameOfItem = item.name;
-      const itemImageUrl = item.imageUrl;
+      const itemImageUrl = item.imgUrl;
 
       const itemSellingPrice = /*item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
           ? `$0`

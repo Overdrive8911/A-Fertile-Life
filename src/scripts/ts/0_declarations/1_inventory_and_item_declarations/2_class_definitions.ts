@@ -377,7 +377,7 @@ namespace NSInventoryAndItem {
     #price?: number; // For the player to obtain it. The selling price is 45% of this value :p
     #weight?: number; // In grams
     #description?: string;
-    #imageUrl?: string; // The relative url to its image file in relations to the compiled html file
+    #imgUrl?: string; // The relative url to its image file in relations to the compiled html file
     #tags?: ItemTag[]; // For sorting items
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
@@ -421,9 +421,9 @@ namespace NSInventoryAndItem {
       return this.#description || "Dummy";
     }
     // NOTE - This can only be omitted if the name of the image to use is the same as the name of the item in the `ItemId` enum, ignoring case sensitivity
-    get imageUrl() {
+    get imgUrl() {
       return (
-        this.#imageUrl ||
+        this.#imgUrl ||
         `assets/img/items/${
           ItemId[this.itemId].charAt(0) +
           ItemId[this.itemId].slice(1).toLocaleLowerCase()
@@ -458,8 +458,8 @@ namespace NSInventoryAndItem {
     set description(val: string) {
       this.#description = val;
     }
-    set imageUrl(val: string) {
-      this.#imageUrl = val;
+    set imgUrl(val: string) {
+      this.#imgUrl = val;
     }
     set tags(val: ItemTag[]) {
       if (val[0]) {
