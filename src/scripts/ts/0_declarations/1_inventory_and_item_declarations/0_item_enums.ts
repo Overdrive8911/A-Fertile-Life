@@ -24,6 +24,7 @@ namespace NSInventoryAndItem {
     FERTILITY_BOOST_3,
   }
 
+  // TODO - Turn this into a const string enum
   export enum ItemTag {
     DUMMY,
     ALL, // Don't give this tag to anything. It applies to every item already
