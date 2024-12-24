@@ -2,7 +2,7 @@ namespace NSInventoryAndItem {
   export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
-    #itemLimit = 256;
+    #itemLimit = 256; // TODO - Don't hardcode te item limit
 
     constructor(classProperties: Inventory = null) {
       this.items = new Map();
@@ -232,16 +232,16 @@ namespace NSInventoryAndItem {
       ...functionArgs: unknown[]
     ) {
       let item: InventoryItem;
-      let itemFunc: (...arg: unknown[]) => unknown;
+      let itemFunc: Function;
       if (
         typeof inventoryItemOrStorageId == "number" &&
         this.items.has(inventoryItemOrStorageId)
       ) {
         item = this.items.get(inventoryItemOrStorageId);
-        itemFunc = gInGameItems[item.itemId].handler;
+        itemFunc = gInGameItems[item.itemId].callback;
       } else if (typeof inventoryItemOrStorageId == "object") {
         item = inventoryItemOrStorageId;
-        itemFunc = gInGameItems[inventoryItemOrStorageId.itemId].handler;
+        itemFunc = gInGameItems[inventoryItemOrStorageId.itemId].callback;
       }
 
       if (itemFunc) {
@@ -368,4 +368,120 @@ namespace NSInventoryAndItem {
       window.test.storeItem(i);
     }
   };
+
+  // type GenericItemCallback = (...args: unknown[]) => any;
+  export class Item {
+    // // ANCHOR - This class accepts 3 arguments; an object which may have any data of the non-method properties of this class, a function to serve as the handler callback of the item to create, or both in an object described by `allData` which is {data: ..., handler: ...}
+    #itemId?: ItemId; // Entry in `ItemId`. Also used to get the name of the items
+    #name?: string;
+    #price?: number; // For the player to obtain it. The selling price is 45% of this value :p
+    #weight?: number; // In grams
+    #description?: string;
+    #imageUrl?: string; // The relative url to its image file in relations to the compiled html file
+    #tags?: ItemTag[]; // For sorting items
+
+    // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
+    customCallBack?: Function;
+    #defaultCallback() {
+      // REVIEW - What should the generic item callback be?
+      return;
+    }
+
+    constructor(data?: Partial<Item>) {
+      for (const key in data as Item) {
+        if (Object.prototype.hasOwnProperty.call(data as Item, key)) {
+          const element = (data as Item)[key as keyof Item];
+
+          //@ts-expect-error
+          this[key as keyof Item] = clone(element);
+        }
+      }
+    }
+
+    // SECTION - Item Class Getters
+    // NOTE - If any of these are meant to have values, just put them in unless they'll default to something else
+    get itemId() {
+      return this.#itemId || ItemId.DUMMY;
+    }
+    get name() {
+      return this.#name != undefined
+        ? this.#name
+        : this.itemId != ItemId.DUMMY
+        ? ItemId[this.itemId]
+        : "Dummy";
+    }
+    // NOTE - Unless the item cannot be bought, put a value here, even zero yes
+    get price() {
+      return this.#price || ItemProperties.PRICE_CANNOT_BE_BOUGHT;
+    }
+    get weight() {
+      return this.#weight || ItemProperties.WEIGHTLESS;
+    }
+    get description() {
+      return this.#description || "Dummy";
+    }
+    // NOTE - This can only be omitted if the name of the image to use is the same as the name of the item in the `ItemId` enum, ignoring case sensitivity
+    get imageUrl() {
+      return (
+        this.#imageUrl ||
+        `assets/img/items/${ItemId[this.itemId].toLocaleLowerCase()}.webp`
+      );
+    }
+    get tags() {
+      return this.#tags || [ItemTag.DUMMY];
+    }
+    get callback() {
+      return this.customCallBack ? this.customCallBack : this.#defaultCallback;
+    }
+    // !SECTION
+
+    // SECTION - Item Class Setters
+    set itemId(val: ItemId) {
+      this.#itemId = val;
+    }
+    set name(val: string) {
+      this.#name = val;
+    }
+    set price(val: number | ItemProperties.PRICE_CANNOT_BE_BOUGHT) {
+      if (val >= ItemProperties.PRICE_CANNOT_BE_BOUGHT) {
+        this.#price = val;
+      }
+    }
+    set weight(val: number | ItemProperties.WEIGHTLESS) {
+      if (val >= ItemProperties.WEIGHTLESS) {
+        this.#weight = val;
+      }
+    }
+    set description(val: string) {
+      this.#description = val;
+    }
+    set imageUrl(val: string) {
+      this.#imageUrl = val;
+    }
+    set tags(val: ItemTag[]) {
+      if (val[0]) {
+        this.#tags = val;
+      }
+    }
+    // !SECTION
+
+    // SECTION - Sugarcube specific methods
+    clone() {
+      return new (this.constructor as typeof Item)(this);
+    }
+
+    toJSON() {
+      const ownData: { [key: string]: any } = {};
+
+      Object.keys(this).forEach((prop) => {
+        ownData[prop] = clone(this[prop as any as keyof Item]);
+      }, this);
+
+      return JSON.reviveWrapper(
+        `new ${(this.constructor as typeof Item).name}($ReviveData$)`,
+        ownData
+      );
+    }
+    // !SECTION
+  }
 }

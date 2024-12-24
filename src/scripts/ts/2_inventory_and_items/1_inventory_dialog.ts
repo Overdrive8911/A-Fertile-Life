@@ -92,10 +92,9 @@ namespace NSInventoryAndItem {
       const nameOfItem = item.name;
       const itemImageUrl = item.imageUrl;
 
-      const itemSellingPrice =
-        item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
+      const itemSellingPrice = /*item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
           ? `$0`
-          : `$${item.price * 0.45}`;
+          : */ `$${item.price * 0.45}`;
       const itemWeight =
         item.weight < 1000
           ? `${item.weight}g`
