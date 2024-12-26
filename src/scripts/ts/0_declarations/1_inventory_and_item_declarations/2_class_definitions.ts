@@ -382,9 +382,9 @@ namespace NSInventoryAndItem {
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
     customCallBack?: Function;
-    #defaultCallback() {
+    defaultCallback() {
       // REVIEW - What should the generic item callback be?
-      return;
+      return 0 as unknown;
     }
 
     constructor(data?: Partial<Item>) {
@@ -438,7 +438,7 @@ namespace NSInventoryAndItem {
       return this.#tags || [ItemTag.DUMMY];
     }
     get callback() {
-      return this.customCallBack ? this.customCallBack : this.#defaultCallback;
+      return this.customCallBack ? this.customCallBack : this.defaultCallback;
     }
     // !SECTION
 
