@@ -11,7 +11,13 @@ namespace NSInventoryAndItem {
   //   tags?: ItemTag[];
   //   handler?: (...arg: unknown[]) => Data;
   // }
-  type Data = unknown[] | unknown | undefined | void;
+  // type Data = unknown[] | unknown | undefined | void;
+  export type ItemDynamicData = {};
+  export type ItemCallback = (
+    // inventoryObject: Inventory,
+    // storageIdInInventory: number,
+    data?: ItemDynamicData
+  ) => unknown;
 
   // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
   export interface InventoryItem {
@@ -20,7 +26,7 @@ namespace NSInventoryAndItem {
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
     // price?: number;
     // weight?: number;
-    dynamicData?: unknown; // In case an object has dynamicData, just put the required data here and read it as necessary
+    dynamicData?: ItemDynamicData; // In case an object has dynamicData, just put the required data here and read it as necessary
   }
   export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
 }
