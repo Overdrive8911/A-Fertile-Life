@@ -12,6 +12,22 @@ namespace NSInventoryAndItem {
 
       constructor(data?: Partial<Item>) {
         super(data);
+        this.tags.pushUnique(ItemTag.CLOTHING);
+        this.bodyArea = ClothingArea.NONE;
+      }
+
+      doesClothCoverBodyPart(bodyPart: ClothingArea) {
+        return this.bodyArea != ClothingArea.NONE
+          ? bodyPart == (this.bodyArea & bodyPart)
+          : false;
+      }
+
+      get isInnerWear() {
+        return this.bodyArea & ClothingArea.INNER;
+      }
+
+      defaultCallback() {
+        // TODO - This should add or remove clothing depending on if it is equipped or not
       }
     }
 
