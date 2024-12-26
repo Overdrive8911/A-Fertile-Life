@@ -18,8 +18,8 @@ namespace NSInventoryAndItem {
     itemId: ItemId; // To know what type of item it is
     extraIdData?: number | string; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
-    price?: number;
-    weight?: number;
+    // price?: number;
+    // weight?: number;
     dynamicData?: unknown; // In case an object has dynamicData, just put the required data here and read it as necessary
   }
   export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId

@@ -245,7 +245,7 @@ namespace NSInventoryAndItem {
       }
 
       if (itemFunc) {
-        const returnedData = functionArgs
+        const returnedData: unknown = functionArgs
           ? itemFunc(...functionArgs)
           : itemFunc();
 
