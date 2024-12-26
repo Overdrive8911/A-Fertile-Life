@@ -45,6 +45,8 @@ namespace NSInventoryAndItem {
     // ANCHOR - Clothing
     // TODO - Implement clothing
     export const enum ClothingArea {
+      NONE = 0,
+
       INNER = 1 << 27, // Any clothing item with this flag is for the inner body
       TATTOO = 1 << 28, // Represents a tattoo on any part of the body. And as such is considered  and ignores `INNER` by default
 
