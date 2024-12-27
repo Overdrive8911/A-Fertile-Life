@@ -7,6 +7,7 @@ namespace NSInventoryAndItem {
       }
     }
 
+    type ClothingDynamicData = { clothingState: ClothingState | number };
     export class Clothing extends Item {
       bodyArea: ClothingArea;
 
@@ -16,19 +17,88 @@ namespace NSInventoryAndItem {
         this.bodyArea = ClothingArea.NONE;
       }
 
+      // SECTION - Clothing Item Methods
       doesClothCoverBodyPart(bodyPart: ClothingArea) {
         return this.bodyArea != ClothingArea.NONE
           ? bodyPart == (this.bodyArea & bodyPart)
           : false;
       }
 
+      defaultCallback(data?: ClothingDynamicData) {
+        // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
+        const storedClothingData = data || ({} as ClothingDynamicData);
+        // TODO - Make clothing actually obey their state
+        if (storedClothingData.clothingState) {
+          // Toggle its state (whether it is worn or not)
+          storedClothingData.clothingState ^= ClothingState.IN_USE;
+
+          // If the clothing item is now in use reduce a durability point
+        } else {
+          // There is no current data about the item so assume that the clothing has never been worn and has max durability
+          storedClothingData.clothingState |=
+            ClothingState.DURABILITY_EXCELLENT;
+          // Wear the clothing
+          storedClothingData.clothingState |= ClothingState.IN_USE;
+        }
+
+        return storedClothingData;
+      }
+      // !SECTION
+
+      // SECTION - Clothing Item Static Methods
+      // This `data` has to be supplied from the Item in the inventory that called it
+      static getDurabilityLevel(data?: ClothingDynamicData) {
+        const storedClothingData = clone(data) || ({} as ClothingDynamicData);
+
+        if (storedClothingData.clothingState) {
+          let bitField = storedClothingData.clothingState;
+          // Unset unneeded bits
+          bitField &= ~ClothingState.IN_USE;
+
+          if (bitField & ClothingState.DURABILITY_EXCELLENT) {
+            return ClothingState.DURABILITY_EXCELLENT;
+          } else if (bitField & ClothingState.DURABILITY_HIGH) {
+            return ClothingState.DURABILITY_HIGH;
+          } else if (bitField & ClothingState.DURABILITY_GOOD) {
+            return ClothingState.DURABILITY_GOOD;
+          } else if (bitField & ClothingState.DURABILITY_OKAY) {
+            return ClothingState.DURABILITY_OKAY;
+          } else if (bitField & ClothingState.DURABILITY_POOR) {
+            return ClothingState.DURABILITY_POOR;
+          } else {
+            return ClothingState.DURABILITY_WORN_OUT;
+          }
+        }
+
+        // No data so just default to being worn out
+        return ClothingState.DURABILITY_WORN_OUT;
+      }
+      static setDurabilityLevel(
+        data: ClothingDynamicData,
+        durabilityLvl:
+          | ClothingState.DURABILITY_WORN_OUT
+          | ClothingState.DURABILITY_POOR
+          | ClothingState.DURABILITY_OKAY
+          | ClothingState.DURABILITY_GOOD
+          | ClothingState.DURABILITY_HIGH
+          | ClothingState.DURABILITY_EXCELLENT
+      ) {
+        const storedClothingData =
+          data ||
+          ({ clothingState: ClothingState.NOT_IN_USE } as ClothingDynamicData);
+
+        storedClothingData.clothingState |= durabilityLvl;
+      }
+      // !SECTION
+
+      // SECTION - Clothing Item Getters
       get isInnerWear() {
         return this.bodyArea & ClothingArea.INNER;
       }
+      // !SECTION
 
-      defaultCallback() {
-        // TODO - This should add or remove clothing depending on if it is equipped or not
-      }
+      // SECTION - Clothing Item Setters
+      // !SECTION
     }
 
     export class Drug extends Item {
