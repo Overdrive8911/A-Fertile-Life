@@ -197,7 +197,7 @@ namespace NSInventoryAndItem {
     getItem(
       itemOrStorageId: ItemId | string | number,
       useUniqueStorageId = false,
-      extraIdData: number | string
+      extraIdData?: number | string
     ) {
       itemOrStorageId = (
         this.constructor as typeof Inventory
@@ -233,10 +233,10 @@ namespace NSInventoryAndItem {
     // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
     useItem(
       inventoryItemOrStorageId: InventoryItem | number,
-      ...functionArgs: unknown[]
+      data?: ItemDynamicData
     ) {
       let item: InventoryItem;
-      let itemFunc: Function;
+      let itemFunc: ItemCallback;
       if (
         typeof inventoryItemOrStorageId == "number" &&
         this.items.has(inventoryItemOrStorageId)
@@ -249,9 +249,9 @@ namespace NSInventoryAndItem {
       }
 
       if (itemFunc) {
-        const returnedData: unknown = functionArgs
-          ? itemFunc(...functionArgs)
-          : itemFunc();
+        const returnedData: unknown = data
+          ? itemFunc(/*this, inventoryItemOrStorageId,*/ data)
+          : itemFunc(/*this, inventoryItemOrStorageId*/);
 
         if (returnedData) {
           item.dynamicData = clone(returnedData);
@@ -263,6 +263,7 @@ namespace NSInventoryAndItem {
       return false;
     }
 
+    // NOTE - Use this by default.
     useItemWithDynamicData(inventoryItemOrStorageId: InventoryItem | number) {
       const type = typeof inventoryItemOrStorageId == "object";
 
@@ -373,7 +374,6 @@ namespace NSInventoryAndItem {
     }
   };
 
-  // type GenericItemCallback = (...args: unknown[]) => any;
   export class Item {
     // // ANCHOR - This class accepts 3 arguments; an object which may have any data of the non-method properties of this class, a function to serve as the handler callback of the item to create, or both in an object described by `allData` which is {data: ..., handler: ...}
     #itemId?: ItemId; // Entry in `ItemId`. Also used to get the name of the items
@@ -385,10 +385,11 @@ namespace NSInventoryAndItem {
     #tags?: ItemTag[]; // For sorting items
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
-    customCallBack?: Function;
-    defaultCallback() {
+    customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
+    defaultCallback(...args: Parameters<ItemCallback>) {
       // REVIEW - What should the generic item callback be?
-      return 0 as unknown;
+      // TODO - Fix this typescript error
+      return 0 as ReturnType<ItemCallback>;
     }
 
     constructor(data?: Partial<Item>) {
