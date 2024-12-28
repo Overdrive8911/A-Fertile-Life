@@ -7,7 +7,9 @@ namespace NSInventoryAndItem {
       }
     }
 
-    type ClothingDynamicData = { clothingState: ClothingState | number };
+    interface ClothingDynamicData extends ItemDynamicData {
+      clothingState: ClothingState | number;
+    }
     export class Clothing extends Item {
       bodyArea: ClothingArea;
 
