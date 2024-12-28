@@ -12,7 +12,7 @@ namespace NSInventoryAndItem {
   //   handler?: (...arg: unknown[]) => Data;
   // }
   // type Data = unknown[] | unknown | undefined | void;
-  export type ItemDynamicData = {};
+  export interface ItemDynamicData {}
   export type ItemCallback = (
     // inventoryObject: Inventory,
     // storageIdInInventory: number,
