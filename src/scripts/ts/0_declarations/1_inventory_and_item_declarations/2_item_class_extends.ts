@@ -15,7 +15,9 @@ namespace NSInventoryAndItem {
       constructor(data?: Partial<Item>) {
         super(data);
         this.tags.pushUnique(ItemTag.CLOTHING);
-        this.bodyArea = ClothingArea.NONE;
+        this.bodyArea = this.bodyArea |= undefined
+          ? this.bodyArea
+          : ClothingArea.NONE;
       }
 
       // SECTION - Clothing Item Methods
