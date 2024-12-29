@@ -1,32 +1,40 @@
 namespace NSInventoryAndItem {
-  // Will probably be extended to more specific types (especially those with dynamic data like ammunition)
-  // Default to ItemId.DUMMY if any required member is unavailable
-  // export interface Item {
-  //   itemId: ItemId; // Entry in `ItemId`. Also used to get the name of the items
-  //   imageUrl: string;
-  //   name: string;
-  //   description: string; // Make it gud
-  //   price: number;
-  //   weight: number;
-  //   tags?: ItemTag[];
-  //   handler?: (...arg: unknown[]) => Data;
-  // }
-  // type Data = unknown[] | unknown | undefined | void;
-  export interface ItemDynamicData {}
+  // NOTE - All item specific data should extend from this
+  export interface GenericItemDynamicData {}
   export type ItemCallback = (
     // inventoryObject: Inventory,
     // storageIdInInventory: number,
-    data?: ItemDynamicData
-  ) => unknown;
+    data?: GenericItemDynamicData
+  ) => typeof data extends GenericItemDynamicData ? typeof data : unknown;
+  // type a<T extends Item, U extends typeof Item> = T & (typeof T)
+  // NOTE - Add all new item classes here for type safety
+  export type AnyItemClass = Item &
+    typeof Item &
+    ItemType.Clothing &
+    typeof ItemType.Clothing &
+    ItemType.Drug &
+    typeof ItemType.Drug &
+    ItemType.Food &
+    typeof ItemType.Food;
+  export type ItemClassMethod<ItemClass extends AnyItemClass> = Extract<
+    ItemClass[keyof ItemClass],
+    Function
+  >;
+  // export type ItemClassMethod = Exclude<
+  //   | keyof Item
+  //   | keyof ItemType.Food
+  //   | keyof ItemType.Clothing
+  //   | keyof ItemType.Drug,
+  //   Item["defaultCallback"]
+  // >;
+  // export type UseItemClassMethodFn<Class extends (Item | ItemType.Food| ItemType.Clothing| ItemType.Drug) > = (MethodToUse?: keyof Class) => void | ItemDynamicData
 
-  // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
-  export interface InventoryItem {
-    itemId: ItemId; // To know what type of item it is
-    extraIdData?: number | string; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
-    locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
-    // price?: number;
-    // weight?: number;
-    dynamicData?: ItemDynamicData; // In case an object has dynamicData, just put the required data here and read it as necessary
-  }
   export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
+
+  // ANCHOR - Extensions of `GenericItemDynamicData`
+  export interface ClothingDynamicData extends GenericItemDynamicData {
+    clothingState: ItemType.ClothingState | number;
+  }
+
+  export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
 }
