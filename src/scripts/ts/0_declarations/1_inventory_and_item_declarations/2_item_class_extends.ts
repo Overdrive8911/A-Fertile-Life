@@ -19,19 +19,10 @@ namespace NSInventoryAndItem {
       }
 
       // SECTION - Clothing Item Methods
-      // This will always make sure the `data` parameter always has a usable value
-      protected static sanitiseClothingData(
-        data: ClothingDynamicData | GenericItemDynamicData
-      ) {
-        return !$.isEmptyObject(data) &&
-          (data as ClothingDynamicData).clothingState != undefined
-          ? (data as ClothingDynamicData)
-          : { clothingState: ClothingState.DEFAULT };
-      }
-      doesClothCoverBodyPart(bodyPart: ClothingArea) {
-        return this.bodyArea != ClothingArea.NONE
-          ? bodyPart == (this.bodyArea & bodyPart)
-          : false;
+      isEquipped(data: ClothingDynamicData) {
+        const storedClothingData = Clothing.sanitiseClothingData(data);
+
+        return storedClothingData.clothingState & ClothingState.IN_USE;
       }
 
       defaultCallback(data?: ClothingDynamicData) {
@@ -56,6 +47,21 @@ namespace NSInventoryAndItem {
       // !SECTION
 
       // SECTION - Clothing Item Static Methods
+
+      // This will always make sure the `data` parameter always has a usable value
+      protected static sanitiseClothingData(
+        data: ClothingDynamicData | GenericItemDynamicData
+      ) {
+        return !$.isEmptyObject(data) &&
+          (data as ClothingDynamicData).clothingState != undefined
+          ? (data as ClothingDynamicData)
+          : { clothingState: ClothingState.DEFAULT };
+      }
+      doesClothCoverBodyPart(bodyPart: ClothingArea) {
+        return this.bodyArea != ClothingArea.NONE
+          ? bodyPart == (this.bodyArea & bodyPart)
+          : false;
+      }
       // This `data` has to be supplied from the Item in the inventory that called it
       static getDurabilityLevel(data: ClothingDynamicData) {
         const storedClothingData = Clothing.sanitiseClothingData(data);
