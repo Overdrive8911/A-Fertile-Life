@@ -1,7 +1,7 @@
 namespace NSInventoryAndItem {
   // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
   export class InventoryItem {
-    itemId = ItemId.DUMMY; // To know what type of item it is
+    #itemId: ItemId; // To know what type of item it is
     extraIdData?: number | string; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
     // price?: number;
@@ -38,22 +38,27 @@ namespace NSInventoryAndItem {
       );
     }
 
+    get itemId() {
+      return this.#itemId == undefined ? ItemId.DUMMY : this.#itemId;
+    }
+
+    set itemId(val: ItemId) {
+      if (val != null || val != undefined) {
+        this.#itemId = val;
+      }
+    }
+
     // By default, it calls the callback/handler of the appropriate item. However, it can also call any method of any item it represents if the appropriate method is passed as an argument. If `classMethodArgs` is passed, they will be used as the arguments for `classMethod`
     // NOTE - Pass null to any method arguments that are extended from `ItemDynamicData` if you prefer having the data of the item used
     use<method extends ItemClassMethod<AnyItemClass>>(
       classMethod?: method,
       ...classMethodArgs: Parameters<method>
     ) {
-      console.log("here");
       console.log(gInGameItems);
       const staticItemData = gInGameItems[this.itemId];
-      console.log("here0.1");
       const callback = staticItemData.callback;
-      console.log("here0.2");
       const argData = this.dynamicData || ({} as GenericItemDynamicData);
-      console.log("here0.3");
       let returnedData: GenericItemDynamicData;
-      console.log("here1");
 
       if (classMethod) {
         const extraArgs = classMethodArgs;
