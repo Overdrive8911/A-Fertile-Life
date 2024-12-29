@@ -3,7 +3,7 @@ namespace NSInventoryAndItem {
   export const gInGameItems: Partial<Record<ItemId, Item>> = {
     [ItemId.DUMMY]: new Item(),
 
-    [ItemId.CHEESE]: new Item({
+    [ItemId.CHEESE]: new ItemType.Food({
       itemId: ItemId.CHEESE,
       // name: "Cheese",
       price: 100,
@@ -13,7 +13,7 @@ namespace NSInventoryAndItem {
       tags: [ItemTag.FOOD],
     }),
 
-    [ItemId.MOULDY_CHEESE]: new Item({
+    [ItemId.MOULDY_CHEESE]: new ItemType.Food({
       itemId: ItemId.MOULDY_CHEESE,
       // name: "Mouldy Cheese",
       price: 10000,
