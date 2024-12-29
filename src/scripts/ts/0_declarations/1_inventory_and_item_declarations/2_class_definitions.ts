@@ -8,16 +8,21 @@ namespace NSInventoryAndItem {
     // weight?: number;
     dynamicData?: AnyItemDynamicData; // In case an object has dynamicData, just put the required data here and read it as necessary
 
-    constructor(initData: Partial<InventoryItem> = null) {
+    constructor(initData: Partial<InventoryItem> | Item = null) {
       // Overwrite the default values with `initData` if it exists
       if (initData != null) {
-        Object.keys(initData).forEach((pn) => {
-          // const property: NotFunc<keyof Inventory1> = pn as keyof Inventory1;
-          // const property = pn as NotFunc<keyof Inventory1> & string;
-          const property = pn as never; // just disable type checking here
+        if (initData instanceof InventoryItem) {
+          Object.keys(initData).forEach((pn) => {
+            // const property: NotFunc<keyof Inventory1> = pn as keyof Inventory1;
+            // const property = pn as NotFunc<keyof Inventory1> & string;
+            const property = pn as never; // just disable type checking here
 
-          this[property] = clone(initData[property]);
-        }, this);
+            this[property] = clone(initData[property]);
+          }, this);
+        } else if (initData instanceof Item) {
+          // Just grab the id of the item
+          this.itemId = initData.itemId;
+        }
       }
     }
 
