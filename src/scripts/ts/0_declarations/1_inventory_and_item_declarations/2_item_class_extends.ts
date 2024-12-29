@@ -42,7 +42,7 @@ namespace NSInventoryAndItem {
           // Toggle its state (whether it is worn or not)
           storedClothingData.clothingState ^= ClothingState.IN_USE;
 
-          // If the clothing item is now in use reduce a durability point
+          // TODO - If the clothing item is now in use reduce a durability point
         } else {
           // There is no current data about the item so assume that the clothing has never been worn and has max durability
           storedClothingData.clothingState |=
