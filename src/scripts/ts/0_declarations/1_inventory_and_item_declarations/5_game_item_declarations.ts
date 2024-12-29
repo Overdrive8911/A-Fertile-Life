@@ -73,4 +73,10 @@ namespace NSInventoryAndItem {
       tags: [ItemTag.KEY_ITEMS],
     }),
   };
+  // const a = new InventoryItem();
+  // a.use(
+  //   ItemType.Clothing.setDurabilityLevel,
+  //   a.dynamicData as ClothingDynamicData,
+  //   ItemType.ClothingState.DURABILITY_EXCELLENT
+  // );
 }

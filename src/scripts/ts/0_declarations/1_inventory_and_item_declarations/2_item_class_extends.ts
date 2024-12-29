@@ -1,4 +1,6 @@
 namespace NSInventoryAndItem {
+  // NOTE - Add any new child classes to `AnyItemClass`
+  // NOTE - Ny method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
   export namespace ItemType {
     // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
     export class Food extends Item {
@@ -7,9 +9,6 @@ namespace NSInventoryAndItem {
       }
     }
 
-    interface ClothingDynamicData extends ItemDynamicData {
-      clothingState: ClothingState | number;
-    }
     export class Clothing extends Item {
       bodyArea: ClothingArea;
 
@@ -28,7 +27,9 @@ namespace NSInventoryAndItem {
 
       defaultCallback(data?: ClothingDynamicData) {
         // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
-        const storedClothingData = data || ({} as ClothingDynamicData);
+        const storedClothingData = !$.isEmptyObject(data)
+          ? data
+          : ({} as ClothingDynamicData);
         // TODO - Make clothing actually obey their state
         if (storedClothingData.clothingState) {
           // Toggle its state (whether it is worn or not)
@@ -50,7 +51,9 @@ namespace NSInventoryAndItem {
       // SECTION - Clothing Item Static Methods
       // This `data` has to be supplied from the Item in the inventory that called it
       static getDurabilityLevel(data?: ClothingDynamicData) {
-        const storedClothingData = clone(data) || ({} as ClothingDynamicData);
+        const storedClothingData = !$.isEmptyObject(data)
+          ? clone(data)
+          : ({} as ClothingDynamicData);
 
         if (storedClothingData.clothingState) {
           let bitField = storedClothingData.clothingState;
@@ -85,11 +88,15 @@ namespace NSInventoryAndItem {
           | ClothingState.DURABILITY_HIGH
           | ClothingState.DURABILITY_EXCELLENT
       ) {
-        const storedClothingData =
-          data ||
-          ({ clothingState: ClothingState.NOT_IN_USE } as ClothingDynamicData);
+        const storedClothingData = !$.isEmptyObject(data)
+          ? data
+          : ({
+              clothingState: ClothingState.NOT_IN_USE,
+            } as ClothingDynamicData);
 
         storedClothingData.clothingState |= durabilityLvl;
+
+        return storedClothingData;
       }
       // !SECTION
 

@@ -1,4 +1,81 @@
 namespace NSInventoryAndItem {
+  // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
+  export class InventoryItem {
+    itemId = ItemId.DUMMY; // To know what type of item it is
+    extraIdData?: number | string; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
+    locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
+    // price?: number;
+    // weight?: number;
+    dynamicData?: AnyItemDynamicData; // In case an object has dynamicData, just put the required data here and read it as necessary
+
+    constructor(initData: Partial<InventoryItem> = null) {
+      // Overwrite the default values with `initData` if it exists
+      if (initData != null) {
+        Object.keys(initData).forEach((pn) => {
+          // const property: NotFunc<keyof Inventory1> = pn as keyof Inventory1;
+          // const property = pn as NotFunc<keyof Inventory1> & string;
+          const property = pn as never; // just disable type checking here
+
+          this[property] = clone(initData[property]);
+        }, this);
+      }
+    }
+
+    clone() {
+      return new (this.constructor as typeof InventoryItem)(this);
+    }
+
+    toJSON() {
+      const ownData: { [key: string]: any } = {};
+
+      Object.keys(this).forEach((prop) => {
+        ownData[prop] = clone(this[prop as any as keyof InventoryItem]);
+      }, this);
+
+      return JSON.reviveWrapper(
+        `new ${(this.constructor as typeof InventoryItem).name}($ReviveData$)`,
+        ownData
+      );
+    }
+
+    // By default, it calls the callback/handler of the appropriate item. However, it can also call any method of any item it represents if the appropriate method is passed as an argument. If `classMethodArgs` is passed, they will be used as the arguments for `classMethod`
+    // NOTE - Pass null to any method arguments that are extended from `ItemDynamicData` if you prefer having the data of the item used
+    use<method extends ItemClassMethod<AnyItemClass>>(
+      classMethod?: method,
+      ...classMethodArgs: Parameters<method>
+    ) {
+      console.log("here");
+      console.log(gInGameItems);
+      const staticItemData = gInGameItems[this.itemId];
+      console.log("here0.1");
+      const callback = staticItemData.callback;
+      console.log("here0.2");
+      const argData = this.dynamicData || ({} as GenericItemDynamicData);
+      console.log("here0.3");
+      let returnedData: GenericItemDynamicData;
+      console.log("here1");
+
+      if (classMethod) {
+        const extraArgs = classMethodArgs;
+
+        console.log("here2");
+        //@ts-expect-error
+        // Apparently, the typescript version I'm using, v5.5.2, doesn't allow spreading the parameters of generic functions. Or maybe that's not the case? Anyway, this code isn't wrong
+        returnedData = classMethod(...extraArgs) || {};
+      } else {
+        // Default to calling the callback while passing the dynamic data as the only argument, then store the returned data
+        returnedData = callback(argData);
+
+        // If the returned value is just an empty object, {}, there's no use of storing it.
+        if (returnedData && !$.isEmptyObject(returnedData)) {
+          this.dynamicData = returnedData;
+        }
+      }
+
+      console.log(returnedData);
+    }
+  }
+
   export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
@@ -43,7 +120,7 @@ namespace NSInventoryAndItem {
       amount?: number,
       locationObtained?: string,
       extraIdData?: number | string,
-      dynamicData?: ItemDynamicData
+      dynamicData?: GenericItemDynamicData
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
@@ -83,13 +160,14 @@ namespace NSInventoryAndItem {
           unusedInventoryKeys
         ) as unknown as number;
 
-        const inventoryItem: InventoryItem = {
+        const inventoryItem = new InventoryItem({
           itemId: itemId,
           locationObtained:
             locationObtained != undefined
               ? locationObtained
               : variables().player.locationData.location,
-        };
+        });
+
         if (extraIdData != undefined && extraIdData != null) {
           inventoryItem.extraIdData = extraIdData;
         }
@@ -233,7 +311,7 @@ namespace NSInventoryAndItem {
     // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
     useItem(
       inventoryItemOrStorageId: InventoryItem | number,
-      data?: ItemDynamicData
+      data?: GenericItemDynamicData
     ) {
       let item: InventoryItem;
       let itemFunc: ItemCallback;
@@ -385,8 +463,8 @@ namespace NSInventoryAndItem {
     #tags?: ItemTag[]; // For sorting items
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
-    customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
-    defaultCallback(...args: Parameters<ItemCallback>) {
+    protected customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
+    protected defaultCallback(...args: Parameters<ItemCallback>) {
       // REVIEW - What should the generic item callback be?
       // TODO - Fix this typescript error
       return 0 as ReturnType<ItemCallback>;
