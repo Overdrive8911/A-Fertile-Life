@@ -33,7 +33,7 @@ namespace NSInventoryAndItem {
 
   // ANCHOR - Extensions of `GenericItemDynamicData`
   export interface ClothingDynamicData extends GenericItemDynamicData {
-    clothingState: ItemType.ClothingState | number;
+    clothingState: ItemType.ClothingState;
   }
 
   export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
