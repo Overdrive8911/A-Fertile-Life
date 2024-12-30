@@ -12,21 +12,26 @@ namespace NSInventoryAndItem {
     export class Clothing extends Item {
       bodyArea: ClothingArea;
 
-      constructor(data?: Partial<Item>) {
+      constructor(data: Partial<Item | Clothing> = null) {
         super(data);
         this.tags.pushUnique(ItemTag.CLOTHING);
         this.bodyArea = this.bodyArea |= undefined
           ? this.bodyArea
           : ClothingArea.NONE;
+
+        if (data) {
+          for (const key in data as Item) {
+            if (Object.prototype.hasOwnProperty.call(data as Item, key)) {
+              const element = (data as Item)[key as keyof Item];
+
+              //@ts-expect-error
+              this[key as keyof Item] = clone(element);
+            }
+          }
+        }
       }
 
       // SECTION - Clothing Item Methods
-      isEquipped(data: ClothingDynamicData) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
-
-        return storedClothingData.clothingState & ClothingState.IN_USE;
-      }
-
       defaultCallback(data?: ClothingDynamicData) {
         // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
         const storedClothingData = Clothing.sanitiseClothingData(data);
@@ -106,6 +111,11 @@ namespace NSInventoryAndItem {
         storedClothingData.clothingState |= durabilityLvl;
 
         return storedClothingData;
+      }
+      static isEquipped(data: ClothingDynamicData) {
+        const storedClothingData = Clothing.sanitiseClothingData(data);
+
+        return storedClothingData.clothingState & ClothingState.IN_USE;
       }
       // !SECTION
 
