@@ -86,6 +86,7 @@ namespace NSInventoryAndItem {
     }
   }
 
+  type a<T> = T extends infer U ? U : never;
   export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
     protected items: Map<number, InventoryItem>;
@@ -281,11 +282,14 @@ namespace NSInventoryAndItem {
       return this.#itemLimit - this.items.size;
     }
 
-    // Returns the first item in the inventory the id matches. Returns false if no item is present. If `extraIdData` is provided, it will try to find a item with both the specified id and `extraIdData`. DOES NOT DELETE ANYTHING
-    getItem(
+    // Returns the first item in the inventory the id matches. Returns false if no item is present. If `extraIdData` or `dynamicData` is provided, it will try to find a item with both the specified id and `extraIdData`/`dynamicData`. DOES NOT DELETE ANYTHING
+    getItem<dynamicData extends GenericItemDynamicData>(
       itemOrStorageId: ItemId | string | number,
       useUniqueStorageId = false,
-      extraIdData?: number | string
+      extraIdData: number | string = null, // This is solely use to identify an item and nothing more
+      keyInDynamicData: a<
+        Extract<Partial<AnyItemDynamicData>, dynamicData>
+      > = null // This is used to determine whether an item already exists with the specified info we need
     ) {
       itemOrStorageId = (
         this.constructor as typeof Inventory
