@@ -22,6 +22,12 @@ namespace NSInventoryAndItem {
     FERTILITY_BOOST_1,
     FERTILITY_BOOST_2,
     FERTILITY_BOOST_3,
+
+    // Clothing
+    SIMPLE_HAT,
+    SIMPLE_SHIRT,
+    SIMPLE_SKIRT,
+    SIMPLE_BOOTS,
   }
 
   // TODO - Turn this into a const string enum or maybe use a switch case and raw strings as substitutes in the places that require them and then just make this const.
