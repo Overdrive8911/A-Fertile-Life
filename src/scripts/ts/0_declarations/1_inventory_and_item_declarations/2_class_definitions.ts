@@ -54,7 +54,7 @@ namespace NSInventoryAndItem {
     }
 
     get itemTags() {
-      return gInGameItems[this.itemId].tags;
+      return this.staticData.tags;
     }
 
     get staticData() {
@@ -67,16 +67,13 @@ namespace NSInventoryAndItem {
       classMethod?: method,
       ...classMethodArgs: Parameters<method>
     ) {
-      console.log(gInGameItems);
-      const staticItemData = gInGameItems[this.itemId];
-      const callback = staticItemData.callback;
+      const callback = this.staticData.callback;
       const argData = this.dynamicData || ({} as GenericItemDynamicData);
       let returnedData: GenericItemDynamicData;
 
       if (classMethod) {
         const extraArgs = classMethodArgs;
 
-        console.log("here2");
         //@ts-expect-error
         // Apparently, the typescript version I'm using, v5.5.2, doesn't allow spreading the parameters of generic functions. Or maybe that's not the case? Anyway, this code isn't wrong
         returnedData = classMethod(...extraArgs) || {};
@@ -89,8 +86,6 @@ namespace NSInventoryAndItem {
           this.dynamicData = returnedData;
         }
       }
-
-      console.log(returnedData);
     }
   }
 
@@ -353,10 +348,10 @@ namespace NSInventoryAndItem {
         this.items.has(inventoryItemOrStorageId)
       ) {
         item = this.items.get(inventoryItemOrStorageId);
-        itemFunc = gInGameItems[item.itemId].callback;
+        itemFunc = item.staticData.callback;
       } else if (typeof inventoryItemOrStorageId == "object") {
         item = inventoryItemOrStorageId;
-        itemFunc = gInGameItems[inventoryItemOrStorageId.itemId].callback;
+        itemFunc = item.staticData.callback;
       }
 
       if (itemFunc) {
