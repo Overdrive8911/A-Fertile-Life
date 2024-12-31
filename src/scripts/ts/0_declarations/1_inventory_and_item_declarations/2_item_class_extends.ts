@@ -117,6 +117,32 @@ namespace NSInventoryAndItem {
 
         return storedClothingData.clothingState & ClothingState.IN_USE;
       }
+      static getAllEquippedClothing(inventory: Inventory) {
+        let result: {
+          staticData: Clothing;
+          dynamicData: ClothingDynamicData;
+        }[];
+
+        const allClothingInInventory = inventory.getAllItemsByItemTag([
+          ItemTag.CLOTHING,
+        ]);
+        const allEquippedClothingInInventory = allClothingInInventory.filter(
+          (clothing) => {
+            const storedClothingData =
+              clothing.dynamicData as ClothingDynamicData;
+            return this.isEquipped(storedClothingData);
+          }
+        );
+
+        result = allEquippedClothingInInventory.map((clothing) => {
+          return {
+            staticData: clothing.staticData as Clothing,
+            dynamicData: clothing.dynamicData as ClothingDynamicData,
+          };
+        });
+
+        return result;
+      }
       // !SECTION
 
       // SECTION - Clothing Item Getters
