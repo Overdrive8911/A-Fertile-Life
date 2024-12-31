@@ -20,7 +20,7 @@ namespace NSInventoryAndItem {
       weight: 350,
       description: `An antiquated piece of "food" that should've been discarded long ago.`,
       // imageUrl: "assets/img/items/mouldy_cheese.webp",
-      tags: [ItemTag.FOOD],
+      // tags: [ItemTag.FOOD],
     }),
 
     [ItemId.KEYCARD_LVL_1]: new Item({

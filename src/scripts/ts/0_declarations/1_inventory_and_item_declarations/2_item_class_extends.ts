@@ -6,6 +6,7 @@ namespace NSInventoryAndItem {
     export class Food extends Item {
       constructor(data?: Partial<Item>) {
         super(data);
+        this.tags.pushUnique(ItemTag.FOOD);
       }
     }
 
