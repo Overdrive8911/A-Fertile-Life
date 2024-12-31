@@ -134,7 +134,7 @@ namespace NSInventoryAndItem {
       amount?: number,
       locationObtained?: string,
       extraIdData?: number | string,
-      dynamicData?: GenericItemDynamicData
+      dynamicData?: AnyItemDynamicData
     ) {
       // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
