@@ -11,7 +11,10 @@ namespace NSInventoryAndItem {
     constructor(initData: Partial<InventoryItem> | Item = null) {
       // Overwrite the default values with `initData` if it exists
       if (initData != null) {
-        if (initData instanceof InventoryItem) {
+        if (initData instanceof Item) {
+          // Just grab the id of the item
+          this.itemId = initData.itemId;
+        } else {
           Object.keys(initData).forEach((pn) => {
             // const property: NotFunc<keyof Inventory1> = pn as keyof Inventory1;
             // const property = pn as NotFunc<keyof Inventory1> & string;
@@ -19,9 +22,6 @@ namespace NSInventoryAndItem {
 
             this[property] = clone(initData[property]);
           }, this);
-        } else if (initData instanceof Item) {
-          // Just grab the id of the item
-          this.itemId = initData.itemId;
         }
       }
     }
