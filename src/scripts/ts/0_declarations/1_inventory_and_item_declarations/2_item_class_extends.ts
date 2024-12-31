@@ -159,6 +159,7 @@ namespace NSInventoryAndItem {
     export class Drug extends Item {
       constructor(data?: Partial<Item>) {
         super(data);
+        this.tags.pushUnique(ItemTag.DRUGS);
       }
     }
 
