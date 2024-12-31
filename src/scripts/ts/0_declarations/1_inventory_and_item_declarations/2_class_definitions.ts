@@ -322,6 +322,21 @@ namespace NSInventoryAndItem {
       return inGameInventoryItem;
     }
 
+    // Returns an array of every inventory item that matches the given tag, if any. Ignores the `DUMMY` item
+    getAllItemsByItemTag(itemTag = ItemTag.ALL) {
+      let returnedItems = [...this.items.values()];
+
+      if (itemTag) {
+        if (itemTag != ItemTag.ALL) {
+          returnedItems = returnedItems.filter((item) => {
+            return item.itemTags.includesAll(itemTag);
+          });
+        }
+      }
+
+      return returnedItems;
+    }
+
     // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
     useItem(
       inventoryItemOrStorageId: InventoryItem | number,
