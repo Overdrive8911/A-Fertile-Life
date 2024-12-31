@@ -194,9 +194,5 @@ namespace NSInventoryAndItem {
 
       DEFAULT = DURABILITY_EXCELLENT | NOT_IN_USE,
     }
-    export const enum InventoryItemOrStaticItem {
-      INVENTORY_ITEM = 1,
-      STATIC_ITEM,
-    }
   }
 }
