@@ -165,6 +165,7 @@ namespace NSInventoryAndItem {
           inventoryKeys.push(key);
         });
 
+        // REVIEW - See whether this can be optimized
         // Create an array with a length to contain 256 items and spread out its keys into the array we'll actually use, i.e [0,1,2,3,...,255] and filter away keys already used in the inventory
         const unusedInventoryKeys = [...Array(limit).keys()].filter((value) => {
           return !inventoryKeys.includes(value);
