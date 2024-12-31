@@ -490,6 +490,7 @@ namespace NSInventoryAndItem {
     #description?: string;
     #imgUrl?: string; // The relative url to its image file in relations to the compiled html file
     #tags?: ItemTag[]; // For sorting items
+    #color?: ItemColor; // Just for aesthetics
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
     protected customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
@@ -552,6 +553,9 @@ namespace NSInventoryAndItem {
     get callback() {
       return this.customCallBack ? this.customCallBack : this.defaultCallback;
     }
+    get color() {
+      return this.#color ? this.#color : ItemColor.NO_COLOR;
+    }
     // !SECTION
 
     // SECTION - Item Class Setters
@@ -580,6 +584,11 @@ namespace NSInventoryAndItem {
     set tags(val: ItemTag[]) {
       if (val[0]) {
         this.#tags = val;
+      }
+    }
+    set color(val: ItemColor) {
+      if (val != ItemColor.NO_COLOR) {
+        this.#color = val;
       }
     }
     // !SECTION
