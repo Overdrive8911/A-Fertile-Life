@@ -323,11 +323,11 @@ namespace NSInventoryAndItem {
     }
 
     // Returns an array of every inventory item that matches the given tag, if any. Ignores the `DUMMY` item
-    getAllItemsByItemTag(itemTag = ItemTag.ALL) {
+    getAllItemsByItemTag(itemTag = [ItemTag.ALL]) {
       let returnedItems = [...this.items.values()];
 
       if (itemTag) {
-        if (itemTag != ItemTag.ALL) {
+        if (!itemTag.includes(ItemTag.ALL)) {
           returnedItems = returnedItems.filter((item) => {
             return item.itemTags.includesAll(itemTag);
           });
