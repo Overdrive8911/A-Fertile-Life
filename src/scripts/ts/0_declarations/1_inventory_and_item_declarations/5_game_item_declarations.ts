@@ -72,6 +72,38 @@ namespace NSInventoryAndItem {
       // imageUrl: "assets/img/items/keycard_lvl_5.webp",
       tags: [ItemTag.KEY_ITEMS],
     }),
+
+    [ItemId.SIMPLE_HAT]: new ItemType.Clothing({
+      itemId: ItemId.SIMPLE_HAT,
+      price: 350,
+      weight: 110,
+      description: "A nice and plain hat to protect you from the sun.",
+      color: ItemColor.GREY,
+    }),
+
+    [ItemId.SIMPLE_SHIRT]: new ItemType.Clothing({
+      itemId: ItemId.SIMPLE_SHIRT,
+      price: 850,
+      weight: 330,
+      description: "A nice and plain shirt that isn't too tight.",
+      color: ItemColor.GREY,
+    }),
+
+    [ItemId.SIMPLE_SKIRT]: new ItemType.Clothing({
+      itemId: ItemId.SIMPLE_SKIRT,
+      price: 700,
+      weight: 300,
+      description: "A nice and plain skirt that's just right.",
+      color: ItemColor.GREY,
+    }),
+
+    [ItemId.SIMPLE_BOOTS]: new ItemType.Clothing({
+      itemId: ItemId.SIMPLE_BOOTS,
+      price: 500,
+      weight: 500,
+      description: "A nice and plain pair of boots that's pretty snug.",
+      color: ItemColor.GREY,
+    }),
   };
   // const a = new InventoryItem();
   // a.use(
