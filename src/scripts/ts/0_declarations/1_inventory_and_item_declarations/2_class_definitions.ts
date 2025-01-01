@@ -63,20 +63,20 @@ namespace NSInventoryAndItem {
 
     // By default, it calls the callback/handler of the appropriate item. However, it can also call any method of any item it represents if the appropriate method is passed as an argument. If `classMethodArgs` is passed, they will be used as the arguments for `classMethod`
     // NOTE - Pass null to any method arguments that are extended from `ItemDynamicData` if you prefer having the data of the item used
-    use<method extends ItemClassMethod<AnyItemClass>>(
-      classMethod?: method,
+    use<method extends ItemClassMethod>(
+      classMethodInAnyTypeOfItem?: method,
       ...classMethodArgs: Parameters<method>
     ) {
       const callback = this.staticData.callback;
       const argData = this.dynamicData || ({} as GenericItemDynamicData);
       let returnedData: GenericItemDynamicData;
 
-      if (classMethod) {
+      if (classMethodInAnyTypeOfItem) {
         const extraArgs = classMethodArgs;
 
         //@ts-expect-error
         // Apparently, the typescript version I'm using, v5.5.2, doesn't allow spreading the parameters of generic functions. Or maybe that's not the case? Anyway, this code isn't wrong
-        returnedData = classMethod(...extraArgs) || {};
+        returnedData = classMethodInAnyTypeOfItem(...extraArgs) || {};
       } else {
         // Default to calling the callback while passing the dynamic data as the only argument, then store the returned data
         returnedData = callback(argData);
