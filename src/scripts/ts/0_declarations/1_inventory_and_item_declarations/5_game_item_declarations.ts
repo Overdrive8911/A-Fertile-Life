@@ -10,7 +10,7 @@ namespace NSInventoryAndItem {
       weight: 300,
       description: "A piece of soft yellow divine goodness from heaven itself.",
       // imageUrl: "assets/img/items/cheese.webp",
-      tags: [ItemTag.FOOD],
+      // tags: [ItemTag.FOOD],
     }),
 
     [ItemId.MOULDY_CHEESE]: new ItemType.Food({
