@@ -8,7 +8,7 @@ namespace NSInventoryAndItem {
   ) => typeof data extends GenericItemDynamicData ? typeof data : unknown;
   // type a<T extends Item, U extends typeof Item> = T & (typeof T)
   // NOTE - Add all new item classes here for type safety
-  export type AnyItemClass = Item &
+  type AnyItemClass = Item &
     typeof Item &
     ItemType.Clothing &
     typeof ItemType.Clothing &
@@ -16,8 +16,8 @@ namespace NSInventoryAndItem {
     typeof ItemType.Drug &
     ItemType.Food &
     typeof ItemType.Food;
-  export type ItemClassMethod<ItemClass extends AnyItemClass> = Extract<
-    ItemClass[keyof ItemClass],
+  export type ItemClassMethod = Extract<
+    AnyItemClass[keyof AnyItemClass],
     Function
   >;
   // export type ItemClassMethod = Exclude<
