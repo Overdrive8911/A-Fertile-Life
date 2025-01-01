@@ -47,6 +47,22 @@ namespace NSInventoryAndItem {
     WEIGHTLESS = 0,
   }
 
+  // Maybe I could turn these to numbers and use a method to generate the appropriate strings?
+  export const enum ItemColor {
+    NO_COLOR = "colourless",
+    RED = "red",
+    GREEN = "green",
+    BLUE = "blue",
+    YELLOW = "yellow",
+    PINK = "pink",
+    PURPLE = "purple",
+    WHITE = "white",
+    BLACK = "black",
+    GREY = "GREY",
+    BROWN = "brown",
+    ORANGE = "orange",
+  }
+
   export namespace ItemType {
     // ANCHOR - Clothing
     // TODO - Implement clothing
