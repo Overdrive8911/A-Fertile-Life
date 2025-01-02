@@ -66,6 +66,7 @@ namespace NSInventoryAndItem {
   export namespace ItemType {
     // ANCHOR - Clothing
     // TODO - Implement clothing
+    // REVIEW - Consider creating namespaces for each item type
     export const enum ClothingArea {
       NONE = 0,
 
