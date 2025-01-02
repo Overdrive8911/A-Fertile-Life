@@ -493,7 +493,7 @@ namespace NSInventoryAndItem {
     #color?: ItemColor; // Just for aesthetics
 
     // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
-    protected customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
+    customCallBack?: ItemCallback; // Added when initializing an instance and a special callback is needed
     protected defaultCallback(...args: Parameters<ItemCallback>) {
       // REVIEW - What should the generic item callback be?
       // TODO - Fix this typescript error
