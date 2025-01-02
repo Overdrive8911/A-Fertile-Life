@@ -37,4 +37,36 @@ namespace NSInventoryAndItem {
   }
 
   export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
+
+  export type AllClothingDurabilityPoints =
+    | ItemType.ClothingState.DURABILITY_LVL_1
+    | ItemType.ClothingState.DURABILITY_LVL_2
+    | ItemType.ClothingState.DURABILITY_LVL_3
+    | ItemType.ClothingState.DURABILITY_LVL_4
+    | ItemType.ClothingState.DURABILITY_LVL_5
+    | ItemType.ClothingState.DURABILITY_LVL_6
+    | ItemType.ClothingState.DURABILITY_LVL_7
+    | ItemType.ClothingState.DURABILITY_LVL_8
+    | ItemType.ClothingState.DURABILITY_LVL_9
+    | ItemType.ClothingState.DURABILITY_LVL_10
+    | ItemType.ClothingState.DURABILITY_LVL_11
+    | ItemType.ClothingState.DURABILITY_LVL_12
+    | ItemType.ClothingState.DURABILITY_LVL_13
+    | ItemType.ClothingState.DURABILITY_LVL_14
+    | ItemType.ClothingState.DURABILITY_LVL_15
+    | ItemType.ClothingState.DURABILITY_LVL_16
+    | ItemType.ClothingState.DURABILITY_LVL_17
+    | ItemType.ClothingState.DURABILITY_LVL_18
+    | ItemType.ClothingState.DURABILITY_LVL_19
+    | ItemType.ClothingState.DURABILITY_LVL_20
+    | ItemType.ClothingState.DURABILITY_LVL_21
+    | ItemType.ClothingState.DURABILITY_LVL_22
+    | ItemType.ClothingState.DURABILITY_LVL_23
+    | ItemType.ClothingState.DURABILITY_LVL_24
+    | ItemType.ClothingState.DURABILITY_LVL_25
+    | ItemType.ClothingState.DURABILITY_LVL_26
+    | ItemType.ClothingState.DURABILITY_LVL_27
+    | ItemType.ClothingState.DURABILITY_LVL_28
+    | ItemType.ClothingState.DURABILITY_LVL_29
+    | ItemType.ClothingState.DURABILITY_LVL_30;
 }
