@@ -69,7 +69,7 @@ namespace NSInventoryAndItem {
     ) {
       const callback = this.staticData.callback;
       const argData = this.dynamicData || ({} as GenericItemDynamicData);
-      let returnedData: GenericItemDynamicData;
+      let returnedData: AnyItemDynamicData | unknown;
 
       if (classMethodInAnyTypeOfItem) {
         const extraArgs = classMethodArgs;
@@ -80,13 +80,18 @@ namespace NSInventoryAndItem {
       } else {
         // Default to calling the callback while passing the dynamic data as the only argument, then store the returned data
         returnedData = callback(argData);
+      }
 
-        // If the returned value is just an empty object, {}, there's no use of storing it.
-        if (returnedData && !$.isEmptyObject(returnedData)) {
-          this.dynamicData = returnedData;
-        }
+      // If the returned value is just an empty object, {}, there's no use of storing it.
+      if (
+        returnedData &&
+        $.isPlainObject(returnedData) &&
+        !$.isEmptyObject(returnedData)
+      ) {
+        this.dynamicData = returnedData;
       }
     }
+  }
   }
 
   export class Inventory {
