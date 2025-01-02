@@ -49,7 +49,7 @@ namespace NSInventoryAndItem {
 
   // Maybe I could turn these to numbers and use a method to generate the appropriate strings?
   export const enum ItemColor {
-    NO_COLOR = "colourless",
+    NO_COLOR = "",
     RED = "red",
     GREEN = "green",
     BLUE = "blue",
