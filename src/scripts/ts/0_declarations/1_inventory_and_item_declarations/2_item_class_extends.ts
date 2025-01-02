@@ -6,7 +6,7 @@ namespace NSInventoryAndItem {
     export class Food extends Item {
       constructor(data?: Partial<Item>) {
         super(data);
-        this.tags.pushUnique(ItemTag.FOOD);
+        this.addTags(ItemTag.FOOD);
       }
     }
 
@@ -15,7 +15,7 @@ namespace NSInventoryAndItem {
 
       constructor(data: Partial<Item | Clothing> = null) {
         super(data);
-        this.tags.pushUnique(ItemTag.CLOTHING);
+        this.addTags(ItemTag.CLOTHING);
         this.bodyArea = this.bodyArea |= undefined
           ? this.bodyArea
           : ClothingArea.NONE;
@@ -159,7 +159,7 @@ namespace NSInventoryAndItem {
     export class Drug extends Item {
       constructor(data?: Partial<Item>) {
         super(data);
-        this.tags.pushUnique(ItemTag.DRUGS);
+        this.addTags(ItemTag.DRUGS);
       }
     }
 
