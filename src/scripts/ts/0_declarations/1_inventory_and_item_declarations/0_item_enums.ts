@@ -123,6 +123,7 @@ namespace NSInventoryAndItem {
       RIGHT_ENTIRE_ARM = RIGHT_ARM | RIGHT_WRIST | RIGHT_HAND | RIGHT_SHOULDER,
       ARMS = LEFT_ARM | RIGHT_ARM,
       ENTIRE_ARMS = LEFT_ENTIRE_ARM | RIGHT_ENTIRE_ARM,
+      SHOULDERS = LEFT_SHOULDER | RIGHT_SHOULDER,
 
       UPPER_BODY = ENTIRE_HEAD | TORSO | ENTIRE_ARMS,
 
@@ -132,12 +133,23 @@ namespace NSInventoryAndItem {
       RIGHT_ENTIRE_LEG = RIGHT_LEG | RIGHT_ANKLE | RIGHT_FOOT,
       LEGS = LEFT_LEG | RIGHT_LEG,
       ENTIRE_LEGS = LEFT_ENTIRE_LEG | RIGHT_ENTIRE_LEG,
+      THIGHS = LEFT_THIGH | RIGHT_THIGH,
+      CALVES = LEFT_CALF | RIGHT_CALF,
+      ANKLES = RIGHT_ANKLE | LEFT_ANKLE,
+      FEET = LEFT_FOOT | RIGHT_FOOT,
 
       PRIVATES = WAIST | INNER,
 
       LOWER_BODY = WAIST | ENTIRE_LEGS,
 
       ENTIRE_BODY = UPPER_BODY | LOWER_BODY,
+
+      // Other combinations
+      HAT_AREA = TOP_OF_HEAD,
+      SHIRT_AREA = TORSO | SHOULDERS,
+      SKIRT_AREA = WAIST | THIGHS,
+      SHOE_AREA = FEET | ANKLES,
+      BOOT_AREA = SHOE_AREA | CALVES,
     }
     export const enum ClothingState {
       // The different states of clothing that can be stored as `dynamicData` in the Inventory
