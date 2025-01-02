@@ -68,7 +68,7 @@ namespace NSInventoryAndItem {
           : false;
       }
       // This `data` has to be supplied from the Item in the inventory that called it
-      static getDurabilityLevel(data: ClothingDynamicData) {
+      static getAverageDurabilityLevel(data: ClothingDynamicData) {
         const storedClothingData = Clothing.sanitiseClothingData(data);
 
         if (storedClothingData.clothingState) {
@@ -94,7 +94,7 @@ namespace NSInventoryAndItem {
         // No data so just default to being worn out
         return ClothingState.DURABILITY_WORN_OUT;
       }
-      static setDurabilityLevel(
+      static setAverageDurabilityLevel(
         data: ClothingDynamicData,
         durabilityLvl:
           | ClothingState.DURABILITY_WORN_OUT
