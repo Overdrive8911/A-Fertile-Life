@@ -58,7 +58,7 @@ namespace NSInventoryAndItem {
     PURPLE = "purple",
     WHITE = "white",
     BLACK = "black",
-    GREY = "GREY",
+    GREY = "grey",
     BROWN = "brown",
     ORANGE = "orange",
   }
