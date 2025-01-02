@@ -110,6 +110,27 @@ namespace NSInventoryAndItem {
 
         return storedClothingData;
       }
+
+      // Returns a member of the type `AllClothingDurabilityPoints`
+      static getHighestDurabilityPoint(
+        data: ClothingDynamicData
+      ): Extract<ClothingState, AllClothingDurabilityPoints> {
+        const storedClothingData = Clothing.sanitiseClothingData(data);
+
+        // Check for the presence of the highest bit (31st bit or 1 << 30) and go down from there till the (2nd bit or 1 << 1)
+        let bitPos = 30;
+        let bitField = 1 << bitPos;
+
+        while (bitPos > 0) {
+          if (storedClothingData.clothingState & bitField) {
+            break;
+          }
+
+          bitPos--;
+        }
+
+        return bitField;
+      }
       static isEquipped(data: ClothingDynamicData) {
         const storedClothingData = Clothing.sanitiseClothingData(data);
 
