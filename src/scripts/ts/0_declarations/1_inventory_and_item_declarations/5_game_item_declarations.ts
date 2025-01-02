@@ -85,6 +85,7 @@ namespace NSInventoryAndItem {
       weight: 110,
       description: "A nice and plain hat to protect you from the sun.",
       color: ItemColor.GREY,
+      bodyArea: ItemType.ClothingArea.HAT_AREA,
     }),
 
     [ItemId.SIMPLE_SHIRT]: new ItemType.Clothing({
@@ -93,6 +94,7 @@ namespace NSInventoryAndItem {
       weight: 330,
       description: "A nice and plain shirt that isn't too tight.",
       color: ItemColor.GREY,
+      bodyArea: ItemType.ClothingArea.SHIRT_AREA,
     }),
 
     [ItemId.SIMPLE_SKIRT]: new ItemType.Clothing({
@@ -101,6 +103,7 @@ namespace NSInventoryAndItem {
       weight: 300,
       description: "A nice and plain skirt that's just right.",
       color: ItemColor.GREY,
+      bodyArea: ItemType.ClothingArea.SKIRT_AREA,
     }),
 
     [ItemId.SIMPLE_BOOTS]: new ItemType.Clothing({
@@ -109,6 +112,7 @@ namespace NSInventoryAndItem {
       weight: 500,
       description: "A nice and plain pair of boots that's pretty snug.",
       color: ItemColor.GREY,
+      bodyArea: ItemType.ClothingArea.BOOT_AREA,
     }),
   };
   // const a = new InventoryItem();
