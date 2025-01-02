@@ -593,6 +593,23 @@ namespace NSInventoryAndItem {
     }
     // !SECTION
 
+    // SECTION - Methods
+    addTags(...tagsToAdd: ItemTag[]) {
+      // Remove any unneeded tags
+      tagsToAdd.delete(ItemTag.ALL);
+
+      // Initialize the `tags` array if its still undefined
+      this.#tags ??= [];
+      this.#tags.pushUnique(...tagsToAdd);
+    }
+
+    // Returns an array of the removed tags
+    removeTags(...tagsToRemove: ItemTag[]): ItemTag[] {
+      if (!this.#tags) return [];
+      return this.#tags.delete(...tagsToRemove);
+    }
+    // !SECTION
+
     // SECTION - Sugarcube specific methods
     // clone() {
     //   return new (this.constructor as typeof Item)(this);
