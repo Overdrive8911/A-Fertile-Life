@@ -11,14 +11,11 @@ namespace NSInventoryAndItem {
     }
 
     export class Clothing extends Item {
-      bodyArea: ClothingArea;
+      #bodyArea: ClothingArea;
 
       constructor(data: Partial<Item | Clothing> = null) {
         super(data);
         this.addTags(ItemTag.CLOTHING);
-        this.bodyArea = this.bodyArea |= undefined
-          ? this.bodyArea
-          : ClothingArea.NONE;
 
         if (data) {
           for (const key in data as Item) {
@@ -147,12 +144,18 @@ namespace NSInventoryAndItem {
       // !SECTION
 
       // SECTION - Clothing Item Getters
+      get bodyArea() {
+        return this.#bodyArea != undefined ? this.#bodyArea : ClothingArea.NONE;
+      }
       get isInnerWear() {
-        return this.bodyArea & ClothingArea.INNER;
+        return this.#bodyArea & ClothingArea.INNER;
       }
       // !SECTION
 
       // SECTION - Clothing Item Setters
+      set bodyArea(val: ClothingArea) {
+        if (val) this.#bodyArea = val;
+      }
       // !SECTION
     }
 
