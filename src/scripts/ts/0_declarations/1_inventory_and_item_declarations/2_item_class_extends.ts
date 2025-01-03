@@ -123,7 +123,7 @@ namespace NSInventoryAndItem {
           (31 -
             Math.clz32(
               storedClothingData.clothingState &
-                ClothingState.DURABILITY_EXCELLENT
+                ClothingState.ALL_DURABILITY_POINTS
             ))
         );
       }
