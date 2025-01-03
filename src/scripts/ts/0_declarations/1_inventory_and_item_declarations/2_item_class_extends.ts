@@ -106,6 +106,10 @@ namespace NSInventoryAndItem {
       ) {
         const storedClothingData = this.sanitiseClothingData(data);
 
+        // Clear the durability before resetting it.
+        storedClothingData.clothingState =
+          this.clearDurabilityPoints(storedClothingData);
+
         storedClothingData.clothingState |= durabilityLvl;
 
         return storedClothingData;
