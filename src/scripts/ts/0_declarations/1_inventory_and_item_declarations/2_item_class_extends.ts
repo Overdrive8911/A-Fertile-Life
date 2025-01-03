@@ -117,20 +117,17 @@ namespace NSInventoryAndItem {
       ): AllClothingDurabilityPoints {
         const storedClothingData = Clothing.sanitiseClothingData(data);
 
-        // Check for the presence of the highest bit (31st bit or 1 << 30) and go down from there till the (2nd bit or 1 << 1)
-        let bitPos = 30;
-        let bitField = 1 << bitPos;
-
-        while (bitPos > 0) {
-          if (storedClothingData.clothingState & bitField) {
-            break;
-          }
-
-          bitPos--;
-        }
-
-        return bitField;
+        // This clears all non-necessary bits and then checks the amount of leading zeros (in a 32 bit representation). Subtracting that from 31 should give us the appropriate bit position
+        return (
+          1 <<
+          (31 -
+            Math.clz32(
+              storedClothingData.clothingState &
+                ClothingState.DURABILITY_EXCELLENT
+            ))
+        );
       }
+
       static isEquipped(data: ClothingDynamicData) {
         const storedClothingData = Clothing.sanitiseClothingData(data);
 
