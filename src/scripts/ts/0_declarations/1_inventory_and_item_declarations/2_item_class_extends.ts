@@ -169,6 +169,40 @@ namespace NSInventoryAndItem {
         return storedClothingData.clothingState;
       }
 
+      static reduceDurabilityPoints(
+        data: ClothingDynamicData,
+        numToReduceBy: number
+      ) {
+        let storedClothingData = this.sanitiseClothingData(data);
+
+        const clothingDurability =
+          storedClothingData.clothingState &
+          ClothingState.ALL_DURABILITY_POINTS;
+
+        const bitPosUpperBound = this.#getBitPos(clothingDurability);
+        const bitPosLowerBound = this.#getBitPos(
+          ClothingState.LOWEST_DURABILITY_POINT
+        );
+        const bitPosAfterReduction = bitPosUpperBound - numToReduceBy;
+
+        // Clear the bits
+        storedClothingData.clothingState =
+          this.clearDurabilityPoints(storedClothingData);
+
+        // Don't go beyond 0 durability
+        if (bitPosAfterReduction < bitPosLowerBound) {
+          return storedClothingData;
+        }
+
+        // Now set the bits to `bitPosAfterReduction`
+        storedClothingData = this.setDurabilityPoint(
+          storedClothingData,
+          1 << bitPosAfterReduction
+        );
+
+        return storedClothingData;
+      }
+
       static isEquipped(data: ClothingDynamicData) {
         const storedClothingData = this.sanitiseClothingData(data);
 
