@@ -104,11 +104,10 @@ namespace NSInventoryAndItem {
           | ClothingState.DURABILITY_HIGH
           | ClothingState.DURABILITY_EXCELLENT
       ) {
-        const storedClothingData = this.sanitiseClothingData(data);
+        let storedClothingData = this.sanitiseClothingData(data);
 
         // Clear the durability before resetting it.
-        storedClothingData.clothingState =
-          this.clearDurabilityPoints(storedClothingData);
+        storedClothingData = this.clearDurabilityPoints(storedClothingData);
 
         storedClothingData.clothingState |= durabilityLvl;
 
@@ -140,7 +139,7 @@ namespace NSInventoryAndItem {
         data: ClothingDynamicData,
         durabilityPoint: AllClothingDurabilityPoints
       ) {
-        const storedClothingData = this.sanitiseClothingData(data);
+        let storedClothingData = this.sanitiseClothingData(data);
 
         const bitPosUpperBound = this.#getBitPos(durabilityPoint);
         const bitPosLowerBound = this.#getBitPos(
@@ -148,8 +147,7 @@ namespace NSInventoryAndItem {
         );
 
         // Clear all the durability bits
-        storedClothingData.clothingState =
-          this.clearDurabilityPoints(storedClothingData);
+        storedClothingData = this.clearDurabilityPoints(storedClothingData);
 
         // Set all the bits (inclusively) between the 2 boundaries
         for (let i = bitPosLowerBound; i <= bitPosUpperBound; i++) {
@@ -166,7 +164,7 @@ namespace NSInventoryAndItem {
         storedClothingData.clothingState &=
           ~ClothingState.ALL_DURABILITY_POINTS;
 
-        return storedClothingData.clothingState;
+        return storedClothingData;
       }
 
       static reduceDurabilityPoints(
@@ -186,8 +184,7 @@ namespace NSInventoryAndItem {
         const bitPosAfterReduction = bitPosUpperBound - numToReduceBy;
 
         // Clear the bits
-        storedClothingData.clothingState =
-          this.clearDurabilityPoints(storedClothingData);
+        storedClothingData = this.clearDurabilityPoints(storedClothingData);
 
         // Don't go beyond 0 durability
         if (bitPosAfterReduction < bitPosLowerBound) {
