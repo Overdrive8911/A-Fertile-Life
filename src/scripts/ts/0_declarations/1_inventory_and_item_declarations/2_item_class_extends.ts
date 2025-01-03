@@ -69,7 +69,7 @@ namespace NSInventoryAndItem {
       }
       // This `data` has to be supplied from the Item in the inventory that called it
       static getAverageDurabilityLevel(data: ClothingDynamicData) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         if (storedClothingData.clothingState) {
           let bitField = storedClothingData.clothingState;
@@ -104,7 +104,7 @@ namespace NSInventoryAndItem {
           | ClothingState.DURABILITY_HIGH
           | ClothingState.DURABILITY_EXCELLENT
       ) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         storedClothingData.clothingState |= durabilityLvl;
 
@@ -115,7 +115,7 @@ namespace NSInventoryAndItem {
       static getHighestDurabilityPoint(
         data: ClothingDynamicData
       ): AllClothingDurabilityPoints {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         // This clears all non-necessary bits and then checks the amount of leading zeros (in a 32 bit representation). Subtracting that from 31 should give us the appropriate bit position
         return (
@@ -132,7 +132,7 @@ namespace NSInventoryAndItem {
         data: ClothingDynamicData,
         durabilityPoint: AllClothingDurabilityPoints
       ) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         const getBitPos = (durPoint: AllClothingDurabilityPoints) => {
           return 31 - Math.clz32(durPoint);
@@ -156,7 +156,7 @@ namespace NSInventoryAndItem {
       }
 
       static clearDurabilityPoints(data: ClothingDynamicData) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         // Clear all the durability bits
         storedClothingData.clothingState &=
@@ -166,7 +166,7 @@ namespace NSInventoryAndItem {
       }
 
       static isEquipped(data: ClothingDynamicData) {
-        const storedClothingData = Clothing.sanitiseClothingData(data);
+        const storedClothingData = this.sanitiseClothingData(data);
 
         return storedClothingData.clothingState & ClothingState.IN_USE;
       }
