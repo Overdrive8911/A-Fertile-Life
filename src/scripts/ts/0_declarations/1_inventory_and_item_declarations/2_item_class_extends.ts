@@ -128,6 +128,43 @@ namespace NSInventoryAndItem {
         );
       }
 
+      static setDurabilityPoint(
+        data: ClothingDynamicData,
+        durabilityPoint: AllClothingDurabilityPoints
+      ) {
+        const storedClothingData = Clothing.sanitiseClothingData(data);
+
+        const getBitPos = (durPoint: AllClothingDurabilityPoints) => {
+          return 31 - Math.clz32(durPoint);
+        };
+
+        const bitPosUpperBound = getBitPos(durabilityPoint);
+        const bitPosLowerBound = getBitPos(
+          ClothingState.LOWEST_DURABILITY_POINT
+        );
+
+        // Clear all the durability bits
+        storedClothingData.clothingState =
+          this.clearDurabilityPoints(storedClothingData);
+
+        // Set all the bits (inclusively) between the 2 boundaries
+        for (let i = bitPosLowerBound; i <= bitPosUpperBound; i++) {
+          storedClothingData.clothingState |= 1 << i;
+        }
+
+        return storedClothingData;
+      }
+
+      static clearDurabilityPoints(data: ClothingDynamicData) {
+        const storedClothingData = Clothing.sanitiseClothingData(data);
+
+        // Clear all the durability bits
+        storedClothingData.clothingState &=
+          ~ClothingState.ALL_DURABILITY_POINTS;
+
+        return storedClothingData.clothingState;
+      }
+
       static isEquipped(data: ClothingDynamicData) {
         const storedClothingData = Clothing.sanitiseClothingData(data);
 
