@@ -90,8 +90,9 @@ namespace NSInventoryAndItem {
       ) {
         this.dynamicData = returnedData;
       }
+
+      return returnedData;
     }
-  }
   }
 
   export class Inventory {
