@@ -132,18 +132,18 @@ namespace NSInventoryAndItem {
         );
       }
 
+      static #getBitPos(durPoint: AllClothingDurabilityPoints) {
+        return 31 - Math.clz32(durPoint);
+      }
+
       static setDurabilityPoint(
         data: ClothingDynamicData,
         durabilityPoint: AllClothingDurabilityPoints
       ) {
         const storedClothingData = this.sanitiseClothingData(data);
 
-        const getBitPos = (durPoint: AllClothingDurabilityPoints) => {
-          return 31 - Math.clz32(durPoint);
-        };
-
-        const bitPosUpperBound = getBitPos(durabilityPoint);
-        const bitPosLowerBound = getBitPos(
+        const bitPosUpperBound = this.#getBitPos(durabilityPoint);
+        const bitPosLowerBound = this.#getBitPos(
           ClothingState.LOWEST_DURABILITY_POINT
         );
 
