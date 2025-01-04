@@ -491,10 +491,10 @@ namespace NSInventoryAndItem {
       return 0 as ReturnType<ItemCallback>;
     }
 
-    constructor(data?: Partial<Item>) {
-      for (const key in data as Item) {
-        if (Object.prototype.hasOwnProperty.call(data as Item, key)) {
-          const element = (data as Item)[key as keyof Item];
+    constructor(data?: ItemConstructorArgs<Item>) {
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          const element = data[key as keyof Item];
 
           //@ts-expect-error
           this[key as keyof Item] = clone(element);
