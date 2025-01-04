@@ -20,6 +20,13 @@ namespace NSInventoryAndItem {
     AnyItemClass[keyof AnyItemClass],
     Function
   >;
+  export type ItemConstructorArgs<T extends Item> = Partial<{
+    [K in keyof T]: T[K] extends Function
+      ? K extends "customCallBack" // Ensure that the name used here matches up with the one in the `Item` class
+        ? T[K]
+        : never
+      : T[K];
+  }>;
   // export type ItemClassMethod = Exclude<
   //   | keyof Item
   //   | keyof ItemType.Food

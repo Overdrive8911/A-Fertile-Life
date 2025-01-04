@@ -4,7 +4,7 @@ namespace NSInventoryAndItem {
   export namespace ItemType {
     // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
     export class Food extends Item {
-      constructor(data?: Partial<Item>) {
+      constructor(data?: ItemConstructorArgs<Food>) {
         super(data);
         this.addTags(ItemTag.FOOD);
       }
@@ -15,14 +15,14 @@ namespace NSInventoryAndItem {
       // NOTE - Don't use this directly. Just use the getter / setters
       private a: ClothingArea;
 
-      constructor(data: Partial<Item | Clothing> = null) {
+      constructor(data: ItemConstructorArgs<Clothing> = null) {
         super(data);
         this.addTags(ItemTag.CLOTHING);
 
         if (data) {
-          for (const key in data as Item) {
-            if (Object.prototype.hasOwnProperty.call(data as Item, key)) {
-              const element = (data as Item)[key as keyof Item];
+          for (const key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+              const element = data[key as keyof Item];
 
               //@ts-expect-error
               this[key as keyof Item] = clone(element);
@@ -252,7 +252,7 @@ namespace NSInventoryAndItem {
     }
 
     export class Drug extends Item {
-      constructor(data?: Partial<Item>) {
+      constructor(data?: ItemConstructorArgs<Drug>) {
         super(data);
         this.addTags(ItemTag.DRUGS);
       }
