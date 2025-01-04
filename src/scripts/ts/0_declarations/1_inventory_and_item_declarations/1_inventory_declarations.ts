@@ -4,8 +4,8 @@ namespace NSInventoryAndItem {
   export type ItemCallback = (
     // inventoryObject: Inventory,
     // storageIdInInventory: number,
-    data?: GenericItemDynamicData
-  ) => typeof data extends GenericItemDynamicData ? typeof data : unknown;
+    data?: AnyItemDynamicData
+  ) => typeof data extends AnyItemDynamicData ? typeof data : unknown;
   // type a<T extends Item, U extends typeof Item> = T & (typeof T)
   // NOTE - Add all new item classes here for type safety
   type AnyItemClass = Item &
