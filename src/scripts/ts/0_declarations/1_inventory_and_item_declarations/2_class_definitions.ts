@@ -470,22 +470,6 @@ namespace NSInventoryAndItem {
       );
     }
   }
-  // @ts-expect-error
-  window[`${Inventory.name}`] = Inventory; // Attach the class to the window object to ensure that sugarcube always finds it
-
-  // @ts-expect-error
-  window.test = new Inventory();
-  // @ts-expect-error
-  window.test2 = Inventory;
-  // @ts-expect-error
-  window.testFunc = () => {
-    // @ts-expect-error
-    const lim = test.getItemLimit;
-    for (let i = 0; i < lim; i++) {
-      // @ts-expect-error
-      window.test.storeItem(i);
-    }
-  };
 
   export class Item {
     // // ANCHOR - This class accepts 3 arguments; an object which may have any data of the non-method properties of this class, a function to serve as the handler callback of the item to create, or both in an object described by `allData` which is {data: ..., handler: ...}
