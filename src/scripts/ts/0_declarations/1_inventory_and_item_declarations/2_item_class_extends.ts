@@ -35,8 +35,7 @@ namespace NSInventoryAndItem {
       defaultCallback(data?: ClothingDynamicData) {
         // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
         let storedClothingData = Clothing.sanitiseClothingData(data);
-        // TODO - Make clothing actually obey their state
-        if (storedClothingData.clothingState) {
+
           // Toggle its state (whether it is worn or not)
           storedClothingData.clothingState ^= ClothingState.IN_USE;
 
@@ -48,13 +47,6 @@ namespace NSInventoryAndItem {
                 1
               );
             }
-          }
-        } else {
-          // There is no current data about the item so assume that the clothing has never been worn and has max durability
-          storedClothingData.clothingState |=
-            ClothingState.DURABILITY_EXCELLENT;
-          // Wear the clothing
-          storedClothingData.clothingState |= ClothingState.IN_USE;
         }
 
         return storedClothingData;
