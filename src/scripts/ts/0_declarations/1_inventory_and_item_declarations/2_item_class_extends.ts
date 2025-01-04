@@ -18,17 +18,6 @@ namespace NSInventoryAndItem {
       constructor(data: ItemConstructorArgs<Clothing> = null) {
         super(data);
         this.addTags(ItemTag.CLOTHING);
-
-        if (data) {
-          for (const key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
-              const element = data[key as keyof Item];
-
-              //@ts-expect-error
-              this[key as keyof Item] = clone(element);
-            }
-          }
-        }
       }
 
       // SECTION - Clothing Item Methods
