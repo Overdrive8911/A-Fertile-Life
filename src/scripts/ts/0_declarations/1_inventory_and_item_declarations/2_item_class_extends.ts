@@ -40,6 +40,12 @@ namespace NSInventoryAndItem {
 
         return storedClothingData;
       }
+
+      doesClothCoverBodyPart(bodyPart: ClothingArea) {
+        return this.bodyArea != ClothingArea.NONE
+          ? bodyPart == (this.bodyArea & bodyPart)
+          : false;
+      }
       // !SECTION
 
       // SECTION - Clothing Item Static Methods
@@ -52,11 +58,6 @@ namespace NSInventoryAndItem {
           (data as ClothingDynamicData).clothingState != undefined
           ? (data as ClothingDynamicData)
           : { clothingState: ClothingState.DEFAULT };
-      }
-      doesClothCoverBodyPart(bodyPart: ClothingArea) {
-        return this.bodyArea != ClothingArea.NONE
-          ? bodyPart == (this.bodyArea & bodyPart)
-          : false;
       }
       // This `data` has to be supplied from the Item in the inventory that called it
       static getAverageDurabilityLevel(data: ClothingDynamicData) {
