@@ -25,17 +25,17 @@ namespace NSInventoryAndItem {
         // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
         let storedClothingData = Clothing.sanitiseClothingData(data);
 
-          // Toggle its state (whether it is worn or not)
-          storedClothingData.clothingState ^= ClothingState.IN_USE;
+        // Toggle its state (whether it is worn or not)
+        storedClothingData.clothingState ^= ClothingState.IN_USE;
 
-          if (Clothing.isEquipped(storedClothingData)) {
-            // There's a 50% chance to lose a durability point when clothing is equipped
-            if (randomFloat(1) > 0.5) {
-              storedClothingData = Clothing.reduceDurabilityPoints(
-                storedClothingData,
-                1
-              );
-            }
+        if (Clothing.isEquipped(storedClothingData)) {
+          // There's a 50% chance to lose a durability point when clothing is equipped
+          if (randomFloat(1) > 0.5) {
+            storedClothingData = Clothing.reduceDurabilityPoints(
+              storedClothingData,
+              1
+            );
+          }
         }
 
         return storedClothingData;
