@@ -21,14 +21,22 @@ namespace NSInventoryAndItem {
       }
 
       // SECTION - Clothing Item Methods
-      defaultCallback(data?: ClothingDynamicData) {
+      defaultCallback(
+        data?: ClothingDynamicData,
+        inventory = variables().player.inventory
+      ) {
         // ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
         let storedClothingData = Clothing.sanitiseClothingData(data);
+        const isEquipped = Clothing.isEquipped(data);
 
-        // Toggle its state (whether it is worn or not)
-        storedClothingData.clothingState ^= ClothingState.IN_USE;
+        // TODO - Only wear the clothing item if there's still free space on the body
+        if (isEquipped) {
+          // Un-equip the clothing
+          storedClothingData.clothingState &= ~ClothingState.IN_USE;
+        } else if (this.canClothBeEquipped(inventory)) {
+          // Equip the clothing
+          storedClothingData.clothingState |= ClothingState.IN_USE;
 
-        if (Clothing.isEquipped(storedClothingData)) {
           // There's a 50% chance to lose a durability point when clothing is equipped
           if (randomFloat(1) > 0.5) {
             storedClothingData = Clothing.reduceDurabilityPoints(
