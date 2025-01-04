@@ -46,6 +46,33 @@ namespace NSInventoryAndItem {
           ? bodyPart == (this.bodyArea & bodyPart)
           : false;
       }
+
+      canClothBeEquipped(inventory: Inventory) {
+        const occupiedBodyAreasArray = Clothing.getAllEquippedClothing(
+          inventory
+        ).map((data) => {
+          return data.staticData.bodyArea;
+        });
+
+        let occupiedOuterBodyAreas = ClothingArea.NONE;
+        let occupiedInnerBodyAreas = ClothingArea.NONE;
+
+        occupiedBodyAreasArray.forEach((val) => {
+          if (val & ClothingArea.INNER) occupiedInnerBodyAreas |= val;
+          else occupiedOuterBodyAreas |= val;
+        });
+
+        // let result = false
+
+        if (
+          occupiedOuterBodyAreas & this.bodyArea &&
+          occupiedInnerBodyAreas & this.bodyArea
+        ) {
+          // There's not enough free space on either the inner / outer part of the body
+          return false;
+        }
+        return true;
+      }
       // !SECTION
 
       // SECTION - Clothing Item Static Methods
