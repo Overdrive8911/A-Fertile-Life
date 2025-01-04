@@ -222,7 +222,8 @@ namespace NSInventoryAndItem {
       static isEquipped(data: ClothingDynamicData) {
         const storedClothingData = this.sanitiseClothingData(data);
 
-        return storedClothingData.clothingState & ClothingState.IN_USE;
+        return (storedClothingData.clothingState &
+          ClothingState.IN_USE) as unknown as boolean;
       }
       static getAllEquippedClothing(inventory: Inventory) {
         let result: {
