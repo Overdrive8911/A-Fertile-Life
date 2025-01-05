@@ -2,6 +2,7 @@ namespace NSInventoryAndItem {
   // Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()`
   export class InventoryItem {
     #itemId: ItemId; // To know what type of item it is
+    #idInInventory?: InventoryIndex; // If present, can be used to find the exact position of an item in the inventory
     extraIdData?: ExtraIdDataType; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
     locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
     // price?: number;
@@ -50,6 +51,29 @@ namespace NSInventoryAndItem {
     set itemId(val: ItemId) {
       if (val != null || val != undefined) {
         this.#itemId = val;
+      }
+    }
+
+    get idInInventory() {
+      if (this.#idInInventory == undefined)
+        console.error(
+          `The inventory item, ${
+            this.staticData.name
+          }, with the data, ${JSON.stringify(
+            this
+          )}, does not have its index in an inventory stored.`
+        );
+
+      return this.#idInInventory ?? null;
+    }
+
+    // NOTE: Remember to set this when rearranging the positions of items in the `Inventory`
+    set idInInventory(val:InventoryIndex | Inventory) {
+      if (val instanceof Inventory) {
+        // TODO: Add code that will accurately deduce the id 
+        // val.getItem()
+      } else {
+        this.#idInInventory = val;
       }
     }
 
@@ -187,6 +211,7 @@ namespace NSInventoryAndItem {
             locationObtained != undefined
               ? locationObtained
               : variables().player.locationData.location,
+          idInInventory: newRandStorageId,
         });
 
         if (extraIdData != undefined && extraIdData != null) {
