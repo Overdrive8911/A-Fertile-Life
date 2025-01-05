@@ -174,9 +174,6 @@ namespace NSInventoryAndItem {
       );
       if (itemId == undefined) return false;
 
-      if (!(this.constructor as typeof Inventory).validateItemId(itemId))
-        return false;
-
       if (!amount) amount = 1;
 
       const limit = this.#itemLimit;
@@ -383,45 +380,6 @@ namespace NSInventoryAndItem {
       }
 
       return returnedItems;
-    }
-
-    // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
-    // REVIEW - Properly deal with cases where there are multiple items with different handler properties
-    static getItemStaticData(itemId: ItemId | string) {
-      itemId = this.tryConvertStringItemId(
-        itemId,
-        `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
-      );
-      if (itemId == undefined) return false;
-
-      return gInGameItems[itemId];
-    }
-
-    // REVIEW - This might not fit here. Also, add a check to only work on items in the inventory
-    static doesItemHaveTag(itemId: ItemId | string, tag: ItemTag) {
-      itemId = this.tryConvertStringItemId(
-        itemId,
-        `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
-      );
-      if (itemId == undefined) return false;
-
-      const itemTags = (this.getItemStaticData(itemId) as Item).tags;
-
-      if (
-        itemTags.find((value) => {
-          return value == tag;
-        })
-      ) {
-        return true;
-      }
-
-      return false;
-    }
-
-    static validateItemId(itemId: ItemId) {
-      if (!gInGameItems[itemId]) return false;
-
-      return true;
     }
 
     static getItemIdFromStringId(itemIdString: string) {
