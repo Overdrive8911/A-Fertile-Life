@@ -310,22 +310,26 @@ namespace NSInventoryAndItem {
         return this.items.get(itemOrStorageId);
       }
 
-      let inGameInventoryItem: InventoryItem | false = false;
+      let inGameInventoryItemArray: InventoryItem[] | Inventory = [];
 
       for (const [, item] of this.items) {
         const id = item.itemId;
-        if (id == itemOrStorageId) {
+        if (id == (itemOrStorageId as ItemId)) {
           if (extraIdData && item.extraIdData == extraIdData) {
-            inGameInventoryItem = item;
+            inGameInventoryItemArray.push(item);
             break; // Gotten the specific item so break
           }
 
-          inGameInventoryItem = item;
+          inGameInventoryItemArray.push(item);
           // TODO - Handle dynamic data
         }
       }
 
-      return inGameInventoryItem;
+      return inGameInventoryItemArray.length == 0
+        ? false
+        : inGameInventoryItemArray.length == 1
+        ? inGameInventoryItemArray[0]
+        : inGameInventoryItemArray;
     }
 
     // Returns an array of every inventory item that matches the given tag, if any. Ignores the `DUMMY` item
