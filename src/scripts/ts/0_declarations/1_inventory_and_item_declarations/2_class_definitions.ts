@@ -68,7 +68,7 @@ namespace NSInventoryAndItem {
       ...classMethodArgs: Parameters<method>
     ) {
       const callback = this.staticData.callback;
-      const argData = this.dynamicData || ({} as GenericItemDynamicData);
+      const argData = this.dynamicData ?? ({} as GenericItemDynamicData);
       let returnedData: AnyItemDynamicData | unknown;
 
       if (classMethodInAnyTypeOfItem) {
