@@ -310,7 +310,7 @@ namespace NSInventoryAndItem {
         return this.items.get(itemOrStorageId);
       }
 
-      let inGameInventoryItemArray: InventoryItem[] | Inventory = [];
+      let inGameInventoryItemArray: InventoryItem[] = [];
 
       for (const [, item] of this.items) {
         const id = item.itemId;
@@ -327,8 +327,6 @@ namespace NSInventoryAndItem {
 
       return inGameInventoryItemArray.length == 0
         ? false
-        : inGameInventoryItemArray.length == 1
-        ? inGameInventoryItemArray[0]
         : inGameInventoryItemArray;
     }
 
