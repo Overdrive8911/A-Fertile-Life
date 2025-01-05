@@ -82,6 +82,39 @@ namespace NSInventoryAndItem {
       noDupeItemArr = noDupeItemArr.filter((id) => {
         return gInGameItems[id].tags.includes(sortingTag);
       });
+
+      if (sortingTag == ItemTag.CLOTHING) {
+        // Sort clothing by prioritizing equipped ones
+        noDupeItemArr.sort((itemA, itemB) => {
+          let isClothingEquipped = { a: false, b: false };
+
+          // A utility function to find out if ANY clothing of a particular type / with a particular id is equipped
+          const func = (
+            clothingItemId: ItemId,
+            flag: keyof typeof isClothingEquipped
+          ) => {
+            inventory.getItem(clothingItemId).forEach((inventoryItem) => {
+              const storedData =
+                inventoryItem.dynamicData as ClothingDynamicData;
+
+              if (ItemType.Clothing.isEquipped(storedData))
+                isClothingEquipped[flag] = true;
+            });
+          };
+
+          // Run the functions for both items
+          func(itemA, "a");
+          func(itemB, "b");
+
+          const isItemAEquipped = isClothingEquipped.a;
+          const isItemBEquipped = isClothingEquipped.b;
+
+          // Now to compare and return results
+          if (isItemAEquipped && !isItemBEquipped) return -1;
+          else if (!isItemAEquipped && isItemBEquipped) return 1;
+          else return 0
+        });
+      }
     }
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
