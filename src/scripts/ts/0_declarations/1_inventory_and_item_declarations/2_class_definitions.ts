@@ -385,53 +385,6 @@ namespace NSInventoryAndItem {
       return returnedItems;
     }
 
-    // Runs the handler of an inventory item (if any) and stores any returned data in the actual inventory item. Using the storageId is normally preferred
-    useItem(
-      inventoryItemOrStorageId: InventoryItem | number,
-      data?: GenericItemDynamicData
-    ) {
-      let item: InventoryItem;
-      let itemFunc: ItemCallback;
-      if (
-        typeof inventoryItemOrStorageId == "number" &&
-        this.items.has(inventoryItemOrStorageId)
-      ) {
-        item = this.items.get(inventoryItemOrStorageId);
-        itemFunc = item.staticData.callback;
-      } else if (typeof inventoryItemOrStorageId == "object") {
-        item = inventoryItemOrStorageId;
-        itemFunc = item.staticData.callback;
-      }
-
-      if (itemFunc) {
-        const returnedData: unknown = data
-          ? itemFunc(/*this, inventoryItemOrStorageId,*/ data)
-          : itemFunc(/*this, inventoryItemOrStorageId*/);
-
-        if (returnedData) {
-          item.dynamicData = clone(returnedData);
-        }
-
-        return true;
-      }
-
-      return false;
-    }
-
-    // NOTE - Use this by default.
-    useItemWithDynamicData(inventoryItemOrStorageId: InventoryItem | number) {
-      const type = typeof inventoryItemOrStorageId == "object";
-
-      if (!type && !this.items.has(inventoryItemOrStorageId)) return false;
-
-      this.useItem(
-        inventoryItemOrStorageId,
-        type
-          ? inventoryItemOrStorageId.dynamicData
-          : this.items.get(inventoryItemOrStorageId).dynamicData
-      );
-    }
-
     // Returns static data from `Item` as well as dynamic data in the form of handlers on `InventoryItem` itself
     // REVIEW - Properly deal with cases where there are multiple items with different handler properties
     static getItemStaticData(itemId: ItemId | string) {
