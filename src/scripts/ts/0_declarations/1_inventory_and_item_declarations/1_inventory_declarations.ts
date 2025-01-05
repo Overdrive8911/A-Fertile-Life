@@ -37,6 +37,7 @@ namespace NSInventoryAndItem {
   // export type UseItemClassMethodFn<Class extends (Item | ItemType.Food| ItemType.Clothing| ItemType.Drug) > = (MethodToUse?: keyof Class) => void | ItemDynamicData
 
   export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
+  export type ExtraIdDataType = number | string;
 
   // ANCHOR - Extensions of `GenericItemDynamicData`
   export interface ClothingDynamicData extends GenericItemDynamicData {
