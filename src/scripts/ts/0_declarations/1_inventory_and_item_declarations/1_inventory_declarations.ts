@@ -43,6 +43,7 @@ namespace NSInventoryAndItem {
     clothingState: ItemType.ClothingState;
   }
 
+  // NOTE: Add all item data types here
   export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
 
   export type AllClothingDurabilityPoints =
