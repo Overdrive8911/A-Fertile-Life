@@ -80,14 +80,13 @@ namespace NSInventoryAndItem {
     // Sort using the sortingTag (except if its `ItemTag.ALL`)
     if (sortingTag != ItemTag.ALL) {
       noDupeItemArr = noDupeItemArr.filter((id) => {
-        return Inventory.doesItemHaveTag(id, sortingTag);
+        return gInGameItems[id].tags.includes(sortingTag);
       });
     }
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
       const itemId = noDupeItemArr[i];
-      let item = Inventory.getItemStaticData(itemId);
-      if (!item) item = gInGameItems[ItemId.DUMMY];
+      let item = gInGameItems[itemId] ?? gInGameItems[ItemId.DUMMY];
       const numOfDuplicates = inventory.getItemCount(itemId);
       const nameOfItem = item.name;
       const itemImageUrl = item.imgUrl;
