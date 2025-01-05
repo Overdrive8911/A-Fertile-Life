@@ -95,9 +95,10 @@ namespace NSInventoryAndItem {
     }
   }
 
+  type InventoryIndex = number;
   export class Inventory {
     // protected readonly _construct = this.constructor as typeof Inventory1; // Typescript woes
-    protected items: Map<number, InventoryItem>;
+    protected items: Map<InventoryIndex, InventoryItem>; // TODO: convert this "number" type to "InventoryIndex"
     #itemLimit = 256; // TODO - Don't hardcode te item limit
 
     constructor(classProperties: Inventory = null) {
@@ -298,11 +299,11 @@ namespace NSInventoryAndItem {
       extraIdData: ExtraIdDataType /* This is solely use to identify an item and nothing more*/
     ): InventoryItem | null;
     getItem(
-      inventoryStorageId: number,
+      inventoryStorageId: InventoryIndex,
       useUniqueInventoryStorageId: true
     ): InventoryItem | null;
     getItem(
-      itemOrStorageId: ItemId | string | number,
+      itemOrStorageId: ItemId | string | InventoryIndex,
       extraIdentificationDataOrUseUniqueStorageId?: true | ExtraIdDataType
     ) {
       itemOrStorageId = (
