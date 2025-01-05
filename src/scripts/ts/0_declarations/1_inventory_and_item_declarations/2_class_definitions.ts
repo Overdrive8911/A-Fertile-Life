@@ -291,11 +291,19 @@ namespace NSInventoryAndItem {
       return this.#itemLimit - this.items.size;
     }
 
-    // Returns the first item in the inventory the id matches. Returns false if no item is present. If `extraIdData` or `dynamicData` is provided, it will try to find a item with both the specified id and `extraIdData`/`dynamicData`. DOES NOT DELETE ANYTHING
+    // Returns any matched item(s) in the inventory. Returns "null" if no matched item is present. If `extraIdData` is provided, it will try to find a SINGLE item with both the specified id and `extraIdData`. DOES NOT DELETE ANYTHING
+    getItem(itemId: ItemId): InventoryItem[] | null;
+    getItem(
+      itemId: ItemId | string,
+      extraIdData: ExtraIdDataType /* This is solely use to identify an item and nothing more*/
+    ): InventoryItem | null;
+    getItem(
+      inventoryStorageId: number,
+      useUniqueInventoryStorageId: true
+    ): InventoryItem | null;
     getItem(
       itemOrStorageId: ItemId | string | number,
-      useUniqueStorageId = false,
-      extraIdData: number | string = null // This is solely use to identify an item and nothing more
+      extraIdentificationDataOrUseUniqueStorageId?: true | ExtraIdDataType
     ) {
       itemOrStorageId = (
         this.constructor as typeof Inventory
@@ -303,31 +311,37 @@ namespace NSInventoryAndItem {
         itemOrStorageId,
         `The string data representing an item's id, ${itemOrStorageId}, is invalid. No item was retrieved.`
       );
+
       if (itemOrStorageId == undefined) return false;
 
-      if (useUniqueStorageId) {
-        // return gInGameItems[this.items.get(itemOrStorageId).itemId];
+      if (typeof extraIdentificationDataOrUseUniqueStorageId == "boolean") {
+        // ANCHOR: The id used to stored the item in the inventory was passed as well as the `useUniqueStorageId` argument as TRUE
         return this.items.get(itemOrStorageId);
-      }
+      } else {
+        //
+        let inGameInventoryItemArray: InventoryItem[] = [];
+        const itemId = itemOrStorageId as ItemId;
 
-      let inGameInventoryItemArray: InventoryItem[] = [];
+        for (const [, item] of this.items) {
+          const loopItemId = item.itemId;
 
-      for (const [, item] of this.items) {
-        const id = item.itemId;
-        if (id == (itemOrStorageId as ItemId)) {
-          if (extraIdData && item.extraIdData == extraIdData) {
+          if (loopItemId == itemId) {
+            if (
+              extraIdentificationDataOrUseUniqueStorageId &&
+              item.extraIdData == extraIdentificationDataOrUseUniqueStorageId
+            ) {
+              inGameInventoryItemArray.push(item);
+              break; // Gotten the specific item so break
+            }
+
             inGameInventoryItemArray.push(item);
-            break; // Gotten the specific item so break
           }
-
-          inGameInventoryItemArray.push(item);
-          // TODO - Handle dynamic data
         }
-      }
 
-      return inGameInventoryItemArray.length == 0
-        ? false
-        : inGameInventoryItemArray;
+        return inGameInventoryItemArray.length == 0
+          ? null
+          : inGameInventoryItemArray;
+      }
     }
 
     // Returns an array of every inventory item that matches the given tag, if any. Ignores the `DUMMY` item
