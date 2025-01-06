@@ -56,11 +56,14 @@ namespace NSInventoryAndItem {
       }
 
       canClothBeEquipped(inventory: Inventory) {
-        const occupiedBodyAreasArray = Clothing.getAllEquippedClothing(
-          inventory
-        ).map((data) => {
+        const allEquippedClothing = Clothing.getAllEquippedClothing(inventory);
+        if (!allEquippedClothing) return true;
+
+        const occupiedBodyAreasArray = allEquippedClothing.map((data) => {
           return data.staticData.bodyArea;
         });
+
+        if (!occupiedBodyAreasArray) return true;
 
         let occupiedOuterBodyAreas = ClothingArea.NONE;
         let occupiedInnerBodyAreas = ClothingArea.NONE;
