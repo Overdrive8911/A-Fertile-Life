@@ -1,1 +1,0 @@
-compile_ts_and_scss.bat & npm run build:test
