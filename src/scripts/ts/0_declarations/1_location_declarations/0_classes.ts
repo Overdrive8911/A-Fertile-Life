@@ -20,10 +20,12 @@ namespace NSLocation {
       }
     ) {
       // Initialize the child object to add to the map.
-      let mapChild: MapChildData = { locData: gLocationDataNew[id] };
+      let mapChild: MapChildData = this.getArea(id) ?? {
+        locData: gLocationDataNew[id],
+      };
 
       if (directionData) {
-        mapChild.directions = {};
+        mapChild.directions = mapChild.directions ?? {};
 
         // For every possible direction, initialize (if necessary) a new "map child"
         if (directionData.north) {
@@ -110,6 +112,12 @@ namespace NSLocation {
       } else {
         console.warn("There is nothing matching the id that can be deleted.");
       }
+    }
+  }
+
+  export class SubLocationMapObject extends MapObject {
+    constructor() {
+      super();
     }
   }
 }
