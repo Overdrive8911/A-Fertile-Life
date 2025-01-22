@@ -14,6 +14,12 @@ namespace NSLocation {
     WEST,
   }
 
+  // To let me know what type of "map area" `GenericLocationData` could be
+  export const enum CategoryOfLocation {
+    SUB_LOCATION,
+    LOCATION,
+  }
+
   // Stores the general name of a group of multiple locations. Is used in `gRelatedLocations`
   export enum MapLocationContainer {
     FERTILO_INC,
