@@ -40,6 +40,7 @@ namespace NSLocation {
   export interface MapChildData {
     locData: GenericLocationData;
     directions?: DirectionData;
+    flags?: MapChildDataFlags;
   }
 
   export type LocationObject = {
