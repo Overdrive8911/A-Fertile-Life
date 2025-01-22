@@ -22,6 +22,26 @@ namespace NSLocation {
     };
   }
 
+  // NOTE: Any id for a possible area should be added to this union.
+  export type AreaId = MapLocation | MapSubLocation;
+  interface DirectionData {
+    north?: MapChildData;
+    east?: MapChildData;
+    south?: MapChildData;
+    west?: MapChildData;
+  }
+  // This just gives the bare essential data for a single location / sub-location without it's connections
+  export interface GenericLocationData {
+    name?: string;
+    description?: string;
+    id: AreaId;
+    category?: CategoryOfLocation; // If not supplied, assume it is a sub-location
+  }
+  export interface MapChildData {
+    locData: GenericLocationData;
+    directions?: DirectionData;
+  }
+
   export type LocationObject = {
     [nameOfLocation in MapLocation]?: GameLocation;
   };

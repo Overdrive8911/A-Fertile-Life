@@ -1,4 +1,9 @@
 namespace NSLocation {
+  //@ts-expect-error
+  export let gLocationDataNew: Record<AreaId, GenericLocationData> = {
+    [MapSubLocation.BATHROOM]: { id: MapSubLocation.BATHROOM },
+  };
+
   // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
   // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
   // NOTE - Using getters for the coords of sub locations makes it easier to do edits down the line. It's also easier to understand what is connected to what
