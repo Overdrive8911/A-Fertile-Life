@@ -7,10 +7,10 @@ namespace NSLocation {
 
     constructor() {}
 
-    getArea(id: AreaId) {
+    protected getArea(id: AreaId) {
       return this.map[id];
     }
-    addArea(
+    protected addArea(
       id: AreaId,
       directionData?: {
         north: AreaId;
@@ -105,7 +105,7 @@ namespace NSLocation {
       // Add the mapChild to the map
       this.map[id] = mapChild;
     }
-    removeArea(id: AreaId) {
+    protected removeArea(id: AreaId) {
       if (this.getArea(id)) {
         // The map child exists so we can delete
         delete this.map[id];
