@@ -102,4 +102,20 @@ namespace NSLocation {
     EMPTY = MapLocation.DUMMY, // Can be passed through
     BLOCKED = MapLocation.DUMMY - 1, // Cannot be passed through
   }
+
+  // These just tell me whether an area in a `Map Object` has a characteristic
+  export const enum MapChildDataFlags {
+    // When the user warps to the `map object`, they will be spawned in any area that has this flag. If multiple areas in the same `map object` have this flag, randomly pick one of them
+    IS_ENTRY_POINT = 1 << 0,
+
+    // Any area's with this flag can be used to exit the `map object` from a specified direction.
+    IS_EXIT_POINT_NORTH = 1 << 1,
+    IS_EXIT_POINT_EAST = 1 << 2,
+    IS_EXIT_POINT_SOUTH = 1 << 3,
+    IS_EXIT_POINT_WEST = 1 << 4,
+    IS_EXIT_POINT = IS_EXIT_POINT_EAST |
+      IS_EXIT_POINT_NORTH |
+      IS_EXIT_POINT_SOUTH |
+      IS_EXIT_POINT_WEST,
+  }
 }
