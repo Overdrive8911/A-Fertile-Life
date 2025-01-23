@@ -2,6 +2,12 @@ namespace NSLocation {
   //@ts-expect-error
   export let gLocationDataNew: Record<AreaId, GenericLocationData> = {
     [MapSubLocation.BATHROOM]: { id: MapSubLocation.BATHROOM },
+    [MapLocation.PLAYER_HOUSE]: {
+      id: MapLocation.PLAYER_HOUSE,
+      name: "Player House",
+    },
+    [MapLocation.DUMMY]: { id: MapLocation.DUMMY },
+    [MapSubLocation.DUMMY]: { id: MapSubLocation.DUMMY },
   };
 
   // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
