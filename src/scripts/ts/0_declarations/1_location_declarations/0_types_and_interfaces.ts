@@ -24,12 +24,13 @@ namespace NSLocation {
 
   // NOTE: Any id for a possible area should be added to this union.
   export type AreaId = MapLocation | MapSubLocation;
-  interface DirectionData {
-    north?: MapChildData;
-    east?: MapChildData;
-    south?: MapChildData;
-    west?: MapChildData;
+  export interface CardinalDirType<T> {
+    north: T;
+    east: T;
+    south: T;
+    west: T;
   }
+  type DirectionData = Partial<CardinalDirType<MapChildData>>;
   // This just gives the bare essential data for a single location / sub-location without it's connections
   export interface GenericLocationData {
     name?: string;
