@@ -113,8 +113,25 @@ namespace NSLocation {
         console.warn("There is nothing matching the id that can be deleted.");
       }
     }
+
+    protected getAreasWithFlag(flag: MapChildDataFlags) {
+      let entryAreas: MapChildData[] = [];
+
+      for (const key in this.map) {
+        if (Object.prototype.hasOwnProperty.call(this.map, key)) {
+          const area = this.map[key as unknown as keyof typeof this.map];
+
+          if (area.flags & flag) {
+            entryAreas.push(area);
+          }
+        }
+      }
+
+      return entryAreas;
+    }
   }
 
+  // ANCHOR: This only stores map objects for sub locations
   export class SubLocationMapObject extends MapObject {
     constructor() {
       super();
