@@ -35,7 +35,6 @@ namespace NSLocation {
     name?: string;
     description?: string;
     id: AreaId;
-    category?: CategoryOfLocation; // If not supplied, assume it is a sub-location
   }
   export interface MapChildData {
     locData: GenericLocationData;
