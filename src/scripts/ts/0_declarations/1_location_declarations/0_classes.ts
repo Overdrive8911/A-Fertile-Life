@@ -10,15 +10,7 @@ namespace NSLocation {
     protected getArea(id: AreaId) {
       return this.map[id];
     }
-    protected addArea(
-      id: AreaId,
-      directionData?: {
-        north: AreaId;
-        east: AreaId;
-        south: AreaId;
-        west: AreaId;
-      }
-    ) {
+    protected addArea(id: AreaId, directionData?: CardinalDirType<AreaId>) {
       // Initialize the child object to add to the map.
       let mapChild: MapChildData = this.getArea(id) ?? {
         locData: gLocationDataNew[id],
