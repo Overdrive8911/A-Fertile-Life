@@ -2,6 +2,8 @@ namespace NSLocation {
   //@ts-expect-error
   export let gLocationDataNew: Record<AreaId, GenericLocationData> = {
     [MapSubLocation.BATHROOM]: { id: MapSubLocation.BATHROOM },
+    [MapSubLocation.CEO_OFFICE]: { id: MapSubLocation.CEO_OFFICE },
+    [MapSubLocation.CORRIDOR_2]: { id: MapSubLocation.CORRIDOR_2 },
     [MapLocation.PLAYER_HOUSE]: {
       id: MapLocation.PLAYER_HOUSE,
       name: "Player House",
@@ -9,6 +11,17 @@ namespace NSLocation {
     [MapLocation.DUMMY]: { id: MapLocation.DUMMY },
     [MapSubLocation.DUMMY]: { id: MapSubLocation.DUMMY },
   };
+  // Testing
+  const a = new SubLocationMapObject();
+  a.addSubLocation(MapSubLocation.BATHROOM, {
+    east: { area: MapSubLocation.CEO_OFFICE },
+    west: { area: MapSubLocation.CORRIDOR_2 },
+  });
+  console.log(a);
+  a.addSubLocation(MapSubLocation.CORRIDOR_2, {
+    east: { area: MapSubLocation.BATHROOM },
+    south: { area: MapSubLocation.CEO_OFFICE },
+  });
 
   // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
   // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
