@@ -32,7 +32,7 @@ namespace NSLocation {
   }
   export type CardinalDirAndDistanceType<T> = CardinalDirType<{
     area: T;
-    distance?: number /* Default to 0 or the previous value if not given */;
+    distance?: number /* Default to 1 or the previous value if not given */;
   }>;
   type DirectionData = CardinalDirAndDistanceType<MapChildData>;
   // This just gives the bare essential data for a single location / sub-location without it's connections

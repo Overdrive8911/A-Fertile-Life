@@ -1,6 +1,7 @@
 namespace NSLocation {
   // NOTE: Do not use this class directly. Use it's child classes instead.
   // A `map object` serves as a collection of different locations / sub-locations / areas.
+  const defaultDistance = 1;
   class MapObject {
     //@ts-expect-error
     private map: Record<AreaId, MapChildData> = {};
@@ -32,20 +33,28 @@ namespace NSLocation {
           if (!northData) {
             this.map[northId] = {
               locData: gLocationDataNew[northId],
-              directions: { south: { area: mapChild, distance: northDist } },
+              directions: {
+                south: {
+                  area: mapChild,
+                  distance: northDist ?? defaultDistance,
+                },
+              },
             };
           } else {
             // The map child exists so just add the required direction
             northData.directions = northData.directions ?? {};
             northData.directions.south = {
               area: mapChild,
-              distance: northDist,
+              distance:
+                northDist ??
+                northData.directions.south?.distance ??
+                defaultDistance,
             };
           }
 
           mapChild.directions.north = {
             area: this.map[northId],
-            distance: northDist,
+            distance: northDist ?? defaultDistance,
           };
         }
         if (directionData.east) {
@@ -57,20 +66,25 @@ namespace NSLocation {
           if (!eastData) {
             this.map[eastId] = {
               locData: gLocationDataNew[eastId],
-              directions: { west: { area: mapChild, distance: eastDist } },
+              directions: {
+                west: { area: mapChild, distance: eastDist ?? defaultDistance },
+              },
             };
           } else {
             // The map child exists so just add the required direction
             eastData.directions = eastData.directions ?? {};
             eastData.directions.west = {
               area: mapChild,
-              distance: eastDist,
+              distance:
+                eastDist ??
+                eastData.directions.west?.distance ??
+                defaultDistance,
             };
           }
 
           mapChild.directions.east = {
             area: this.map[eastId],
-            distance: eastDist,
+            distance: eastDist ?? defaultDistance,
           };
         }
         if (directionData.south) {
@@ -82,20 +96,28 @@ namespace NSLocation {
           if (!southData) {
             this.map[southId] = {
               locData: gLocationDataNew[southId],
-              directions: { north: { area: mapChild, distance: southDist } },
+              directions: {
+                north: {
+                  area: mapChild,
+                  distance: southDist ?? defaultDistance,
+                },
+              },
             };
           } else {
             // The map child exists so just add the required direction
             southData.directions = southData.directions ?? {};
             southData.directions.north = {
               area: mapChild,
-              distance: southDist,
+              distance:
+                southDist ??
+                southData.directions.north?.distance ??
+                defaultDistance,
             };
           }
 
           mapChild.directions.south = {
             area: this.map[southId],
-            distance: southDist,
+            distance: southDist ?? defaultDistance,
           };
         }
         if (directionData.west) {
@@ -107,20 +129,25 @@ namespace NSLocation {
           if (!westData) {
             this.map[westId] = {
               locData: gLocationDataNew[westId],
-              directions: { east: { area: mapChild, distance: westDist } },
+              directions: {
+                east: { area: mapChild, distance: westDist ?? defaultDistance },
+              },
             };
           } else {
             // The map child exists so just add the required direction
             westData.directions = westData.directions ?? {};
             westData.directions.east = {
               area: mapChild,
-              distance: westDist,
+              distance:
+                westDist ??
+                westData.directions.east?.distance ??
+                defaultDistance,
             };
           }
 
           mapChild.directions.west = {
             area: this.map[westId],
-            distance: westDist,
+            distance: westDist ?? defaultDistance,
           };
         }
       }
