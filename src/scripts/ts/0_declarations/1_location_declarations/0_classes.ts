@@ -7,10 +7,13 @@ namespace NSLocation {
 
     constructor() {}
 
-    protected getArea(id: AreaId) {
+    getArea(id: AreaId) {
       return this.map[id];
     }
-    protected addArea(id: AreaId, directionData?: CardinalDirType<AreaId>) {
+    protected addArea(
+      id: AreaId,
+      directionData?: CardinalDirAndDistanceType<AreaId>
+    ) {
       // Initialize the child object to add to the map.
       let mapChild: MapChildData = this.getArea(id) ?? {
         locData: gLocationDataNew[id],
@@ -21,76 +24,104 @@ namespace NSLocation {
 
         // For every possible direction, initialize (if necessary) a new "map child"
         if (directionData.north) {
-          const northId = directionData.north;
+          const northId = directionData.north.area;
+          const northDist = directionData.north.distance;
           const northData = this.getArea(northId);
 
           // No data is available so init a new map child with the required data
           if (!northData) {
             this.map[northId] = {
               locData: gLocationDataNew[northId],
-              directions: { south: mapChild },
+              directions: { south: { area: mapChild, distance: northDist } },
             };
           } else {
             // The map child exists so just add the required direction
             northData.directions = northData.directions ?? {};
-            northData.directions.south = mapChild;
+            northData.directions.south = {
+              area: mapChild,
+              distance: northDist,
+            };
           }
 
-          mapChild.directions.north = this.map[northId];
+          mapChild.directions.north = {
+            area: this.map[northId],
+            distance: northDist,
+          };
         }
         if (directionData.east) {
-          const eastId = directionData.east;
+          const eastId = directionData.east.area;
+          const eastDist = directionData.east.distance;
           const eastData = this.getArea(eastId);
 
           // No data is available so init a new map child with the required data
           if (!eastData) {
             this.map[eastId] = {
               locData: gLocationDataNew[eastId],
-              directions: { west: mapChild },
+              directions: { west: { area: mapChild, distance: eastDist } },
             };
           } else {
             // The map child exists so just add the required direction
             eastData.directions = eastData.directions ?? {};
-            eastData.directions.west = mapChild;
+            eastData.directions.west = {
+              area: mapChild,
+              distance: eastDist,
+            };
           }
 
-          mapChild.directions.east = this.map[eastId];
+          mapChild.directions.east = {
+            area: this.map[eastId],
+            distance: eastDist,
+          };
         }
         if (directionData.south) {
-          const southId = directionData.south;
+          const southId = directionData.south.area;
+          const southDist = directionData.south.distance;
           const southData = this.getArea(southId);
 
           // No data is available so init a new map child with the required data
           if (!southData) {
             this.map[southId] = {
               locData: gLocationDataNew[southId],
-              directions: { north: mapChild },
+              directions: { north: { area: mapChild, distance: southDist } },
             };
           } else {
             // The map child exists so just add the required direction
             southData.directions = southData.directions ?? {};
-            southData.directions.north = mapChild;
+            southData.directions.north = {
+              area: mapChild,
+              distance: southDist,
+            };
           }
 
-          mapChild.directions.south = this.map[southId];
+          mapChild.directions.south = {
+            area: this.map[southId],
+            distance: southDist,
+          };
         }
         if (directionData.west) {
-          const westId = directionData.west;
+          const westId = directionData.west.area;
+          const westDist = directionData.west.distance;
           const westData = this.getArea(westId);
 
           // No data is available so init a new map child with the required data
           if (!westData) {
             this.map[westId] = {
               locData: gLocationDataNew[westId],
-              directions: { east: mapChild },
+              directions: { east: { area: mapChild, distance: westDist } },
             };
           } else {
             // The map child exists so just add the required direction
             westData.directions = westData.directions ?? {};
-            westData.directions.east = mapChild;
+            westData.directions.east = {
+              area: mapChild,
+              distance: westDist,
+            };
           }
 
-          mapChild.directions.west = this.map[westId];
+          mapChild.directions.west = {
+            area: this.map[westId],
+            distance: westDist,
+          };
         }
       }
 
@@ -106,7 +137,7 @@ namespace NSLocation {
       }
     }
 
-    protected getAreasWithFlag(flag: MapChildDataFlags) {
+    getAreasWithFlag(flag: MapChildDataFlags) {
       let entryAreas: MapChildData[] = [];
 
       for (const key in this.map) {
@@ -127,6 +158,16 @@ namespace NSLocation {
   export class SubLocationMapObject extends MapObject {
     constructor() {
       super();
+    }
+
+    addSubLocation(
+      subLocationId: MapSubLocation,
+      directionData?: CardinalDirAndDistanceType<MapSubLocation>
+    ) {
+      this.addArea(subLocationId, directionData);
+    }
+    removeSubLocation(subLocationId: MapSubLocation) {
+      this.removeArea(subLocationId);
     }
   }
 }
