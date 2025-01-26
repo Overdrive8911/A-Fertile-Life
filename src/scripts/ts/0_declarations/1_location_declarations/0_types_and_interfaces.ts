@@ -34,18 +34,20 @@ namespace NSLocation {
     area: T;
     distance?: number /* Default to 1 or the previous value if not given */;
   }>;
-  type DirectionData = CardinalDirAndDistanceType<MapChildData>;
+  type DirectionData = CardinalDirAndDistanceType<DefaultMapChildData>;
   // This just gives the bare essential data for a single location / sub-location without it's connections
-  export interface GenericLocationData {
+  export type GenericLocationData<IdType> = {
     name?: string;
     description?: string;
-    id: AreaId;
-  }
-  export interface MapChildData {
-    locData: GenericLocationData;
+    id: IdType;
+  };
+  export interface MapChildData<IdType> {
+    locData: GenericLocationData<IdType>;
     directions?: DirectionData;
     flags?: MapChildDataFlags;
   }
+  export type DefaultGenericLocationData = GenericLocationData<AreaId>;
+  export type DefaultMapChildData = MapChildData<AreaId>;
 
   export type LocationObject = {
     [nameOfLocation in MapLocation]?: GameLocation;
