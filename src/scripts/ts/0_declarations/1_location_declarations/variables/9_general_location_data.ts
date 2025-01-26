@@ -12,7 +12,11 @@ namespace NSLocation {
     [MapSubLocation.DUMMY]: { id: MapSubLocation.DUMMY },
   };
   // Testing
-  const a = new SubLocationMapObject();
+  const a = new MapObjectOfSubLocations({
+    id: MapLocation.BUS,
+    name: "Test",
+    description: "Lorem Ipsum",
+  });
   a.addSubLocation(MapSubLocation.BATHROOM, {
     east: { area: MapSubLocation.CEO_OFFICE },
     west: { area: MapSubLocation.CORRIDOR_2 },
