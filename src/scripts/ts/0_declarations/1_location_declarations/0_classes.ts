@@ -1,12 +1,13 @@
 namespace NSLocation {
   // NOTE: Do not use this class directly. Use it's child classes instead.
   // A `map object` serves as a collection of different locations / sub-locations / areas.
+  // TODO: Consider preventing in-explicitly set distances from having a value
   const defaultDistance = 1;
   class MapObject {
     //@ts-expect-error
     private map: Record<AreaId, MapChildData> = {};
 
-    constructor() {}
+    constructor(public baseData: GenericLocationData) {}
 
     getArea(id: AreaId) {
       return this.map[id];
@@ -181,10 +182,10 @@ namespace NSLocation {
     }
   }
 
-  // ANCHOR: This only stores map objects for sub locations
-  export class SubLocationMapObject extends MapObject {
-    constructor() {
-      super();
+  // ANCHOR: This only stores map objects for sub locations. Each Instance of this is effectively a "Location"
+  export class MapObjectOfSubLocations extends MapObject {
+    constructor(...args: ConstructorParameters<typeof MapObject>) {
+      super(...args);
     }
 
     addSubLocation(
@@ -196,5 +197,15 @@ namespace NSLocation {
     removeSubLocation(subLocationId: MapSubLocation) {
       this.removeArea(subLocationId);
     }
+  }
+
+  // ANCHOR: This only stores references to `SubLocationMapObject` instances.
+  // NOTE: Basically if you have a hospital, each room on a floor would be a `subLocation`(which is the smallest place that the player can enter), each floor would be a `location`(which solely consists of `subLocation`s), and the entire hospital would be a collection of `locations`
+  // NOTE: A Location may have extra coordinates like `up` and `down`. A subLocation, however, CANNOT
+  export class MapObjectOfLocations extends MapObject {
+    constructor(...args: ConstructorParameters<typeof MapObject>) {
+      super(...args);
+    }
+    addLocation() {}
   }
 }
