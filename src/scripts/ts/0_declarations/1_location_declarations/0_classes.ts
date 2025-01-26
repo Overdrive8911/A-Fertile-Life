@@ -2,10 +2,34 @@ namespace NSLocation {
   // NOTE: Do not use this class directly. Use it's child classes instead.
   // A `map object` serves as a collection of different locations / sub-locations / areas.
   // TODO: Consider preventing in-explicitly set distances from having a value
+  export class MapChildData<IdType> {
+    constructor(
+      private locData: GenericLocationData<IdType>,
+      public directions?: DefaultDirectionData,
+      public flags?: MapChildDataFlags
+    ) {}
+
+    get data(): GenericLocationData<IdType> {
+      return { id: this.id, name: this.name, description: this.description };
+    }
+    get id() {
+      return this.locData.id;
+    }
+    get name() {
+      return this.locData.name ?? "NO NAME AVAILABLE";
+    }
+    get description() {
+      return this.locData.description ?? "NO DESCRIPTION AVAILABLE";
+    }
+    isFlagSet?(flag: MapChildDataFlags) {
+      return this.flags & flag;
+    }
+  }
+
   const defaultDistance = 1;
   class MapObject {
     //@ts-expect-error
-    private map: Record<AreaId, MapChildData> = {};
+    private map: Record<AreaId, DefaultMapChildData> = {};
 
     constructor(public baseData: DefaultGenericLocationData) {}
 
@@ -22,9 +46,8 @@ namespace NSLocation {
       directionData?: CardinalDirAndDistanceType<DefaultGenericLocationData>
     ) {
       // Initialize the child object to add to the map.
-      let mapChild: DefaultMapChildData = this.getArea(locData.id) ?? {
-        locData: locData,
-      };
+      let mapChild: DefaultMapChildData =
+        this.getArea(locData.id) ?? new MapChildData(locData);
 
       if (directionData) {
         mapChild.directions = mapChild.directions ?? {};
@@ -38,6 +61,7 @@ namespace NSLocation {
 
           // No data is available so init a new map child with the required data
           if (!northData) {
+            //@ts-expect-error
             this.map[northId] = {
               locData: northBaseLocData,
               directions: {
@@ -72,6 +96,7 @@ namespace NSLocation {
 
           // No data is available so init a new map child with the required data
           if (!eastData) {
+            //@ts-expect-error
             this.map[eastId] = {
               locData: eastBaseLocData,
               directions: {
@@ -103,6 +128,7 @@ namespace NSLocation {
 
           // No data is available so init a new map child with the required data
           if (!southData) {
+            //@ts-expect-error
             this.map[southId] = {
               locData: southBaseLocData,
               directions: {
@@ -137,6 +163,7 @@ namespace NSLocation {
 
           // No data is available so init a new map child with the required data
           if (!westData) {
+            //@ts-expect-error
             this.map[westId] = {
               locData: westBaseLocData,
               directions: {
