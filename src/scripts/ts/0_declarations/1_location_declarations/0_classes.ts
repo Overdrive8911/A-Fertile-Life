@@ -7,18 +7,23 @@ namespace NSLocation {
     //@ts-expect-error
     private map: Record<AreaId, MapChildData> = {};
 
-    constructor(public baseData: GenericLocationData) {}
+    constructor(public baseData: DefaultGenericLocationData) {}
 
     getArea(id: AreaId) {
+      if (!this.map[id]) {
+        console.error(
+          `No data with the id, ${id}, exists in the map, ${this.baseData.name}, with the id, ${this.baseData.id}`
+        );
+      }
       return this.map[id];
     }
     protected addArea(
-      id: AreaId,
-      directionData?: CardinalDirAndDistanceType<AreaId>
+      locData: DefaultGenericLocationData,
+      directionData?: CardinalDirAndDistanceType<DefaultGenericLocationData>
     ) {
       // Initialize the child object to add to the map.
-      let mapChild: MapChildData = this.getArea(id) ?? {
-        locData: gLocationDataNew[id],
+      let mapChild: DefaultMapChildData = this.getArea(locData.id) ?? {
+        locData: locData,
       };
 
       if (directionData) {
@@ -26,14 +31,15 @@ namespace NSLocation {
 
         // For every possible direction, initialize (if necessary) a new "map child"
         if (directionData.north) {
-          const northId = directionData.north.area;
+          const northBaseLocData = directionData.north.area;
+          const northId = northBaseLocData.id;
           const northDist = directionData.north.distance;
           const northData = this.getArea(northId);
 
           // No data is available so init a new map child with the required data
           if (!northData) {
             this.map[northId] = {
-              locData: gLocationDataNew[northId],
+              locData: northBaseLocData,
               directions: {
                 south: {
                   area: mapChild,
@@ -59,14 +65,15 @@ namespace NSLocation {
           };
         }
         if (directionData.east) {
-          const eastId = directionData.east.area;
+          const eastBaseLocData = directionData.east.area;
+          const eastId = eastBaseLocData.id;
           const eastDist = directionData.east.distance;
           const eastData = this.getArea(eastId);
 
           // No data is available so init a new map child with the required data
           if (!eastData) {
             this.map[eastId] = {
-              locData: gLocationDataNew[eastId],
+              locData: eastBaseLocData,
               directions: {
                 west: { area: mapChild, distance: eastDist ?? defaultDistance },
               },
@@ -89,14 +96,15 @@ namespace NSLocation {
           };
         }
         if (directionData.south) {
-          const southId = directionData.south.area;
+          const southBaseLocData = directionData.south.area;
+          const southId = southBaseLocData.id;
           const southDist = directionData.south.distance;
           const southData = this.getArea(southId);
 
           // No data is available so init a new map child with the required data
           if (!southData) {
             this.map[southId] = {
-              locData: gLocationDataNew[southId],
+              locData: southBaseLocData,
               directions: {
                 north: {
                   area: mapChild,
@@ -122,14 +130,15 @@ namespace NSLocation {
           };
         }
         if (directionData.west) {
-          const westId = directionData.west.area;
+          const westBaseLocData = directionData.west.area;
+          const westId = westBaseLocData.id;
           const westDist = directionData.west.distance;
           const westData = this.getArea(westId);
 
           // No data is available so init a new map child with the required data
           if (!westData) {
             this.map[westId] = {
-              locData: gLocationDataNew[westId],
+              locData: westBaseLocData,
               directions: {
                 east: { area: mapChild, distance: westDist ?? defaultDistance },
               },
@@ -154,7 +163,7 @@ namespace NSLocation {
       }
 
       // Add the mapChild to the map
-      this.map[id] = mapChild;
+      this.map[locData.id] = mapChild;
     }
     protected removeArea(id: AreaId) {
       if (this.getArea(id)) {
@@ -166,7 +175,7 @@ namespace NSLocation {
     }
 
     getAreasWithFlag(flag: MapChildDataFlags) {
-      let entryAreas: MapChildData[] = [];
+      let entryAreas: DefaultMapChildData[] = [];
 
       for (const key in this.map) {
         if (Object.prototype.hasOwnProperty.call(this.map, key)) {
@@ -189,10 +198,12 @@ namespace NSLocation {
     }
 
     addSubLocation(
-      subLocationId: MapSubLocation,
-      directionData?: CardinalDirAndDistanceType<MapSubLocation>
+      subLocationData: GenericLocationData<MapSubLocation>,
+      directionData?: CardinalDirAndDistanceType<
+        GenericLocationData<MapSubLocation>
+      >
     ) {
-      this.addArea(subLocationId, directionData);
+      this.addArea(subLocationData, directionData);
     }
     removeSubLocation(subLocationId: MapSubLocation) {
       this.removeArea(subLocationId);
