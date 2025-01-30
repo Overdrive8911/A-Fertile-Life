@@ -30,12 +30,24 @@ namespace NSLocation {
     south?: T;
     west?: T;
   }
+
+  // NOTE: This one also covers the Z-axis
+  export interface CardinalDirTypePlus<T> extends CardinalDirType<T> {
+    up?: T;
+    down?: T;
+  }
   export type CardinalDirAndDistanceType<T> = CardinalDirType<{
+    area: T;
+    distance?: number /* Default to 1 or the previous value if not given */;
+  }>;
+  export type CardinalDirAndDistanceTypePlus<T> = CardinalDirTypePlus<{
     area: T;
     distance?: number /* Default to 1 or the previous value if not given */;
   }>;
   export type DefaultDirectionData =
     CardinalDirAndDistanceType<DefaultMapChildData>;
+  export type DefaultDirectionDataPlus =
+    CardinalDirAndDistanceTypePlus<DefaultMapChildData>;
   // This just gives the bare essential data for a single location / sub-location without it's connections
   export type GenericLocationData<IdType> = {
     name?: string;
@@ -44,6 +56,16 @@ namespace NSLocation {
   };
   export type DefaultGenericLocationData = GenericLocationData<AreaId>;
   export type DefaultMapChildData = MapChildData<AreaId>;
+  export interface CoordsXY {
+    x: number;
+    y: number;
+  }
+  export interface CoordsXYZ {
+    x: number;
+    y: number;
+    z: number;
+  }
+  export type Coords = CoordsXY | CoordsXYZ;
 
   export type LocationObject = {
     [nameOfLocation in MapLocation]?: GameLocation;
