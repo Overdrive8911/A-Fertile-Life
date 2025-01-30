@@ -29,8 +29,7 @@ namespace NSLocation {
   const defaultDistance = 1;
   class MapObject {
     // TODO: Replace these with a map
-    //@ts-expect-error
-    private map: Record<AreaId, DefaultMapChildData> = {};
+    private map: Map<AreaId, DefaultMapChildData> = new Map();
     // Used to determine the distance between 2 or more areas in the map
 
     private _coordinateMap: Map<AreaId, Coords> = new Map();
@@ -38,12 +37,12 @@ namespace NSLocation {
     constructor(public baseData?: DefaultGenericLocationData) {}
 
     getArea(id: AreaId) {
-      if (!this.map[id]) {
+      if (!this.map.get(id)) {
         console.error(
           `No data with the id, ${id}, exists in the map, ${this.baseData?.name}, with the id, ${this.baseData?.id}`
         );
       }
-      return this.map[id];
+      return this.map.get(id);
     }
     private returnUpdatedCoordinates(
       direction: keyof DefaultDirectionDataPlus,
@@ -182,12 +181,15 @@ namespace NSLocation {
               //     };
               // }
 
-              this.map[dirId] = new MapChildData(dirBaseLocData, {
-                [`${counterpartDirection}`]: {
-                  area: mapChild,
-                  distance: dirDist ?? defaultDistance,
-                },
-              });
+              this.map.set(
+                dirId,
+                new MapChildData(dirBaseLocData, {
+                  [`${counterpartDirection}`]: {
+                    area: mapChild,
+                    distance: dirDist ?? defaultDistance,
+                  },
+                })
+              );
             } else {
               // The map child exists so just add the required direction
               dirData.directions = dirData.directions ?? {};
@@ -203,7 +205,7 @@ namespace NSLocation {
             }
 
             mapChild.directions[key as keyof typeof directionData] = {
-              area: this.map[dirId],
+              area: this.map.get(dirId),
               distance: dirDist ?? defaultDistance,
             };
 
@@ -344,27 +346,19 @@ namespace NSLocation {
       }
 
       // Add the mapChild to the map
-      this.map[locData.id] = mapChild;
+      this.map.set(locData.id, mapChild);
     }
     protected removeArea(id: AreaId) {
-      if (this.getArea(id)) {
-        // The map child exists so we can delete
-        delete this.map[id];
-      } else {
+      if (!this.map.delete(id))
         console.warn("There is nothing matching the id that can be deleted.");
-      }
     }
 
     getAreasWithFlag(flag: MapChildDataFlags) {
       let entryAreas: DefaultMapChildData[] = [];
 
-      for (const key in this.map) {
-        if (Object.prototype.hasOwnProperty.call(this.map, key)) {
-          const area = this.map[key as unknown as keyof typeof this.map];
-
-          if (area.flags & flag) {
-            entryAreas.push(area);
-          }
+      for (const [, area] of this.map) {
+        if (area.flags & flag) {
+          entryAreas.push(area);
         }
       }
 
