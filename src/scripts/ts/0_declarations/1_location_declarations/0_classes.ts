@@ -40,8 +40,8 @@ namespace NSLocation {
     // NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
     private get originArea() {
       if (!this.children?.size) return null;
-      let returnArea = null;
-      let firstArea = null;
+      let returnArea = null,
+        firstArea = null;
       let hasSetFirstArea = false;
       for (const [, data] of this.children) {
         if (!hasSetFirstArea) {
