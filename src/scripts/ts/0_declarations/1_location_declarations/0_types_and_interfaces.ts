@@ -24,48 +24,58 @@ namespace NSLocation {
 
   // NOTE: Any id for a possible area should be added to this union.
   export type AreaId = MapLocation | MapSubLocation;
-  interface CardinalDirType<T> {
-    north?: T;
-    east?: T;
-    south?: T;
-    west?: T;
-  }
+  export type Coords = { x: number; y: number; z: number };
+  // type CardinalDirType<T> =
+  //   | {
+  //       north?: T;
+  //       east?: T;
+  //       south?: T;
+  //       west?: T;
+  //     }
+  //   | {
+  //       north?: T;
+  //       east?: T;
+  //       south?: T;
+  //       west?: T;
+  //       up?: T;
+  //       down: T;
+  //   };
 
-  // NOTE: This one also covers the Z-axis
-  export interface CardinalDirTypePlus<T> extends CardinalDirType<T> {
-    up?: T;
-    down?: T;
-  }
-  export type CardinalDirAndDistanceType<T> = CardinalDirType<{
-    area: T;
-    distance?: number /* Default to 1 or the previous value if not given */;
-  }>;
-  export type CardinalDirAndDistanceTypePlus<T> = CardinalDirTypePlus<{
-    area: T;
-    distance?: number /* Default to 1 or the previous value if not given */;
-  }>;
-  export type DefaultDirectionData =
-    CardinalDirAndDistanceType<DefaultMapChildData>;
-  export type DefaultDirectionDataPlus =
-    CardinalDirAndDistanceTypePlus<DefaultMapChildData>;
-  // This just gives the bare essential data for a single location / sub-location without it's connections
-  export type GenericLocationData<IdType> = {
-    name?: string;
-    description?: string;
-    id: IdType;
-  };
-  export type DefaultGenericLocationData = GenericLocationData<AreaId>;
-  export type DefaultMapChildData = MapChildData<AreaId>;
-  export interface CoordsXY {
-    x: number;
-    y: number;
-  }
-  export interface CoordsXYZ {
-    x: number;
-    y: number;
-    z: number;
-  }
-  export type Coords = CoordsXY | CoordsXYZ;
+  // // NOTE: This one also covers the Z-axis
+  // export interface CardinalDirTypePlus<T> extends CardinalDirType<T> {
+  //   up?: T;
+  //   down?: T;
+  // }
+  // export type CardinalDirAndDistanceType<T> = CardinalDirType<{
+  //   area: T;
+  //   distance?: number /* Default to 1 or the previous value if not given */;
+  // }>;
+  // export type CardinalDirAndDistanceTypePlus<T> = CardinalDirTypePlus<{
+  //   area: T;
+  //   distance?: number /* Default to 1 or the previous value if not given */;
+  // }>;
+  // export type DefaultDirectionData =
+  //   CardinalDirAndDistanceType<DefaultMapChildData>;
+  // export type DefaultDirectionDataPlus =
+  //   CardinalDirAndDistanceTypePlus<DefaultMapChildData>;
+  // // This just gives the bare essential data for a single location / sub-location without it's connections
+  // export type GenericLocationData<IdType> = {
+  //   name?: string;
+  //   description?: string;
+  //   id: IdType;
+  // };
+  // export type DefaultGenericLocationData = GenericLocationData<AreaId>;
+  // export type DefaultMapChildData = MapChildData<AreaId>;
+  // export interface CoordsXY {
+  //   x: number;
+  //   y: number;
+  // }
+  // export interface CoordsXYZ {
+  //   x: number;
+  //   y: number;
+  //   z: number;
+  // }
+  // export type Coords = CoordsXY | CoordsXYZ;
 
   export type LocationObject = {
     [nameOfLocation in MapLocation]?: GameLocation;
