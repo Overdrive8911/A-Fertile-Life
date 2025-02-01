@@ -142,7 +142,8 @@ namespace NSLocation {
     GLOBAL,
   }
 
-  export enum SubLocationId {
+  // SECTION - Ids for the MapEntity
+  export const enum SubLocationId {
     DUMMY,
 
     RECEPTION,
@@ -184,7 +185,7 @@ namespace NSLocation {
     ROOM_5,
   }
 
-  export enum LocationId {
+  export const enum LocationId {
     DUMMY,
 
     FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
@@ -199,4 +200,17 @@ namespace NSLocation {
     DREAM,
     UNKNOWN,
   }
+
+  export const enum SubRegionId {
+    DUMMY,
+  }
+
+  export const enum RegionId {
+    DUMMY,
+  }
+
+  export const enum GlobalMapId {
+    GLOBAL,
+  }
+  //!SECTION
 }
