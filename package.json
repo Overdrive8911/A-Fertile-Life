@@ -4,6 +4,7 @@
   "description": "A basic project setup for Tweego with all the trimmings using Node.",
   "main": "build.js",
   "scripts": {
+    "start-bun": "cd dist && bunx http-server -c0 -o",
     "start": "cd dist && npx http-server -c0 -o",
     "build-new": "./build",
     "test-new": "./build -t",
