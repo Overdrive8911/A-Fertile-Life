@@ -74,11 +74,6 @@ namespace NSLocation {
       "Office"
     );
 
-    const fertiloIncGroundFloor = new Location(
-      LocationId.FERTILO_INC_GROUND_FLOOR,
-      "Fertilo Inc (Ground Floor)"
-    );
-
     fertiloIncPorchFloor1.connectTo({
       area: fertiloIncReceptionFloor1,
       dir: Direction.NORTH,
@@ -130,7 +125,10 @@ namespace NSLocation {
       dist: 2,
     });
 
-    fertiloIncGroundFloor.addArea(
+    const fertiloIncGroundFloor = new Location(
+      LocationId.FERTILO_INC_GROUND_FLOOR,
+      "Fertilo Inc (Ground Floor)"
+    ).addArea(
       fertiloIncPorchFloor1,
       fertiloIncReceptionFloor1,
       fertiloIncMeasurementClosetFloor1,
