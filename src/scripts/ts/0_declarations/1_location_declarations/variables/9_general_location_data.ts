@@ -7,8 +7,152 @@ namespace NSLocation {
     - Create the instance of the container area. 
     - Add all the child areas to the container area. */
   // Testing
-  const globalMap = new Region(1, "Global Map");
-  console.log(globalMap);
+  export namespace MapArea {
+    const globalMap = new Region(1, "Global Map");
+
+    const fertiloIncPorchFloor1 = new SubLocation(SubLocationId.PORCH, "Porch");
+    const fertiloIncReceptionFloor1 = new SubLocation(
+      SubLocationId.RECEPTION,
+      "Reception",
+      undefined,
+      "The Entry Point of Fertilo Inc"
+    );
+    const fertiloIncMeasurementClosetFloor1 = new SubLocation(
+      SubLocationId.MEASUREMENT_CLOSET,
+      "Measurement Closet"
+    );
+    const fertiloIncPharmacy1Floor1 = new SubLocation(
+      SubLocationId.PHARMACY_1,
+      "Pharmacy 1"
+    );
+    const fertiloIncPharmacy2Floor1 = new SubLocation(
+      SubLocationId.PHARMACY_2,
+      "Pharmacy 2"
+    );
+    const fertiloIncCorridor1Floor1 = new SubLocation(
+      SubLocationId.CORRIDOR_1,
+      "Corridor 1"
+    );
+    const fertiloIncHallway1Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_1,
+      "Hallway 1"
+    );
+    const fertiloIncHallway2Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_2,
+      "Hallway 2"
+    );
+    const fertiloIncHallway3Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_3,
+      "Hallway 3"
+    );
+    const fertiloIncHallway4Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_4,
+      "Hallway 4"
+    );
+    const fertiloIncHallway5Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_5,
+      "Hallway 5"
+    );
+    const fertiloIncHallway6Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_6,
+      "Hallway 6"
+    );
+    const fertiloIncHallway7Floor1 = new SubLocation(
+      SubLocationId.HALLWAY_7,
+      "Hallway 7"
+    );
+    const fertiloIncLabFloor1 = new SubLocation(
+      SubLocationId.LAB,
+      "Laboratory"
+    );
+    const fertiloIncConsultationFloor1 = new SubLocation(
+      SubLocationId.CONSULTATION,
+      "Consultation Office"
+    );
+    const fertiloIncOfficeWorkFloor1 = new SubLocation(
+      SubLocationId.OFFICE_WORK,
+      "Office"
+    );
+
+    const fertiloIncGroundFloor = new Location(
+      LocationId.FERTILO_INC_GROUND_FLOOR,
+      "Fertilo Inc (Ground Floor)"
+    );
+
+    fertiloIncPorchFloor1.connectTo({
+      area: fertiloIncReceptionFloor1,
+      dir: Direction.NORTH,
+      dist: 2,
+    });
+
+    fertiloIncReceptionFloor1.connectTo(
+      { area: fertiloIncMeasurementClosetFloor1, dir: Direction.EAST, dist: 1 },
+      { area: fertiloIncPharmacy1Floor1, dir: Direction.WEST, dist: 1 },
+      { area: fertiloIncCorridor1Floor1, dir: Direction.NORTH, dist: 2 }
+    );
+
+    fertiloIncCorridor1Floor1.connectTo({
+      area: fertiloIncHallway4Floor1,
+      dir: Direction.NORTH,
+      dist: 3,
+    });
+
+    fertiloIncHallway4Floor1.connectTo(
+      { area: fertiloIncHallway1Floor1, dir: Direction.WEST, dist: 6 },
+      { area: fertiloIncHallway2Floor1, dir: Direction.WEST, dist: 4 },
+      { area: fertiloIncHallway3Floor1, dir: Direction.WEST, dist: 2 },
+      { area: fertiloIncHallway5Floor1, dir: Direction.EAST, dist: 2 },
+      { area: fertiloIncHallway6Floor1, dir: Direction.EAST, dist: 4 },
+      { area: fertiloIncHallway7Floor1, dir: Direction.EAST, dist: 6 }
+    );
+
+    fertiloIncHallway3Floor1.connectTo({
+      area: fertiloIncLabFloor1,
+      dir: Direction.SOUTH,
+      dist: 2,
+    });
+
+    fertiloIncHallway5Floor1.connectTo({
+      area: fertiloIncPharmacy2Floor1,
+      dir: Direction.SOUTH,
+      dist: 2,
+    });
+
+    fertiloIncHallway7Floor1.connectTo({
+      area: fertiloIncOfficeWorkFloor1,
+      dir: Direction.NORTH,
+      dist: 2,
+    });
+
+    fertiloIncHallway5Floor1.connectTo({
+      area: fertiloIncConsultationFloor1,
+      dir: Direction.NORTH,
+      dist: 2,
+    });
+
+    fertiloIncGroundFloor.addArea(
+      fertiloIncPorchFloor1,
+      fertiloIncReceptionFloor1,
+      fertiloIncMeasurementClosetFloor1,
+      fertiloIncPharmacy1Floor1,
+      fertiloIncPharmacy2Floor1,
+      fertiloIncCorridor1Floor1,
+      fertiloIncHallway1Floor1,
+      fertiloIncHallway2Floor1,
+      fertiloIncHallway3Floor1,
+      fertiloIncHallway4Floor1,
+      fertiloIncHallway5Floor1,
+      fertiloIncHallway6Floor1,
+      fertiloIncHallway7Floor1,
+      fertiloIncLabFloor1,
+      fertiloIncConsultationFloor1,
+      fertiloIncOfficeWorkFloor1
+    );
+
+    console.log(fertiloIncGroundFloor);
+
+    globalMap.addArea(fertiloIncGroundFloor);
+  }
 
   // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
   // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
