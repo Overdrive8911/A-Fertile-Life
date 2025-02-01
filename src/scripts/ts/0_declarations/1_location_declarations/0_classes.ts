@@ -20,8 +20,10 @@ namespace NSLocation {
   // NOTE: Most methods return a reference to the map entity for use in chaining
   class MapEntity<ChildType extends MapEntity<any>> {
     parent: MapEntity<any> | null = null;
-    private children: Map<AreaId, { area: ChildType; coords?: Coords }> | null =
-      null;
+    protected children: Map<
+      AreaId,
+      { area: ChildType; coords?: Coords }
+    > | null = null;
     private connections: Map<
       Direction,
       { area: MapEntity<ChildType>; distance?: number | null }
@@ -35,15 +37,25 @@ namespace NSLocation {
       public readonly description?: string
     ) {}
 
-    // NOTE: The first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
+    // NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
     private get originArea() {
       if (!this.children?.size) return null;
       let returnArea = null;
-      for (const [, area] of this.children) {
-        returnArea = area;
+      let firstArea = null;
+      let hasSetFirstArea = false;
+      for (const [, data] of this.children) {
+        if (!hasSetFirstArea) {
+          firstArea = data;
+          hasSetFirstArea = true;
+        }
+
+        if (data.area.flags & MapEntityFlags.IS_ENTRY_POINT) {
+          returnArea = data;
+          break;
+        }
         break;
       }
-      return returnArea;
+      return returnArea ?? firstArea;
     }
     // NOTE: This may be computationally intensive if there are a lot of areas
     // This looks for the shortest path between two areas in the map entity. It returns an Array of the area ids in order of traversal and the total distance
@@ -139,6 +151,9 @@ namespace NSLocation {
     constructor(...args: ConstructorParameters<typeof MapEntity>) {
       super(...args);
       this.type = MapType.SUB_LOCATION;
+
+      // Sub-Locations don't have children so delete the property
+      delete this.children;
     }
   }
 
@@ -160,6 +175,16 @@ namespace NSLocation {
     constructor(...args: ConstructorParameters<typeof MapEntity>) {
       super(...args);
       this.type = MapType.REGION;
+    }
+  }
+
+  export class GlobalMap extends MapEntity<Region> {
+    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+      super(...args);
+      this.type = MapType.GLOBAL;
+
+      // Global Map doesn't have a parent so delete the property
+      delete this.parent;
     }
   }
   // !SECTION
