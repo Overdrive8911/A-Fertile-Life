@@ -23,7 +23,12 @@ namespace NSLocation {
   }
 
   // NOTE: Any id for a possible area should be added to this union.
-  export type AreaId = MapLocation | MapSubLocation;
+  export type AreaId =
+    | LocationId
+    | SubLocationId
+    | SubRegionId
+    | RegionId
+    | GlobalMapId;
   export type Coords = { x: number; y: number; z: number };
   // type CardinalDirType<T> =
   //   | {
