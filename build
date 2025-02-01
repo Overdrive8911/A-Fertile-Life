@@ -1,26 +1,46 @@
 #!/bin/bash
+set -euo pipefail
 
-transpiledJsDir="src/scripts/built_js"
-compiledCssDir="src/styles/built_css"
+# Configuration
+readonly transpiledJsDir="src/scripts/built_js"
+readonly compiledCssDir="src/styles/built_css"
+readonly buildMode=${1:-""}
 
-# Remove previously compiled files so duplicated / unnecessary code is gone
-if [ -d "$transpiledJsDir" ]; then
-  echo "Transpiled JS Directory found. Deleting..."
-  rm -rf "$transpiledJsDir"
-  echo "Directory deleted. Proceeding to next step..."
-else
-  echo "Transpiled JS Directory not found. Proceeding to next step..."
-fi
+clean_directories() {
+  local dirs=("$transpiledJsDir" "$compiledCssDir")
+  for dir in "${dirs[@]}"; do
+    if [[ -d "$dir" ]]; then
+      echo "Removing directory: ${dir}"
+      rm -rf "$dir"
+    else
+      echo "Directory not found: ${dir}"
+    fi
+  done
+}
 
-if [ -d "$compiledCssDir" ]; then
-  echo "Transpiled CSS Directory found. Deleting..."
-  rm -rf "$compiledCssDir"
-  echo "Directory deleted. Proceeding to next step..."
-else
-  echo "Transpiled CSS Directory not found. Proceeding to next step..."
-fi
+compile_assets() {
+  # Compile Sass and TypeScript in parallel
+  local sass_pid tsc_pid
 
-buildMode=${1:-" "}
+  sass src/styles/scss:"$compiledCssDir" --no-source-map --style=compressed && echo "CSS files rebuilt" &
+  sass_pid=$!
 
-# Compile SCSS and TypeScript files then call the build script and then run tweego
-sass src/styles/scss:"$compiledCssDir" --no-source-map --style=compressed && echo "CSS files rebuilt" && tsc --target es2019 --rootDir src/scripts/ts --outDir "$transpiledJsDir" && echo "JS files rebuilt" && node build.js && tweego -o dist/index.html -m src/modules/ --head="src/head-content.html" project "$buildMode"
+  tsc --target es2019 --rootDir src/scripts/ts --outDir "$transpiledJsDir" && echo "JS files rebuilt" &
+  tsc_pid=$!
+
+  # Wait for both compilations to complete
+  wait "$sass_pid" "$tsc_pid"
+}
+
+build_project() {
+  node build.js
+  tweego -o dist/index.html -m src/modules/ --head="src/head-content.html" project "$buildMode"
+}
+
+main() {
+  clean_directories
+  compile_assets
+  build_project
+}
+
+main
