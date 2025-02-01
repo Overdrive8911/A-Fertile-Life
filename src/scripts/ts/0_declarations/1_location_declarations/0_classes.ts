@@ -29,11 +29,11 @@ namespace NSLocation {
       { area: MapEntity<ChildType>; distance?: number | null }
     > = new Map();
     type = MapType.GENERIC;
-    flags = MapEntityFlags.NONE;
 
     constructor(
       public readonly id: AreaId,
       public readonly name: string,
+      public readonly flags = MapEntityFlags.NONE,
       public readonly description?: string
     ) {}
 
