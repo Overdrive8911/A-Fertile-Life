@@ -20,10 +20,7 @@ namespace NSLocation {
   // NOTE: Most methods return a reference to the map entity for use in chaining
   class MapEntity<ChildType extends MapEntity<any>> {
     parent: MapEntity<any> | null = null;
-    protected children: Map<
-      AreaId,
-      { area: ChildType; coords?: Coords }
-    > | null = null;
+    protected children: Map<AreaId, ChildType> | null = null;
     private connections: Map<
       Direction,
       { area: MapEntity<ChildType>; distance?: number | null }
@@ -49,7 +46,7 @@ namespace NSLocation {
           hasSetFirstArea = true;
         }
 
-        if (data.area.flags & MapEntityFlags.IS_ENTRY_POINT) {
+        if (data.flags & MapEntityFlags.IS_ENTRY_POINT) {
           returnArea = data;
           break;
         }
@@ -69,7 +66,7 @@ namespace NSLocation {
       visited.add(fromId);
       let shortestPath: { path: AreaId[]; dist: number } | null = null;
 
-      const currentArea = this.children.get(fromId)?.area;
+      const currentArea = this.children.get(fromId);
       if (!currentArea) return null;
 
       for (const { area, distance } of currentArea.connections.values()) {
@@ -99,7 +96,7 @@ namespace NSLocation {
         }
 
         area.parent = this;
-        this.children.set(area.id, { area: area });
+        this.children.set(area.id, area);
       });
 
       return this;
@@ -120,7 +117,7 @@ namespace NSLocation {
     }
 
     getArea(areaId: AreaId): ChildType | null {
-      return this.children?.get(areaId)?.area ?? null;
+      return this.children?.get(areaId) ?? null;
     }
 
     // NOTE: This only works once and then silently does nothing if the area is already connected in that particular direction
