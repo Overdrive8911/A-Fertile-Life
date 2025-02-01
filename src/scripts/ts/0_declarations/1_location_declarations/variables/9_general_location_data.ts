@@ -1,25 +1,14 @@
 namespace NSLocation {
+  // NOTE: (Barring the first) lm EVERY AREA MUST HAVE A CONNECTION TO AT LEAST ONE OTHER LOCATION. At least for now, don't try to make islands disconnected from others
+  /* NOTE: When adding areas, do it in this order:
+    - USE COMMENTS TO SECTION OUT RELATED AREAS FOR READABILITY
+    - Create instances of every child area.
+    - Connect them together.
+    - Create the instance of the container area. 
+    - Add all the child areas to the container area. */
   // Testing
-  const a = new MapObjectOfSubLocations({
-    id: MapLocation.BUS,
-    name: "Test",
-    description: "Lorem Ipsum",
-  });
-  a.addSubLocation(
-    { id: MapSubLocation.BATHROOM },
-    {
-      east: { area: { id: MapSubLocation.CEO_OFFICE } },
-      west: { area: { id: MapSubLocation.CORRIDOR_2 } },
-    }
-  );
-  console.log(a);
-  a.addSubLocation(
-    { id: MapSubLocation.CORRIDOR_2 },
-    {
-      east: { area: { id: MapSubLocation.BATHROOM } },
-      south: { area: { id: MapSubLocation.CEO_OFFICE } },
-    }
-  );
+  const globalMap = new Region(1, "Global Map");
+  console.log(globalMap);
 
   // NOTE - This stores EVERY possible location. Keep in mind that moving from coords [2,6] to [2,7] or [5,3] to [4,3] takes 10 seconds on average. Note that the `entry` sub location would have its distance calculated from [0,0]
   // NOTE - The first entry in `subLocations` is where the player will enter if they move into that particular location without a set destination (aka another sub location)
