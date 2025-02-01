@@ -64,17 +64,20 @@ namespace NSLocation {
       toId: AreaId,
       visited = new Set<AreaId>()
     ): { path: AreaId[]; dist: number } | null {
-      if (fromId === toId) return { path: [this.id], dist: 0 };
+      if (fromId === toId) return { path: [fromId], dist: 0 };
 
       visited.add(fromId);
-      let shortestPath: ReturnType<MapEntity<any>["findPath"]> | null = null;
+      let shortestPath: { path: AreaId[]; dist: number } | null = null;
 
-      for (const { area, distance } of this.connections.values()) {
+      const currentArea = this.children.get(fromId)?.area;
+      if (!currentArea) return null;
+
+      for (const { area, distance } of currentArea.connections.values()) {
         if (visited.has(area.id)) continue;
         const result = area.findPath(area.id, toId, new Set(visited));
         if (result) {
           const newPath = {
-            path: [this.id, ...result.path],
+            path: [fromId, ...result.path],
             dist: distance + result.dist,
           };
           if (!shortestPath || newPath.dist < shortestPath.dist) {
