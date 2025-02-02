@@ -19,8 +19,11 @@ namespace NSLocation {
   // Base Generic Class Implementation that will be extended for use
   // NOTE: Most methods return a reference to the map entity for use in chaining
   class MapEntity<ChildType extends MapEntity<any>> {
+    // The `MapEntity` instance that contains this instance
     parent: MapEntity<any> | null = null;
+    // All the `MapEntity` instances that are contained within this instance. Like a House containing rooms
     protected children: Map<AreaId, ChildType> | null = null;
+    // The connections to other `MapEntity` instances in the same direction. Like a room connecting to another room
     private connections: Map<
       Direction,
       { area: MapEntity<ChildType>; distance?: number | null }
@@ -30,8 +33,8 @@ namespace NSLocation {
     constructor(
       public readonly id: AreaId,
       public readonly name: string,
-      public readonly flags = MapEntityFlags.NONE,
-      public readonly description?: string
+      public readonly description?: string,
+      public readonly flags = MapEntityFlags.NONE
     ) {}
 
     // NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
