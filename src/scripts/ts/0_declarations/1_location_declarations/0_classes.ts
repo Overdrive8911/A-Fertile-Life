@@ -1,12 +1,4 @@
 namespace NSLocation {
-  // ANCHOR: There are 5 types of areas; Sub-Locations, Locations, Sub-Regions, Regions, and the Global Map
-  /*  Sub-Location -> A room in a house,
-      Location -> The house itself,
-      Sub-Region -> The neighbourhood or even a city,
-      Regions -> A standalone zone / region of sub regions,
-      Global Map -> Just to store everything :3,
-   */
-
   const oppositeDirection = {
     [Direction.NORTH]: Direction.SOUTH,
     [Direction.SOUTH]: Direction.NORTH,
@@ -18,6 +10,13 @@ namespace NSLocation {
 
   // Base Generic Class Implementation that will be extended for use
   // NOTE: Most methods return a reference to the map entity for use in chaining
+  // ANCHOR: There are 5 types of areas; Sub-Locations, Locations, Sub-Regions, Regions, and the Global Map
+  /** Sub-Location -> A room in a house,
+   * Location -> The house itself,
+   * Sub-Region -> The neighbourhood or even a city,
+   * Regions -> A standalone zone / region of sub regions,
+   * Global Map -> Just to store everything :3,
+   */
   class MapEntity<ChildType extends MapEntity<any>> {
     // The `MapEntity` instance that contains this instance
     parent: MapEntity<any> | null = null;
