@@ -29,6 +29,8 @@ namespace NSLocation {
     | SubRegionId
     | RegionId
     | GlobalMapId;
+  export type AreaUniqueId =
+    `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`;
   export type Coords = { x: number; y: number; z: number };
   // type CardinalDirType<T> =
   //   | {
