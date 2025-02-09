@@ -49,6 +49,38 @@ namespace NSLocation {
       public readonly flags = MapEntityFlags.NONE
     ) {}
 
+    /**
+     * A unique id is used to find out the exact instance of a map entity in the global map
+     *
+     * @readonly
+     * @type {AreaUniqueId}
+     */
+    get uniqueId(): AreaUniqueId {
+      let globalId = GlobalMapId.GLOBAL,
+        regionId = RegionId.DUMMY,
+        subRegionId = SubRegionId.DUMMY,
+        locationId = LocationId.DUMMY,
+        subLocationId = SubLocationId.DUMMY;
+
+      if (this instanceof SubLocation) {
+        subLocationId = this.id;
+        locationId = this.parent.id;
+        subRegionId = this.parent.parent.id;
+        regionId = this.parent.parent.parent.id;
+      } else if (this instanceof Location) {
+        locationId = this.id;
+        subRegionId = this.parent.id;
+        regionId = this.parent.parent.id;
+      } else if (this instanceof SubRegion) {
+        subRegionId = this.id;
+        regionId = this.parent.id;
+      } else if (this instanceof Region) {
+        regionId = this.id;
+      }
+
+      return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`;
+    }
+
     // NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
     private get originArea() {
       if (!this.children?.size) return null;
