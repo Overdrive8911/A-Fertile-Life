@@ -7,6 +7,10 @@ namespace NSLocation {
     [Direction.UP]: Direction.DOWN,
     [Direction.DOWN]: Direction.UP,
   };
+  type MapChildConnectionDataType = Map<{ from: AreaId; to: AreaId }, number>;
+  interface MapDataInSessionStorage {
+    mapEntityChildConnections: MapChildConnectionDataType;
+  }
 
   // Base Generic Class Implementation that will be extended for use
   // NOTE: Most methods return a reference to the map entity for use in chaining
@@ -28,6 +32,8 @@ namespace NSLocation {
       { area: MapEntity<ChildType>; distance?: number | null }
     > = new Map();
     type = MapType.GENERIC;
+    // NOTE: This will be cleared when the player moves to another area (not a child area)
+    private mapChildConnectionData: MapChildConnectionDataType | undefined;
 
     constructor(
       public readonly id: AreaId,
@@ -145,6 +151,167 @@ namespace NSLocation {
       });
 
       return this;
+    }
+
+    protected async generateMapOfConnectionsForChildData() {
+      const sessionData = await this.getSessionMapData();
+      // There's no data for this map entity's children so generate one
+      if (!sessionData.size && this.children.size > 1) {
+        let finalMapOfConnections: MapChildConnectionDataType = new Map();
+
+        const getMapChildConnectionPairData = async (
+          area1: AreaId,
+          area2: AreaId,
+          data: MapChildConnectionDataType
+        ) => {
+          let passes = false;
+          let dist = 0;
+          let idPair: { from: AreaId; to: AreaId } = null;
+
+          for (const [idObject, distance] of data) {
+            if (Object.values(idObject).includesAll(area1, area2)) {
+              passes = true;
+              dist = distance ?? 1;
+              idPair = idObject;
+              break;
+            }
+          }
+
+          return passes ? { idPair: idPair, dist: dist } : null;
+        };
+
+        const getDataOfAllConnectionsToChildArea = async (
+          originAreaId: AreaId
+        ) => {
+          const queuedAreas: { id: AreaId; cumulativeDistance: number }[] = [
+            { id: originAreaId, cumulativeDistance: 0 },
+          ];
+          const visitedAreas = new Set<AreaId>();
+          const result: MapChildConnectionDataType = new Map();
+
+          visitedAreas.add(originAreaId);
+
+          while (queuedAreas.length > 0) {
+            const currentAreaToIterateOver = queuedAreas.shift();
+            const iteratedId = currentAreaToIterateOver.id;
+            const iteratedCumulativeDistance =
+              currentAreaToIterateOver.cumulativeDistance;
+
+            if (iteratedId != originAreaId)
+              result.set(
+                { from: originAreaId, to: iteratedId },
+                iteratedCumulativeDistance
+              );
+
+            // Enqueue all direct connections
+            for await (const [, mapEntityDataForConnection] of this.getArea(
+              iteratedId
+            )?.connections) {
+              const connectionId = mapEntityDataForConnection.area.id;
+              if (!visitedAreas.has(connectionId)) {
+                visitedAreas.add(connectionId);
+                queuedAreas.push({
+                  id: connectionId,
+                  cumulativeDistance:
+                    iteratedCumulativeDistance +
+                    mapEntityDataForConnection.distance,
+                });
+              }
+            }
+          }
+
+          return result;
+        };
+
+        // Loop through each child's connections and determine the total distance as well the directions
+        for (const [, child] of this.children) {
+          const childMapOfConnections =
+            await getDataOfAllConnectionsToChildArea(child.id);
+
+          // Prepend the contents of the child map
+          for (const [idObject, distance] of childMapOfConnections) {
+            // Check if a pair already exists (e.g {from: 1, to: 2} and {from:2, to:1} is considered a pair), if so, only overwrite it if the distance is smaller than what was previously stored
+            const previouslyStoredData = await getMapChildConnectionPairData(
+              idObject.from,
+              idObject.to,
+              finalMapOfConnections
+            );
+            const previousDist = previouslyStoredData?.dist ?? 1;
+
+            if (previouslyStoredData) {
+              finalMapOfConnections.set(
+                idObject,
+                previousDist < distance ? previousDist : distance
+              );
+            } else {
+              finalMapOfConnections.set(idObject, distance);
+            }
+          }
+        }
+
+        this.mapChildConnectionData = finalMapOfConnections;
+
+        await this.setSessionMapData(this.mapChildConnectionData);
+
+        return;
+      } else if (sessionData.size) {
+        // Load up from the session data
+        this.getMapChildConnectionData();
+      }
+    }
+
+    protected async setSessionMapData(value: MapChildConnectionDataType) {
+      const key: keyof MapDataInSessionStorage = "mapEntityChildConnections";
+      try {
+        sessionStorage.setItem(key, JSON.stringify([...value]));
+        return true;
+      } catch (error) {
+        const e = error as DOMException;
+        console.error(
+          "Could not store generated map connection data in session storage. The error is: ",
+          e
+        );
+        return false;
+      }
+    }
+    protected async getSessionMapData() {
+      const noObjectInSessionStorageError = "Missing Data in session storage!";
+      try {
+        const deserializedObject = JSON.parse(
+          sessionStorage.getItem(
+            "mapEntityChildConnections" as keyof MapDataInSessionStorage
+          )
+        );
+        if (!deserializedObject) throw new Error(noObjectInSessionStorageError);
+
+        const mapConnectionData = new Map(
+          deserializedObject
+        ) as MapChildConnectionDataType | null;
+
+        return mapConnectionData;
+      } catch (error) {
+        // TODO
+        const e = error as Error;
+        if (e.message == noObjectInSessionStorageError) {
+        }
+
+        return new Map(); // Return an empty map so we can check if there's actually any data to use
+      }
+    }
+    protected async getMapChildConnectionData() {
+      try {
+        let mapData: MapChildConnectionDataType;
+        if (this.mapChildConnectionData) mapData = this.mapChildConnectionData;
+        else {
+          // Load up the data from the session storage
+          this.mapChildConnectionData = await this.getSessionMapData();
+          mapData = this.mapChildConnectionData;
+        }
+
+        return mapData;
+      } catch (error) {
+        console.error("Error getting map child connection data");
+      }
     }
   }
 
