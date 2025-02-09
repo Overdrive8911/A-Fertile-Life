@@ -64,16 +64,16 @@ namespace NSLocation {
 
       if (this instanceof SubLocation) {
         subLocationId = this.id;
-        locationId = this.parent.id;
-        subRegionId = this.parent.parent.id;
-        regionId = this.parent.parent.parent.id;
+        locationId = this?.parent?.id ?? LocationId.DUMMY;
+        subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY;
+        regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY;
       } else if (this instanceof Location) {
         locationId = this.id;
-        subRegionId = this.parent.id;
-        regionId = this.parent.parent.id;
+        subRegionId = this?.parent?.id ?? SubRegionId.DUMMY;
+        regionId = this?.parent?.parent?.id ?? RegionId.DUMMY;
       } else if (this instanceof SubRegion) {
         subRegionId = this.id;
-        regionId = this.parent.id;
+        regionId = this?.parent?.id ?? RegionId.DUMMY;
       } else if (this instanceof Region) {
         regionId = this.id;
       }
@@ -359,10 +359,17 @@ namespace NSLocation {
           try {
             // Load up the data from the session storage, if any
             this.mapChildConnectionData = await this.getSessionMapData();
+
+            if (!this.mapChildConnectionData.size)
+              throw new Error(
+                "No stored map connection data in session storage"
+              );
+
             mapData = this.mapChildConnectionData;
           } catch (error) {
             // Regenerate the data
             this.generateMapOfConnectionsForChildData(true);
+            return this.mapChildConnectionData;
           }
         }
         return mapData;
