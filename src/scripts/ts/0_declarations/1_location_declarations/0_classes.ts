@@ -153,10 +153,22 @@ namespace NSLocation {
       return this;
     }
 
-    protected async generateMapOfConnectionsForChildData() {
+    /**
+     *
+     * @param forceGenerate - Default: `false`. If this is `true`, the data is always regenerated.
+     * @returns
+     */
+    protected async generateMapOfConnectionsForChildData(
+      forceGenerate = false
+    ) {
+     * 
+     * @param forceGenerate - Default: `false`. If this is `true`, the data is always regenerated.
+     * @returns 
+     */
+    protected async generateMapOfConnectionsForChildData(forceGenerate = false) {
       const sessionData = await this.getSessionMapData();
       // There's no data for this map entity's children so generate one
-      if (!sessionData.size && this.children.size > 1) {
+      if (forceGenerate || (!sessionData.size && this.children.size > 1)) {
         let finalMapOfConnections: MapChildConnectionDataType = new Map();
 
         const getMapChildConnectionPairData = async (
