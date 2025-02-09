@@ -21,22 +21,25 @@ namespace NSLocation {
    * Regions -> A standalone zone / region of sub regions,
    * Global Map -> Just to store everything :3,
    */
-  class MapEntity<ChildType extends MapEntity<any>> {
+  class MapEntity<
+    ChildType extends MapEntity<any, any>,
+    IdType extends AreaId
+  > {
     // The `MapEntity` instance that contains this instance
-    parent: MapEntity<any> | null = null;
+    parent: MapEntity<any, any> | null = null;
     // All the `MapEntity` instances that are contained within this instance. Like a House containing rooms
     protected children: Map<AreaId, ChildType> | null = null;
     // The connections to other `MapEntity` instances in the same direction. Like a room connecting to another room
     private connections: Map<
       Direction,
-      { area: MapEntity<ChildType>; distance?: number | null }
+      { area: MapEntity<ChildType, IdType>; distance?: number | null }
     > = new Map();
     type = MapType.GENERIC;
     // NOTE: This will be cleared when the player moves to another area (not a child area)
     private mapChildConnectionData: MapChildConnectionDataType | undefined;
 
     constructor(
-      public readonly id: AreaId,
+      public readonly id: IdType,
       public readonly name: string,
       public readonly description?: string,
       public readonly flags = MapEntityFlags.NONE
@@ -93,7 +96,7 @@ namespace NSLocation {
 
       return shortestPath;
     }
-    addArea(...areas: ChildType[]): MapEntity<ChildType> {
+    addArea(...areas: ChildType[]): MapEntity<ChildType, IdType> {
       if (!this.children) this.children = new Map();
 
       areas.forEach((area) => {
@@ -110,7 +113,7 @@ namespace NSLocation {
       return this;
     }
 
-    removeArea(...area: (ChildType | AreaId)[]): MapEntity<ChildType> {
+    removeArea(...area: (ChildType | AreaId)[]): MapEntity<ChildType, IdType> {
       area.forEach((val) => {
         const idToRemove = typeof val == "number" ? val : val.id;
 
@@ -130,8 +133,12 @@ namespace NSLocation {
 
     // NOTE: This only works once and then silently does nothing if the area is already connected in that particular direction
     connectTo(
-      ...data: { area: MapEntity<ChildType>; dir: Direction; dist?: number }[]
-    ): MapEntity<ChildType> {
+      ...data: {
+        area: MapEntity<ChildType, IdType>;
+        dir: Direction;
+        dist?: number;
+      }[]
+    ): MapEntity<ChildType, IdType> {
       data.forEach((val) => {
         // Check if the connection doesn't exist already
         if (
@@ -313,13 +320,18 @@ namespace NSLocation {
     protected async getMapChildConnectionData() {
       try {
         let mapData: MapChildConnectionDataType;
+
         if (this.mapChildConnectionData) mapData = this.mapChildConnectionData;
         else {
-          // Load up the data from the session storage
-          this.mapChildConnectionData = await this.getSessionMapData();
-          mapData = this.mapChildConnectionData;
+          try {
+            // Load up the data from the session storage, if any
+            this.mapChildConnectionData = await this.getSessionMapData();
+            mapData = this.mapChildConnectionData;
+          } catch (error) {
+            // Regenerate the data
+            this.generateMapOfConnectionsForChildData(true);
+          }
         }
-
         return mapData;
       } catch (error) {
         console.error("Error getting map child connection data");
@@ -328,8 +340,10 @@ namespace NSLocation {
   }
 
   // SECTION: Concrete Implementation to use
-  export class SubLocation extends MapEntity<never> {
-    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+  export class SubLocation extends MapEntity<never, SubLocationId> {
+    constructor(
+      ...args: ConstructorParameters<typeof MapEntity<never, SubLocationId>>
+    ) {
       super(...args);
       this.type = MapType.SUB_LOCATION;
 
@@ -338,29 +352,37 @@ namespace NSLocation {
     }
   }
 
-  export class Location extends MapEntity<SubLocation> {
-    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+  export class Location extends MapEntity<SubLocation, LocationId> {
+    constructor(
+      ...args: ConstructorParameters<typeof MapEntity<SubLocation, LocationId>>
+    ) {
       super(...args);
       this.type = MapType.LOCATION;
     }
   }
 
-  export class SubRegion extends MapEntity<Location> {
-    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+  export class SubRegion extends MapEntity<Location, SubRegionId> {
+    constructor(
+      ...args: ConstructorParameters<typeof MapEntity<Location, SubRegionId>>
+    ) {
       super(...args);
       this.type = MapType.SUB_REGION;
     }
   }
 
-  export class Region extends MapEntity<SubRegion> {
-    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+  export class Region extends MapEntity<SubRegion, RegionId> {
+    constructor(
+      ...args: ConstructorParameters<typeof MapEntity<SubRegion, RegionId>>
+    ) {
       super(...args);
       this.type = MapType.REGION;
     }
   }
 
-  export class GlobalMap extends MapEntity<Region> {
-    constructor(...args: ConstructorParameters<typeof MapEntity>) {
+  export class GlobalMap extends MapEntity<Region, GlobalMapId> {
+    constructor(
+      ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId>>
+    ) {
       super(...args);
       this.type = MapType.GLOBAL;
 
