@@ -5,10 +5,8 @@
 **/.fic/**
 **/node_modules/**
 .textlintrc
-tsconfig.json
-**/project/compiled/**
-**/built_js/**
-**/built_css/**
 **/dist/index.html
-.vscode
+project/compiled/**
+src/scripts/built_js/**/*.js
+src/styles/built_css/**/*.css
 node_modules
