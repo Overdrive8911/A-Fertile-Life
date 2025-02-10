@@ -7,11 +7,10 @@
 package.json
 package-lock.json
 .textlintrc
-tsconfig.json
+**/dist/index.html
 project/compiled/**
 src/scripts/built_js/**/*.js
 src/styles/built_css/**/*.css
-**/dist/index.html
 
 # Ignore symlinks
 node_modules
