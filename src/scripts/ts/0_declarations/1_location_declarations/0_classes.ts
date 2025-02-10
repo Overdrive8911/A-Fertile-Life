@@ -172,9 +172,7 @@ namespace NSLocation {
      * @param forceGenerate - Default: `false`. If this is `true`, the data is always regenerated.
      * @returns
      */
-    protected async generateMapOfConnectionsForChildData(
-      forceGenerate = false
-    ) {
+    private async generateMapOfConnectionsForChildData(forceGenerate = false) {
       const sessionData = await this.getSessionMapData();
       // There's no data for this map entity's children so generate one
       if (forceGenerate || (!sessionData.size && this.children.size > 1)) {
@@ -281,7 +279,7 @@ namespace NSLocation {
       }
     }
 
-    protected async setSessionMapData(value: MapChildConnectionDataType) {
+    private async setSessionMapData(value: MapChildConnectionDataType) {
       const key: keyof MapDataInSessionStorage = `mapChildConnections_${this.uniqueId}`;
       try {
         sessionStorage.setItem(key, JSON.stringify([...value]));
@@ -295,7 +293,8 @@ namespace NSLocation {
         return false;
       }
     }
-    protected async getSessionMapData() {
+    // TODO: compress this before storing
+    private async getSessionMapData() {
       const noObjectInSessionStorageError = "Missing Data in session storage!";
       try {
         const deserializedObject = JSON.parse(
