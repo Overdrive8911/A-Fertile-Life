@@ -258,10 +258,10 @@ namespace NSLocation {
               finalMapOfConnections
             );
             const previousDist = previouslyStoredData?.dist ?? 1;
-
+            
             if (previouslyStoredData) {
               finalMapOfConnections.set(
-                idObject,
+                previouslyStoredData.idPair,
                 previousDist < distance ? previousDist : distance
               );
             } else {
