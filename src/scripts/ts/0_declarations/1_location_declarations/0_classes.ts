@@ -258,7 +258,7 @@ namespace NSLocation {
               finalMapOfConnections
             );
             const previousDist = previouslyStoredData?.dist ?? 1;
-            
+
             if (previouslyStoredData) {
               finalMapOfConnections.set(
                 previouslyStoredData.idPair,
@@ -274,7 +274,7 @@ namespace NSLocation {
 
         await this.setSessionMapData(this.mapChildConnectionData);
 
-        return;
+        return this.mapChildConnectionData;
       } else if (sessionData.size) {
         // Load up from the session data
         this.getMapChildConnectionData();
@@ -319,6 +319,7 @@ namespace NSLocation {
         return new Map(); // Return an empty map so we can check if there's actually any data to use
       }
     }
+    // NOTE: Always call this if you want the map connection data
     protected async getMapChildConnectionData() {
       try {
         let mapData: MapChildConnectionDataType;
@@ -337,8 +338,7 @@ namespace NSLocation {
             mapData = this.mapChildConnectionData;
           } catch (error) {
             // Regenerate the data
-            this.generateMapOfConnectionsForChildData(true);
-            return this.mapChildConnectionData;
+              return this.generateMapOfConnectionsForChildData(true);
           }
         }
         return mapData;
