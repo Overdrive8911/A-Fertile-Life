@@ -380,10 +380,18 @@ namespace NSLocation {
   }
 
   // SECTION: Concrete Implementation to use
-  export class SubLocation extends MapEntity<never, SubLocationId, Location> {
+  export class SubLocation extends MapEntity<
+    never,
+    Exclude<SubLocationId, SubLocationId.DUMMY>,
+    Location
+  > {
     constructor(
       ...args: ConstructorParameters<
-        typeof MapEntity<never, SubLocationId, Location>
+        typeof MapEntity<
+          never,
+          Exclude<SubLocationId, SubLocationId.DUMMY>,
+          Location
+        >
       >
     ) {
       super(...args);
@@ -394,10 +402,18 @@ namespace NSLocation {
     }
   }
 
-  export class Location extends MapEntity<SubLocation, LocationId, SubRegion> {
+  export class Location extends MapEntity<
+    SubLocation,
+    Exclude<LocationId, LocationId.DUMMY>,
+    SubRegion
+  > {
     constructor(
       ...args: ConstructorParameters<
-        typeof MapEntity<SubLocation, LocationId, SubRegion>
+        typeof MapEntity<
+          SubLocation,
+          Exclude<LocationId, LocationId.DUMMY>,
+          SubRegion
+        >
       >
     ) {
       super(...args);
@@ -416,10 +432,18 @@ namespace NSLocation {
     }
   }
 
-  export class Region extends MapEntity<SubRegion, RegionId, GlobalMap> {
+  export class Region extends MapEntity<
+    SubRegion,
+    Exclude<RegionId, RegionId.DUMMY>,
+    GlobalMap
+  > {
     constructor(
       ...args: ConstructorParameters<
-        typeof MapEntity<SubRegion, RegionId, GlobalMap>
+        typeof MapEntity<
+          SubRegion,
+          Exclude<RegionId, RegionId.DUMMY>,
+          GlobalMap
+        >
       >
     ) {
       super(...args);
