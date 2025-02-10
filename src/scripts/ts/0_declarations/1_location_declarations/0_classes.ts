@@ -101,37 +101,6 @@ namespace NSLocation {
       }
       return returnArea ?? firstArea;
     }
-    // NOTE: This may be computationally intensive if there are a lot of areas
-    // This looks for the shortest path between two areas in the map entity. It returns an Array of the area ids in order of traversal and the total distance
-    findPath(
-      fromId: AreaId,
-      toId: AreaId,
-      visited = new Set<AreaId>()
-    ): { path: AreaId[]; dist: number } | null {
-      if (fromId === toId) return { path: [fromId], dist: 0 };
-
-      visited.add(fromId);
-      let shortestPath: { path: AreaId[]; dist: number } | null = null;
-
-      const currentArea = this.children.get(fromId);
-      if (!currentArea) return null;
-
-      for (const { area, distance } of currentArea.connections.values()) {
-        if (visited.has(area.id)) continue;
-        const result = area.findPath(area.id, toId, new Set(visited));
-        if (result) {
-          const newPath = {
-            path: [fromId, ...result.path],
-            dist: distance + result.dist,
-          };
-          if (!shortestPath || newPath.dist < shortestPath.dist) {
-            shortestPath = newPath;
-          }
-        }
-      }
-
-      return shortestPath;
-    }
     addArea(...areas: ChildType[]): MapEntity<ChildType, IdType, ParentType> {
       if (!this.children) this.children = new Map();
 
