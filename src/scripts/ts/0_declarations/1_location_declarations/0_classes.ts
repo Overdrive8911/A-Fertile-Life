@@ -8,9 +8,9 @@ namespace NSLocation {
     [Direction.DOWN]: Direction.UP,
   };
   type MapChildConnectionDataType = Map<{ from: AreaId; to: AreaId }, number>;
-  interface MapDataInSessionStorage {
-    mapEntityChildConnections: MapChildConnectionDataType;
-  }
+  type MapDataInSessionStorage = Partial<
+    Record<`mapChildConnections_${AreaUniqueId}`, MapChildConnectionDataType>
+  >;
 
   // Base Generic Class Implementation that will be extended for use
   // NOTE: Most methods return a reference to the map entity for use in chaining
@@ -313,7 +313,7 @@ namespace NSLocation {
     }
 
     protected async setSessionMapData(value: MapChildConnectionDataType) {
-      const key: keyof MapDataInSessionStorage = "mapEntityChildConnections";
+      const key: keyof MapDataInSessionStorage = `mapChildConnections_${this.uniqueId}`;
       try {
         sessionStorage.setItem(key, JSON.stringify([...value]));
         return true;
@@ -331,7 +331,7 @@ namespace NSLocation {
       try {
         const deserializedObject = JSON.parse(
           sessionStorage.getItem(
-            "mapEntityChildConnections" as keyof MapDataInSessionStorage
+            `mapChildConnections_${this.uniqueId}` as keyof MapDataInSessionStorage
           )
         );
         if (!deserializedObject) throw new Error(noObjectInSessionStorageError);
