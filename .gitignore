@@ -4,8 +4,6 @@
 **/test.twee
 **/.fic/**
 **/node_modules/**
-package.json
-package-lock.json
 .textlintrc
 tsconfig.json
 **/project/compiled/**
