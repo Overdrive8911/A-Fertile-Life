@@ -4,7 +4,6 @@
 passages/test.twee
 **/.fic/**
 **/node_modules/**
-package-lock.json
 .textlintrc
 **/dist/index.html
 project/compiled/**
