@@ -8,13 +8,12 @@ namespace NSLocation {
     - Add all the child areas to the container area. */
   // Testing
   export namespace MapArea {
-    const globalMap = new Region(1, "Global Map");
+    const globalMap = new GlobalMap(GlobalMapId.GLOBAL, "Global Map");
 
     const fertiloIncPorchFloor1 = new SubLocation(SubLocationId.PORCH, "Porch");
     const fertiloIncReceptionFloor1 = new SubLocation(
       SubLocationId.RECEPTION,
       "Reception",
-      undefined,
       "The Entry Point of Fertilo Inc"
     );
     const fertiloIncMeasurementClosetFloor1 = new SubLocation(
@@ -93,34 +92,37 @@ namespace NSLocation {
     });
 
     fertiloIncHallway4Floor1.connectTo(
-      { area: fertiloIncHallway1Floor1, dir: Direction.WEST, dist: 6 },
-      { area: fertiloIncHallway2Floor1, dir: Direction.WEST, dist: 4 },
+      // { area: fertiloIncHallway1Floor1, dir: Direction.WEST, dist: 6 },
+      // { area: fertiloIncHallway2Floor1, dir: Direction.WEST, dist: 4 },
       { area: fertiloIncHallway3Floor1, dir: Direction.WEST, dist: 2 },
       { area: fertiloIncHallway5Floor1, dir: Direction.EAST, dist: 2 },
-      { area: fertiloIncHallway6Floor1, dir: Direction.EAST, dist: 4 },
-      { area: fertiloIncHallway7Floor1, dir: Direction.EAST, dist: 6 }
+      // { area: fertiloIncHallway6Floor1, dir: Direction.EAST, dist: 4 },
+      // { area: fertiloIncHallway7Floor1, dir: Direction.EAST, dist: 6 }
     );
 
     fertiloIncHallway3Floor1.connectTo({
       area: fertiloIncLabFloor1,
       dir: Direction.SOUTH,
       dist: 2,
-    });
+    },
+      { area: fertiloIncHallway2Floor1, dir: Direction.WEST, dist: 2 });
+    
+    fertiloIncHallway2Floor1.connectTo({area:fertiloIncHallway1Floor1, dir:Direction.WEST, dist:2})
 
     fertiloIncHallway5Floor1.connectTo({
       area: fertiloIncPharmacy2Floor1,
       dir: Direction.SOUTH,
       dist: 2,
-    });
+    },{
+      area: fertiloIncConsultationFloor1,
+      dir: Direction.NORTH,
+      dist: 2,
+    }, { area: fertiloIncHallway6Floor1, dir: Direction.EAST, dist: 2 });
+    
+    fertiloIncHallway6Floor1.connectTo({area:fertiloIncHallway7Floor1, dir:Direction.EAST, dist:2})
 
     fertiloIncHallway7Floor1.connectTo({
       area: fertiloIncOfficeWorkFloor1,
-      dir: Direction.NORTH,
-      dist: 2,
-    });
-
-    fertiloIncHallway5Floor1.connectTo({
-      area: fertiloIncConsultationFloor1,
       dir: Direction.NORTH,
       dist: 2,
     });
@@ -147,8 +149,11 @@ namespace NSLocation {
       fertiloIncOfficeWorkFloor1
     );
 
+    //@ts-expect-error
+    window.t = fertiloIncGroundFloor;
     console.log(fertiloIncGroundFloor);
 
+    //@ts-ignore
     globalMap.addArea(fertiloIncGroundFloor);
   }
 
