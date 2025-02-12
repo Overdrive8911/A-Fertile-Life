@@ -169,6 +169,35 @@ namespace NSLocation {
 
     /**
      *
+     * @param childArea1 If this is an `AreaId`, ensure that it corresponds to that of the `ChildType`
+     * @param childArea2 If this is an `AreaId`, ensure that it corresponds to that of the `ChildType`
+     * @returns
+     */
+    async getDistance(
+      childArea1: ChildType | ChildType["id"],
+      childArea2: ChildType | ChildType["id"]
+    ) {
+      const childConnectionData = await this.getMapChildConnectionData();
+      const id1: number = !(childArea1 instanceof MapEntity)
+        ? childArea1
+        : childArea1.id;
+      const id2: number = !(childArea2 instanceof MapEntity)
+        ? childArea2
+        : childArea2.id;
+      let dist = 10; // Just a silly default
+
+      for (const [idPair, distance] of childConnectionData) {
+        if (Object.values(idPair).includesAll(id1, id2)) {
+          dist = distance;
+          break;
+        }
+      }
+
+      return dist;
+    }
+
+    /**
+     *
      * @param forceGenerate - Default: `false`. If this is `true`, the data is always regenerated.
      * @returns
      */
