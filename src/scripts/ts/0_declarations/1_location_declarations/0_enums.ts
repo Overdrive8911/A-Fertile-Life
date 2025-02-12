@@ -207,6 +207,11 @@ namespace NSLocation {
 
   export const enum RegionId {
     DUMMY,
+    NORTH_HIRTHEFORD,
+    EAST_HIRTHEFORD,
+    SOUTH_HIRTHEFORD,
+    WEST_HIRTHEFORD,
+    CENTRAL_HIRTHEFORD,
   }
 
   export const enum GlobalMapId {
