@@ -50,7 +50,8 @@ namespace NSLocation {
     ) {}
 
     /**
-     * A unique id is used to find out the exact instance of a map entity in the global map
+     * A unique id is used to find out the exact instance of a map entity in the global map.
+     * NOTE: THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES
      *
      * @readonly
      * @type {AreaUniqueId}
@@ -62,21 +63,21 @@ namespace NSLocation {
         locationId = LocationId.DUMMY,
         subLocationId = SubLocationId.DUMMY;
 
-      if (this instanceof SubLocation) {
-        subLocationId = this.id;
-        locationId = this?.parent?.id ?? LocationId.DUMMY;
-        subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY;
-        regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY;
-      } else if (this instanceof Location) {
-        locationId = this.id;
-        subRegionId = this?.parent?.id ?? SubRegionId.DUMMY;
-        regionId = this?.parent?.parent?.id ?? RegionId.DUMMY;
-      } else if (this instanceof SubRegion) {
-        subRegionId = this.id;
-        regionId = this?.parent?.id ?? RegionId.DUMMY;
-      } else if (this instanceof Region) {
-        regionId = this.id;
-      }
+      // if (this instanceof SubLocation) {
+      //   subLocationId = this.id;
+      //   locationId = this?.parent?.id ?? LocationId.DUMMY;
+      //   subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY;
+      //   regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY;
+      // } else if (this instanceof Location) {
+      //   locationId = this.id;
+      //   subRegionId = this?.parent?.id ?? SubRegionId.DUMMY;
+      //   regionId = this?.parent?.parent?.id ?? RegionId.DUMMY;
+      // } else if (this instanceof SubRegion) {
+      //   subRegionId = this.id;
+      //   regionId = this?.parent?.id ?? RegionId.DUMMY;
+      // } else if (this instanceof Region) {
+      //   regionId = this.id;
+      // }
 
       return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`;
     }
@@ -366,7 +367,7 @@ namespace NSLocation {
             mapData = this.mapChildConnectionData;
           } catch (error) {
             // Regenerate the data
-              return this.generateMapOfConnectionsForChildData(true);
+            return this.generateMapOfConnectionsForChildData(true);
           }
         }
         return mapData;
@@ -397,6 +398,16 @@ namespace NSLocation {
       // Sub-Locations don't have children so delete the property
       delete this.children;
     }
+
+    get uniqueId(): AreaUniqueId {
+      let globalId = GlobalMapId.GLOBAL,
+        regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY,
+        subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY,
+        locationId = this?.parent?.id ?? LocationId.DUMMY,
+        subLocationId = this.id;
+
+      return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`;
+    }
   }
 
   export class Location extends MapEntity<
@@ -416,6 +427,14 @@ namespace NSLocation {
       super(...args);
       this.type = MapType.LOCATION;
     }
+
+    get uniqueId(): AreaUniqueId {
+      let subRegion = this?.parent;
+
+      return `${GlobalMapId.GLOBAL}_${subRegion?.parent.id ?? RegionId.DUMMY}_${
+        subRegion?.id
+      }_${this.id}_${SubLocationId.DUMMY}`;
+    }
   }
 
   export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
@@ -426,6 +445,12 @@ namespace NSLocation {
     ) {
       super(...args);
       this.type = MapType.SUB_REGION;
+    }
+
+    get uniqueId(): AreaUniqueId {
+      return `${GlobalMapId.GLOBAL}_${this?.parent.id ?? RegionId.DUMMY}_${
+        this.id
+      }_${LocationId.DUMMY}_${SubLocationId.DUMMY}`;
     }
   }
 
@@ -446,6 +471,10 @@ namespace NSLocation {
       super(...args);
       this.type = MapType.REGION;
     }
+
+    get uniqueId(): AreaUniqueId {
+      return `${GlobalMapId.GLOBAL}_${this.id}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`;
+    }
   }
 
   export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
@@ -459,6 +488,10 @@ namespace NSLocation {
 
       // Global Map doesn't have a parent so delete the property
       delete this.parent;
+    }
+
+    get uniqueId(): AreaUniqueId {
+      return `${this.id}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`;
     }
   }
   // !SECTION
