@@ -495,6 +495,4 @@ namespace NSLocation {
     }
   }
   // !SECTION
-  //@ts-expect-error
-  window.t = MapEntity;
 }
