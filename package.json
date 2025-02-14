@@ -1,58 +1,56 @@
 {
-  "name": "tweego-setup",
-  "version": "3.0.0",
-  "description": "A basic project setup for Tweego with all the trimmings using Node.",
-  "main": "build.js",
+  "name": "thy-weaver",
+  "type": "module",
+  "version": "0.0.0",
+  "template-version": "0.3.1-beta",
+  "description": "A starter template for a modern Twine development workflow",
   "scripts": {
-    "start-bun": "cd dist && bunx http-server -c0 -o",
-    "start": "cd dist && npx http-server -c0 -o",
-    "build-new": "./build",
-    "test-new": "./build -t",
-    "compile:src-old": "node build.js",
-    "compile:twee-old": "tweego -o dist/index.html -m src/modules/ --head=\"src/head-content.html\" project",
-    "watch:twee-old": "tweego -o dist/index.html -m src/modules/ --head=\"src/head-content.html\" project -w",
-    "testmode:twee-old": "tweego -o dist/index.html -m src/modules/ --head=\"src/head-content.html\" project -t",
-    "build-old": "pnpm run compile:src && pnpm run compile:twee",
-    "build:test-old": "pnpm run compile:src && pnpm run testmode:twee"
+    "dev": "bun cross-env NODE_ENV=development bun .build/run_dev.ts",
+    "dev:withProd": "bun cross-env NODE_ENV=production bun .build/run_dev.ts",
+    "build": "bun cross-env NODE_ENV=production bun .build/run_build.ts",
+    "build:withDev": "bun cross-env NODE_ENV=development bun .build/run_build.ts",
+    "node:dev": "cross-env NODE_ENV=development tsx .build/run_dev.ts",
+    "node:dev:withProd": "cross-env NODE_ENV=production tsx .build/run_dev.ts",
+    "node:build": "cross-env NODE_ENV=production tsx .build/run_build.ts",
+    "node:build:withDev": "cross-env NODE_ENV=development tsx .build/run_build.ts",
+    "builderDev": "bun cross-env NODE_ENV=development bun --watch .build/run_dev.ts"
   },
-  "keywords": [
-    "twine",
-    "tweego",
-    "twee"
-  ],
-  "author": "Chapel",
-  "license": "Unlicense",
-  "directories": {
-    "doc": "docs"
-  },
+  "template-author": "greatsquare0",
+  "license": "MIT",
+  "template-license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.18.9",
-    "@babel/preset-env": "^7.18.9",
-    "@types/jquery": "^3.5.31",
+    "@hono/node-server": "^1.13.5",
+    "@hono/node-ws": "^1.0.4",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@swc/core": "^1.9.1",
+    "@types/fs-extra": "^11.0.4",
     "@types/twine-sugarcube": "^2.37.1",
-    "autoprefixer": "^10.4.7",
-    "clean-css": "^5.3.1",
-    "fs-jetpack": "^4.3.1",
-    "http-server": "^14.1.1",
-    "postcss": "^8.4.14",
-    "terser": "^5.14.2"
+    "browserslist": "^4.24.2",
+    "chokidar": "^4.0.1",
+    "cross-env": "^7.0.3",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "hono": "^4.6.9",
+    "lightningcss": "^1.28.1",
+    "ora": "^8.1.1",
+    "picocolors": "^1.1.1",
+    "postcss": "^8.4.47",
+    "postcss-import": "^16.1.0",
+    "postcss-lightningcss": "^1.0.1",
+    "postcss-loader": "^8.1.1",
+    "postcss-scss": "^4.0.9",
+    "rollup": "^4.24.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.80.6",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
+    "tweenode": "^0.2.9",
+    "typescript": "^5.6.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ChapelR/tweego-setup.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ChapelR/tweego-setup/issues"
-  },
-  "homepage": "https://github.com/ChapelR/tweego-setup#readme",
-  "private": true,
-  "browserslist": [
-    "> 1%",
-    "last 3 versions",
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "IE >= 9",
-    "Opera >= 12"
-  ],
-  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
+  "trustedDependencies": [
+    "@parcel/watcher",
+    "@swc/core"
+  ]
 }
