@@ -25,6 +25,6 @@
     "noPropertyAccessFromIndexSignature": false,
     "emitDeclarationOnly": false,
     "sourceMap": false,
-    "rootDir": "src/assets/app"
+    "isolatedModules": false
   }
 }
