@@ -8,7 +8,7 @@ const config = defineConfig<ThyWeaverConfig>({
   dev_server: {
     hostname: 'localhost',
     port: 3001,
-    twine_debug: false,
+    twine_debug: true,
   },
   builder: {
     ...defaultConfig.builder,
