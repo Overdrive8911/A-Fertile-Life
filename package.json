@@ -52,5 +52,8 @@
   "trustedDependencies": [
     "@parcel/watcher",
     "@swc/core"
-  ]
+  ],
+  "dependencies": {
+    "@types/bun": "^1.2.2"
+  }
 }
