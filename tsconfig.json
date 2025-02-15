@@ -20,11 +20,13 @@
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     // Some stricter flags (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noPropertyAccessFromIndexSignature": false,
     "emitDeclarationOnly": false,
-    "sourceMap": false,
-    "isolatedModules": false
+    "sourceMap": false
+    // "isolatedModules": false,
+
+    // "preserveConstEnums": false
   }
 }
