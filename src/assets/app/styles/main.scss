@@ -1,7 +1,10 @@
-@use '~tailwindcss/base';
-@use '~tailwindcss/components';
-@use '~tailwindcss/utilities';
-
+// ANCHOR: Import all css (in the required order) to be used here
+// @use '~tailwindcss/base';
+// @use '~tailwindcss/components';
+// @use '~tailwindcss/utilities';
+@use 'scss/game/0_desktop/stat_description_colors.scss';
+@use 'scss/game/1_mobile/mobile_query_width.scss';
+@use 'scss/ui/0_base_css/ui_bottom_section.scss';
 body {
   font-family: 'Inter', sans-serif;
 }
