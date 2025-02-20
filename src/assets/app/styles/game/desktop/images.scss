@@ -1,7 +1,9 @@
+@use '../../partials/functions' as func;
+
 // Preload image frames
 html::after {
-  content: url("assets/img/general/envelope_in-between.webp")
-    url("assets/img/general/envelope_open.webp");
+  content: func.image('general/envelope_in-between.webp')
+    func.image('general/envelope_open.webp');
   visibility: hidden;
   position: absolute;
   top: -99px;
@@ -9,19 +11,19 @@ html::after {
 
 @keyframes basicEnvelopeAnimation {
   0% {
-    content: url("assets/img/general/envelope_closed.webp");
+    content: func.image('general/envelope_closed.webp');
   }
 
   50% {
-    content: url("assets/img/general/envelope_in-between.webp");
+    content: func.image('general/envelope_in-between.webp');
   }
 
   100% {
-    content: url("assets/img/general/envelope_open.webp");
+    content: func.image('general/envelope_open.webp');
   }
 }
 
-img[src^="assets/img/general/envelope"] {
+img[src*='img/general/envelope'] {
   --img-envelope-width: 64px;
   width: var(--img-envelope-width);
   height: auto;
@@ -39,7 +41,7 @@ img[src^="assets/img/general/envelope"] {
 // .ui-side-bar-popout-map > svg {
 //   fill-opacity: 0;
 // }
-[class*="map"] > svg {
+[class*='map'] > svg {
   height: auto;
   width: auto;
 
