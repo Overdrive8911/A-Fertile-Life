@@ -1,5 +1,5 @@
 import { file, Glob, Transpiler, write, type BunPlugin } from 'bun'
-import * as sass from 'sass'
+import * as sass from 'sass-embedded'
 import postcss from 'postcss'
 import autoprefixer from 'autoprefixer'
 import CleanCSS from 'clean-css'
@@ -28,7 +28,7 @@ export const cleanDirectories: BunPlugin = {
 // As of 06 / 02 / 2025, Bun can't directly watch over the changes of scss files so this should help enough
 // TODO: Add error handling
 async function convertSCSSFileToCSS(filePath: string) {
-  const convertedCSS = sass.compile(filePath).css
+  const convertedCSS = (await sass.compileAsync(filePath)).css
 
   if (mode == 'production') {
     return await processCSS(convertedCSS, filePath)

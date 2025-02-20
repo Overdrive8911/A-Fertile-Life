@@ -1,0 +1,9 @@
+// Desktop styles
+@use './desktop/border_images.scss';
+@use './desktop/images.scss';
+@use './desktop/replace_macro_ids_and_classes.scss';
+@use './desktop/speech_and_text.scss';
+@use './desktop/stat_description_colors.scss';
+
+// Mobile media queries
+@use './mobile/mobile_query_width.scss';

@@ -18,6 +18,7 @@ serve({
     return new Response('404 Not Found', { status: 404 })
   },
   port: Directory.PORT,
+  development: true,
 })
 
 console.log(`The dev server has started on http://localhost:${Directory.PORT}/`)
