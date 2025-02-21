@@ -29,6 +29,7 @@ export const cleanDirectories: BunPlugin = {
 // TODO: Add error handling
 async function convertSCSSFileToCSS(filePath: string) {
   const convertedCSS = (await sass.compileAsync(filePath)).css
+  // console.log(convertedCSS)
 
   if (mode == 'production') {
     return await processCSS(convertedCSS, filePath)
@@ -88,11 +89,10 @@ const getFilePathsRecursivelyFromDirectory = async (
   return filePaths
 }
 
-// TODO: Add watch support
 export const bundleScriptAndStyleExtensions: BunPlugin = {
   name: 'Bundle JS and CSS extensions',
   setup(build) {
-    build.onLoad({ filter: /\.(css|js)$/ }, async () => {
+    build.onStart(async () => {
       const jsFilePaths = await getFilePathsRecursivelyFromDirectory(
         '**/*.js',
         Directory.SCRIPT_EXTENSIONS
