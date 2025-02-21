@@ -7,11 +7,12 @@ import {
   runTweego,
 } from './.build/plugins'
 import { Directory, mode } from './.build/variables'
+// import './.tweenode/storyformats/sugarcube-2/format'
 // NOTE: None of the file watchers detect file deletions so keep that in mind, your best bet would be to rebuild the project
 
 // Add explicit dependencies to the entry point so bun's build watcher will reload when these change
-await import(Directory.SCRIPT_ENTRYPOINT)
-await import(Directory.STYLE_ENTRYPOINT)
+// await import(Directory.SCRIPT_ENTRYPOINT)
+// await import(Directory.STYLE_ENTRYPOINT)
 
 await build({
   entrypoints: [Directory.SCRIPT_ENTRYPOINT],
@@ -35,6 +36,11 @@ await build({
     entry: '[name].[ext]',
     chunk: '[name]-[hash].[ext]',
     asset: 'assets/[name]-[hash].[ext]',
+  },
+  loader: {
+    '.webp': 'file',
+    '.svg': 'file',
+    '.ttf': 'file',
   },
 })
 
