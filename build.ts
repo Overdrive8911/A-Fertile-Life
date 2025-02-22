@@ -1,47 +1,28 @@
-import { build } from 'bun'
+import { build, write } from 'bun'
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
   copyOtherAssets,
   processStyles,
-  runTweego,
 } from './.build/plugins'
 import { Directory, mode } from './.build/variables'
 import { watch } from 'fs-extra'
+import { setupTweego, Tweenode } from 'tweenode'
 // NOTE: None of the file watchers detect file deletions so keep that in mind, your best bet would be to rebuild the project
 
 // // Add explicit dependencies to the entry point so bun's build watcher will reload when these change
 // await import(Directory.SCRIPT_ENTRYPOINT)
 // await import(Directory.STYLE_ENTRYPOINT)
-
-await build({
+const buildResult = await build({
   entrypoints: [Directory.SCRIPT_ENTRYPOINT],
   outdir: Directory.BUNDLED_SCRIPTS_DIR,
   minify: mode === 'production',
-  plugins: [cleanDirectories, bundleScriptAndStyleExtensions, copyOtherAssets],
-  naming: {
-    entry: '[name].[ext]',
-    chunk: '[name]-[hash].[ext]',
-    asset: 'assets/[name]-[hash].[ext]',
-  },
-  // drop: mode === 'production'?['console', 'debugger']:[],
-})
-
-await build({
-  entrypoints: [Directory.STYLE_ENTRYPOINT],
-  outdir: Directory.BUNDLED_STYLES_DIR,
-  minify: mode === 'production',
-  plugins: [runTweego, processStyles],
-  naming: {
-    entry: '[name].[ext]',
-    chunk: '[name]-[hash].[ext]',
-    asset: 'assets/[name]-[hash].[ext]',
-  },
-  loader: {
-    '.webp': 'file',
-    '.svg': 'file',
-    '.ttf': 'file',
-  },
+  plugins: [
+    cleanDirectories,
+    processStyles,
+    bundleScriptAndStyleExtensions,
+    copyOtherAssets,
+  ],
 })
 
 if (mode == 'development') {
@@ -53,31 +34,8 @@ if (mode == 'development') {
         await build({
           entrypoints: [Directory.SCRIPT_ENTRYPOINT],
           outdir: Directory.BUNDLED_SCRIPTS_DIR,
-          naming: {
-            entry: '[name].[ext]',
-            chunk: '[name]-[hash].[ext]',
-            asset: 'assets/[name]-[hash].[ext]',
-          },
-        })
-      } else if (filename?.endsWith('.scss')) {
-        await build({
-          entrypoints: [Directory.STYLE_ENTRYPOINT],
-          outdir: Directory.BUNDLED_STYLES_DIR,
-          naming: {
-            entry: '[name].[ext]',
-            chunk: '[name]-[hash].[ext]',
-            asset: 'assets/[name]-[hash].[ext]',
-          },
-
-          loader: {
-            '.webp': 'file',
-            '.svg': 'file',
-            '.ttf': 'file',
-          },
         })
       }
-
-      // console.log(`Detected ${event} in ${filename} (src)`)
     }
   )
 
@@ -85,6 +43,45 @@ if (mode == 'development') {
     watcher.close()
     process.exit(0)
   })
+}
+
+if (buildResult.success) {
+  await setupTweego()
+  const tweego = new Tweenode()
+
+  const compileStory = async () => {
+    const bufferSize = await write(
+      Directory.BUNDLED_STORY_NAME,
+      await (tweego.process({
+        input: {
+          storyDir: Directory.STORY,
+          useTwineTestMode: mode == 'development' ? true : false,
+          htmlHead: Directory.HEAD_CONTENT,
+          modules: [Directory.VENDOR],
+          scripts: Directory.BUNDLED_SCRIPTS_DIR,
+          styles: Directory.BUNDLED_STYLES_DIR,
+        },
+        // output: { fileName: Directory.BUNDLED_STORY_NAME, mode: 'file' },
+        output: { mode: 'string' },
+      }) as Promise<string>)
+    )
+
+    if (bufferSize) return true
+    else return false
+  }
+
+  if (mode == 'development') {
+    const watcher = watch(Directory.OUTPUT, { recursive: true }, async () => {
+      await compileStory()
+    })
+
+    process.on('SIGINT', () => {
+      watcher.close()
+      process.exit(0)
+    })
+  }
+
+  await compileStory()
 }
 
 export {}

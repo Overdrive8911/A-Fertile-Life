@@ -29,8 +29,6 @@ export const cleanDirectories: BunPlugin = {
 // TODO: Add error handling
 async function convertSCSSFileToCSS(filePath: string) {
   const convertedCSS = (await sass.compileAsync(filePath)).css
-  // console.log(convertedCSS)
-
   if (mode == 'production') {
     return await processCSS(convertedCSS, filePath)
   } else return convertedCSS
@@ -51,16 +49,16 @@ async function processCSS(cssString: string, filePath?: string) {
 export const processStyles: BunPlugin = {
   name: 'Process Game Styles',
   setup(build) {
-    build.onLoad({ filter: /\.scss$/ }, async args => {
-      if (/*watchSASS*/ mode == 'development') {
+    build.onStart(async () => {
+      if (mode == 'development') {
         const watcher = watch(
           Directory.STYLES,
           { recursive: true },
           async () => {
             // Replace the css file
-            await Bun.write(
+            await write(
               Directory.BUNDLED_STYLES,
-              await convertSCSSFileToCSS(args.path)
+              await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
             )
           }
         )
@@ -69,8 +67,8 @@ export const processStyles: BunPlugin = {
           process.exit(0)
         })
       }
-
-      return { contents: await convertSCSSFileToCSS(args.path), loader: 'css' }
+      const css = await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
+      await write(Directory.BUNDLED_STYLES, css)
     })
   },
 }
@@ -231,57 +229,6 @@ export const copyOtherAssets: BunPlugin = {
           process.exit(0)
         })
       }
-    })
-  },
-}
-
-export const runTweego: BunPlugin = {
-  name: 'Compile Story with Tweego',
-  setup(build) {
-    build.onLoad({ filter: /^.*$/ }, async ({ defer }) => {
-      // Ensure all scripts, styles and media assets have been dealt with first
-      await defer()
-
-      await setupTweego()
-      const tweego = new Tweenode()
-
-      const compileStory = async () => {
-        const bufferSize = await Bun.write(
-          Directory.BUNDLED_STORY_NAME,
-          await (tweego.process({
-            input: {
-              storyDir: Directory.STORY,
-              useTwineTestMode: mode == 'development' ? true : false,
-              htmlHead: Directory.HEAD_CONTENT,
-              modules: [Directory.VENDOR],
-              scripts: Directory.BUNDLED_SCRIPTS_DIR,
-              styles: Directory.BUNDLED_STYLES_DIR,
-            },
-            // output: { fileName: Directory.BUNDLED_STORY_NAME, mode: 'file' },
-            output: { mode: 'string' },
-          }) as Promise<string>)
-        )
-
-        if (bufferSize) return true
-        else return false
-      }
-
-      if (mode == 'development') {
-        const watcher = watch(
-          Directory.OUTPUT,
-          { recursive: true },
-          async () => {
-            await compileStory()
-          }
-        )
-
-        process.on('SIGINT', () => {
-          watcher.close()
-          process.exit(0)
-        })
-      }
-
-      await compileStory()
     })
   },
 }
