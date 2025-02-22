@@ -5,7 +5,6 @@
     - Connect them together.
     - Create the instance of the container area. 
     - Add all the child areas to the container area. */
-
 import { GlobalMap, SubLocation, Location } from '../../../location/classes'
 import {
   GlobalMapId,
@@ -509,5 +508,5 @@ export const gSubLocationIcons24x24: { [key in MapSubLocation]?: string } = {
   [MapSubLocation.LIVING_ROOM]: getUrl('living_room'),
 }
 function getUrl(subLocation: string) {
-  return `assets/img/map/icons/sub_location/${subLocation}.webp`
+  return `/media/img/map/icons/sub_location/${subLocation}.webp`
 }

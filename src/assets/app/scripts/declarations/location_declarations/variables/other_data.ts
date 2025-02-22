@@ -25,7 +25,7 @@ export const setMapPopoutZoomLvl = (lvl: number) => {
   gMapPopoutZoomLvl = lvl
 }
 
-export const gPlayerMapSpriteSrc = 'assets/img/map/icons/player_map_sprite.webp'
+export const gPlayerMapSpriteSrc = '/media/img/map/icons/player_map_sprite.webp'
 
 export let lastWarpDestination: {
   location: MapLocation | null
