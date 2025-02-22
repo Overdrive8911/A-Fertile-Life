@@ -1,8 +1,8 @@
-@import "../../partials/mixin.scss";
+@use '../../partials/mixin.scss' as *;
 
 /*  */
 /* This stores the actual side bar AND the button used to stow/open it */
-[id="ui-side-section"] {
+[id='ui-side-section'] {
   position: fixed;
   left: 0;
   width: calc(
@@ -17,16 +17,16 @@
 
   // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if #ui-side-bar-action-interface is open.
   // NOTE - This needs revising if I add extra options to #ui-side-bar-action-interface
-  &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
-    & > [id="ui-side-bar-action-menu"] {
-      & > :not([id="ui-side-bar-toggle-state-button"]) {
+  &:has([id='ui-side-bar-action-interface']:not(.stowed)) {
+    & > [id='ui-side-bar-action-menu'] {
+      & > :not([id='ui-side-bar-toggle-state-button']) {
         @include darkenUIButton;
       }
     }
   }
 }
 
-[id="ui-side-bar"] {
+[id='ui-side-bar'] {
   /* position: fixed; */
   /* left: 0; */
   height: 100%;
@@ -49,7 +49,7 @@
   background-color: var(--ui-bar-background-color);
 
   // Make all the major flex containers fill a row by themselves
-  & > [id|="ui-side-bar"] {
+  & > [id|='ui-side-bar'] {
     // width: 100%;
     // min-height: 20%;
     // flex: 1 1 10%;
@@ -60,7 +60,7 @@
     box-sizing: border-box;
   }
 
-  & > [id^="ui-side-bar-backup-container"] {
+  & > [id^='ui-side-bar-backup-container'] {
     // The display will become a flex when on mobile (basically slimmer screens)
     display: none;
     flex: 0 1 auto;
@@ -71,10 +71,10 @@
 }
 
 // If the sidebar is currently stowed, shrink it
-:root:has([id="ui-side-bar"].stowed) {
+:root:has([id='ui-side-bar'].stowed) {
   --ui-side-bar-width: 1rem;
 
-  [id="ui-side-bar"] {
+  [id='ui-side-bar'] {
     background-color: var(--ui-bar-border-color);
 
     & > div {
@@ -83,12 +83,12 @@
     }
   }
 
-  [id="ui-side-bar-toggle-state-button"] > img {
+  [id='ui-side-bar-toggle-state-button'] > img {
     transform: rotate(180deg);
   }
 }
 
-[id="ui-side-bar-game-info"] {
+[id='ui-side-bar-game-info'] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -105,7 +105,7 @@
   text-align: center;
 }
 
-[id="ui-side-bar-game-info-name"] {
+[id='ui-side-bar-game-info-name'] {
   font-size: 24px;
   font-weight: bold;
 
@@ -113,16 +113,16 @@
   // margin-top: 1rem;
 }
 
-[id="ui-side-bar-game-info-author"] {
+[id='ui-side-bar-game-info-author'] {
   font-size: 13px;
 }
 
-[id="ui-side-bar-game-info-others"] {
+[id='ui-side-bar-game-info-others'] {
   font-size: 12px;
 }
 
 // Lets deal with the first backup container. Remember, its for everything in the top bar other than the time and stat bars, with the first child div storing the settings/save/restart and the second, storing money/reputation
-[id="ui-side-bar-backup-container1"] {
+[id='ui-side-bar-backup-container1'] {
   // justify-content: stretch;
 
   & > div {
@@ -144,14 +144,14 @@
       height: min-content;
     }
 
-    & > [class|="ui-stat-others"] {
+    & > [class|='ui-stat-others'] {
       @include uiRightmostIconsFlexContainer;
     }
   }
 }
 
 // Now the second backup container. Remember, it's only for storing the stat bars
-[id="ui-side-bar-backup-container2"] {
+[id='ui-side-bar-backup-container2'] {
   justify-content: space-evenly;
   align-items: center;
   row-gap: 0.35rem;
@@ -167,8 +167,8 @@
   }
 }
 
-[id="ui-side-bar-player-image"],
-[id="ui-side-bar-assistant-device"] {
+[id='ui-side-bar-player-image'],
+[id='ui-side-bar-assistant-device'] {
   flex: 0 0 auto;
 
   //NOTE - I want the player's image to be in a square but I'm not really sure abt the assistant stuff
@@ -177,7 +177,7 @@
 
 //
 //
-[id="ui-side-bar-action-menu"] {
+[id='ui-side-bar-action-menu'] {
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
   @include uiSideBarActionMenuHeightRange;
@@ -212,7 +212,7 @@
   }
 }
 
-[id="ui-side-bar-action-interface"] {
+[id='ui-side-bar-action-interface'] {
   display: flex;
   flex: 0 0 auto;
   justify-content: center;
@@ -234,7 +234,7 @@
 
   // Sets the height and width of the map and any other options that might use it.
   // NOTE - I may add new options later so this is future proofing
-  & > [class|="ui-side-bar-popout"] {
+  & > [class|='ui-side-bar-popout'] {
     // height: var(--ui-side-bar-action-menu-height);
     width: var(--ui-side-bar-action-interface-content-width);
 
@@ -255,7 +255,7 @@
 
     border: 0px solid var(--ui-bar-border-color);
 
-    & > [class|="ui-side-bar-popout"] {
+    & > [class|='ui-side-bar-popout'] {
       // The universal selector doesn't have any specificity so I tried this.
       // display: none;
       width: 0px;
@@ -267,16 +267,16 @@
 }
 
 // If the action interface is currently stowed, shrink it
-:root:has([id="ui-side-bar-action-interface"].stowed) {
+:root:has([id='ui-side-bar-action-interface'].stowed) {
   --ui-side-bar-action-interface-total-width: 0px;
 
-  & [class="ui-side-bar-popout-map-button-bar"] > button {
+  & [class='ui-side-bar-popout-map-button-bar'] > button {
     padding: 0;
     border: 0;
   }
 }
 
-[class="ui-side-bar-popout-map"] {
+[class='ui-side-bar-popout-map'] {
   // background-color: hsl(0, 0%, 8%);
   display: flex;
   align-items: center;
@@ -287,7 +287,7 @@
   text-align: center;
 }
 
-[class="ui-side-bar-popout-map-button-bar"] {
+[class='ui-side-bar-popout-map-button-bar'] {
   --button-dimension: 12.5%;
 
   display: flex;
@@ -311,7 +311,9 @@
   @include actionInterfaceTransition;
 
   // Will delete this once I make the icons
-  font-size: 12px;
+  & {
+    font-size: 12px;
+  }
 
   > button {
     position: relative;
