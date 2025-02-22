@@ -1,13 +1,14 @@
-@import "../../partials/variables.scss", "../../partials/mixin.scss";
+@use '../../partials/variables.scss';
+@use '../../partials/mixin.scss' as *;
 
 .stowed {
-    // Doesn't do anything by itself but I use it to know whether something is open or closed
-    --dummy: dummy;
+  // Doesn't do anything by itself but I use it to know whether something is open or closed
+  --dummy: dummy;
 }
 
 .hidden {
-    //I use it to hide stuff. Should never be active with ".stowed"
-    display: none;
+  //I use it to hide stuff. Should never be active with ".stowed"
+  display: none;
 }
 
 // .ui-icon-glow {
@@ -18,30 +19,30 @@
 
 // Is used on small phones for the navigation buttons in the bottom bar when the side bar is also open
 .ui-navigation-button-small {
-    font-size: 11px;
-    width: 9.5vw;
-    // line-height: 9.5px;
-    min-width: min-content;
-    min-height: min-content;
+  font-size: 11px;
+  width: 9.5vw;
+  // line-height: 9.5px;
+  min-width: min-content;
+  min-height: min-content;
 }
 
 .ui-darken-on-hover {
-    &:hover {
-        // background-color: darken($uiSideBarActionMenuButtonColour, 10%);
-        @include darkenUIButton;
-    }
+  &:hover {
+    // background-color: darken($uiSideBarActionMenuButtonColour, 10%);
+    @include darkenUIButton;
+  }
 
-    &:active {
-        @include darkenUIButton;
-    }
+  &:active {
+    @include darkenUIButton;
+  }
 }
 
 .pixel-art {
-    @include pixelArt;
+  @include pixelArt;
 }
 
 .icon-filter {
-    filter: var(--icon-border-filter) var(--icon-brightness-filter);
+  filter: var(--icon-border-filter) var(--icon-brightness-filter);
 }
 
 // Sample Icon ranges
