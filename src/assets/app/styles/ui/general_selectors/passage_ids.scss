@@ -1,6 +1,6 @@
-@import "../../partials/mixin.scss";
+@use '../../partials/mixin.scss' as *;
 
-[id="interface"] {
+[id='interface'] {
   position: absolute;
   z-index: -5;
 
@@ -11,7 +11,7 @@
   background-color: var(--ui-bar-background-color);
 }
 
-[id="passages"] {
+[id='passages'] {
   width: calc(100% - var(--ui-side-bar-width));
   /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
   /* margin: 0 auto auto auto; */
@@ -30,7 +30,7 @@
 
   overflow-x: hidden;
 
-  & > div[id|="passage"] {
+  & > div[id|='passage'] {
     /* max-width: 54em; */
     width: 70%;
 
@@ -48,7 +48,7 @@
 }
 
 // Defaults
-[id="ui-passage-action-interface-shadow"] {
+[id='ui-passage-action-interface-shadow'] {
   position: fixed;
   top: calc(var(--ui-side-bar-action-menu-margin-top) - 0.25rem);
   float: left;
@@ -65,8 +65,8 @@
   @include actionInterfaceTransition;
 }
 
-:root:has([id="ui-side-bar-action-interface"].stowed) {
-  [id="ui-passage-action-interface-shadow"] {
+:root:has([id='ui-side-bar-action-interface'].stowed) {
+  [id='ui-passage-action-interface-shadow'] {
     backdrop-filter: unset;
   }
 }

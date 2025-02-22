@@ -1,4 +1,4 @@
-@import "../../partials/mixin.scss";
+@use '../../partials/mixin.scss';
 
 /* Used to denote when a female is speaking. The first one is the default used whenever the PC talks. */
 .femaleSpeech {
