@@ -181,7 +181,7 @@
 </p> */
 
 <p>
-    /* <img class="characterIconInPassage" src="assets/img/characters/icons/robo/default.webp"> */
+    /* <img class="characterIconInPassage" src="media/img/characters/icons/robo/default.webp"> */
     You shudder as you walk into the dark cold interior of the room. It has a faint scent of that "hospital room smell" which is quite unusual since you haven't noticed it elsewhere.
     <span class="femaleSpeech">
         <i>Of course… There should be a light switch somewhere around here</i>

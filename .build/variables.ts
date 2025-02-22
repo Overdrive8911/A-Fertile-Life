@@ -30,8 +30,18 @@ export const enum Directory {
   SCRIPT_ENTRYPOINT = APP + '/index.ts',
   STYLE_ENTRYPOINT = STYLES + '/main.scss',
 
-  FONTS = ASSETS + '/fonts',
-  MEDIA = ASSETS + '/media',
+  /**
+   * USE THIS FOR REFERRING TO `MEDIA`
+   */
+  STORY_MEDIA = '/media',
+
+  /**
+   * USE THIS FOR REFERRING TO `FONTS`
+   */
+  STORY_FONTS = '/fonts',
+
+  FONTS = ASSETS + STORY_FONTS,
+  MEDIA = ASSETS + STORY_MEDIA,
   VENDOR = ASSETS + '/vendor',
   STORY = BASE + '/story',
   HEAD_CONTENT = BASE + '/head_content.html',
