@@ -5,7 +5,7 @@
   "template-version": "0.3.1-beta",
   "description": "A starter template for a modern Twine development workflow",
   "scripts": {
-    "dev-watch": "bun cross-env NODE_ENV=development bun run --watch --no-clear-screen ./build.ts & bun run ./.build/dev_server.ts",
+    "dev-watch": "bun cross-env NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run ./.build/dev_server.ts",
     "prod": "bun cross-env NODE_ENV=production bun run ./build.ts"
   },
   "template-author": "greatsquare0",
@@ -50,6 +50,7 @@
     "@types/clean-css": "^4.2.11",
     "autoprefixer": "^10.4.20",
     "clean-css": "^5.3.3",
+    "lz-string": "^1.5.0",
     "sass-embedded": "^1.85.0"
   }
 }
