@@ -1,7 +1,7 @@
 import { file, serve } from 'bun'
 import { Directory } from './variables'
 
-serve({
+const server = serve({
   async fetch(request) {
     const url = new URL(request.url)
     let pathname = url.pathname
