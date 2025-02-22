@@ -30,7 +30,7 @@ export enum MapLocationContainer {
 
 // An enum of all sub locations. Multiple sub locations can share the same name as long as they're in different locations
 // Some sub locations can occur multiple times in a single location and as such have a number appended to them.
-// NOTE - Ensure that the name of a member (e.g RECEPTION) can be converted into a subLocation string (e.g subLocation_reception) as well as be used to get the appropriate image (e.g assets/img/map/sub_location/reception.webp)
+// NOTE - Ensure that the name of a member (e.g RECEPTION) can be converted into a subLocation string (e.g subLocation_reception) as well as be used to get the appropriate image (e.g /media/img/map/sub_location/reception.webp)
 // NOTE - Assign the duplicates to the map from left to right
 export enum MapSubLocation {
   DUMMY = 1 << 15,

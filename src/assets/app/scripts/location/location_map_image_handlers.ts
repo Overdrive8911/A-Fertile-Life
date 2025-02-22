@@ -1,3 +1,4 @@
+import { Directory } from '../../../../../.build/variables'
 import {
   LocationCoordIndex,
   MapLocation,
@@ -32,13 +33,13 @@ function getSubLocationMapImage(subLocation: MapSubLocation): any {
   const splitSubLocationString = rawSubLocationString.split(regexp)[0]
 
   const img = new Image()
-  img.src = `assets/img/map/icons/sub_location/${splitSubLocationString.toLocaleLowerCase()}.webp`
+  img.src = `/media/img/map/icons/sub_location/${splitSubLocationString.toLocaleLowerCase()}.webp`
   img.onload = () => {
     if (img.width && img.height) {
       // image is valid
       return img.src
     }
-    return `assets/img/map/icons/sub_location/dummy.webp`
+    return `/media/img/map/icons/sub_location/dummy.webp`
   }
 }
 
@@ -138,7 +139,7 @@ export function loadGameMap(
   mapArea.empty()
 
   // Set a default image for locations without a custom image/sub locations
-  let mapData = `<img src="assets/img/map/location/default.webp" class="pixel-art" style="width:inherit; height:auto;"/>`
+  let mapData = `<img src="/media/img/map/location/default.webp" class="pixel-art" style="width:inherit; height:auto;"/>`
   if (
     gLocationMapSvgTable[locationId] &&
     gLocationData[locationId]?.subLocations
