@@ -47,7 +47,7 @@ if (mode == 'development') {
 
 sleep(2000).finally(async () => {
   await setupTweego()
-  const tweego = new Tweenode()
+  const tweego = new Tweenode({ writeToLog: true })
 
   const compileStory = async () => {
     await tweego.process({
@@ -67,6 +67,11 @@ sleep(2000).finally(async () => {
   if (mode == 'development') {
     const watcher = watch(Directory.OUTPUT, { recursive: true }, async () => {
       await compileStory()
+      // A hacky way to force the live reload server to respond to this change
+      await write(
+        `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
+        'Dummy'
+      )
     })
 
     process.on('SIGINT', () => {
