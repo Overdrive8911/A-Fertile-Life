@@ -1,4 +1,4 @@
-import { averageWalkingSpeed } from '../declarations/location_declarations/variables/other_data'
+import { averageWalkingSpeed } from '../location/other_data'
 import {
   getLocationFromPassageTitle,
   getSubLocationFromPassageTitle,

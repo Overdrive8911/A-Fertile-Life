@@ -8,7 +8,7 @@ import {
   ui_isMapInActionInterfaceOpen,
 } from '../declarations/side_section_declarations'
 import { loadGameMap } from '../../location/location_map_image_handlers'
-import '../../declarations/location_declarations/variables/other_data'
+import '../../location/other_data'
 let uiSideBarToggleState = true
 
 $(document).on(':passageend', () => {

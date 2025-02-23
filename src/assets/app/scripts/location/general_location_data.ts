@@ -5,7 +5,7 @@
     - Connect them together.
     - Create the instance of the container area. 
     - Add all the child areas to the container area. */
-import { GlobalMap, SubLocation, Location } from '../../../location/classes'
+import { GlobalMap, SubLocation, Location } from './classes'
 import {
   GlobalMapId,
   SubLocationId,
@@ -15,9 +15,9 @@ import {
   MapLocationContainer,
   MapSubLocation,
   GameMapCoordinate,
-} from '../enums'
-import { getCoordsRelativeToOtherSubLocation } from '../functions'
-import type { LocationObject, LocationCoords } from '../types_and_interfaces'
+} from './enums'
+import { getCoordsRelativeToOtherSubLocation } from './functions'
+import type { LocationObject, LocationCoords } from './types_and_interfaces'
 import { gRelatedLocations } from './related_location_data'
 
 // Testing
@@ -174,7 +174,8 @@ export namespace MapArea {
     fertiloIncOfficeWorkFloor1
   )
 
-  // window.t = fertiloIncGroundFloor
+  //@ts-ignore
+  window.t = fertiloIncGroundFloor
   console.log(fertiloIncGroundFloor)
 
   //@ts-ignore
