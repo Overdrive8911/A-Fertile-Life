@@ -186,47 +186,47 @@ class MapEntity<
   connect(
     ...data: {
       from: ChildType
-      to: ChildType
-      dir: Direction
-      dist: number
+      areas: { to: ChildType; dir: Direction; dist: number }[]
     }[]
   ): MapEntity<ChildType, IdType, ParentType> {
     data.forEach(val => {
-      const oppositeDir = oppositeDirection[val.dir],
-        currArea = val.from,
-        destArea = val.to
-      let currAreaDirections = this.childrenData.get(currArea),
-        destAreaDirections = this.childrenData.get(destArea)
+      val.areas.forEach(area => {
+        const oppositeDir = oppositeDirection[area.dir],
+          currArea = val.from,
+          destArea = area.to
+        let currAreaDirections = this.childrenData.get(currArea),
+          destAreaDirections = this.childrenData.get(destArea)
 
-      // Ensure we aren't working with undefined values
-      if (!currAreaDirections) {
-        this.addArea(currArea)
-        currAreaDirections = this.childrenData.get(currArea)
-      }
-      if (!destAreaDirections) {
-        this.addArea(destArea)
-        destAreaDirections = this.childrenData.get(destArea)
-      }
+        // Ensure we aren't working with undefined values
+        if (!currAreaDirections) {
+          this.addArea(currArea)
+          currAreaDirections = this.childrenData.get(currArea)
+        }
+        if (!destAreaDirections) {
+          this.addArea(destArea)
+          destAreaDirections = this.childrenData.get(destArea)
+        }
 
-      const currAreaDir = currAreaDirections as Connections<ChildType>
-      const destAreaDir = destAreaDirections as Connections<ChildType>
+        const currAreaDir = currAreaDirections as Connections<ChildType>
+        const destAreaDir = destAreaDirections as Connections<ChildType>
 
-      // Check if the connection doesn't exist already
-      if (!currAreaDir.has(val.dir) && !destAreaDir.has(oppositeDir)) {
-        const dist = val.dist
-        // Set the connection for this map entity
-        currAreaDir.set(val.dir, { area: destArea, distance: dist })
+        // Check if the connection doesn't exist already
+        if (!currAreaDir.has(area.dir) && !destAreaDir.has(oppositeDir)) {
+          const dist = area.dist
+          // Set the connection for this map entity
+          currAreaDir.set(area.dir, { area: destArea, distance: dist })
 
-        // Also set the connection on the other map entity for bi-directional travel
-        destAreaDir.set(oppositeDir, {
-          area: currArea,
-          distance: dist,
-        })
-      } else {
-        console.warn(
-          `In the Map Entity, ${this.name}, the children, ${currArea.name} and ${destArea.name}, cannot be connected to each since either of them is already connected to another area with the same direction.`
-        )
-      }
+          // Also set the connection on the other map entity for bi-directional travel
+          destAreaDir.set(oppositeDir, {
+            area: currArea,
+            distance: dist,
+          })
+        } else {
+          console.warn(
+            `In the Map Entity, ${this.name}, the children, ${currArea.name} and ${destArea.name}, cannot be connected to each since either of them is already connected to another area with the same direction.`
+          )
+        }
+      })
     })
 
     return this
