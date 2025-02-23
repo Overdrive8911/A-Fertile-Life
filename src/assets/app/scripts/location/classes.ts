@@ -22,6 +22,10 @@ type MapChildConnectionDataType = Map<{ from: AreaId; to: AreaId }, number>
 type MapDataInSessionStorage = Partial<
   Record<`mapChildConnections_${AreaUniqueId}`, MapChildConnectionDataType>
 >
+type Connections<T extends MapEntity<any, any, any>> = Map<
+  Direction,
+  { area: T; distance?: number }
+>
 
 // Base Generic Class Implementation that will be extended for use
 // NOTE: Most methods return a reference to the map entity for use in chaining
@@ -37,21 +41,25 @@ class MapEntity<
   IdType extends AreaId,
   ParentType extends MapEntity<any, any, any>
 > {
-  // The `MapEntity` instance that contains this instance
+  /**
+   * The `MapEntity` instance that contains this instance
+   *
+   */
   parent: ParentType extends never ? undefined : ParentType = null as any
-  // All the `MapEntity` instances that are contained within this instance. Like a House containing rooms
-  protected children: ChildType extends never
+
+  /**
+   * All the `MapEntity` instances that are contained within this instance. Like a House containing rooms. Each child has some direction data that relates it to other children in this `MapEntity`
+   *
+   */
+  protected childrenData: ChildType extends never
     ? undefined
-    : Map<AreaId, ChildType> = new Map() as any
-  // The connections to other `MapEntity` instances in the same direction. Like a room connecting to another room
-  private connections: Map<
-    Direction,
-    {
-      area: MapEntity<ChildType, IdType, ParentType>
-      distance?: number | null
-    }
-  > = new Map()
-  // NOTE: This will be cleared when the player moves to another area (not a child area)
+    : Map<ChildType, Connections<ChildType>> = new Map() as any
+
+  /**
+   * This is a temporary cache used to quickly determine the distance between any two child areas.
+   *
+   * NOTE: This will be cleared when the player moves to another area (not a child area)
+   */
   private mapChildConnectionData: MapChildConnectionDataType | undefined
 
   constructor(
@@ -63,10 +71,8 @@ class MapEntity<
 
   /**
    * A unique id is used to find out the exact instance of a map entity in the global map.
-   * NOTE: THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES
    *
-   * @readonly
-   * @type {AreaUniqueId}
+   * NOTE: THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES
    */
   get uniqueId(): AreaUniqueId {
     let globalId = GlobalMapId.GLOBAL,
@@ -94,20 +100,22 @@ class MapEntity<
     return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
   }
 
-  // NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
+  /**
+   * NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
+   */
   private get originArea(): ChildType | null {
-    if (!this.children?.size) return null
+    if (!this.childrenData?.size) return null
     let returnArea: ChildType | null = null,
       firstArea: ChildType | null = null
     let hasSetFirstArea = false
-    for (const [, data] of this.children) {
-      const d = data as ChildType
+    for (const [child] of this.childrenData) {
+      const d = child as ChildType
       if (!hasSetFirstArea) {
         firstArea = d
         hasSetFirstArea = true
       }
 
-      if (data.flags & MapEntityFlags.IS_ENTRY_POINT) {
+      if (d.flags & MapEntityFlags.IS_ENTRY_POINT) {
         returnArea = d
         break
       }
@@ -115,18 +123,24 @@ class MapEntity<
     }
     return returnArea ?? firstArea
   }
+
+  /**
+   * NOTE: *Child areas added like this will not have any directions*
+   *
+   * @returns The class that this method belongs to
+   */
   addArea(...areas: ChildType[]): MapEntity<ChildType, IdType, ParentType> {
-    if (!this.children) this.children = new Map() as any
+    if (!this.childrenData) this.childrenData = new Map() as any
 
     areas.forEach(area => {
-      if (this.children.has(area.id)) {
+      if (this.childrenData.has(area)) {
         console.error(
           `${area.name} already exists as a child of ${this.name}.\n\n OVERWRITING DATA ANYWAY.`
         )
       }
 
       area.parent = this
-      this.children!.set(area.id, area)
+      this.childrenData.set(area, new Map())
     })
 
     return this
@@ -138,7 +152,7 @@ class MapEntity<
     area.forEach(val => {
       const idToRemove = typeof val == 'number' ? val : val.id
 
-      if (!this.children?.delete(idToRemove)) {
+      if (!this.childrenData?.delete(idToRemove)) {
         console.warn(
           `There was no child data in the map entity, ${this.name}, with the id, ${idToRemove}`
         )
@@ -148,33 +162,70 @@ class MapEntity<
     return this
   }
 
-  getArea(areaId: AreaId): ChildType | null {
-    return (this.children?.get(areaId) as ChildType) ?? null
+  /**
+   * *I wonder why you'll use this*
+   */
+  getArea(areaId: AreaId) {
+    let childArea: ChildType | null = null
+
+    for (const [child] of this.childrenData) {
+      if (child.id == areaId) {
+        childArea = child as ChildType
+        break
+      }
+    }
+
+    return childArea
   }
 
-  // NOTE: This only works once and then silently does nothing if the area is already connected in that particular direction
-  connectTo(
+  /**
+   * NOTE: This only works once and then silently does nothing if the area is already connected in that particular direction.
+   *
+   * @returns The class that this method belongs to.
+   */
+  connect(
     ...data: {
-      area: MapEntity<ChildType, IdType, ParentType>
+      from: ChildType
+      to: ChildType
       dir: Direction
-      dist?: number
+      dist: number
     }[]
   ): MapEntity<ChildType, IdType, ParentType> {
     data.forEach(val => {
+      const oppositeDir = oppositeDirection[val.dir],
+        currArea = val.from,
+        destArea = val.to
+      let currAreaDirections = this.childrenData.get(currArea),
+        destAreaDirections = this.childrenData.get(destArea)
+
+      // Ensure we aren't working with undefined values
+      if (!currAreaDirections) {
+        this.addArea(currArea)
+        currAreaDirections = this.childrenData.get(currArea)
+      }
+      if (!destAreaDirections) {
+        this.addArea(destArea)
+        destAreaDirections = this.childrenData.get(destArea)
+      }
+
+      const currAreaDir = currAreaDirections as Connections<ChildType>
+      const destAreaDir = destAreaDirections as Connections<ChildType>
+
       // Check if the connection doesn't exist already
-      if (
-        !this.connections.has(val.dir) &&
-        !val.area.connections.has(oppositeDirection[val.dir])
-      ) {
-        const dist = val.dist ?? null
+      if (!currAreaDir.has(val.dir) && !destAreaDir.has(oppositeDir)) {
+        const dist = val.dist
         // Set the connection for this map entity
-        this.connections.set(val.dir, { area: val.area, distance: dist })
+        currAreaDir.set(val.dir, { area: destArea, distance: dist })
 
         // Also set the connection on the other map entity for bi-directional travel
-        val.area.connections.set(oppositeDirection[val.dir], {
-          area: this,
+        destAreaDir.set(oppositeDir, {
+          area: currArea,
           distance: dist,
         })
+      } else {
+        console.warn(
+          `In the Map Entity, ${this.name}, the children, ${currArea.name} and ${destArea.name}, cannot be connected to each since either of them is already connected to another area with the same direction.`
+        )
       }
     })
 
@@ -218,7 +269,7 @@ class MapEntity<
   private async generateMapOfConnectionsForChildData(forceGenerate = false) {
     const sessionData = await this.getSessionMapData()
     // There's no data for this map entity's children so generate one
-    if (forceGenerate || (!sessionData.size && this.children.size > 1)) {
+    if (forceGenerate || (!sessionData.size && this.childrenData.size > 1)) {
       let finalMapOfConnections: MapChildConnectionDataType = new Map()
 
       const getMapChildConnectionPairData = async (
@@ -271,11 +322,14 @@ class MapEntity<
             )
 
           // Enqueue all direct connections
-          const iteratedArea = this.getArea(iteratedId) as ChildType
+          const iteratedAreaConnections = this.childrenData.get(
+            this.getArea(iteratedId) as ChildType
+          ) as Connections<ChildType>
+
           for await (const [
             ,
             mapEntityDataForConnection,
-          ] of iteratedArea.connections) {
+          ] of iteratedAreaConnections) {
             const connectionId = mapEntityDataForConnection.area.id
             if (!visitedAreas.has(connectionId)) {
               visitedAreas.add(connectionId)
@@ -293,7 +347,7 @@ class MapEntity<
       }
 
       // Loop through each child's connections and determine the total distance as well the directions
-      for (const [, child] of this.children) {
+      for (const [child] of this.childrenData) {
         const childMapOfConnections = await getDataOfAllConnectionsToChildArea(
           child.id
         )
@@ -417,7 +471,7 @@ export class SubLocation extends MapEntity<
   ) {
     super(...args)
     // Sub-Locations don't have children so delete the property
-    delete this.children
+    delete this.childrenData
   }
 
   get uniqueId(): AreaUniqueId {
