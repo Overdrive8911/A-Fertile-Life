@@ -1,7 +1,6 @@
 import { compress, decompress } from 'lz-string'
 import {
   Direction,
-  MapType,
   MapEntityFlags,
   GlobalMapId,
   RegionId,
@@ -52,7 +51,6 @@ class MapEntity<
       distance?: number | null
     }
   > = new Map()
-  type = MapType.GENERIC
   // NOTE: This will be cleared when the player moves to another area (not a child area)
   private mapChildConnectionData: MapChildConnectionDataType | undefined
 
@@ -418,8 +416,6 @@ export class SubLocation extends MapEntity<
     >
   ) {
     super(...args)
-    this.type = MapType.SUB_LOCATION
-
     // Sub-Locations don't have children so delete the property
     delete this.children
   }
@@ -450,7 +446,6 @@ export class Location extends MapEntity<
     >
   ) {
     super(...args)
-    this.type = MapType.LOCATION
   }
 
   get uniqueId(): AreaUniqueId {
@@ -470,7 +465,6 @@ export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
     >
   ) {
     super(...args)
-    this.type = MapType.SUB_REGION
   }
 
   get uniqueId(): AreaUniqueId {
@@ -491,7 +485,6 @@ export class Region extends MapEntity<
     >
   ) {
     super(...args)
-    this.type = MapType.REGION
   }
 
   get uniqueId(): AreaUniqueId {
@@ -504,7 +497,6 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
     super(...args)
-    this.type = MapType.GLOBAL
 
     // Global Map doesn't have a parent so delete the property
     delete this.parent
