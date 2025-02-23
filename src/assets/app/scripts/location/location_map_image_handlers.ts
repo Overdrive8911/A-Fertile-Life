@@ -1,23 +1,18 @@
-import { Directory } from '../../../../../.build/variables'
-import {
-  LocationCoordIndex,
-  MapLocation,
-  MapSubLocation,
-} from '../declarations/location_declarations/enums'
+import { LocationCoordIndex, MapLocation, MapSubLocation } from './enums'
 import type {
   GameLocation,
   GameMapForSubLocations,
   GameMapTuple,
   GameSubLocation,
-} from '../declarations/location_declarations/types_and_interfaces'
-import { gLocationData } from '../declarations/location_declarations/variables/general_location_data'
-import { gLocationMapSvgTable } from '../declarations/location_declarations/variables/map_svg_data'
+} from './types_and_interfaces'
+import { gLocationData } from './general_location_data'
+import { gLocationMapSvgTable } from './map_svg_data'
 import {
   gPlayerMapSpriteSrc,
   gPlayerMapSpriteId,
   gMapPopoutZoomLvl,
   setMapPopoutZoomLvl,
-} from '../declarations/location_declarations/variables/other_data'
+} from './other_data'
 import { getEffectiveCoordInGameMap } from './location_helper_functions'
 
 // NOTE - UNUSED. Get the appropriate image for a subLocation

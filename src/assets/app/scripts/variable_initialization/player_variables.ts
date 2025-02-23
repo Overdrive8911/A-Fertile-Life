@@ -1,7 +1,4 @@
-import {
-  MapLocation,
-  MapSubLocation,
-} from '../declarations/location_declarations/enums'
+import { MapLocation, MapSubLocation } from '../location/enums'
 
 setup.initializePlayerVariables = () => {
   // $player

@@ -1,10 +1,7 @@
-import {
-  MapLocation,
-  MapSubLocation,
-} from '../declarations/location_declarations/enums'
-import type { LocationCoords } from '../declarations/location_declarations/types_and_interfaces'
-import { distanceToMetresConversionRange } from '../declarations/location_declarations/variables/other_data'
-import { gLocationData } from '../declarations/location_declarations/variables/general_location_data'
+import { MapLocation, MapSubLocation } from './enums'
+import type { LocationCoords } from './types_and_interfaces'
+import { distanceToMetresConversionRange } from './other_data'
+import { gLocationData } from './general_location_data'
 
 // Determines the distance between the location/subLocation of the the previous and current passage using their tags
 setup.getDistanceToTravelFromLocation = (

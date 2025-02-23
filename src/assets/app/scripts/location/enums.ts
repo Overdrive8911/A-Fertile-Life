@@ -1,4 +1,4 @@
-import { gLeftShiftValue } from './variables/other_data'
+import { gLeftShiftValue } from './other_data'
 
 // For accessing anything with the type `LocationCoords`
 export enum LocationCoordIndex {

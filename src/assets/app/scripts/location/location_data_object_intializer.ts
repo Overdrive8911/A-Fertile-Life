@@ -1,10 +1,7 @@
 // NOTE - The default name of the sub locations are the capital forms of the indexes of their names, e.g MapSubLocation.HALLWAY_4 has a default name of "Hallway", MapSubLocation.CORRIDOR has a default name of "Corridor". Use this for unimportant areas with duplicates
 
-import {
-  MapLocation,
-  MapSubLocation,
-} from '../declarations/location_declarations/enums'
-import { gLocationData } from '../declarations/location_declarations/variables/general_location_data'
+import { MapLocation, MapSubLocation } from './enums'
+import { gLocationData } from './general_location_data'
 import { getDefaultNameOfSubLocation } from './location_helper_functions'
 import { populateSubLocationMap } from './location_map_image_handlers'
 

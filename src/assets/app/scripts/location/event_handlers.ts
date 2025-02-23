@@ -1,18 +1,11 @@
-import {
-  type MapLocation,
-  GameMapDirection,
-  MapSubLocation,
-} from '../declarations/location_declarations/enums'
-import {
-  gSubLocationIcons24x24,
-  gLocationData,
-} from '../declarations/location_declarations/variables/general_location_data'
-import { gLocationMapSvgTable } from '../declarations/location_declarations/variables/map_svg_data'
+import { type MapLocation, GameMapDirection, MapSubLocation } from './enums'
+import { gSubLocationIcons24x24, gLocationData } from './general_location_data'
+import { gLocationMapSvgTable } from './map_svg_data'
 import {
   gPlayerMapSpriteSrc,
   lastWarpDestination,
   setMapPopoutZoomLvl,
-} from '../declarations/location_declarations/variables/other_data'
+} from './other_data'
 import { getDefaultNameOfSubLocation } from './location_helper_functions'
 import { loadGameMap } from './location_map_image_handlers'
 import {

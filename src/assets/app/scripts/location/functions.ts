@@ -1,6 +1,6 @@
 import { LocationCoordIndex, MapLocation, MapSubLocation } from './enums'
 import type { LocationCoords } from './types_and_interfaces'
-import { gLocationData } from './variables/general_location_data'
+import { gLocationData } from './general_location_data'
 
 // Only here to avoid repetition since it's used in `gLocationData`
 export function getSubLocationCoords(

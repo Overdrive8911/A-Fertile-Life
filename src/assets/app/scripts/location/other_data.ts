@@ -2,7 +2,7 @@
 // window.Bruh = 3;
 // console.log(Bruh.soup);
 
-import type { MapLocation, MapSubLocation } from '../enums'
+import type { MapLocation, MapSubLocation } from './enums'
 
 export const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
