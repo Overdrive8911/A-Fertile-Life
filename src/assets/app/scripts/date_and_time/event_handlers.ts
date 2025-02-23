@@ -4,7 +4,7 @@ import { updateGameTimeAfterChangingPassage } from './game_date_and_time_updater
 const gameTimeUpdateAfterPassageNavigationEvent = new Event(
   'gameTimeUpdatedAfterPassageNavigation'
 )
-
+const g = 5
 // Update the game time after changing location but not when the browser window is restarted/refreshed
 $(document).one(':passageinit', () => {
   $(document).on(':passageinit', incomingPassage => {
