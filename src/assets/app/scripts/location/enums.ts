@@ -133,6 +133,17 @@ export const enum Direction {
   UP,
   DOWN,
 }
+export const enum Distance {
+  NONE = 0,
+  VERY_SHORT = 1.5,
+  SHORT = 5,
+  SOMEWHAT_SHORT = 7.5,
+  AVERAGE = 10,
+  SOMEWHAT_LONG = 13.5,
+  LONG = 20,
+  VERY_LONG = 30,
+}
+
 // Used to determine what type
 export const enum MapType {
   GENERIC,
