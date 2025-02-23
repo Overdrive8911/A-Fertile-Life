@@ -21,27 +21,20 @@ globalMap
   .connect(
     {
       from: region_centralHirtheford,
-      to: region_northHirtheford,
-      dir: Direction.NORTH,
-      dist: Distance.LONG,
-    },
-    {
-      from: region_centralHirtheford,
-      to: region_eastHirtheford,
-      dir: Direction.EAST,
-      dist: Distance.LONG,
-    },
-    {
-      from: region_centralHirtheford,
-      to: region_southHirtheford,
-      dir: Direction.SOUTH,
-      dist: Distance.LONG,
-    },
-    {
-      from: region_centralHirtheford,
-      to: region_westHirtheford,
-      dir: Direction.WEST,
-      dist: Distance.LONG,
+      areas: [
+        {
+          to: region_northHirtheford,
+          dir: Direction.NORTH,
+          dist: Distance.LONG,
+        },
+        { to: region_eastHirtheford, dir: Direction.EAST, dist: Distance.LONG },
+        {
+          to: region_southHirtheford,
+          dir: Direction.SOUTH,
+          dist: Distance.LONG,
+        },
+        { to: region_westHirtheford, dir: Direction.WEST, dist: Distance.LONG },
+      ],
     }
     // REVIEW: Would stuff like `Direction.NORTH_EAST` be better?
     // {
