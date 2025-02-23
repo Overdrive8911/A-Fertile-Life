@@ -5,18 +5,20 @@
   "template-version": "0.3.1-beta",
   "description": "A starter template for a modern Twine development workflow",
   "scripts": {
+    "serve": "bun run alive-server ./dist --no-browser",
+    "dev-watch": "NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run serve",
     "dev-watch:no-server": "NODE_ENV=development bun run --no-clear-screen ./build.ts",
-    "dev-watch": "NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run ./.build/dev_server.ts",
     "prod": "NODE_ENV=production bun run ./build.ts"
   },
   "template-author": "Iceman8911",
   "license": "MIT",
   "template-license": "MIT",
   "devDependencies": {
-    "@types/twine-sugarcube": "^2.37.2",
     "@types/bun": "^1.2.2",
     "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^11.0.4",
+    "@types/twine-sugarcube": "^2.37.2",
+    "alive-server": "^1.3.0",
     "postcss": "^8.5.2",
     "tweenode": "^0.2.9",
     "typescript": "^5.7.3"
