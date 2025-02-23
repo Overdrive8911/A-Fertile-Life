@@ -67,7 +67,7 @@ sleep(2000).finally(async () => {
   if (mode == 'development') {
     const watcher = watch(Directory.OUTPUT, { recursive: true }, async () => {
       await compileStory()
-      // A hacky way to force the live reload server to respond to this change
+      // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
       await write(
         `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
         'Dummy'
