@@ -144,16 +144,6 @@ export const enum Distance {
   VERY_LONG = 30,
 }
 
-// Used to determine what type
-export const enum MapType {
-  GENERIC,
-  SUB_LOCATION,
-  LOCATION,
-  SUB_REGION,
-  REGION,
-  GLOBAL,
-}
-
 // SECTION - Ids for the MapEntity
 export const enum SubLocationId {
   DUMMY,
