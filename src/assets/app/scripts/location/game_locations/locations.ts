@@ -44,97 +44,106 @@ export const location_fertiloIncGroundFloor = new Location(
   .connect(
     {
       from: subLocation_Porch,
-      to: subLocation_Reception,
-      dir: Direction.NORTH,
-      dist: 2,
+      areas: [{ to: subLocation_Reception, dir: Direction.NORTH, dist: 2 }],
     },
     {
       from: subLocation_Reception,
-      to: subLocation_MeasurementCloset,
-      dir: Direction.EAST,
-      dist: 1,
-    },
-    {
-      from: subLocation_Reception,
-      to: subLocation_Pharmacy1,
-      dir: Direction.WEST,
-      dist: 1,
-    },
-    {
-      from: subLocation_Reception,
-      to: subLocation_Corridor1,
-      dir: Direction.NORTH,
-      dist: 2,
+      areas: [
+        { to: subLocation_MeasurementCloset, dir: Direction.EAST, dist: 1 },
+        {
+          to: subLocation_Pharmacy1,
+          dir: Direction.WEST,
+          dist: 1,
+        },
+        {
+          to: subLocation_Corridor1,
+          dir: Direction.NORTH,
+          dist: 2,
+        },
+      ],
     },
     {
       from: subLocation_Corridor1,
-      to: subLocation_Hallway4,
-      dir: Direction.NORTH,
-      dist: 3,
+      areas: [{ to: subLocation_Hallway4, dir: Direction.NORTH, dist: 3 }],
     },
     {
       from: subLocation_Hallway4,
-      to: subLocation_Hallway3,
-      dir: Direction.WEST,
-      dist: 2,
-    },
-    {
-      from: subLocation_Hallway4,
-      to: subLocation_Hallway5,
-      dir: Direction.EAST,
-      dist: 2,
+      areas: [
+        { to: subLocation_Hallway3, dir: Direction.WEST, dist: 2 },
+        {
+          to: subLocation_Hallway5,
+          dir: Direction.EAST,
+          dist: 2,
+        },
+      ],
     },
 
     {
       from: subLocation_Hallway3,
-      to: subLocation_Lab,
-      dir: Direction.SOUTH,
-      dist: 2,
+      areas: [
+        {
+          to: subLocation_Lab,
+          dir: Direction.SOUTH,
+          dist: 2,
+        },
+        {
+          to: subLocation_Hallway2,
+          dir: Direction.WEST,
+          dist: 2,
+        },
+      ],
     },
-    {
-      from: subLocation_Hallway3,
-      to: subLocation_Hallway2,
-      dir: Direction.WEST,
-      dist: 2,
-    },
-
     {
       from: subLocation_Hallway2,
-      to: subLocation_Hallway1,
-      dir: Direction.WEST,
-      dist: 2,
+      areas: [
+        {
+          to: subLocation_Hallway1,
+          dir: Direction.WEST,
+          dist: 2,
+        },
+      ],
     },
 
     {
       from: subLocation_Hallway5,
-      to: subLocation_Pharmacy2,
-      dir: Direction.SOUTH,
-      dist: 2,
-    },
-    {
-      from: subLocation_Hallway5,
-      to: subLocation_Consultation,
-      dir: Direction.NORTH,
-      dist: 2,
-    },
-    {
-      from: subLocation_Hallway5,
-      to: subLocation_Hallway6,
-      dir: Direction.EAST,
-      dist: 2,
+      areas: [
+        {
+          to: subLocation_Pharmacy2,
+          dir: Direction.SOUTH,
+          dist: 2,
+        },
+        {
+          to: subLocation_Consultation,
+          dir: Direction.NORTH,
+          dist: 2,
+        },
+        {
+          to: subLocation_Hallway6,
+          dir: Direction.EAST,
+          dist: 2,
+        },
+      ],
     },
     {
       from: subLocation_Hallway6,
-      to: subLocation_Hallway7,
-      dir: Direction.EAST,
-      dist: 2,
+      areas: [
+        {
+          to: subLocation_Hallway7,
+          dir: Direction.EAST,
+          dist: 2,
+        },
+      ],
     },
 
     {
       from: subLocation_Hallway7,
-      to: subLocation_OfficeWork,
-      dir: Direction.NORTH,
-      dist: 2,
+      areas: [
+        {
+          to: subLocation_OfficeWork,
+          dir: Direction.NORTH,
+          dist: 2,
+        },
+      ],
     }
   )
 
