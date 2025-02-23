@@ -1,4 +1,4 @@
-import { build, write } from 'bun'
+import { build, sleep, write } from 'bun'
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
@@ -45,29 +45,23 @@ if (mode == 'development') {
   })
 }
 
-if (buildResult.success) {
+sleep(2000).finally(async () => {
   await setupTweego()
   const tweego = new Tweenode()
 
   const compileStory = async () => {
-    const bufferSize = await write(
-      Directory.BUNDLED_STORY_NAME,
-      await (tweego.process({
-        input: {
-          storyDir: Directory.STORY,
-          useTwineTestMode: mode == 'development' ? true : false,
-          htmlHead: Directory.HEAD_CONTENT,
-          modules: [Directory.VENDOR],
-          scripts: Directory.BUNDLED_SCRIPTS_DIR,
-          styles: Directory.BUNDLED_STYLES_DIR,
-        },
-        // output: { fileName: Directory.BUNDLED_STORY_NAME, mode: 'file' },
-        output: { mode: 'string' },
-      }) as Promise<string>)
-    )
-
-    if (bufferSize) return true
-    else return false
+    await tweego.process({
+      input: {
+        storyDir: Directory.STORY,
+        useTwineTestMode: mode == 'development' ? true : false,
+        htmlHead: Directory.HEAD_CONTENT,
+        modules: [Directory.VENDOR],
+        scripts: Directory.BUNDLED_SCRIPTS_DIR,
+        styles: Directory.BUNDLED_STYLES_DIR,
+      },
+      // output: { fileName: Directory.BUNDLED_STORY_NAME, mode: 'file' },
+      output: { mode: 'file', fileName: Directory.BUNDLED_STORY_NAME },
+    })
   }
 
   if (mode == 'development') {
@@ -82,6 +76,6 @@ if (buildResult.success) {
   }
 
   await compileStory()
-}
+})
 
 export {}
