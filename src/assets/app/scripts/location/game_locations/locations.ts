@@ -1,46 +1,46 @@
 import { LocationId } from '../enums'
 import {
-  fertiloIncPorchFloor1,
-  fertiloIncReceptionFloor1,
-  fertiloIncMeasurementClosetFloor1,
-  fertiloIncPharmacy1Floor1,
-  fertiloIncPharmacy2Floor1,
-  fertiloIncCorridor1Floor1,
-  fertiloIncHallway1Floor1,
-  fertiloIncHallway2Floor1,
-  fertiloIncHallway3Floor1,
-  fertiloIncHallway4Floor1,
-  fertiloIncHallway5Floor1,
-  fertiloIncHallway6Floor1,
-  fertiloIncHallway7Floor1,
-  fertiloIncLabFloor1,
-  fertiloIncConsultationFloor1,
-  fertiloIncOfficeWorkFloor1,
+  subLocation_fertiloIncPorch,
+  subLocation_fertiloIncReception,
+  subLocation_fertiloIncMeasurementCloset,
+  subLocation_fertiloIncPharmacy1,
+  subLocation_fertiloIncPharmacy2,
+  subLocation_fertiloIncCorridor1,
+  subLocation_fertiloIncHallway1,
+  subLocation_fertiloIncHallway2,
+  subLocation_fertiloIncHallway3,
+  subLocation_fertiloIncHallway4,
+  subLocation_fertiloIncHallway5,
+  subLocation_fertiloIncHallway6,
+  subLocation_fertiloIncHallway7,
+  subLocation_fertiloIncLab,
+  subLocation_fertiloIncConsultation,
+  subLocation_fertiloIncOfficeWork,
 } from './sub_locations'
 import { Location } from '../classes'
 
-const fertiloIncGroundFloor = new Location(
+export const location_fertiloIncGroundFloor = new Location(
   LocationId.FERTILO_INC_GROUND_FLOOR,
   'Fertilo Inc (Ground Floor)'
 ).addArea(
-  fertiloIncPorchFloor1,
-  fertiloIncReceptionFloor1,
-  fertiloIncMeasurementClosetFloor1,
-  fertiloIncPharmacy1Floor1,
-  fertiloIncPharmacy2Floor1,
-  fertiloIncCorridor1Floor1,
-  fertiloIncHallway1Floor1,
-  fertiloIncHallway2Floor1,
-  fertiloIncHallway3Floor1,
-  fertiloIncHallway4Floor1,
-  fertiloIncHallway5Floor1,
-  fertiloIncHallway6Floor1,
-  fertiloIncHallway7Floor1,
-  fertiloIncLabFloor1,
-  fertiloIncConsultationFloor1,
-  fertiloIncOfficeWorkFloor1
+  subLocation_fertiloIncPorch,
+  subLocation_fertiloIncReception,
+  subLocation_fertiloIncMeasurementCloset,
+  subLocation_fertiloIncPharmacy1,
+  subLocation_fertiloIncPharmacy2,
+  subLocation_fertiloIncCorridor1,
+  subLocation_fertiloIncHallway1,
+  subLocation_fertiloIncHallway2,
+  subLocation_fertiloIncHallway3,
+  subLocation_fertiloIncHallway4,
+  subLocation_fertiloIncHallway5,
+  subLocation_fertiloIncHallway6,
+  subLocation_fertiloIncHallway7,
+  subLocation_fertiloIncLab,
+  subLocation_fertiloIncConsultation,
+  subLocation_fertiloIncOfficeWork
 )
 
 //@ts-ignore
-window.t = fertiloIncGroundFloor
-console.log(fertiloIncGroundFloor)
+window.t = location_fertiloIncGroundFloor
+console.log(location_fertiloIncGroundFloor)

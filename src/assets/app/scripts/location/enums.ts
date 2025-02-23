@@ -215,6 +215,7 @@ export const enum LocationId {
 
 export const enum SubRegionId {
   DUMMY,
+  FERTILO_INC,
 }
 
 export const enum RegionId {
