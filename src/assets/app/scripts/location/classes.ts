@@ -8,11 +8,8 @@ import {
   SubRegionId,
   LocationId,
   SubLocationId,
-} from '../declarations/location_declarations/enums'
-import type {
-  AreaId,
-  AreaUniqueId,
-} from '../declarations/location_declarations/types_and_interfaces'
+} from './enums'
+import type { AreaId, AreaUniqueId } from './types_and_interfaces'
 
 const oppositeDirection = {
   [Direction.NORTH]: Direction.SOUTH,

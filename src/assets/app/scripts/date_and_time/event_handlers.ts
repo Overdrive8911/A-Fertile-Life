@@ -1,4 +1,4 @@
-import { averageWalkingSpeed } from '../declarations/location_declarations/variables/other_data'
+import { averageWalkingSpeed } from '../location/other_data'
 import { updateGameTimeAfterChangingPassage } from './game_date_and_time_updater'
 
 const gameTimeUpdateAfterPassageNavigationEvent = new Event(

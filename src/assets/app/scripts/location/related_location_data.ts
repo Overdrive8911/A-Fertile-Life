@@ -1,5 +1,5 @@
-import { MapLocationContainer, MapLocation } from '../enums'
-import type { RelatedMapLocations } from '../types_and_interfaces'
+import { MapLocationContainer, MapLocation } from './enums'
+import type { RelatedMapLocations } from './types_and_interfaces'
 import { gLeftShiftValue } from './other_data'
 
 const getRelatedLocationsUsingLocationContainerValue = (

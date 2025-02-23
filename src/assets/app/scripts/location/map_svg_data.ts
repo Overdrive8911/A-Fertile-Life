@@ -1,7 +1,7 @@
 // The real stuff. This is where the svg image for the actual location is stored.
 
-import { MapLocation } from '../enums'
-import type { SvgString } from '../types_and_interfaces'
+import { MapLocation } from './enums'
+import type { SvgString } from './types_and_interfaces'
 
 // Create the relevant map areas on the image using drawing tools and give them ids corresponding with the named values in `MapLocation`. Export the svg (preferably compressed) and add it here. Note to fix the image directory and try to clean up any unnecessary values. Also, give the svgs a fill colour else they won't get rendered (from my testing)
 export const gLocationMapSvgTable: { [key in MapLocation]?: SvgString } = {
