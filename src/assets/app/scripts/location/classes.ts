@@ -455,11 +455,18 @@ class MapEntity<
 }
 
 // SECTION: Concrete Implementation to use
+/**
+ * This is the smallest area that the player can access and also the only areas that are directly linked to passages. Every other `MapEntity` child instance is just a container that directly or indirectly contains this.
+ */
 export class SubLocation extends MapEntity<
   never,
   Exclude<SubLocationId, SubLocationId.DUMMY>,
   Location
 > {
+  /**
+   * The name of the passage to be loaded when the player is in this sub location
+   */
+  passage: string = ''
   constructor(
     ...args: ConstructorParameters<
       typeof MapEntity<
@@ -482,6 +489,12 @@ export class SubLocation extends MapEntity<
       subLocationId = this.id
 
     return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
+  }
+
+  setPassage(passageName: string) {
+    this.passage = passageName
+
+    return this
   }
 }
 
