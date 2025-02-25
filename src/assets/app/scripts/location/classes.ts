@@ -170,7 +170,7 @@ class MapEntity<
    *
    * @returns The class that this method belongs to
    */
-  addArea(...areas: ChildType[]): MapEntity<ChildType, IdType, ParentType> {
+  addArea(...areas: ChildType[]): typeof this.classType {
     if (!this.childrenData) this.childrenData = new Map() as any
 
     areas.forEach(area => {
@@ -187,9 +187,7 @@ class MapEntity<
     return this
   }
 
-  removeArea(
-    ...area: (ChildType | AreaId)[]
-  ): MapEntity<ChildType, IdType, ParentType> {
+  removeArea(...area: (ChildType | AreaId)[]): typeof this.classType {
     area.forEach(val => {
       const idToRemove = typeof val == 'number' ? val : val.id
 
@@ -229,7 +227,7 @@ class MapEntity<
       from: ChildType
       areas: { to: ChildType; dir: Direction; dist: number }[]
     }[]
-  ): MapEntity<ChildType, IdType, ParentType> {
+  ): typeof this.classType {
     const oppositeDirection = {
       [Direction.NORTH]: Direction.SOUTH,
       [Direction.SOUTH]: Direction.NORTH,
