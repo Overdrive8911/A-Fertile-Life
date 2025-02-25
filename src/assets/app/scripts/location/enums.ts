@@ -124,6 +124,7 @@ export const enum MapEntityFlags {
     IS_EXIT_POINT_NORTH |
     IS_EXIT_POINT_SOUTH |
     IS_EXIT_POINT_WEST,
+  IS_ENTRY_OR_EXIT_POINT = IS_ENTRY_POINT | IS_EXIT_POINT,
 }
 export const enum Direction {
   NORTH,
