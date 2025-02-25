@@ -19,13 +19,23 @@ const oppositeDirection = {
   [Direction.DOWN]: Direction.UP,
 }
 type MapChildConnectionDataType = Map<{ from: AreaId; to: AreaId }, number>
+type MapDataInSessionStorageI = `mapChildConnections_${AreaUniqueId}`
 type MapDataInSessionStorage = Partial<
-  Record<`mapChildConnections_${AreaUniqueId}`, MapChildConnectionDataType>
+  Record<MapDataInSessionStorageI, MapChildConnectionDataType>
 >
+/**
+ * Used to determine when to clear older entries in the session storage
+ */
+type MapDataInSessionStorageIndex = MapDataInSessionStorageI[]
+type MapDataInSessionStorageIndexName = 'mapDataIndex'
+// type SessionStorageIndexes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 type Connections<T extends MapEntity<any, any, any>> = Map<
   Direction,
   { area: T; distance?: number }
 >
+const enum SessionStorage {
+  LIMIT = 10,
+}
 
 // Base Generic Class Implementation that will be extended for use
 // NOTE: Most methods return a reference to the map entity for use in chaining
@@ -384,10 +394,45 @@ class MapEntity<
     }
   }
 
+  /**
+   * Returns an array containing the strings that index the cached data (e.g `mapChildConnections_${AreaUniqueId}`) for areas
+   *
+   */
+  private static get arrOfStoredMapData(): MapDataInSessionStorageIndex {
+    const parsedData = sessionStorage.getItem(
+      'mapDataIndex' as MapDataInSessionStorageIndexName
+    )
+
+    return parsedData ? JSON.parse(decompress(parsedData)) : []
+  }
+
+  /**
+   *
+   */
+  private static addToStoredMapData(dataStringIndex: MapDataInSessionStorageI) {
+    const storedMapData = this.arrOfStoredMapData
+
+    if (!storedMapData.includes(dataStringIndex)) {
+      if (storedMapData.length >= SessionStorage.LIMIT) {
+        const indexOfMapDataToDelete = storedMapData.shift()
+        sessionStorage.removeItem(indexOfMapDataToDelete ?? '')
+      }
+
+      storedMapData.push(dataStringIndex)
+
+      sessionStorage.setItem(
+        'mapDataIndex' as MapDataInSessionStorageIndexName,
+        compress(JSON.stringify(storedMapData))
+      )
+    }
+  }
+
   private async setSessionMapData(value: MapChildConnectionDataType) {
     const key: keyof MapDataInSessionStorage = `mapChildConnections_${this.uniqueId}`
     try {
+      // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
       sessionStorage.setItem(key, compress(JSON.stringify([...value])))
+      MapEntity.addToStoredMapData(key)
       return true
     } catch (error) {
       const e = error as DOMException
