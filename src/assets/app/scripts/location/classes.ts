@@ -18,16 +18,14 @@ const oppositeDirection = {
   [Direction.UP]: Direction.DOWN,
   [Direction.DOWN]: Direction.UP,
 }
-type MapChildConnectionDataType = Map<{ from: AreaId; to: AreaId }, number>
-type MapDataInSessionStorageI = `mapChildConnections_${AreaUniqueId}`
-type MapDataInSessionStorage = Partial<
-  Record<MapDataInSessionStorageI, MapChildConnectionDataType>
->
+type ChildConnectionMap = Map<{ from: AreaId; to: AreaId }, number>
+type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
+type SessionStorageData = Partial<Record<SessionStorageKey, ChildConnectionMap>>
 /**
  * Used to determine when to clear older entries in the session storage
  */
-type MapDataInSessionStorageIndex = MapDataInSessionStorageI[]
-type MapDataInSessionStorageIndexName = 'mapDataIndex'
+type SessionStorageIndex = SessionStorageKey[]
+type SessionStorageIndexName = 'mapDataIndex'
 // type SessionStorageIndexes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 type Connections<T extends MapEntity<any, any, any>> = Map<
   Direction,
@@ -70,7 +68,7 @@ class MapEntity<
    *
    * NOTE: This will be cleared when the player moves to another area (not a child area)
    */
-  private mapChildConnectionData: MapChildConnectionDataType | undefined
+  private mapChildConnectionData: ChildConnectionMap | undefined
 
   constructor(
     public readonly id: IdType,
@@ -280,12 +278,12 @@ class MapEntity<
     const sessionData = await this.getSessionMapData()
     // There's no data for this map entity's children so generate one
     if (forceGenerate || (!sessionData.size && this.childrenData.size > 1)) {
-      let finalMapOfConnections: MapChildConnectionDataType = new Map()
+      let finalMapOfConnections: ChildConnectionMap = new Map()
 
       const getMapChildConnectionPairData = async (
         area1: AreaId,
         area2: AreaId,
-        data: MapChildConnectionDataType
+        data: ChildConnectionMap
       ) => {
         let passes = false
         let dist = 0
@@ -312,7 +310,7 @@ class MapEntity<
           { id: originAreaId, cumulativeDistance: 0 },
         ]
         const visitedAreas = new Set<AreaId>()
-        const result: MapChildConnectionDataType = new Map()
+        const result: ChildConnectionMap = new Map()
 
         visitedAreas.add(originAreaId)
 
@@ -398,9 +396,9 @@ class MapEntity<
    * Returns an array containing the strings that index the cached data (e.g `mapChildConnections_${AreaUniqueId}`) for areas
    *
    */
-  private static get arrOfStoredMapData(): MapDataInSessionStorageIndex {
+  private static get arrOfStoredMapData(): SessionStorageIndex {
     const parsedData = sessionStorage.getItem(
-      'mapDataIndex' as MapDataInSessionStorageIndexName
+      'mapDataIndex' as SessionStorageIndexName
     )
 
     return parsedData ? JSON.parse(decompress(parsedData)) : []
@@ -409,7 +407,7 @@ class MapEntity<
   /**
    *
    */
-  private static addToStoredMapData(dataStringIndex: MapDataInSessionStorageI) {
+  private static addToStoredMapData(dataStringIndex: SessionStorageKey) {
     const storedMapData = this.arrOfStoredMapData
 
     if (!storedMapData.includes(dataStringIndex)) {
@@ -421,14 +419,14 @@ class MapEntity<
       storedMapData.push(dataStringIndex)
 
       sessionStorage.setItem(
-        'mapDataIndex' as MapDataInSessionStorageIndexName,
+        'mapDataIndex' as SessionStorageIndexName,
         compress(JSON.stringify(storedMapData))
       )
     }
   }
 
-  private async setSessionMapData(value: MapChildConnectionDataType) {
-    const key: keyof MapDataInSessionStorage = `mapChildConnections_${this.uniqueId}`
+  private async setSessionMapData(value: ChildConnectionMap) {
+    const key: keyof SessionStorageData = `mapChildConnections_${this.uniqueId}`
     try {
       // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
       sessionStorage.setItem(key, compress(JSON.stringify([...value])))
@@ -450,7 +448,7 @@ class MapEntity<
       const deserializedObject = JSON.parse(
         decompress(
           sessionStorage.getItem(
-            `mapChildConnections_${this.uniqueId}` as keyof MapDataInSessionStorage
+            `mapChildConnections_${this.uniqueId}` as keyof SessionStorageData
           ) as string // Yes, this can still fail :p
         )
       )
@@ -458,7 +456,7 @@ class MapEntity<
 
       const mapConnectionData = new Map(
         deserializedObject
-      ) as MapChildConnectionDataType
+      ) as ChildConnectionMap
 
       return mapConnectionData
     } catch (error) {
@@ -467,13 +465,13 @@ class MapEntity<
       if (e.message == noObjectInSessionStorageError) {
       }
 
-      return new Map() as MapChildConnectionDataType // Return an empty map so we can check if there's actually any data to use
+      return new Map() as ChildConnectionMap // Return an empty map so we can check if there's actually any data to use
     }
   }
   // NOTE: Always call this if you want the map connection data
-  protected async getMapChildConnectionData(): Promise<MapChildConnectionDataType> {
+  protected async getMapChildConnectionData(): Promise<ChildConnectionMap> {
     // try {
-    let mapData: MapChildConnectionDataType
+    let mapData: ChildConnectionMap
 
     if (this.mapChildConnectionData) mapData = this.mapChildConnectionData
     else {
@@ -489,7 +487,7 @@ class MapEntity<
         // Regenerate the data
         return this.generateMapOfConnectionsForChildData(
           true
-        ) as Promise<MapChildConnectionDataType>
+        ) as Promise<ChildConnectionMap>
       }
     }
     return mapData
