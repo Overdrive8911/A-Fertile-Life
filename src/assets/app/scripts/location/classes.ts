@@ -62,12 +62,53 @@ class MapEntity<
    */
   private mapChildConnectionData: ChildConnectionMap | undefined
 
+  /**
+   * Solely used as a makeshift type
+   */
+  //@ts-ignore
+  private classType: MapEntity<ChildType, IdType, ParentType>
+
   constructor(
     public readonly id: IdType,
     public readonly name: string,
     public readonly description?: string,
-    public readonly flags = MapEntityFlags.NONE
-  ) {}
+    public readonly flags = MapEntityFlags.NONE,
+
+    /**
+     * Used for cloning and stringifying this data
+     */
+    classData?: Partial<typeof this.classType>
+  ) {
+    if (classData) {
+      for (const key in classData) {
+        if (Object.prototype.hasOwnProperty.call(classData, key)) {
+          const prop = key as keyof typeof this.classType
+          //@ts-ignore
+          this[prop] = classData[prop]
+        }
+      }
+    }
+  }
+  clone() {
+    //@ts-ignore
+    return new (this.constructor as typeof this.classType)(...[, , , ,], this)
+  }
+  toJSON() {
+    //@ts-ignore
+    const ownData: typeof this.classType = {}
+
+    Object.keys(this).forEach(pn => {
+      const p = pn as keyof typeof ownData
+
+      //@ts-ignore
+      ownData[p] = clone((this as unknown as Partial<typeof this.classType>)[p])
+    }, this)
+
+    return Serial.createReviver(
+      `new ${this.constructor.name}($ReviveData$)`,
+      ownData
+    )
+  }
 
   /**
    * A unique id is used to find out the exact instance of a map entity in the global map.
