@@ -72,7 +72,7 @@ class MapEntity<
   /**
    * A unique id is used to find out the exact instance of a map entity in the global map.
    *
-   * NOTE: THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES
+   * NOTE: **THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES**
    */
   get uniqueId(): AreaUniqueId {
     let globalId = GlobalMapId.GLOBAL,
