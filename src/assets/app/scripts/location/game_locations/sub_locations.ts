@@ -6,9 +6,14 @@
     - Add all the child areas to the container area. */
 
 import { SubLocation } from '../classes'
-import { SubLocationId } from '../enums'
+import { MapEntityFlags, SubLocationId } from '../enums'
 
-export const subLocation_Porch = new SubLocation(SubLocationId.PORCH, 'Porch')
+export const subLocation_Porch = new SubLocation(
+  SubLocationId.PORCH,
+  'Porch',
+  'Get Porched',
+  MapEntityFlags.IS_ENTRY_OR_EXIT_POINT
+)
 export const subLocation_Reception = new SubLocation(
   SubLocationId.RECEPTION,
   'Reception',
