@@ -105,7 +105,7 @@ class MapEntity<
     }, this)
 
     return Serial.createReviver(
-      `new ${this.constructor.name}($ReviveData$)`,
+      `new ${this.constructor.name}(...[,,,,],$ReviveData$)`,
       ownData
     )
   }
