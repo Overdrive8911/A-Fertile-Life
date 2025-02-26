@@ -549,7 +549,7 @@ export class SubLocation extends MapEntity<
   /**
    * The name of the passage to be loaded when the player is in this sub location
    */
-  passage: string = ''
+  passage = ''
   constructor(
     ...args: ConstructorParameters<
       typeof MapEntity<
