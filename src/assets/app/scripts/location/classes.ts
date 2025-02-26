@@ -142,11 +142,15 @@ class MapEntity<
   }
 
   /**
+   * @param multiple - If given, an array of all possible entrypoints is returned.
+   * @returns
    * NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
    */
-  private get originArea(): ChildType | null {
+  private originArea(): ChildType | null
+  private originArea(multiple: boolean): ChildType[] | null
+  private originArea(multiple = false): ChildType | ChildType[] | null {
     if (!this.childrenData?.size) return null
-    let returnArea: ChildType | null = null,
+    let returnArea: ChildType[] = [],
       firstArea: ChildType | null = null
     let hasSetFirstArea = false
     for (const [child] of this.childrenData) {
@@ -157,12 +161,12 @@ class MapEntity<
       }
 
       if (d.flags & MapEntityFlags.IS_ENTRY_POINT) {
-        returnArea = d
-        break
+        returnArea.push(d)
+        if (!multiple) break
       }
       break
     }
-    return returnArea ?? firstArea
+    return multiple ? returnArea ?? [firstArea] : returnArea[0] ?? firstArea
   }
 
   /**
