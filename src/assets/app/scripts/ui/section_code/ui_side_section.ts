@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
 import {
   uiSideBarToggleHandler,
   actionInterfaceToggleHandler,
@@ -9,6 +9,7 @@ import {
 } from '../declarations/side_section_declarations'
 import { loadGameMap } from '../../location/location_map_image_handlers'
 import '../../location/other_data'
+import { gMapPopoutZoomLvl } from '../../location/other_data'
 let uiSideBarToggleState = true
 
 $(document).on(':passageend', () => {
