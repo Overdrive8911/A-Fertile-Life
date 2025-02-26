@@ -553,8 +553,8 @@ export class SubLocation extends MapEntity<
   /**
    * The name of the passage to be loaded when the player is in this sub location
    */
-  passage = ''
   constructor(
+    public passage: string,
     ...args: ConstructorParameters<
       typeof MapEntity<
         never,
@@ -576,12 +576,6 @@ export class SubLocation extends MapEntity<
       subLocationId = this.id
 
     return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
-  }
-
-  setPassage(passageName: string) {
-    this.passage = passageName
-
-    return this
   }
 }
 
