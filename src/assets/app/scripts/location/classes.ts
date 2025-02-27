@@ -656,5 +656,25 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   get uniqueId(): AreaUniqueId {
     return `${this.id}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
   }
+
+  /**
+   * Returns an object where each of the four properties is a reference to the appropriate `MapEntity` instance (excluding the `GlobalMap`)
+   */
+  areasFromUniqueId(id: AreaUniqueId) {
+    // Expecting an array of 5 numbers here
+    const ids = id.match(/(\d+)/g) as unknown as number[]
+
+    const region = this.getArea(ids[1]),
+      subRegion = region?.getArea(ids[2]) ?? null,
+      location = subRegion?.getArea(ids[3]) ?? null,
+      subLocation = location?.getArea(ids[4]) ?? null
+
+    return {
+      region: region,
+      subRegion: subRegion,
+      location: location,
+      subLocation: subLocation,
+    }
+  }
 }
 // !SECTION
