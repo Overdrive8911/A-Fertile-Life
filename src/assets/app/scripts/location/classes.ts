@@ -205,7 +205,7 @@ class MapEntity<
     return this
   }
 
-  getArea(areaId: ChildType["id"]) {
+  getArea(areaId: ChildType['id']) {
     let childArea: ChildType | null = null
 
     for (const [child] of this.childrenData) {
