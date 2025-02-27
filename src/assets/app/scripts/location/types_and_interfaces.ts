@@ -1,3 +1,4 @@
+import type { Region, SubRegion, Location, SubLocation } from './classes';
 import type {
   GlobalMapId,
   LocationId,
@@ -15,6 +16,7 @@ export type AreaId =
   | GlobalMapId
 export type AreaUniqueId =
   `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`
+export type SubAreas = Region | SubRegion | Location | SubLocation;
 export type Coords = { x: number; y: number; z: number }
 
 export type SvgString = string
