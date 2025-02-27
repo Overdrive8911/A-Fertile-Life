@@ -1,3 +1,5 @@
+import type { AreaUniqueId } from './scripts/location/types_and_interfaces'
+
 declare module 'twine-sugarcube' {
   export interface SugarCubeSetupObject {
     locationData: LocationObject
@@ -9,14 +11,18 @@ declare module 'twine-sugarcube' {
     skipToNextDayWithSpecificTime: (hours: number, minutes: number) => void
     initializePlayerVariables: () => void
     updateGameDateAndTimeDisplay: () => void
-    player: any
   }
 
   export interface SugarCubeStoryVariables {
     gameDateAndTime: Date
     gameTimeDisplay: string
     gameDateDisplay: string
-    player: any
+    player: {
+      /**
+       * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
+       */
+      areaId: AreaUniqueId
+    }
   }
 }
 
