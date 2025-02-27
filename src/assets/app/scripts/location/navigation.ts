@@ -15,69 +15,6 @@ function getConnectedArea(area: SubAreas, direction: Direction):SubAreas  | null
   return canEnterConnectedAreaFromDirection ? connectedArea ?? null : null
 }
 
-export function navigateInDirectionOnMap(
-  direction: Direction,
-  areaUniqueId:AreaUniqueId
-  doNotWarp = false
-) {
-  // Don't do anything if a dialog is open
-  if (Dialog.isOpen()) return false
-
-  // Set the last warp destination to null. If this function returns true, then this variable will be re-updated with a proper value
-  setLastWarpDestination(defaultWarpDestination)
-
-  // TODO - Add proper support for location maps later
-  let mapArray: GameMapForSubLocations<number>
-  let position: LocationCoords // Stores a copy for use in a loop
-
-  const locationData = gLocationData[initialLocationId]
-
-  if (initialSubLocationId != undefined || initialSubLocationId != null) {
-    if (
-      canMoveInDirectionOnMap(
-        direction,
-        initialLocationId,
-        initialSubLocationId
-      )
-    ) {
-      // Use the sub location map over the location map if an appropriate id is given
-      mapArray = locationData!.subLocationMap as GameMapForSubLocations<number>
-
-      // initialPosition = locationData.subLocations[initialSubLocationId].coords;
-      position = getEffectiveCoordInGameMap(
-        //@ts-ignore
-        locationData.subLocations[initialSubLocationId].coords,
-        //@ts-ignore
-        locationData.minSubLocationCoords
-      ) as LocationCoords
-
-      const possibleSubLocationToWarpTo = findClosestSubLocationInDirection(
-        direction,
-        position,
-        mapArray
-      )
-
-      if (
-        possibleSubLocationToWarpTo != GameMapCoordinate.BLOCKED &&
-        possibleSubLocationToWarpTo != GameMapCoordinate.EMPTY
-      ) {
-        // Warp to the sub location if "doNotWarp" is false
-        return warpToArea(
-          initialLocationId,
-          possibleSubLocationToWarpTo,
-          doNotWarp
-        )
-      }
-
-      // Either nothing was found or the direction was blocked
-      return false
-    }
-  } else {
-    // Use the location map instead if the location id is the only id given
-    // TODO
-  }
-}
-
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(destination: AreaUniqueId, 
   doNotWarp = false
