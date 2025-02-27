@@ -30,7 +30,9 @@ export const setMapPopoutZoomLvl = (lvl: number) => {
 
 export const gPlayerMapSpriteSrc = '/media/img/map/icons/player_map_sprite.webp'
 
-export let lastWarpDestination: AreaUniqueId = `${GlobalMapId.GLOBAL}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}` // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
+export const defaultWarpDestination: AreaUniqueId = `${GlobalMapId.GLOBAL}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
+
+export let lastWarpDestination: AreaUniqueId = defaultWarpDestination // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
 export const setLastWarpDestination = (arg: typeof lastWarpDestination) => {
   lastWarpDestination = arg
 }
