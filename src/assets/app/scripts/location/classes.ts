@@ -71,9 +71,9 @@ class MapEntity<
   constructor(
     public readonly id: IdType,
     public readonly name: string,
+    public passage?: string,
     public readonly description?: string,
     public readonly flags = MapEntityFlags.NONE,
-
     /**
      * Used for cloning and stringifying this data
      */
@@ -554,7 +554,6 @@ export class SubLocation extends MapEntity<
    * The name of the passage to be loaded when the player is in this sub location
    */
   constructor(
-    public passage: string,
     ...args: ConstructorParameters<
       typeof MapEntity<
         never,
@@ -594,6 +593,7 @@ export class Location extends MapEntity<
     >
   ) {
     super(...args)
+    delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -613,6 +613,7 @@ export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
     >
   ) {
     super(...args)
+    delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -633,6 +634,7 @@ export class Region extends MapEntity<
     >
   ) {
     super(...args)
+    delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -645,6 +647,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
     super(...args)
+    delete this.passage
 
     // Global Map doesn't have a parent so delete the property
     delete this.parent
