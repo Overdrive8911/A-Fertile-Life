@@ -9,6 +9,7 @@ import {
   SubLocationId,
 } from './enums'
 import type { AreaId, AreaUniqueId } from './types_and_interfaces'
+import { oppositeDirection } from './general_location_data'
 
 type ChildConnectionMap = Map<{ from: AreaId; to: AreaId }, number>
 type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
@@ -231,15 +232,6 @@ class MapEntity<
       areas: { to: ChildType; dir: Direction; dist: number }[]
     }[]
   ): typeof this.classType {
-    const oppositeDirection = {
-      [Direction.NORTH]: Direction.SOUTH,
-      [Direction.SOUTH]: Direction.NORTH,
-      [Direction.EAST]: Direction.WEST,
-      [Direction.WEST]: Direction.EAST,
-      [Direction.UP]: Direction.DOWN,
-      [Direction.DOWN]: Direction.UP,
-    }
-
     data.forEach(val => {
       val.areas.forEach(area => {
         const oppositeDir = oppositeDirection[area.dir],
