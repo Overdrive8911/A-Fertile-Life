@@ -670,5 +670,19 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       subLocation: subLocation,
     }
   }
+
+  /**
+   * Returns a reference to the current area the player is in, if any.
+   */
+  get activeArea() {
+    const mapEntities = this.areasFromUniqueId(variables().player.areaId)
+
+    return (
+      mapEntities.subLocation ??
+      mapEntities.location ??
+      mapEntities.subRegion ??
+      mapEntities.region
+    )
+  }
 }
 // !SECTION
