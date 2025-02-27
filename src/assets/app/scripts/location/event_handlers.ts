@@ -11,7 +11,7 @@ import {
   navigateInDirectionOnMap,
 } from './navigation'
 import { globalMap } from './game_locations/global_map'
-import { SubLocationId } from './enums'
+import { Direction, SubLocationId } from './enums'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -168,37 +168,36 @@ $(document).on(':passageend', () => {
   const southButton = $('#ui-navigation-option-button-south')
   const westButton = $('#ui-navigation-option-button-west')
 
-  const currLocation = variables().player.locationData.location as MapLocation
-  const currSubLocation = variables().player.locationData
-    .subLocation as MapSubLocation
+  const areaId = variables().player.areaId
+  const mapEntities = globalMap.areasFromUniqueId(areaId)
 
   // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
-  const isNorthNavigable = isNavigationButtonUsable(GameMapDirection.NORTH)
+  const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH)
   const northAreaId = lastWarpDestination
-  const isEastNavigable = isNavigationButtonUsable(GameMapDirection.EAST)
+  const isEastNavigable = isNavigationButtonUsable(Direction.EAST)
   const eastAreaId = lastWarpDestination
-  const isSouthNavigable = isNavigationButtonUsable(GameMapDirection.SOUTH)
+  const isSouthNavigable = isNavigationButtonUsable(Direction.SOUTH)
   const southAreaId = lastWarpDestination
-  const isWestNavigable = isNavigationButtonUsable(GameMapDirection.WEST)
+  const isWestNavigable = isNavigationButtonUsable(Direction.WEST)
   const westAreaId = lastWarpDestination
   console.warn('CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.')
 
-  const navigate = (direction: GameMapDirection) => {
+  const navigate = (direction: Direction) => {
     navigateInDirectionOnMap(direction, currLocation, currSubLocation)
   }
 
   // Click Events
   northButton.ariaClick(() => {
-    navigate(GameMapDirection.NORTH)
+    navigate(Direction.NORTH)
   })
   eastButton.ariaClick(() => {
-    navigate(GameMapDirection.EAST)
+    navigate(Direction.EAST)
   })
   southButton.ariaClick(() => {
-    navigate(GameMapDirection.SOUTH)
+    navigate(Direction.SOUTH)
   })
   westButton.ariaClick(() => {
-    navigate(GameMapDirection.WEST)
+    navigate(Direction.WEST)
   })
 
   // Key Events
@@ -206,19 +205,19 @@ $(document).on(':passageend', () => {
     .off('keyup.navigation_buttons') // To prevent multiple handlers from getting attached
     .on('keyup.navigation_buttons', e => {
       if (!validateKeyEvent(e)) return false
-      if (e.key == 'w' && isNorthNavigable) navigate(GameMapDirection.NORTH)
+      if (e.key == 'w' && isNorthNavigable) navigate(Direction.NORTH)
     })
     .on('keyup.navigation_buttons', e => {
       if (!validateKeyEvent(e)) return false
-      if (e.key == 'd' && isEastNavigable) navigate(GameMapDirection.EAST)
+      if (e.key == 'd' && isEastNavigable) navigate(Direction.EAST)
     })
     .on('keyup.navigation_buttons', e => {
       if (!validateKeyEvent(e)) return false
-      if (e.key == 's' && isSouthNavigable) navigate(GameMapDirection.SOUTH)
+      if (e.key == 's' && isSouthNavigable) navigate(Direction.SOUTH)
     })
     .on('keyup.navigation_buttons', e => {
       if (!validateKeyEvent(e)) return false
-      if (e.key == 'a' && isWestNavigable) navigate(GameMapDirection.WEST)
+      if (e.key == 'a' && isWestNavigable) navigate(Direction.WEST)
     })
 
   const navButtonUsabilityActions = (
