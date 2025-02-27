@@ -94,28 +94,12 @@ export function warpToArea(destination: AreaUniqueId,
   if (passageToLoad == backupPassageName) { 
     console.warn(`Destination passage not found. Falling back to backup passage. The destination data is:`);
     console.warn(mapEntitiesForDestination)
-}
-
-  if (!defaultPassageToLoad) {
-    // Undefined. It didn't find any passage matching the tags
-    console.warn(
-      `Did not find any passage with tags matching "${locationTag}", "${subLocationTag}", and "${defaultTag}". \n\nThe navigation button(s), if any, that warp to the passage in question may be disabled.`
-    )
-    return false
-  } else {
-    // Update the last warp destination
-    setLastWarpDestination({
-      location: locationIdToWarpTo,
-      subLocation:
-        subLocationIdToWarpTo != undefined && subLocationIdToWarpTo != null
-          ? subLocationIdToWarpTo
-          : null,
-    })
-
-    // load the passage
-    if (!doNotWarp) Engine.play(defaultPassageToLoad.title)
-    return true
   }
+
+  setLastWarpDestination(currentArea)
+  
+    // load the passage
+    if (!doNotWarp) Engine.play(passageToLoad)
 }
 // MapLocation.FERTILO_INC_GROUND_FLOOR;
 // MapSubLocation.CORRIDOR_1;
@@ -234,13 +218,12 @@ export function warpToArea(destination: AreaUniqueId,
 // }
 
 export function isNavigationButtonUsable(direction: Direction) {
-  const currLocation: MapLocation = variables().player.locationData.location
-  const currSubLocation: MapSubLocation =
-    variables().player.locationData.subLocation
+  const areaId = variables().player.areaId
+  const mapEntities = globalMap.areasFromUniqueId(areaId)
 
-  // Check if the current passage has the "defaultTag" and if `navigateInDirectionOnMap()` is true. It will also consider whether the passage to warp to exists
-  return (
-    Story.get(passage()).tags.includes('default') &&
-    navigateInDirectionOnMap(direction, currLocation, currSubLocation, true)
-  )
+  try {
+    return getConnectedArea(mapEntities.subLocation ?? mapEntities.location ?? mapEntities.subRegion ?? mapEntities.region as any, direction) ? true:false
+  } catch (error) {
+    return false
+  }
 }
