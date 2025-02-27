@@ -8,8 +8,9 @@ import {
   LocationId,
   SubLocationId,
 } from './enums'
-import type { AreaId, AreaUniqueId } from './types_and_interfaces'
+import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
+import { region_northHirtheford } from './game_locations/regions'
 
 type ChildConnectionMap = Map<{ from: AreaId; to: AreaId }, number>
 type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
@@ -674,7 +675,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   /**
    * Returns a reference to the current area the player is in, if any.
    */
-  get activeArea():SubAreas {
+  get activeArea(): SubAreas {
     const mapEntities = this.areasFromUniqueId(variables().player.areaId)
 
     return (
