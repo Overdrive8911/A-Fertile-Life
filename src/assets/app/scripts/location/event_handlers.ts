@@ -1,17 +1,17 @@
-import { type MapLocation, GameMapDirection, MapSubLocation } from './enums'
-import { gSubLocationIcons24x24, gLocationData } from './general_location_data'
+import { gSubLocationIcons24x24 } from './general_location_data'
 import { gLocationMapSvgTable } from './map_svg_data'
 import {
   gPlayerMapSpriteSrc,
   lastWarpDestination,
   setMapPopoutZoomLvl,
 } from './other_data'
-import { getDefaultNameOfSubLocation } from './location_helper_functions'
 import { loadGameMap } from './location_map_image_handlers'
 import {
   isNavigationButtonUsable,
   navigateInDirectionOnMap,
 } from './navigation'
+import { globalMap } from './game_locations/global_map'
+import { SubLocationId } from './enums'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -28,98 +28,98 @@ function validateKeyEvent(e: unknown) {
 }
 
 // SECTION - For everything belonging to the map
-$(document).on(':passageend', () => {
-  // Load the map whenever the side bar button for the map is clicked
-  $('#ui-side-bar-toggle-map-button').on('click', function () {
-    // Don't question this. It works
-    if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
-      loadGameMap(
-        variables().player.locationData.location,
-        $('.ui-side-bar-popout-map')
-      )
-    }
-  })
-  $(document)
-    .off('keyup.map')
-    .on('keyup.map', function (e) {
-      if (!validateKeyEvent(e)) return false
-      if (e.key == 'z') {
-        if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
-          loadGameMap(
+// $(document).on(':passageend', () => {
+//   // Load the map whenever the side bar button for the map is clicked
+//   $('#ui-side-bar-toggle-map-button').on('click', function () {
+//     // Don't question this. It works
+//     if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
+//       loadGameMap(
+//         variables().player.areaId,
+//         $('.ui-side-bar-popout-map')
+//       )
+//     }
+//   })
+//   $(document)
+//     .off('keyup.map')
+//     .on('keyup.map', function (e) {
+//       if (!validateKeyEvent(e)) return false
+//       if (e.key == 'z') {
+//         if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
+//           loadGameMap(
 //             variables().player.areaId,
-            $('.ui-side-bar-popout-map')
-          )
-        }
-      }
-    })
+//             $('.ui-side-bar-popout-map')
+//           )
+//         }
+//       }
+//     })
 
-  const getZoomRatio = (element: JQuery<HTMLElement>) => {
-    // Check the transform value on the svg (It should be a scaled value i.e "matrix(2, 0, 0, 2, 0, 0)" corresponds with scale(2) ). If the property doesn't exist or if it's less than 1, default to 1
-    // NOTE - Index 3 in "matrix(2, 0, 0, 2, 0, 0)" will be 2, which is the number that is currently being scaled by
-    return $(element).css('transform') != 'none'
-      ? parseFloat($(element).css('transform').split(',')[3]) >= 1
-        ? parseFloat($(element).css('transform').split(',')[3])
-        : 1
-      : 1
-  }
+//   const getZoomRatio = (element: JQuery<HTMLElement>) => {
+//     // Check the transform value on the svg (It should be a scaled value i.e "matrix(2, 0, 0, 2, 0, 0)" corresponds with scale(2) ). If the property doesn't exist or if it's less than 1, default to 1
+//     // NOTE - Index 3 in "matrix(2, 0, 0, 2, 0, 0)" will be 2, which is the number that is currently being scaled by
+//     return $(element).css('transform') != 'none'
+//       ? parseFloat($(element).css('transform').split(',')[3]) >= 1
+//         ? parseFloat($(element).css('transform').split(',')[3])
+//         : 1
+//       : 1
+//   }
 
-  const zoomMap = (element: JQuery<HTMLElement>, amountToZoom: number) => {
-    // Make sure the scale value doesn't go below 1
-    element.css(
-      'transform',
-      `scale(${
-        getZoomRatio(element) + amountToZoom > 1
-          ? getZoomRatio(element) + amountToZoom
-          : 1
-      })`
-    )
+//   const zoomMap = (element: JQuery<HTMLElement>, amountToZoom: number) => {
+//     // Make sure the scale value doesn't go below 1
+//     element.css(
+//       'transform',
+//       `scale(${
+//         getZoomRatio(element) + amountToZoom > 1
+//           ? getZoomRatio(element) + amountToZoom
+//           : 1
+//       })`
+//     )
 
-    if (element[0] == $('.ui-side-bar-popout-map > svg')[0]) {
-      // Note that `element` represents the svg/image getting zoomed
-      setMapPopoutZoomLvl(getZoomRatio(element))
-    }
-  }
+//     if (element[0] == $('.ui-side-bar-popout-map > svg')[0]) {
+//       // Note that `element` represents the svg/image getting zoomed
+//       setMapPopoutZoomLvl(getZoomRatio(element))
+//     }
+//   }
 
-  // Handlers for the zooming functionality of the map popout
-  $('.ui-side-bar-popout-map-button-bar > .button-zoom-in').ariaClick(() => {
-    // Check if the dialog for "Large View" is open
-    if (!Dialog.isOpen('map-large-view')) {
-      // Increment the zoom ratio by 0.5
-      zoomMap($('.ui-side-bar-popout-map > svg'), 0.5)
-    } else {
-      // Do the same but for the large view of the map
-      zoomMap($('.map-large-view > svg'), 0.5)
-    }
-  })
-  $('.ui-side-bar-popout-map-button-bar > .button-zoom-out').ariaClick(() => {
-    // Check if the dialog for "Large View" is open
-    if (!Dialog.isOpen('map-large-view')) {
-      // Decrement the zoom ratio by 0.5
-      zoomMap($('.ui-side-bar-popout-map > svg'), -0.5)
-    } else {
-      // Do the same for the large view of the map
-      zoomMap($('.map-large-view > svg'), -0.5)
-    }
-  })
+//   // Handlers for the zooming functionality of the map popout
+//   $('.ui-side-bar-popout-map-button-bar > .button-zoom-in').ariaClick(() => {
+//     // Check if the dialog for "Large View" is open
+//     if (!Dialog.isOpen('map-large-view')) {
+//       // Increment the zoom ratio by 0.5
+//       zoomMap($('.ui-side-bar-popout-map > svg'), 0.5)
+//     } else {
+//       // Do the same but for the large view of the map
+//       zoomMap($('.map-large-view > svg'), 0.5)
+//     }
+//   })
+//   $('.ui-side-bar-popout-map-button-bar > .button-zoom-out').ariaClick(() => {
+//     // Check if the dialog for "Large View" is open
+//     if (!Dialog.isOpen('map-large-view')) {
+//       // Decrement the zoom ratio by 0.5
+//       zoomMap($('.ui-side-bar-popout-map > svg'), -0.5)
+//     } else {
+//       // Do the same for the large view of the map
+//       zoomMap($('.map-large-view > svg'), -0.5)
+//     }
+//   })
 
-  // For handling the "Large View" functionality (it just displays the map in a large dialog)
-  $('.ui-side-bar-popout-map-button-bar > .button-large-view').ariaClick(() => {
-    Dialog.setup('Large View', 'map-large-view')
-    // Add dummy data
-    Dialog.append('')
-    Dialog.open()
+//   // For handling the "Large View" functionality (it just displays the map in a large dialog)
+//   $('.ui-side-bar-popout-map-button-bar > .button-large-view').ariaClick(() => {
+//     Dialog.setup('Large View', 'map-large-view')
+//     // Add dummy data
+//     Dialog.append('')
+//     Dialog.open()
 
-    // Load the map into here
-    loadGameMap(variables().player.locationData.location, $('.map-large-view'))
-  })
+//     // Load the map into here
+//     loadGameMap(variables().player.locationData.location, $('.map-large-view'))
+//   })
 
-  // // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
-  // let preloadImage: HTMLImageElement = null;
-  // if (!preloadImage) {
-  //   preloadImage = new Image();
-  //   preloadImage.src = gPlayerMapSpriteSrc;
-  // }
-})
+//   // // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
+//   // let preloadImage: HTMLImageElement = null;
+//   // if (!preloadImage) {
+//   //   preloadImage = new Image();
+//   //   preloadImage.src = gPlayerMapSpriteSrc;
+//   // }
+// })
 // !SECTION
 
 // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
