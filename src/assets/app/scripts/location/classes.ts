@@ -674,14 +674,16 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   /**
    * Returns a reference to the current area the player is in, if any.
    */
-  get activeArea() {
+  get activeArea():SubAreas {
     const mapEntities = this.areasFromUniqueId(variables().player.areaId)
 
     return (
       mapEntities.subLocation ??
       mapEntities.location ??
       mapEntities.subRegion ??
-      mapEntities.region
+      mapEntities.region ??
+      // Just as a last resort :p. This should ideally never happen
+      region_northHirtheford
     )
   }
 }

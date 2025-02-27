@@ -23,6 +23,10 @@ function getConnectedArea(area: Region, direction: Direction): Region | null
 function getConnectedArea(
   area: SubAreas,
   direction: Direction
+): SubAreas | null
+function getConnectedArea(
+  area: SubAreas,
+  direction: Direction
 ): SubAreas | null {
   const parent = area.parent
   const connectedArea = parent.childrenData
@@ -71,14 +75,10 @@ export function isNavigationButtonUsable(direction: Direction) {
   const areaId = variables().player.areaId
   const mapEntities = globalMap.areasFromUniqueId(areaId)
 
-  try {
-    return getConnectedArea(
-      globalMap.activeArea as any,
+  return getConnectedArea(
+      globalMap.activeArea,
       direction
     )
       ? true
       : false
-  } catch (error) {
-    return false
-  }
 }
