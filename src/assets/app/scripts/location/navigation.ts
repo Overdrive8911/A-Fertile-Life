@@ -79,42 +79,17 @@ export function navigateInDirectionOnMap(
 }
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
-export function warpToArea(
-  locationIdToWarpTo: MapLocation,
-  subLocationIdToWarpTo?: MapSubLocation,
+export function warpToArea(destination: AreaUniqueId, 
   doNotWarp = false
 ) {
-  const locationTag = getLocationFromMapLocationId(locationIdToWarpTo)
-  let subLocationTag = ''
-  if (subLocationIdToWarpTo != undefined) {
-    subLocationTag = getSubLocationFromMapSubLocationId(subLocationIdToWarpTo)
+  const currentArea = variables().player.areaId
+  const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
+  const mapEntitiesForDestination = globalMap.areasFromUniqueId(destination)
+
+  const getPassageName = (mapEntities: ReturnType<typeof globalMap.areasFromUniqueId>) => {
+      return mapEntities.subLocation?.passage ?? mapEntities.location?.passage ?? mapEntities.subRegion?.passage ?? mapEntities.region?.passage ?? "Backup_Passage"
   }
-  const defaultTag = 'default' // To denote whether a passage is the default one to load under non-story circumstances (i.e through normal player interaction)
-
-  const defaultPassageToLoad = Story.lookup('tags', locationTag).filter(
-    passage => {
-      const tags = passage.tags
-      const hasDefaultTag = tags.includes(defaultTag)
-
-      if (!hasDefaultTag) return false
-
-      if (subLocationIdToWarpTo != undefined) {
-        const hasSubLocationTag = tags.includes(subLocationTag)
-
-        // Check for a passage with the specific location and sub location tag
-        if (hasSubLocationTag) return true
-
-        // // Else look for a "common" passage e.g HALLWAY_1 and HALLWAY_2 have a "common" passage of HALLWAY and will load that if they don't have more specific ones. "Common" passages only apply to sub locations with numbers appended to the end but otherwise have the same text.
-        // const hasCommonSubLocationTag = tags.includes(
-        //   subLocationTag.split(/[0-9]/)[0]
-        // );
-        // if (hasCommonSubLocationTag) return true;
-      } else {
-        // Pick the passage that has no sub location tag of any kind but also has the default tag. For areas without sub locations
-        return !tags.includes('subLocation_')
-      }
-    }
-  )[0]
+  const passageToLoad = getPassageName(mapEntitiesForDestination)
 
   if (!defaultPassageToLoad) {
     // Undefined. It didn't find any passage matching the tags
