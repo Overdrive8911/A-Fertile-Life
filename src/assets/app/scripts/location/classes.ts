@@ -51,7 +51,7 @@ class MapEntity<
    * All the `MapEntity` instances that are contained within this instance. Like a House containing rooms. Each child has some direction data that relates it to other children in this `MapEntity`
    *
    */
-  protected childrenData: ChildType extends never
+  childrenData: ChildType extends never
     ? undefined
     : Map<ChildType, Connections<ChildType>> = new Map() as any
 
