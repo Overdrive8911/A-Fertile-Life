@@ -1,8 +1,11 @@
-// window.NSLocation = window.NSLocation || {};
-// window.Bruh = 3;
-// console.log(Bruh.soup);
-
-import type { MapLocation, MapSubLocation } from './enums'
+import {
+  GlobalMapId,
+  LocationId,
+  RegionId,
+  SubLocationId,
+  SubRegionId,
+} from './enums'
+import type { AreaUniqueId } from './types_and_interfaces'
 
 export const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
@@ -27,10 +30,7 @@ export const setMapPopoutZoomLvl = (lvl: number) => {
 
 export const gPlayerMapSpriteSrc = '/media/img/map/icons/player_map_sprite.webp'
 
-export let lastWarpDestination: {
-  location: MapLocation | null
-  subLocation: MapSubLocation | null
-} = { location: null, subLocation: null } // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
+export let lastWarpDestination: AreaUniqueId = `${GlobalMapId.GLOBAL}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}` // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
 export const setLastWarpDestination = (arg: typeof lastWarpDestination) => {
   lastWarpDestination = arg
 }
