@@ -46,7 +46,7 @@ $(document).on(':passageend', () => {
       if (e.key == 'z') {
         if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
           loadGameMap(
-            variables().player.locationData.location,
+//             variables().player.areaId,
             $('.ui-side-bar-popout-map')
           )
         }
