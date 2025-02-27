@@ -73,10 +73,7 @@ export function isNavigationButtonUsable(direction: Direction) {
 
   try {
     return getConnectedArea(
-      mapEntities.subLocation ??
-        mapEntities.location ??
-        mapEntities.subRegion ??
-        (mapEntities.region as any),
+      globalMap.activeArea as any,
       direction
     )
       ? true
