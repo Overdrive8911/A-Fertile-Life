@@ -91,6 +91,11 @@ export function warpToArea(destination: AreaUniqueId,
   }
   const passageToLoad = getPassageName(mapEntitiesForDestination)
 
+  if (passageToLoad == backupPassageName) { 
+    console.warn(`Destination passage not found. Falling back to backup passage. The destination data is:`);
+    console.warn(mapEntitiesForDestination)
+}
+
   if (!defaultPassageToLoad) {
     // Undefined. It didn't find any passage matching the tags
     console.warn(
