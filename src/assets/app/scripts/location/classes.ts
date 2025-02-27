@@ -191,8 +191,10 @@ class MapEntity<
     return this
   }
 
-  removeArea(...area: (ChildType | AreaId)[]): typeof this.classType {
+  removeArea(...area: (ChildType | ChildType['id'])[]): typeof this.classType {
     area.forEach(val => {
+      // `ChildType["id"]` will always bea number
+      //@ts-ignore
       const idToRemove = typeof val == 'number' ? val : val.id
 
       if (!this.childrenData?.delete(idToRemove)) {
