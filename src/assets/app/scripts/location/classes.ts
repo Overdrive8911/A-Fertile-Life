@@ -642,6 +642,9 @@ export class Region extends MapEntity<
   }
 }
 
+/**
+ * NOTE: **THERE SHOULD ONLY BE ONE INSTANCE OF THIS**
+ */
 export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   constructor(
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
