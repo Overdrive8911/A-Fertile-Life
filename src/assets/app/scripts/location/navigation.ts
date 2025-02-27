@@ -1,24 +1,18 @@
-import {
-  GameMapDirection,
-  LocationCoordIndex,
-  MapSubLocation,
-  type MapLocation,
-  GameMapCoordinate,
-} from './enums'
-import type {
-  GameMapForSubLocations,
-  GameSubLocation,
-  LocationCoords,
-} from './types_and_interfaces'
-import { gLocationData } from './general_location_data'
-import { setLastWarpDestination, type lastWarpDestination } from './other_data'
-import {
-  getEffectiveCoordInGameMap,
-  getLocationFromMapLocationId,
-  getSubLocationFromMapSubLocationId,
-} from './location_helper_functions'
+import { defaultWarpDestination, setLastWarpDestination } from './other_data'
+import type { Direction } from './enums'
+import type { AreaUniqueId, SubAreas } from './types_and_interfaces'
+import type { Location, Region, SubLocation, SubRegion } from './classes'
 
-// This will try to move the player in a particular direction from an initial location (and an optional sub location) in the 2d/3d location/sub location map array. If the direction is unblocked and another location/sub location is found, then "warp" to that map and return true else return false. If the parameter, "doNotWarp", is set to true, no navigation actually happens and the function can be used to check if a path is navigable
+function getConnectedArea(area: SubLocation, direction: Direction): SubLocation | null
+function getConnectedArea(area: Location, direction: Direction): Location | null
+function getConnectedArea(area: SubRegion, direction: Direction): SubRegion | null
+function getConnectedArea(area: Region, direction: Direction): Region | null
+function getConnectedArea(area: SubAreas, direction: Direction):SubAreas  | null {
+  const parent = area.parent;
+
+  return parent.childrenData.get(area as any)?.get(direction)?.area ?? null
+}
+
 export function navigateInDirectionOnMap(
   direction: GameMapDirection,
   initialLocationId: MapLocation,
