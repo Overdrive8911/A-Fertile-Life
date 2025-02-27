@@ -1,6 +1,6 @@
 import { Direction, SubLocationId } from './enums'
 // TODO: Rename this file
-
+export const backupPassageName = 'Backup_Passage'
 export const oppositeDirection = {
   [Direction.NORTH]: Direction.SOUTH,
   [Direction.SOUTH]: Direction.NORTH,
