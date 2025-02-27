@@ -73,7 +73,7 @@ class MapEntity<
     public readonly name: string,
     public passage?: string,
     public readonly description?: string,
-    public readonly flags = MapEntityFlags.NONE,
+    public flags = MapEntityFlags.NONE,
     /**
      * Used for cloning and stringifying this data
      */
