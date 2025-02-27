@@ -87,7 +87,7 @@ export function warpToArea(destination: AreaUniqueId,
   const mapEntitiesForDestination = globalMap.areasFromUniqueId(destination)
 
   const getPassageName = (mapEntities: ReturnType<typeof globalMap.areasFromUniqueId>) => {
-      return mapEntities.subLocation?.passage ?? mapEntities.location?.passage ?? mapEntities.subRegion?.passage ?? mapEntities.region?.passage ?? "Backup_Passage"
+      return mapEntities.subLocation?.passage ?? mapEntities.location?.passage ?? mapEntities.subRegion?.passage ?? mapEntities.region?.passage ?? backupPassageName
   }
   const passageToLoad = getPassageName(mapEntitiesForDestination)
 
