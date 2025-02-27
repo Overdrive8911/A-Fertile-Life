@@ -8,7 +8,7 @@ import {
   region_centralHirtheford,
 } from './regions'
 
-const globalMap = new GlobalMap(GlobalMapId.GLOBAL, 'Global Map')
+export const globalMap = new GlobalMap(GlobalMapId.GLOBAL, 'Global Map')
 
 globalMap
   .addArea(
