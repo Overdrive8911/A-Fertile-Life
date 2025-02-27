@@ -72,9 +72,6 @@ export function warpToArea(destination: AreaUniqueId, doNotWarp = false) {
   if (!doNotWarp) Engine.play(passageToLoad)
 }
 export function isNavigationButtonUsable(direction: Direction) {
-  const areaId = variables().player.areaId
-  const mapEntities = globalMap.areasFromUniqueId(areaId)
-
   return getConnectedArea(
       globalMap.activeArea,
       direction
