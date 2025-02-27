@@ -128,9 +128,11 @@ $(document).on(':passageend', () => {
   const element = $('#ui-top-bar-current-location-view')
   const attrName = 'is-location-name'
 
+  const areaId = variables().player.areaId
+  const mapEntities = globalMap.areasFromUniqueId(areaId)
+
   const setSubLocationName = () => {
-    const areaId = variables().player.areaId
-    const subLocation = globalMap.areasFromUniqueId(areaId).subLocation
+    const subLocation = mapEntities.subLocation
     let imgUrl =
       gSubLocationIcons24x24[subLocation?.id ?? SubLocationId.DUMMY] ?? ''
 
@@ -141,35 +143,16 @@ $(document).on(':passageend', () => {
     element.attr(attrName, 'false')
   }
   const setLocationName = () => {
-    element.text(
-      //@ts-ignore
-      gLocationData[variables().player.locationData.location as MapLocation]
-        .name
-    )
+    element.text(mapEntities.location?.name ?? '')
     element.attr(attrName, 'true')
   }
-
-  if (
-    //@ts-ignore
-    gLocationData[variables().player.locationData.location as MapLocation]
-      .subLocations
-  ) {
-    setSubLocationName()
-  } else {
-    setLocationName()
-  }
+  setSubLocationName()
 
   // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
   element.ariaClick(() => {
     if (element.attr(attrName) == 'true') {
       // The location's name is currently displayed so try to display the sub location (if any)
-      if (
-        //@ts-ignore
-        gLocationData[variables().player.locationData.location as MapLocation]
-          .subLocations
-      ) {
-        setSubLocationName()
-      }
+      setSubLocationName()
     } else if (element.attr(attrName) == 'false') {
       // The sub location's name is currently displayed so display it's location
       setLocationName()
