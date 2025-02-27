@@ -130,14 +130,11 @@ $(document).on(':passageend', () => {
 
   const setSubLocationName = () => {
     const areaId = variables().player.areaId
-    const mapEntities = globalMap.areasFromUniqueId(areaId)
+    const subLocation = globalMap.areasFromUniqueId(areaId).subLocation
     let imgUrl =
-      gSubLocationIcons24x24[
-        mapEntities.subLocation?.id ?? SubLocationId.DUMMY
-      ] ?? ''
+      gSubLocationIcons24x24[subLocation?.id ?? SubLocationId.DUMMY] ?? ''
 
-    //@ts-ignore
-    element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
+    element.text(subLocation?.name ?? '').append(
       // Use the icon as a mask over a color that will be set by css
       `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
     )
