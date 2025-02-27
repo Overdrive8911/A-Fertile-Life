@@ -43,7 +43,7 @@ export function warpToArea(
   doNotWarp = false
 ) {
   const currentArea = variables().player.areaId
-  const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
+  // const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
 
   let passageToLoad = backupPassageName
   if (typeof destination == 'string') {
