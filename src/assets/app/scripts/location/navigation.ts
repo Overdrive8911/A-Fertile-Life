@@ -1,5 +1,5 @@
 import { defaultWarpDestination, setLastWarpDestination } from './other_data'
-import type { Direction } from './enums'
+import { Direction, MapEntityFlags } from './enums'
 import type { AreaUniqueId, SubAreas } from './types_and_interfaces'
 import type { Location, Region, SubLocation, SubRegion } from './classes'
 
@@ -9,8 +9,10 @@ function getConnectedArea(area: SubRegion, direction: Direction): SubRegion | nu
 function getConnectedArea(area: Region, direction: Direction): Region | null
 function getConnectedArea(area: SubAreas, direction: Direction):SubAreas  | null {
   const parent = area.parent;
+  const connectedArea = parent.childrenData.get(area as any)?.get(direction)?.area 
+  let canEnterConnectedAreaFromDirection = (connectedArea?.flags ?? MapEntityFlags.NONE) & MapEntityFlags.INACCESSIBLE ? true:false
 
-  return parent.childrenData.get(area as any)?.get(direction)?.area ?? null
+  return canEnterConnectedAreaFromDirection ? connectedArea ?? null : null
 }
 
 export function navigateInDirectionOnMap(
