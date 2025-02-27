@@ -1,4 +1,4 @@
-import { defaultWarpDestination, setLastWarpDestination } from './other_data'
+import { setLastWarpDestination } from './other_data'
 import { Direction, MapEntityFlags } from './enums'
 import type { AreaUniqueId, SubAreas } from './types_and_interfaces'
 import {
