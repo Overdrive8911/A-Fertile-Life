@@ -129,12 +129,12 @@ $(document).on(':passageend', () => {
   const attrName = 'is-location-name'
 
   const setSubLocationName = () => {
-    const loc: MapLocation = variables().player.locationData.location
-    const subLoc: MapSubLocation = variables().player.locationData.subLocation
+    const areaId = variables().player.areaId
+    const mapEntities = globalMap.areasFromUniqueId(areaId)
     let imgUrl =
-      subLoc != null && subLoc != undefined
-        ? gSubLocationIcons24x24[subLoc]
-        : gSubLocationIcons24x24[MapSubLocation.DUMMY]
+      gSubLocationIcons24x24[
+        mapEntities.subLocation?.id ?? SubLocationId.DUMMY
+      ] ?? ''
 
     //@ts-ignore
     element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
