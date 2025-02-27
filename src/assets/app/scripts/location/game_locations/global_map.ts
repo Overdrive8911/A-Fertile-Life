@@ -8,6 +8,11 @@ import {
   region_centralHirtheford,
 } from './regions'
 
+/**
+ * Anything to do with searching for a location should be done with this
+ *
+ * NOTE: **DO NOT INSTANTIATE ANOTHER INSTANCE OF `GlobalMap`**
+ */
 export const globalMap = new GlobalMap(GlobalMapId.GLOBAL, 'Global Map')
 
 globalMap
