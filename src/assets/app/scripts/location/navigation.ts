@@ -20,10 +20,7 @@ function getConnectedArea(
   direction: Direction
 ): SubRegion | null
 function getConnectedArea(area: Region, direction: Direction): Region | null
-function getConnectedArea(
-  area: SubAreas,
-  direction: Direction
-): SubAreas | null
+function getConnectedArea(area: SubAreas, direction: Direction): SubAreas | null
 function getConnectedArea(
   area: SubAreas,
   direction: Direction
@@ -41,29 +38,39 @@ function getConnectedArea(
 }
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
-export function warpToArea(destination: AreaUniqueId, doNotWarp = false) {
+export function warpToArea(
+  destination: AreaUniqueId | SubAreas,
+  doNotWarp = false
+) {
   const currentArea = variables().player.areaId
   const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
-  const mapEntitiesForDestination = globalMap.areasFromUniqueId(destination)
 
-  const getPassageName = (
-    mapEntities: ReturnType<typeof globalMap.areasFromUniqueId>
-  ) => {
-    return (
-      mapEntities.subLocation?.passage ??
-      mapEntities.location?.passage ??
-      mapEntities.subRegion?.passage ??
-      mapEntities.region?.passage ??
-      backupPassageName
-    )
+  let passageToLoad = backupPassageName
+  if (typeof destination == 'string') {
+    const mapEntitiesForDestination = globalMap.areasFromUniqueId(destination)
+
+    const getPassageName = (
+      mapEntities: ReturnType<typeof globalMap.areasFromUniqueId>
+    ) => {
+      return (
+        mapEntities.subLocation?.passage ??
+        mapEntities.location?.passage ??
+        mapEntities.subRegion?.passage ??
+        mapEntities.region?.passage
+      )
+    }
+
+    passageToLoad =
+      getPassageName(mapEntitiesForDestination) ?? backupPassageName
+  } else {
+    passageToLoad = destination.passage ?? backupPassageName
   }
-  const passageToLoad = getPassageName(mapEntitiesForDestination)
 
   if (passageToLoad == backupPassageName) {
     console.warn(
       `Destination passage not found. Falling back to backup passage. The destination data is:`
     )
-    console.warn(mapEntitiesForDestination)
+    console.warn(destination)
   }
 
   setLastWarpDestination(currentArea)
@@ -72,10 +79,5 @@ export function warpToArea(destination: AreaUniqueId, doNotWarp = false) {
   if (!doNotWarp) Engine.play(passageToLoad)
 }
 export function isNavigationButtonUsable(direction: Direction) {
-  return getConnectedArea(
-      globalMap.activeArea,
-      direction
-    )
-      ? true
-      : false
+  return getConnectedArea(globalMap.activeArea, direction) ? true : false
 }
