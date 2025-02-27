@@ -37,6 +37,17 @@ function getConnectedArea(
   return canEnterConnectedAreaFromDirection ? connectedArea ?? null : null
 }
 
+export function warpToConnectedArea(direction: Direction) {
+  const currArea = globalMap.activeArea
+  const connectedArea = getConnectedArea(currArea, direction)
+
+  if (connectedArea) {
+    warpToArea(connectedArea)
+    return true
+  }
+  return false
+}
+
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(
   destination: AreaUniqueId | SubAreas,
