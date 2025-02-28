@@ -676,7 +676,21 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    * Returns a reference to the current area the player is in, if any.
    */
   get activeArea(): SubAreas {
-    const mapEntities = this.areasFromUniqueId(variables().player.areaId)
+    return this.getOccupiedArea(variables().player.areaId)
+  }
+
+  /**
+   * Gets the actual area from either an idea or an object of map entities.
+   *
+   * E.g If the `id` is "0_1_2_5_0", it means that there is no `SubLocation`, since it's id (the last digit) is zero, so the actual area inhabited is the `Location`'s id
+   */
+  getOccupiedArea(
+    idOrObject: AreaUniqueId | ReturnType<typeof this.areasFromUniqueId>
+  ): SubAreas {
+    const mapEntities =
+      typeof idOrObject == 'string'
+        ? this.areasFromUniqueId(idOrObject)
+        : idOrObject
 
     return (
       mapEntities.subLocation ??
