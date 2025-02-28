@@ -93,3 +93,24 @@ export const subLocation_OfficeWork = new SubLocation(
   'Fertilo_Inc_Office_Work'
 )
 //!SECTION
+
+// SECTION: Player House
+export const subLocation_playerRoom = new SubLocation(
+  SubLocationId.PLAYER_ROOM,
+  'Your Room',
+  '',
+  'Smells like you :3'
+)
+export const subLocation_playerBedroom = new SubLocation(
+  SubLocationId.BEDROOM,
+  'Your Bedroom',
+  '',
+  'ZZZ...'
+)
+export const subLocation_playerLivingRoom = new SubLocation(
+  SubLocationId.LIVING_ROOM,
+  'Your Living Room',
+  '',
+  'Still smells like you :3'
+)
+//!SECTION
