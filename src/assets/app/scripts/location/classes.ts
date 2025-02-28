@@ -11,7 +11,16 @@ import {
 import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
 
-type ChildConnectionMap = Map<{ from: AreaId; to: AreaId }, number>
+type ChildConnectionMap = Map<
+  { from: AreaId; to: AreaId },
+  {
+    dist: number
+    /**
+     * An array of `Direction`s needed to transverse between the areas
+     */
+    dir: Direction[]
+  }
+>
 type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
 type SessionStorageData = Partial<Record<SessionStorageKey, ChildConnectionMap>>
 /**
@@ -294,9 +303,9 @@ class MapEntity<
       : childArea2.id
     let dist = 10 // Just a silly default
 
-    for (const [idPair, distance] of childConnectionData) {
+    for (const [idPair, data] of childConnectionData) {
       if (Object.values(idPair).includesAll(id1, id2)) {
-        dist = distance
+        dist = data.dist
         break
       }
     }
@@ -324,10 +333,10 @@ class MapEntity<
         let dist = 0
         let idPair: { from: AreaId; to: AreaId } | null = null
 
-        for (const [idObject, distance] of data) {
+        for (const [idObject, d] of data) {
           if (Object.values(idObject).includesAll(area1, area2)) {
             passes = true
-            dist = distance ?? 1
+            dist = d.dist ?? 1
             idPair = idObject
             break
           }
@@ -347,7 +356,11 @@ class MapEntity<
            * `cumulativeDistance`
            */
           accDist: number
-        }[] = [{ id: originAreaId, accDist: 0 }]
+          /**
+           * This will be an array of the directions it takes to reach here from `originAreaId`
+           */
+          dir: Direction[]
+        }[] = [{ id: originAreaId, accDist: 0, dir: [] }]
         const visitedAreas = new Set<AreaId>()
         const result: ChildConnectionMap = new Map()
 
@@ -360,11 +373,15 @@ class MapEntity<
           >
           const iteratedId = currentAreaToIterateOver.id
           const iteratedCumulativeDistance = currentAreaToIterateOver.accDist
+          const iteratedArrayOfDirections = currentAreaToIterateOver.dir
 
           if (iteratedId != originAreaId)
             result.set(
               { from: originAreaId, to: iteratedId },
-              iteratedCumulativeDistance
+              {
+                dist: iteratedCumulativeDistance,
+                dir: iteratedArrayOfDirections,
+              }
             )
 
           // Enqueue all direct connections
@@ -373,17 +390,20 @@ class MapEntity<
           ) as Connections<ChildType>
 
           for await (const [
-            ,
+            direction,
             mapEntityDataForConnection,
           ] of iteratedAreaConnections) {
             const connectionId = mapEntityDataForConnection.area.id
             if (!visitedAreas.has(connectionId)) {
               visitedAreas.add(connectionId)
+              const newDirArray = clone(iteratedArrayOfDirections)
+              newDirArray.push(direction)
               queuedAreas.push({
                 id: connectionId,
                 accDist:
                   iteratedCumulativeDistance +
                   (mapEntityDataForConnection.distance ?? 1),
+                dir: newDirArray,
               })
             }
           }
@@ -399,7 +419,7 @@ class MapEntity<
         )
 
         // Prepend the contents of the child map
-        for (const [idObject, distance] of childMapOfConnections) {
+        for (const [idObject, { dir, dist }] of childMapOfConnections) {
           // Check if a pair already exists (e.g {from: 1, to: 2} and {from:2, to:1} is considered a pair), if so, only overwrite it if the distance is smaller than what was previously stored
           const previouslyStoredData = await getMapChildConnectionPairData(
             idObject.from,
@@ -409,12 +429,12 @@ class MapEntity<
           const previousDist = previouslyStoredData?.dist ?? 1
 
           if (previouslyStoredData) {
-            finalMapOfConnections.set(
-              previouslyStoredData.idPair,
-              previousDist < distance ? previousDist : distance
-            )
+            finalMapOfConnections.set(previouslyStoredData.idPair, {
+              dist: previousDist < dist ? previousDist : dist,
+              dir: dir,
+            })
           } else {
-            finalMapOfConnections.set(idObject, distance)
+            finalMapOfConnections.set(idObject, { dir: dir, dist: dist })
           }
         }
       }
