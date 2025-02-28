@@ -61,7 +61,7 @@ class MapEntity<
    *
    * NOTE: This will be cleared when the player moves to another area (not a child area)
    */
-  private mapChildConnectionData: ChildConnectionMap | undefined
+  #mapChildConnectionData: ChildConnectionMap | undefined
 
   /**
    * Solely used as a makeshift type
@@ -147,9 +147,9 @@ class MapEntity<
    * @returns
    * NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
    */
-  private originArea(): ChildType | null
-  private originArea(multiple: boolean): ChildType[] | null
-  private originArea(multiple = false): ChildType | ChildType[] | null {
+  #originArea(): ChildType | null
+  #originArea(multiple: boolean): ChildType[] | null
+  #originArea(multiple = false): ChildType | ChildType[] | null {
     if (!this.childrenData?.size) return null
     let returnArea: ChildType[] = [],
       firstArea: ChildType | null = null
@@ -309,8 +309,8 @@ class MapEntity<
    * @param forceGenerate - Default: `false`. If this is `true`, the data is always regenerated.
    * @returns
    */
-  private async generateMapOfConnectionsForChildData(forceGenerate = false) {
-    const sessionData = await this.getSessionMapData()
+  async #generateMapOfConnectionsForChildData(forceGenerate = false) {
+    const sessionData = await this.#getSessionMapData()
     // There's no data for this map entity's children so generate one
     if (forceGenerate || (!sessionData.size && this.childrenData.size > 1)) {
       let finalMapOfConnections: ChildConnectionMap = new Map()
@@ -416,11 +416,11 @@ class MapEntity<
         }
       }
 
-      this.mapChildConnectionData = finalMapOfConnections
+      this.#mapChildConnectionData = finalMapOfConnections
 
-      await this.setSessionMapData(this.mapChildConnectionData)
+      await this.#setSessionMapData(this.#mapChildConnectionData)
 
-      return this.mapChildConnectionData
+      return this.#mapChildConnectionData
     } else if (sessionData.size) {
       // Load up from the session data
       this.getMapChildConnectionData()
@@ -431,7 +431,7 @@ class MapEntity<
    * Returns an array containing the strings that index the cached data (e.g `mapChildConnections_${AreaUniqueId}`) for areas
    *
    */
-  private static get arrOfStoredMapData(): SessionStorageIndex {
+  static get #arrOfStoredMapData(): SessionStorageIndex {
     const parsedData = sessionStorage.getItem(
       'mapDataIndex' as SessionStorageIndexName
     )
@@ -442,8 +442,8 @@ class MapEntity<
   /**
    *
    */
-  private static addToStoredMapData(dataStringIndex: SessionStorageKey) {
-    const storedMapData = this.arrOfStoredMapData
+  static #addToStoredMapData(dataStringIndex: SessionStorageKey) {
+    const storedMapData = this.#arrOfStoredMapData
 
     if (!storedMapData.includes(dataStringIndex)) {
       if (storedMapData.length >= SessionStorage.LIMIT) {
@@ -460,12 +460,12 @@ class MapEntity<
     }
   }
 
-  private async setSessionMapData(value: ChildConnectionMap) {
+  async #setSessionMapData(value: ChildConnectionMap) {
     const key: keyof SessionStorageData = `mapChildConnections_${this.uniqueId}`
     try {
       // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
       sessionStorage.setItem(key, compress(JSON.stringify([...value])))
-      MapEntity.addToStoredMapData(key)
+      MapEntity.#addToStoredMapData(key)
       return true
     } catch (error) {
       const e = error as DOMException
@@ -477,7 +477,7 @@ class MapEntity<
     }
   }
   // TODO: compress this before storing
-  private async getSessionMapData() {
+  async #getSessionMapData() {
     const noObjectInSessionStorageError = 'Missing Data in session storage!'
     try {
       const deserializedObject = JSON.parse(
@@ -508,19 +508,19 @@ class MapEntity<
     // try {
     let mapData: ChildConnectionMap
 
-    if (this.mapChildConnectionData) mapData = this.mapChildConnectionData
+    if (this.#mapChildConnectionData) mapData = this.#mapChildConnectionData
     else {
       try {
         // Load up the data from the session storage, if any
-        this.mapChildConnectionData = await this.getSessionMapData()
+        this.#mapChildConnectionData = await this.#getSessionMapData()
 
-        if (!this.mapChildConnectionData.size)
+        if (!this.#mapChildConnectionData.size)
           throw new Error('No stored map connection data in session storage')
 
-        mapData = this.mapChildConnectionData
+        mapData = this.#mapChildConnectionData
       } catch (error) {
         // Regenerate the data
-        return this.generateMapOfConnectionsForChildData(
+        return this.#generateMapOfConnectionsForChildData(
           true
         ) as Promise<ChildConnectionMap>
       }
