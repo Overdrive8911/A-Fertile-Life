@@ -81,7 +81,7 @@ class MapEntity<
   constructor(
     public readonly id: IdType,
     public readonly name: string,
-    public passage?: string,
+    public readonly passage?: string,
     public readonly description?: string,
     public flags = MapEntityFlags.NONE,
     /**
@@ -609,7 +609,7 @@ export class Location extends MapEntity<
     >
   ) {
     super(...args)
-    delete this.passage
+    // delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -629,7 +629,7 @@ export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
     >
   ) {
     super(...args)
-    delete this.passage
+    // delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -650,7 +650,7 @@ export class Region extends MapEntity<
     >
   ) {
     super(...args)
-    delete this.passage
+    // delete this.passage
   }
 
   get uniqueId(): AreaUniqueId {
@@ -666,7 +666,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
     super(...args)
-    delete this.passage
+    // delete this.passage
 
     // Global Map doesn't have a parent so delete the property
     delete this.parent
