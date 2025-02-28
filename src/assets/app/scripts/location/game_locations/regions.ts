@@ -1,6 +1,9 @@
 import { Region } from '../classes'
 import { RegionId, Direction, Distance } from '../enums'
-import { subRegion_fertiloInc } from './sub_regions'
+import {
+  subRegion_fertiloInc,
+  subRegion_testNeighbourhood,
+} from './sub_regions'
 
 export const region_northHirtheford = new Region(
   RegionId.NORTH_HIRTHEFORD,
@@ -20,7 +23,7 @@ export const region_southHirtheford = new Region(
 export const region_westHirtheford = new Region(
   RegionId.WEST_HIRTHEFORD,
   'West Hirtheford'
-)
+).addArea(subRegion_testNeighbourhood)
 
 export const region_centralHirtheford = new Region(
   RegionId.CENTRAL_HIRTHEFORD,
