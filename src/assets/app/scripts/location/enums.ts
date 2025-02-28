@@ -36,12 +36,12 @@ export const enum MapEntityFlags {
     INACCESSIBLE_FROM_DOWN,
 }
 export const enum Direction {
-  NORTH,
-  EAST,
-  SOUTH,
-  WEST,
-  UP,
-  DOWN,
+  NORTH = 'North',
+  EAST = 'East',
+  SOUTH = 'South',
+  WEST = 'West',
+  UP = 'Up',
+  DOWN = 'Down',
 }
 export const enum Distance {
   NONE = 0,
