@@ -7,7 +7,7 @@ import {
   ui_isActionInterfaceOpen,
   ui_isMapInActionInterfaceOpen,
 } from '../declarations/side_section_declarations'
-import { loadGameMap } from '../../location/location_map_image_handlers'
+// import { loadGameMap } from '../../location/location_map_image_handlers'
 import '../../location/other_data'
 import { gMapPopoutZoomLvl } from '../../location/other_data'
 let uiSideBarToggleState = true
@@ -103,13 +103,13 @@ $(document).on(':passageend', () => {
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
       // Reload the map with the previous zoom lvl
-      loadGameMap(
-        variables().player.locationData.location,
-        $('#ui-side-bar-action-interface').children('[class*=map]'),
-        true,
-        true,
-        gMapPopoutZoomLvl
-      )
+      // loadGameMap(
+      //   variables().player.locationData.location,
+      //   $('#ui-side-bar-action-interface').children('[class*=map]'),
+      //   true,
+      //   true,
+      //   gMapPopoutZoomLvl
+      // )
     }
   } else {
     // Temporarily disable any transition
