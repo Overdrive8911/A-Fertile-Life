@@ -21,13 +21,15 @@ type ChildConnectionMap = Map<
     dir: Direction[]
   }
 >
-type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
-type SessionStorageData = Partial<Record<SessionStorageKey, ChildConnectionMap>>
+type ChildConnectionSessionStorageKey = `mapChildConnections_${AreaUniqueId}`
+type ChildConnectionSessionStorageData = Partial<
+  Record<ChildConnectionSessionStorageKey, ChildConnectionMap>
+>
 /**
  * Used to determine when to clear older entries in the session storage
  */
-type SessionStorageIndex = SessionStorageKey[]
-type SessionStorageIndexName = 'mapDataIndex'
+type ChildConnectionSessionStorageIndex = ChildConnectionSessionStorageKey[]
+type ChildConnectionSessionStorageIndexName = 'mapDataIndex'
 // type SessionStorageIndexes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 type Connections<T extends MapEntity<any, any, any>> = Map<
   Direction,
@@ -456,9 +458,9 @@ class MapEntity<
    * Returns an array containing the strings that index the cached data (e.g `mapChildConnections_${AreaUniqueId}`) for areas
    *
    */
-  static get #arrOfStoredMapData(): SessionStorageIndex {
+  static get #arrOfStoredMapData(): ChildConnectionSessionStorageIndex {
     const parsedData = sessionStorage.getItem(
-      'mapDataIndex' as SessionStorageIndexName
+      'mapDataIndex' as ChildConnectionSessionStorageIndexName
     )
 
     return parsedData ? JSON.parse(decompress(parsedData)) : []
@@ -467,7 +469,9 @@ class MapEntity<
   /**
    *
    */
-  static #addToStoredMapData(dataStringIndex: SessionStorageKey) {
+  static #addToStoredMapData(
+    dataStringIndex: ChildConnectionSessionStorageKey
+  ) {
     const storedMapData = this.#arrOfStoredMapData
 
     if (!storedMapData.includes(dataStringIndex)) {
@@ -479,14 +483,14 @@ class MapEntity<
       storedMapData.push(dataStringIndex)
 
       sessionStorage.setItem(
-        'mapDataIndex' as SessionStorageIndexName,
+        'mapDataIndex' as ChildConnectionSessionStorageIndexName,
         compress(JSON.stringify(storedMapData))
       )
     }
   }
 
   async #setSessionMapData(value: ChildConnectionMap) {
-    const key: keyof SessionStorageData = `mapChildConnections_${this.uniqueId}`
+    const key: keyof ChildConnectionSessionStorageData = `mapChildConnections_${this.uniqueId}`
     try {
       // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
       sessionStorage.setItem(key, compress(JSON.stringify([...value])))
@@ -508,7 +512,7 @@ class MapEntity<
       const deserializedObject = JSON.parse(
         decompress(
           sessionStorage.getItem(
-            `mapChildConnections_${this.uniqueId}` as keyof SessionStorageData
+            `mapChildConnections_${this.uniqueId}` as keyof ChildConnectionSessionStorageData
           ) as string // Yes, this can still fail :p
         )
       )
