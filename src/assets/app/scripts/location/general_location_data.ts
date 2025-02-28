@@ -8,7 +8,7 @@ export const oppositeDirection = {
   [Direction.WEST]: Direction.EAST,
   [Direction.UP]: Direction.DOWN,
   [Direction.DOWN]: Direction.UP,
-}
+} as const
 
 function getUrl(subLocation: string) {
   return `/media/img/map/icons/sub_location/${subLocation}.webp`
