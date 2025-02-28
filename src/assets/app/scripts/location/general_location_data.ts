@@ -10,15 +10,6 @@ export const oppositeDirection = {
   [Direction.DOWN]: Direction.UP,
 } as const
 
-export const directionNames = {
-  [Direction.NORTH]: 'North',
-  [Direction.SOUTH]: 'South',
-  [Direction.EAST]: 'East',
-  [Direction.WEST]: 'West',
-  [Direction.UP]: 'Up',
-  [Direction.DOWN]: 'Down',
-} as const
-
 function getUrl(subLocation: string) {
   return `/media/img/map/icons/sub_location/${subLocation}.webp`
 }
