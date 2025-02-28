@@ -89,6 +89,11 @@ export function warpToConnectedArea(direction: Direction) {
   return false
 }
 
+export function setPlayerLocation(destination: AreaUniqueId | SubAreas) {
+  variables().player.areaId =
+    typeof destination == 'string' ? destination : destination.uniqueId
+}
+
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(
   destination: AreaUniqueId | SubAreas,
@@ -119,8 +124,7 @@ export function warpToArea(
 
   // load the passage
   if (!doNotWarp) {
-    variables().player.areaId =
-      typeof destination == 'string' ? destination : destination.uniqueId
+    setPlayerLocation(destination)
     Engine.play(passageToLoad)
   }
 }
