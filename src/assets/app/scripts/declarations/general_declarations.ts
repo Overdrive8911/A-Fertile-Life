@@ -7,12 +7,15 @@ export const enum StoryFlags {
 }
 
 /**
- * NOTE: **This only tests if all the bits in the flag match, otherwise it returns false. So be careful with it for flags with multiple set bits. Use `isAnyStoryFlagActive()` instead.**
+ * NOTE: **This only tests if *all* the bits in the flag match, otherwise it returns false. So be careful with it for flags with multiple set bits. Use `isAnyStoryFlagActive()` instead.**
  */
 export function areAllStoryFlagSet(flag: StoryFlags) {
   return (variables().storyFlags & flag) == StoryFlags.NONE ? false : true
 }
 
+/**
+ * NOTE: **This only tests if *any* the bits in the flag match, otherwise it returns false.**
+ */
 export function isAnyStoryFlagSet(flags: StoryFlags) {
   return variables().storyFlags & flags ? true : false
 }
