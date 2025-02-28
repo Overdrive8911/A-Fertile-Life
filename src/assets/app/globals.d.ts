@@ -1,3 +1,4 @@
+import type { StoryFlags } from './scripts/declarations/general_declarations'
 import type { AreaUniqueId } from './scripts/location/types_and_interfaces'
 
 declare module 'twine-sugarcube' {
@@ -23,6 +24,7 @@ declare module 'twine-sugarcube' {
        */
       areaId: AreaUniqueId
     }
+    storyFlags: StoryFlags
   }
 }
 
