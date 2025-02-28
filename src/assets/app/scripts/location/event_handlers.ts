@@ -317,7 +317,7 @@ $(document).on(':passageend', () => {
 
           `you can head ${areaDir(1)} to ${areaDirName(1)},`,
 
-          `or perhaps ${areaDirName(2)} to ${areaDir(2)}.`,
+          `or perhaps ${areaDir(2)} to ${areaDirName(2)}.`,
 
           `You're pretty sure that ${areaDirName(3)} is in the ${areaDirName(
             3
@@ -341,7 +341,7 @@ $(document).on(':passageend', () => {
 
           `${areaDir(1)} is to the ${areaDirName(1)},`,
 
-          `and ${areaDir(2)}, ${areaDirName(2)}.`,
+          `and ${areaDirName(2)}, ${areaDir(2)}.`,
 
           `${areaDir(3)} goes in the ${areaDirName(3)},`,
 
