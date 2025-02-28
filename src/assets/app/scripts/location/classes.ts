@@ -238,7 +238,7 @@ class MapEntity<
   connect(
     ...data: {
       from: ChildType
-      areas: { to: ChildType; dir: Direction; dist: number }[]
+      areas: { to: ChildType; dir: Direction; dist?: number }[]
     }[]
   ): typeof this.classType {
     data.forEach(val => {
@@ -264,7 +264,7 @@ class MapEntity<
 
         // Check if the connection doesn't exist already
         if (!currAreaDir.has(area.dir) && !destAreaDir.has(oppositeDir)) {
-          const dist = area.dist
+          const dist = area.dist ?? 1
           // Set the connection for this map entity
           currAreaDir.set(area.dir, { area: destArea, distance: dist })
 
