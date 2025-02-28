@@ -1,4 +1,5 @@
-import { MapLocation, MapSubLocation } from '../location/enums'
+//@ts-nocheck
+import { defaultWarpDestination } from '../location/other_data'
 
 setup.initializePlayerVariables = () => {
   // $player
@@ -7,10 +8,7 @@ setup.initializePlayerVariables = () => {
     money: 5800 /* The currency isn't something irl */,
 
     /* Location */
-    locationData: {
-      location: MapLocation.PLAYER_HOUSE,
-      subLocation: MapSubLocation.BEDROOM,
-    },
+    areaId: defaultWarpDestination,
 
     /* Personality and Mood(?) */
     personality: {
