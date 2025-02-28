@@ -10,7 +10,6 @@ import {
 } from './enums'
 import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
-import { region_northHirtheford } from './game_locations/regions'
 
 type ChildConnectionMap = Map<{ from: AreaId; to: AreaId }, number>
 type SessionStorageKey = `mapChildConnections_${AreaUniqueId}`
@@ -696,9 +695,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       mapEntities.subLocation ??
       mapEntities.location ??
       mapEntities.subRegion ??
-      mapEntities.region ??
-      // Just as a last resort :p. This should ideally never happen
-      region_northHirtheford
+      (mapEntities.region as Region)
     )
   }
 }
