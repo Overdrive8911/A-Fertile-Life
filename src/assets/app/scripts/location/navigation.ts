@@ -118,7 +118,11 @@ export function warpToArea(
   setLastWarpDestination(currentArea)
 
   // load the passage
-  if (!doNotWarp) Engine.play(passageToLoad)
+  if (!doNotWarp) {
+    variables().player.areaId =
+      typeof destination == 'string' ? destination : destination.uniqueId
+    Engine.play(passageToLoad)
+  }
 }
 export function isNavigationButtonUsable(direction: Direction) {
   return getConnectedArea(globalMap.activeArea, direction) ? true : false
