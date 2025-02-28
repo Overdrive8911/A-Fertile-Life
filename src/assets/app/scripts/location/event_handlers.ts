@@ -172,9 +172,6 @@ $(document).on(':passageend', () => {
   const southButton = $('#ui-navigation-option-button-south')
   const westButton = $('#ui-navigation-option-button-west')
 
-  const areaId = variables().player.areaId
-  const mapEntities = globalMap.areasFromUniqueId(areaId)
-
   // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
   const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH)
   const northAreaId = lastWarpDestination
