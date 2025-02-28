@@ -1,5 +1,5 @@
 import { Region } from '../classes'
-import { RegionId, Direction, Distance } from '../enums'
+import { RegionId } from '../enums'
 import {
   subRegion_fertiloInc,
   subRegion_testNeighbourhood,
