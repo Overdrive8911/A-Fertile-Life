@@ -5,7 +5,7 @@ import {
   lastWarpDestination,
   setMapPopoutZoomLvl,
 } from './other_data'
-import { loadGameMap } from './location_map_image_handlers'
+// import { loadGameMap } from './location_map_image_handlers'
 import { isNavigationButtonUsable, warpToConnectedArea } from './navigation'
 import { globalMap } from './game_locations/global_map'
 import { Direction, SubLocationId } from './enums'
