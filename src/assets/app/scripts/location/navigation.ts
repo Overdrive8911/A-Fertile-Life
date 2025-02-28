@@ -8,7 +8,7 @@ import {
   type SubRegion,
 } from './classes'
 import { globalMap } from './game_locations/global_map'
-import { backupPassageName } from './general_location_data'
+import { backupPassageName, oppositeDirection } from './general_location_data'
 
 function getConnectedArea(
   area: SubLocation,
@@ -29,10 +29,51 @@ function getConnectedArea(
   const connectedArea = parent.childrenData
     .get(area as any)
     ?.get(direction)?.area
-  let canEnterConnectedAreaFromDirection =
-    (connectedArea?.flags ?? MapEntityFlags.NONE) & MapEntityFlags.INACCESSIBLE
-      ? true
-      : false
+  let canEnterConnectedAreaFromDirection = true
+
+  const checkDirection = (
+    flag:
+      | MapEntityFlags.INACCESSIBLE_FROM_UP
+      | MapEntityFlags.INACCESSIBLE_FROM_EAST
+      | MapEntityFlags.INACCESSIBLE_FROM_SOUTH
+      | MapEntityFlags.INACCESSIBLE_FROM_WEST
+      | MapEntityFlags.INACCESSIBLE_FROM_NORTH
+      | MapEntityFlags.INACCESSIBLE_FROM_DOWN
+  ) => {
+    return (connectedArea?.flags ?? MapEntityFlags.NONE) & flag ? true : false
+  }
+  switch (oppositeDirection[direction]) {
+    case Direction.NORTH:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_NORTH
+      )
+      break
+    case Direction.EAST:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_EAST
+      )
+      break
+    case Direction.SOUTH:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_SOUTH
+      )
+      break
+    case Direction.WEST:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_WEST
+      )
+      break
+    case Direction.UP:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_UP
+      )
+      break
+    case Direction.DOWN:
+      canEnterConnectedAreaFromDirection = checkDirection(
+        MapEntityFlags.INACCESSIBLE_FROM_DOWN
+      )
+      break
+  }
 
   return canEnterConnectedAreaFromDirection ? connectedArea ?? null : null
 }
