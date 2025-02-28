@@ -8,6 +8,7 @@
 import { SubLocation } from '../classes'
 import { MapEntityFlags, SubLocationId } from '../enums'
 
+//SECTION: Fertilo Inc
 export const subLocation_Porch = new SubLocation(
   SubLocationId.PORCH,
   'Porch',
@@ -91,3 +92,4 @@ export const subLocation_OfficeWork = new SubLocation(
   'Office',
   'Fertilo_Inc_Office_Work'
 )
+//!SECTION
