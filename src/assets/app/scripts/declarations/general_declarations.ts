@@ -9,7 +9,7 @@ export const enum StoryFlags {
 /**
  * NOTE: **This only tests if all the bits in the flag match, otherwise it returns false. So be careful with it for flags with multiple set bits. Use `isAnyStoryFlagActive()` instead.**
  */
-export function isStoryFlagSet(flag: StoryFlags) {
+export function areAllStoryFlagSet(flag: StoryFlags) {
   return (variables().storyFlags & flag) == StoryFlags.NONE ? false : true
 }
 
