@@ -311,6 +311,10 @@ $(document).on(':passageend', () => {
       ],
     ]
 
+    const currArea = globalMap.activeArea
+    const numOfValidLocationsOrSubLocations =
+      currArea.parent.childrenData.get(currArea as any)?.size ?? 0
+
     // A function to randomly pick an entry in `possibleHelpfulTextArray[]` and fill in the variables
     const returnUpdatedRandomEntry = () => {
       // Get a random entry
