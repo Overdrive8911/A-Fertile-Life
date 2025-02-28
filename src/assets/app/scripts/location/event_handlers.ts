@@ -12,6 +12,10 @@ import {
 } from './navigation'
 import { globalMap } from './game_locations/global_map'
 import { Direction, SubLocationId } from './enums'
+import {
+  isAnyStoryFlagSet,
+  StoryFlags,
+} from '../declarations/general_declarations'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -240,43 +244,7 @@ $(document).on(':passageend', () => {
 
   // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
   // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
-  if (Story.get(passage()).tags.includes('default')) {
-    // TODO - Add *proper* support for regular locations
-    const isLocationOrSubLocationValid = (
-      locationOrSubLocation: MapLocation | MapSubLocation | null
-    ) => {
-      if (locationOrSubLocation == null || locationOrSubLocation == undefined)
-        return false
-
-      return true
-    }
-
-    // Only accounting for sub locations here
-    let closestLocationOrSubLocation: {
-      [key in GameMapDirection]: MapLocation | MapSubLocation | null
-    } = {
-      [GameMapDirection.NORTH]: northAreaId.subLocation,
-      [GameMapDirection.EAST]: eastAreaId.subLocation,
-      [GameMapDirection.SOUTH]: southAreaId.subLocation,
-      [GameMapDirection.WEST]: westAreaId.subLocation,
-    }
-    let numOfValidLocationsOrSubLocations = 1 // The 1 stands for the current location/sub location
-
-    // Remove invalid entries and get the number of valid locations/sub locations
-    for (const key in closestLocationOrSubLocation) {
-      if (
-        Object.prototype.hasOwnProperty.call(closestLocationOrSubLocation, key)
-      ) {
-        const direction = parseInt(key) as GameMapDirection
-        // TODO - Add better support for locations
-        if (
-          !isLocationOrSubLocationValid(closestLocationOrSubLocation[direction])
-        )
-          delete closestLocationOrSubLocation[direction]
-        else numOfValidLocationsOrSubLocations++
-      }
-    }
-
+  if (isAnyStoryFlagSet(StoryFlags.IS_EVENT_ACTIVE)) {
     // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
     let CURR_LOCATION = 'CURRENT_LOCATION'
     let LOCATION = {
