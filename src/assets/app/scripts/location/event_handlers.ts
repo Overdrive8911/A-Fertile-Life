@@ -13,6 +13,7 @@ import {
   isAnyStoryFlagSet,
   StoryFlags,
 } from '../declarations/general_declarations'
+import type { Location } from './classes'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -371,15 +372,14 @@ $(document).on(':passageend', () => {
 // !SECTION
 
 // SECTION - For preloading related images
+// TODO: Replace this with a dynamically generated map
 $(document).one(':passageend', () => {
   // NOTE - Move this function out of this namespace in the main branch
   ;(function preloadImages() {
     // NOTE - INSERT ALL IMAGES NEEDED HERE
     const imageUrls = [
       gPlayerMapSpriteSrc,
-      gLocationMapSvgTable[
-        variables().player.locationData.location as MapLocation
-      ],
+      gLocationMapSvgTable[(globalMap.activeArea as Location).id],
     ]
 
     imageUrls.forEach(url => {
