@@ -341,9 +341,13 @@ class MapEntity<
       const getDataOfAllConnectionsToChildArea = async (
         originAreaId: AreaId
       ) => {
-        const queuedAreas: { id: AreaId; cumulativeDistance: number }[] = [
-          { id: originAreaId, cumulativeDistance: 0 },
-        ]
+        const queuedAreas: {
+          id: AreaId
+          /**
+           * `cumulativeDistance`
+           */
+          accDist: number
+        }[] = [{ id: originAreaId, accDist: 0 }]
         const visitedAreas = new Set<AreaId>()
         const result: ChildConnectionMap = new Map()
 
@@ -355,8 +359,7 @@ class MapEntity<
             undefined | null
           >
           const iteratedId = currentAreaToIterateOver.id
-          const iteratedCumulativeDistance =
-            currentAreaToIterateOver.cumulativeDistance
+          const iteratedCumulativeDistance = currentAreaToIterateOver.accDist
 
           if (iteratedId != originAreaId)
             result.set(
@@ -378,7 +381,7 @@ class MapEntity<
               visitedAreas.add(connectionId)
               queuedAreas.push({
                 id: connectionId,
-                cumulativeDistance:
+                accDist:
                   iteratedCumulativeDistance +
                   (mapEntityDataForConnection.distance ?? 1),
               })
