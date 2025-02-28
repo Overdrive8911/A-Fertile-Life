@@ -275,6 +275,7 @@ $(document).on(':passageend', () => {
   - No need to add unnecessary/messy whitespace 
   - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
   */
+    //TODO - Add support for `up` and down`
     const possibleHelpfulTextArray: string[][] = [
       [
         `From ${CURR_LOCATION},`,
