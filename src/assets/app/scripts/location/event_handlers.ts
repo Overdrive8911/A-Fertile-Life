@@ -6,10 +6,7 @@ import {
   setMapPopoutZoomLvl,
 } from './other_data'
 import { loadGameMap } from './location_map_image_handlers'
-import {
-  isNavigationButtonUsable,
-  warpToConnectedArea,
-} from './navigation'
+import { isNavigationButtonUsable, warpToConnectedArea } from './navigation'
 import { globalMap } from './game_locations/global_map'
 import { Direction, SubLocationId } from './enums'
 import {
@@ -242,26 +239,54 @@ $(document).on(':passageend', () => {
   // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
   // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
   if (!isAnyStoryFlagSet(StoryFlags.IS_EVENT_ACTIVE)) {
+    const currArea = globalMap.activeArea
+    const a = currArea.parent.childrenData.get(currArea as any)
+    const currAreaDirections = a as Exclude<typeof a, undefined>
+
+    const directionPool = [...currAreaDirections.keys()]
+    const getRandomDirectionData = () => {
+      const dir = directionPool.pluck() ?? Direction.NORTH
+
+      return { dir: dir, name: currAreaDirections.get(dir)?.area.name ?? '' }
+    }
+
+    const dirData1 = getRandomDirectionData()
+    const dirData2 = getRandomDirectionData()
+    const dirData3 = getRandomDirectionData()
+    const dirData4 = getRandomDirectionData()
+    const dirData5 = getRandomDirectionData()
+    const dirData6 = getRandomDirectionData()
+
     // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
-    let CURR_LOCATION = 'CURRENT_LOCATION'
-    let LOCATION = {
+    let CURR_AREA = currArea.name
+    const AREA_DATA = {
       1: {
-        direction: 'LOCATION_DIRECTION_1',
-        locOrSubLocName: 'LOCATION_NAME_1',
+        direction: dirData1.dir,
+        name: dirData1.name,
       },
       2: {
-        direction: 'LOCATION_DIRECTION_2',
-        locOrSubLocName: 'LOCATION_NAME_2',
+        direction: dirData2.dir,
+        name: dirData2.name,
       },
       3: {
-        direction: 'LOCATION_DIRECTION_3',
-        locOrSubLocName: 'LOCATION_NAME_3',
+        direction: dirData3.dir,
+        name: dirData3.name,
       },
       4: {
-        direction: 'LOCATION_DIRECTION_4',
-        locOrSubLocName: 'LOCATION_NAME_4',
+        direction: dirData4.dir,
+        name: dirData4.name,
       },
-    }
+
+      // TODO: Implement these later.
+      5: {
+        direction: dirData5.dir,
+        name: dirData5.name,
+      },
+      6: {
+        direction: dirData6.dir,
+        name: dirData6.name,
+      },
+    } as const
 
     const greenColorClass = 'otherSpeech'
     const orangeColorClass = 'playerStatNeutral'
@@ -271,120 +296,71 @@ $(document).on(':passageend', () => {
     const returnOrangeText = (text: string) => {
       return `<span class=${orangeColorClass}>${text}</span>`
     }
-    /* NOTE 
-  - No need to add unnecessary/messy whitespace 
-  - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
-  */
-    //TODO - Add support for `up` and down`
-    const possibleHelpfulTextArray: string[][] = [
-      [
-        `From ${CURR_LOCATION},`,
 
-        `you can head ${LOCATION[1].direction} to ${LOCATION[1].locOrSubLocName},`,
-
-        `or perhaps ${LOCATION[2].direction} to ${LOCATION[2].locOrSubLocName}.`,
-
-        `You're pretty sure that ${LOCATION[3].locOrSubLocName} is in the ${LOCATION[3].direction},`,
-
-        `and ${LOCATION[4].locOrSubLocName} is in the ${LOCATION[4].direction}.`,
-      ],
-      [
-        `Currently, you're in ${CURR_LOCATION},`,
-
-        `${LOCATION[1].locOrSubLocName} is ${LOCATION[1].direction} of here,`,
-
-        `while ${LOCATION[2].locOrSubLocName} is likely ${LOCATION[2].direction}.`,
-
-        `${LOCATION[3].locOrSubLocName} is definitely ${LOCATION[3].direction},`,
-
-        `with ${LOCATION[4].locOrSubLocName} in the ${LOCATION[4].direction}.`,
-      ],
-      [
-        `If you were to leave ${CURR_LOCATION},`,
-
-        `${LOCATION[1].locOrSubLocName} is to the ${LOCATION[1].direction},`,
-
-        `and ${LOCATION[2].locOrSubLocName}, ${LOCATION[2].direction}.`,
-
-        `${LOCATION[3].locOrSubLocName} goes in the ${LOCATION[3].direction},`,
-
-        `while ${LOCATION[4].locOrSubLocName} is ${LOCATION[4].direction}.`,
-      ],
-    ]
-
-    const currArea = globalMap.activeArea
-    const numOfValidLocationsOrSubLocations =
-      currArea.parent.childrenData.get(currArea as any)?.size ?? 0
-
-    // A function to randomly pick an entry in `possibleHelpfulTextArray[]` and fill in the variables
-    const returnUpdatedRandomEntry = () => {
-      // Get a random entry
-      let randomEntry = possibleHelpfulTextArray.pluck() as string[]
-
-      // Depending on the number of valid directions, reduce the size of the innermost array to match e.g 2 valid directions will only leave `LOCATION_1` and `LOCATION_2`
-      let trimmedEntry = randomEntry.filter((stringPortion, i) => {
-        return i < numOfValidLocationsOrSubLocations
-      })
-
-      trimmedEntry[0] = trimmedEntry[0].replace(
-        CURR_LOCATION,
-        returnOrangeText(
-          currSubLocation != null && currSubLocation != undefined
-            ? (getDefaultNameOfSubLocation(
-                currLocation,
-                currSubLocation
-              ) as string)
-            : gLocationData[currLocation]!.name
-        )
-      )
-
-      let l = trimmedEntry.length - 1
-      for (let i = 0; i < l; i++) {
-        // NOTE - Add better support for location
-        // Store a random pair of key-values `closestLocationOrSubLocation` and then delete them from the original object
-        const randKeyValuePair = Object.entries(
-          closestLocationOrSubLocation
-        ).pluck() as [string, MapLocation | MapSubLocation]
-        const randKey = parseInt(randKeyValuePair[0]) as GameMapDirection
-
-        delete closestLocationOrSubLocation[randKey]
-
-        trimmedEntry[i + 1] = trimmedEntry[i + 1]
-          .replace(
-            LOCATION[(i + 1) as 1 | 2 | 3 | 4].direction,
-            returnGreenText(GameMapDirection[randKey].toLocaleLowerCase())
-          )
-          .replace(
-            LOCATION[(i + 1) as 1 | 2 | 3 | 4].locOrSubLocName,
-            returnGreenText(
-              getDefaultNameOfSubLocation(
-                currLocation,
-                randKeyValuePair[1] as MapSubLocation
-              ) as string
-            )
-          )
+    const getRandomHelpfulText = () => {
+      const currAreaText = returnOrangeText(CURR_AREA)
+      const areaDir = (index: keyof typeof AREA_DATA) => {
+        return returnGreenText(AREA_DATA[index].direction)
       }
+      const areaDirName = (index: keyof typeof AREA_DATA) => {
+        return returnGreenText(AREA_DATA[index].name)
+      }
+      /* NOTE 
+        - No need to add unnecessary/messy whitespace 
+        - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
+        */
+      //TODO - Add support for `up` and down`
+      const possibleHelpfulTextArray: string[][] = [
+        [
+          `From ${currAreaText},`,
 
-      // Concatenate the strings in `trimmedEntry[]` together
-      let joinedString = ''
-      trimmedEntry.forEach((stringPortion, index) => {
-        if (index != trimmedEntry.length - 1) {
-          // Not at the end of the string so add whitespace at the end
-          joinedString += stringPortion + ' '
-        } else {
-          // No need for whitespace since this will be the last sentence/phrase. instead replace the last character with a period
-          let editedStr = stringPortion.slice(0, stringPortion.length - 1) + '.'
-          joinedString += editedStr
-        }
-      })
+          `you can head ${areaDir(1)} to ${areaDirName(1)},`,
 
-      // Add the paragraph tags to the string and prepend it with a long horizontal line
-      const strToReturn = `<br><br><br><hr><p>${joinedString}</p>`
+          `or perhaps ${areaDirName(2)} to ${areaDir(2)}.`,
 
-      return strToReturn
+          `You're pretty sure that ${areaDirName(3)} is in the ${areaDirName(
+            3
+          )},`,
+
+          `and ${areaDir(4)} is in the ${areaDirName(4)}.`,
+        ],
+        [
+          `Currently, you're in ${currAreaText},`,
+
+          `${areaDir(1)} is ${areaDirName(1)} of here,`,
+
+          `while ${areaDir(2)} is likely ${areaDirName(2)}.`,
+
+          `${areaDir(3)} is definitely ${areaDirName(3)},`,
+
+          `with ${areaDir(4)} in the ${areaDirName(4)}.`,
+        ],
+        [
+          `If you were to leave ${currAreaText},`,
+
+          `${areaDir(1)} is to the ${areaDirName(1)},`,
+
+          `and ${areaDir(2)}, ${areaDirName(2)}.`,
+
+          `${areaDir(3)} goes in the ${areaDirName(3)},`,
+
+          `while ${areaDir(4)} is ${areaDirName(4)}.`,
+        ],
+      ]
+
+      const numOfValidAreas = currAreaDirections?.size ?? 0
+
+      const text = possibleHelpfulTextArray
+        .pluck()!
+        .filter((val, index) => {
+          return index <= numOfValidAreas + 1
+        })
+        .join(' ')
+
+      return `<br><br><br><hr><p>${text.slice(0, text.length - 1) + '.'}`
     }
 
-    const textToDisplay = returnUpdatedRandomEntry()
+    const textToDisplay = getRandomHelpfulText()
     const currentPassageOnDOM = $('#passages > [id^=passage]')
 
     // Append the text to the current passage
