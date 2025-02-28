@@ -16,6 +16,9 @@ import {
   subLocation_Lab,
   subLocation_Consultation,
   subLocation_OfficeWork,
+  subLocation_playerRoom,
+  subLocation_playerBedroom,
+  subLocation_playerLivingRoom,
 } from './sub_locations'
 import { Location } from '../classes'
 
@@ -150,3 +153,20 @@ export const location_fertiloIncGroundFloor = new Location(
 //@ts-ignore
 window.t = location_fertiloIncGroundFloor
 console.log(location_fertiloIncGroundFloor)
+
+export const location_playerHouse = new Location(
+  LocationId.PLAYER_HOUSE,
+  'Your House'
+)
+  .addArea(
+    subLocation_playerRoom,
+    subLocation_playerBedroom,
+    subLocation_playerLivingRoom
+  )
+  .connect({
+    from: subLocation_playerRoom,
+    areas: [
+      { to: subLocation_playerBedroom, dir: Direction.SOUTH },
+      { to: subLocation_playerLivingRoom, dir: Direction.EAST },
+    ],
+  })

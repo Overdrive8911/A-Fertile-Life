@@ -116,6 +116,7 @@ export const enum LocationId {
 export const enum SubRegionId {
   DUMMY,
   FERTILO_INC,
+  TEST_NEIGHBOURHOOD,
 }
 
 export const enum RegionId {
