@@ -5,7 +5,6 @@ import autoprefixer from 'autoprefixer'
 import CleanCSS from 'clean-css'
 import { watch } from 'node:fs'
 import { Directory, mode } from './variables'
-import { setupTweego, Tweenode } from 'tweenode'
 import { link, mkdir, rm } from 'node:fs/promises'
 import { dirname } from 'node:path'
 
