@@ -1,10 +1,4 @@
 import { averageWalkingSpeed } from '../location/other_data'
-import {
-  getLocationFromPassageTitle,
-  getSubLocationFromPassageTitle,
-  getMapLocationIdFromLocation,
-  getMapSubLocationIdFromSubLocation,
-} from '../location/location_helper_functions'
 
 export const updateGameTimeAfterChangingPassage = (
   passageName1: string,

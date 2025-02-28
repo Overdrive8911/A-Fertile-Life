@@ -6,7 +6,7 @@ import './other_data'
 import './general_location_data'
 // import './location_data_object_intializer'
 // import './location_helper_functions'
-import './location_map_image_handlers'
+// import './location_map_image_handlers'
 import './navigation'
 import './event_handlers'
 
