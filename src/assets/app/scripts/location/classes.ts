@@ -285,7 +285,7 @@ class MapEntity<
     childArea1: ChildType | ChildType['id'],
     childArea2: ChildType | ChildType['id']
   ) {
-    const childConnectionData = await this.getMapChildConnectionData()
+    const childConnectionData = await this.getChildConnections()
     const id1: number = !(childArea1 instanceof MapEntity)
       ? childArea1
       : childArea1.id
@@ -423,7 +423,7 @@ class MapEntity<
       return this.#mapChildConnectionData
     } else if (sessionData.size) {
       // Load up from the session data
-      this.getMapChildConnectionData()
+      this.getChildConnections()
     }
   }
 
@@ -504,7 +504,7 @@ class MapEntity<
     }
   }
   // NOTE: Always call this if you want the map connection data
-  protected async getMapChildConnectionData(): Promise<ChildConnectionMap> {
+  protected async getChildConnections(): Promise<ChildConnectionMap> {
     // try {
     let mapData: ChildConnectionMap
 
