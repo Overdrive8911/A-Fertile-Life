@@ -8,7 +8,7 @@ import {
 import { loadGameMap } from './location_map_image_handlers'
 import {
   isNavigationButtonUsable,
-  navigateInDirectionOnMap,
+  warpToConnectedArea,
 } from './navigation'
 import { globalMap } from './game_locations/global_map'
 import { Direction, SubLocationId } from './enums'
@@ -183,7 +183,7 @@ $(document).on(':passageend', () => {
   console.warn('CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.')
 
   const navigate = (direction: Direction) => {
-    navigateInDirectionOnMap(direction, currLocation, currSubLocation)
+    warpToConnectedArea(direction)
   }
 
   // Click Events
