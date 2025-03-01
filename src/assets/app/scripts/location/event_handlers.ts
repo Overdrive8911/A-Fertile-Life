@@ -13,7 +13,7 @@ import {
   isAnyStoryFlagSet,
   StoryFlags,
 } from '../declarations/general_declarations'
-import type { Location } from './classes'
+import { SubLocation, type Location } from './classes'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -131,10 +131,10 @@ $(document).on(':passageend', () => {
   const attrName = 'is-location-name'
 
   const areaId = variables().player.areaId
-  const mapEntities = globalMap.areasFromUniqueId(areaId)
+  const area = globalMap.areaFromUUID(areaId)
 
   const setSubLocationName = () => {
-    const subLocation = mapEntities.subLocation
+    const subLocation = area
     let imgUrl =
       gSubLocationIcons24x24[subLocation?.id ?? SubLocationId.DUMMY] ?? ''
 
@@ -145,7 +145,7 @@ $(document).on(':passageend', () => {
     element.attr(attrName, 'false')
   }
   const setLocationName = () => {
-    element.text(mapEntities.location?.name ?? '')
+    element.text(area.parent.name ?? '')
     element.attr(attrName, 'true')
   }
   setSubLocationName()

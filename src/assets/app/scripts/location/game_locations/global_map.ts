@@ -70,3 +70,7 @@ globalMap
 
 //@ts-ignore
 window.tt = globalMap
+
+;(async () => {
+  await globalMap.initMapCache()
+})()
