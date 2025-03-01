@@ -74,6 +74,8 @@ class MapEntity<
    */
   #mapChildConnectionData: ChildConnectionMap | undefined
 
+  readonly uuid = Symbol()
+
   /**
    * Solely used as a makeshift type
    */
@@ -84,7 +86,7 @@ class MapEntity<
     /**
      * This refers to any value from `AreaId` and is used to determine stuff like what icon to use, or any specific rules.
      *
-     * NOTE: **THIS IS NOT MEANT TO SERVE AS A UNIQUE ID**
+     * NOTE: **THIS IS NOT MEANT TO SERVE AS A UNIQUE ID**. That's the job of `uuid`
      */
     public readonly id: IdType,
     public readonly name: string,
