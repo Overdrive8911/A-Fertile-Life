@@ -684,6 +684,11 @@ export class Region extends MapEntity<
  * NOTE: **THERE SHOULD ONLY BE ONE INSTANCE OF THIS**
  */
 export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
+  /**
+   * Used to quickly get right map entity instance from its uuid
+   *
+   * @type {Map<typeof this.uuid, SubAreas>}
+   */
   #uuidMapCache: Map<typeof this.uuid, SubAreas> = new Map()
 
   constructor(
