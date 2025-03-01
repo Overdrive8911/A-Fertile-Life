@@ -130,37 +130,6 @@ class MapEntity<
   }
 
   /**
-   * A unique id is used to find out the exact instance of a map entity in the global map.
-   *
-   * NOTE: **THIS MUST BE IMPLEMENTED BY ALL CHILD INSTANCES**
-   */
-  get uniqueId(): AreaUniqueId {
-    let globalId = GlobalMapId.GLOBAL,
-      regionId = RegionId.DUMMY,
-      subRegionId = SubRegionId.DUMMY,
-      locationId = LocationId.DUMMY,
-      subLocationId = SubLocationId.DUMMY
-
-    // if (this instanceof SubLocation) {
-    //   subLocationId = this.id;
-    //   locationId = this?.parent?.id ?? LocationId.DUMMY;
-    //   subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY;
-    //   regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY;
-    // } else if (this instanceof Location) {
-    //   locationId = this.id;
-    //   subRegionId = this?.parent?.id ?? SubRegionId.DUMMY;
-    //   regionId = this?.parent?.parent?.id ?? RegionId.DUMMY;
-    // } else if (this instanceof SubRegion) {
-    //   subRegionId = this.id;
-    //   regionId = this?.parent?.id ?? RegionId.DUMMY;
-    // } else if (this instanceof Region) {
-    //   regionId = this.id;
-    // }
-
-    return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
-  }
-
-  /**
    * NOTE: The value of this depends on the arguments that instantiated the class. As such, **multiple classes with identical arguments will have the same uuid**. This is by design though.
    *
    * TODO: Perhaps I could trim off other data bar the passage?
@@ -176,10 +145,17 @@ class MapEntity<
         (classInstance.description ?? '')
       )
     }
+    const data = getIdData(this)
 
-    return compress(getIdData(this))
+    const noOfCopiesInParent = (
+      [...(this.siblings?.keys() ?? [])] as (typeof this)[]
+    ).filter(area => {
+      return data == getIdData(area)
+    }).length
+
+    return compress(data + (noOfCopiesInParent ? noOfCopiesInParent : ''))
   }
-  
+
   /**
    * NOTE: This also includes the class instance that called this getter
    */
@@ -253,18 +229,18 @@ class MapEntity<
     return this
   }
 
-  getArea(areaId: ChildType['id']) {
-    let childArea: ChildType | null = null
+  // getArea(areaId: ChildType['id']) {
+  //   let childArea: ChildType | null = null
 
-    for (const [child] of this.childrenData) {
-      if (child.id == areaId) {
-        childArea = child as ChildType
-        break
-      }
-    }
+  //   for (const [child] of this.childrenData) {
+  //     if (child.id == areaId) {
+  //       childArea = child as ChildType
+  //       break
+  //     }
+  //   }
 
-    return childArea
-  }
+  //   return childArea
+  // }
 
   /**
    * NOTE: This only works once and then silently does nothing if the area is already connected in that particular direction.
