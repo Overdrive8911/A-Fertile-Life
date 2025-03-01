@@ -83,35 +83,30 @@ export function warpToConnectedArea(direction: Direction) {
   const connectedArea = getConnectedArea(currArea, direction)
 
   if (connectedArea) {
-    warpToArea(connectedArea)
+    warpToArea(connectedArea.uuid)
     return true
   }
   return false
 }
 
-export function setPlayerLocation(destination: AreaUniqueId | SubAreas) {
-  variables().player.areaId =
-    typeof destination == 'string' ? destination : destination.uniqueId
+export function setPlayerLocation(destination: string) {
+  variables().player.areaId = destination
 }
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
-export function warpToArea(
-  destination: AreaUniqueId | SubAreas,
-  doNotWarp = false
-) {
+export function warpToArea(destination: string, doNotWarp = false) {
   const currentArea = variables().player.areaId
   // const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
 
-  let passageToLoad = backupPassageName
-  if (typeof destination == 'string') {
-    const mapEntitiesForDestination = globalMap.areasFromUniqueId(destination)
+  let passageToLoad =
+    globalMap.areaFromUUID(currentArea).passage ?? backupPassageName
+  // if (typeof destination == 'string') {
 
-    passageToLoad =
-      globalMap.getOccupiedArea(mapEntitiesForDestination).passage ??
-      backupPassageName
-  } else {
-    passageToLoad = destination.passage ?? backupPassageName
-  }
+  //   passageToLoad =
+
+  // } else {
+  //   passageToLoad = destination.passage ?? backupPassageName
+  // }
 
   if (passageToLoad == backupPassageName) {
     console.warn(

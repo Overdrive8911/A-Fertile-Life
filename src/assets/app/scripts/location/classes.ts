@@ -12,7 +12,7 @@ import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
 
 type ChildConnectionMap = Map<
-  { from: AreaId; to: AreaId },
+  { from: string; to: string },
   {
     dist: number
     /**
@@ -21,7 +21,7 @@ type ChildConnectionMap = Map<
     dir: Direction[]
   }
 >
-type ChildConnectionSessionStorageKey = `mapChildConnections_${AreaUniqueId}`
+type ChildConnectionSessionStorageKey = `mapChildConnections_${string}`
 type ChildConnectionSessionStorageData = Partial<
   Record<ChildConnectionSessionStorageKey, ChildConnectionMap>
 >
@@ -83,7 +83,7 @@ class MapEntity<
    * Solely used as a makeshift type
    */
   //@ts-ignore
-  private uuidType: (Exclude<typeof this.classType, undefined>)["uuid"]
+  private uuidType: Exclude<typeof this.classType, undefined>['uuid']
 
   constructor(
     /**
@@ -142,8 +142,8 @@ class MapEntity<
    *
    * TODO: Perhaps I could trim off other data bar the passage?
    */
-  get uuid(): GlobalMapId | string {
-    if (this instanceof GlobalMap) return this.id
+  get uuid(): string {
+    if (this instanceof GlobalMap) return `${this.id}`
 
     const getIdData = (classInstance: this | ParentType) => {
       return (
@@ -315,12 +315,12 @@ class MapEntity<
     childArea2: ChildType | ChildType['id']
   ) {
     const childConnectionData = await this.getChildConnections()
-    const id1: number = !(childArea1 instanceof MapEntity)
+    const id1: typeof this.uuidType = !(childArea1 instanceof MapEntity)
       ? childArea1
-      : childArea1.id
-    const id2: number = !(childArea2 instanceof MapEntity)
+      : childArea1.uuid
+    const id2: typeof this.uuidType = !(childArea2 instanceof MapEntity)
       ? childArea2
-      : childArea2.id
+      : childArea2.uuid
     let dist = 10 // Just a silly default
 
     for (const [idPair, data] of childConnectionData) {
@@ -345,13 +345,14 @@ class MapEntity<
       let finalMapOfConnections: ChildConnectionMap = new Map()
 
       const getMapChildConnectionPairData = async (
-        area1: AreaId,
-        area2: AreaId,
+        area1: typeof this.uuidType,
+        area2: typeof this.uuidType,
         data: ChildConnectionMap
       ) => {
+        const uuidType: typeof this.uuidType = ''
         let passes = false
         let dist = 0
-        let idPair: { from: AreaId; to: AreaId } | null = null
+        let idPair: { from: typeof uuidType; to: typeof uuidType } | null = null
 
         for (const [idObject, d] of data) {
           if (Object.values(idObject).includesAll(area1, area2)) {
@@ -363,15 +364,16 @@ class MapEntity<
         }
 
         return passes
-          ? { idPair: idPair as { from: AreaId; to: AreaId }, dist: dist }
+          ? { idPair: idPair as { from: string; to: string }, dist: dist }
           : null
       }
 
       const getDataOfAllConnectionsToChildArea = async (
-        originAreaId: AreaId
+        originArea: ChildType
       ) => {
+        // const originUUID = originArea.uuid
         const queuedAreas: {
-          id: AreaId
+          area: typeof originArea
           /**
            * `cumulativeDistance`
            */
@@ -380,24 +382,24 @@ class MapEntity<
            * This will be an array of the directions it takes to reach here from `originAreaId`
            */
           dir: Direction[]
-        }[] = [{ id: originAreaId, accDist: 0, dir: [] }]
-        const visitedAreas = new Set<AreaId>()
+        }[] = [{ area: originArea, accDist: 0, dir: [] }]
+        const visitedAreas = new Set<typeof originArea>()
         const result: ChildConnectionMap = new Map()
 
-        visitedAreas.add(originAreaId)
+        visitedAreas.add(originArea)
 
         while (queuedAreas.length > 0) {
           const currentAreaToIterateOver = queuedAreas.shift() as Exclude<
             (typeof queuedAreas)[0],
             undefined | null
           >
-          const iteratedId = currentAreaToIterateOver.id
+          const iteratedArea = currentAreaToIterateOver.area
           const iteratedCumulativeDistance = currentAreaToIterateOver.accDist
           const iteratedArrayOfDirections = currentAreaToIterateOver.dir
 
-          if (iteratedId != originAreaId)
+          if (iteratedArea != originArea)
             result.set(
-              { from: originAreaId, to: iteratedId },
+              { from: originArea.uuid, to: iteratedArea.uuid },
               {
                 dist: iteratedCumulativeDistance,
                 dir: iteratedArrayOfDirections,
@@ -405,21 +407,21 @@ class MapEntity<
             )
 
           // Enqueue all direct connections
-          const iteratedAreaConnections = this.childrenData.get(
-            this.getArea(iteratedId) as ChildType
+          const iteratedAreaConnections = this.childrenData?.get(
+            iteratedArea
           ) as Connections<ChildType>
 
           for await (const [
             direction,
             mapEntityDataForConnection,
           ] of iteratedAreaConnections) {
-            const connectionId = mapEntityDataForConnection.area.id
-            if (!visitedAreas.has(connectionId)) {
-              visitedAreas.add(connectionId)
+            const connectionArea = mapEntityDataForConnection.area
+            if (!visitedAreas.has(connectionArea)) {
+              visitedAreas.add(connectionArea)
               const newDirArray = clone(iteratedArrayOfDirections)
               newDirArray.push(direction)
               queuedAreas.push({
-                id: connectionId,
+                area: connectionArea,
                 accDist:
                   iteratedCumulativeDistance +
                   (mapEntityDataForConnection.distance ?? 1),
@@ -506,7 +508,7 @@ class MapEntity<
   }
 
   async #setSessionMapData(value: ChildConnectionMap) {
-    const key: keyof ChildConnectionSessionStorageData = `mapChildConnections_${this.uniqueId}`
+    const key: keyof ChildConnectionSessionStorageData = `mapChildConnections_${this.uuid}`
     try {
       // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
       sessionStorage.setItem(key, compress(JSON.stringify([...value])))
@@ -528,7 +530,7 @@ class MapEntity<
       const deserializedObject = JSON.parse(
         decompress(
           sessionStorage.getItem(
-            `mapChildConnections_${this.uniqueId}` as keyof ChildConnectionSessionStorageData
+            `mapChildConnections_${this.uuid}` as keyof ChildConnectionSessionStorageData
           ) as string // Yes, this can still fail :p
         )
       )
@@ -603,15 +605,15 @@ export class SubLocation extends MapEntity<
     delete this.childrenData
   }
 
-  get uniqueId(): AreaUniqueId {
-    let globalId = GlobalMapId.GLOBAL,
-      regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY,
-      subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY,
-      locationId = this?.parent?.id ?? LocationId.DUMMY,
-      subLocationId = this.id
+  // get uniqueId(): AreaUniqueId {
+  //   let globalId = GlobalMapId.GLOBAL,
+  //     regionId = this?.parent?.parent?.parent?.id ?? RegionId.DUMMY,
+  //     subRegionId = this?.parent?.parent?.id ?? SubRegionId.DUMMY,
+  //     locationId = this?.parent?.id ?? LocationId.DUMMY,
+  //     subLocationId = this.id
 
-    return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
-  }
+  //   return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
+  // }
 }
 
 export class Location extends MapEntity<
@@ -632,14 +634,14 @@ export class Location extends MapEntity<
     // delete this.passage
   }
 
-  get uniqueId(): AreaUniqueId {
-    let subRegion = this?.parent
-    let region = subRegion?.parent
+  // get uniqueId(): AreaUniqueId {
+  //   let subRegion = this?.parent
+  //   let region = subRegion?.parent
 
-    return `${GlobalMapId.GLOBAL}_${region?.id ?? RegionId.DUMMY}_${
-      subRegion?.id ?? SubRegionId.DUMMY
-    }_${this.id}_${SubLocationId.DUMMY}`
-  }
+  //   return `${GlobalMapId.GLOBAL}_${region?.id ?? RegionId.DUMMY}_${
+  //     subRegion?.id ?? SubRegionId.DUMMY
+  //   }_${this.id}_${SubLocationId.DUMMY}`
+  // }
 }
 
 export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
@@ -652,11 +654,11 @@ export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
     // delete this.passage
   }
 
-  get uniqueId(): AreaUniqueId {
-    return `${GlobalMapId.GLOBAL}_${this?.parent?.id ?? RegionId.DUMMY}_${
-      this.id
-    }_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
-  }
+  // get uniqueId(): AreaUniqueId {
+  //   return `${GlobalMapId.GLOBAL}_${this?.parent?.id ?? RegionId.DUMMY}_${
+  //     this.id
+  //   }_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
+  // }
 }
 
 export class Region extends MapEntity<
@@ -673,15 +675,17 @@ export class Region extends MapEntity<
     // delete this.passage
   }
 
-  get uniqueId(): AreaUniqueId {
-    return `${GlobalMapId.GLOBAL}_${this.id}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
-  }
+  // get uniqueId(): AreaUniqueId {
+  //   return `${GlobalMapId.GLOBAL}_${this.id}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
+  // }
 }
 
 /**
  * NOTE: **THERE SHOULD ONLY BE ONE INSTANCE OF THIS**
  */
 export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
+  #uuidMapCache: Map<typeof this.uuid, SubAreas> = new Map()
+
   constructor(
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
@@ -692,56 +696,97 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
     delete this.parent
   }
 
-  get uniqueId(): AreaUniqueId {
-    return `${this.id}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
+  async initMapCache() {
+    if (!this.childrenData.size) return
+
+    // Use BFS to cache all the uuids and their corresponding class instance references
+    this.#uuidMapCache = await (async () => {
+      const queuedAreas = [{ area: this as this | SubAreas }]
+      const visitedAreas = new Set<(typeof queuedAreas)[0]['area']>()
+      const result = new Map<typeof this.uuid, SubAreas>()
+
+      console.log(queuedAreas)
+
+      visitedAreas.add(this)
+
+      while (queuedAreas.length > 0) {
+        //REVIEW - Maybe I could implement a queue class?
+        const areaToWorkWith = queuedAreas.shift()
+        const iteratedArea = areaToWorkWith!.area
+        if (iteratedArea != this) {
+          result.set(iteratedArea.uuid, iteratedArea as SubAreas)
+        }
+
+        // Enqueue all child areas
+        const iteratedAreaChildren = iteratedArea.childrenData?.keys()
+
+        if (iteratedAreaChildren) {
+          for await (const area of iteratedAreaChildren) {
+            if (!visitedAreas.has(area)) {
+              visitedAreas.add(area)
+              queuedAreas.push({ area: area })
+            }
+          }
+        }
+      }
+      return result
+    })()
   }
 
+  // get uniqueId(): AreaUniqueId {
+  //   return `${this.id}_${RegionId.DUMMY}_${SubRegionId.DUMMY}_${LocationId.DUMMY}_${SubLocationId.DUMMY}`
+  // }
+
   /**
-   * Returns an object where each of the four properties is a reference to the appropriate `MapEntity` instance (excluding the `GlobalMap`)
+   * NOTE: **ENSURE THAT `this.initMapCache()` HAS BEEN CALLED BEFORE USING THIS.** Otherwise, it throws an error.
    */
-  areasFromUniqueId(id: AreaUniqueId) {
-    // Expecting an array of 5 numbers here
-    const ids = id.match(/(\d+)/g) as unknown as number[]
-
-    const region = this.getArea(ids[1]),
-      subRegion = region?.getArea(ids[2]) ?? null,
-      location = subRegion?.getArea(ids[3]) ?? null,
-      subLocation = location?.getArea(ids[4]) ?? null
-
-    return {
-      region: region,
-      subRegion: subRegion,
-      location: location,
-      subLocation: subLocation,
+  areaFromUUID(uuid: typeof this.uuid) {
+    if (this.#uuidMapCache.size == 0) {
+      this.initMapCache()
+      throw new Error('Map Cache is empty!')
     }
+
+    return this.#uuidMapCache.get(uuid) as SubAreas
+    // // Expecting an array of 5 numbers here
+    // const ids = uuid.match(/(\d+)/g) as unknown as number[]
+
+    // const region = this.getArea(ids[1]),
+    //   subRegion = region?.getArea(ids[2]) ?? null,
+    //   location = subRegion?.getArea(ids[3]) ?? null,
+    //   subLocation = location?.getArea(ids[4]) ?? null
+
+    // return {
+    //   region: region,
+    //   subRegion: subRegion,
+    //   location: location,
+    //   subLocation: subLocation,
+    // }
   }
 
   /**
    * Returns a reference to the current area the player is in, if any.
    */
-  get activeArea(): SubAreas {
-    return this.getOccupiedArea(variables().player.areaId)
+  get activeArea() {
+    return this.areaFromUUID(variables().player.areaId)
   }
 
-  /**
-   * Gets the actual area from either an idea or an object of map entities.
-   *
-   * E.g If the `id` is "0_1_2_5_0", it means that there is no `SubLocation`, since it's id (the last digit) is zero, so the actual area inhabited is the `Location`'s id
-   */
-  getOccupiedArea(
-    idOrObject: AreaUniqueId | ReturnType<typeof this.areasFromUniqueId>
-  ): SubAreas {
-    const mapEntities =
-      typeof idOrObject == 'string'
-        ? this.areasFromUniqueId(idOrObject)
-        : idOrObject
+  // /**
+  //  * Gets the actual area from either an idea or an object of map entities.
+  //  *
+  //  * E.g If the `id` is "0_1_2_5_0", it means that there is no `SubLocation`, since it's id (the last digit) is zero, so the actual area inhabited is the `Location`'s id
+  //  */
+  // getOccupiedArea(
+  //   idOrObject: AreaUniqueId | ReturnType<typeof this.areaFromUUID>
+  // ): SubAreas {
+  //   const mapEntities =
+  //     typeof idOrObject == 'string' ? this.areaFromUUID(idOrObject) : idOrObject
 
-    return (
-      mapEntities.subLocation ??
-      mapEntities.location ??
-      mapEntities.subRegion ??
-      (mapEntities.region as Region)
-    )
-  }
+  //   return (
+  //     mapEntities.subLocation ??
+  //     mapEntities.location ??
+  //     mapEntities.subRegion ??
+  //     (mapEntities.region as Region)
+  //   )
+  // }
 }
 // !SECTION

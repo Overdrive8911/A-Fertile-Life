@@ -22,7 +22,7 @@ declare module 'twine-sugarcube' {
       /**
        * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
        */
-      areaId: AreaUniqueId
+      areaId: string
     }
     storyFlags: StoryFlags
   }
