@@ -81,6 +81,11 @@ class MapEntity<
   private classType?: MapEntity<ChildType, IdType, ParentType>
 
   constructor(
+    /**
+     * This refers to any value from `AreaId` and is used to determine stuff like what icon to use, or any specific rules.
+     *
+     * NOTE: **THIS IS NOT MEANT TO SERVE AS A UNIQUE ID**
+     */
     public readonly id: IdType,
     public readonly name: string,
     public readonly passage?: string,
