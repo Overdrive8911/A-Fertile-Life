@@ -74,8 +74,6 @@ class MapEntity<
    */
   #mapChildConnectionData: ChildConnectionMap | undefined
 
-  readonly uuid = Symbol()
-
   /**
    * Solely used as a makeshift type
    */
@@ -160,6 +158,26 @@ class MapEntity<
     // }
 
     return `${globalId}_${regionId}_${subRegionId}_${locationId}_${subLocationId}`
+  }
+
+  /**
+   * NOTE: The value of this depends on the arguments that instantiated the class. As such, **multiple classes with identical arguments will have the same uuid**. This is by design though.
+   *
+   * TODO: Perhaps I could trim off other data bar the passage?
+   */
+  get uuid(): GlobalMapId | string {
+    if (this instanceof GlobalMap) return this.id
+
+    const getIdData = (classInstance: this | ParentType) => {
+      return (
+        classInstance.id +
+        classInstance.name +
+        (classInstance.passage ?? '') +
+        (classInstance.description ?? '')
+      )
+    }
+
+    return compress(getIdData(this))
   }
 
   /**
