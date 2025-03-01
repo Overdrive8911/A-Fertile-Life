@@ -78,7 +78,12 @@ class MapEntity<
    * Solely used as a makeshift type
    */
   //@ts-ignore
-  private classType?: MapEntity<ChildType, IdType, ParentType>
+  private classType: MapEntity<ChildType, IdType, ParentType>
+  /**
+   * Solely used as a makeshift type
+   */
+  //@ts-ignore
+  private uuidType: (Exclude<typeof this.classType, undefined>)["uuid"]
 
   constructor(
     /**
@@ -96,7 +101,10 @@ class MapEntity<
      */
     classData?: Partial<typeof this.classType>
   ) {
+    //@ts-ignore
     delete this.classType
+    //@ts-ignore
+    delete this.uuidType
 
     if (classData) {
       for (const key in classData) {
