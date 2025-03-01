@@ -180,6 +180,10 @@ class MapEntity<
     return compress(getIdData(this))
   }
 
+  get siblings() {
+    return this.parent?.childrenData
+  }
+
   /**
    * @param multiple - If given, an array of all possible entrypoints is returned.
    * @returns
