@@ -179,7 +179,10 @@ class MapEntity<
 
     return compress(getIdData(this))
   }
-
+  
+  /**
+   * NOTE: This also includes the class instance that called this getter
+   */
   get siblings() {
     return this.parent?.childrenData
   }
