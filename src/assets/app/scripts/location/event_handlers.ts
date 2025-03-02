@@ -145,7 +145,7 @@ $(document).on(':passageend', () => {
     element.attr(attrName, 'false')
   }
   const setLocationName = () => {
-    element.text(area.parent.name ?? '')
+    element.text(area.parent?.name ?? '')
     element.attr(attrName, 'true')
   }
   setSubLocationName()
@@ -241,7 +241,7 @@ $(document).on(':passageend', () => {
   // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
   if (!isAnyStoryFlagSet(StoryFlags.IS_EVENT_ACTIVE)) {
     const currArea = globalMap.activeArea
-    const a = currArea.parent.childrenData.get(currArea as any)
+    const a = currArea.siblings?.get(currArea as any)
     const currAreaDirections = a as Exclude<typeof a, undefined>
 
     const directionPool = [...currAreaDirections.keys()]
