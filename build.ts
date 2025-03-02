@@ -1,4 +1,4 @@
-import { build, sleep, write, $ } from 'bun'
+import { build, write, $ } from 'bun'
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
@@ -6,16 +6,13 @@ import {
   processStyles,
 } from './.build/plugins'
 import { Directory, mode } from './.build/variables'
-import { watch } from 'fs-extra'
+import watcher from '@parcel/watcher'
 import { setupTweego } from 'tweenode'
 // NOTE: None of the file watchers detect file deletions so keep that in mind, your best bet would be to rebuild the project
 
-// // Add explicit dependencies to the entry point so bun's build watcher will reload when these change
-// await import(Directory.SCRIPT_ENTRYPOINT)
-// await import(Directory.STYLE_ENTRYPOINT)
 const buildResult = await build({
-  entrypoints: [Directory.SCRIPT_ENTRYPOINT],
-  outdir: Directory.BUNDLED_SCRIPTS_DIR,
+  entrypoints: [Directory.SCRIPT_ENTRYPOINT + ''],
+  outdir: Directory.BUNDLED_SCRIPTS_DIR + '',
   minify: mode === 'production',
   plugins: [
     cleanDirectories,
@@ -27,26 +24,25 @@ const buildResult = await build({
 })
 
 if (mode == 'development') {
-  const watcher = watch(
-    Directory.APP,
-    { recursive: true },
-    async (event, filename) => {
-      if (filename?.endsWith('.ts')) {
+  let subscription = watcher.subscribe(Directory.APP, async (err, events) => {
+    console.log(events)
+    events.forEach(async e => {
+      if (e.path.endsWith('.ts')) {
         await build({
-          entrypoints: [Directory.SCRIPT_ENTRYPOINT],
-          outdir: Directory.BUNDLED_SCRIPTS_DIR,
+          entrypoints: [Directory.SCRIPT_ENTRYPOINT + ''],
+          outdir: Directory.BUNDLED_SCRIPTS_DIR + '',
         })
       }
-    }
-  )
+    })
+  })
 
-  process.on('SIGINT', () => {
-    watcher.close()
+  process.on('SIGINT', async () => {
+    await (await subscription).unsubscribe()
     process.exit(0)
   })
 }
 
-sleep(2000).finally(async () => {
+if (buildResult) {
   setupTweego().finally(async () => {
     await compileStory()
   })
@@ -78,7 +74,7 @@ sleep(2000).finally(async () => {
   }
 
   if (mode == 'development') {
-    const watcher = watch(Directory.OUTPUT, { recursive: true }, async () => {
+    const subscription = watcher.subscribe(Directory.OUTPUT, async () => {
       await compileStory()
       // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
       await write(
@@ -87,13 +83,13 @@ sleep(2000).finally(async () => {
       )
     })
 
-    process.on('SIGINT', () => {
-      watcher.close()
+    process.on('SIGINT', async () => {
+      await (await subscription).unsubscribe()
       process.exit(0)
     })
   }
 
   await compileStory()
-})
-
+}
+console.log(process.cwd())
 export {}
