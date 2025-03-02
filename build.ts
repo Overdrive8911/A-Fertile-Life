@@ -24,7 +24,6 @@ const buildResult = await build({
 
 if (mode == 'development') {
   let subscription = watcher.subscribe(Directory.APP, async (err, events) => {
-    console.log(events)
     events.forEach(async e => {
       if (e.path.endsWith('.ts')) {
         await build({
