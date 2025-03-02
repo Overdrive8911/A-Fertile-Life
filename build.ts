@@ -23,7 +23,7 @@ const buildResult = await build({
     bundleScriptAndStyleExtensions,
     copyOtherAssets,
   ],
-  drop: ['console'],
+  drop: ['console', 'window'],
 })
 
 if (mode == 'development') {
