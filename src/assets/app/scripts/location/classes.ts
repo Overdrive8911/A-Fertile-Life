@@ -155,11 +155,16 @@ class MapEntity<
     }
     const data = getIdData(this)
 
-    const noOfCopiesInParent = (
-      [...(this.siblings?.keys() ?? [])] as (typeof this)[]
-    ).filter(area => {
-      return data == getIdData(area)
-    }).length
+    let noOfCopiesInParent = 0
+    const siblings = [...(this.siblings?.keys() ?? [])] as (typeof this)[]
+
+    for (const area of siblings) {
+      if (area == this)
+        // Once we've reached this instance in the loop, there's no use going forward
+        break
+
+      if (data == getIdData(area)) noOfCopiesInParent++
+    }
 
     return compress(data + (noOfCopiesInParent ? noOfCopiesInParent : ''))
   }
