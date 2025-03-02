@@ -5,7 +5,7 @@
   "template-version": "0.3.1-beta",
   "description": "A starter template for a modern Twine development workflow",
   "scripts": {
-    "serve": "cd ./dist && bun run browser-sync start --server --files '*' --no-open --no-inject-changes --reload-delay '1000'",
+    "serve": "cd ./dist && bun run browser-sync start --server --watch --no-open --no-inject-changes --no-ghost-mode --no-ui --reload-delay '1000'",
     "dev-watch": "NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run serve",
     "dev-watch:no-server": "NODE_ENV=development bun run --no-clear-screen ./build.ts",
     "prod": "NODE_ENV=production bun run ./build.ts"
