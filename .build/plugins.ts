@@ -213,14 +213,17 @@ export const copyOtherAssets: BunPlugin = {
           async (err, events) => {
             events.forEach(async e => {
               const path = trimFilePath(e.path)
-              if (!path.includes(appStr)) {
-                await fastCopyFile(
-                  `${path}`,
-                  `${Directory.BUNDLED_STORY}/${path.replace(
-                    Directory.ASSETS.replace('.', ''),
-                    ''
-                  )}`
-                )
+              const destinationPath = `${
+                Directory.BUNDLED_STORY
+              }/${path.replace(Directory.ASSETS.replace('.', ''), '')}`
+
+              if (e.type == 'create' || e.type == 'update') {
+                if (!path.includes(appStr)) {
+                  await fastCopyFile(path, destinationPath)
+                }
+              } else {
+                // It's a deleted file so also delete it from the output
+                rm(destinationPath)
               }
             })
           }

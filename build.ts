@@ -8,7 +8,6 @@ import {
 import { Directory, mode } from './.build/variables'
 import watcher from '@parcel/watcher'
 import { setupTweego } from 'tweenode'
-// NOTE: None of the file watchers detect file deletions so keep that in mind, your best bet would be to rebuild the project
 
 const buildResult = await build({
   entrypoints: [Directory.SCRIPT_ENTRYPOINT + ''],
