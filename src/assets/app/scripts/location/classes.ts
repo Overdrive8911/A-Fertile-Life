@@ -394,6 +394,7 @@ class MapEntity<
         visitedAreas.add(originArea)
 
         while (queuedAreas.length > 0) {
+          console.log(visitedAreas)
           const currentAreaToIterateOver = queuedAreas.shift() as Exclude<
             (typeof queuedAreas)[0],
             undefined | null
@@ -416,22 +417,24 @@ class MapEntity<
             iteratedArea
           ) as Connections<ChildType>
 
-          for await (const [
-            direction,
-            mapEntityDataForConnection,
-          ] of iteratedAreaConnections) {
-            const connectionArea = mapEntityDataForConnection.area
-            if (!visitedAreas.has(connectionArea)) {
-              visitedAreas.add(connectionArea)
-              const newDirArray = clone(iteratedArrayOfDirections)
-              newDirArray.push(direction)
-              queuedAreas.push({
-                area: connectionArea,
-                accDist:
-                  iteratedCumulativeDistance +
-                  (mapEntityDataForConnection.distance ?? 1),
-                dir: newDirArray,
-              })
+          if (iteratedAreaConnections) {
+            for await (const [
+              direction,
+              mapEntityDataForConnection,
+            ] of iteratedAreaConnections) {
+              const connectionArea = mapEntityDataForConnection.area
+              if (!visitedAreas.has(connectionArea)) {
+                visitedAreas.add(connectionArea)
+                const newDirArray = clone(iteratedArrayOfDirections)
+                newDirArray.push(direction)
+                queuedAreas.push({
+                  area: connectionArea,
+                  accDist:
+                    iteratedCumulativeDistance +
+                    (mapEntityDataForConnection.distance ?? 1),
+                  dir: newDirArray,
+                })
+              }
             }
           }
         }
@@ -442,7 +445,7 @@ class MapEntity<
       // Loop through each child's connections and determine the total distance as well the directions
       for (const [child] of this.childrenData) {
         const childMapOfConnections = await getDataOfAllConnectionsToChildArea(
-          child.id
+          child as ChildType
         )
 
         // Prepend the contents of the child map
