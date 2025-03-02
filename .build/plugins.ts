@@ -3,7 +3,7 @@ import * as sass from 'sass-embedded'
 import postcss from 'postcss'
 import autoprefixer from 'autoprefixer'
 import CleanCSS from 'clean-css'
-import { watch } from 'node:fs'
+import watcher from '@parcel/watcher'
 import { Directory, mode } from './variables'
 import { link, mkdir, rm } from 'node:fs/promises'
 import { dirname } from 'node:path'
@@ -50,19 +50,15 @@ export const processStyles: BunPlugin = {
   setup(build) {
     build.onStart(async () => {
       if (mode == 'development') {
-        const watcher = watch(
-          Directory.STYLES,
-          { recursive: true },
-          async () => {
-            // Replace the css file
-            await write(
-              Directory.BUNDLED_STYLES,
-              await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
-            )
-          }
-        )
-        process.on('SIGINT', () => {
-          watcher.close()
+        const subscription = watcher.subscribe(Directory.STYLES, async () => {
+          // Replace the css file
+          await write(
+            Directory.BUNDLED_STYLES,
+            await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
+          )
+        })
+        process.on('SIGINT', async () => {
+          await (await subscription).unsubscribe()
           process.exit(0)
         })
       }
@@ -84,6 +80,10 @@ const getFilePathsRecursivelyFromDirectory = async (
     filePaths.push(filePath)
   }
   return filePaths
+}
+
+const trimFilePath = (path: string) => {
+  return './' + path.replace(process.cwd(), '')
 }
 
 export const bundleScriptAndStyleExtensions: BunPlugin = {
@@ -140,27 +140,25 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
       await processContentOfFiles(jsFilePaths, 'js')
 
       if (mode == 'development') {
-        const scriptWatcher = watch(
+        const scriptSubscription = watcher.subscribe(
           Directory.SCRIPT_EXTENSIONS,
-          { recursive: true },
-          async (event, filename) => {
-            if (filename) {
-              await processContentOfFiles([filename], 'js')
-            }
+          async (err, events) => {
+            events.forEach(async e => {
+              await processContentOfFiles([trimFilePath(e.path)], 'js')
+            })
           }
         )
-        const styleWatcher = watch(
+        const styleSubcription = watcher.subscribe(
           Directory.SCRIPT_EXTENSIONS,
-          { recursive: true },
-          async (event, filename) => {
-            if (filename) {
-              await processContentOfFiles([filename], 'css')
-            }
+          async (err, events) => {
+            events.forEach(async e => {
+              await processContentOfFiles([trimFilePath(e.path)], 'css')
+            })
           }
         )
-        process.on('SIGINT', () => {
-          scriptWatcher.close()
-          styleWatcher.close()
+        process.on('SIGINT', async () => {
+          await (await scriptSubscription).unsubscribe()
+          await (await styleSubcription).unsubscribe()
           process.exit(0)
         })
       }
@@ -210,21 +208,25 @@ export const copyOtherAssets: BunPlugin = {
       })
 
       if (mode == 'development') {
-        const watcher = watch(
+        const subscription = watcher.subscribe(
           Directory.ASSETS,
-          { recursive: true },
-          async (event, filename) => {
-            // console.log(event)
-            if (!filename?.includes(appStr)) {
-              await fastCopyFile(
-                `${Directory.ASSETS}/${filename}`,
-                `${Directory.BUNDLED_STORY}/${filename}`
-              )
-            }
+          async (err, events) => {
+            events.forEach(async e => {
+              const path = trimFilePath(e.path)
+              if (!path.includes(appStr)) {
+                await fastCopyFile(
+                  `${path}`,
+                  `${Directory.BUNDLED_STORY}/${path.replace(
+                    Directory.ASSETS.replace('.', ''),
+                    ''
+                  )}`
+                )
+              }
+            })
           }
         )
-        process.on('SIGINT', () => {
-          watcher.close()
+        process.on('SIGINT', async () => {
+          await (await subscription).unsubscribe()
           process.exit(0)
         })
       }
