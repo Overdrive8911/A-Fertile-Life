@@ -90,5 +90,5 @@ if (buildResult) {
 
   await compileStory()
 }
-console.log(process.cwd())
+
 export {}
