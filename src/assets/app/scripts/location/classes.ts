@@ -756,6 +756,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       throw new Error('Map Cache is empty!')
     }
 
+    //TODO: Find a way to return the user to a default area if this is invalid.
     return this.#uuidMapCache.get(uuid) as SubAreas
     // // Expecting an array of 5 numbers here
     // const ids = uuid.match(/(\d+)/g) as unknown as number[]
