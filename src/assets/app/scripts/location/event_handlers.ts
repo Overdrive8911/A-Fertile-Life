@@ -13,7 +13,7 @@ import {
   isAnyStoryFlagSet,
   StoryFlags,
 } from '../declarations/general_declarations'
-import { SubLocation, type Location } from './classes'
+import { GlobalMap, SubLocation, type Location } from './classes'
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -130,34 +130,34 @@ $(document).on(':passageend', () => {
   const element = $('#ui-top-bar-current-location-view')
   const attrName = 'is-location-name'
 
-  const areaId = variables().player.areaId
-  const area = globalMap.areaFromUUID(areaId)
+  const area = globalMap.activeArea
 
-  const setSubLocationName = () => {
-    const subLocation = area
+  const setAreaName = () => {
     let imgUrl =
-      gSubLocationIcons24x24[subLocation?.id ?? SubLocationId.DUMMY] ?? ''
+      gSubLocationIcons24x24[
+        area instanceof SubLocation ? area.id : SubLocationId.DUMMY
+      ]
 
-    element.text(subLocation?.name ?? '').append(
+    element.text(area.name).append(
       // Use the icon as a mask over a color that will be set by css
       `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
     )
     element.attr(attrName, 'false')
   }
-  const setLocationName = () => {
-    element.text(area.parent?.name ?? '')
+  const setParentName = () => {
+    element.text(!(area instanceof GlobalMap) ? area.parent.name : ':3')
     element.attr(attrName, 'true')
   }
-  setSubLocationName()
+  setAreaName()
 
   // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
   element.ariaClick(() => {
     if (element.attr(attrName) == 'true') {
       // The location's name is currently displayed so try to display the sub location (if any)
-      setSubLocationName()
+      setAreaName()
     } else if (element.attr(attrName) == 'false') {
       // The sub location's name is currently displayed so display it's location
-      setLocationName()
+      setParentName()
     }
   })
 })
