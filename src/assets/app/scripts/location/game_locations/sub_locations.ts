@@ -1,6 +1,8 @@
 /* NOTE: Due to the way that UUIDs are generated, changing the order of class instantiation may result in regenerating UUIDs and may also result in inconsistencies with the player's save data. 
 
-As such, ensure that all "safe zones", which are areas where the player's can confidently save without the risk of issues, are defined at the top of this file and should NEVER have their positions altered unless you want to break them :p */
+As such, ensure that all "safe zones", which are areas where the player's can confidently save without the risk of issues, are defined at the top of this file and should NEVER have their positions altered unless you want to break them :p 
+
+Edit: I've added a safeguard that'll prevent the saved area id from messing up too bad as long as the passage doesn't *also* change. */
 
 import { SubLocation } from '../classes'
 import { MapEntityFlags, SubLocationId } from '../enums'
