@@ -731,8 +731,6 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       const visitedAreas = new Set<(typeof queuedAreas)[0]['area']>()
       const result = new Map<typeof this.uuid, SubAreas>()
 
-      console.log(queuedAreas)
-
       visitedAreas.add(this)
 
       while (queuedAreas.length > 0) {
