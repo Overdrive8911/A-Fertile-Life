@@ -9,11 +9,16 @@ import {
   SubLocationId,
   MapEntityId,
 } from './enums'
-import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
+import type {
+  AreaId,
+  AreaUniqueId,
+  SubAreas,
+  UUID,
+} from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
 
 type ChildConnectionMap = Map<
-  { from: string; to: string },
+  { from: UUID; to: UUID },
   {
     dist: number
     /**
@@ -67,6 +72,8 @@ class MapEntity<
   childrenData: ChildType extends never
     ? undefined
     : Map<ChildType, Connections<ChildType>> = new Map() as any
+
+  uuid: UUID
 
   /**
    * This is a temporary cache used to quickly determine the distance between any two child areas.
@@ -130,6 +137,21 @@ class MapEntity<
     //@ts-ignore
     delete this.uuidType
 
+    const constructor = this.constructor as typeof MapEntity
+
+    this.uuid =
+      this instanceof SubLocation
+        ? `${MapEntityId.SUB_LOCATION}_${constructor.sL++}`
+        : this instanceof Location
+        ? `${MapEntityId.LOCATION}_${constructor.l++}`
+        : this instanceof SubRegion
+        ? `${MapEntityId.SUB_REGION}_${constructor.sR++}`
+        : this instanceof Region
+        ? `${MapEntityId.REGION}_${constructor.r++}`
+        : this instanceof GlobalMap
+        ? MapEntityId.GLOBAL_MAP
+        : MapEntityId.DUMMY
+
     if (classData) {
       for (const key in classData) {
         if (Object.prototype.hasOwnProperty.call(classData, key)) {
@@ -159,27 +181,6 @@ class MapEntity<
       `new ${this.constructor.name}(...[,,,,],$ReviveData$)`,
       ownData
     )
-  }
-
-  /**
-   * NOTE: The value of this depends on the arguments that instantiated the class. As such, **multiple classes with identical arguments will have the same uuid**. This is by design though.
-   *
-   * TODO: Perhaps I could trim off other data bar the passage?
-   */
-  get uuid(): string {
-    const constructor = this.constructor as typeof MapEntity
-
-    return this instanceof SubLocation
-      ? `${MapEntityId.SUB_LOCATION}_${constructor.#subLocationUUIDCounter++}`
-      : this instanceof Location
-      ? `${MapEntityId.LOCATION}_${constructor.#locationUUIDCounter++}`
-      : this instanceof SubRegion
-      ? `${MapEntityId.SUB_REGION}_${constructor.#subRegionUUIDCounter++}`
-      : this instanceof Region
-      ? `${MapEntityId.REGION}_${constructor.#regionUUIDCounter++}`
-      : this instanceof GlobalMap
-      ? `${MapEntityId.GLOBAL_MAP}`
-      : `${MapEntityId.DUMMY}`
   }
 
   /**
@@ -367,10 +368,9 @@ class MapEntity<
         area2: typeof this.uuidType,
         data: ChildConnectionMap
       ) => {
-        const uuidType: typeof this.uuidType = ''
         let passes = false
         let dist = 0
-        let idPair: { from: typeof uuidType; to: typeof uuidType } | null = null
+        let idPair: { from: UUID; to: UUID } | null = null
 
         for (const [idObject, d] of data) {
           if (Object.values(idObject).includesAll(area1, area2)) {
@@ -382,7 +382,7 @@ class MapEntity<
         }
 
         return passes
-          ? { idPair: idPair as { from: string; to: string }, dist: dist }
+          ? { idPair: idPair as { from: UUID; to: UUID }, dist: dist }
           : null
       }
 
