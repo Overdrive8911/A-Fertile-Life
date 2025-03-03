@@ -75,10 +75,10 @@ if (buildResult) {
     const subscription = watcher.subscribe(Directory.OUTPUT, async () => {
       await compileStory()
       // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
-      // await write(
-      //   `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
-      //   'Dummy'
-      // )
+      await write(
+        `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
+        'Dummy'
+      )
     })
 
     process.on('SIGINT', async () => {
