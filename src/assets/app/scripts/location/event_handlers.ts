@@ -172,13 +172,9 @@ $(document).on(':passageend', () => {
 
   // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
   const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH)
-  const northAreaId = lastWarpDestination
   const isEastNavigable = isNavigationButtonUsable(Direction.EAST)
-  const eastAreaId = lastWarpDestination
   const isSouthNavigable = isNavigationButtonUsable(Direction.SOUTH)
-  const southAreaId = lastWarpDestination
   const isWestNavigable = isNavigationButtonUsable(Direction.WEST)
-  const westAreaId = lastWarpDestination
   console.warn('CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.')
 
   const navigate = (direction: Direction) => {
