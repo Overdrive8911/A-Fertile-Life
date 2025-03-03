@@ -1,5 +1,8 @@
 import type { StoryFlags } from './scripts/declarations/general_declarations'
-import type { AreaUniqueId } from './scripts/location/types_and_interfaces'
+import type {
+  AreaUniqueId,
+  UUID,
+} from './scripts/location/types_and_interfaces'
 
 declare module 'twine-sugarcube' {
   export interface SugarCubeSetupObject {
@@ -22,7 +25,7 @@ declare module 'twine-sugarcube' {
       /**
        * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
        */
-      areaId: string
+      areaId: UUID
     }
     storyFlags: StoryFlags
   }

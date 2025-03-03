@@ -133,11 +133,11 @@ export const enum GlobalMapId {
 }
 
 export const enum MapEntityId {
-  DUMMY,
-  SUB_LOCATION,
-  LOCATION,
-  SUB_REGION,
-  REGION,
-  GLOBAL_MAP,
+  DUMMY = '0',
+  SUB_LOCATION = '1',
+  LOCATION = '2',
+  SUB_REGION = '3',
+  REGION = '4',
+  GLOBAL_MAP = '5',
 }
 //!SECTION
