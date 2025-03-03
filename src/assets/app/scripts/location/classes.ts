@@ -7,6 +7,7 @@ import {
   SubRegionId,
   LocationId,
   SubLocationId,
+  MapEntityId,
 } from './enums'
 import type { AreaId, AreaUniqueId, SubAreas } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
@@ -85,6 +86,29 @@ class MapEntity<
   //@ts-ignore
   private uuidType: Exclude<typeof this.classType, undefined>['uuid']
 
+  //SECTION - Static properties
+
+  /**
+   * regionUUIDCounter
+   */
+  private static r = 0
+
+  /**
+   * subRegionUUIDCounter
+   */
+  private static sR = 0
+
+  /**
+   * locationUUIDCounter
+   */
+  private static l = 0
+
+  /**
+   * subLocationUUIDCounter
+   */
+  private static sL = 0
+  //!SECTION
+
   constructor(
     /**
      * This refers to any value from `AreaId` and is used to determine stuff like what icon to use, or any specific rules.
@@ -143,30 +167,19 @@ class MapEntity<
    * TODO: Perhaps I could trim off other data bar the passage?
    */
   get uuid(): string {
-    if (this instanceof GlobalMap) return `${this.id}`
+    const constructor = this.constructor as typeof MapEntity
 
-    const getIdData = (classInstance: this | ParentType) => {
-      return (
-        classInstance.id +
-        classInstance.name +
-        (classInstance.passage ?? '') +
-        (classInstance.description ?? '')
-      )
-    }
-    const data = getIdData(this)
-
-    let noOfCopiesInParent = 0
-    const siblings = [...(this.siblings?.keys() ?? [])] as (typeof this)[]
-
-    for (const area of siblings) {
-      if (area == this)
-        // Once we've reached this instance in the loop, there's no use going forward
-        break
-
-      if (data == getIdData(area)) noOfCopiesInParent++
-    }
-
-    return compress(data + (noOfCopiesInParent ? noOfCopiesInParent : ''))
+    return this instanceof SubLocation
+      ? `${MapEntityId.SUB_LOCATION}_${constructor.#subLocationUUIDCounter++}`
+      : this instanceof Location
+      ? `${MapEntityId.LOCATION}_${constructor.#locationUUIDCounter++}`
+      : this instanceof SubRegion
+      ? `${MapEntityId.SUB_REGION}_${constructor.#subRegionUUIDCounter++}`
+      : this instanceof Region
+      ? `${MapEntityId.REGION}_${constructor.#regionUUIDCounter++}`
+      : this instanceof GlobalMap
+      ? `${MapEntityId.GLOBAL_MAP}`
+      : `${MapEntityId.DUMMY}`
   }
 
   /**
