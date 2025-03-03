@@ -96,7 +96,7 @@ export const uiSideBarToggleHandler = () => {
   // } else if (!settings.uiSideBarToggle) {
   //   $("#ui-side-bar").removeClass("stowed");
   // }
-  if (window.matchMedia(slimMobileWidth).matches) {
+  if (window.matchMedia(slimMobileWidth)?.matches) {
     //SECTION - For slim portrait modes on mobile
     // Reset general changes if coming from another mobile width range
     if (prevMobileMaxWidth !== slimMobileWidth) {
@@ -158,7 +158,7 @@ export const uiSideBarToggleHandler = () => {
     copyActionInterfaceContentsToSideBar()
   }
   //SECTION - For wide portrait and relatively narrower landscape modes on mobile
-  else if (window.matchMedia(wideMobileWidth).matches) {
+  else if (window.matchMedia(wideMobileWidth)?.matches) {
     // Reset if coming from another mobile screen range
     if (prevMobileMaxWidth !== wideMobileWidth) {
       generalMobileUISettingsReset()
