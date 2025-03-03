@@ -1,6 +1,6 @@
 import { setLastWarpDestination } from './other_data'
 import { Direction, MapEntityFlags } from './enums'
-import type { AreaUniqueId, SubAreas } from './types_and_interfaces'
+import type { AreaUniqueId, SubAreas, UUID } from './types_and_interfaces'
 import {
   SubLocation,
   type Location,
@@ -89,12 +89,12 @@ export function warpToConnectedArea(direction: Direction) {
   return false
 }
 
-export function setPlayerLocation(destination: string) {
+export function setPlayerLocation(destination: UUID) {
   variables().player.areaId = destination
 }
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
-export function warpToArea(destination: string, doNotWarp = false) {
+export function warpToArea(destination: UUID, doNotWarp = false) {
   const currentArea = variables().player.areaId
   // const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
 
