@@ -27,7 +27,7 @@ function getConnectedArea(
   direction: Direction
 ): SubAreas | null {
   const parent = area.parent
-  const connectedArea = parent.childrenData
+  const connectedAreas = parent.childrenData
     .get(area as any)
     ?.get(direction)?.area
   let canEnterConnectedAreaFromDirection = true
@@ -41,7 +41,7 @@ function getConnectedArea(
       | MapEntityFlags.INACCESSIBLE_FROM_NORTH
       | MapEntityFlags.INACCESSIBLE_FROM_DOWN
   ) => {
-    return (connectedArea?.flags ?? MapEntityFlags.NONE) & flag ? true : false
+    return (connectedAreas?.flags ?? MapEntityFlags.NONE) & flag ? false : true
   }
   switch (oppositeDirection[direction]) {
     case Direction.NORTH:
@@ -76,7 +76,7 @@ function getConnectedArea(
       break
   }
 
-  return canEnterConnectedAreaFromDirection ? connectedArea ?? null : null
+  return canEnterConnectedAreaFromDirection ? connectedAreas ?? null : null
 }
 
 export function warpToConnectedArea(direction: Direction) {
