@@ -11,8 +11,14 @@ import { MapEntityFlags, SubLocationId } from '../enums'
 export const subLocation_playerRoom = new SubLocation(
   SubLocationId.PLAYER_ROOM,
   'Your Room',
-  '',
+  'Player_Room',
   'Smells like you :3'
+)
+export const subLocation_playerBathroom = new SubLocation(
+  SubLocationId.BATHROOM,
+  'Your Bathroom',
+  'Player_Bathroom',
+  '^w^'
 )
 export const subLocation_playerBedroom = new SubLocation(
   SubLocationId.BEDROOM,
