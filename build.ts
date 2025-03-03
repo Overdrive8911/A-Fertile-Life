@@ -23,13 +23,22 @@ const buildResult = await build({
 })
 
 if (mode == 'development') {
+  const tryBuild = async () => {
+    try {
+      await build({
+        entrypoints: [Directory.SCRIPT_ENTRYPOINT + ''],
+        outdir: Directory.BUNDLED_SCRIPTS_DIR + '',
+      })
+    } catch (error) {
+      console.log('Build failed. Error:', error)
+      console.log('Retrying')
+      await tryBuild()
+    }
+  }
   let subscription = watcher.subscribe(Directory.APP, async (err, events) => {
     events.forEach(async e => {
       if (e.path.endsWith('.ts')) {
-        await build({
-          entrypoints: [Directory.SCRIPT_ENTRYPOINT + ''],
-          outdir: Directory.BUNDLED_SCRIPTS_DIR + '',
-        })
+        await tryBuild()
       }
     })
   })
