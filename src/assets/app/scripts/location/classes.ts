@@ -16,6 +16,7 @@ import type {
   UUID,
 } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
+import { defaultWarpDestination } from './other_data'
 
 type ChildConnectionMap = Map<
   { from: UUID; to: UUID },
@@ -712,6 +713,11 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    */
   #uuidMapCache: Map<typeof this.uuid, SubAreas> = new Map()
 
+  /**
+   * Used to fetch the required UUID from a passage
+   */
+  #passageUUIDCache: Map<string, UUID[]> = new Map()
+
   constructor(
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
@@ -738,7 +744,20 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
         const areaToWorkWith = queuedAreas.shift()
         const iteratedArea = areaToWorkWith!.area
         if (iteratedArea != this) {
-          result.set(iteratedArea.uuid, iteratedArea as SubAreas)
+          const iteratedUUID = iteratedArea.uuid
+          result.set(iteratedUUID, iteratedArea as SubAreas)
+
+          const iteratedPassageName = iteratedArea.passage ?? ''
+          const existingPassageData =
+            this.#passageUUIDCache.get(iteratedPassageName)
+
+          if (existingPassageData) {
+            // Append this passage's uuid
+            existingPassageData.push(iteratedUUID)
+          } else {
+            // Init a new array for the data
+            this.#passageUUIDCache.set(iteratedPassageName, [iteratedUUID])
+          }
         }
 
         // Enqueue all child areas
@@ -789,10 +808,22 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   }
 
   /**
-   * Returns a reference to the current area the player is in, if any.
+   * Returns a reference to the current area the player is in, if any. If it cannot infer the player's location, it simply defaults to the `GlobalMap`
    */
-  get activeArea() {
-    return this.areaFromUUID(variables().player.areaId)
+  get activeArea(): SubAreas | GlobalMap {
+    const uuid = variables().player.areaId
+    const currPassage = passage()
+
+    // This will, always have at least 1 item
+    const passageLinkedUUIDs = this.#passageUUIDCache.get(currPassage)
+
+    return passageLinkedUUIDs
+      ? passageLinkedUUIDs.includes(uuid)
+        ? this.areaFromUUID(uuid)
+        : this.areaFromUUID(
+            passageLinkedUUIDs[random(99) % passageLinkedUUIDs.length]
+          )
+      : this
   }
 
   // /**
