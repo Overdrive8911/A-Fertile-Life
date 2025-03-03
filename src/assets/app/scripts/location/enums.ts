@@ -131,4 +131,13 @@ export const enum RegionId {
 export const enum GlobalMapId {
   GLOBAL,
 }
+
+export const enum MapEntityId {
+  DUMMY,
+  SUB_LOCATION,
+  LOCATION,
+  SUB_REGION,
+  REGION,
+  GLOBAL_MAP,
+}
 //!SECTION
