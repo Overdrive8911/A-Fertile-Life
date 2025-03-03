@@ -13,9 +13,13 @@ export const cleanDirectories: BunPlugin = {
   setup(build) {
     build.onStart(async () => {
       const cleanDir = async (dir: string) => {
-        rm(dir, { recursive: true, force: true }).finally(async () => {
-          await mkdir(dir, { recursive: true })
-        })
+        rm(dir, { recursive: true, force: true })
+          .catch(() => {
+            console.log(`File at path, ${dir}, doesn't exist. Skipping.`)
+          })
+          .finally(async () => {
+            await mkdir(dir, { recursive: true })
+          })
       }
 
       await cleanDir(Directory.OUTPUT)
@@ -223,7 +227,9 @@ export const copyOtherAssets: BunPlugin = {
                 }
               } else {
                 // It's a deleted file so also delete it from the output
-                rm(destinationPath)
+                rm(destinationPath, {}).catch(() => {
+                  ;`File at path, ${path}, doesn't exist. Skipping.`
+                })
               }
             })
           }
