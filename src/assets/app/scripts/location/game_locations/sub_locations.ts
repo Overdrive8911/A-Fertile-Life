@@ -1,12 +1,30 @@
-/* NOTE: When adding areas, do it in this order:
-    - USE COMMENTS TO SECTION OUT RELATED AREAS FOR READABILITY
-    - Create instances of every child area.
-    - Connect them together.
-    - Create the instance of the container area. 
-    - Add all the child areas to the container area. */
+/* NOTE: Due to the way that UUIDs are generated, changing the order of class instantiation may result in regenerating UUIDs and may also result in inconsistencies with the player's save data. 
+
+As such, ensure that all "safe zones", which are areas where the player's can confidently save without the risk of issues, are defined at the top of this file and should NEVER have their positions altered unless you want to break them :p */
 
 import { SubLocation } from '../classes'
 import { MapEntityFlags, SubLocationId } from '../enums'
+
+// SECTION: Player House
+export const subLocation_playerRoom = new SubLocation(
+  SubLocationId.PLAYER_ROOM,
+  'Your Room',
+  '',
+  'Smells like you :3'
+)
+export const subLocation_playerBedroom = new SubLocation(
+  SubLocationId.BEDROOM,
+  'Your Bedroom',
+  '',
+  'ZZZ...'
+)
+export const subLocation_playerLivingRoom = new SubLocation(
+  SubLocationId.LIVING_ROOM,
+  'Your Living Room',
+  '',
+  'Still smells like you :3'
+)
+//!SECTION
 
 //SECTION: Fertilo Inc
 export const subLocation_Porch = new SubLocation(
@@ -91,26 +109,5 @@ export const subLocation_OfficeWork = new SubLocation(
   SubLocationId.OFFICE_WORK,
   'Office',
   'Fertilo_Inc_Office_Work'
-)
-//!SECTION
-
-// SECTION: Player House
-export const subLocation_playerRoom = new SubLocation(
-  SubLocationId.PLAYER_ROOM,
-  'Your Room',
-  '',
-  'Smells like you :3'
-)
-export const subLocation_playerBedroom = new SubLocation(
-  SubLocationId.BEDROOM,
-  'Your Bedroom',
-  '',
-  'ZZZ...'
-)
-export const subLocation_playerLivingRoom = new SubLocation(
-  SubLocationId.LIVING_ROOM,
-  'Your Living Room',
-  '',
-  'Still smells like you :3'
 )
 //!SECTION
