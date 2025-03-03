@@ -242,13 +242,13 @@ $(document).on(':passageend', () => {
   if (!isAnyStoryFlagSet(StoryFlags.IS_EVENT_ACTIVE)) {
     const currArea = globalMap.activeArea
     const a = currArea.siblings?.get(currArea as any)
-    const currAreaDirections = a as Exclude<typeof a, undefined>
+    const currAreaDirections = a //as Exclude<typeof a, undefined>
 
-    const directionPool = [...currAreaDirections.keys()]
+    const directionPool = [...(currAreaDirections?.keys() ?? [])]
     const getRandomDirectionData = () => {
       const dir = directionPool.pluck() ?? Direction.NORTH
 
-      return { dir: dir, name: currAreaDirections.get(dir)?.area.name ?? '' }
+      return { dir: dir, name: currAreaDirections?.get(dir)?.area.name ?? '' }
     }
 
     const dirData1 = getRandomDirectionData()
