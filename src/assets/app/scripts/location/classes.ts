@@ -743,22 +743,22 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
         //REVIEW - Maybe I could implement a queue class?
         const areaToWorkWith = queuedAreas.shift()
         const iteratedArea = areaToWorkWith!.area
-        if (iteratedArea != this) {
-          const iteratedUUID = iteratedArea.uuid
-          result.set(iteratedUUID, iteratedArea as SubAreas)
+        // if (iteratedArea != this) {
+        const iteratedUUID = iteratedArea.uuid
+        result.set(iteratedUUID, iteratedArea as SubAreas)
 
-          const iteratedPassageName = iteratedArea.passage ?? ''
-          const existingPassageData =
-            this.#passageUUIDCache.get(iteratedPassageName)
+        const iteratedPassageName = iteratedArea.passage ?? ''
+        const existingPassageData =
+          this.#passageUUIDCache.get(iteratedPassageName)
 
-          if (existingPassageData) {
-            // Append this passage's uuid
-            existingPassageData.push(iteratedUUID)
-          } else {
-            // Init a new array for the data
-            this.#passageUUIDCache.set(iteratedPassageName, [iteratedUUID])
-          }
+        if (existingPassageData) {
+          // Append this passage's uuid
+          existingPassageData.push(iteratedUUID)
+        } else {
+          // Init a new array for the data
+          this.#passageUUIDCache.set(iteratedPassageName, [iteratedUUID])
         }
+        // }
 
         // Enqueue all child areas
         const iteratedAreaChildren = iteratedArea.childrenData?.keys()
