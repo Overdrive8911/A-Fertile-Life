@@ -32,6 +32,7 @@ export const setMapPopoutZoomLvl = (lvl: number) => {
 export const gPlayerMapSpriteSrc = '/media/img/map/icons/player_map_sprite.webp'
 
 export const defaultWarpDestination = subLocation_playerRoom.uuid
+console.log(defaultWarpDestination)
 
 export let lastWarpDestination: string = defaultWarpDestination // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
 export const setLastWarpDestination = (arg: typeof lastWarpDestination) => {
