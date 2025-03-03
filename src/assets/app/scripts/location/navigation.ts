@@ -2,6 +2,7 @@ import { setLastWarpDestination } from './other_data'
 import { Direction, MapEntityFlags } from './enums'
 import type { AreaUniqueId, SubAreas, UUID } from './types_and_interfaces'
 import {
+  GlobalMap,
   SubLocation,
   type Location,
   type Region,
@@ -80,6 +81,11 @@ function getConnectedArea(
 
 export function warpToConnectedArea(direction: Direction) {
   const currArea = globalMap.activeArea
+  if (currArea instanceof GlobalMap) {
+    warpToArea(globalMap.uuid)
+    return true
+  }
+
   const connectedArea = getConnectedArea(currArea, direction)
 
   if (connectedArea) {
@@ -124,5 +130,11 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
   }
 }
 export function isNavigationButtonUsable(direction: Direction) {
-  return getConnectedArea(globalMap.activeArea, direction) ? true : false
+  const activeArea = globalMap.activeArea
+
+  return activeArea instanceof GlobalMap
+    ? false
+    : getConnectedArea(activeArea, direction)
+    ? true
+    : false
 }
