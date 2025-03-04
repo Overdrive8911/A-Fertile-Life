@@ -196,27 +196,45 @@ class MapEntity<
    * @returns
    * NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
    */
-  #originArea(): ChildType | null
-  #originArea(multiple: boolean): ChildType[] | null
-  #originArea(multiple = false): ChildType | ChildType[] | null {
+  async originArea(): Promise<ChildType[] | null>
+  async originArea(referenceArea: ChildType): Promise<ChildType | null>
+  async originArea(
+    referenceArea?: ChildType
+  ): Promise<ChildType | ChildType[] | null> {
     if (!this.childrenData?.size) return null
-    let returnArea: ChildType[] = [],
-      firstArea: ChildType | null = null
+
+    const returnAreas: ChildType[] = []
+    let firstArea: ChildType | null = null
     let hasSetFirstArea = false
-    for (const [child] of this.childrenData) {
-      const d = child as ChildType
+
+    for (const c of this.childrenData.keys()) {
+      const child = c as ChildType
+
       if (!hasSetFirstArea) {
-        firstArea = d
+        firstArea = child
         hasSetFirstArea = true
       }
 
-      if (d.flags & MapEntityFlags.IS_ENTRY_POINT) {
-        returnArea.push(d)
-        if (!multiple) break
-      }
-      break
+      if (child.flags & MapEntityFlags.IS_ENTRY_POINT) returnAreas.push(child)
     }
-    return multiple ? returnArea ?? [firstArea] : returnArea[0] ?? firstArea
+
+    if (referenceArea) {
+      return (async () => {
+        const distances = await Promise.all(
+          returnAreas.map(async area => ({
+            area,
+            distance: await this.getDistance(area, referenceArea),
+          }))
+        )
+
+        // Sort in ascending order so the shortest path will be at index0
+        distances.sort((a, b) => a.distance - b.distance)
+
+        return distances.map(d => d.area)[0]
+      })()
+    }
+
+    return returnAreas.length ? returnAreas : firstArea
   }
 
   /**
