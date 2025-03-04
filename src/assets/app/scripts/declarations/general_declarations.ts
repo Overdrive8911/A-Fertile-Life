@@ -1,3 +1,6 @@
+import { globalMap } from '../location/game_locations/global_map'
+import type { UUID } from '../location/types_and_interfaces'
+
 export const enum StoryFlags {
   NONE = 0,
   /**
@@ -30,4 +33,13 @@ export function clearStoryFlag(flag: StoryFlags) {
 
 export function toggleStoryFlag(flag: StoryFlags) {
   variables().storyFlags ^= flag
+}
+
+// SECTION: Location specific helper functions
+export function activeArea() {
+  return globalMap.activeArea
+}
+
+export function getAreaFromUUID(uuid: UUID) {
+  return globalMap.areaFromUUID(uuid)
 }
