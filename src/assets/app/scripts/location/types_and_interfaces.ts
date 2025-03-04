@@ -1,4 +1,4 @@
-import type { Region, SubRegion, Location, SubLocation } from './classes'
+import type { Region, SubRegion, Location, SubLocation, GlobalMap } from './classes'
 import type {
   GlobalMapId,
   LocationId,
@@ -18,6 +18,7 @@ export type AreaId =
 export type AreaUniqueId =
   `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`
 export type SubAreas = Region | SubRegion | Location | SubLocation
+export type AnyArea = GlobalMap | SubAreas
 export type UUID =
   | `${Exclude<
       MapEntityId,
