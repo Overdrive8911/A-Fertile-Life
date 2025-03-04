@@ -325,13 +325,13 @@ $(document).on(':passageend', () => {
         [
           `Currently, you're in ${currAreaText},`,
 
-          `${areaDir(1)} is ${areaDirName(1)} of here,`,
+          `${areaDirName(1)} is ${areaDir(1)} of here,`,
 
-          `while ${areaDir(2)} is likely ${areaDirName(2)}.`,
+          `while ${areaDirName(2)} is likely ${areaDir(2)}.`,
 
-          `${areaDir(3)} is definitely ${areaDirName(3)},`,
+          `${areaDirName(3)} is definitely ${areaDir(3)},`,
 
-          `with ${areaDir(4)} in the ${areaDirName(4)}.`,
+          `with ${areaDirName(4)} in the ${areaDir(4)}.`,
         ],
         [
           `If you were to leave ${currAreaText},`,
