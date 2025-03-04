@@ -1,4 +1,10 @@
-import type { Region, SubRegion, Location, SubLocation, GlobalMap } from './classes'
+import type {
+  Region,
+  SubRegion,
+  Location,
+  SubLocation,
+  GlobalMap,
+} from './classes'
 import type {
   GlobalMapId,
   LocationId,
