@@ -19,6 +19,7 @@ export type AreaUniqueId =
   `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`
 export type SubAreas = Region | SubRegion | Location | SubLocation
 export type AnyArea = GlobalMap | SubAreas
+export type SuperAreas = Exclude<AnyArea, SubLocation>
 export type UUID =
   | `${Exclude<
       MapEntityId,
