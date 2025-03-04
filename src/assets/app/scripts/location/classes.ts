@@ -843,5 +843,65 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
           )
       : this
   }
+
+  /**
+   * Gets the shortest distance between any 2 sub areas beneath this, regardless of their "level"
+   * @param area1
+   * @param area2
+   */
+  async getDistance2(area1: AnyArea, area2: AnyArea): Promise<number> {
+    let travelDist = 0
+    let commonParent: Exclude<AnyArea, SubLocation>
+
+    if (area1 instanceof GlobalMap || area2 instanceof GlobalMap)
+      commonParent = this
+    else {
+      const getCommonParent = (area1: SubAreas, area2: SubAreas) => {
+        const parent1 = area1.parent
+        const parent2 = area2.parent
+
+        if (parent1 instanceof GlobalMap || parent2 instanceof GlobalMap) {
+          return this
+        }
+
+        if (parent1 != parent2) {
+          return getCommonParent(parent1, parent2)
+        } else {
+          return parent1
+        }
+      }
+
+      commonParent = getCommonParent(area1, area2)
+    }
+
+    const getDistanceToSpecificParent = async (
+      area: AnyArea,
+      specificParent: SuperAreas,
+      dist = 0
+    ) => {
+      if (area instanceof GlobalMap) return dist
+
+      const parent = area.parent
+
+      const accumulatedDist =
+        dist +
+        (await parent.getDistance(
+          area as any,
+          (await parent.originArea(area as any)) as any
+        ))
+
+      if (parent == specificParent) return accumulatedDist
+      else getDistanceToSpecificParent(parent, specificParent, accumulatedDist)
+    }
+
+    const dist1 = await getDistanceToSpecificParent(area1, commonParent),
+      dist2 = await getDistanceToSpecificParent(area2, commonParent)
+
+    travelDist = (dist1 ?? 0) + (dist2 ?? 0)
+
+    console.log(travelDist)
+
+    return travelDist
+  }
 }
 // !SECTION
