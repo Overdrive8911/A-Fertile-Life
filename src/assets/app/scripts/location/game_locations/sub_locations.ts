@@ -4,6 +4,8 @@ As such, ensure that all "safe zones", which are areas where the player's can co
 
 Edit: I've added a safeguard that'll prevent the saved area id from messing up too bad as long as the passage doesn't *also* change. */
 
+//ANCHOR - Assume that any areas with the same passage name are the same
+
 import { SubLocation } from '../classes'
 import { MapEntityFlags, SubLocationId } from '../enums'
 
