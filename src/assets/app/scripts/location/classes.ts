@@ -855,7 +855,10 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
 
     if (area1 instanceof GlobalMap || area2 instanceof GlobalMap)
       commonParent = this
-    else {
+    else if (area1.parent == area2.parent) {
+      return area1.parent.getDistance(area1 as any, area2 as any)
+    } else
+    {
       const getCommonParent = (area1: SubAreas, area2: SubAreas) => {
         const parent1 = area1.parent
         const parent2 = area2.parent
