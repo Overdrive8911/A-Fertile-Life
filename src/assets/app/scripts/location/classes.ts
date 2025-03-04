@@ -220,6 +220,8 @@ class MapEntity<
       if (child.flags & MapEntityFlags.IS_ENTRY_POINT) returnAreas.push(child)
     }
 
+    if (!returnAreas.length) return firstArea
+
     if (referenceArea) {
       return (async () => {
         const distances = await Promise.all(
