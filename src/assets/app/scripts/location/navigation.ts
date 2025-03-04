@@ -10,6 +10,10 @@ import {
 } from './classes'
 import { globalMap } from './game_locations/global_map'
 import { backupPassageName, oppositeDirection } from './general_location_data'
+import {
+  activeArea,
+  getAreaFromUUID,
+} from '../declarations/general_declarations'
 
 function getConnectedArea(
   area: SubLocation,
@@ -80,7 +84,7 @@ function getConnectedArea(
 }
 
 export function warpToConnectedArea(direction: Direction) {
-  const currArea = globalMap.activeArea
+  const currArea = activeArea()
   if (currArea instanceof GlobalMap) {
     warpToArea(globalMap.uuid)
     return true
@@ -101,11 +105,10 @@ export function setPlayerLocation(destination: UUID) {
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(destination: UUID, doNotWarp = false) {
-  const currentArea = globalMap.activeArea
+  const currentArea = activeArea()
   // const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
 
-  let passageToLoad =
-    globalMap.areaFromUUID(destination).passage ?? backupPassageName
+  let passageToLoad = getAreaFromUUID(destination).passage ?? backupPassageName
   // if (typeof destination == 'string') {
 
   //   passageToLoad =
@@ -130,11 +133,11 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
   }
 }
 export function isNavigationButtonUsable(direction: Direction) {
-  const activeArea = globalMap.activeArea
+  const currArea = activeArea()
 
-  return activeArea instanceof GlobalMap
+  return currArea instanceof GlobalMap
     ? false
-    : getConnectedArea(activeArea, direction)
+    : getConnectedArea(currArea, direction)
     ? true
     : false
 }
