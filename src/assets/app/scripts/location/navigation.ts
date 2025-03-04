@@ -106,9 +106,9 @@ export function setPlayerLocation(destination: UUID) {
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(destination: UUID, doNotWarp = false) {
   const currentArea = activeArea()
-  // const mapEntitiesForCurrentArea = globalMap.areasFromUniqueId(currentArea)
+  const destinationArea = getAreaFromUUID(destination)
 
-  let passageToLoad = getAreaFromUUID(destination).passage ?? backupPassageName
+  let passageToLoad = destinationArea.passage ?? backupPassageName
   // if (typeof destination == 'string') {
 
   //   passageToLoad =
