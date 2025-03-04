@@ -825,24 +825,5 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
           )
       : this
   }
-
-  // /**
-  //  * Gets the actual area from either an idea or an object of map entities.
-  //  *
-  //  * E.g If the `id` is "0_1_2_5_0", it means that there is no `SubLocation`, since it's id (the last digit) is zero, so the actual area inhabited is the `Location`'s id
-  //  */
-  // getOccupiedArea(
-  //   idOrObject: AreaUniqueId | ReturnType<typeof this.areaFromUUID>
-  // ): SubAreas {
-  //   const mapEntities =
-  //     typeof idOrObject == 'string' ? this.areaFromUUID(idOrObject) : idOrObject
-
-  //   return (
-  //     mapEntities.subLocation ??
-  //     mapEntities.location ??
-  //     mapEntities.subRegion ??
-  //     (mapEntities.region as Region)
-  //   )
-  // }
 }
 // !SECTION
