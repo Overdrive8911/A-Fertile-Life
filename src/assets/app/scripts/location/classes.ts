@@ -10,9 +10,11 @@ import {
   MapEntityId,
 } from './enums'
 import type {
+  AnyArea,
   AreaId,
   AreaUniqueId,
   SubAreas,
+  SuperAreas,
   UUID,
 } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
@@ -192,9 +194,9 @@ class MapEntity<
   }
 
   /**
-   * @param multiple - If given, an array of all possible entrypoints is returned.
-   * @returns
-   * NOTE: Check for the first entry area, else the first element in the `children` map is the origin area and will always have the coords of {x:0,y:0,z:0}
+   * Gets the appropriate "origin area" that acts as the main entry point (or exit in some case)
+   *
+   * @param referenceArea - If given and multiple origin areas exist, the closest origin area is picked.
    */
   async originArea(): Promise<ChildType[] | null>
   async originArea(referenceArea: ChildType): Promise<ChildType | null>
@@ -857,8 +859,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       commonParent = this
     else if (area1.parent == area2.parent) {
       return area1.parent.getDistance(area1 as any, area2 as any)
-    } else
-    {
+    } else {
       const getCommonParent = (area1: SubAreas, area2: SubAreas) => {
         const parent1 = area1.parent
         const parent2 = area2.parent
@@ -901,8 +902,6 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       dist2 = await getDistanceToSpecificParent(area2, commonParent)
 
     travelDist = (dist1 ?? 0) + (dist2 ?? 0)
-
-    console.log(travelDist)
 
     return travelDist
   }
