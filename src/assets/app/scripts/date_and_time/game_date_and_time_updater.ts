@@ -1,4 +1,5 @@
 import { averageWalkingSpeed } from '../location/other_data'
+import { updateGameTimeVariable } from './date_and_time_declarations'
 
 export const updateTimeWithDistance = (
   dist: number,
@@ -14,7 +15,7 @@ export const updateTimeWithDistance = (
   )
 
   // Change the in-game time
-  setup.updateGameTimeVariable(timeToTravel)
+  updateGameTimeVariable(timeToTravel)
 }
 
 // Skip forward `day` times to the specified time (in hrs and minutes)
@@ -45,6 +46,6 @@ export const skipSomeDaysToSpecificTime = (
 }
 
 // Skip to the next day and stop at the particular hour(0 till 23) and minutes(0 till 59)
-setup.skipToNextDayWithSpecificTime = (hours: number, minutes: number) => {
+export function skipToNextDayWithSpecificTime(hours: number, minutes: number) {
   skipSomeDaysToSpecificTime(1, hours, minutes)
 }
