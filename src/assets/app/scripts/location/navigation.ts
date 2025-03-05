@@ -14,6 +14,7 @@ import {
   activeArea,
   getAreaFromUUID,
 } from '../declarations/general_declarations'
+import { updateTimeWithDistance } from '../date_and_time/game_date_and_time_updater'
 
 function getConnectedArea(
   area: SubLocation,
@@ -130,7 +131,9 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
   if (!doNotWarp) {
     setPlayerLocation(destination)
     // Calculate the amount of time to travel between the areas
-    const totalDist = globalMap.getDistance2(currentArea, destinationArea)
+    globalMap.getDistance2(currentArea, destinationArea).then(dist => {
+      updateTimeWithDistance(dist)
+    })
 
     Engine.play(passageToLoad)
   }
