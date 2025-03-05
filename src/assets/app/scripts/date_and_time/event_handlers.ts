@@ -1,10 +1,6 @@
 import { averageWalkingSpeed } from '../location/other_data'
 import { updateGameTimeAfterChangingPassage } from './game_date_and_time_updater'
 
-const gameTimeUpdateAfterPassageNavigationEvent = new Event(
-  'gameTimeUpdatedAfterPassageNavigation'
-)
-
 // Update the game time after changing location but not when the browser window is restarted/refreshed
 $(document).one(':passageinit', () => {
   $(document).on(':passageinit', incomingPassage => {
@@ -14,9 +10,6 @@ $(document).one(':passageinit', () => {
       incomingPassage.passage.title,
       averageWalkingSpeed[0]
     )
-
-    // Dispatch the event
-    document.dispatchEvent(gameTimeUpdateAfterPassageNavigationEvent)
 
     return 0
   })
