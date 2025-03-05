@@ -1,4 +1,4 @@
-// import './date_and_time/index'
+import './date_and_time/index'
 import './declarations/index'
 import './location/index'
 import './variable_initialization/index'
