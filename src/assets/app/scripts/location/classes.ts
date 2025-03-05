@@ -356,6 +356,8 @@ class MapEntity<
     childArea1: ChildType | ChildType['id'],
     childArea2: ChildType | ChildType['id']
   ) {
+    if (childArea1 == childArea2) return 0
+
     const childConnectionData = await this.getChildConnections()
     const id1: typeof this.uuidType = !(childArea1 instanceof MapEntity)
       ? childArea1
