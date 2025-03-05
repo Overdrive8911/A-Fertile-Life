@@ -1,6 +1,6 @@
 import { setLastWarpDestination } from './other_data'
 import { Direction, MapEntityFlags } from './enums'
-import type { AreaUniqueId, SubAreas, UUID } from './types_and_interfaces'
+import type { SubAreas, UUID } from './types_and_interfaces'
 import {
   GlobalMap,
   SubLocation,
