@@ -18,7 +18,7 @@ import type {
   UUID,
 } from './types_and_interfaces'
 import { oppositeDirection } from './general_location_data'
-import { defaultWarpDestination } from './other_data'
+import Queue from 'yocto-queue'
 
 type ChildConnectionMap = Map<
   { from: UUID; to: UUID },
@@ -414,8 +414,7 @@ class MapEntity<
       const getDataOfAllConnectionsToChildArea = async (
         originArea: ChildType
       ) => {
-        // const originUUID = originArea.uuid
-        const queuedAreas: {
+        type QueueElement = {
           area: typeof originArea
           /**
            * `cumulativeDistance`
@@ -425,17 +424,16 @@ class MapEntity<
            * This will be an array of the directions it takes to reach here from `originAreaId`
            */
           dir: Direction[]
-        }[] = [{ area: originArea, accDist: 0, dir: [] }]
+        }
+        const queuedAreas = new Queue<QueueElement>()
+        queuedAreas.enqueue({ area: originArea, accDist: 0, dir: [] })
         const visitedAreas = new Set<typeof originArea>()
         const result: ChildConnectionMap = new Map()
 
         visitedAreas.add(originArea)
 
-        while (queuedAreas.length > 0) {
-          const currentAreaToIterateOver = queuedAreas.shift() as Exclude<
-            (typeof queuedAreas)[0],
-            undefined | null
-          >
+        while (queuedAreas.size > 0) {
+          const currentAreaToIterateOver = queuedAreas.dequeue() as QueueElement
           const iteratedArea = currentAreaToIterateOver.area
           const iteratedCumulativeDistance = currentAreaToIterateOver.accDist
           const iteratedArrayOfDirections = currentAreaToIterateOver.dir
@@ -464,7 +462,7 @@ class MapEntity<
                 visitedAreas.add(connectionArea)
                 const newDirArray = clone(iteratedArrayOfDirections)
                 newDirArray.push(direction)
-                queuedAreas.push({
+                queuedAreas.enqueue({
                   area: connectionArea,
                   accDist:
                     iteratedCumulativeDistance +
@@ -756,15 +754,19 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
 
     // Use BFS to cache all the uuids and their corresponding class instance references
     this.#uuidMapCache = await (async () => {
-      const queuedAreas = [{ area: this as this | SubAreas }]
-      const visitedAreas = new Set<(typeof queuedAreas)[0]['area']>()
+      type QueueElement = { area: AnyArea }
+
+      const queuedAreas = new Queue<QueueElement>()
+      queuedAreas.enqueue({ area: this })
+
+      const visitedAreas = new Set<AnyArea>()
       const result = new Map<typeof this.uuid, SubAreas>()
 
       visitedAreas.add(this)
 
-      while (queuedAreas.length > 0) {
+      while (queuedAreas.size > 0) {
         //REVIEW - Maybe I could implement a queue class?
-        const areaToWorkWith = queuedAreas.shift()
+        const areaToWorkWith = queuedAreas.dequeue()
         const iteratedArea = areaToWorkWith!.area
         // if (iteratedArea != this) {
         const iteratedUUID = iteratedArea.uuid
@@ -790,7 +792,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
           for await (const area of iteratedAreaChildren) {
             if (!visitedAreas.has(area)) {
               visitedAreas.add(area)
-              queuedAreas.push({ area: area })
+              queuedAreas.enqueue({ area: area })
             }
           }
         }
