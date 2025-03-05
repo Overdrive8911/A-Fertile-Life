@@ -2,7 +2,7 @@ import { averageWalkingSpeed } from '../location/other_data'
 
 export const updateTimeWithDistance = (
   dist: number,
-  movementSpeed: number /* in metres per second*/
+  movementSpeed = averageWalkingSpeed[0] /* in metres per second*/
 ) => {
   // Get the time to travel in seconds
   const timeToTravel = Math.floor(
