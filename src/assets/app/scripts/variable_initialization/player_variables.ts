@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { lastWarpDestination } from '../location/other_data'
 
-setup.initializePlayerVariables = () => {
+setup.initPlayerVars = () => {
   // $player
   variables().player = {
     /* Money */

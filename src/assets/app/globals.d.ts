@@ -7,7 +7,7 @@ import type {
 declare module 'twine-sugarcube' {
   export interface SugarCubeSetupObject {
     locationData: LocationObject
-    initializePlayerVariables: () => void
+    initPlayerVars: () => void
     updateGameDateAndTimeDisplay: () => void
   }
 
