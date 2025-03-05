@@ -897,7 +897,12 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
         ))
 
       if (parent == specificParent) return accumulatedDist
-      else getDistanceToSpecificParent(parent, specificParent, accumulatedDist)
+      else
+        return getDistanceToSpecificParent(
+          parent,
+          specificParent,
+          accumulatedDist
+        )
     }
 
     const dist1 = await getDistanceToSpecificParent(area1, commonParent),
