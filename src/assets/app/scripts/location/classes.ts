@@ -365,7 +365,7 @@ class MapEntity<
     const id2: typeof this.uuidType = !(childArea2 instanceof MapEntity)
       ? childArea2
       : childArea2.uuid
-    let dist = 10 // Just a silly default
+    let dist = random(1, 10) // Just a silly default
 
     for (const [idPair, data] of childConnectionData) {
       if (Object.values(idPair).includesAll(id1, id2)) {
