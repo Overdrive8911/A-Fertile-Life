@@ -432,7 +432,6 @@ class MapEntity<
         visitedAreas.add(originArea)
 
         while (queuedAreas.length > 0) {
-          console.log(visitedAreas)
           const currentAreaToIterateOver = queuedAreas.shift() as Exclude<
             (typeof queuedAreas)[0],
             undefined | null
