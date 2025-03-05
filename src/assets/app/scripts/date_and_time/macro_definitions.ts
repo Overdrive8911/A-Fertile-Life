@@ -1,6 +1,9 @@
 // Add a macro to deal with time changing
 
-import { skipSomeDaysToSpecificTime } from './game_date_and_time_updater'
+import {
+  skipSomeDaysToSpecificTime,
+  skipToNextDayWithSpecificTime,
+} from './game_date_and_time_updater'
 
 // E.g <<updateGameTime "nextDay" 7 30>> to skip to 7:30 on the next day, <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards
 Macro.add('updateGameTime', {
@@ -11,7 +14,7 @@ Macro.add('updateGameTime', {
     const minutes: number = this.args[2]
 
     if (days === 'nextDay') {
-      setup.skipToNextDayWithSpecificTime(hours, minutes)
+      skipToNextDayWithSpecificTime(hours, minutes)
     } else if (typeof days === 'number') {
       skipSomeDaysToSpecificTime(days, hours, minutes)
     }

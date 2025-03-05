@@ -7,8 +7,6 @@ import type {
 declare module 'twine-sugarcube' {
   export interface SugarCubeSetupObject {
     locationData: LocationObject
-    updateGameTimeVariable: (timeInSeconds: number) => void
-    skipToNextDayWithSpecificTime: (hours: number, minutes: number) => void
     initializePlayerVariables: () => void
     updateGameDateAndTimeDisplay: () => void
   }
