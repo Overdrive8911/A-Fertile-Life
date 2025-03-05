@@ -129,6 +129,9 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
   // load the passage
   if (!doNotWarp) {
     setPlayerLocation(destination)
+    // Calculate the amount of time to travel between the areas
+    const totalDist = globalMap.getDistance2(currentArea, destinationArea)
+
     Engine.play(passageToLoad)
   }
 }
