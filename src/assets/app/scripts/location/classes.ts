@@ -643,28 +643,15 @@ export class SubLocation extends MapEntity<
 
     [SubLocationId.RECEPTION]: this.#getUrl('reception'),
 
-    [SubLocationId.HALLWAY_1]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_2]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_3]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_4]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_5]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_6]: this.#getUrl('hallway'),
-    [SubLocationId.HALLWAY_7]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY]: this.#getUrl('hallway'),
 
-    [SubLocationId.PHARMACY_1]: SubLocation.#getUrl('pharmacy'),
-    [SubLocationId.PHARMACY_2]: SubLocation.#getUrl('pharmacy'),
+    [SubLocationId.PHARMACY]: SubLocation.#getUrl('pharmacy'),
 
     [SubLocationId.PORCH]: SubLocation.#getUrl('porch'),
 
-    [SubLocationId.CORRIDOR_1]: SubLocation.#getUrl('corridor'),
-    [SubLocationId.CORRIDOR_2]: SubLocation.#getUrl('corridor'),
-    [SubLocationId.CORRIDOR_3]: SubLocation.#getUrl('corridor'),
+    [SubLocationId.CORRIDOR]: SubLocation.#getUrl('corridor'),
 
-    [SubLocationId.ROOM_1]: SubLocation.#getUrl('room'),
-    [SubLocationId.ROOM_2]: SubLocation.#getUrl('room'),
-    [SubLocationId.ROOM_3]: SubLocation.#getUrl('room'),
-    [SubLocationId.ROOM_4]: SubLocation.#getUrl('room'),
-    [SubLocationId.ROOM_5]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM]: SubLocation.#getUrl('room'),
 
     [SubLocationId.LAB]: SubLocation.#getUrl('lab'),
 
