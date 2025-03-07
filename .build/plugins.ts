@@ -146,7 +146,7 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
       if (mode == 'development') {
         const scriptSubscription = watcher.subscribe(
           Directory.SCRIPT_EXTENSIONS,
-          async (err, events) => {
+          async (_, events) => {
             events.forEach(async e => {
               await processContentOfFiles([trimFilePath(e.path)], 'js')
             })
@@ -154,7 +154,7 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
         )
         const styleSubcription = watcher.subscribe(
           Directory.SCRIPT_EXTENSIONS,
-          async (err, events) => {
+          async (_, events) => {
             events.forEach(async e => {
               await processContentOfFiles([trimFilePath(e.path)], 'css')
             })
@@ -214,7 +214,7 @@ export const copyOtherAssets: BunPlugin = {
       if (mode == 'development') {
         const subscription = watcher.subscribe(
           Directory.ASSETS,
-          async (err, events) => {
+          async (_, events) => {
             events.forEach(async e => {
               const path = trimFilePath(e.path)
               const destinationPath = `${
