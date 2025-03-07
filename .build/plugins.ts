@@ -152,7 +152,7 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
             })
           }
         )
-        const styleSubcription = watcher.subscribe(
+        const styleSubscription = watcher.subscribe(
           Directory.SCRIPT_EXTENSIONS,
           async (_, events) => {
             events.forEach(async e => {
@@ -162,7 +162,7 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
         )
         process.on('SIGINT', async () => {
           await (await scriptSubscription).unsubscribe()
-          await (await styleSubcription).unsubscribe()
+          await (await styleSubscription).unsubscribe()
           process.exit(0)
         })
       }
