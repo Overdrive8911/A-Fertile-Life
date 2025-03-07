@@ -58,13 +58,7 @@ type Player = {
 
   womb: NSPregnancy.Womb;
 
-  breasts: {
-    individualSize: number;
-    totalMilkCapacity: number;
-    isLactating: boolean;
-    nipples: string;
-    areola: string;
-  };
+  breasts: NSBodyStats.Breasts;
 
   muscleDefinition: number;
 

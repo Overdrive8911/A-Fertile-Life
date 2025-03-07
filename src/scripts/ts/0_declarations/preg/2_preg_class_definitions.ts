@@ -16,11 +16,12 @@ namespace NSPregnancy {
     );
 
     // These capacity variables also refer to the "size too"
+    // NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here when trying to READ. Since the variables here are write-only.
     curCapacity =
       BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
-    comfortCapacity =
+    #comfortCapacity =
       BellyState.FULL_TERM; /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */
-    maxCapacity =
+    #maxCapacity =
       BellyState.FULL_TERM +
       BellyState.LATE_PREGNANCY; /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */
 
@@ -28,7 +29,7 @@ namespace NSPregnancy {
       
       Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */
 
-    postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to 7 (can be influenced by some perks) once the PC gives birth to all her children */
+    postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children */
     onContraceptives = false;
     birthRecord = 0; /* Number of times the user has given birth */
 
@@ -42,6 +43,13 @@ namespace NSPregnancy {
     perks: PregPerksObject = {};
     sideEffects: PregSideEffectsObject = {};
     fetuses: Map<number /* fetusId */, Fetus> = new Map();
+
+    set comfortCapacity(value: BellyState | number) {
+      this.#comfortCapacity = value;
+    }
+    set maxCapacity(value: BellyState | number) {
+      this.#maxCapacity = value;
+    }
 
     constructor(classProperties: Womb = null) {
       if (classProperties != null) {
@@ -210,8 +218,8 @@ namespace NSPregnancy {
 
           // TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
 
-          // The player has the hyper fertility perk
-          const perks = this.perks;
+          // SECTION - The player has the hyper fertility perk
+          const perks = this.perks || {};
           if (perks && perks.hyperFertility) {
             // Give a large multiplier to the chance for multiples.
             chance *= 1.55;
@@ -223,10 +231,17 @@ namespace NSPregnancy {
               k++;
             }
           }
+          // !SECTION
+
+          // SECTION - Superfetation's ability to allow pregnancy during pregnancy.
           if (this.isPregnant) {
             if (perks && perks.superFet) {
-              // Applies to superfetation, lets make it difficult >:D
-              chance *= 0.1;
+              const superFetPerk = perks.superFet;
+              // REVIEW - Half the chance plus a bit extra per perk level. That should be enough, right?
+              chance *= 0.5;
+              chance +=
+                (gAllPregPerks.superFet.maxLevel - superFetPerk.currLevel) *
+                0.08;
             } else {
               // No chance to make more babies :p
               chance = 0;
@@ -241,6 +256,7 @@ namespace NSPregnancy {
               }
             }
           }
+          // !SECTION
 
           console.log(`fertile chance: ${chance}`);
           // This is on the woman's side so superfet genes affect this chance
@@ -256,22 +272,15 @@ namespace NSPregnancy {
         }
 
         // If this parameter is given, override the regular number of fetuses to spawn
-        if (numOfFetusesToForceToSpawn && numOfFetusesToForceToSpawn != 0)
+        if (numOfFetusesToForceToSpawn && numOfFetusesToForceToSpawn > 0)
           numOfFoetusToSpawn = numOfFetusesToForceToSpawn;
 
         // NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
         const maxFetusNumber = this.getMinimumNumOfFullTermFetusesAtBellyState(
-          this.maxCapacity
+          this.effectiveMaxCapacity
         );
         if (numOfFoetusToSpawn > maxFetusNumber) {
           numOfFoetusToSpawn = maxFetusNumber;
-
-          if (numOfFetusesToForceToSpawn)
-            console.warn(
-              `The number of fetuses forced to be spawned was truncated to ${maxFetusNumber}`
-            );
-        }
-        // !SECTION
 
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
         for (i = 0; i < numOfFoetusToSpawn; i++) {
@@ -327,6 +336,7 @@ namespace NSPregnancy {
       return Math.floor(bellyState / BellyState.FULL_TERM);
     }
 
+    // Returns a negative value
     calculateHealthDamage() {
       const womb = this as Womb;
       if (!gIsWombDamageEnabled) return 0;
@@ -335,27 +345,32 @@ namespace NSPregnancy {
         womb.hp = WombHealth.RIP;
         return 0;
       }
-      // TODO - Consider having the weight affect this. Also superfetation
-
-      // Get the average developmentRatio of all fetuses
-      let averageDevelopmentRatio = 0;
-      for (let i = 0; i < womb.fetuses.size; i++) {
-        averageDevelopmentRatio += womb.fetuses.get(i).developmentRatio;
-      }
-      averageDevelopmentRatio /= womb.fetuses.size;
-
-      // Every 10% progress in pregnancy has a 15% chance to subtract 0.5 womb health. This number is increased by the number of fetuses the user is pregnant with
-      let timesToRunDamageCheck = Math.floor(averageDevelopmentRatio / 10);
 
       let wombDamage = 0;
-      while (timesToRunDamageCheck > 0) {
-        if (random(100) < 15) {
-          wombDamage += womb.fetuses.size * 0.5;
-        }
-        timesToRunDamageCheck--;
+
+      // Calculate the damage per each fetus
+      this.fetuses.forEach((fetus) => {
+        let developmentProgressSinceLastUpdate =
+          fetus.developmentRatio - fetus.devRatioAtLastUpdate;
+
+        // Every 1% progress in pregnancy development does 0.25 damage.
+        wombDamage +=
+          Math.round((developmentProgressSinceLastUpdate / 1) * 0.25 * 100) /
+          100;
+      });
+
+      // Consider if the fortified womb perk is active
+      const perks = this.perks || {};
+      const fortifiedWombPerk = perks.fortifiedWomb;
+      if (perks && fortifiedWombPerk) {
+        wombDamage -=
+          (perks.fortifiedWomb.currLevel /
+            gAllPregPerks.fortifiedWomb.maxLevel) *
+          gFortifiedWombPerkMaxPassiveHPDrainNerf *
+          wombDamage;
       }
 
-      return wombDamage;
+      return -wombDamage;
     }
 
     // Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
@@ -387,6 +402,31 @@ namespace NSPregnancy {
       }
 
       return 0.5;
+    }
+
+    // NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD
+    addHp(value: number) {
+      let mod = 1;
+
+      const perks = this.perks || {};
+      const healthyWombPerk = perks.healthyWomb;
+      if (perks && healthyWombPerk) {
+        if (value >= 0) {
+          // Buff health increments
+          mod +=
+            (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+            gHealthyWombPerkMaxHPIncrementBuff *
+            mod;
+        } else {
+          // Nerf health decrements
+          mod +=
+            (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+            gHealthyWombPerkMaxHPDecrementNerf *
+            mod;
+        }
+      }
+
+      this.hp += value * mod;
     }
 
     // SECTION - Preg belly size
@@ -495,17 +535,25 @@ namespace NSPregnancy {
         // TODO - Make it so that exp starts off really small (x0.1), at a "normal" rate halfway through (x1), and then is much more abundant(x10) with greater development
         expToAdd +=
           gExpPerSingleFetusGestation *
-            ((fetus.developmentRatio - fetus.devRatioAtLastExpUpdate) /
-              gMaxDevelopmentState) || 1; // A minimum of 1 exp
+          ((fetus.developmentRatio - fetus.devRatioAtLastUpdate) /
+            gMaxDevelopmentState);
 
         // Add a random chance to bump it up or down by a random percentage between 1% and 10% because :3
         const randPercentage = random(1, 10) / 100;
         expToAdd = random(1)
           ? expToAdd + expToAdd * randPercentage
           : expToAdd - expToAdd * randPercentage;
-
-        fetus.devRatioAtLastExpUpdate = fetus.developmentRatio; // Update it
       });
+      // !SECTION
+
+      // SECTION - Boost it if the elasticity perk is active
+      if (this.perks && this.perks.elasticity) {
+        const perkData = this.perks.elasticity;
+        expToAdd +=
+          (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
+          gElasticityPerkMaxExpBoost *
+          expToAdd;
+      }
       // !SECTION
 
       console.log(
@@ -563,8 +611,15 @@ namespace NSPregnancy {
     // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
     // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
     // TODO - Add side effects to womb health
-    updatePregnancyGrowth() {
-      // const targetWomb = this as Womb1
+    updatePregnancyGrowth(
+      customElapsedTime: number = null,
+      inputUser: Player = null
+    ) {
+      // NOTE - `customTime` must be in seconds.
+
+      // Default to the player character
+      if (!inputUser) inputUser = saveVar_player;
+
       // The target is pregnant so do everything required under here
       if (this.isPregnant) {
         const currentTime = variables().gameDateAndTime;
@@ -581,18 +636,55 @@ namespace NSPregnancy {
           gActualPregnancyLength = targetFetus.getTotalGestationDuration(this);
 
           // Get the time elapsed in seconds since the pregnancy was updated
-          const timeElapsedSinceLastPregUpdate =
-            currentTime.getTime() / 1000 -
-            pregUpdateTimeBeforeGettingAffectedByThisFunction.getTime() / 1000;
+          const timeElapsedSinceLastPregUpdate = customElapsedTime
+            ? customElapsedTime
+            : currentTime.getTime() / 1000 -
+              pregUpdateTimeBeforeGettingAffectedByThisFunction.getTime() /
+                1000;
 
           // If, for some reason, time moves backwards, just exit the function (for now at least)
-          // TODO - Add a way to reverse growth
+          // TODO - Add a way to reverse growth. I feel like letting it receive negative values would be exactly what I need but eh, feels like something else would break and I'm not in the mood for it yet.
           if (timeElapsedSinceLastPregUpdate < 0) return;
+
+          // Reduce the duration of sideEffects
+          for (const key in this.sideEffects) {
+            if (Object.prototype.hasOwnProperty.call(this.sideEffects, key)) {
+              const data = this.sideEffects[key as keyof PregSideEffectsObject];
+
+              data.currDuration -= timeElapsedSinceLastPregUpdate;
+            }
+          }
 
           // SECTION - Determine how much to increase the `developmentRatio` of the fetus
           let additionalDevelopmentProgress =
             (timeElapsedSinceLastPregUpdate / gActualPregnancyLength) *
             gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
+
+          // SECTION - Apply the effects of relevant perks during pregnancy
+
+          // ANCHOR - GESTATOR PERK
+          const perks = this.perks || {};
+          const gestatorPerk = perks.gestator;
+          // Apply the gestator perk boost, if any
+          let gestatorPerkSpeedBoost =
+            perks && gestatorPerk
+              ? (gestatorPerk.currLevel / gAllPregPerks.gestator.maxLevel) *
+                gGestatorPerkMaxSpeedBoost
+              : 0;
+
+          additionalDevelopmentProgress +=
+            additionalDevelopmentProgress * gestatorPerkSpeedBoost;
+
+          // ANCHOR - IMMUNITY PERK
+          const immunityPerk = perks.immunityBoost;
+          inputUser.immunity +=
+            perks && immunityPerk
+              ? (immunityPerk.currLevel /
+                  gAllPregPerks.immunityBoost.maxLevel) *
+                gImmunityPerkMaxBoostPerFetus *
+                additionalDevelopmentProgress
+              : 0;
+          // !SECTION
 
           // Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
           const newDevelopmentRatio =
@@ -608,7 +700,6 @@ namespace NSPregnancy {
           // !SECTION
 
           // SECTION - Determine the newHeight, newWeight, and newFluidVolume (and also the belly size) using newDevelopmentRatio
-          // NOTE - These values are only calculated per gestational week, and will not change for any other smaller time measurement
           // TODO - Add drugs, eating habits and conditions that can also affect these.
 
           // Get the new gestation week after having the developmentRatio updated
@@ -638,6 +729,15 @@ namespace NSPregnancy {
           weightDiff = getStatDiff(FetalGrowthStatsEnum.WEIGHT);
           heightDiff = getStatDiff(FetalGrowthStatsEnum.HEIGHT);
           fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
+
+          // check for the polyhydramnios condition
+          if (perks && perks.polyhydramnios) {
+            fluidDiff +=
+              (perks.polyhydramnios.currLevel /
+                gAllPregPerks.polyhydramnios.maxLevel) *
+              gPolyhydramniosPerkMaxFluidProductionBoost *
+              fluidDiff;
+          }
 
           console.log(
             `oldDevelopmentRatio: ${oldDevelopmentRatio}, newDevelopmentRatio: ${newDevelopmentRatio}`
@@ -706,12 +806,22 @@ namespace NSPregnancy {
           // Adjust fetal hp
           targetFetus.hp = (this.hp / this.maxHp) * WombHealth.FULL_VITALITY;
 
+          // Consume some of the user's fullness
+          // REVIEW -  Every 2% of `additionalDevelopmentProgress` consumes 1 fullness point.
+          //        - Every 2kg of fetal weight consumes 1 fullness point.
+          //        - However, `additionalDevelopmentProgress` must be above 0 for any calculation to occur. So spamming this function wouldn't lead to unintended issues.
+          let fullnessToConsume =
+            (additionalDevelopmentProgress * (targetFetus.weight / 1000)) / 2;
+          fullnessToConsume +=
+            fullnessToConsume * (gestatorPerkSpeedBoost * 0.3);
+          inputUser.fullness -= fullnessToConsume;
+
           // Replace the data of the fetus with the updated one
           this.fetuses.set(targetFetus.id, targetFetus);
         });
 
         // Apply womb damage
-        this.hp -= this.calculateHealthDamage();
+        this.addHp(this.calculateHealthDamage());
 
         // Increase the womb's exp
         this.exp += this.updateExpValue();
@@ -719,9 +829,14 @@ namespace NSPregnancy {
         // Update belly size during pregnancy
         this.updateBellySize();
 
-        // Update the last time this function was called
-        variables().lastPregUpdateFunctionCall = currentTime;
+        // Update the dev ratio record for all fetuses
+        this.fetuses.forEach((fetus) => {
+          fetus.devRatioAtLastUpdate = fetus.developmentRatio; // Update it
+        });
+
+        return true;
       }
+      return false;
     }
     // !SECTION
 
@@ -730,88 +845,100 @@ namespace NSPregnancy {
       // This is what will expunge the fetuses from the womb (except in the case for superfetation)
       let birthedChildren: Fetus[] = [];
 
-      const perks = this.perks;
-      // TODO - It's just bare-bones now
-      // if (perks) {
-      //   // Deal with superfetation
-      //   if (perks.superFet) {
-      //   }
-      // }
-      // else
-      {
-        // Handle postpartum, birth scenes, etc
+      // Handle postpartum, birth scenes, etc
 
-        // Give exp
-        let expToAdd = 0;
-        this.fetuses.forEach((fetus) => {
-          if (fetus.canBirth) {
-            // Longer gestating babies give more exp
-            expToAdd +=
-              (fetus.developmentRatio / gMaxDevelopmentState) *
-              gExpPerSingleBirth;
+      // Give exp
+      let expToAdd = 0;
+      this.fetuses.forEach((fetus) => {
+        if (fetus.canBirth) {
+          // Longer gestating babies give more exp
+          expToAdd +=
+            (fetus.developmentRatio / gMaxDevelopmentState) *
+            gExpPerSingleBirth;
 
-            // Also add it to an array that will be returned, containing data of all birthed children.
-            birthedChildren.push(clone(fetus));
+          // Also add it to an array that will be returned, containing data of all birthed children.
+          birthedChildren.push(clone(fetus));
 
-            // Remove the fetus since we're done with it. Note that the key of the fetus in the map, fetuses, is the same as its id.
-            this.fetuses.delete(fetus.id);
-          }
-        });
-        this.exp += expToAdd;
+          // Remove the fetus since we're done with it. Note that the key of the fetus in the map, fetuses, is the same as its id.
+          this.fetuses.delete(fetus.id);
+        }
+      });
+      // Sometimes, `isLiableForBirth()` returns true but no fetuses are ready :p
+      if (!birthedChildren.length) return false;
 
-        this.updateBellySize();
-        this.postpartumCounter = 7;
-        this.lastBirth = variables().gameDateAndTime;
+      this.exp += expToAdd;
+
+      this.updateBellySize();
+      this.sideEffects = {}; // Remove all side effects
+      this.birthRecord++;
+      this.postpartumCounter = gPostpartumPeriod / this.naturalGrowthMod;
+      // Reduce postpartum duration if the appropriate perk is active
+      const perks = this.perks || {};
+      const noPostpartumPerk = perks.noPostpartum;
+      if (perks && noPostpartumPerk) {
+        this.postpartumCounter -=
+          this.postpartumCounter *
+          (noPostpartumPerk.currLevel / gAllPregPerks.noPostpartum.maxLevel);
       }
-
+      this.lastBirth = variables().gameDateAndTime;
       // Get the data of born children. We can use this to determine birth stats and other scene data.
       return clone(birthedChildren);
     }
 
-    //NOTE - THIS METHOD MUST BE CALLED RESPONSIBLY SINCE IT MAY RETURN A DIFFERENT ANSWER ON EACH RUN
+    // NOTE - THIS METHOD MUST BE CALLED RESPONSIBLY SINCE IT MAY RETURN A DIFFERENT ANSWER ON EACH RUN
     get isLiableForBirth() {
       // This will check to see if an inputted womb is ready to giving birth, regardless of the actual chance of a successful delivery
       // NOTE - Drugs and conditions may affect this
 
+      if (!this.isPregnant) return false;
+
       let chanceOfBirth = 0;
 
-      // Include something to account for superfetation. Like a giant IF statement
-      const perks = this.perks;
-      if (perks && perks.superFet) {
-        // Handle superfetation
-      } // Regular Birth (mostly)
+      // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
+      if (this.curCapacity >= this.effectiveMaxCapacity * 0.9) return true;
       else {
-        // If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
-        if (this.curCapacity >= this.maxCapacity * 0.9) return true;
-        else {
-          // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
-          let eligibleFetusDevRatio: number[] = [];
+        // Check whether if all the fetuses are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
+        let eligibleFetusDevRatio: number[] = [];
 
-          this.fetuses.forEach((fetus) => {
-            // All fetuses must be at or above a particular threshold for birth to occur
-            if (!fetus.canBirth) return;
+        this.fetuses.forEach((fetus) => {
+          // All fetuses must be at or above a particular threshold for birth to occur
+          if (!fetus.canBirth) return;
 
-            eligibleFetusDevRatio.push(fetus.developmentRatio);
-          });
+          eligibleFetusDevRatio.push(fetus.developmentRatio);
+        });
 
-          // TODO - Need to make this favour higher values than lower ones
-          const averageDevelopmentOfFetus = getWeightedAverage(
-            ...eligibleFetusDevRatio
-          );
-
-          chanceOfBirth +=
-            (averageDevelopmentOfFetus / gMaxDevelopmentState) * 100;
-
-          // Further increase the birth chance when overdue
-          chanceOfBirth +=
-            ((averageDevelopmentOfFetus - gMaxDevelopmentState) /
-              gMaxDevelopmentState) *
-            100 *
-            0.2;
-
-          // Let's just reduce it by a bit
-          chanceOfBirth *= 0.85;
+        // Reduce the development progress of each fetus to effectively reduce the chance of / delay birth if the fortified womb perk is active and has been upgraded to at least half of its maximum level
+        const perks = this.perks;
+        if (perks && perks.fortifiedWomb) {
+          const ratio =
+            perks.fortifiedWomb.currLevel /
+            gAllPregPerks.fortifiedWomb.maxLevel;
+          if (ratio >= 0.5) {
+            eligibleFetusDevRatio = eligibleFetusDevRatio.map((devRatio) => {
+              return (
+                devRatio -
+                (gMaxDevelopmentState -
+                  ratio *
+                    gFortifiedWombPerkMaxNaturalBirthDelay *
+                    gMaxDevelopmentState)
+              );
+            });
+          }
         }
+
+        const averageDevelopmentOfFetus = getWeightedAverage(
+          ...eligibleFetusDevRatio
+        );
+
+        chanceOfBirth +=
+          (averageDevelopmentOfFetus / gMaxDevelopmentState) * 100;
+
+        // Further increase the birth chance when overdue
+        chanceOfBirth +=
+          ((averageDevelopmentOfFetus - gMaxDevelopmentState) /
+            gMaxDevelopmentState) *
+          100 *
+          0.2;
       }
 
       // Unhealthy wombs are at slightly higher risk of birthing, however, clamp the increased chance at 33%
@@ -821,6 +948,9 @@ namespace NSPregnancy {
         33
       );
 
+      // Let's just reduce it by a bit
+      chanceOfBirth *= 0.8;
+
       // Using `chanceOfBirth`, check if the character should birth or not
       if (randomFloat(0, 100) <= chanceOfBirth) return true;
       else return false;
@@ -829,84 +959,27 @@ namespace NSPregnancy {
 
     // SECTION - Perks and Side effects
     applyPerk(perk: keyof typeof this.perks) {
-      const allPerks: PregPerksObject = {
-        /* its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
-        /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
-        /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
-        /*TODO - Change the prices later to something more reasonable. Also, add more perks */
-
-        // NOTE - Only store these if they're active
-        gestator: {
-          currLevel: 1,
-          price: 5000,
-          maxLevel: 10,
-        } /* Increases the speed of pregnancies depending on how much food is consumed. At the maximum level, pregnancy duration is shortened to at most a week */,
-        hyperFertility: {
-          currLevel: 1,
-          price: 3000,
-          maxLevel: 5,
-        } /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
-        superFet: {
-          currLevel: 1,
-          price: 15000,
-          maxLevel: 5,
-        } /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
-        elasticity: {
-          currLevel: 1,
-          price: 7000,
-          maxLevel: 10,
-        } /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
-        immunityBoost: {
-          currLevel: 1,
-          price: 2000,
-          maxLevel: 10,
-        } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
-        motherlyHips: {
-          currLevel: 1,
-          price: 5000,
-          maxLevel: 5,
-        } /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
-        motherlyBoobs: {
-          currLevel: 1,
-          price: 5000,
-          maxLevel: 5,
-        } /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
-        ironSpine: {
-          currLevel: 1,
-          price: 7000,
-          maxLevel: 5,
-        } /* Can carry bigger pregnancies and more weight before becoming bed bound */,
-        sensitiveWomb: {
-          currLevel: 1,
-          price: 6000,
-          maxLevel: 5,
-        } /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
-        healthyWomb: {
-          currLevel: 1,
-          price: 3000,
-          maxLevel: 10,
-        } /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
-        fortifiedWomb: {
-          currLevel: 1,
-          price: 10000,
-          maxLevel: 5,
-        } /* Reduces the increase rate of womb.comfortCapacity but raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
-        noPostpartum: {
-          currLevel: 1,
-          price: 2000,
-          maxLevel: 7,
-        } /* Reduces the postpartum period of the PC by 1 day (Note that the PC has a recovery period of a week) */,
-      };
-
-      const selectedPerk: PregPerk | undefined = allPerks[perk];
-      if (selectedPerk && !this.isPerkActive(perk)) {
-        this.perks[perk] = clone(selectedPerk);
+      if (gAllPregPerks[perk] && !this.isPerkActive(perk)) {
+        this.perks[perk] = { currLevel: 1 };
         return true;
       }
       return false;
     }
     isPerkActive(perk: keyof typeof this.perks) {
       return this.perks[perk] ? true : false;
+    }
+    upgradePerk(perk: keyof typeof this.perks, lvlToAdd: number) {
+      if (this.isPerkActive(perk)) {
+        const perkData = this.perks[perk];
+        perkData.currLevel = Math.clamp(
+          perkData.currLevel + lvlToAdd,
+          1,
+          gAllPregPerks[perk].maxLevel
+        );
+
+        return perkData.currLevel;
+      }
+      return false;
     }
     removePerk(perk: keyof typeof this.perks) {
       if (this.isPerkActive(perk)) {
@@ -919,49 +992,14 @@ namespace NSPregnancy {
     //
 
     applySideEffect(sideEffect: keyof typeof this.sideEffects) {
-      const allSideEffects: PregSideEffectsObject = {
-        /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
-        /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
-        /* TODO - Add more side effects */
-
-        cravingCrisis: {
-          currDuration: 0,
-          maxDuration: [1, 2],
-        } /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
-        motherHunger: {
-          currDuration: 0,
-          maxDuration: [1, 2, 3],
-        } /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
-        restlessBrood: {
-          currDuration: 0,
-          maxDuration: [2, 3],
-        } /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
-        heavyWomb: {
-          currDuration: 0,
-          maxDuration: [3, 5, 7],
-        } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
-        contractions: {
-          currDuration: 0,
-          maxDuration: [0],
-        } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
-        labour: {
-          currDuration: 0,
-          maxDuration: [0],
-        } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
-        sexCraving: {
-          currDuration: 0,
-          maxDuration: [1, 3],
-        } /* Maxes out arousal once a day and keeps it above 75 */,
-        growthSpurt: {
-          currDuration: 0,
-          maxDuration: [0],
-        } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
-      };
-
       const selectedSideEffect: PregSideEffect | undefined =
-        allSideEffects[sideEffect];
+        gAllSideEffects[sideEffect];
       if (selectedSideEffect && !this.isSideEffectActive(sideEffect)) {
-        this.sideEffects[sideEffect] = clone(selectedSideEffect);
+        // Set the duration in seconds
+        this.sideEffects[sideEffect] = {
+          currDuration:
+            either(...selectedSideEffect.maxDuration) * 24 * 60 * 60,
+        };
         return true;
       }
       return false;
@@ -976,7 +1014,56 @@ namespace NSPregnancy {
       }
       return false;
     }
+
+    get fortifiedWombPerkCapacityBoost() {
+      let mod = 1;
+      const perks = this.perks || {};
+      const fortifiedWombPerk = perks.fortifiedWomb;
+
+      if (perks && fortifiedWombPerk) {
+        mod +=
+          (fortifiedWombPerk.currLevel / gAllPregPerks.fortifiedWomb.maxLevel) *
+          gFortifiedWombPerkMaxCapacityBoost *
+          mod;
+      }
+
+      return mod;
+    }
+    get elasticityPerkCapacityBoost() {
+      let mod = 1;
+      const perks = this.perks || {};
+      const elasticityPerk = perks.elasticity;
+
+      if (perks && elasticityPerk) {
+        mod +=
+          (elasticityPerk.currLevel / gAllPregPerks.elasticity.maxLevel) *
+          gElasticityPerkCapacityMaxBoost *
+          mod;
+      }
+
+      return mod;
+    }
     // !SECTION
+
+    get effectiveComfortCapacity() {
+      let mod = 1;
+
+      // Consider if the elasticity perk is active
+      mod *= this.elasticityPerkCapacityBoost;
+
+      return this.#comfortCapacity * mod;
+    }
+    get effectiveMaxCapacity() {
+      let mod = 1;
+
+      // Consider if the elasticity perk is active
+      mod *= this.elasticityPerkCapacityBoost;
+
+      // Consider if the fortified womb perk is active
+      mod *= this.fortifiedWombPerkCapacityBoost;
+
+      return this.#maxCapacity * mod;
+    }
   }
   // @ts-expect-error
   window[Womb.name] = Womb;
@@ -986,8 +1073,9 @@ namespace NSPregnancy {
     hp: number; // scales with the womb's health. don't let it get to zero
     dateOfConception: Date; // Just here :p
     developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
-    devRatioAtLastExpUpdate: DevelopmentRatio = 0;
+    devRatioAtLastUpdate: DevelopmentRatio = 0;
     extraGrowthMod?: number = null; // A modifier multiplied to the fetus's growth rate. Comes from other sources
+    // NOTE - ANY CHANGES TO THE FOLLOWING THREE PROPERTIES MUST BE REFLECTED IN `FetalGrowthStatsEnum`
     weight: number; // in grams e.g 360, 501, 600
     height: number; // in cm e.g 11.38, 10.94
     amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
@@ -1059,20 +1147,25 @@ namespace NSPregnancy {
 
     // whether or not the fetus cqn be expunged when birth happens
     // This will only consider whether the fetus is ready without concern for external factors.
+    // Ensure that the result of this is consistent enough. The main birth function can have random oddities.
+    // - I could probably use the current time in milliseconds / seconds and the day and / or maybe their id. Instead of relying on random values.
     get canBirth() {
-      return this.developmentRatio > gMaxDevelopmentState
+      const sanitizedId = this.id || 1;
+      const chance =
+        ((((variables().gameDateAndTime.getTime() / 1000) * sanitizedId) %
+          this.developmentRatio) /
+          this.developmentRatio) *
+        100;
+
+      return this.developmentRatio >= gMaxDevelopmentState
         ? true
-        : // 10% chance to not be born at the max number of weeks
-        this.developmentRatio > gMinNormalBirthThreshold &&
-          randomFloat(1) + 0.1 >= 1
+        : this.developmentRatio >= gMinNormalBirthThreshold &&
+          chance % 100 <= 25
         ? true
-        : // Another 10% (or cumulative 0.01) for a preemie to be eligible for birth
-        this.developmentRatio > gPreemieBirthThreshold &&
-          randomFloat(1) + 0.05 >= 1
+        : this.developmentRatio >= gPreemieBirthThreshold && chance % 100 <= 10
         ? true
-        : // Another 10% (or cumulative 0.001%) chance for a very preemie fetus to be eligible for birth.
-          this.developmentRatio > gVeryPreemieBirthThreshold &&
-          randomFloat(1) + 0.05 >= 1;
+        : this.developmentRatio >= gVeryPreemieBirthThreshold &&
+          chance % 100 <= 10;
     }
 
     get isOverdue() {
