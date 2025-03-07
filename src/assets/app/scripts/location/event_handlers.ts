@@ -1,4 +1,3 @@
-import { gSubLocationIcons24x24 } from './general_location_data'
 import { gLocationMapSvgTable } from './map_svg_data'
 import {
   gPlayerMapSpriteSrc,
@@ -134,15 +133,14 @@ $(document).on(':passageend', () => {
   const area = activeArea()
 
   const setAreaName = () => {
-    let imgUrl =
-      gSubLocationIcons24x24[
-        area instanceof SubLocation ? area.id : SubLocationId.DUMMY
-      ]
+    if (area instanceof SubLocation) {
+      let imgUrl = area.iconUrl
 
-    element.text(area.name).append(
-      // Use the icon as a mask over a color that will be set by css
-      `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
-    )
+      element.text(area.name).append(
+        // Use the icon as a mask over a color that will be set by css
+        `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
+      )
+    }
     element.attr(attrName, 'false')
   }
   const setParentName = () => {
