@@ -9,7 +9,7 @@ declare module "twine-sugarcube" {
     updateGameDateAndTimeDisplay: () => void;
     initializeLocationDataArray: () => void;
     initializeSaveVariables: () => void;
-    locations: Map;
+    // locations: Map;
   }
 
   export interface SugarCubeStoryVariables {

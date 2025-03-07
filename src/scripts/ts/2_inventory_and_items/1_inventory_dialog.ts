@@ -80,22 +80,53 @@ namespace NSInventoryAndItem {
     // Sort using the sortingTag (except if its `ItemTag.ALL`)
     if (sortingTag != ItemTag.ALL) {
       noDupeItemArr = noDupeItemArr.filter((id) => {
-        return Inventory.doesItemHaveTag(id, sortingTag);
+        return gInGameItems[id].tags.includes(sortingTag);
       });
+
+      if (sortingTag == ItemTag.CLOTHING) {
+        // Sort clothing by prioritizing equipped ones
+        noDupeItemArr.sort((itemA, itemB) => {
+          let isClothingEquipped = { a: false, b: false };
+
+          // A utility function to find out if ANY clothing of a particular type / with a particular id is equipped
+          const func = (
+            clothingItemId: ItemId,
+            flag: keyof typeof isClothingEquipped
+          ) => {
+            inventory.getItem(clothingItemId).forEach((inventoryItem) => {
+              const storedData =
+                inventoryItem.dynamicData as ClothingDynamicData;
+
+              if (ItemType.Clothing.isEquipped(storedData))
+                isClothingEquipped[flag] = true;
+            });
+          };
+
+          // Run the functions for both items
+          func(itemA, "a");
+          func(itemB, "b");
+
+          const isItemAEquipped = isClothingEquipped.a;
+          const isItemBEquipped = isClothingEquipped.b;
+
+          // Now to compare and return results
+          if (isItemAEquipped && !isItemBEquipped) return -1;
+          else if (!isItemAEquipped && isItemBEquipped) return 1;
+          else return 0
+        });
+      }
     }
 
     for (let i = 0; i < noDupeItemArr.length; i++) {
       const itemId = noDupeItemArr[i];
-      let item = Inventory.getItemStaticData(itemId);
-      if (!item) item = gInGameItems[ItemId.DUMMY];
+      let item = gInGameItems[itemId] ?? gInGameItems[ItemId.DUMMY];
       const numOfDuplicates = inventory.getItemCount(itemId);
       const nameOfItem = item.name;
-      const itemImageUrl = item.imageUrl;
+      const itemImageUrl = item.imgUrl;
 
-      const itemSellingPrice =
-        item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
+      const itemSellingPrice = /*item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
           ? `$0`
-          : `$${item.price * 0.45}`;
+          : */ `$${item.price * 0.45}`;
       const itemWeight =
         item.weight < 1000
           ? `${item.weight}g`
