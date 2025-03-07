@@ -1,12 +1,4 @@
-import {
-  GlobalMapId,
-  LocationId,
-  RegionId,
-  SubLocationId,
-  SubRegionId,
-} from './enums'
 import { subLocation_playerRoom } from './game_locations/sub_locations'
-import type { AreaUniqueId } from './types_and_interfaces'
 
 export const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
