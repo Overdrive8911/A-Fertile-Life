@@ -1,0 +1,1 @@
+compile_ts_and_scss.bat & build.bat
