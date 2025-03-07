@@ -1,4 +1,4 @@
-@use "../../partials/mixin.scss";
+@use "../../partials/mixin.scss" as mixin;
 
 /*  */
 /* This stores the actual side bar AND the button used to stow/open it */
@@ -20,7 +20,7 @@
   &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
     & > [id="ui-side-bar-action-menu"] {
       & > :not([id="ui-side-bar-toggle-state-button"]) {
-        @include darkenUIButton;
+        @include mixin.darkenUIButton;
       }
     }
   }
@@ -145,7 +145,7 @@
     }
 
     & > [class|="ui-stat-others"] {
-      @include uiRightmostIconsFlexContainer;
+      @include mixin.uiRightmostIconsFlexContainer;
     }
   }
 }
@@ -180,7 +180,7 @@
 [id="ui-side-bar-action-menu"] {
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
-  @include uiSideBarActionMenuHeightRange;
+  @include mixin.uiSideBarActionMenuHeightRange;
   width: var(--ui-side-bar-action-menu-width);
   min-width: var(--ui-side-bar-action-menu-width);
 
@@ -222,14 +222,14 @@
   margin-top: var(--ui-side-bar-action-menu-margin-top);
 
   width: var(--ui-side-bar-action-interface-total-width);
-  @include uiSideBarActionMenuHeightRange;
+  @include mixin.uiSideBarActionMenuHeightRange;
 
   box-sizing: border-box;
   border: thick solid var(--ui-bar-border-color);
 
   z-index: -1;
 
-  @include actionInterfaceTransition;
+  @include mixin.actionInterfaceTransition;
   // transition: display 0s;
 
   // Sets the height and width of the map and any other options that might use it.
@@ -245,7 +245,7 @@
 
     overflow: hidden;
 
-    @include actionInterfaceTransition;
+    @include mixin.actionInterfaceTransition;
   }
 
   // Close it smh
@@ -308,7 +308,7 @@
       ) - 5px
   );
 
-  @include actionInterfaceTransition;
+  @include mixin.actionInterfaceTransition;
 
   // Will delete this once I make the icons
   font-size: 12px;
