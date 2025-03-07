@@ -1,4 +1,4 @@
-@use "../../partials/mixin.scss";
+@use "../../partials/mixin.scss" as mixin;
 
 /*TODO - Arrange all these declarations later*/
 [id="ui-top-bar"] {
@@ -183,7 +183,7 @@
 
   /* Target the separate containers for both the money and reputation */
   & > [class|="ui-stat-others"] {
-    @include uiRightmostIconsFlexContainer;
+    @include mixin.uiRightmostIconsFlexContainer;
   }
 }
 
