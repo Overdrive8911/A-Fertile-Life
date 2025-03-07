@@ -1,4 +1,4 @@
-@import "../../partials/mixin.scss";
+@use "../../partials/mixin.scss";
 // Preload image frames
 body::after {
   content: url(assets/img/general/envelope_in-between.webp)
