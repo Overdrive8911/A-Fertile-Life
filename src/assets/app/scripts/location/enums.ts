@@ -66,8 +66,7 @@ export const enum SubLocationId {
   LAB,
   OFFICE_WORK,
 
-  PHARMACY_1,
-  PHARMACY_2,
+  PHARMACY,
 
   PLAYER_ROOM,
   LIVING_ROOM,
@@ -76,25 +75,13 @@ export const enum SubLocationId {
   PORCH,
 
   // Hallways
-  HALLWAY_1,
-  HALLWAY_2,
-  HALLWAY_3,
-  HALLWAY_4,
-  HALLWAY_5,
-  HALLWAY_6,
-  HALLWAY_7,
+  HALLWAY,
 
   // Corridors
-  CORRIDOR_1,
-  CORRIDOR_2,
-  CORRIDOR_3,
+  CORRIDOR,
 
   // Rooms
-  ROOM_1,
-  ROOM_2,
-  ROOM_3,
-  ROOM_4,
-  ROOM_5,
+  ROOM,
 }
 
 export const enum LocationId {

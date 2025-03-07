@@ -60,53 +60,53 @@ export const subLocation_MeasurementCloset = new SubLocation(
   'Fertilo_Inc_Measurement_Closet'
 )
 export const subLocation_Pharmacy1 = new SubLocation(
-  SubLocationId.PHARMACY_1,
-  'Pharmacy 1',
+  SubLocationId.HALLWAY,
+  'Pharmacy',
   'Fertilo_Inc_Pharmacy'
 )
 export const subLocation_Pharmacy2 = new SubLocation(
-  SubLocationId.PHARMACY_2,
-  'Pharmacy 2',
+  SubLocationId.HALLWAY,
+  'Pharmacy',
   'Fertilo_Inc_Pharmacy'
 )
 export const subLocation_Corridor1 = new SubLocation(
-  SubLocationId.CORRIDOR_1,
-  'Corridor 1',
+  SubLocationId.CORRIDOR,
+  'Corridor',
   'Fertilo_Inc_Corridor'
 )
 export const subLocation_Hallway1 = new SubLocation(
-  SubLocationId.HALLWAY_1,
-  'Hallway 1',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway2 = new SubLocation(
-  SubLocationId.HALLWAY_2,
-  'Hallway 2',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway3 = new SubLocation(
-  SubLocationId.HALLWAY_3,
-  'Hallway 3',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway4 = new SubLocation(
-  SubLocationId.HALLWAY_4,
-  'Hallway 4',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway5 = new SubLocation(
-  SubLocationId.HALLWAY_5,
-  'Hallway 5',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway6 = new SubLocation(
-  SubLocationId.HALLWAY_6,
-  'Hallway 6',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Hallway7 = new SubLocation(
-  SubLocationId.HALLWAY_7,
-  'Hallway 7',
+  SubLocationId.HALLWAY,
+  'Hallway',
   'Fertilo_Inc_Hallway'
 )
 export const subLocation_Lab = new SubLocation(
