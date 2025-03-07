@@ -12,7 +12,6 @@ import {
 import type {
   AnyArea,
   AreaId,
-  AreaUniqueId,
   SubAreas,
   SuperAreas,
   UUID,
