@@ -626,14 +626,61 @@ class MapEntity<
 /**
  * This is the smallest area that the player can access and also the only areas that are directly linked to passages. Every other `MapEntity` child instance is just a container that directly or indirectly contains this.
  */
+type SubLocationIconUrl = `/media/img/map/icons/sub_location/${string}.webp`
 export class SubLocation extends MapEntity<
   never,
   Exclude<SubLocationId, SubLocationId.DUMMY>,
   Location
 > {
-  /**
-   * The name of the passage to be loaded when the player is in this sub location
-   */
+  static #getUrl(subLocation: string): SubLocationIconUrl {
+    return `/media/img/map/icons/sub_location/${subLocation}.webp`
+  }
+
+  // Stores relative urls to the icons for sub locations
+  // NOTE - Add the urls of sub locations with mini icons here. Use lowercase
+  static #icons: Partial<Record<SubLocationId, SubLocationIconUrl>> = {
+    [SubLocationId.DUMMY]: this.#getUrl('dummy'),
+
+    [SubLocationId.RECEPTION]: this.#getUrl('reception'),
+
+    [SubLocationId.HALLWAY_1]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_2]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_3]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_4]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_5]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_6]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY_7]: this.#getUrl('hallway'),
+
+    [SubLocationId.PHARMACY_1]: SubLocation.#getUrl('pharmacy'),
+    [SubLocationId.PHARMACY_2]: SubLocation.#getUrl('pharmacy'),
+
+    [SubLocationId.PORCH]: SubLocation.#getUrl('porch'),
+
+    [SubLocationId.CORRIDOR_1]: SubLocation.#getUrl('corridor'),
+    [SubLocationId.CORRIDOR_2]: SubLocation.#getUrl('corridor'),
+    [SubLocationId.CORRIDOR_3]: SubLocation.#getUrl('corridor'),
+
+    [SubLocationId.ROOM_1]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM_2]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM_3]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM_4]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM_5]: SubLocation.#getUrl('room'),
+
+    [SubLocationId.LAB]: SubLocation.#getUrl('lab'),
+
+    [SubLocationId.CONSULTATION]: SubLocation.#getUrl('consultation'),
+
+    [SubLocationId.OFFICE_WORK]: SubLocation.#getUrl('office_work'),
+
+    [SubLocationId.MEASUREMENT_CLOSET]:
+      SubLocation.#getUrl('measurement_closet'),
+
+    [SubLocationId.PLAYER_ROOM]: SubLocation.#getUrl('room'),
+    [SubLocationId.BEDROOM]: SubLocation.#getUrl('bedroom'),
+    [SubLocationId.BATHROOM]: SubLocation.#getUrl('bathroom'),
+    [SubLocationId.LIVING_ROOM]: SubLocation.#getUrl('living_room'),
+  }
+
   constructor(
     ...args: ConstructorParameters<
       typeof MapEntity<
@@ -646,6 +693,11 @@ export class SubLocation extends MapEntity<
     super(...args)
     // Sub-Locations don't have children so delete the property
     delete this.childrenData
+  }
+
+  get iconUrl() {
+    const icons = SubLocation.#icons
+    return icons[this.id] ?? (icons[SubLocationId.DUMMY] as SubLocationIconUrl)
   }
 
   // get uniqueId(): AreaUniqueId {
