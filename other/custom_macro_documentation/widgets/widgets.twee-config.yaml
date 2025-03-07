@@ -56,7 +56,7 @@ sugarcube-2:
       description: |-
         Adds an appropriate character icon to the text.
 
-        It can have 3 values; a mandatory character name, a mandatory gender (Male/Female/Other) and an optional emotion. Note that the name must be a valid folder in assets/img/characters/icons/ while the emotion is a valid image file in the folder.
+        It can have 3 values; a mandatory character name, a mandatory gender (Male/Female/Other) and an optional emotion. Note that the name must be a valid folder in /media/img/characters/icons/ while the emotion is a valid image file in the folder.
 
         ```
           i.e <<character <NAME> <GENDER COLOR CLASS> <EMOTION=optional> >> Content <</character>>
