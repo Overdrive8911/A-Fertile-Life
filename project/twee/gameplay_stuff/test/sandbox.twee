@@ -7,7 +7,7 @@
     It's time to get down to business, so go on and manipulate this new world to how you see fit!
 </p>
 
-<<textbox "$addToInventory" "FOOD_CHEESE">>
+<<textbox "$addToInventory" "CHEESE">>
 <p>
     <<link "Add the Item above to Inventory (Click 'Enter' before this link)">>
         <<giveItem $addToInventory>>
@@ -16,7 +16,7 @@
     <<link "Add 5 of them">><<giveItem $addToInventory 5>><</link>>
 </p>
 
-<<textbox "$removeFromInventory" "FOOD_CHEESE">>
+<<textbox "$removeFromInventory" "CHEESE">>
 <p>
     <<link "Remove the Item above to Inventory (Click 'Enter' before this link)">>
         <<deleteItem $removeFromInventory>>

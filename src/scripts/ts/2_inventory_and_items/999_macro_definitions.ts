@@ -1,12 +1,18 @@
 namespace NSInventoryAndItem {
   // Accepts 2 parameters; the itemId and the amount to give. The latter is optional and defaults to 1 if omitted
+  function validateItemId(itemId: ItemId) {
+    if (!gInGameItems[itemId]) return false;
+
+    return true;
+  }
+
   Macro.add("giveItem", {
     handler: function () {
       const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
       const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!Inventory.validateItemId(itemId)) {
+      if (!validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
@@ -25,7 +31,7 @@ namespace NSInventoryAndItem {
       const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
       let amount: number = this.args[1];
 
-      if (!Inventory.validateItemId(itemId)) {
+      if (!validateItemId(itemId)) {
         this.error("Item Id does not exist.");
       }
 
