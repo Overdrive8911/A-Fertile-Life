@@ -342,7 +342,7 @@ $(document).on(':passageend', () => {
 
       const text = possibleHelpfulTextArray
         .pluck()!
-        .filter((val, index) => {
+        .filter((_, index) => {
           return index <= numOfValidAreas
         })
         .join(' ')

@@ -1,4 +1,4 @@
-import { Direction, SubLocationId } from './enums'
+import { Direction } from './enums'
 // TODO: Rename this file
 export const backupPassageName = 'Backup_Passage'
 export const oppositeDirection = {
