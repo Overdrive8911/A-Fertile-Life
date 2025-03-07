@@ -1,13 +1,7 @@
 import { gLocationMapSvgTable } from './map_svg_data'
-import {
-  gPlayerMapSpriteSrc,
-  lastWarpDestination,
-  setMapPopoutZoomLvl,
-} from './other_data'
-// import { loadGameMap } from './location_map_image_handlers'
+import { gPlayerMapSpriteSrc } from './other_data'
 import { isNavigationButtonUsable, warpToConnectedArea } from './navigation'
-import { globalMap } from './game_locations/global_map'
-import { Direction, SubLocationId } from './enums'
+import { Direction } from './enums'
 import {
   activeArea,
   isAnyStoryFlagSet,
