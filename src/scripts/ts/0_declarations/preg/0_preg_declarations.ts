@@ -1,9 +1,35 @@
 namespace NSPregnancy {
-  export interface PregPerk {
+  // SECTION - Unexported interfaces
+  interface PregPerkDynamicData {
+    // Only `currLevel` gets stored in the save file
     currLevel: number;
+
+    price?: never;
+    maxLevel?: never;
+  }
+  interface PregPerkStaticData {
+    // Is stored as a global static variable
     price: number;
     maxLevel: number;
+
+    currLevel?: never;
   }
+
+  interface PregSideEffectDynamicData {
+    // Only `currDuration` gets stored in the save file
+    currDuration: number;
+
+    maxDuration?: never;
+  }
+  interface PregSideEffectStaticData {
+    // Is stored as a global static variable
+    maxDuration?: number[];
+
+    currDuration?: never;
+  }
+  // !SECTION
+  export type PregPerk = PregPerkDynamicData | PregPerkStaticData;
+
   export type PregPerksObject = Partial<
     Record<
       | "gestator"
@@ -17,15 +43,99 @@ namespace NSPregnancy {
       | "sensitiveWomb"
       | "healthyWomb"
       | "fortifiedWomb"
-      | "noPostpartum",
+      | "noPostpartum"
+      | "polyhydramnios",
       PregPerk
     >
   >;
+  export const gAllPregPerks: PregPerksObject = {
+    /* Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
+    /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
+    /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
+    /*TODO - Change the prices later to something more reasonable. Also, add more perks */
 
-  export interface PregSideEffect {
-    currDuration: number;
-    maxDuration: number[];
-  }
+    // NOTE - Only store these if they're active
+    gestator: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 10,
+    } /* Increases the speed of pregnancies, but makes and keeps the user hungrier. At the maximum level, pregnancy duration sped up by `gGestatorPerkMaxSpeedBoost` and additional hunger drain is always 30% of that. */,
+    hyperFertility: {
+      // currLevel: 1,
+      price: 3000,
+      maxLevel: 5,
+    } /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
+    superFet: {
+      // currLevel: 1,
+      price: 15000,
+      maxLevel: 5,
+    } /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
+    elasticity: {
+      // currLevel: 1,
+      price: 7000,
+      maxLevel: 10,
+    } /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
+    immunityBoost: {
+      // currLevel: 1,
+      price: 2000,
+      maxLevel: 5,
+    } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
+    motherlyHips: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 5,
+    } /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
+    motherlyBoobs: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 5,
+    } /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
+    ironSpine: {
+      // currLevel: 1,
+      price: 7000,
+      maxLevel: 5,
+    } /* Can carry bigger pregnancies and more weight before becoming bed bound */,
+    sensitiveWomb: {
+      // currLevel: 1,
+      price: 6000,
+      maxLevel: 5,
+    } /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
+    healthyWomb: {
+      // currLevel: 1,
+      price: 3000,
+      maxLevel: 10,
+    } /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
+    fortifiedWomb: {
+      // currLevel: 1,
+      price: 10000,
+      maxLevel: 5,
+    } /* Raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
+    noPostpartum: {
+      // currLevel: 1,
+      price: 2000,
+      maxLevel: 10,
+    } /* Reduces the postpartum period, completely erasing it at max FertilityLevel. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */,
+    polyhydramnios: {
+      price: 1500,
+      maxLevel: 10,
+    } /* Increases amniotic fluid production per fetus */,
+  };
+
+  export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
+  export const gElasticityPerkMaxExpBoost = 0.5; // +50% increase
+  export const gElasticityPerkCapacityMaxBoost = 0.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
+  export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
+  export const gHealthyWombPerkMaxHPIncrementBuff = 0.75; // +75% to all sources of positive hp
+  export const gHealthyWombPerkMaxHPDecrementNerf = 0.25; // -25% to all sources of negative hp
+  export const gFortifiedWombPerkMaxCapacityBoost = 0.5; // +50% increase to `maxCapacity`
+  export const gFortifiedWombPerkMaxNaturalBirthDelay = 0.25; // +25% more time after becoming due before birth may occur
+  export const gFortifiedWombPerkMaxPassiveHPDrainNerf = 0.25; // -25% to passive hp drain
+  export const gPolyhydramniosPerkMaxFluidProductionBoost = 0.5; // +50% more amniotic fluid per fetus
+
+  export type PregSideEffect =
+    | PregSideEffectDynamicData
+    | PregSideEffectStaticData;
+
   export type PregSideEffectsObject = Partial<
     Record<
       | "cravingCrisis"
@@ -39,6 +149,44 @@ namespace NSPregnancy {
       PregSideEffect
     >
   >;
+  export const gAllSideEffects: PregSideEffectsObject = {
+    /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
+    /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition (in seconds) will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
+    /* TODO - Add more side effects */
+
+    cravingCrisis: {
+      // currDuration: 0,
+      maxDuration: [1, 2],
+    } /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
+    motherHunger: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3],
+    } /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
+    restlessBrood: {
+      // currDuration: 0,
+      maxDuration: [2, 3],
+    } /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
+    heavyWomb: {
+      // currDuration: 0,
+      maxDuration: [3, 5, 7],
+    } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
+    contractions: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3, 5],
+    } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
+    labour: {
+      // currDuration: 0,
+      maxDuration: [3],
+    } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
+    sexCraving: {
+      // currDuration: 0,
+      maxDuration: [1, 3],
+    } /* Maxes out arousal once a day and keeps it above 75 */,
+    growthSpurt: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3],
+    } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
+  };
 
   export type DevelopmentRatio = number;
   export type Gender = "M" | "F" | "I"; // male, female, intersex
@@ -50,25 +198,26 @@ namespace NSPregnancy {
     amnioticFluidVolume: number; // in ml
   }
 
-  // These are just function paramsZZ
-  export enum FetalGrowthStatsEnum {
+  // These are just function params
+  // REVIEW - I greatly regret hardcoding these values.
+  export const enum FetalGrowthStatsEnum {
     HEIGHT = "height",
     WEIGHT = "weight",
     AMNIOTIC_FLUID = "amnioticFluidVolume",
   }
 
-  export enum PregPerkElements {
-    CURRENT_LVL,
-    PRICE,
-    MAX_LVL,
-  }
+  // export enum PregPerkElements {
+  //   CURRENT_LVL,
+  //   PRICE,
+  //   MAX_LVL,
+  // }
 
-  export enum PregSideEffectElements {
-    CURRENT_DURATION,
-    MAX_DURATION,
-  }
+  // export enum PregSideEffectElements {
+  //   CURRENT_DURATION,
+  //   MAX_DURATION,
+  // }
 
-  export enum FetusSpecies {
+  export const enum FetusSpecies {
     HUMAN,
     TENTACLE,
   }
@@ -124,13 +273,15 @@ namespace NSPregnancy {
   export const gMaxDevelopmentState = 100; // 100 Percent
 
   // In most cases, birth is considered "full-term" from this week onwards. Week 37
-  export const gMinNormalBirthThreshold = 92.5;
+  export const gMinNormalBirthThreshold = 92.5; // 37 weeks
   export const gPreemieBirthThreshold = 82.5; // 33 weeks
   export const gVeryPreemieBirthThreshold = 70; // 28 weeks. For simplicity, assume that this is the vey minimum threshold for birth to occur.
 
   export const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
   export const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
   export let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
+
+  export const gPostpartumPeriod = 4320000; // Time in seconds when the user can't be impregnated. Irl, it takes 6 ~ 8 weeks so I'll just go with a weighted average closer to 8 which is `getWeightedAverage(6, 8) * 7 * 24 * 60 * 60`
 
   // The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
   // Best leave it at small ratios and below 1
@@ -140,7 +291,7 @@ namespace NSPregnancy {
   export const gNumOfPossibleFetusIds = 65536;
 
   // There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
-  export enum GestationalWeek {
+  export const enum GestationalWeek {
     One = 1,
     Two,
     Three,
