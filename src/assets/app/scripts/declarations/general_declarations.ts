@@ -1,5 +1,5 @@
-import { globalMap } from '../location/game_locations/global_map'
-import type { UUID } from '../location/types_and_interfaces'
+import { globalMap } from "../location/game_locations/global_map";
+import type { UUID } from "../location/types_and_interfaces";
 
 export const enum StoryFlags {
   NONE = 0,
@@ -13,42 +13,41 @@ export const enum StoryFlags {
  * NOTE: **This only tests if *all* the bits in the flag match, otherwise it returns false. So be careful with it for flags with multiple set bits. Use `isAnyStoryFlagActive()` instead.**
  */
 export function areAllStoryFlagSet(flag: StoryFlags) {
-  return (variables().storyFlags & flag) == StoryFlags.NONE ? false : true
+  return (variables().storyFlags & flag) == StoryFlags.NONE ? false : true;
 }
 
 /**
  * NOTE: **This only tests if *any* the bits in the flag match, otherwise it returns false.**
  */
 export function isAnyStoryFlagSet(flags: StoryFlags) {
-  return variables().storyFlags & flags ? true : false
+  return variables().storyFlags & flags ? true : false;
 }
 
 export function setStoryFlag(flag: StoryFlags) {
-  variables().storyFlags |= flag
+  variables().storyFlags |= flag;
 }
 
 export function clearStoryFlag(flag: StoryFlags) {
-  variables().storyFlags &= ~flag
+  variables().storyFlags &= ~flag;
 }
 
 export function toggleStoryFlag(flag: StoryFlags) {
-  variables().storyFlags ^= flag
+  variables().storyFlags ^= flag;
 }
 
 // SECTION: Location specific helper functions
 export function activeArea() {
-  return globalMap.activeArea
+  return globalMap.activeArea;
 }
 
 export function getAreaFromUUID(uuid: UUID) {
-  return globalMap.areaFromUUID(uuid)
+  return globalMap.areaFromUUID(uuid);
 }
 
-
-const getRandomNumberFromRangeInclusive = (min: number, max: number) => {
+export const getRandomNumberFromRangeInclusive = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
-const getWeightedAverage = (...input: number[]) => {
+export const getWeightedAverage = (...input: number[]) => {
   // Get the total sum
   let sum = 0;
   input.forEach((number) => {
@@ -69,3 +68,15 @@ const getWeightedAverage = (...input: number[]) => {
   // Divided the sum of weighted values by 100 and return the answer
   return sumOfWeightedValues / 100;
 };
+
+export function isEditableElementSelected(e: any | Event) {
+  // Note that "e" must be an event
+  if (
+    e.target instanceof HTMLElement &&
+    (["INPUT", "TEXTAREA"].includes(e.target.nodeName) ||
+      e.target.attributes.hasOwnProperty("contenteditable"))
+  ) {
+    return true;
+  }
+  return false;
+}
