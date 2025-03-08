@@ -1,4 +1,5 @@
 import type { StoryFlags } from "./scripts/declarations/general_declarations";
+import type { Player } from "./scripts/declarations/player_declarations";
 import type {
   AreaUniqueId,
   UUID,

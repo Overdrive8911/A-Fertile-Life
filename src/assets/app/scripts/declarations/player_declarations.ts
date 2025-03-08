@@ -1,4 +1,5 @@
 import type { UUID } from "../location/types_and_interfaces";
+import type { Womb } from "../pregnancy/classes";
 
 export type Player = {
   money: number;
@@ -58,7 +59,7 @@ export type Player = {
   energy: number;
   maxEnergy: number;
 
-  womb: NSPregnancy.Womb;
+  womb: Womb;
 
   breasts: NSBodyStats.Breasts;
 

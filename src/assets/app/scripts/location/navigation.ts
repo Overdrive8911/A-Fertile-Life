@@ -1,41 +1,47 @@
-import { setLastWarpDestination } from './other_data'
-import { Direction, MapEntityFlags } from './enums'
-import type { SubAreas, UUID } from './types_and_interfaces'
+import { setLastWarpDestination } from "./other_data";
+import { Direction, MapEntityFlags } from "./enums";
+import type { SubAreas, UUID } from "./types_and_interfaces";
 import {
   GlobalMap,
   SubLocation,
   type Location,
   type Region,
   type SubRegion,
-} from './classes'
-import { globalMap } from './game_locations/global_map'
-import { backupPassageName, oppositeDirection } from './general_location_data'
+} from "./classes";
+import { globalMap } from "./game_locations/global_map";
+import { backupPassageName, oppositeDirection } from "./general_location_data";
 import {
   activeArea,
   getAreaFromUUID,
-} from '../declarations/general_declarations'
-import { updateTimeWithDistance } from '../date_and_time/game_date_and_time_updater'
+} from "../declarations/general_declarations";
+import { updateTimeWithDistance } from "../date_and_time/game_date_and_time_updater";
 
 function getConnectedArea(
   area: SubLocation,
   direction: Direction
-): SubLocation | null
-function getConnectedArea(area: Location, direction: Direction): Location | null
+): SubLocation | null;
+function getConnectedArea(
+  area: Location,
+  direction: Direction
+): Location | null;
 function getConnectedArea(
   area: SubRegion,
   direction: Direction
-): SubRegion | null
-function getConnectedArea(area: Region, direction: Direction): Region | null
-function getConnectedArea(area: SubAreas, direction: Direction): SubAreas | null
+): SubRegion | null;
+function getConnectedArea(area: Region, direction: Direction): Region | null;
+function getConnectedArea(
+  area: SubAreas,
+  direction: Direction
+): SubAreas | null;
 function getConnectedArea(
   area: SubAreas,
   direction: Direction
 ): SubAreas | null {
-  const parent = area.parent
+  const parent = area.parent;
   const connectedAreas = parent.childrenData
     .get(area as any)
-    ?.get(direction)?.area
-  let canEnterConnectedAreaFromDirection = true
+    ?.get(direction)?.area;
+  let canEnterConnectedAreaFromDirection = true;
 
   const checkDirection = (
     flag:
@@ -46,70 +52,70 @@ function getConnectedArea(
       | MapEntityFlags.INACCESSIBLE_FROM_NORTH
       | MapEntityFlags.INACCESSIBLE_FROM_DOWN
   ) => {
-    return (connectedAreas?.flags ?? MapEntityFlags.NONE) & flag ? false : true
-  }
+    return (connectedAreas?.flags ?? MapEntityFlags.NONE) & flag ? false : true;
+  };
   switch (oppositeDirection[direction]) {
     case Direction.NORTH:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_NORTH
-      )
-      break
+      );
+      break;
     case Direction.EAST:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_EAST
-      )
-      break
+      );
+      break;
     case Direction.SOUTH:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_SOUTH
-      )
-      break
+      );
+      break;
     case Direction.WEST:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_WEST
-      )
-      break
+      );
+      break;
     case Direction.UP:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_UP
-      )
-      break
+      );
+      break;
     case Direction.DOWN:
       canEnterConnectedAreaFromDirection = checkDirection(
         MapEntityFlags.INACCESSIBLE_FROM_DOWN
-      )
-      break
+      );
+      break;
   }
 
-  return canEnterConnectedAreaFromDirection ? connectedAreas ?? null : null
+  return canEnterConnectedAreaFromDirection ? connectedAreas ?? null : null;
 }
 
 export function warpToConnectedArea(direction: Direction) {
-  const currArea = activeArea()
+  const currArea = activeArea();
   if (currArea instanceof GlobalMap) {
-    warpToArea(globalMap.uuid)
-    return true
+    warpToArea(globalMap.uuid);
+    return true;
   }
 
-  const connectedArea = getConnectedArea(currArea, direction)
+  const connectedArea = getConnectedArea(currArea, direction);
 
   if (connectedArea) {
-    warpToArea(connectedArea.uuid)
-    return true
+    warpToArea(connectedArea.uuid);
+    return true;
   }
-  return false
+  return false;
 }
 
 export function setPlayerLocation(destination: UUID) {
-  variables().player.areaId = destination
+  variables().player.areaId = destination;
 }
 
 // "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
 export function warpToArea(destination: UUID, doNotWarp = false) {
-  const currentArea = activeArea()
-  const destinationArea = getAreaFromUUID(destination)
+  const currentArea = activeArea();
+  const destinationArea = getAreaFromUUID(destination);
 
-  let passageToLoad = destinationArea.passage ?? backupPassageName
+  let passageToLoad = destinationArea.passage ?? backupPassageName;
   // if (typeof destination == 'string') {
 
   //   passageToLoad =
@@ -121,29 +127,48 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
   if (passageToLoad == backupPassageName) {
     console.warn(
       `Destination passage not found. Falling back to backup passage. The destination uuid is:`
-    )
-    console.warn(destination)
+    );
+    console.warn(destination);
   }
 
-  setLastWarpDestination(currentArea.uuid)
+  setLastWarpDestination(currentArea.uuid);
 
   // load the passage
   if (!doNotWarp) {
-    setPlayerLocation(destination)
+    setPlayerLocation(destination);
     // Calculate the amount of time to travel between the areas
-    globalMap.getDistance2(currentArea, destinationArea).then(dist => {
-      updateTimeWithDistance(dist)
-    })
+    globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
+      updateTimeWithDistance(dist);
 
-    Engine.play(passageToLoad)
+      const playerWomb = variables().player.womb;
+      const passedTimeAfterLastUpdate =
+        variables().gameDateAndTime.getTime() -
+        (playerWomb.lastPregUpdate
+          ? playerWomb.lastPregUpdate.getTime()
+          : playerWomb.lastFertilized
+          ? playerWomb.lastFertilized.getTime()
+          : variables().gameDateAndTime.getTime());
+      if (passedTimeAfterLastUpdate) {
+        playerWomb.updatePregnancyGrowth();
+        playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
+
+        if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
+
+        if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
+          playerWomb.postpartumCounter -= passedTimeAfterLastUpdate / 1000;
+        }
+      }
+    });
+
+    Engine.play(passageToLoad);
   }
 }
 export function isNavigationButtonUsable(direction: Direction) {
-  const currArea = activeArea()
+  const currArea = activeArea();
 
   return currArea instanceof GlobalMap
     ? false
     : getConnectedArea(currArea, direction)
     ? true
-    : false
+    : false;
 }
