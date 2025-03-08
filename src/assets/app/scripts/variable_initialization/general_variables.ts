@@ -1,1 +1,1 @@
-let saveVar_gameDateAndTime = new Date(Date.UTC(2021, 1, 3, 20));
+export const saveVar_gameDateAndTime = new Date(Date.UTC(2021, 1, 3, 20));

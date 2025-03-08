@@ -2,6 +2,9 @@ import type { UUID } from "../location/types_and_interfaces";
 
 export type Player = {
   money: number;
+  /**
+   * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
+   */
   areaId: UUID;
   personality: {
     enthusiasm: number;
