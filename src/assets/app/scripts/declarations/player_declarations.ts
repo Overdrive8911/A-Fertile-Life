@@ -1,9 +1,8 @@
-type Player = {
+import type { UUID } from "../location/types_and_interfaces";
+
+export type Player = {
   money: number;
-  locationData: {
-    location: NSLocation.MapLocation;
-    subLocation: NSLocation.MapSubLocation;
-  };
+  areaId: UUID;
   personality: {
     enthusiasm: number;
     apathy: number;
