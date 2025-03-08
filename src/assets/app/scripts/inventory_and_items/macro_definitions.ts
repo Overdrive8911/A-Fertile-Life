@@ -1,4 +1,4 @@
-import { Inventory } from "./classes";
+import { Inventory } from "./classes/inventory";
 import { gInGameItems } from "./declarations/game_item_declarations";
 import { ItemId } from "./declarations/item_enums";
 

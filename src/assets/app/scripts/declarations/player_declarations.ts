@@ -1,4 +1,4 @@
-import type { Inventory } from "../inventory_and_items/classes";
+import type { Inventory } from "../inventory_and_items/classes/inventory";
 import type { UUID } from "../location/types_and_interfaces";
 import type { Womb } from "../pregnancy/classes";
 import type { Breasts } from "./body_stats/breast_class_definitions";

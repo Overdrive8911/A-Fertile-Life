@@ -1,4 +1,4 @@
-import { Item } from "../classes";
+import { Item } from "../classes/item";
 import { Food, Clothing } from "../item_class_extends";
 import {
   ItemId,
