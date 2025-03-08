@@ -1,3 +1,7 @@
+import type { Item } from "../classes";
+import type { Clothing, Drug, Food } from "../item_class_extends";
+import type { ClothingState } from "./item_enums";
+
 // NOTE - All item specific data should extend from this
 export interface GenericItemDynamicData {}
 export type ItemCallback = (
@@ -9,12 +13,12 @@ export type ItemCallback = (
 // NOTE - Add all new item classes here for type safety
 type AnyItemClass = Item &
   typeof Item &
-  ItemType.Clothing &
-  typeof ItemType.Clothing &
-  ItemType.Drug &
-  typeof ItemType.Drug &
-  ItemType.Food &
-  typeof ItemType.Food;
+  Clothing &
+  typeof Clothing &
+  Drug &
+  typeof Drug &
+  Food &
+  typeof Food;
 export type ItemClassMethod = Extract<
   AnyItemClass[keyof AnyItemClass],
   Function
@@ -28,52 +32,52 @@ export type ItemConstructorArgs<T extends Item> = Partial<{
 }>;
 // export type ItemClassMethod = Exclude<
 //   | keyof Item
-//   | keyof ItemType.Food
-//   | keyof ItemType.Clothing
-//   | keyof ItemType.Drug,
+//   | keyof Food
+//   | keyof Clothing
+//   | keyof Drug,
 //   Item["defaultCallback"]
 // >;
-// export type UseItemClassMethodFn<Class extends (Item | ItemType.Food| ItemType.Clothing| ItemType.Drug) > = (MethodToUse?: keyof Class) => void | ItemDynamicData
+// export type UseItemClassMethodFn<Class extends (Item | Food| Clothing| Drug) > = (MethodToUse?: keyof Class) => void | ItemDynamicData
 
 export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
 export type ExtraIdDataType = number | string;
 
 // ANCHOR - Extensions of `GenericItemDynamicData`
 export interface ClothingDynamicData extends GenericItemDynamicData {
-  clothingState: ItemType.ClothingState;
+  clothingState: ClothingState;
 }
 
 // NOTE: Add all item data types here
 export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
 
 export type AllClothingDurabilityPoints =
-  | ItemType.ClothingState.DURABILITY_LVL_1
-  | ItemType.ClothingState.DURABILITY_LVL_2
-  | ItemType.ClothingState.DURABILITY_LVL_3
-  | ItemType.ClothingState.DURABILITY_LVL_4
-  | ItemType.ClothingState.DURABILITY_LVL_5
-  | ItemType.ClothingState.DURABILITY_LVL_6
-  | ItemType.ClothingState.DURABILITY_LVL_7
-  | ItemType.ClothingState.DURABILITY_LVL_8
-  | ItemType.ClothingState.DURABILITY_LVL_9
-  | ItemType.ClothingState.DURABILITY_LVL_10
-  | ItemType.ClothingState.DURABILITY_LVL_11
-  | ItemType.ClothingState.DURABILITY_LVL_12
-  | ItemType.ClothingState.DURABILITY_LVL_13
-  | ItemType.ClothingState.DURABILITY_LVL_14
-  | ItemType.ClothingState.DURABILITY_LVL_15
-  | ItemType.ClothingState.DURABILITY_LVL_16
-  | ItemType.ClothingState.DURABILITY_LVL_17
-  | ItemType.ClothingState.DURABILITY_LVL_18
-  | ItemType.ClothingState.DURABILITY_LVL_19
-  | ItemType.ClothingState.DURABILITY_LVL_20
-  | ItemType.ClothingState.DURABILITY_LVL_21
-  | ItemType.ClothingState.DURABILITY_LVL_22
-  | ItemType.ClothingState.DURABILITY_LVL_23
-  | ItemType.ClothingState.DURABILITY_LVL_24
-  | ItemType.ClothingState.DURABILITY_LVL_25
-  | ItemType.ClothingState.DURABILITY_LVL_26
-  | ItemType.ClothingState.DURABILITY_LVL_27
-  | ItemType.ClothingState.DURABILITY_LVL_28
-  | ItemType.ClothingState.DURABILITY_LVL_29
-  | ItemType.ClothingState.DURABILITY_LVL_30;
+  | ClothingState.DURABILITY_LVL_1
+  | ClothingState.DURABILITY_LVL_2
+  | ClothingState.DURABILITY_LVL_3
+  | ClothingState.DURABILITY_LVL_4
+  | ClothingState.DURABILITY_LVL_5
+  | ClothingState.DURABILITY_LVL_6
+  | ClothingState.DURABILITY_LVL_7
+  | ClothingState.DURABILITY_LVL_8
+  | ClothingState.DURABILITY_LVL_9
+  | ClothingState.DURABILITY_LVL_10
+  | ClothingState.DURABILITY_LVL_11
+  | ClothingState.DURABILITY_LVL_12
+  | ClothingState.DURABILITY_LVL_13
+  | ClothingState.DURABILITY_LVL_14
+  | ClothingState.DURABILITY_LVL_15
+  | ClothingState.DURABILITY_LVL_16
+  | ClothingState.DURABILITY_LVL_17
+  | ClothingState.DURABILITY_LVL_18
+  | ClothingState.DURABILITY_LVL_19
+  | ClothingState.DURABILITY_LVL_20
+  | ClothingState.DURABILITY_LVL_21
+  | ClothingState.DURABILITY_LVL_22
+  | ClothingState.DURABILITY_LVL_23
+  | ClothingState.DURABILITY_LVL_24
+  | ClothingState.DURABILITY_LVL_25
+  | ClothingState.DURABILITY_LVL_26
+  | ClothingState.DURABILITY_LVL_27
+  | ClothingState.DURABILITY_LVL_28
+  | ClothingState.DURABILITY_LVL_29
+  | ClothingState.DURABILITY_LVL_30;
