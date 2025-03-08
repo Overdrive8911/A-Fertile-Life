@@ -1,8 +1,13 @@
 
+import { getWeightedAverage } from "../declarations/general_declarations";
+import type { Player } from "../declarations/player_declarations";
+import { gDefaultMaxWombHP, FertilityLevel, BellyState, type PregPerksObject, type PregSideEffectsObject, gNumOfPossibleFetusIds, WombHealth, gChanceOfNaturalMultipleOvaFertilization, gChanceOfNaturalOvaSplit, gAllPregPerks, FetalGrowthStatsEnum, gFortifiedWombPerkMaxPassiveHPDrainNerf, gHealthyWombPerkMaxHPIncrementBuff, gHealthyWombPerkMaxHPDecrementNerf, gMaxWombLevel, gExpPerSingleFetusGestation, gMaxDevelopmentState, gElasticityPerkMaxExpBoost, WombExpLimit, gMinWombLevel, gActualPregnancyLength, gGestatorPerkMaxSpeedBoost, gImmunityPerkMaxBoostPerFetus, GestationalWeek, gPolyhydramniosPerkMaxFluidProductionBoost, gMinimumVolumeOfAmnioticFluid, gExpPerSingleBirth, gPostpartumPeriod, gFortifiedWombPerkMaxNaturalBirthDelay, type PregSideEffect, gAllSideEffects, gFortifiedWombPerkMaxCapacityBoost, gElasticityPerkCapacityMaxBoost, type DevelopmentRatio, FetusSpecies, gMinDevelopmentState, type Gender, gMinNormalBirthThreshold, gPreemieBirthThreshold, gVeryPreemieBirthThreshold, gDefaultPregnancyLength, gNumOfGestationalWeeks, gFetalGrowthOverGestationalWeeks, gOverdueStatMultiplier } from "./declarations/preg_declarations";
+
   /* Womb, Pregnancy and Birth */
   /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
   /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */
   /* The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has */
+
   /* Capacity is in cubic centimetres(CCs) */
   export class Womb {
     hp =
@@ -33,10 +38,10 @@
     onContraceptives = false;
     birthRecord = 0; /* Number of times the user has given birth */
 
-    lastFertilized: Date =
+    lastFertilized: Date | null =
       null; /* The date when the womb was last impregnated */
-    lastBirth: Date = null; /* The date of the last birth */
-    lastPregUpdate: Date = null; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
+    lastBirth: Date | null = null; /* The date of the last birth */
+    lastPregUpdate: Date | null = null; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
 
     naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
 
@@ -51,7 +56,7 @@
       this.#maxCapacity = value;
     }
 
-    constructor(classProperties: Womb = null) {
+    constructor(classProperties: Womb|null = null) {
       if (classProperties != null) {
         Object.keys(classProperties).forEach((prop) => {
           //@ts-expect-error
@@ -226,7 +231,7 @@
 
             // Gently add a flat increase it with every extra level
             let k = 1;
-            while (k < perks.hyperFertility.currLevel) {
+            while (k < (perks.hyperFertility?.currLevel ?? 0)) {
               chance += 0.055;
               k++;
             }
