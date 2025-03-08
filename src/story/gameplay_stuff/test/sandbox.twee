@@ -50,42 +50,42 @@
 <p>
     <<link "Skip 30 minutes">>
         <<skipTime 0 0 30>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
 <p>
     <<link "Rewind 30 minutes">>
         <<skipTime 0 0 -30>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
 <p>
     <<link "Skip 1 day">>
         <<skipTime 1 0 0>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
 <p>
     <<link "Rewind 1 day">>
         <<skipTime -1 0 0>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
 <p>
     <<link "Skip 1 week">>
         <<skipTime 7 0 0>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
 <p>
     <<link "Rewind 1 week">>
         <<skipTime -7 0 0>>
-        <<run setup.updateGameDateAndTimeDisplay()>>
+        <<run setup.updateTime()>>
     <</link>>
 </p>
 
