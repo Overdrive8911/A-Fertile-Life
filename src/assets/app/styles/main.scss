@@ -3,3 +3,7 @@
 @use "icons/index.scss" as icons;
 @use "inventory/index.scss" as inventory;
 @use "ui/index.scss";
+
+@use "extensions/check_vars/checkvars-macro.min.css";
+@use "./extensions/click_to_proceed/click-to-proceed.css";
+@use "./extensions/number_pool/numberpool_macro_set.css";

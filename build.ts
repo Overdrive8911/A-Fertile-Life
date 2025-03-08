@@ -16,7 +16,7 @@ const buildResult = await build({
   plugins: [
     cleanDirectories,
     processStyles,
-    bundleScriptAndStyleExtensions,
+    // bundleScriptAndStyleExtensions,
     copyOtherAssets,
   ],
   drop: mode === "production" ? ["console", "window"] : [],
