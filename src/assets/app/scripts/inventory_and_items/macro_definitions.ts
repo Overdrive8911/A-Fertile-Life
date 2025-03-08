@@ -1,58 +1,62 @@
+import { Inventory } from "./classes";
+import { gInGameItems } from "./declarations/game_item_declarations";
+import { ItemId } from "./declarations/item_enums";
 
-  // Accepts 2 parameters; the itemId and the amount to give. The latter is optional and defaults to 1 if omitted
-  function validateItemId(itemId: ItemId) {
-    if (!gInGameItems[itemId]) return false;
+// Accepts 2 parameters; the itemId and the amount to give. The latter is optional and defaults to 1 if omitted
+function validateItemId(itemId: ItemId) {
+  if (!gInGameItems[itemId]) return false;
 
-    return true;
-  }
+  return true;
+}
 
-  Macro.add("giveItem", {
-    handler: function () {
-      const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
-      let amount: number = this.args[1];
+Macro.add("giveItem", {
+  handler: function () {
+    const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
+    const itemId: ItemId =
+      Inventory.tryConvertStringItemId(itemIdString) ?? ItemId.DUMMY;
+    let amount: number = this.args[1];
 
-      if (!validateItemId(itemId)) {
-        this.error("Item Id does not exist.");
-      }
+    if (!validateItemId(itemId)) {
+      this.error("Item Id does not exist.");
+    }
 
-      if (amount === undefined) amount = 1;
+    if (amount === undefined) amount = 1;
 
-      while (amount > 0) {
-        variables().player.inventory.storeItem(itemId);
-        amount--;
-      }
-    },
-  });
+    while (amount > 0) {
+      variables().player.inventory.storeItem(itemId);
+      amount--;
+    }
+  },
+});
 
-  Macro.add("deleteItem", {
-    handler: function () {
-      const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
-      const itemId: ItemId = Inventory.tryConvertStringItemId(itemIdString);
-      let amount: number = this.args[1];
+Macro.add("deleteItem", {
+  handler: function () {
+    const itemIdString: string = this.args[0]; // e.g FOOD_CHEESE
+    const itemId: ItemId =
+      Inventory.tryConvertStringItemId(itemIdString) ?? ItemId.DUMMY;
+    let amount: number = this.args[1];
 
-      if (!validateItemId(itemId)) {
-        this.error("Item Id does not exist.");
-      }
+    if (!validateItemId(itemId)) {
+      this.error("Item Id does not exist.");
+    }
 
-      if (amount === undefined) amount = 1;
+    if (amount === undefined) amount = 1;
 
-      while (amount > 0) {
-        variables().player.inventory.removeItem(itemId, amount);
-        amount--;
-      }
-    },
-  });
+    while (amount > 0) {
+      variables().player.inventory.removeItem(itemId, amount);
+      amount--;
+    }
+  },
+});
 
-  setup.addAllItems = () => {
-    for (const key in gInGameItems) {
-      if (Object.prototype.hasOwnProperty.call(gInGameItems, key)) {
-        const item = gInGameItems[key as unknown as ItemId];
+setup.addAllItems = () => {
+  for (const key in gInGameItems) {
+    if (Object.prototype.hasOwnProperty.call(gInGameItems, key)) {
+      const item = gInGameItems[key as unknown as ItemId];
 
-        if (item !== undefined) {
-          variables().player.inventory.storeItem(item.itemId);
-        }
+      if (item !== undefined) {
+        variables().player.inventory.storeItem(item.itemId);
       }
     }
-  };
-}
+  }
+};
