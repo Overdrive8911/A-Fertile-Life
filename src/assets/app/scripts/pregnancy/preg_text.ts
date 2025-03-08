@@ -200,4 +200,4 @@ function getPlayerPregDescription() {
 }
 
 // @ts-expect-error
-window.t = getPlayerPregDescription;
+window.tr = getPlayerPregDescription;
