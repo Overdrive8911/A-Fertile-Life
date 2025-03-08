@@ -4,6 +4,4 @@ declare module "twine-sugarcube" {
   }
 }
 
-namespace NSInventoryAndItem {}
-
 export {};

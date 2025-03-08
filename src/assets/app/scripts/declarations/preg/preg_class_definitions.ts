@@ -1,4 +1,4 @@
-namespace NSPregnancy {
+
   /* Womb, Pregnancy and Birth */
   /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
   /* A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has */

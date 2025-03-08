@@ -1,4 +1,4 @@
-namespace NSInventoryAndItem {
+
   // SECTION - For adding functionality to the inventory icon in the top bar
   $(document).on(":passageend", () => {
     const inventoryBtn = $(".ui-settings-button-inventory");

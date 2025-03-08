@@ -1,4 +1,4 @@
-namespace NSPregnancy {
+
   Macro.add("impregnate", {
     handler: function () {
       const sourceVirility: number = this.args[0];

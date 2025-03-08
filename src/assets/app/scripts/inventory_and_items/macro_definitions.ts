@@ -1,4 +1,4 @@
-namespace NSInventoryAndItem {
+
   // Accepts 2 parameters; the itemId and the amount to give. The latter is optional and defaults to 1 if omitted
   function validateItemId(itemId: ItemId) {
     if (!gInGameItems[itemId]) return false;
