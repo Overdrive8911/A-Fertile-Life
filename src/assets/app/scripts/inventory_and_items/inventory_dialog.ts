@@ -1,4 +1,5 @@
-import { Inventory, Item } from "./classes";
+import type { Inventory } from "./classes/inventory";
+import type { Item } from "./classes/item";
 import { gInGameItems } from "./declarations/game_item_declarations";
 import { ItemId, ItemTag } from "./declarations/item_enums";
 import type { ClothingDynamicData } from "./declarations/types_and_interfaces";

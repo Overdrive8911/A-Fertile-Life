@@ -1,4 +1,4 @@
-import "./classes";
+import "./classes/inventory_item";
 import "./inventory_dialog";
 import "./inventory_event_handlers";
 import "./item_class_extends";
