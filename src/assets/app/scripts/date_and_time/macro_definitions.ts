@@ -1,4 +1,10 @@
 // Add a macro to deal with time changing
+
+import {
+  skipSomeDaysToSpecificTime,
+  skipToNextDayWithSpecificTime,
+} from "./game_date_and_time_updater";
+
 // E.g <<updateGameTime "nextDay" 7 30>> to skip to 7:30 on the next day, <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards
 Macro.add("updateGameTime", {
   skipArgs: false,
@@ -8,7 +14,7 @@ Macro.add("updateGameTime", {
     const minutes: number = this.args[2];
 
     if (days === "nextDay") {
-      setup.skipToNextDayWithSpecificTime(hours, minutes);
+      skipToNextDayWithSpecificTime(hours, minutes);
     } else if (typeof days === "number") {
       skipSomeDaysToSpecificTime(days, hours, minutes);
     }
@@ -49,31 +55,29 @@ Macro.add("skipTime", {
     // Check if the new time is okay
     let newHours = 0,
       newMinutes = 0;
-    if (variables().gameDateAndTime.getUTCHours() + hours > 23) {
-      newHours += (variables().gameDateAndTime.getUTCHours() + hours) % 24;
-      days += parseInt(
-        ((variables().gameDateAndTime.getUTCHours() + hours) / 24).toFixed(0)
-      );
+    const utcHours = variables().gameDateAndTime.getUTCHours(),
+      utcMinutes = variables().gameDateAndTime.getUTCMinutes(),
+      utcMonth = variables().gameDateAndTime.getUTCMonth(),
+      fullYear = variables().gameDateAndTime.getFullYear(),
+      utcDate = variables().gameDateAndTime.getUTCDate();
+    if (utcHours + hours > 23) {
+      newHours += (utcHours + hours) % 24;
+      days += parseInt(((utcHours + hours) / 24).toFixed(0));
     } else {
-      newHours = variables().gameDateAndTime.getUTCHours() + hours;
+      newHours = utcHours + hours;
     }
 
-    if (variables().gameDateAndTime.getUTCMinutes() + minutes > 59) {
-      newMinutes +=
-        (variables().gameDateAndTime.getUTCMinutes() + minutes) % 60;
-      newHours += parseInt(
-        ((variables().gameDateAndTime.getUTCMinutes() + minutes) / 60).toFixed(
-          0
-        )
-      );
+    if (utcMinutes + minutes > 59) {
+      newMinutes += (utcMinutes + minutes) % 60;
+      newHours += parseInt(((utcMinutes + minutes) / 60).toFixed(0));
     } else {
-      newMinutes = variables().gameDateAndTime.getUTCMinutes() + minutes;
+      newMinutes = utcMinutes + minutes;
     }
 
     variables().gameDateAndTime = new Date(
-      variables().gameDateAndTime.getFullYear(),
-      variables().gameDateAndTime.getUTCMonth(),
-      variables().gameDateAndTime.getUTCDate() + days,
+      fullYear,
+      utcMonth,
+      utcDate + days,
       newHours,
       newMinutes
     );
