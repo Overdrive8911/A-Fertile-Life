@@ -1,5 +1,12 @@
+import { Breasts } from "../declarations/body_stats/breast_class_definitions";
 import type { Player } from "../declarations/player_declarations";
+import { Inventory } from "../inventory_and_items/classes";
 import { defaultWarpDestination } from "../location/other_data";
+import { Womb } from "../pregnancy/classes";
+import {
+  FertilityLevel,
+  BellyState,
+} from "../pregnancy/declarations/preg_declarations";
 
 export const saveVar_player: Player = {
   /* Money */
@@ -68,7 +75,7 @@ export const saveVar_player: Player = {
 
   /* Inventory */
   /* This will contain itemIds in an array */
-  inventory: new NSInventoryAndItem.Inventory(),
+  inventory: new Inventory(),
 
   /* Mental Stats */
   /* All of them have a max of 100 */
@@ -94,15 +101,14 @@ export const saveVar_player: Player = {
   /* Capacity is in cubic centimetres(CCs) */
   // @ts-expect-error
   // NOTE - Fix this ts error later
-  womb: new NSPregnancy.Womb({
-    fertility: NSPregnancy.FertilityLevel.EXTREME_FERTILITY,
-    comfortCapacity:
-      NSPregnancy.BellyState.FULL_TERM + NSPregnancy.BellyState.EARLY_PREGNANCY,
-    maxCapacity: NSPregnancy.BellyState.FULL_TERM_TWINS,
+  womb: new Womb({
+    fertility: FertilityLevel.EXTREME_FERTILITY,
+    comfortCapacity: BellyState.FULL_TERM + BellyState.EARLY_PREGNANCY,
+    maxCapacity: BellyState.FULL_TERM_TWINS,
     naturalGrowthMod: 10,
   }),
 
-  breasts: new NSBodyStats.Breasts(),
+  breasts: new Breasts(),
 
   /* Muscle */
   muscleDefinition: 44 /* 0 - 17 -> Very frail, 18 - 35 -> Frail, 36 - 53 -> Average, 54 - 66 -> Toned, 67 - 82 -> Well-Defined, 83 - 95 -> Jacked, 96 - 100 -> Body Builder */,
