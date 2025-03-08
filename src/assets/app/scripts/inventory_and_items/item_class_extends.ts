@@ -1,6 +1,6 @@
 // NOTE - Add any new child classes to `AnyItemClass`
-
-import { Item, Inventory } from "./classes";
+import { Inventory } from "./classes/inventory";
+import { Item } from "./classes/item";
 import {
   ItemTag,
   ClothingArea,

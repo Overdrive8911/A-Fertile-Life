@@ -1,4 +1,4 @@
-import type { Item } from "../classes";
+import type { Item } from "../classes/item";
 import type { Clothing, Drug, Food } from "../item_class_extends";
 import type { ClothingState } from "./item_enums";
 
