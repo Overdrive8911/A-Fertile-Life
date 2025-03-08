@@ -1,7 +1,7 @@
 //ANCHOR - Boobs, Booty, Hips, Waist, General body fat.
 
-namespace NSBodyStats {
-  export namespace BreastData {
+
+  export 
     // TODO - Make each breast a class :D with a link to the other. Or not, this is only gonna affect the player anyway... Or not! CLASSES
     // NOTE - Breast size doesn't particularly boost milk production, however the two may increase side by side
     export enum CupSize {

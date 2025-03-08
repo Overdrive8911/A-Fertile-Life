@@ -1,4 +1,4 @@
-namespace NSPregnancy {
+
   // NOTE - This function assumes the player is pregnant
   function getPlayerPregDescription() {
     let pregText =

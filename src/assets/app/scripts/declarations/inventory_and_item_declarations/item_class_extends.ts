@@ -1,7 +1,7 @@
-namespace NSInventoryAndItem {
+
   // NOTE - Add any new child classes to `AnyItemClass`
   // NOTE - Ny method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
-  export namespace ItemType {
+  export 
     // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
     export class Food extends Item {
       constructor(data?: ItemConstructorArgs<Food>) {

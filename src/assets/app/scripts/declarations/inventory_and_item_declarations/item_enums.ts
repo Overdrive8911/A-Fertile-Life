@@ -1,4 +1,4 @@
-namespace NSInventoryAndItem {
+
   export enum ItemId {
     DUMMY,
 
@@ -63,7 +63,7 @@ namespace NSInventoryAndItem {
     ORANGE = "orange",
   }
 
-  export namespace ItemType {
+  export 
     // ANCHOR - Clothing
     // TODO - Implement clothing
     // REVIEW - Consider creating namespaces for each item type

@@ -1,4 +1,4 @@
-namespace NSInventoryAndItem {
+
   $(window).on("resize", () => {
     // Run this on resizing too
     inventoryTabsHandler();

@@ -1,4 +1,4 @@
-namespace NSUi {
+
   function copyActionInterfaceContentsToSideBar() {
     const verySlimMobileWidth = "screen and (max-width: 415px)";
 
