@@ -2,8 +2,8 @@
 @use "../../partials/functions" as func;
 // Preload image frames
 body::after {
-  content: url(assets/img/general/envelope_in-between.webp)
-    url(assets/img/general/envelope_open.webp);
+  content: func.image("general/envelope_in-between.webp")
+    func.image("general/envelope_open.webp");
   position: absolute;
   width: 0;
   height: 0;
