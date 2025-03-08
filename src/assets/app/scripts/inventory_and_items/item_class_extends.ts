@@ -28,7 +28,7 @@ export class Clothing extends Item {
   //@ts-ignore
   private a: ClothingArea;
 
-  constructor(data: ItemConstructorArgs<Clothing> | null = null) {
+  constructor(data: ItemConstructorArgs<Clothing>) {
     super(data);
     this.addTags(ItemTag.CLOTHING);
   }
@@ -103,8 +103,10 @@ export class Clothing extends Item {
 
   // This will always make sure the `data` parameter always has a usable value
   protected static sanitiseClothingData(
-    data: ClothingDynamicData | GenericItemDynamicData
+    data: ClothingDynamicData | GenericItemDynamicData | undefined
   ) {
+    if (!data) return { clothingState: ClothingState.DEFAULT };
+
     return !$.isEmptyObject(data) &&
       (data as ClothingDynamicData).clothingState != undefined
       ? (data as ClothingDynamicData)
@@ -240,7 +242,7 @@ export class Clothing extends Item {
     return storedClothingData;
   }
 
-  static isEquipped(data: ClothingDynamicData) {
+  static isEquipped(data: ClothingDynamicData | undefined) {
     const storedClothingData = this.sanitiseClothingData(data);
 
     return (storedClothingData.clothingState &

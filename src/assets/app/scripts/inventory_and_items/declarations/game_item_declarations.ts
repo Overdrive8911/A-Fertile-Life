@@ -1,11 +1,18 @@
 import { Item } from "../classes";
-import { ItemId, ItemProperties, ItemTag, ItemColor } from "./item_enums";
+import { Food, Clothing } from "../item_class_extends";
+import {
+  ItemId,
+  ItemProperties,
+  ItemTag,
+  ItemColor,
+  ClothingArea,
+} from "./item_enums";
 
 // This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC
 export const gInGameItems: Partial<Record<ItemId, Item>> = {
   [ItemId.DUMMY]: new Item(),
 
-  [ItemId.CHEESE]: new ItemType.Food({
+  [ItemId.CHEESE]: new Food({
     itemId: ItemId.CHEESE,
     // name: "Cheese",
     price: 100,
@@ -15,7 +22,7 @@ export const gInGameItems: Partial<Record<ItemId, Item>> = {
     // tags: [ItemTag.FOOD],
   }),
 
-  [ItemId.MOULDY_CHEESE]: new ItemType.Food({
+  [ItemId.MOULDY_CHEESE]: new Food({
     itemId: ItemId.MOULDY_CHEESE,
     // name: "Mouldy Cheese",
     price: 10000,
@@ -81,45 +88,45 @@ export const gInGameItems: Partial<Record<ItemId, Item>> = {
     tags: [ItemTag.KEY_ITEMS],
   }),
 
-  [ItemId.SIMPLE_HAT]: new ItemType.Clothing({
+  [ItemId.SIMPLE_HAT]: new Clothing({
     itemId: ItemId.SIMPLE_HAT,
     price: 350,
     weight: 110,
     description: "A nice and plain hat to protect you from the sun.",
     color: ItemColor.GREY,
-    bodyArea: ItemType.ClothingArea.HAT_AREA,
+    bodyArea: ClothingArea.HAT_AREA,
   }),
 
-  [ItemId.SIMPLE_SHIRT]: new ItemType.Clothing({
+  [ItemId.SIMPLE_SHIRT]: new Clothing({
     itemId: ItemId.SIMPLE_SHIRT,
     price: 850,
     weight: 330,
     description: "A nice and plain shirt that isn't too tight.",
     color: ItemColor.GREY,
-    bodyArea: ItemType.ClothingArea.SHIRT_AREA,
+    bodyArea: ClothingArea.SHIRT_AREA,
   }),
 
-  [ItemId.SIMPLE_SKIRT]: new ItemType.Clothing({
+  [ItemId.SIMPLE_SKIRT]: new Clothing({
     itemId: ItemId.SIMPLE_SKIRT,
     price: 700,
     weight: 300,
     description: "A nice and plain skirt that's just right.",
     color: ItemColor.GREY,
-    bodyArea: ItemType.ClothingArea.SKIRT_AREA,
+    bodyArea: ClothingArea.SKIRT_AREA,
   }),
 
-  [ItemId.SIMPLE_BOOTS]: new ItemType.Clothing({
+  [ItemId.SIMPLE_BOOTS]: new Clothing({
     itemId: ItemId.SIMPLE_BOOTS,
     price: 500,
     weight: 500,
     description: "A nice and plain pair of boots that's pretty snug.",
     color: ItemColor.GREY,
-    bodyArea: ItemType.ClothingArea.BOOT_AREA,
+    bodyArea: ClothingArea.BOOT_AREA,
   }),
 };
 // const a = new InventoryItem();
 // a.use(
-//   ItemType.Clothing.setDurabilityLevel,
+//   Clothing.setDurabilityLevel,
 //   a.dynamicData as ClothingDynamicData,
-//   ItemType.ClothingState.DURABILITY_EXCELLENT
+//   ClothingState.DURABILITY_EXCELLENT
 // );
