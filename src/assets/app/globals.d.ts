@@ -8,7 +8,7 @@ import type {
 declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     locationData: LocationObject;
-    initPlayerVars: () => void;
+    initSaveVars: () => void;
     updateTime: () => void;
   }
 
