@@ -36,9 +36,9 @@
 
 <<ctp "Prologue_Beginning_ctpId_1">>
     /* Display an envelope image. The player should click it to open it and then the letter fades in. */
-    <<link "<span class='pixel-art'>[img[assets/img/general/envelope_closed.webp]]</span>">>
-        /* The "envelope_play_animation" class doesn't really do anything unless its attached to anything that satisfies "img[src^='assets/img/general/envelope']" */
-        <<addclass "img[src^='assets/img/general/envelope']" "envelope_play_animation">>
+    <<link "<span class='pixel-art'>[img[media/img/general/envelope_closed.webp]]</span>">>
+        /* The "envelope_play_animation" class doesn't really do anything unless its attached to anything that satisfies "img[src^='media/img/general/envelope']" */
+        <<addclass "img[src^='media/img/general/envelope']" "envelope_play_animation">>
         <<ctpAdvance "Prologue_Beginning_ctpId_1">>
     <</link>>
 

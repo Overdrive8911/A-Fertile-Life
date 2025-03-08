@@ -73,7 +73,7 @@ export class Item {
   get imgUrl() {
     return (
       this.#imgUrl ||
-      `assets/img/items/${ItemId[this.itemId].toLocaleLowerCase()}.webp`
+      `media/img/items/${ItemId[this.itemId].toLocaleLowerCase()}.webp`
     );
   }
   get tags() {
