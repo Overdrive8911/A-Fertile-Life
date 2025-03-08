@@ -1,12 +1,12 @@
 // SECTION - Unexported interfaces
-interface PregPerkDynamicData {
+export interface PregPerkDynamicData {
   // Only `currLevel` gets stored in the save file
   currLevel: number;
 
   // price?: never;
   // maxLevel?: never;
 }
-interface PregPerkStaticData {
+export interface PregPerkStaticData {
   // Is stored as a global static variable
   price: number;
   maxLevel: number;
@@ -14,15 +14,15 @@ interface PregPerkStaticData {
   // currLevel?: never;
 }
 
-interface PregSideEffectDynamicData {
+export interface PregSideEffectDynamicData {
   // Only `currDuration` gets stored in the save file
   currDuration: number;
 
   // maxDuration?: never;
 }
-interface PregSideEffectStaticData {
+export interface PregSideEffectStaticData {
   // Is stored as a global static variable
-  maxDuration?: number[];
+  maxDuration: number[];
 
   // currDuration?: never;
 }
@@ -135,7 +135,7 @@ export type PregSideEffect =
   | PregSideEffectDynamicData
   | PregSideEffectStaticData;
 
-export type PregSideEffectsObject = Partial<
+export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
   Record<
     | "cravingCrisis"
     | "motherHunger"
@@ -145,10 +145,12 @@ export type PregSideEffectsObject = Partial<
     | "labour"
     | "sexCraving"
     | "growthSpurt",
-    PregSideEffect
+    T
   >
 >;
-export const gAllSideEffects: PregSideEffectsObject = {
+export const gAllSideEffects: Required<
+  PregSideEffectsObject<PregSideEffectStaticData>
+> = {
   /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
   /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition (in seconds) will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
   /* TODO - Add more side effects */
@@ -278,7 +280,6 @@ export const gVeryPreemieBirthThreshold = 70; // 28 weeks. For simplicity, assum
 
 export const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
 export const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
-export let gActualPregnancyLength = gDefaultPregnancyLength; // NOTE - This will be changed, depending on whether the mother is the player, genetic conditions, and/or drugs, as well as the growthRate of the fetus
 
 export const gPostpartumPeriod = 4320000; // Time in seconds when the user can't be impregnated. Irl, it takes 6 ~ 8 weeks so I'll just go with a weighted average closer to 8 which is `getWeightedAverage(6, 8) * 7 * 24 * 60 * 60`
 
