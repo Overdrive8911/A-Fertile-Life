@@ -1,12 +1,12 @@
-let saveVar_player: Player = {
+import type { Player } from "../declarations/player_declarations";
+import { defaultWarpDestination } from "../location/other_data";
+
+export const saveVar_player: Player = {
   /* Money */
   money: 5800 /* The currency isn't something irl */,
 
   /* Location */
-  locationData: {
-    location: NSLocation.MapLocation.PLAYER_HOUSE,
-    subLocation: NSLocation.MapSubLocation.BEDROOM,
-  },
+  areaId: defaultWarpDestination,
 
   /* Personality and Mood(?) */
   personality: {

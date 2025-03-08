@@ -1,3 +1,5 @@
+import type { Player } from "./player_declarations";
+
 declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     getDistanceToTravelFromLocation: (
