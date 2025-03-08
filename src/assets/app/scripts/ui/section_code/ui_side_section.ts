@@ -1,5 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { isEditableElementSelected } from "../../declarations/general_declarations";
+import {
+  actionInterfaceToggleHandler,
+  ui_isActionInterfaceOpen,
+  ui_isMapInActionInterfaceOpen,
+  uiSideBarToggleHandler,
+} from "../declarations/side_section_declarations";
 
 let uiSideBarToggleState = true;
 
@@ -40,7 +45,7 @@ $(document).on(":passageend", () => {
   $(window)
     .off("keyup.sideBarToggleState")
     .on("keyup.sideBarToggleState", (keyEvent) => {
-      if (NSGlobal.isEditableElementSelected(keyEvent)) return false;
+      if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "q") {
         // Open or stow the side bar
         uiSideBarToggleState = !uiSideBarToggleState;
@@ -64,7 +69,7 @@ $(document).on(":passageend", () => {
   $(window)
     .off("keyup.sideBarToggleMap")
     .on("keyup.sideBarToggleMap", (keyEvent) => {
-      if (NSGlobal.isEditableElementSelected(keyEvent)) return false;
+      if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "z") {
         // Wait for 0.15 seconds so the button can't be infinitely spammed
         setTimeout(() => {
@@ -82,13 +87,13 @@ $(document).on(":passageend", () => {
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
       // Reload the map with the previous zoom lvl
-      NSLocation.loadGameMap(
-        variables().player.locationData.location,
-        $("#ui-side-bar-action-interface").children("[class*=map]"),
-        true,
-        true,
-        NSLocation.gMapPopoutZoomLvl
-      );
+      // loadGameMap(
+      //   variables().player.locationData.location,
+      //   $("#ui-side-bar-action-interface").children("[class*=map]"),
+      //   true,
+      //   true,
+      //   NSLocation.gMapPopoutZoomLvl
+      // );
     }
   } else {
     // Temporarily disable any transition
