@@ -1,470 +1,386 @@
-namespace NSLocation {
-  // Pass in an Event
-  function validateKeyEvent(e: unknown) {
-    const { target } = e as Event;
-    // Don't trigger in textboxes and similar elements
-    if (
-      target instanceof HTMLElement &&
-      (["INPUT", "TEXTAREA"].includes(target.nodeName) ||
-        target.isContentEditable)
-    )
-      return false;
+import { gLocationMapSvgTable } from './map_svg_data'
+import { gPlayerMapSpriteSrc } from './other_data'
+import { isNavigationButtonUsable, warpToConnectedArea } from './navigation'
+import { Direction } from './enums'
+import {
+  activeArea,
+  isAnyStoryFlagSet,
+  StoryFlags,
+} from '../declarations/general_declarations'
+import { GlobalMap, SubLocation, type Location } from './classes'
 
-    return true;
-  }
+// Pass in an Event
+function validateKeyEvent(e: unknown) {
+  const { target } = e as Event
+  // Don't trigger in textboxes and similar elements
+  if (
+    target instanceof HTMLElement &&
+    (['INPUT', 'TEXTAREA'].includes(target.nodeName) ||
+      target.isContentEditable)
+  )
+    return false
 
-  // SECTION - For everything belonging to the map
-  $(document).on(":passageend", () => {
-    // Load the map whenever the side bar button for the map is clicked
-    $("#ui-side-bar-toggle-map-button").on("click", function () {
-      // Don't question this. It works
-      if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
-        loadGameMap(
-          variables().player.locationData.location,
-          $(".ui-side-bar-popout-map")
-        );
-      }
-    });
-    $(document)
-      .off("keyup.map")
-      .on("keyup.map", function (e) {
-        if (NSGlobal.isEditableElementSelected(e)) return;
+  return true
+}
 
-        if (e.key.toLocaleLowerCase() == "z") {
-          if ($("#ui-side-bar-action-interface").hasClass("stowed")) {
-            loadGameMap(
-              variables().player.locationData.location,
-              $(".ui-side-bar-popout-map")
-            );
-          }
-        }
-      });
+// SECTION - For everything belonging to the map
+// $(document).on(':passageend', () => {
+//   // Load the map whenever the side bar button for the map is clicked
+//   $('#ui-side-bar-toggle-map-button').on('click', function () {
+//     // Don't question this. It works
+//     if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
+//       loadGameMap(
+//         variables().player.areaId,
+//         $('.ui-side-bar-popout-map')
+//       )
+//     }
+//   })
+//   $(document)
+//     .off('keyup.map')
+//     .on('keyup.map', function (e) {
+//       if (!validateKeyEvent(e)) return false
+//       if (e.key == 'z') {
+//         if ($('#ui-side-bar-action-interface').hasClass('stowed')) {
+//           loadGameMap(
+//             variables().player.areaId,
+//             $('.ui-side-bar-popout-map')
+//           )
+//         }
+//       }
+//     })
 
-    const getZoomRatio = (element: JQuery<HTMLElement>) => {
-      // Check the transform value on the svg (It should be a scaled value i.e "matrix(2, 0, 0, 2, 0, 0)" corresponds with scale(2) ). If the property doesn't exist or if it's less than 1, default to 1
-      // NOTE - Index 3 in "matrix(2, 0, 0, 2, 0, 0)" will be 2, which is the number that is currently being scaled by
-      return $(element).css("transform") != "none"
-        ? parseFloat($(element).css("transform").split(",")[3]) >= 1
-          ? parseFloat($(element).css("transform").split(",")[3])
-          : 1
-        : 1;
-    };
+//   const getZoomRatio = (element: JQuery<HTMLElement>) => {
+//     // Check the transform value on the svg (It should be a scaled value i.e "matrix(2, 0, 0, 2, 0, 0)" corresponds with scale(2) ). If the property doesn't exist or if it's less than 1, default to 1
+//     // NOTE - Index 3 in "matrix(2, 0, 0, 2, 0, 0)" will be 2, which is the number that is currently being scaled by
+//     return $(element).css('transform') != 'none'
+//       ? parseFloat($(element).css('transform').split(',')[3]) >= 1
+//         ? parseFloat($(element).css('transform').split(',')[3])
+//         : 1
+//       : 1
+//   }
 
-    const zoomMap = (element: JQuery<HTMLElement>, amountToZoom: number) => {
-      // Make sure the scale value doesn't go below 1
-      element.css(
-        "transform",
-        `scale(${
-          getZoomRatio(element) + amountToZoom > 1
-            ? getZoomRatio(element) + amountToZoom
-            : 1
-        })`
-      );
+//   const zoomMap = (element: JQuery<HTMLElement>, amountToZoom: number) => {
+//     // Make sure the scale value doesn't go below 1
+//     element.css(
+//       'transform',
+//       `scale(${
+//         getZoomRatio(element) + amountToZoom > 1
+//           ? getZoomRatio(element) + amountToZoom
+//           : 1
+//       })`
+//     )
 
-      if (element[0] == $(".ui-side-bar-popout-map > svg")[0]) {
-        // Note that `element` represents the svg/image getting zoomed
-        gMapPopoutZoomLvl = getZoomRatio(element);
-      }
-    };
+//     if (element[0] == $('.ui-side-bar-popout-map > svg')[0]) {
+//       // Note that `element` represents the svg/image getting zoomed
+//       setMapPopoutZoomLvl(getZoomRatio(element))
+//     }
+//   }
 
-    // Handlers for the zooming functionality of the map popout
-    $(".ui-side-bar-popout-map-button-bar > .button-zoom-in").ariaClick(() => {
-      // Check if the dialog for "Large View" is open
-      if (!Dialog.isOpen("map-large-view")) {
-        // Increment the zoom ratio by 0.5
-        zoomMap($(".ui-side-bar-popout-map > svg"), 0.5);
-      } else {
-        // Do the same but for the large view of the map
-        zoomMap($(".map-large-view > svg"), 0.5);
-      }
-    });
-    $(".ui-side-bar-popout-map-button-bar > .button-zoom-out").ariaClick(() => {
-      // Check if the dialog for "Large View" is open
-      if (!Dialog.isOpen("map-large-view")) {
-        // Decrement the zoom ratio by 0.5
-        zoomMap($(".ui-side-bar-popout-map > svg"), -0.5);
-      } else {
-        // Do the same for the large view of the map
-        zoomMap($(".map-large-view > svg"), -0.5);
-      }
-    });
+//   // Handlers for the zooming functionality of the map popout
+//   $('.ui-side-bar-popout-map-button-bar > .button-zoom-in').ariaClick(() => {
+//     // Check if the dialog for "Large View" is open
+//     if (!Dialog.isOpen('map-large-view')) {
+//       // Increment the zoom ratio by 0.5
+//       zoomMap($('.ui-side-bar-popout-map > svg'), 0.5)
+//     } else {
+//       // Do the same but for the large view of the map
+//       zoomMap($('.map-large-view > svg'), 0.5)
+//     }
+//   })
+//   $('.ui-side-bar-popout-map-button-bar > .button-zoom-out').ariaClick(() => {
+//     // Check if the dialog for "Large View" is open
+//     if (!Dialog.isOpen('map-large-view')) {
+//       // Decrement the zoom ratio by 0.5
+//       zoomMap($('.ui-side-bar-popout-map > svg'), -0.5)
+//     } else {
+//       // Do the same for the large view of the map
+//       zoomMap($('.map-large-view > svg'), -0.5)
+//     }
+//   })
 
-    // For handling the "Large View" functionality (it just displays the map in a large dialog)
-    $(".ui-side-bar-popout-map-button-bar > .button-large-view").ariaClick(
-      () => {
-        Dialog.setup("Large View", "map-large-view");
-        // Add dummy data
-        Dialog.append("");
-        Dialog.open();
+//   // For handling the "Large View" functionality (it just displays the map in a large dialog)
+//   $('.ui-side-bar-popout-map-button-bar > .button-large-view').ariaClick(() => {
+//     Dialog.setup('Large View', 'map-large-view')
+//     // Add dummy data
+//     Dialog.append('')
+//     Dialog.open()
 
-        // Load the map into here
-        loadGameMap(
-          variables().player.locationData.location,
-          $(".map-large-view")
-        );
-      }
-    );
+//     // Load the map into here
+//     loadGameMap(variables().player.locationData.location, $('.map-large-view'))
+//   })
 
-    // // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
-    // let preloadImage: HTMLImageElement = null;
-    // if (!preloadImage) {
-    //   preloadImage = new Image();
-    //   preloadImage.src = gPlayerMapSpriteSrc;
-    // }
-  });
-  // !SECTION
+//   // // Preload the player sprite. If not, the function that centers it in a path may end up positioning it wrong
+//   // let preloadImage: HTMLImageElement = null;
+//   // if (!preloadImage) {
+//   //   preloadImage = new Image();
+//   //   preloadImage.src = gPlayerMapSpriteSrc;
+//   // }
+// })
+// !SECTION
 
-  // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
-  $(document).on(":passageend", () => {
-    // Update the name of the location/sub location shown in "#ui-top-bar-current-location-view". An attribute "is-location-name" will store whether what is displayed is "true" or "false"
-    const element = $("#ui-top-bar-current-location-view");
-    const attrName = "is-location-name";
+// SECTION - For everything relating to the location/subLocation display that resides right below the top bar
+$(document).on(':passageend', () => {
+  // Update the name of the location/sub location shown in "#ui-top-bar-current-location-view". An attribute "is-location-name" will store whether what is displayed is "true" or "false"
+  const element = $('#ui-top-bar-current-location-view')
+  const attrName = 'is-location-name'
 
-    const setSubLocationName = () => {
-      const loc: MapLocation = variables().player.locationData.location;
-      const subLoc: MapSubLocation =
-        variables().player.locationData.subLocation;
-      let imgUrl =
-        subLoc != null && subLoc != undefined
-          ? gSubLocationIcons24x24[subLoc]
-          : gSubLocationIcons24x24[MapSubLocation.DUMMY];
+  const area = activeArea()
 
-      element.text(getDefaultNameOfSubLocation(loc, subLoc)).append(
+  const setAreaName = () => {
+    if (area instanceof SubLocation) {
+      let imgUrl = area.iconUrl
+
+      element.text(area.name).append(
         // Use the icon as a mask over a color that will be set by css
         `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
-      );
-      element.attr(attrName, "false");
-    };
-    const setLocationName = () => {
-      element.text(
-        gLocationData[variables().player.locationData.location as MapLocation]
-          .name
-      );
-      element.attr(attrName, "true");
-    };
+      )
+    }
+    element.attr(attrName, 'false')
+  }
+  const setParentName = () => {
+    element.text(!(area instanceof GlobalMap) ? area.parent.name : ':3')
+    element.attr(attrName, 'true')
+  }
+  setAreaName()
 
-    if (
-      gLocationData[variables().player.locationData.location as MapLocation]
-        .subLocations
-    ) {
-      setSubLocationName();
+  // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
+  element.ariaClick(() => {
+    if (element.attr(attrName) == 'true') {
+      // The location's name is currently displayed so try to display the sub location (if any)
+      setAreaName()
+    } else if (element.attr(attrName) == 'false') {
+      // The sub location's name is currently displayed so display it's location
+      setParentName()
+    }
+  })
+})
+// !SECTION
+
+// SECTION - For everything relating to the navigational buttons and the text displayed at the bottom of any "default" tagged passage
+$(document).on(':passageend', () => {
+  const northButton = $('#ui-navigation-option-button-north')
+  const eastButton = $('#ui-navigation-option-button-east')
+  const southButton = $('#ui-navigation-option-button-south')
+  const westButton = $('#ui-navigation-option-button-west')
+
+  // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
+  const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH)
+  const isEastNavigable = isNavigationButtonUsable(Direction.EAST)
+  const isSouthNavigable = isNavigationButtonUsable(Direction.SOUTH)
+  const isWestNavigable = isNavigationButtonUsable(Direction.WEST)
+  console.warn('CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.')
+
+  const navigate = (direction: Direction) => {
+    warpToConnectedArea(direction)
+  }
+
+  // Click Events
+  northButton.ariaClick(() => {
+    navigate(Direction.NORTH)
+  })
+  eastButton.ariaClick(() => {
+    navigate(Direction.EAST)
+  })
+  southButton.ariaClick(() => {
+    navigate(Direction.SOUTH)
+  })
+  westButton.ariaClick(() => {
+    navigate(Direction.WEST)
+  })
+
+  // Key Events
+  $(document)
+    .off('keyup.navigation_buttons') // To prevent multiple handlers from getting attached
+    .on('keyup.navigation_buttons', e => {
+      if (!validateKeyEvent(e)) return false
+      if (e.key == 'w' && isNorthNavigable) navigate(Direction.NORTH)
+    })
+    .on('keyup.navigation_buttons', e => {
+      if (!validateKeyEvent(e)) return false
+      if (e.key == 'd' && isEastNavigable) navigate(Direction.EAST)
+    })
+    .on('keyup.navigation_buttons', e => {
+      if (!validateKeyEvent(e)) return false
+      if (e.key == 's' && isSouthNavigable) navigate(Direction.SOUTH)
+    })
+    .on('keyup.navigation_buttons', e => {
+      if (!validateKeyEvent(e)) return false
+      if (e.key == 'a' && isWestNavigable) navigate(Direction.WEST)
+    })
+
+  const navButtonUsabilityActions = (
+    canMoveInDirection: boolean,
+    button: JQuery<HTMLElement>
+  ) => {
+    if (!canMoveInDirection) {
+      button.prop('disabled', true)
+      button.css('filter', 'brightness(45%)').css('pointer-events', 'none')
     } else {
-      setLocationName();
+      button.prop('disabled', false)
+    }
+  }
+
+  // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
+  navButtonUsabilityActions(isNorthNavigable ?? false, northButton)
+  navButtonUsabilityActions(isEastNavigable ?? false, eastButton)
+  navButtonUsabilityActions(isSouthNavigable ?? false, southButton)
+  navButtonUsabilityActions(isWestNavigable ?? false, westButton)
+
+  // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
+  // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
+  if (!isAnyStoryFlagSet(StoryFlags.IS_EVENT_ACTIVE)) {
+    const currArea = activeArea()
+    const a = currArea.siblings?.get(currArea as any)
+    const currAreaDirections = a //as Exclude<typeof a, undefined>
+
+    const directionPool = [...(currAreaDirections?.keys() ?? [])]
+    const getRandomDirectionData = () => {
+      const dir = directionPool.pluck() ?? Direction.NORTH
+
+      return { dir: dir, name: currAreaDirections?.get(dir)?.area.name ?? '' }
     }
 
-    // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
-    element.ariaClick(() => {
-      if (element.attr(attrName) == "true") {
-        // The location's name is currently displayed so try to display the sub location (if any)
-        if (
-          gLocationData[variables().player.locationData.location as MapLocation]
-            .subLocations
-        ) {
-          setSubLocationName();
-        }
-      } else if (element.attr(attrName) == "false") {
-        // The sub location's name is currently displayed so display it's location
-        setLocationName();
+    const dirData1 = getRandomDirectionData()
+    const dirData2 = getRandomDirectionData()
+    const dirData3 = getRandomDirectionData()
+    const dirData4 = getRandomDirectionData()
+    const dirData5 = getRandomDirectionData()
+    const dirData6 = getRandomDirectionData()
+
+    // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
+    let CURR_AREA = currArea.name
+    const AREA_DATA = {
+      1: {
+        direction: dirData1.dir,
+        name: dirData1.name,
+      },
+      2: {
+        direction: dirData2.dir,
+        name: dirData2.name,
+      },
+      3: {
+        direction: dirData3.dir,
+        name: dirData3.name,
+      },
+      4: {
+        direction: dirData4.dir,
+        name: dirData4.name,
+      },
+
+      // TODO: Implement these later.
+      5: {
+        direction: dirData5.dir,
+        name: dirData5.name,
+      },
+      6: {
+        direction: dirData6.dir,
+        name: dirData6.name,
+      },
+    } as const
+
+    const greenColorClass = 'otherSpeech'
+    const orangeColorClass = 'playerStatNeutral'
+    const returnGreenText = (text: string) => {
+      return `<span class=${greenColorClass}>${text}</span>`
+    }
+    const returnOrangeText = (text: string) => {
+      return `<span class=${orangeColorClass}>${text}</span>`
+    }
+
+    const getRandomHelpfulText = () => {
+      const currAreaText = returnOrangeText(CURR_AREA)
+      const areaDir = (index: keyof typeof AREA_DATA) => {
+        return returnGreenText(AREA_DATA[index].direction)
       }
-    });
-  });
-  // !SECTION
-
-  // SECTION - For everything relating to the navigational buttons and the text displayed at the bottom of any "default" tagged passage
-  $(document).on(":passageend", () => {
-    const northButton = $("#ui-navigation-option-button-north");
-    const eastButton = $("#ui-navigation-option-button-east");
-    const southButton = $("#ui-navigation-option-button-south");
-    const westButton = $("#ui-navigation-option-button-west");
-
-    const currLocation = variables().player.locationData
-      .location as MapLocation;
-    const currSubLocation = variables().player.locationData
-      .subLocation as MapSubLocation;
-
-    // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
-    const isNorthNavigable = isNavigationButtonUsable(GameMapDirection.NORTH);
-    const northAreaId = lastWarpDestination;
-    const isEastNavigable = isNavigationButtonUsable(GameMapDirection.EAST);
-    const eastAreaId = lastWarpDestination;
-    const isSouthNavigable = isNavigationButtonUsable(GameMapDirection.SOUTH);
-    const southAreaId = lastWarpDestination;
-    const isWestNavigable = isNavigationButtonUsable(GameMapDirection.WEST);
-    const westAreaId = lastWarpDestination;
-    console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
-
-    const navigate = (direction: GameMapDirection) => {
-      navigateInDirectionOnMap(direction, currLocation, currSubLocation);
-    };
-
-    // Click Events
-    northButton.ariaClick(() => {
-      navigate(GameMapDirection.NORTH);
-    });
-    eastButton.ariaClick(() => {
-      navigate(GameMapDirection.EAST);
-    });
-    southButton.ariaClick(() => {
-      navigate(GameMapDirection.SOUTH);
-    });
-    westButton.ariaClick(() => {
-      navigate(GameMapDirection.WEST);
-    });
-
-    // Key Events
-    $(document)
-      .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
-      .on("keyup.navigation_buttons", (e) => {
-        if (NSGlobal.isEditableElementSelected(e)) return;
-        if (e.key.toLocaleLowerCase() == "w" && isNorthNavigable)
-          navigate(GameMapDirection.NORTH);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (NSGlobal.isEditableElementSelected(e)) return;
-        if (e.key.toLocaleLowerCase() == "d" && isEastNavigable)
-          navigate(GameMapDirection.EAST);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (NSGlobal.isEditableElementSelected(e)) return;
-        if (e.key.toLocaleLowerCase() == "s" && isSouthNavigable)
-          navigate(GameMapDirection.SOUTH);
-      })
-      .on("keyup.navigation_buttons", (e) => {
-        if (NSGlobal.isEditableElementSelected(e)) return;
-        if (e.key.toLocaleLowerCase() == "a" && isWestNavigable)
-          navigate(GameMapDirection.WEST);
-      });
-
-    const navButtonUsabilityActions = (
-      canMoveInDirection: boolean,
-      button: JQuery<HTMLElement>
-    ) => {
-      if (!canMoveInDirection) {
-        button.prop("disabled", true);
-        button.css("filter", "brightness(45%)").css("pointer-events", "none");
-      } else {
-        button.prop("disabled", false);
+      const areaDirName = (index: keyof typeof AREA_DATA) => {
+        return returnGreenText(AREA_DATA[index].name)
       }
-    };
-
-    // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
-    navButtonUsabilityActions(isNorthNavigable, northButton);
-    navButtonUsabilityActions(isEastNavigable, eastButton);
-    navButtonUsabilityActions(isSouthNavigable, southButton);
-    navButtonUsabilityActions(isWestNavigable, westButton);
-
-    // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
-    // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
-    if (Story.get(passage()).tags.includes("default")) {
-      // TODO - Add *proper* support for regular locations
-      const isLocationOrSubLocationValid = (
-        locationOrSubLocation: MapLocation | MapSubLocation | null
-      ) => {
-        if (locationOrSubLocation == null || locationOrSubLocation == undefined)
-          return false;
-
-        return true;
-      };
-
-      // Only accounting for sub locations here
-      let closestLocationOrSubLocation: {
-        [key in GameMapDirection]: MapLocation | MapSubLocation | null;
-      } = {
-        [GameMapDirection.NORTH]: northAreaId.subLocation,
-        [GameMapDirection.EAST]: eastAreaId.subLocation,
-        [GameMapDirection.SOUTH]: southAreaId.subLocation,
-        [GameMapDirection.WEST]: westAreaId.subLocation,
-      };
-      let numOfValidLocationsOrSubLocations = 1; // The 1 stands for the current location/sub location
-
-      // Remove invalid entries and get the number of valid locations/sub locations
-      for (const key in closestLocationOrSubLocation) {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            closestLocationOrSubLocation,
-            key
-          )
-        ) {
-          const direction = parseInt(key) as GameMapDirection;
-          // TODO - Add better support for locations
-          if (
-            !isLocationOrSubLocationValid(
-              closestLocationOrSubLocation[direction]
-            )
-          )
-            delete closestLocationOrSubLocation[direction];
-          else numOfValidLocationsOrSubLocations++;
-        }
-      }
-
-      // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
-      let CURR_LOCATION = "CURRENT_LOCATION";
-      let LOCATION = {
-        1: {
-          direction: "LOCATION_DIRECTION_1",
-          locOrSubLocName: "LOCATION_NAME_1",
-        },
-        2: {
-          direction: "LOCATION_DIRECTION_2",
-          locOrSubLocName: "LOCATION_NAME_2",
-        },
-        3: {
-          direction: "LOCATION_DIRECTION_3",
-          locOrSubLocName: "LOCATION_NAME_3",
-        },
-        4: {
-          direction: "LOCATION_DIRECTION_4",
-          locOrSubLocName: "LOCATION_NAME_4",
-        },
-      };
-
-      const greenColorClass = "otherSpeech";
-      const orangeColorClass = "playerStatNeutral";
-      const returnGreenText = (text: string) => {
-        return `<span class=${greenColorClass}>${text}</span>`;
-      };
-      const returnOrangeText = (text: string) => {
-        return `<span class=${orangeColorClass}>${text}</span>`;
-      };
       /* NOTE 
-  - No need to add unnecessary/messy whitespace 
-  - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
-  */
+        - No need to add unnecessary/messy whitespace 
+        - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
+        */
+      //TODO - Add support for `up` and down`
       const possibleHelpfulTextArray: string[][] = [
         [
-          `From ${CURR_LOCATION},`,
+          `From ${currAreaText},`,
 
-          `you can head ${LOCATION[1].direction} to ${LOCATION[1].locOrSubLocName},`,
+          `you can head ${areaDir(1)} to ${areaDirName(1)},`,
 
-          `or perhaps ${LOCATION[2].direction} to ${LOCATION[2].locOrSubLocName}.`,
+          `or perhaps ${areaDir(2)} to ${areaDirName(2)}.`,
 
-          `You're pretty sure that ${LOCATION[3].locOrSubLocName} is in the ${LOCATION[3].direction},`,
+          `You're pretty sure that ${areaDirName(3)} is in the ${areaDirName(
+            3
+          )},`,
 
-          `and ${LOCATION[4].locOrSubLocName} is in the ${LOCATION[4].direction}.`,
+          `and ${areaDir(4)} is in the ${areaDirName(4)}.`,
         ],
         [
-          `Currently, you're in ${CURR_LOCATION},`,
+          `Currently, you're in ${currAreaText},`,
 
-          `${LOCATION[1].locOrSubLocName} is ${LOCATION[1].direction} of here,`,
+          `${areaDirName(1)} is ${areaDir(1)} of here,`,
 
-          `while ${LOCATION[2].locOrSubLocName} is likely ${LOCATION[2].direction}.`,
+          `while ${areaDirName(2)} is likely ${areaDir(2)}.`,
 
-          `${LOCATION[3].locOrSubLocName} is definitely ${LOCATION[3].direction},`,
+          `${areaDirName(3)} is definitely ${areaDir(3)},`,
 
-          `with ${LOCATION[4].locOrSubLocName} in the ${LOCATION[4].direction}.`,
+          `with ${areaDirName(4)} in the ${areaDir(4)}.`,
         ],
         [
-          `If you were to leave ${CURR_LOCATION},`,
+          `If you were to leave ${currAreaText},`,
 
-          `${LOCATION[1].locOrSubLocName} is to the ${LOCATION[1].direction},`,
+          `${areaDir(1)} is to the ${areaDirName(1)},`,
 
-          `and ${LOCATION[2].locOrSubLocName}, ${LOCATION[2].direction}.`,
+          `and ${areaDirName(2)}, ${areaDir(2)}.`,
 
-          `${LOCATION[3].locOrSubLocName} goes in the ${LOCATION[3].direction},`,
+          `${areaDir(3)} goes in the ${areaDirName(3)},`,
 
-          `while ${LOCATION[4].locOrSubLocName} is ${LOCATION[4].direction}.`,
+          `while ${areaDir(4)} is ${areaDirName(4)}.`,
         ],
-      ];
+      ]
 
-      // A function to randomly pick an entry in `possibleHelpfulTextArray[]` and fill in the variables
-      const returnUpdatedRandomEntry = () => {
-        // Get a random entry
-        let randomEntry = possibleHelpfulTextArray.pluck();
+      const numOfValidAreas = currAreaDirections?.size ?? 0
 
-        // Depending on the number of valid directions, reduce the size of the innermost array to match e.g 2 valid directions will only leave `LOCATION_1` and `LOCATION_2`
-        let trimmedEntry = randomEntry.filter((stringPortion, i) => {
-          return i < numOfValidLocationsOrSubLocations;
-        });
+      const text = possibleHelpfulTextArray
+        .pluck()!
+        .filter((_, index) => {
+          return index <= numOfValidAreas
+        })
+        .join(' ')
 
-        trimmedEntry[0] = trimmedEntry[0].replace(
-          CURR_LOCATION,
-          returnOrangeText(
-            currSubLocation != null && currSubLocation != undefined
-              ? getDefaultNameOfSubLocation(currLocation, currSubLocation)
-              : gLocationData[currLocation].name
-          )
-        );
-
-        let l = trimmedEntry.length - 1;
-        for (let i = 0; i < l; i++) {
-          // NOTE - Add better support for location
-          // Store a random pair of key-values `closestLocationOrSubLocation` and then delete them from the original object
-          const randKeyValuePair = Object.entries(
-            closestLocationOrSubLocation
-          ).pluck() as [string, MapLocation | MapSubLocation];
-          const randKey = parseInt(randKeyValuePair[0]) as GameMapDirection;
-
-          delete closestLocationOrSubLocation[randKey];
-
-          trimmedEntry[i + 1] = trimmedEntry[i + 1]
-            .replace(
-              LOCATION[(i + 1) as 1 | 2 | 3 | 4].direction,
-              returnGreenText(GameMapDirection[randKey].toLocaleLowerCase())
-            )
-            .replace(
-              LOCATION[(i + 1) as 1 | 2 | 3 | 4].locOrSubLocName,
-              returnGreenText(
-                getDefaultNameOfSubLocation(
-                  currLocation,
-                  randKeyValuePair[1] as MapSubLocation
-                )
-              )
-            );
-        }
-
-        // Concatenate the strings in `trimmedEntry[]` together
-        let joinedString = "";
-        trimmedEntry.forEach((stringPortion, index) => {
-          if (index != trimmedEntry.length - 1) {
-            // Not at the end of the string so add whitespace at the end
-            joinedString += stringPortion + " ";
-          } else {
-            // No need for whitespace since this will be the last sentence/phrase. instead replace the last character with a period
-            let editedStr =
-              stringPortion.slice(0, stringPortion.length - 1) + ".";
-            joinedString += editedStr;
-          }
-        });
-
-        // Add the paragraph tags to the string and prepend it with a long horizontal line
-        const strToReturn = `<br><br><br><hr><p>${joinedString}</p>`;
-
-        return strToReturn;
-      };
-
-      const textToDisplay = returnUpdatedRandomEntry();
-      const currentPassageOnDOM = $("#passages > [id^=passage]");
-
-      // Append the text to the current passage
-      currentPassageOnDOM.append(textToDisplay);
+      return `<br><br><br><hr><p>${text.slice(0, text.length - 1) + '.'}`
     }
-    // !SECTION
-  });
+
+    const textToDisplay = getRandomHelpfulText()
+    const currentPassageOnDOM = $('#passages > [id^=passage]')
+
+    // Append the text to the current passage
+    currentPassageOnDOM.append(textToDisplay)
+  }
   // !SECTION
+})
+// !SECTION
 
-  // SECTION - For preloading related images
-  $(document).one(":passageend", () => {
-    // NOTE - Move this function out of this namespace in the main branch
-    (function preloadImages() {
-      // NOTE - INSERT ALL IMAGES NEEDED HERE
-      const imageUrls = [
-        gPlayerMapSpriteSrc,
-        gLocationMapSvgTable[
-          variables().player.locationData.location as MapLocation
-        ],
-      ];
+// SECTION - For preloading related images
+// TODO: Replace this with a dynamically generated map
+$(document).one(':passageend', () => {
+  // NOTE - Move this function out of this namespace in the main branch
+  ;(function preloadImages() {
+    // NOTE - INSERT ALL IMAGES NEEDED HERE
+    const imageUrls = [
+      gPlayerMapSpriteSrc,
+      gLocationMapSvgTable[(activeArea() as Location).id],
+    ]
 
-      imageUrls.forEach((url) => {
-        if (!url) return;
+    imageUrls.forEach(url => {
+      if (!url) return
 
-        if (url.includes("svg")) {
-          // Extract the value of the first's image's url in the svg
-          url = url.split(/(?<=href\=\")([a-zA-Z0-9/_.-]+)/)[1];
-        }
+      if (url.includes('svg')) {
+        // Extract the value of the first's image's url in the svg
+        url = url.split(/(?<=href\=\")([a-zA-Z0-9/_.-]+)/)[1]
+      }
 
-        const image = new Image();
-        image.src = url;
-      });
-    })();
-  });
-}
+      const image = new Image()
+      image.src = url
+    })
+  })()
+})
