@@ -1,4 +1,18 @@
 // NOTE - Add any new child classes to `AnyItemClass`
+
+import { Item, Inventory } from "./classes";
+import {
+  ItemTag,
+  ClothingArea,
+  ClothingState,
+} from "./declarations/item_enums";
+import type {
+  ItemConstructorArgs,
+  ClothingDynamicData,
+  GenericItemDynamicData,
+  AllClothingDurabilityPoints,
+} from "./declarations/types_and_interfaces";
+
 // NOTE - Ny method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
 export // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
 class Food extends Item {
@@ -11,9 +25,10 @@ class Food extends Item {
 export class Clothing extends Item {
   // If this has to be "truly" private, then you'd have to scrap the getter / setters for regular methods while ensuring to `bind(this)` them in the constructor. Otherwise you may encounter an error related to `TypeError: Cannot write private member to an object whose class did not declare it`
   // NOTE - Don't use this directly. Just use the getter / setters
+  //@ts-ignore
   private a: ClothingArea;
 
-  constructor(data: ItemConstructorArgs<Clothing> = null) {
+  constructor(data: ItemConstructorArgs<Clothing> | null = null) {
     super(data);
     this.addTags(ItemTag.CLOTHING);
   }
