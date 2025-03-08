@@ -168,7 +168,7 @@ export class Inventory {
         console.error(consoleErrorTextForInvalidItemId);
       }
 
-      itemId = tempItemId;
+      itemId = tempItemId ?? ItemId.DUMMY;
     }
     return itemId;
   }
@@ -183,10 +183,11 @@ export class Inventory {
   ) {
     // TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 
-    itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
-      itemId,
-      `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
-    );
+    itemId =
+      (this.constructor as typeof Inventory).tryConvertStringItemId(
+        itemId,
+        `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
+      ) ?? ItemId.DUMMY;
     if (itemId == undefined) return false;
 
     if (!amount) amount = 1;
@@ -220,7 +221,7 @@ export class Inventory {
         locationObtained:
           locationObtained != undefined
             ? locationObtained
-            : variables().player.locationData.location,
+            : variables().player.areaId,
         idInInventory: newRandStorageId,
       });
 
@@ -238,11 +239,18 @@ export class Inventory {
   }
 
   // Returns true if successful else false
+  removeItem(itemId: ItemId | string, amount?: number): boolean;
+  removeItem(
+    storageId: number,
+    amount?: number,
+    useUniqueStorageId?: true
+  ): boolean;
   removeItem(
     itemOrStorageId: ItemId | string | number,
     amount?: number,
     useUniqueStorageId = false
-  ) {
+  ): boolean {
+    //@ts-ignore
     itemOrStorageId = (
       this.constructor as typeof Inventory
     ).tryConvertStringItemId(
@@ -253,7 +261,7 @@ export class Inventory {
 
     if (!amount) amount = 1;
 
-    if (useUniqueStorageId) {
+    if (useUniqueStorageId && typeof itemOrStorageId == "number") {
       if (!this.items.has(itemOrStorageId)) return false;
 
       this.items.delete(itemOrStorageId);
@@ -272,7 +280,7 @@ export class Inventory {
     }
 
     matchingItemKeys.forEach((key) => {
-      if (amount > 0) {
+      if (amount && amount > 0) {
         this.items.delete(key);
         amount--;
       }
@@ -286,6 +294,7 @@ export class Inventory {
 
   // Actually returns the number of items found
   getItemCount(itemId: ItemId | string) {
+    //@ts-ignore
     itemId = (this.constructor as typeof Inventory).tryConvertStringItemId(
       itemId,
       `The string data representing an item's id, ${itemId}, is invalid. No item was stored.`
@@ -341,6 +350,7 @@ export class Inventory {
     itemOrStorageId: ItemId | string | InventoryIndex,
     extraIdentificationDataOrUseUniqueStorageId?: true | ExtraIdDataType
   ) {
+    //@ts-ignore
     itemOrStorageId = (
       this.constructor as typeof Inventory
     ).tryConvertStringItemId(
@@ -352,7 +362,7 @@ export class Inventory {
 
     if (typeof extraIdentificationDataOrUseUniqueStorageId == "boolean") {
       // ANCHOR: The id used to stored the item in the inventory was passed as well as the `useUniqueStorageId` argument as TRUE
-      return this.items.get(itemOrStorageId);
+      return this.items.get(itemOrStorageId as ItemId);
     } else {
       //
       let inGameInventoryItemArray: InventoryItem[] = [];
