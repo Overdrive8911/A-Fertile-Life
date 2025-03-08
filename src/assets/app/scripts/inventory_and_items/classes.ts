@@ -1,9 +1,9 @@
 import { gInGameItems } from "./declarations/game_item_declarations";
 import {
+  ItemColor,
   ItemId,
-  type ItemTag,
-  type ItemColor,
-  type ItemProperties,
+  ItemProperties,
+  ItemTag,
 } from "./declarations/item_enums";
 import type {
   ExtraIdDataType,
