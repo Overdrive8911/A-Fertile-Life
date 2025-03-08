@@ -1,4 +1,4 @@
-namespace NSInventoryAndItem {
+
   // NOTE - All item specific data should extend from this
   export interface GenericItemDynamicData {}
   export type ItemCallback = (

@@ -1,4 +1,4 @@
-namespace NSBodyStats {
+
   // This is just an object that stores at least on Breast. In most cases, the weighted average of all breasts will be used in calculations
   // ANCHOR - Examples: new Breasts(); new Breasts(<another Breast Class>); new Breasts(null, {interface Single Breast object}) will create a pair of breasts matching the exact template
   export class Breasts {

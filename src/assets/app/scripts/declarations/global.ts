@@ -1,4 +1,4 @@
-namespace NSGlobal {
+
   export function isEditableElementSelected(e: any | Event) {
     // Note that "e" must be an event
     if (

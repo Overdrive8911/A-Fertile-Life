@@ -1,4 +1,4 @@
-namespace NSPregnancy {
+
   // SECTION - Unexported interfaces
   interface PregPerkDynamicData {
     // Only `currLevel` gets stored in the save file
