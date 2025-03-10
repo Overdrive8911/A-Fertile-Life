@@ -1,4 +1,4 @@
-import type { Womb } from "./classes";
+import type { Womb } from "./classes/womb";
 import type { BellyState } from "./declarations/preg_declarations";
 
 Macro.add("impregnate", {
