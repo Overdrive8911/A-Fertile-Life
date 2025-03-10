@@ -19,17 +19,42 @@ import {
 import type { Womb } from "./womb";
 
 export class Fetus {
-  id: number; // decides the gender, growthRate, weight, and height
-  hp: number; // scales with the womb's health. don't let it get to zero
+  /**
+   * decides the gender, growthRate, weight, and height
+   */
+  id: number;
+
+  /**
+   * scales with the womb's health. don't let it get to zero
+   */
+  hp: number;
   dateOfConception: Date; // Just here :p
-  developmentRatio: DevelopmentRatio; // e.g 50%, 23%, 87%, 100%
+  /**
+   * e.g 50%, 23%, 87%, 100%
+   */
+  developmentRatio: DevelopmentRatio;
   devRatioAtLastUpdate: DevelopmentRatio = 0;
-  extraGrowthMod?: number; // A modifier multiplied to the fetus's growth rate. Comes from other sources
+  /**
+   * A modifier multiplied to the fetus's growth rate. Comes from other sources
+   */
+  extraGrowthMod?: number;
   // NOTE - ANY CHANGES TO THE FOLLOWING THREE PROPERTIES MUST BE REFLECTED IN `FetalGrowthStatsEnum`
-  weight: number; // in grams e.g 360, 501, 600
-  height: number; // in cm e.g 11.38, 10.94
-  amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
-  species = FetusSpecies.HUMAN; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
+  /**
+   * in grams e.g 360, 501, 600
+   */
+  weight: number;
+  /**
+   * in cm e.g 11.38, 10.94
+   */
+  height: number;
+  /**
+   * The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
+   */
+  amnioticFluidVolume: number;
+  /**
+   * In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
+   */
+  species = FetusSpecies.HUMAN;
 
   /**
    * A value of 1 produces "normal" growth

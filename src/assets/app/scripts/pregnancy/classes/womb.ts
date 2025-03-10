@@ -48,8 +48,10 @@ import { Fetus } from "./fetus";
  */
 let gActualPregnancyLength = gDefaultPregnancyLength;
 export class Womb {
-  hp =
-    gDefaultMaxWombHP; /* Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating */
+  /**
+   * Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating
+   */
+  hp = gDefaultMaxWombHP;
   maxHp = gDefaultMaxWombHP;
 
   fertility = either(
@@ -60,26 +62,48 @@ export class Womb {
 
   // These capacity variables also refer to the "size too"
   // NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here when trying to READ. Since the variables here are write-only.
-  curCapacity =
-    BellyState.FLAT; /* Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped' */
-  #comfortCapacity =
-    BellyState.FULL_TERM; /* How big she can get without losing any comfort. Slowly increases as womb.exp increases */
-  #maxCapacity =
-    BellyState.FULL_TERM +
-    BellyState.LATE_PREGNANCY; /* How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks */
+  /**
+   * Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'
+   */
+  curCapacity = BellyState.FLAT;
+  /**
+   * How big she can get without losing any comfort. Slowly increases as womb.exp increases
+   */
+  #comfortCapacity = BellyState.FULL_TERM;
+  /**
+   * How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks
+   */
+  #maxCapacity = BellyState.FULL_TERM + BellyState.LATE_PREGNANCY;
 
-  exp = 0; /* Increases when pregnant; the amount depends on size and number of fetuses, womb.curCapacity, womb.comfortCapacity and womb.maxCapacity. Increases faster once womb.curCapacity nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of womb.curCapacity/womb.comfortCapacity (and womb.curCapacity/womb.maxCapacity when the former is high enough) decides how fast exp increases. Once it surpasses the limit for womb.lvl, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
+  /**
+   * Increases when pregnant; the amount depends on size and number of fetuses, `womb.curCapacity`, `womb.comfortCapacity` and `womb.maxCapacity`. Increases faster once `womb.curCapacity` nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of `womb.curCapacity`/`womb.comfortCapacity` (and `womb.curCapacity`/`womb.maxCapacity` when the former is high enough) decides how fast exp increases. Once it surpasses the limit for `womb.lvl`, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
       
-      Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit` */
+      Higher levels have higher capacities, the ability to use stronger and higher level perks, and a lower rate of hp loss. Exp levels can be found in the enum `WombExpLimit`
+   */
+  exp = 0;
 
-  postpartumCounter = 0; /* 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children */
+  /**
+   * 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children
+   */
+  postpartumCounter = 0;
   onContraceptives = false;
-  birthRecord = 0; /* Number of times the user has given birth */
+  /**
+   * Number of times the user has given birth
+   */
+  birthRecord = 0;
 
-  lastFertilized: Date | null =
-    null; /* The date when the womb was last impregnated */
-  lastBirth: Date | null = null; /* The date of the last birth */
-  lastPregUpdate: Date | null = null; // Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
+  /**
+   * The date when the womb was last impregnated
+   */
+  lastFertilized: Date | null = null;
+  /**
+   * The date of the last birth
+   */
+  lastBirth: Date | null = null;
+  /**
+   * Tells the last time the pregnancy progress was calculated. Is the same as `date of conception` upon impregnation
+   */
+  lastPregUpdate: Date | null = null;
 
   naturalGrowthMod = 1; // A multiplier that affects the growth rate of the fetuses, the player's own is x10
 
@@ -1085,6 +1109,9 @@ export class Womb {
   }
   // !SECTION
 
+  /**
+   * How big she can get without losing any comfort. Slowly increases as womb.exp increases
+   */
   get effectiveComfortCapacity() {
     let mod = 1;
 
@@ -1093,6 +1120,10 @@ export class Womb {
 
     return this.#comfortCapacity * mod;
   }
+
+  /**
+   * How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks
+   */
   get effectiveMaxCapacity() {
     let mod = 1;
 
