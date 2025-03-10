@@ -115,6 +115,13 @@ export class Womb {
   sideEffects: PregSideEffectsObject<PregSideEffectDynamicData> = {};
   fetuses: Map<number /* fetusId */, Fetus> = new Map();
 
+  /**
+   * A pregnancy is simply a set of `Fetus`es conceived at the same time.
+   *
+   * This only has a value if the user is currently pregnant
+   */
+  pregnancies: Fetus[][] = [];
+
   set comfortCapacity(value: BellyState | number) {
     this.#comfortCapacity = value;
   }
@@ -358,11 +365,16 @@ export class Womb {
             : numOfFoetusToSpawn;
 
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
+        const pregGroup: Fetus[] = [];
+
         for (i = 0; i < numOfFoetusToSpawn; i++) {
           // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
           const id = this.generateUnusedFetusId;
-          this.addFetus(new Fetus(id), id);
+          const fetus = new Fetus(id);
+          this.addFetus(fetus, id);
+          pregGroup.push(fetus);
         }
+        this.pregnancies.push(pregGroup);
         // !SECTION
 
         // Update specific data for the womb
