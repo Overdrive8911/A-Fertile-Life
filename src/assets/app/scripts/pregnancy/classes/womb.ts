@@ -323,8 +323,11 @@ export class Womb {
       const maxFetusNumber = this.#getMinimumNumOfFullTermFetusesAtBellyState(
         this.effectiveMaxCapacity
       );
-      if (numOfFoetusToSpawn > maxFetusNumber) {
-        numOfFoetusToSpawn = maxFetusNumber;
+      if (numOfFoetusToSpawn > 0) {
+        numOfFoetusToSpawn =
+          numOfFoetusToSpawn > maxFetusNumber
+            ? maxFetusNumber
+            : numOfFoetusToSpawn;
 
         // SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
         for (i = 0; i < numOfFoetusToSpawn; i++) {
