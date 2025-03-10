@@ -3,10 +3,7 @@ import type { Player } from "../declarations/player_declarations";
 import { Inventory } from "../inventory_and_items/classes/inventory";
 import { defaultWarpDestination } from "../location/other_data";
 import { Womb } from "../pregnancy/classes/womb";
-import {
-  FertilityLevel,
-  BellyState,
-} from "../pregnancy/declarations/preg_declarations";
+import { FertilityLevel, BellyState } from "../pregnancy/declarations/enums";
 
 export const saveVar_player: Player = {
   /* Money */

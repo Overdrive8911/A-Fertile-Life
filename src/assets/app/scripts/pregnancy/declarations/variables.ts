@@ -1,52 +1,12 @@
-// SECTION - Unexported interfaces
-export interface PregPerkDynamicData {
-  // Only `currLevel` gets stored in the save file
-  currLevel: number;
+import { GestationalWeek, BellyState } from "./enums";
+import type {
+  PregPerksObject,
+  PregPerkStaticData,
+  PregSideEffectDynamicData,
+  PregSideEffectsObject,
+  PregSideEffectStaticData,
+} from "./types";
 
-  // price?: never;
-  // maxLevel?: never;
-}
-export interface PregPerkStaticData {
-  // Is stored as a global static variable
-  price: number;
-  maxLevel: number;
-
-  // currLevel?: never;
-}
-
-export interface PregSideEffectDynamicData {
-  // Only `currDuration` gets stored in the save file
-  currDuration: number;
-
-  // maxDuration?: never;
-}
-export interface PregSideEffectStaticData {
-  // Is stored as a global static variable
-  maxDuration: number[];
-
-  // currDuration?: never;
-}
-// !SECTION
-export type PregPerk = PregPerkDynamicData | PregPerkStaticData;
-
-export type PregPerksObject<T extends PregPerk> = Partial<
-  Record<
-    | "gestator"
-    | "hyperFertility"
-    | "superFet"
-    | "elasticity"
-    | "immunityBoost"
-    | "motherlyHips"
-    | "motherlyBoobs"
-    | "ironSpine"
-    | "sensitiveWomb"
-    | "healthyWomb"
-    | "fortifiedWomb"
-    | "noPostpartum"
-    | "polyhydramnios",
-    T
-  >
->;
 export const gAllPregPerks: Required<PregPerksObject<PregPerkStaticData>> = {
   /* Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
   /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
@@ -131,23 +91,6 @@ export const gFortifiedWombPerkMaxNaturalBirthDelay = 0.25; // +25% more time af
 export const gFortifiedWombPerkMaxPassiveHPDrainNerf = 0.25; // -25% to passive hp drain
 export const gPolyhydramniosPerkMaxFluidProductionBoost = 0.5; // +50% more amniotic fluid per fetus
 
-export type PregSideEffect =
-  | PregSideEffectDynamicData
-  | PregSideEffectStaticData;
-
-export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
-  Record<
-    | "cravingCrisis"
-    | "motherHunger"
-    | "restlessBrood"
-    | "heavyWomb"
-    | "contractions"
-    | "labour"
-    | "sexCraving"
-    | "growthSpurt",
-    T
-  >
->;
 export const gAllSideEffects: Required<
   PregSideEffectsObject<PregSideEffectStaticData>
 > = {
@@ -199,63 +142,6 @@ export interface FetalGrowthStats {
   amnioticFluidVolume: number; // in ml
 }
 
-// These are just function params
-// REVIEW - I greatly regret hardcoding these values.
-export const enum FetalGrowthStatsEnum {
-  HEIGHT = "height",
-  WEIGHT = "weight",
-  AMNIOTIC_FLUID = "amnioticFluidVolume",
-}
-
-// export enum PregPerkElements {
-//   CURRENT_LVL,
-//   PRICE,
-//   MAX_LVL,
-// }
-
-// export enum PregSideEffectElements {
-//   CURRENT_DURATION,
-//   MAX_DURATION,
-// }
-
-export const enum FetusSpecies {
-  HUMAN,
-  TENTACLE,
-}
-
-// Enum constants to dictate the level of fertility (it's over 100)
-export enum FertilityLevel {
-  BARREN,
-  ALMOST_BARREN = 10,
-  POOR_FERTILITY = 25,
-  AVERAGE_FERTILITY = random(45, 55),
-  HIGH_FERTILITY = 65,
-  EXTREME_FERTILITY = random(75, 80),
-  UNFATHOMABLE_FERTILITY = 100,
-  FERTILITY_IDOL = 101,
-}
-
-// Imagine these as percentages (womb.hp / womb.maxHp)
-export enum WombHealth {
-  RIP,
-  CRITICAL = 15,
-  VERY_POOR = 35,
-  POOR = 50,
-  MEDIOCRE = 70,
-  HEALTHY = 80,
-  VERY_HEALTHY = 90,
-  FULL_VITALITY = 100,
-}
-
-export enum BirthRecordThreshold {
-  NEWB,
-  INEXPERIENCED = 1,
-  STARTER = 3,
-  EXPERIENCED = 5,
-  VETERAN = 10,
-  MOTHER = 25,
-}
-
 export const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
 
 export const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
@@ -289,53 +175,6 @@ export const gOverdueStatMultiplier = 0.34;
 
 export const gDefaultMaxWombHP = 100;
 export const gNumOfPossibleFetusIds = 65536;
-
-// There are 40 gestational weeks, give or take. Each gestational week doesn't mean a literal week, more so, a relative portion of gestational development that mirrors irl. So it's a fixed ratio whose actual value depends on the length of gestation
-export const enum GestationalWeek {
-  One = 1,
-  Two,
-  Three,
-  Four,
-  Five,
-  Six,
-  Seven,
-  Eight,
-  Nine,
-  Ten,
-  Eleven,
-  Twelve,
-  Thirteen,
-  Fourteen,
-  Fifteen,
-  Sixteen,
-  Seventeen,
-  Eighteen,
-  Nineteen,
-  Twenty,
-  TwentyOne,
-  TwentyTwo,
-  TwentyThree,
-  TwentyFour,
-  TwentyFive,
-  TwentySix,
-  TwentySeven,
-  TwentyEight,
-  TwentyNine,
-  Thirty,
-  ThirtyOne,
-  ThirtyTwo,
-  ThirtyThree,
-  ThirtyFour,
-  ThirtyFive,
-  ThirtySix,
-  ThirtySeven,
-  ThirtyEight,
-  ThirtyNine,
-  Forty,
-
-  //
-  MAX = GestationalWeek.Forty,
-}
 
 // This is mainly for singleton pregnancies
 export const gFetalGrowthOverGestationalWeeks: {
@@ -531,72 +370,6 @@ export const gFetalGrowthOverGestationalWeeks: {
   },
   // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
 };
-
-// This is only here because I'm using it in the enum below
-const getWombVolumeFromFetusStats = (
-  height: number,
-  weight: number,
-  fluidVolume: number
-) => {
-  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
-  return (weight + height + fluidVolume * 0.4) * (10 / 4);
-};
-
-// Contains the thresholds for different belly sizes.
-// NOTE - This may also be used for stuffing content too
-export enum BellyState {
-  SAG = -1,
-  FLAT = 0,
-  PREG_MIN = 0,
-  // BLOATED = 100,
-  // STUFFED = 500,
-
-  EARLY_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].amnioticFluidVolume
-  ), // 12 weeks or less
-  EARLY_PREGNANCY_2 = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen]
-      .amnioticFluidVolume
-  ), // Week 13 till Week 19
-  VISIBLE_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].amnioticFluidVolume
-  ), // Week 20 till Week 27
-  LATE_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight]
-      .amnioticFluidVolume
-  ), // Week 28 till Week 35
-  LATE_PREGNANCY_2 = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix]
-      .amnioticFluidVolume
-  ), // Week 36 till Week 40
-  FULL_TERM = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].amnioticFluidVolume
-  ), // Week 40. Should be around 10000
-
-  FULL_TERM_TWINS = FULL_TERM * 2,
-  FULL_TERM_TRIPLETS = FULL_TERM * 3,
-  FULL_TERM_QUADS = FULL_TERM * 4,
-  FULL_TERM_QUINTS = FULL_TERM * 5,
-  FULL_TERM_SEXTUPLETS = FULL_TERM * 6,
-  FULL_TERM_SEPTUPLETS = FULL_TERM * 7,
-  FULL_TERM_OCTUPLETS = FULL_TERM * 8,
-  FULL_TERM_NONUPLETS = FULL_TERM * 9,
-  FULL_TERM_DECUPLETS = FULL_TERM * 10,
-
-  PREG_MAX = FULL_TERM_DECUPLETS,
-}
 
 const calcWombExpReq = (previousLvl: number) => {
   return (

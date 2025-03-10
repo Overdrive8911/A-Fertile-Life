@@ -1,5 +1,5 @@
 import type { Womb } from "./classes/womb";
-import type { BellyState } from "./declarations/preg_declarations";
+import type { BellyState } from "./declarations/enums";
 
 Macro.add("impregnate", {
   handler: function () {

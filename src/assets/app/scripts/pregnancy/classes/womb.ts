@@ -1,16 +1,23 @@
 import { getWeightedAverage } from "../../declarations/general_declarations";
 import {
-  gDefaultMaxWombHP,
-  FertilityLevel,
   BellyState,
-  type PregPerksObject,
-  type PregSideEffectsObject,
-  gNumOfPossibleFetusIds,
+  FertilityLevel,
+  FetalGrowthStatsEnum,
+  GestationalWeek,
   WombHealth,
+} from "../declarations/enums";
+import type {
+  PregPerksObject,
+  PregPerkDynamicData,
+  PregSideEffectDynamicData,
+  PregSideEffectsObject,
+} from "../declarations/types";
+import {
+  gDefaultMaxWombHP,
+  gNumOfPossibleFetusIds,
   gChanceOfNaturalMultipleOvaFertilization,
   gChanceOfNaturalOvaSplit,
   gAllPregPerks,
-  FetalGrowthStatsEnum,
   gFortifiedWombPerkMaxPassiveHPDrainNerf,
   gHealthyWombPerkMaxHPIncrementBuff,
   gHealthyWombPerkMaxHPDecrementNerf,
@@ -22,7 +29,6 @@ import {
   gMinWombLevel,
   gGestatorPerkMaxSpeedBoost,
   gImmunityPerkMaxBoostPerFetus,
-  GestationalWeek,
   gPolyhydramniosPerkMaxFluidProductionBoost,
   gMinimumVolumeOfAmnioticFluid,
   gExpPerSingleBirth,
@@ -32,9 +38,7 @@ import {
   gFortifiedWombPerkMaxCapacityBoost,
   gElasticityPerkCapacityMaxBoost,
   gDefaultPregnancyLength,
-  type PregPerkDynamicData,
-  type PregSideEffectDynamicData,
-} from "../declarations/preg_declarations";
+} from "../declarations/variables";
 import { Fetus } from "./fetus";
 
 /* Womb, Pregnancy and Birth */
