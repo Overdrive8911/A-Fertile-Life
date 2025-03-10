@@ -370,35 +370,41 @@ export const gFetalGrowthOverGestationalWeeks: {
   // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
 };
 
-const calcWombExpReq = (previousLvl: number) => {
-  return (
-    ((2 * previousLvl + Math.floor(previousLvl / 2)) * BellyState.FULL_TERM) /
-    10
-  );
+const calcWombExpReq = (previousLvl: number): number => {
+  return ((2 * previousLvl + Math.floor(previousLvl / 2)) *
+    BellyState.FULL_TERM) /
+    10 +
+    previousLvl >
+    1
+    ? calcWombExpReq(previousLvl - 1)
+    : 0;
 };
 
-// On average, it'd take (2*LVL + Math.floor(LVL/2)) full term singleton pregnancies to gain enough exp to reach the next level (i.e 2 from LVL_1 to LVL_2, 5 from LVL_2 to LVL_3, 7 from LVL_3 to LVL_4, 10 from LVL_4 to LVL_5)
-// Just follow the pattern if its confusing  >~<
-export enum WombExpLimit {
-  LVL_1 = 0,
-  LVL_2 = calcWombExpReq(1), // Roughly 2000
-  LVL_3 = calcWombExpReq(2) + LVL_2, // Roughly 7000
-  LVL_4 = calcWombExpReq(3) + LVL_3, // Roughly 14000
-  LVL_5 = calcWombExpReq(4) + LVL_4,
-  LVL_6 = calcWombExpReq(5) + LVL_5,
-  LVL_7 = calcWombExpReq(6) + LVL_6,
-  LVL_8 = calcWombExpReq(7) + LVL_7,
-  LVL_9 = calcWombExpReq(8) + LVL_8,
-  LVL_10 = calcWombExpReq(9) + LVL_9,
-  LVL_11 = calcWombExpReq(10) + LVL_10,
-  LVL_12 = calcWombExpReq(11) + LVL_11,
-  LVL_13 = calcWombExpReq(12) + LVL_12,
-  LVL_14 = calcWombExpReq(13) + LVL_13,
-  LVL_15 = calcWombExpReq(14) + LVL_14,
+/**
+ * On average, it'd take (2*LVL + Math.floor(LVL/2)) full term singleton pregnancies to gain enough exp to reach the next level (i.e 2 from LVL_1 to LVL_2, 5 from LVL_2 to LVL_3, 7 from LVL_3 to LVL_4, 10 from LVL_4 to LVL_5)
+ *
+ * NOTE: These are the limits for each lvl (i.e It takes 0 exp to reach LVL_1 and roughly 2000 exp to reach LVL_2)
+ */
+// Just follow the pattern if its confusing  >~<.
+export const WombExpLimit = {
+  1: 0,
+  2: calcWombExpReq(1), // Roughly 2000
+  3: calcWombExpReq(2), // Roughly 7000
+  4: calcWombExpReq(3), // Roughly 14000
+  5: calcWombExpReq(4),
+  6: calcWombExpReq(5),
+  7: calcWombExpReq(6),
+  8: calcWombExpReq(7),
+  9: calcWombExpReq(8),
+  10: calcWombExpReq(9),
+  11: calcWombExpReq(10),
+  12: calcWombExpReq(11),
+  13: calcWombExpReq(12),
+  14: calcWombExpReq(13),
+  15: calcWombExpReq(14),
 
-  LVL_MAX = LVL_15,
-  NOT_AVAILABLE = -999,
-}
+  NA: -999,
+} as const;
 
 export const gMinWombLevel = 1;
 export const gMaxWombLevel = 15;

@@ -641,45 +641,42 @@ export class Womb {
   }
 
   // Get's the lvl of the womb using its max exp limit. Returns a number between 1 and 15 inclusive
-  get lvl() {
+  get lvl(): Extract<keyof typeof WombExpLimit, number> {
     const womb = this as Womb;
     // Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
-    let wombExpLimitArray = Object.values(WombExpLimit).filter(
-      (value) => typeof value == "number" && (value as number) >= 0
-    ) as number[];
+    let wombExpLimitArray = Object.values(WombExpLimit);
     console.log(WombExpLimit);
 
-    // Remove duplicates by converting to a Set and then back to an array
-    wombExpLimitArray = [...new Set(wombExpLimitArray)];
+    // // Remove duplicates by converting to a Set and then back to an array
+    // wombExpLimitArray = [...new Set(wombExpLimitArray)];
 
     for (let i = 1; i < wombExpLimitArray.length; i++) {
       const expLimit = wombExpLimitArray[i];
       const previousExpLimit = wombExpLimitArray[i - 1];
 
-      if (expLimit > womb.exp && previousExpLimit <= womb.exp) return i;
-      else if (womb.exp >= WombExpLimit.LVL_MAX) {
+      if (expLimit > womb.exp && previousExpLimit <= womb.exp)
+        return i as Extract<keyof typeof WombExpLimit, number>;
+      else if (womb.exp >= WombExpLimit[gMaxWombLevel]) {
         // The user's womb is at or above the max level and the iteration has ended on the highest possible level
-        return wombExpLimitArray[i];
+        return gMaxWombLevel;
       }
     }
 
     // For some reason, the lvl is unavailable
-    return WombExpLimit.NOT_AVAILABLE;
+    return gMaxWombLevel;
   }
 
   // Give it the level and it'll return the appropriate exp cap
-  static getExpLimit = (lvl: number) => {
+  static getExpLimit = (lvl: Extract<keyof typeof WombExpLimit, number>) => {
     if (lvl < gMinWombLevel) lvl = gMinWombLevel;
     if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
 
     if (lvl == gMaxWombLevel) {
-      return WombExpLimit.NOT_AVAILABLE;
+      return WombExpLimit.NA;
     }
 
-    const lvlMember = `LVL_${lvl + 1}` as any;
-
     // The members of WombExpLimit include LVL_1, LVL_2, LVL_3, etc
-    return WombExpLimit[lvlMember] as unknown as WombExpLimit;
+    return WombExpLimit[lvl];
   };
   // !SECTION
 
