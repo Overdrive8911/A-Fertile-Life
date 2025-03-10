@@ -2,7 +2,6 @@ import { GestationalWeek, BellyState } from "./enums";
 import type {
   PregPerksObject,
   PregPerkStaticData,
-  PregSideEffectDynamicData,
   PregSideEffectsObject,
   PregSideEffectStaticData,
 } from "./types";
