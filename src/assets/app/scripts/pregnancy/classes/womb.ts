@@ -681,9 +681,13 @@ export class Womb {
   // !SECTION
 
   // SECTION - Pregnancy update code
-  // This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
-  // REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
-  // TODO - Add side effects to womb health
+  /**
+   * This function would be run the end of every passage transition (preferably when the player has moved to a different location/sub location) and updates the growth of the children and her belly if she's expecting
+   *
+   * REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
+   *
+   * TODO - Add side effects to womb health
+   */
   updatePregnancyGrowth(
     customElapsedTime: number | null = null,
     inputUser = variables().player
