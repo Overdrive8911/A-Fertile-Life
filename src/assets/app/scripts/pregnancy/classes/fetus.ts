@@ -1,7 +1,11 @@
 import {
-  type DevelopmentRatio,
   FetusSpecies,
   WombHealth,
+  FetalGrowthStatsEnum,
+  GestationalWeek,
+} from "../declarations/enums";
+import {
+  type DevelopmentRatio,
   gMinDevelopmentState,
   type Gender,
   gNumOfPossibleFetusIds,
@@ -11,11 +15,9 @@ import {
   gVeryPreemieBirthThreshold,
   gDefaultPregnancyLength,
   gNumOfGestationalWeeks,
-  FetalGrowthStatsEnum,
-  GestationalWeek,
   gFetalGrowthOverGestationalWeeks,
   gOverdueStatMultiplier,
-} from "../declarations/preg_declarations";
+} from "../declarations/variables";
 import type { Womb } from "./womb";
 
 export class Fetus {
