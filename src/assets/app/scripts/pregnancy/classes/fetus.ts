@@ -31,6 +31,14 @@ export class Fetus {
   amnioticFluidVolume: number; // The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
   species = FetusSpecies.HUMAN; // In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
 
+  /**
+   * A value of 1 produces "normal" growth
+   */
+  static #growthRateValues = [
+    0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1, 1, 1, 1, 1, 1.005, 1.01, 1.015,
+    1.02, 1.025, 1.03, 1.035,
+  ];
+
   constructor(newId: number, classProp: typeof Fetus | null = null) {
     this.id = newId;
 
@@ -87,11 +95,7 @@ export class Fetus {
   }
 
   get growthRate() {
-    // A value of 1 produces "normal" growth
-    const growthRateValues = [
-      0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1, 1, 1, 1, 1, 1.005, 1.01, 1.015,
-      1.02, 1.025, 1.03, 1.035,
-    ];
+    const growthRateValues = Fetus.#growthRateValues;
     return growthRateValues[this.id % growthRateValues.length];
   }
 
