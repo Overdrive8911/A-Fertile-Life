@@ -29,7 +29,7 @@ type FetusProps = Exclude<NumberKeys<Fetus>, undefined | "id" | "species">;
 export class Pregnancy {
   id!: number;
   fetuses: Map<number /* fetusId */, Fetus> = new Map();
-  dateConceived = new Date();
+  dateConceived = variables().gameDateAndTime;
   /**
    * Tells the last time the pregnancy progress was calculated.
    */
