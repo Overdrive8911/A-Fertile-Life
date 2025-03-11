@@ -1,5 +1,6 @@
 import type { Womb } from "./classes/womb";
-import type { BellyState } from "./declarations/enums";
+import type { BellyStateType } from "./declarations/types";
+import type { BellyState } from "./declarations/variables";
 
 Macro.add("impregnate", {
   handler: function () {
@@ -28,8 +29,8 @@ Macro.add("isPregBellySizeInRange", {
   handler: function () {
     const womb: Womb = this.args[0];
     const varNameToStoreResult: string = this.args[0];
-    const lowerRange: BellyState | keyof typeof BellyState = this.args[1];
-    const upperRange: BellyState | keyof typeof BellyState | undefined =
+    const lowerRange: BellyStateType | keyof typeof BellyState = this.args[1];
+    const upperRange: BellyStateType | keyof typeof BellyState | undefined =
       this.args[2];
 
     if (varNameToStoreResult.charAt(0) == "$") {

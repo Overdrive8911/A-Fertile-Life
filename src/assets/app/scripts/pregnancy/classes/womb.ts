@@ -1,10 +1,11 @@
 import { getWeightedAverage } from "../../declarations/general_declarations";
-import { BellyState, FertilityLevel, WombHealth } from "../declarations/enums";
+import { FertilityLevel, WombHealth } from "../declarations/enums";
 import type {
   PregPerksObject,
   PregPerkDynamicData,
   PregSideEffectDynamicData,
   PregSideEffectsObject,
+  BellyStateType,
 } from "../declarations/types";
 import {
   gDefaultMaxWombHP,
@@ -27,6 +28,7 @@ import {
   gFortifiedWombPerkMaxCapacityBoost,
   gElasticityPerkCapacityMaxBoost,
   gDefaultPregnancyLength,
+  BellyState,
 } from "../declarations/variables";
 import { Fetus } from "./fetus";
 import { Pregnancy } from "./pregnancy";
@@ -59,11 +61,11 @@ export class Womb {
   /**
    * Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'
    */
-  curCapacity = BellyState.FLAT;
+  curCapacity: BellyStateType = BellyState.FLAT;
   /**
    * How big she can get without losing any comfort. Slowly increases as womb.exp increases
    */
-  #comfortCapacity = BellyState.FULL_TERM;
+  #comfortCapacity: BellyStateType = BellyState.FULL_TERM;
   /**
    * How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks
    */
@@ -101,10 +103,10 @@ export class Womb {
   sideEffects: PregSideEffectsObject<PregSideEffectDynamicData> = {};
   pregnancies: Map<number /* pregID */, Pregnancy> = new Map();
 
-  set comfortCapacity(value: BellyState | number) {
+  set comfortCapacity(value: BellyStateType | number) {
     this.#comfortCapacity = value;
   }
-  set maxCapacity(value: BellyState | number) {
+  set maxCapacity(value: BellyStateType | number) {
     this.#maxCapacity = value;
   }
 
@@ -362,7 +364,7 @@ export class Womb {
   }
 
   // Accepts any value from the enum BellyState but will only work with members that have `FULL_TERM` appended. Returns the minimum number of full grown, non-overdue fetuses that can achieve the inputted size
-  #getMinimumNumOfFullTermFetusesAtBellyState(bellyState: BellyState) {
+  #getMinimumNumOfFullTermFetusesAtBellyState(bellyState: BellyStateType) {
     if (bellyState < BellyState.FULL_TERM) return 0;
 
     return Math.floor(bellyState / BellyState.FULL_TERM);
@@ -468,11 +470,11 @@ export class Womb {
 
   // Returns the an index in BellyState to get a rough idea of the size range the character's belly is in
   // TODO - Add a macro for this or just add it to setup
-  get lowerBellySizeThreshold(): BellyState {
+  get lowerBellySizeThreshold(): BellyStateType {
     // Copy over the actual numbers from the enum
     let bellySizeArray = Object.values(BellyState).filter(
       (value) => typeof value == "number"
-    ) as BellyState[];
+    ) as BellyStateType[];
 
     // Convert to set and return it back to an array so all duplicates are gone
     bellySizeArray = [...new Set(bellySizeArray)];
@@ -495,11 +497,11 @@ export class Womb {
   // Called (indirectly) .twee files since it's much easier and human readable to pass strings there
   // If you want to
   isBellySizeInRange(
-    lowerRange: BellyState | keyof typeof BellyState,
-    upperRange?: BellyState | keyof typeof BellyState
+    lowerRange: BellyStateType | keyof typeof BellyState,
+    upperRange?: BellyStateType | keyof typeof BellyState
   ) {
-    let value1: BellyState | undefined = undefined;
-    let value2: BellyState | undefined = undefined;
+    let value1: BellyStateType | undefined = undefined;
+    let value2: BellyStateType | undefined = undefined;
 
     if (typeof lowerRange == "string") {
       // `bellyStateInput` is hopefully something like `SAG`

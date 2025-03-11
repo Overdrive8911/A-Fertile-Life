@@ -1,3 +1,5 @@
+import type { BellyState } from "./variables";
+
 export interface PregPerkDynamicData {
   // Only `currLevel` gets stored in the save file
   currLevel: number;
@@ -64,3 +66,5 @@ export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
     T
   >
 >;
+
+export type BellyStateType = (typeof BellyState)[keyof typeof BellyState];
