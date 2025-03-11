@@ -101,7 +101,7 @@ export class Fetus {
       ownData[prop] = clone(this[prop]);
     }, this);
 
-    return JSON.reviveWrapper(
+    return Serial.createReviver(
       `new ${(this.constructor as typeof Fetus).name}(${
         this.id
       }, $ReviveData$)`,
