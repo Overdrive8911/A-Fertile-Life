@@ -38,8 +38,8 @@ export class Pregnancy {
   // static readonly #numOfPossibleFetusIds = 256
 
   constructor(womb: Womb, numOfFetuses: number);
-  constructor(classData: typeof Pregnancy);
-  constructor(classDataOrWomb: Womb | typeof Pregnancy, numOfFetuses = 1) {
+  constructor(classData: Pregnancy);
+  constructor(classDataOrWomb: Womb | Pregnancy, numOfFetuses = 1) {
     if (classDataOrWomb instanceof Womb) {
       for (let i = 0; i < numOfFetuses; i++) {
         this.fetuses.set(this.size, this.#generateFetus(classDataOrWomb));
@@ -56,6 +56,20 @@ export class Pregnancy {
         this[prop] = clone(classDataOrWomb[prop]);
       }, this);
     }
+  }
+
+  clone() {
+    return new Pregnancy(this);
+  }
+
+  toJSON() {
+    const ownData: unknown = {};
+    Object.keys(this).forEach((prop) => {
+      //@ts-expect-error
+      ownData[prop] = clone(this[prop]);
+    }, this);
+
+    return Serial.createReviver(`new ${Pregnancy.name}($ReviveData$)`, ownData);
   }
 
   get size() {
