@@ -91,7 +91,7 @@ export class Fetus {
 
   clone() {
     //@ts-expect-error
-    return new (this.constructor as typeof Fetus)(this.id, this);
+    return new Fetus(this.id, this);
   }
   toJSON() {
     //@ts-expect-error

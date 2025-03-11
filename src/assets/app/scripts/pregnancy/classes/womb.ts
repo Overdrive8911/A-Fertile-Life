@@ -122,7 +122,7 @@ export class Womb {
   }
 
   clone() {
-    return new (this.constructor as typeof Womb)(this);
+    return new Womb(this);
   }
   toJSON() {
     const ownData: unknown = {};
