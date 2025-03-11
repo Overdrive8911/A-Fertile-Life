@@ -131,10 +131,7 @@ export class Womb {
       ownData[prop] = clone(this[prop]);
     }, this);
 
-    return Serial.createReviver(
-      `new ${(this.constructor as typeof Womb).name}($ReviveData$)`,
-      ownData
-    );
+    return Serial.createReviver(`new ${Womb.name}($ReviveData$)`, ownData);
   }
 
   get isPregnant() {

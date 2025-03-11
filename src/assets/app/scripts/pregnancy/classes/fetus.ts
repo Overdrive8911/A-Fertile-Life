@@ -102,9 +102,7 @@ export class Fetus {
     }, this);
 
     return Serial.createReviver(
-      `new ${(this.constructor as typeof Fetus).name}(${
-        this.id
-      }, $ReviveData$)`,
+      `new ${Fetus.name}(${this.id}, $ReviveData$)`,
       ownData
     );
   }
