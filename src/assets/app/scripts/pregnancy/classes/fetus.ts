@@ -126,32 +126,6 @@ export class Fetus {
     return growthRateValues[this.id % growthRateValues.length];
   }
 
-  // whether or not the fetus cqn be expunged when birth happens
-  // This will only consider whether the fetus is ready without concern for external factors.
-  // Ensure that the result of this is consistent enough. The main birth function can have random oddities.
-  // - I could probably use the current time in milliseconds / seconds and the day and / or maybe their id. Instead of relying on random values.
-  get canBirth() {
-    const sanitizedId = this.id || 1;
-    const chance =
-      ((((variables().gameDateAndTime.getTime() / 1000) * sanitizedId) %
-        this.developmentRatio) /
-        this.developmentRatio) *
-      100;
-
-    return this.developmentRatio >= gMaxDevelopmentState
-      ? true
-      : this.developmentRatio >= gMinNormalBirthThreshold && chance % 100 <= 25
-      ? true
-      : this.developmentRatio >= gPreemieBirthThreshold && chance % 100 <= 10
-      ? true
-      : this.developmentRatio >= gVeryPreemieBirthThreshold &&
-        chance % 100 <= 10;
-  }
-
-  get isOverdue() {
-    return this.developmentRatio > gMaxDevelopmentState;
-  }
-
   getPregnancyLengthModifier(womb: Womb) {
     // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
     let modifier = 1;

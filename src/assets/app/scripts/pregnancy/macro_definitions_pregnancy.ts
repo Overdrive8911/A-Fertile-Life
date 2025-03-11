@@ -20,7 +20,7 @@ Macro.add("updatePregnancy", {
   handler: function () {
     const womb: Womb = this.args[0];
 
-    womb.updatePregnancyGrowth();
+    womb.updatePregnancy();
   },
 });
 
