@@ -1,7 +1,5 @@
 // These are just function params
 
-import { gFetalGrowthOverGestationalWeeks } from "./variables";
-
 // REVIEW - I greatly regret hardcoding these values.
 export const enum FetalGrowthStatsEnum {
   HEIGHT = "height",
@@ -91,70 +89,4 @@ export const enum GestationalWeek {
 
   //
   MAX = GestationalWeek.Forty,
-}
-
-// Contains the thresholds for different belly sizes.
-// NOTE - This may also be used for stuffing content too
-export enum BellyState {
-  SAG = -1,
-  FLAT = 0,
-  PREG_MIN = 0,
-  // BLOATED = 100,
-  // STUFFED = 500,
-
-  EARLY_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].amnioticFluidVolume
-  ), // 12 weeks or less
-  EARLY_PREGNANCY_2 = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen]
-      .amnioticFluidVolume
-  ), // Week 13 till Week 19
-  VISIBLE_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].amnioticFluidVolume
-  ), // Week 20 till Week 27
-  LATE_PREGNANCY = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight]
-      .amnioticFluidVolume
-  ), // Week 28 till Week 35
-  LATE_PREGNANCY_2 = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix]
-      .amnioticFluidVolume
-  ), // Week 36 till Week 40
-  FULL_TERM = getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].amnioticFluidVolume
-  ), // Week 40. Should be around 10000
-
-  FULL_TERM_TWINS = FULL_TERM * 2,
-  FULL_TERM_TRIPLETS = FULL_TERM * 3,
-  FULL_TERM_QUADS = FULL_TERM * 4,
-  FULL_TERM_QUINTS = FULL_TERM * 5,
-  FULL_TERM_SEXTUPLETS = FULL_TERM * 6,
-  FULL_TERM_SEPTUPLETS = FULL_TERM * 7,
-  FULL_TERM_OCTUPLETS = FULL_TERM * 8,
-  FULL_TERM_NONUPLETS = FULL_TERM * 9,
-  FULL_TERM_DECUPLETS = FULL_TERM * 10,
-
-  PREG_MAX = FULL_TERM_DECUPLETS,
-}
-
-// This is only here because I'm using it in the enum above
-function getWombVolumeFromFetusStats(
-  height: number,
-  weight: number,
-  fluidVolume: number
-) {
-  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
-  return (weight + height + fluidVolume * 0.4) * (10 / 4);
 }
