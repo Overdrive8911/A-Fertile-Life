@@ -24,17 +24,17 @@ export class Fetus {
   /**
    * decides the gender, growthRate, weight, and height
    */
-  id: number;
+  id!: number;
 
   /**
    * scales with the womb's health. don't let it get to zero
    */
-  hp: number;
-  dateOfConception: Date; // Just here :p
+  hp!: number;
+  dateOfConception!: Date; // Just here :p
   /**
    * e.g 50%, 23%, 87%, 100%
    */
-  developmentRatio: DevelopmentRatio;
+  developmentRatio!: DevelopmentRatio;
   devRatioAtLastUpdate: DevelopmentRatio = 0;
   /**
    * A modifier multiplied to the fetus's growth rate. Comes from other sources
@@ -44,15 +44,15 @@ export class Fetus {
   /**
    * in grams e.g 360, 501, 600
    */
-  weight: number;
+  weight!: number;
   /**
    * in cm e.g 11.38, 10.94
    */
-  height: number;
+  height!: number;
   /**
    * The amount of fluid generated per fetus. It is successively less with more fetuses and used to finally calculate the belly size
    */
-  amnioticFluidVolume: number;
+  amnioticFluidVolume!: number;
   /**
    * In the off-chance that I add non-human preg, this will store values from an enum containing the possible species to be impregnated with
    */
@@ -66,45 +66,44 @@ export class Fetus {
     1.02, 1.025, 1.03, 1.035,
   ];
 
-  constructor(newId: number, classProp: typeof Fetus | null = null) {
-    this.id = newId;
+  constructor(newId: number);
+  constructor(classProp: Fetus | Record<keyof Fetus, Fetus[keyof Fetus]>);
+  constructor(
+    idOrClassProp: number | Fetus | Record<keyof Fetus, Fetus[keyof Fetus]>
+  ) {
+    if (typeof idOrClassProp == "number") {
+      this.id = idOrClassProp;
 
-    this.hp = WombHealth.FULL_VITALITY;
+      this.hp = WombHealth.FULL_VITALITY;
 
-    const id = this.id;
+      const id = this.id;
 
-    this.developmentRatio = gMinDevelopmentState;
-    // Just trying to get an arbitrarily small number
-    this.height = id / Math.pow(10, 9);
-    this.weight = id / Math.pow(10, 9);
-    this.amnioticFluidVolume = id / Math.pow(10, 9);
-    this.dateOfConception = variables().gameDateAndTime;
-
-    //
-    if (classProp != null) {
-      Object.keys(classProp).forEach((prop) => {
-        //@ts-expect-error
-        this[prop] = clone(classProp[prop]);
+      this.developmentRatio = gMinDevelopmentState;
+      // Just trying to get an arbitrarily small number
+      this.height = id / Math.pow(10, 9);
+      this.weight = id / Math.pow(10, 9);
+      this.amnioticFluidVolume = id / Math.pow(10, 9);
+      this.dateOfConception = variables().gameDateAndTime;
+    } else {
+      Object.keys(idOrClassProp).forEach((p) => {
+        const prop = p as keyof Fetus;
+        //@ts-ignore
+        this[prop] = clone(idOrClassProp[prop]);
       }, this);
     }
   }
 
   clone() {
-    //@ts-expect-error
-    return new Fetus(this.id, this);
+    return new Fetus(this);
   }
   toJSON() {
-    //@ts-expect-error
-    const ownData: Fetus = {};
-    Object.keys(this).forEach((prop) => {
-      //@ts-expect-error
+    const ownData: Record<keyof Fetus, Fetus[keyof Fetus]> = {} as any;
+    Object.keys(this).forEach((p) => {
+      const prop = p as keyof Fetus;
       ownData[prop] = clone(this[prop]);
     }, this);
 
-    return Serial.createReviver(
-      `new ${Fetus.name}(${this.id}, $ReviveData$)`,
-      ownData
-    );
+    return Serial.createReviver(`new ${Fetus.name}($ReviveData$)`, ownData);
   }
 
   get gender(): Gender {

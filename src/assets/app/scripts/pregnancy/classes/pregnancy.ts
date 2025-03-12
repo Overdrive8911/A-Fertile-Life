@@ -63,9 +63,10 @@ export class Pregnancy {
   }
 
   toJSON() {
-    const ownData: unknown = {};
-    Object.keys(this).forEach((prop) => {
-      //@ts-expect-error
+    const ownData: Record<keyof Pregnancy, Pregnancy[keyof Pregnancy]> =
+      {} as any;
+    Object.keys(this).forEach((p) => {
+      const prop = p as keyof Pregnancy;
       ownData[prop] = clone(this[prop]);
     }, this);
 
@@ -446,3 +447,5 @@ export class Pregnancy {
     return this.devRatio > gMaxDevelopmentState;
   }
 }
+//@ts-ignore
+window[Pregnancy.name] = Pregnancy;
