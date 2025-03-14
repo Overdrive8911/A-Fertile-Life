@@ -6,6 +6,7 @@ import type {
   PregSideEffectDynamicData,
   PregSideEffectsObject,
   BellyStateType,
+  PregSideEffectStaticData,
 } from "../declarations/types";
 import {
   gDefaultMaxWombHP,
@@ -24,7 +25,6 @@ import {
   gExpPerSingleBirth,
   gPostpartumPeriod,
   gFortifiedWombPerkMaxNaturalBirthDelay,
-  gAllSideEffects,
   gFortifiedWombPerkMaxCapacityBoost,
   gElasticityPerkCapacityMaxBoost,
   gDefaultPregnancyLength,
@@ -111,6 +111,46 @@ export class Womb {
   }
 
   static isWombDamageEnabled = false;
+  static sideEffects: Required<
+    PregSideEffectsObject<PregSideEffectStaticData>
+  > = {
+    /* Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger. */
+    /* They are objects containing 2 values; the first decides if the user is afflicted with them and how long the condition (in seconds) will last while the second is an array storing the amount of days the side effect can last (if the latter is 0, it means the during depends entirely on other things). */
+    /* TODO - Add more side effects */
+
+    cravingCrisis: {
+      // currDuration: 0,
+      maxDuration: [1, 2],
+    } /* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */,
+    motherHunger: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3],
+    } /* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */,
+    restlessBrood: {
+      // currDuration: 0,
+      maxDuration: [2, 3],
+    } /* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */,
+    heavyWomb: {
+      // currDuration: 0,
+      maxDuration: [3, 5, 7],
+    } /* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */,
+    contractions: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3, 5],
+    } /* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */,
+    labour: {
+      // currDuration: 0,
+      maxDuration: [3],
+    } /* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */,
+    sexCraving: {
+      // currDuration: 0,
+      maxDuration: [1, 3],
+    } /* Maxes out arousal once a day and keeps it above 75 */,
+    growthSpurt: {
+      // currDuration: 0,
+      maxDuration: [1, 2, 3],
+    } /* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */,
+  };
 
   constructor(classProperties: Womb | null = null) {
     if (classProperties != null) {
@@ -807,7 +847,7 @@ export class Womb {
   //
 
   applySideEffect(sideEffect: keyof typeof this.sideEffects) {
-    const selectedSideEffect = gAllSideEffects[sideEffect];
+    const selectedSideEffect = Womb.sideEffects[sideEffect];
     if (selectedSideEffect && !this.isSideEffectActive(sideEffect)) {
       // Set the duration in seconds
       this.sideEffects[sideEffect] = {
