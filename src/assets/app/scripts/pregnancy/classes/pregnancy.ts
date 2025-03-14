@@ -10,7 +10,6 @@ import type {
 } from "../declarations/types";
 import {
   gMaxDevelopmentState,
-  gAllPregPerks,
   gGestatorPerkMaxSpeedBoost,
   gImmunityPerkMaxBoostPerFetus,
   gPolyhydramniosPerkMaxFluidProductionBoost,
@@ -252,7 +251,7 @@ export class Pregnancy {
       // Apply the gestator perk boost, if any
       let gestatorPerkSpeedBoost =
         perks && gestatorPerk
-          ? (gestatorPerk.currLevel / gAllPregPerks.gestator.maxLevel) *
+          ? (gestatorPerk.currLevel / Womb.perks.gestator.maxLevel) *
             gGestatorPerkMaxSpeedBoost
           : 0;
 
@@ -263,7 +262,7 @@ export class Pregnancy {
       const immunityPerk = perks.immunityBoost;
       inputUser.immunity +=
         perks && immunityPerk
-          ? (immunityPerk.currLevel / gAllPregPerks.immunityBoost.maxLevel) *
+          ? (immunityPerk.currLevel / Womb.perks.immunityBoost.maxLevel) *
             gImmunityPerkMaxBoostPerFetus *
             additionalDevelopmentProgress
           : 0;
@@ -317,7 +316,7 @@ export class Pregnancy {
       if (perks && perks.polyhydramnios) {
         fluidDiff +=
           (perks.polyhydramnios.currLevel /
-            gAllPregPerks.polyhydramnios.maxLevel) *
+            Womb.perks.polyhydramnios.maxLevel) *
           gPolyhydramniosPerkMaxFluidProductionBoost *
           fluidDiff;
       }

@@ -7,12 +7,12 @@ import type {
   PregSideEffectsObject,
   BellyStateType,
   PregSideEffectStaticData,
+  PregPerkStaticData,
 } from "../declarations/types";
 import {
   gDefaultMaxWombHP,
   gChanceOfNaturalMultipleOvaFertilization,
   gChanceOfNaturalOvaSplit,
-  gAllPregPerks,
   gFortifiedWombPerkMaxPassiveHPDrainNerf,
   gHealthyWombPerkMaxHPIncrementBuff,
   gHealthyWombPerkMaxHPDecrementNerf,
@@ -111,6 +111,78 @@ export class Womb {
   }
 
   static isWombDamageEnabled = false;
+  static perks: Required<PregPerksObject<PregPerkStaticData>> = {
+    /* Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant. */
+    /* Some perks can be combo-ed together for greater boosts or special reactions such as ironSpine and motherlyHips, gestator and hyperFertility */
+    /* Each perk is an object of 3 values. The first is the level, the second is it's in-game price which increases by 20% every upgrade while the third is its max level */
+    /*TODO - Change the prices later to something more reasonable. Also, add more perks */
+
+    // NOTE - Only store these if they're active
+    gestator: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 10,
+    } /* Increases the speed of pregnancies, but makes and keeps the user hungrier. At the maximum level, pregnancy duration sped up by `gGestatorPerkMaxSpeedBoost` and additional hunger drain is always 30% of that. */,
+    hyperFertility: {
+      // currLevel: 1,
+      price: 3000,
+      maxLevel: 5,
+    } /* Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */,
+    superFet: {
+      // currLevel: 1,
+      price: 15000,
+      maxLevel: 5,
+    } /* Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */,
+    elasticity: {
+      // currLevel: 1,
+      price: 7000,
+      maxLevel: 10,
+    } /* Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */,
+    immunityBoost: {
+      // currLevel: 1,
+      price: 2000,
+      maxLevel: 5,
+    } /* Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */,
+    motherlyHips: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 5,
+    } /* Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */,
+    motherlyBoobs: {
+      // currLevel: 1,
+      price: 5000,
+      maxLevel: 5,
+    } /* Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */,
+    ironSpine: {
+      // currLevel: 1,
+      price: 7000,
+      maxLevel: 5,
+    } /* Can carry bigger pregnancies and more weight before becoming bed bound */,
+    sensitiveWomb: {
+      // currLevel: 1,
+      price: 6000,
+      maxLevel: 5,
+    } /* Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */,
+    healthyWomb: {
+      // currLevel: 1,
+      price: 3000,
+      maxLevel: 10,
+    } /* Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */,
+    fortifiedWomb: {
+      // currLevel: 1,
+      price: 10000,
+      maxLevel: 5,
+    } /* Raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */,
+    noPostpartum: {
+      // currLevel: 1,
+      price: 2000,
+      maxLevel: 10,
+    } /* Reduces the postpartum period, completely erasing it at max FertilityLevel. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */,
+    polyhydramnios: {
+      price: 1500,
+      maxLevel: 10,
+    } /* Increases amniotic fluid production per fetus */,
+  };
   static sideEffects: Required<
     PregSideEffectsObject<PregSideEffectStaticData>
   > = {
@@ -338,7 +410,7 @@ export class Womb {
             // REVIEW - Half the chance plus a bit extra per perk level. That should be enough, right?
             chance *= 0.5;
             chance +=
-              (gAllPregPerks.superFet.maxLevel - superFetPerk.currLevel) * 0.08;
+              (Womb.perks.superFet.maxLevel - superFetPerk.currLevel) * 0.08;
           } else {
             // No chance to make more babies :p
             chance = 0;
@@ -435,7 +507,7 @@ export class Womb {
     if (perks && fortifiedWombPerk) {
       wombDamage -=
         (perks?.fortifiedWomb?.currLevel ??
-          0 / gAllPregPerks.fortifiedWomb.maxLevel) *
+          0 / Womb.perks.fortifiedWomb.maxLevel) *
         gFortifiedWombPerkMaxPassiveHPDrainNerf *
         wombDamage;
     }
@@ -481,13 +553,13 @@ export class Womb {
       if (value >= 0) {
         // Buff health increments
         mod +=
-          (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+          (healthyWombPerk.currLevel / Womb.perks.healthyWomb.maxLevel) *
           gHealthyWombPerkMaxHPIncrementBuff *
           mod;
       } else {
         // Nerf health decrements
         mod +=
-          (healthyWombPerk.currLevel / gAllPregPerks.healthyWomb.maxLevel) *
+          (healthyWombPerk.currLevel / Womb.perks.healthyWomb.maxLevel) *
           gHealthyWombPerkMaxHPDecrementNerf *
           mod;
       }
@@ -621,7 +693,7 @@ export class Womb {
     if (this.perks && this.perks.elasticity) {
       const perkData = this.perks.elasticity;
       expToAdd +=
-        (perkData.currLevel / gAllPregPerks.elasticity.maxLevel) *
+        (perkData.currLevel / Womb.perks.elasticity.maxLevel) *
         gElasticityPerkMaxExpBoost *
         expToAdd;
     }
@@ -733,7 +805,7 @@ export class Womb {
     if (perks && noPostpartumPerk) {
       this.postpartumCounter -=
         this.postpartumCounter *
-        (noPostpartumPerk.currLevel / gAllPregPerks.noPostpartum.maxLevel);
+        (noPostpartumPerk.currLevel / Womb.perks.noPostpartum.maxLevel);
     }
     this.lastBirth = variables().gameDateAndTime;
     // Get the data of born children. We can use this to determine birth stats and other scene data.
@@ -766,7 +838,7 @@ export class Womb {
       const perks = this.perks;
       if (perks && perks.fortifiedWomb) {
         const ratio =
-          perks.fortifiedWomb.currLevel / gAllPregPerks.fortifiedWomb.maxLevel;
+          perks.fortifiedWomb.currLevel / Womb.perks.fortifiedWomb.maxLevel;
         if (ratio >= 0.5) {
           eligiblePregnancyDevRatio = eligiblePregnancyDevRatio.map(
             (devRatio) => {
@@ -814,7 +886,7 @@ export class Womb {
 
   // SECTION - Perks and Side effects
   applyPerk(perk: keyof typeof this.perks) {
-    if (gAllPregPerks[perk] && !this.isPerkActive(perk)) {
+    if (Womb.perks[perk] && !this.isPerkActive(perk)) {
       this.perks[perk] = { currLevel: 1 };
       return true;
     }
@@ -829,7 +901,7 @@ export class Womb {
       perkData.currLevel = Math.clamp(
         perkData.currLevel + lvlToAdd,
         1,
-        gAllPregPerks[perk].maxLevel
+        Womb.perks[perk].maxLevel
       );
 
       return perkData.currLevel;
@@ -875,7 +947,7 @@ export class Womb {
 
     if (perks && fortifiedWombPerk) {
       mod +=
-        (fortifiedWombPerk.currLevel / gAllPregPerks.fortifiedWomb.maxLevel) *
+        (fortifiedWombPerk.currLevel / Womb.perks.fortifiedWomb.maxLevel) *
         gFortifiedWombPerkMaxCapacityBoost *
         mod;
     }
@@ -889,7 +961,7 @@ export class Womb {
 
     if (perks && elasticityPerk) {
       mod +=
-        (elasticityPerk.currLevel / gAllPregPerks.elasticity.maxLevel) *
+        (elasticityPerk.currLevel / Womb.perks.elasticity.maxLevel) *
         gElasticityPerkCapacityMaxBoost *
         mod;
     }
