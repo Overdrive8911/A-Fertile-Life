@@ -8,9 +8,9 @@ import type { ClothingState } from "./item_enums";
 // NOTE - All item specific data should extend from this
 export interface GenericItemDynamicData {
   /**
-   * All items must have a reference to the user holding them
+   * All items may have a reference to the user holding them
    */
-  user: Player;
+  user?: Player;
 }
 export type ItemCallback = (
   // inventoryObject: Inventory,
