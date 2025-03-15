@@ -1,10 +1,10 @@
 import type { Inventory } from "./classes/inventory";
 import type { Item } from "./classes/item";
+import { Clothing } from "./classes/item_extends/clothing";
 import { gInGameItems } from "./declarations/game_item_declarations";
 import { ItemId, ItemTag } from "./declarations/item_enums";
 import type { ClothingDynamicData } from "./declarations/types_and_interfaces";
 import { inventoryTooltipHandler } from "./inventory_event_handlers";
-import { Clothing } from "./classes/item_class_extends";
 
 $(window).on("resize", () => {
   // Run this on resizing too

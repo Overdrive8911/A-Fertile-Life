@@ -1,5 +1,6 @@
 import { Item } from "../classes/item";
-import { Food, Clothing } from "../classes/item_class_extends";
+import { Clothing } from "../classes/item_extends/clothing";
+import { Food } from "../classes/item_extends/food";
 import {
   ItemId,
   ItemProperties,
