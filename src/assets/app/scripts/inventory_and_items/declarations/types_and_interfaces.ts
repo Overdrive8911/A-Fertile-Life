@@ -1,5 +1,7 @@
 import type { Item } from "../classes/item";
-import type { Clothing, Drug, Food } from "../classes/item_class_extends";
+import type { Clothing } from "../classes/item_extends/clothing";
+import type { Drug } from "../classes/item_extends/drug";
+import type { Food } from "../classes/item_extends/food";
 import type { ClothingState } from "./item_enums";
 
 // NOTE - All item specific data should extend from this

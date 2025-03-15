@@ -1,32 +1,16 @@
-// NOTE - Add any new child classes to `AnyItemClass`
-import { Inventory } from "./inventory";
-import { Item } from "./item";
 import {
-  ItemTag,
   ClothingArea,
   ClothingState,
-} from "../declarations/item_enums";
+  ItemTag,
+} from "../../declarations/item_enums";
 import type {
   ItemConstructorArgs,
   ClothingDynamicData,
   GenericItemDynamicData,
   AllClothingDurabilityPoints,
-} from "../declarations/types_and_interfaces";
-
-// NOTE - Any method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
-// NOTE - Ensure that the `defaultCallback` is overwritten by child classes wherever it makes sense
-export // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
-class Food extends Item {
-  /**
-   * The time in seconds that should pass before the food item expires
-   */
-  expiresIn: number = 0;
-  effect: [] = [];
-  constructor(data?: ItemConstructorArgs<Food>) {
-    super(data);
-    this.addTags(ItemTag.FOOD);
-  }
-}
+} from "../../declarations/types_and_interfaces";
+import type { Inventory } from "../inventory";
+import { Item } from "../item";
 
 export class Clothing extends Item {
   // If this has to be "truly" private, then you'd have to scrap the getter / setters for regular methods while ensuring to `bind(this)` them in the constructor. Otherwise you may encounter an error related to `TypeError: Cannot write private member to an object whose class did not declare it`
@@ -296,22 +280,3 @@ export class Clothing extends Item {
   }
   // !SECTION
 }
-
-export class Drug extends Item {
-  constructor(data?: ItemConstructorArgs<Drug>) {
-    super(data);
-    this.addTags(ItemTag.DRUGS);
-  }
-}
-
-// export class Trash extends Item {
-//   constructor(data?: Partial<Item>) {
-//     super(data);
-//   }
-// }
-
-// export class Miscellaneous extends Item {
-//   constructor(data?: Partial<Item>) {
-//     super(data);
-//   }
-// }
