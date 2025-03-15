@@ -13,7 +13,8 @@ import type {
   AllClothingDurabilityPoints,
 } from "../declarations/types_and_interfaces";
 
-// NOTE - Ny method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
+// NOTE - Any method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
+// NOTE - Ensure that the `defaultCallback` is overwritten by child classes wherever it makes sense
 export // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
 class Food extends Item {
   constructor(data?: ItemConstructorArgs<Food>) {
