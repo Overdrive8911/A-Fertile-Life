@@ -126,3 +126,5 @@ export class InventoryItem {
     return returnedData;
   }
 }
+
+(window as any)[InventoryItem.name] = InventoryItem;
