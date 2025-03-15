@@ -16,9 +16,7 @@ export class InventoryItem {
   #itemId: ItemId; // To know what type of item it is
   #idInInventory?: InventoryIndex; // If present, can be used to find the exact position of an item in the inventory
   extraIdData?: ExtraIdDataType; // To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()`.
-  locationObtained?: string; // NOTE - It's actually meant to be a number, so make sure to convert it appropriately when merging. It'll just store the name of the location. If it doesn't exist, the item was gotten from "???"
-  // price?: number;
-  // weight?: number;
+  locationObtained?: string;
   dynamicData?: AnyItemDynamicData; // In case an object has dynamicData, just put the required data here and read it as necessary
 
   constructor(initData: Partial<InventoryItem> | Item | null = null) {
@@ -29,8 +27,6 @@ export class InventoryItem {
         this.itemId = initData.itemId;
       } else {
         Object.keys(initData).forEach((pn) => {
-          // const property: NotFunc<keyof Inventory1> = pn as keyof Inventory1;
-          // const property = pn as NotFunc<keyof Inventory1> & string;
           const property = pn as never; // just disable type checking here
 
           this[property] = clone(initData[property]);
