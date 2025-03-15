@@ -125,7 +125,7 @@ export class Item {
   // SECTION - Methods
   addTags(...tagsToAdd: ItemTag[]) {
     // Remove any unneeded tags
-    tagsToAdd.delete(ItemTag.ALL);
+    tagsToAdd.deleteAll(ItemTag.ALL);
 
     // Initialize the `tags` array if its still undefined
     this.#tags ??= [];
@@ -135,7 +135,7 @@ export class Item {
   // Returns an array of the removed tags
   removeTags(...tagsToRemove: ItemTag[]): ItemTag[] {
     if (!this.#tags) return [];
-    return this.#tags.delete(...tagsToRemove);
+    return this.#tags.deleteAll(...tagsToRemove);
   }
   // !SECTION
 
