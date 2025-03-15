@@ -7,6 +7,7 @@ import type {
   ItemConstructorArgs,
 } from "../../declarations/types_and_interfaces";
 import type { Player } from "../../../declarations/player_declarations";
+import { Womb } from "../../../pregnancy/classes/womb";
 
 export const enum FoodEffect {
   // SECTION - Healing Effects. These also heal the womb by 50%
@@ -99,10 +100,19 @@ class Food extends Item {
       expChange *= -1;
     }
 
+    // Turn them into percentages
+    hpChange /= 100;
+    moodChange /= 100;
+    fullnessChange /= 100;
+    expChange /= 100;
+
     user.hp += user.maxHp * hpChange;
     user.womb.addHp((user.womb.maxHp * hpChange) / 2);
-    user.mentalStats.mood += 100 * moodChange;
-    fullnessChange ? (user.fullness += fullnessChange) : (user.fullness += 10);
+    user.mentalStats.mood += moodChange;
+    fullnessChange
+      ? (user.fullness += user.maxFullness * fullnessChange)
+      : (user.fullness += user.maxFullness * 10);
+    user.womb.exp += Womb.getExpLimit(user.womb.lvl + 1) * expChange;
   }
 }
 
