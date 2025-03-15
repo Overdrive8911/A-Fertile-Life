@@ -734,14 +734,14 @@ export class Womb {
   }
 
   // Give it the level and it'll return the appropriate exp cap
-  static getExpLimit = (lvl: Extract<keyof typeof WombExpLimit, number>) => {
+  static getExpLimit = (lvl: number) => {
     if (lvl < gMinWombLevel) lvl = gMinWombLevel;
     if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
 
     if (lvl == gMaxWombLevel) return 0;
 
     // The members of WombExpLimit include LVL_1, LVL_2, LVL_3, etc
-    return WombExpLimit[lvl];
+    return WombExpLimit[lvl as Extract<keyof typeof WombExpLimit, number>];
   };
   // !SECTION
 
