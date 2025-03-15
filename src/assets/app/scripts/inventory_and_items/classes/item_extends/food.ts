@@ -1,6 +1,7 @@
 import { Item } from "../item";
 import { ItemTag } from "../../declarations/item_enums";
 import type { ItemConstructorArgs } from "../../declarations/types_and_interfaces";
+import type { Player } from "../../../declarations/player_declarations";
 
 export const enum FoodEffect {
   // SECTION - Healing Effects. These also heal the womb by 50%
@@ -48,7 +49,21 @@ class Food extends Item {
    * The time in seconds that should pass before the food item expires
    */
   expiresIn: number = 0;
-  effect: [] = [];
+
+  /**
+   * This is an array of values where each value is either a `FoodEffect` to apply, an object consisting of a `FoodEffect` to apply and a flag to do the reverse of what the effect normally does, or a function that takes the player as an argument and does something with it that none of the `FoodEffect`s can do
+   *
+   * @type {(
+   *     | FoodEffect
+   *     | { type: FoodEffect; invert: true }
+   *     | ((user: Player) => void)
+   *   )[]}
+   */
+  effect: (
+    | FoodEffect
+    | { type: FoodEffect; invert: true }
+    | ((user: Player) => void)
+  )[] = [];
   constructor(data?: ItemConstructorArgs<Food>) {
     super(data);
     this.addTags(ItemTag.FOOD);
