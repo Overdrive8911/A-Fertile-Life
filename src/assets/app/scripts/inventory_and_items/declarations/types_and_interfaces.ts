@@ -45,7 +45,9 @@ export type SortingId = number; // Used in sorting the items. no two items can h
 export type ExtraIdDataType = number | string;
 
 // SECTION - Extensions of `GenericItemDynamicData`
-export interface FoodDynamicData extends GenericItemDynamicData {}
+export interface FoodDynamicData extends GenericItemDynamicData {
+  timeSinceObtained: number; // In seconds
+}
 export interface ClothingDynamicData extends GenericItemDynamicData {
   clothingState: ClothingState;
 }
