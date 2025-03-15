@@ -62,9 +62,10 @@ export const openInventoryDialog = () => {
   // SECTION - Populate inventoryRow
   populateInventoryRowItems(inventoryRow);
 
-  Dialog.setup("Inventory", "inventory-dialog");
-  Dialog.append(inventoryTabs).append(inventoryRow);
-  Dialog.open();
+  Dialog.create("Inventory", "inventory-dialog")
+    .append(inventoryTabs)
+    .append(inventoryRow)
+    .open();
 
   // Make the tabs as long as the rows
   inventoryTabsHandler();
