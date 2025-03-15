@@ -368,8 +368,6 @@ export const WombExpLimit = {
   13: calcWombExpReq(12),
   14: calcWombExpReq(13),
   15: calcWombExpReq(14),
-
-  NA: -999,
 } as const;
 
 export const gMinWombLevel = 1;

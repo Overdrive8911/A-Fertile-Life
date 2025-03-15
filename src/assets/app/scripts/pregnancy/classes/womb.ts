@@ -738,9 +738,7 @@ export class Womb {
     if (lvl < gMinWombLevel) lvl = gMinWombLevel;
     if (lvl > gMaxWombLevel) lvl = gMaxWombLevel;
 
-    if (lvl == gMaxWombLevel) {
-      return WombExpLimit.NA;
-    }
+    if (lvl == gMaxWombLevel) return 0;
 
     // The members of WombExpLimit include LVL_1, LVL_2, LVL_3, etc
     return WombExpLimit[lvl];
