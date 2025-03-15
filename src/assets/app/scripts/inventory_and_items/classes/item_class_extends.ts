@@ -1,17 +1,17 @@
 // NOTE - Add any new child classes to `AnyItemClass`
-import { Inventory } from "./classes/inventory";
-import { Item } from "./classes/item";
+import { Inventory } from "./inventory";
+import { Item } from "./item";
 import {
   ItemTag,
   ClothingArea,
   ClothingState,
-} from "./declarations/item_enums";
+} from "../declarations/item_enums";
 import type {
   ItemConstructorArgs,
   ClothingDynamicData,
   GenericItemDynamicData,
   AllClothingDurabilityPoints,
-} from "./declarations/types_and_interfaces";
+} from "../declarations/types_and_interfaces";
 
 // NOTE - Ny method that uses `dynamicData` / `data` as a parameter MUST also return an object resembling that structure. Also note that the parameter MUST be checked for if it's empty
 export // REVIEW - Types of food that reduce hunger and may give certain buffs or nerf?
