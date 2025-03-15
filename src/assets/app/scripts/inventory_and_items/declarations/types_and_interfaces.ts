@@ -42,13 +42,19 @@ export type ItemConstructorArgs<T extends Item> = Partial<{
 export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
 export type ExtraIdDataType = number | string;
 
-// ANCHOR - Extensions of `GenericItemDynamicData`
+// SECTION - Extensions of `GenericItemDynamicData`
+export interface FoodDynamicData extends GenericItemDynamicData {}
 export interface ClothingDynamicData extends GenericItemDynamicData {
   clothingState: ClothingState;
 }
 
+// !SECTION
+
 // NOTE: Add all item data types here
-export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
+export type AnyItemDynamicData =
+  | FoodDynamicData
+  | ClothingDynamicData
+  | GenericItemDynamicData;
 
 export type AllClothingDurabilityPoints =
   | ClothingState.DURABILITY_LVL_1
