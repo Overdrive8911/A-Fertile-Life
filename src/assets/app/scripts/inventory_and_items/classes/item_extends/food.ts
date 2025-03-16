@@ -144,3 +144,4 @@ class Food extends Item {
 //     super(data);
 //   }
 // }
+(window as any)[Food.name] = Food;
