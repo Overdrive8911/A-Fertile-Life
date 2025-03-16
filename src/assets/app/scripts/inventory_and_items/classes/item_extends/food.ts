@@ -64,6 +64,7 @@ class Food extends Item {
 
   constructor(data?: ItemConstructorArgs<Food>) {
     super(data);
+    this.usable = true;
     this.addTags(ItemTag.FOOD);
   }
 
