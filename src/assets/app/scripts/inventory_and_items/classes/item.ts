@@ -41,9 +41,9 @@ export class Item<ItemEffect extends number = number> {
   /**
    * If the item can be used. If not, it's just a collectible
    *
-   * //NOTE: **EVERY ITEM IS USABLE UNLESS EXPLICITLY SET OTHERWISE**
+   * //NOTE: **EVERY ITEM IS UNUSABLE UNLESS EXPLICITLY SET OTHERWISE**
    */
-  usable = true;
+  usable = false;
 
   // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
   customCallBack?: ItemCallback; // NOTE: Add this when initializing a new item and a special "default callback" is required.
