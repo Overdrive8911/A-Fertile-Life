@@ -10,7 +10,7 @@ import type { Player } from "../../../declarations/player_declarations";
 import { Womb } from "../../../pregnancy/classes/womb";
 
 export const enum FoodEffect {
-  // SECTION - Healing Effects. These also heal the womb by 50%
+  // SECTION - Healing Effects. These also heal the womb by 30%
   HEAL_HP_10 = 1 << 0,
   HEAL_HP_25 = 1 << 1,
   HEAL_HP_50 = 1 << 2,
@@ -107,7 +107,7 @@ class Food extends Item {
     expChange /= 100;
 
     user.hp += user.maxHp * hpChange;
-    user.womb.addHp((user.womb.maxHp * hpChange) / 2);
+    user.womb.addHp((user.womb.maxHp * hpChange) * 0.3);
     user.mentalStats.mood += moodChange;
     fullnessChange
       ? (user.fullness += user.maxFullness * fullnessChange)
