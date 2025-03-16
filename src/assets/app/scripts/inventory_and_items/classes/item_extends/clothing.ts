@@ -20,6 +20,7 @@ export class Clothing extends Item {
 
   constructor(data: ItemConstructorArgs<Clothing>) {
     super(data);
+    this.usable = true;
     this.addTags(ItemTag.CLOTHING);
   }
 
