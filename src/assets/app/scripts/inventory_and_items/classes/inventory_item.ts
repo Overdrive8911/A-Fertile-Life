@@ -93,6 +93,10 @@ export class InventoryItem {
     return gInGameItems[this.itemId] ?? (gInGameItems[ItemId.DUMMY] as Item);
   }
 
+  get usable() {
+    return this.staticData.usable;
+  }
+
   // By default, it calls the callback/handler of the appropriate item. However, it can also call any method of any item it represents if the appropriate method is passed as an argument. If `classMethodArgs` is passed, they will be used as the arguments for `classMethod`
   // NOTE - Pass null to any method arguments that are extended from `ItemDynamicData` if you prefer having the data of the item used
   use<method extends ItemClassMethod>(

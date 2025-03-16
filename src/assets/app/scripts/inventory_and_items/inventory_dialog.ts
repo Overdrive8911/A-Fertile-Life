@@ -165,7 +165,10 @@ function populateInventoryRowItems(
           </div>
         </div>
 
-        <div class="inventory-item-footer">x${numOfDuplicates}&nbsp</div>
+        <div class="inventory-item-footer">
+          ${item.usable ? `<button>Use</button>` : ""}
+          &nbsp;x${numOfDuplicates}
+        </div>
       </div>`
     );
   }
