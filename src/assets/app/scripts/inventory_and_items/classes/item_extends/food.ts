@@ -16,13 +16,19 @@ export const enum FoodEffect {
   HEAL_HP_50 = 1 << 2,
   HEAL_HP_75 = 1 << 3,
   HEAL_HP_100 = HEAL_HP_25 + HEAL_HP_75,
+
+  // ANCHOR - These heal the womb primarily, but also heal the player by 30%
+  HEAL_WOMB_25 = 1 << 4,
+  HEAL_WOMB_50 = 1 << 5,
+  HEAL_WOMB_75 = 1 << 6,
+  HEAL_WOMB_100 = HEAL_WOMB_25 + HEAL_WOMB_75,
   // !SECTION
 
   // SECTION - Mood Effects
-  HEAL_MOOD_10 = 1 << 4,
-  HEAL_MOOD_25 = 1 << 5,
-  HEAL_MOOD_50 = 1 << 6,
-  HEAL_MOOD_75 = 1 << 7,
+  HEAL_MOOD_10 = 1 << 7,
+  HEAL_MOOD_25 = 1 << 8,
+  HEAL_MOOD_50 = 1 << 9,
+  HEAL_MOOD_75 = 1 << 10,
   HEAL_MOOD_100 = HEAL_MOOD_25 + HEAL_MOOD_75,
   // !SECTION
 
@@ -33,20 +39,20 @@ export const enum FoodEffect {
   HEAL_HP_AND_MOOD_100 = HEAL_HP_100 | HEAL_MOOD_100,
 
   // SECTION - Hunger Effects. If not explicitly provided, the food item will heal fullness by 10%
-  HEAL_FULLNESS_10 = 1 << 8,
-  HEAL_FULLNESS_25 = 1 << 9,
-  HEAL_FULLNESS_50 = 1 << 10,
-  HEAL_FULLNESS_75 = 1 << 11,
+  HEAL_FULLNESS_10 = 1 << 11,
+  HEAL_FULLNESS_25 = 1 << 12,
+  HEAL_FULLNESS_50 = 1 << 13,
+  HEAL_FULLNESS_75 = 1 << 14,
   HEAL_FULLNESS_100 = HEAL_FULLNESS_25 + HEAL_FULLNESS_75,
   // !SECTION
 
   // SECTION - EXP Effects. These add a percentage of exp relative to the total amount of exp needed to advance to the next level. If not specific, defaults to 1% exp
-  ADD_EXP_1 = 1 << 12,
-  ADD_EXP_5 = 1 << 13,
-  ADD_EXP_10 = 1 << 14,
-  ADD_EXP_25 = 1 << 15,
-  ADD_EXP_50 = 1 << 16,
-  ADD_EXP_75 = 1 << 17,
+  ADD_EXP_1 = 1 << 15,
+  ADD_EXP_5 = 1 << 16,
+  ADD_EXP_10 = 1 << 17,
+  ADD_EXP_25 = 1 << 18,
+  ADD_EXP_50 = 1 << 19,
+  ADD_EXP_75 = 1 << 20,
   ADD_EXP_100 = ADD_EXP_25 + ADD_EXP_75,
 }
 export // REVIEW - Types of food that reduce fullness and may give certain buffs or nerf?
@@ -63,6 +69,7 @@ class Food extends Item {
 
   applyEffect(effect: FoodEffect, user: Player, shouldInvert?: boolean): void {
     let hpChange = 0,
+      wombHpChange = 0,
       moodChange = 0,
       fullnessChange = 0,
       expChange = 0;
@@ -72,6 +79,11 @@ class Food extends Item {
     if (effect & FoodEffect.HEAL_HP_50) hpChange += 50;
     if (effect & FoodEffect.HEAL_HP_75) hpChange += 75;
     if (effect & FoodEffect.HEAL_HP_100) hpChange += 100;
+
+    if (effect & FoodEffect.HEAL_WOMB_25) wombHpChange += 25;
+    if (effect & FoodEffect.HEAL_WOMB_50) wombHpChange += 50;
+    if (effect & FoodEffect.HEAL_WOMB_75) wombHpChange += 75;
+    if (effect & FoodEffect.HEAL_WOMB_100) wombHpChange += 100;
 
     if (effect & FoodEffect.HEAL_MOOD_10) moodChange += 10;
     if (effect & FoodEffect.HEAL_MOOD_25) moodChange += 25;
@@ -95,6 +107,7 @@ class Food extends Item {
 
     if (shouldInvert) {
       hpChange *= -1;
+      wombHpChange *= -1;
       moodChange *= -1;
       fullnessChange *= -1;
       expChange *= -1;
@@ -102,12 +115,15 @@ class Food extends Item {
 
     // Turn them into percentages
     hpChange /= 100;
+    wombHpChange /= 100;
     moodChange /= 100;
     fullnessChange /= 100;
     expChange /= 100;
 
-    user.hp += user.maxHp * hpChange;
-    user.womb.addHp((user.womb.maxHp * hpChange) * 0.3);
+    user.hp += user.maxHp * hpChange + user.womb.maxHp * wombHpChange * 0.3;
+    user.womb.addHp(
+      user.womb.maxHp * hpChange * 0.3 + user.womb.maxHp * wombHpChange
+    );
     user.mentalStats.mood += moodChange;
     fullnessChange
       ? (user.fullness += user.maxFullness * fullnessChange)
