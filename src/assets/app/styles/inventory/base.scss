@@ -95,6 +95,7 @@
 }
 
 .inventory-item-footer {
+  $footer-dimension: calc(var(--inventory-image-size) / 2);
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -103,6 +104,15 @@
   font-weight: bold;
 
   border-top: var(--inventory-border);
+  height: $footer-dimension;
+
+  button {
+    font-size: 80%;
+    height: $footer-dimension;
+    width: $footer-dimension;
+    min-width: fit-content;
+    min-height: fit-content;
+  }
 }
 
 .inventory-tooltip {
