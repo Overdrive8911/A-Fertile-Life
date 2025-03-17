@@ -1,6 +1,6 @@
 import { Item } from "../classes/item";
 import { Clothing } from "../classes/item_extends/clothing";
-import { Food } from "../classes/item_extends/food";
+import { Food, FoodEffect } from "../classes/item_extends/food";
 import {
   ItemId,
   ItemProperties,
@@ -21,6 +21,7 @@ export const gInGameItems: Partial<Record<ItemId, Item>> = {
     description: "A piece of soft yellow divine goodness from heaven itself.",
     // imageUrl: "media/img/items/cheese.webp",
     // tags: [ItemTag.FOOD],
+    effect: [FoodEffect.HEAL_HP_10, FoodEffect.ADD_EXP_10],
   }),
 
   [ItemId.MOULDY_CHEESE]: new Food({
@@ -32,6 +33,7 @@ export const gInGameItems: Partial<Record<ItemId, Item>> = {
       'An antiquated piece of "food" that should\'ve been discarded long ago.',
     // imageUrl: "media/img/items/mouldy_cheese.webp",
     // tags: [ItemTag.FOOD],
+    effect: [{ type: FoodEffect.HEAL_HP_10, invert: true }],
   }),
 
   [ItemId.KEYCARD_LVL_1]: new Item({
