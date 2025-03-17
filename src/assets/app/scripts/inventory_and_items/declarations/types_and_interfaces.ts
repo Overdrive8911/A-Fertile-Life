@@ -3,7 +3,7 @@ import type { Item } from "../classes/item";
 import type { Clothing } from "../classes/item_extends/clothing";
 import type { Drug } from "../classes/item_extends/drug";
 import type { Food } from "../classes/item_extends/food";
-import type { ClothingState } from "./item_enums";
+import type { ClothingState } from "../classes/item_extends/clothing";
 
 // NOTE - All item specific data should extend from this
 export interface GenericItemDynamicData {
