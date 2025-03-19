@@ -3,9 +3,6 @@
 <!-- take note of 'data-init-passage' and 'data-passage' --> 
 <!-- Note that most of these will have their contents filled in PassageDone -->
 <div id="interface">
-    <div id="menu" data-init-passage="menu"></div>
-    <div id="notifications" data-passage="notifications"></div>
-
     <!-- The top UI bar is divided into 3 sections; left, middle and right -->
     <div id="ui-top-bar" data-init-passage="uiPassage_top_bar"></div>
 
