@@ -18,5 +18,4 @@
 
     <!-- you must have one element with #id of 'passages' --> 
     <div id="passages"></div>
-    <div id="" data-passage=""></div>
 </div>
