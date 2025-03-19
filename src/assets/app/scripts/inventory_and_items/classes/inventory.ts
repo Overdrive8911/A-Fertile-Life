@@ -316,3 +316,5 @@ export class Inventory {
     );
   }
 }
+
+(window as any)[Inventory.name] = Inventory;
