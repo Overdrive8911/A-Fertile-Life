@@ -10,11 +10,7 @@ let uiSideBarToggleState = true;
 
 $(document).on(":passageend", () => {
   // To make sure the changes stick around when loading the game
-  if (uiSideBarToggleState) {
-    $("[id='ui-side-bar']").addClass("stowed");
-  } else {
-    $("[id='ui-side-bar']").removeClass("stowed");
-  }
+  toggleSideBar();
   uiSideBarToggleHandler();
 
   // // Pass in an event
@@ -35,11 +31,7 @@ $(document).on(":passageend", () => {
   $("#ui-side-bar-toggle-state-button").ariaClick(() => {
     // Open or stow the side bar
     uiSideBarToggleState = !uiSideBarToggleState;
-    if (uiSideBarToggleState) {
-      $("[id='ui-side-bar']").addClass("stowed");
-    } else {
-      $("[id='ui-side-bar']").removeClass("stowed");
-    }
+    toggleSideBar();
     uiSideBarToggleHandler();
   });
   $(window)
@@ -49,11 +41,7 @@ $(document).on(":passageend", () => {
       if (keyEvent.key === "q") {
         // Open or stow the side bar
         uiSideBarToggleState = !uiSideBarToggleState;
-        if (uiSideBarToggleState) {
-          $("[id='ui-side-bar']").addClass("stowed");
-        } else {
-          $("[id='ui-side-bar']").removeClass("stowed");
-        }
+        toggleSideBar();
         uiSideBarToggleHandler();
       }
     });
@@ -107,3 +95,10 @@ $(document).on(":passageend", () => {
 $(window).on("resize", () => {
   uiSideBarToggleHandler();
 });
+function toggleSideBar() {
+  if (uiSideBarToggleState) {
+    $("[id='ui-side-bar']").addClass("stowed");
+  } else {
+    $("[id='ui-side-bar']").removeClass("stowed");
+  }
+}
