@@ -16,7 +16,7 @@ const buildResult = await build({
   plugins: [
     cleanDirectories,
     processStyles,
-    bundleScriptAndStyleExtensions,
+    // bundleScriptAndStyleExtensions,
     copyOtherAssets,
   ],
   drop: mode === "production" ? ["console", "window"] : [],
@@ -83,20 +83,20 @@ if (buildResult) {
   if (mode == "development") {
     const subscription = watcher.subscribe(Directory.OUTPUT, async () => {
       await compileStory();
-      // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
-      await write(
-        `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
-        "Dummy"
-      );
+      // // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
+      // await write(
+      //   `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
+      //   "Dummy"
+      // );
     });
 
     const subscription2 = watcher.subscribe(Directory.STORY, async () => {
       await compileStory();
-      // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
-      await write(
-        `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
-        "Dummy"
-      );
+      // // A hacky way to force the live reload server to respond to this change if it doesn't detect the `index.html` change
+      // await write(
+      //   `${Directory.BUNDLED_STORY}${Directory.STORY_MEDIA}/dummy.txt`,
+      //   "Dummy"
+      // );
     });
 
     process.on("SIGINT", async () => {

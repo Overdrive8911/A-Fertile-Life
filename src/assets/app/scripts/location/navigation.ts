@@ -141,22 +141,16 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
       updateTimeWithDistance(dist);
 
       const playerWomb = variables().player.womb;
-      const passedTimeAfterLastUpdate =
-        variables().gameDateAndTime.getTime() -
-        (playerWomb.lastPregUpdate
-          ? playerWomb.lastPregUpdate.getTime()
-          : playerWomb.lastFertilized
-          ? playerWomb.lastFertilized.getTime()
-          : variables().gameDateAndTime.getTime());
-      if (passedTimeAfterLastUpdate) {
-        playerWomb.updatePregnancyGrowth();
-        playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
+      playerWomb.updatePregnancy();
+      playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
 
-        if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
+      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
 
-        if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
-          playerWomb.postpartumCounter -= passedTimeAfterLastUpdate / 1000;
-        }
+      if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
+        playerWomb.postpartumCounter -=
+          (variables().gameDateAndTime.getTime() -
+            playerWomb.lastBirth!.getTime()) /
+          1000;
       }
     });
 

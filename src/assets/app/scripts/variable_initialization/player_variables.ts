@@ -2,11 +2,9 @@ import { Breasts } from "../declarations/body_stats/breast_class_definitions";
 import type { Player } from "../declarations/player_declarations";
 import { Inventory } from "../inventory_and_items/classes/inventory";
 import { defaultWarpDestination } from "../location/other_data";
-import { Womb } from "../pregnancy/classes";
-import {
-  FertilityLevel,
-  BellyState,
-} from "../pregnancy/declarations/preg_declarations";
+import { Womb } from "../pregnancy/classes/womb";
+import { FertilityLevel } from "../pregnancy/declarations/enums";
+import { BellyState } from "../pregnancy/declarations/variables";
 
 export const saveVar_player: Player = {
   /* Money */
