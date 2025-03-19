@@ -121,7 +121,7 @@ export class Fetus {
     return growthRateValues[this.id % growthRateValues.length];
   }
 
-  getPregnancyLengthModifier(womb: Womb) {
+  #getPregnancyLengthModifier(womb: Womb) {
     // NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds
     let modifier = 1;
 
@@ -138,7 +138,7 @@ export class Fetus {
   }
 
   getTotalGestationDuration(womb: Womb) {
-    return this.getPregnancyLengthModifier(womb) * gDefaultPregnancyLength;
+    return this.#getPregnancyLengthModifier(womb) * gDefaultPregnancyLength;
   }
 
   get gestationalWeek() {
@@ -202,7 +202,7 @@ export class Fetus {
     );
   }
 
-  static getAccurateFetalStatForDevelopmentStage(
+  static #getAccurateFetalStatForDevelopmentStage(
     stat: FetalGrowthStatsEnum,
     devRatio: DevelopmentRatio
   ) {
@@ -267,9 +267,10 @@ export class Fetus {
     return fetalStat;
   }
 
-  // Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased
-  // NOTE - What this function basically does is (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) which will usually give non-integer values. When Math.floor()'d, it gives up the most recent gestational week and we can pick a stat from there (call this value X). However, in order to be truly accurate, we also consider the truncated non-integer component of (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) by having the truncated value be subtracted from the regular result of that expression (e.g 7.8673029 - 7) and multiply this result with the difference of the required stats for the gestational week in use and the next one (e.g gestational week 7 and gestational week 8. Also call this value Y). Now, adding X and Y should give something quite accurate, so do this for both development ratios and return the difference between their values.
-  static getStatToAddAfterDevelopmentProgress(
+  /** Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased.
+   *
+   * // NOTE - What this function basically does is (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) which will usually give non-integer values. When Math.floor()'d, it gives up the most recent gestational week and we can pick a stat from there (call this value X). However, in order to be truly accurate, we also consider the truncated non-integer component of (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) by having the truncated value be subtracted from the regular result of that expression (e.g 7.8673029 - 7) and multiply this result with the difference of the required stats for the gestational week in use and the next one (e.g gestational week 7 and gestational week 8. Also call this value Y). Now, adding X and Y should give something quite accurate, so do this for both development ratios and return the difference between their values.*/
+  static calcGrowthStatChange(
     oldDevRatio: DevelopmentRatio,
     newDevRatio: DevelopmentRatio,
     stat: FetalGrowthStatsEnum
@@ -278,8 +279,8 @@ export class Fetus {
     let oldStat = 0;
     let newStat = 0;
 
-    oldStat = this.getAccurateFetalStatForDevelopmentStage(stat, oldDevRatio);
-    newStat = this.getAccurateFetalStatForDevelopmentStage(stat, newDevRatio);
+    oldStat = this.#getAccurateFetalStatForDevelopmentStage(stat, oldDevRatio);
+    newStat = this.#getAccurateFetalStatForDevelopmentStage(stat, newDevRatio);
 
     return newStat - oldStat;
   }
