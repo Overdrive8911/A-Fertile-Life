@@ -76,10 +76,11 @@ export class Fetus {
       const id = this.id;
 
       this.developmentRatio = gMinDevelopmentState;
+      const newLocal = Math.pow(10, 9);
       // Just trying to get an arbitrarily small number
-      this.height = id / Math.pow(10, 9);
-      this.weight = id / Math.pow(10, 9);
-      this.amnioticFluidVolume = id / Math.pow(10, 9);
+      this.height = id / newLocal;
+      this.weight = id / newLocal;
+      this.amnioticFluidVolume = id / newLocal;
       this.dateOfConception = variables().gameDateAndTime;
     } else {
       Object.keys(idOrClassProp).forEach((p) => {
