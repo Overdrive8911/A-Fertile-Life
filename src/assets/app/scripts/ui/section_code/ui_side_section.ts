@@ -48,22 +48,14 @@ $(document).on(":passageend", () => {
 
   // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-map-button").ariaClick(() => {
-    // Wait for 1 second so the button can't be infinitely spammed
-    setTimeout(() => {
-      // Open or stow the map interface
-      actionInterfaceToggleHandler(".ui-side-bar-popout-map");
-    }, 150);
+    toggleMapInterface();
   });
   $(window)
     .off("keyup.sideBarToggleMap")
     .on("keyup.sideBarToggleMap", (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "z") {
-        // Wait for 0.15 seconds so the button can't be infinitely spammed
-        setTimeout(() => {
-          // Open or stow the map interface
-          actionInterfaceToggleHandler(".ui-side-bar-popout-map");
-        }, 150);
+        toggleMapInterface();
       }
     });
 
@@ -95,6 +87,13 @@ $(document).on(":passageend", () => {
 $(window).on("resize", () => {
   uiSideBarToggleHandler();
 });
+function toggleMapInterface() {
+  setTimeout(() => {
+    // Open or stow the map interface with a small delay to prevent infinite spamming
+    actionInterfaceToggleHandler(".ui-side-bar-popout-map");
+  }, 150);
+}
+
 function toggleSideBar() {
   if (uiSideBarToggleState) {
     $("[id='ui-side-bar']").addClass("stowed");
