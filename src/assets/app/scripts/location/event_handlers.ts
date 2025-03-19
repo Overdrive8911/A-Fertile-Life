@@ -217,6 +217,7 @@ $(document).on(":passageend", () => {
       button.css("filter", "brightness(45%)").css("pointer-events", "none");
     } else {
       button.prop("disabled", false);
+      button.css("filter", "").css("pointer-events", "");
     }
   };
 
