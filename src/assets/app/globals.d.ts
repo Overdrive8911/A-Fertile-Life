@@ -4,12 +4,15 @@ import type {
   AreaUniqueId,
   UUID,
 } from "./scripts/location/types_and_interfaces";
+import type { Widgets } from "./scripts/ui/widgets/types";
 
 declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     locationData: LocationObject;
     initSaveVars: () => void;
     updateTime: () => void;
+
+    widget: Widgets;
   }
 
   export interface SugarCubeStoryVariables {
