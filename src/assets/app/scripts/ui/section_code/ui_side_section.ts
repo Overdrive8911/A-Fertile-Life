@@ -28,9 +28,11 @@ $(document).on(":passageend", () => {
   // }
   // TODO - Allow users add keyboard shortcuts they'd prefer
   // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-state-button").ariaClick(() => {
-    handleSidebarToggle();
-  });
+  $("#ui-side-bar-toggle-state-button")
+    .off("click")
+    .ariaClick(() => {
+      handleSidebarToggle();
+    });
   $(window)
     .off("keyup.sideBarToggleState")
     .on("keyup.sideBarToggleState", (keyEvent) => {
@@ -41,9 +43,11 @@ $(document).on(":passageend", () => {
     });
 
   // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-map-button").ariaClick(() => {
-    toggleMapInterface();
-  });
+  $("#ui-side-bar-toggle-map-button")
+    .off("click")
+    .ariaClick(() => {
+      toggleMapInterface();
+    });
   $(window)
     .off("keyup.sideBarToggleMap")
     .on("keyup.sideBarToggleMap", (keyEvent) => {
