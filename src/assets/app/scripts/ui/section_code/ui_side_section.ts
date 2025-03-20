@@ -29,20 +29,14 @@ $(document).on(":passageend", () => {
   // TODO - Allow users add keyboard shortcuts they'd prefer
   // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
   $("#ui-side-bar-toggle-state-button").ariaClick(() => {
-    // Open or stow the side bar
-    uiSideBarToggleState = !uiSideBarToggleState;
-    toggleSideBar();
-    uiSideBarToggleHandler();
+    handleSidebarToggle();
   });
   $(window)
     .off("keyup.sideBarToggleState")
     .on("keyup.sideBarToggleState", (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "q") {
-        // Open or stow the side bar
-        uiSideBarToggleState = !uiSideBarToggleState;
-        toggleSideBar();
-        uiSideBarToggleHandler();
+        handleSidebarToggle();
       }
     });
 
@@ -87,6 +81,14 @@ $(document).on(":passageend", () => {
 $(window).on("resize", () => {
   uiSideBarToggleHandler();
 });
+
+/** Open or stow the side bar*/
+function handleSidebarToggle() {
+  uiSideBarToggleState = !uiSideBarToggleState;
+  toggleSideBar();
+  uiSideBarToggleHandler();
+}
+
 function toggleMapInterface() {
   setTimeout(() => {
     // Open or stow the map interface with a small delay to prevent infinite spamming
