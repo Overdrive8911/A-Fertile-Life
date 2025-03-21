@@ -86,9 +86,15 @@ export function isEditableElementSelected(e: any | Event) {
 export function getSugarCubeVariableValue(
   variableName: SugarcubeVariable
 ): unknown | undefined {
+  // return variableName.match(/^$/)
+  //   ? variables()[variableName.slice(1) as keyof SugarCubeStoryVariables]
+  //   : variableName.match(/^_/)
+  //   ? temporary()[variableName.slice(1) as keyof SugarCubeStoryVariables]
+  //   : undefined;
+
   return variableName.match(/^$/)
-    ? variables()[variableName.slice(1) as keyof SugarCubeStoryVariables]
+    ? eval("variables()[variableName.slice(1)]")
     : variableName.match(/^_/)
-    ? temporary()[variableName.slice(1) as keyof SugarCubeStoryVariables]
+    ? eval("temporary()[variableName.slice(1)]")
     : undefined;
 }
