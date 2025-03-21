@@ -41,12 +41,23 @@ setup.widget.meter = (
   // Construct the final color string with rgba() format.
   const colorString = `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`;
 
-  // // Create the meter element and apply styles.
-  // const meterElement = document.createElement("div");
-  // meterElement.style.width = width;
-  // meterElement.style.height = "10px";
-  // meterElement.style.backgroundColor = colorString;
-  // Object.assign(meterElement.style, ...css);
+  const meterContainer = $("<div/>").css({
+    width: width,
+    height: height,
+    backgroundColor: emptyColor,
+    border: "1px solid black",
+  });
+  idOrClasses.forEach((idOrClass) =>
+    idOrClass.match(/^#/)
+      ? meterContainer.attr("id", idOrClass.slice(1))
+      : meterContainer.addClass(idOrClass.slice(1))
+  );
 
-  // return meterElement;
+  const meterBar = $("<div/>").css({
+    width: `${val * 100}%`,
+    height: "100%",
+    backgroundColor: colorString,
+  });
+
+  parent.append(meterContainer.append(meterBar));
 };
