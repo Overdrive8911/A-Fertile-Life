@@ -1,6 +1,7 @@
 import type { SugarCubeStoryVariables } from "twine-sugarcube";
 import { globalMap } from "../location/game_locations/global_map";
 import type { UUID } from "../location/types_and_interfaces";
+import type { SugarcubeVariable } from "./types";
 
 export const enum StoryFlags {
   NONE = 0,
@@ -83,7 +84,7 @@ export function isEditableElementSelected(e: any | Event) {
 }
 
 export function getSugarCubeVariableValue(
-  variableName: `$${string}` | `_${string}`
+  variableName: SugarcubeVariable
 ): unknown | undefined {
   return variableName.match(/^$/)
     ? variables()[variableName.slice(1) as keyof SugarCubeStoryVariables]
