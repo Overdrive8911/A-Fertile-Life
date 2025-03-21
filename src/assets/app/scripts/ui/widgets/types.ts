@@ -1,8 +1,10 @@
+import type { SugarcubeVariable } from "../../declarations/types";
+
 export type Widgets = {
   /**
    * Can be used as a stat bar or whatever
    *
-   * @param value - A decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100%.
+   * @param value - Either a decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100% or a string representing a valid sugarcube variable name (with the $ or _) that stores the aforementioned decimal (otherwise it defaults to 1). If a variable string is passed, the meter auto-updates when the variable changes.
    * @param parentElement - The parent element to append the meter to
    * @param width - Defaults to 100% of the parent container
    * @param height - Defaults to 100% of the parent container
@@ -14,7 +16,7 @@ export type Widgets = {
    * @returns
    */
   meter: (
-    value: number,
+    value: number | SugarcubeVariable,
     parentElementOrId: JQuery<HTMLElement> | `#${string}`,
     width?: string,
     height?: string,
