@@ -1,7 +1,8 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
 setup.widget.meter = (
-  val: number,
+  val,
+  parent,
   width = "100%",
   height = "100%",
   idOrClasses = [],

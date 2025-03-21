@@ -3,6 +3,7 @@ export type Widgets = {
    * Can be used as a stat bar or whatever
    *
    * @param value - A decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100%.
+   * @param parentElement - The parent element to append the meter to
    * @param width - Defaults to 100% of the parent container
    * @param height - Defaults to 100% of the parent container
    * @param idOrClasses - An array of strings representing the id and/or classes to add to the meter
@@ -13,6 +14,7 @@ export type Widgets = {
    */
   meter: (
     value: number,
+    parentElement: JQuery<HTMLElement>,
     width?: string,
     height?: string,
     idOrClasses?: (`#${string}` | `.${string}`)[],
