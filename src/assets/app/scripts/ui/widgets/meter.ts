@@ -38,8 +38,7 @@ setup.widget.meter = (
   const b = Math.round(lerp(startColor.b, endColor.b, t));
   const a = lerp(startColor.a, endColor.a, t);
 
-  // Construct the final color string with rgba() format.
-  const colorString = `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`;
+  const meterColor = `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`;
 
   const meterContainer = $("<div/>").css({
     width: width,
@@ -56,7 +55,7 @@ setup.widget.meter = (
   const meterBar = $("<div/>").css({
     width: `${val * 100}%`,
     height: "100%",
-    backgroundColor: colorString,
+    backgroundColor: meterColor,
   });
 
   typeof parent == "string"
