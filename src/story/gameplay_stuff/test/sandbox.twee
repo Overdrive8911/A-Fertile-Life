@@ -4,9 +4,13 @@
 </p>
 
 <p id="test">
+<<set _t =0.5>>
     Custom meter: <<done>>
-        <<run setup.widget.meter(0.68, "#test", "9.5rem", "1.5rem")>>
+        <<run setup.widget.meter("_t", "#test", "9.5rem", "1.5rem")>>
     <</done>>
+<<button "Increase">>
+    <<set _t = _t >=1 ? 0: _t + 0.1>>
+<</button>>
 </p>
 
 <p>
