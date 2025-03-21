@@ -44,7 +44,7 @@ setup.widget.meter = (
   // Add an event listener to dynamically update the meter if a variable is passed
   if (typeof val == "string") {
     $(window).on("change click drop keyup", () => {
-      const variableVal = getSugarCubeVariableValue(val);
+      const variableVal = getSugarCubeVariableValue(val) as number;
 
       if (typeof variableVal == "number") {
         const newWidthPercentage =
