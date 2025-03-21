@@ -8,7 +8,8 @@ setup.widget.meter = (
   idOrClasses = [],
   lowColor = "red",
   midColor = "yellow",
-  highColor = "green"
+  highColor = "green",
+  emptyColor = "transparent"
 ) => {
   // Helper: Parse a color string into an RGB object with an alpha channel.
   const parseColor = (color: string) => {

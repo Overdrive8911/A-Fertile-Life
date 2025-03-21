@@ -10,6 +10,7 @@ export type Widgets = {
    * @param lowColor - A valid css color representing the `low` percentage. Can be skipped with `""`. Defaults to `red`
    * @param midColor - A valid css color representing the `middle` percentage. Can be skipped with `""`. Defaults to `yellow`
    * @param highColor - A valid css color representing the `high` percentage. Can be skipped with `""`. Defaults to `green`
+   * @param emptyColor - A valid css color representing the `empty` area of the meter. Can be skipped with `""`. Defaults to `transparent`
    * @returns
    */
   meter: (
@@ -20,6 +21,7 @@ export type Widgets = {
     idOrClasses?: (`#${string}` | `.${string}`)[],
     lowColor?: string,
     midColor?: string,
-    highColor?: string
+    highColor?: string,
+    emptyColor?: string
   ) => void;
 };
