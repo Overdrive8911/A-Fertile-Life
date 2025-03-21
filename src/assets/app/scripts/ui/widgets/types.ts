@@ -5,19 +5,19 @@ export type Widgets = {
    * @param value - A decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100%.
    * @param width - Defaults to 100% of the parent container
    * @param height - Defaults to 100% of the parent container
+   * @param idOrClasses - An array of strings representing the id and/or classes to add to the meter
    * @param lowColor - A valid css color representing the `low` percentage. Can be skipped with `""`. Defaults to `red`
    * @param midColor - A valid css color representing the `middle` percentage. Can be skipped with `""`. Defaults to `yellow`
-   * @param highColor - A valid css color representing the `high` percentage. Defaults to `green`
-   * @param css - An array of 2-value string arrays representing the property and value of css to add directly to the meter
+   * @param highColor - A valid css color representing the `high` percentage. Can be skipped with `""`. Defaults to `green`
    * @returns
    */
   meter: (
     value: number,
     width?: string,
     height?: string,
+    idOrClasses?: (`#${string}` | `.${string}`)[],
     lowColor?: string,
     midColor?: string,
-    highColor?: string,
-    ...css: Partial<CSSStyleDeclaration>[]
+    highColor?: string
   ) => void;
 };

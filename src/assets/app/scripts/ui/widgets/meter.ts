@@ -4,10 +4,10 @@ setup.widget.meter = (
   val: number,
   width = "100%",
   height = "100%",
+  idOrClasses = [],
   lowColor = "red",
   midColor = "yellow",
-  highColor = "green",
-  ...css: Partial<CSSStyleDeclaration>[]
+  highColor = "green"
 ) => {
   // Helper: Parse a color string into an RGB object with an alpha channel.
   const parseColor = (color: string) => {
