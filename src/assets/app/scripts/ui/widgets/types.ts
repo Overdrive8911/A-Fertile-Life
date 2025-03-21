@@ -15,7 +15,7 @@ export type Widgets = {
    */
   meter: (
     value: number,
-    parentElement: JQuery<HTMLElement>,
+    parentElementOrId: JQuery<HTMLElement> | `#${string}`,
     width?: string,
     height?: string,
     idOrClasses?: (`#${string}` | `.${string}`)[],

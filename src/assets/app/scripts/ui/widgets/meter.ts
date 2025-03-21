@@ -59,5 +59,7 @@ setup.widget.meter = (
     backgroundColor: colorString,
   });
 
-  parent.append(meterContainer.append(meterBar));
+  typeof parent == "string"
+    ? $(parent).append(meterContainer.append(meterBar))
+    : parent.append(meterContainer.append(meterBar));
 };
