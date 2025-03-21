@@ -51,8 +51,9 @@ setup.widget.meter = (
           variableVal > 100 ? 1 : variableVal < 0 ? 0 : variableVal * 100;
 
         // Since the widths would be in pixels
-        const meterBarWidthPercentage =
-          ((meterBar.width() ?? 0) / (meterContainer.width() ?? 1)) * 100;
+        const meterBarWidthPercentage = Math.round(
+          ((meterBar.width() ?? 0) / (meterContainer.width() ?? 1)) * 100
+        );
 
         if (meterBarWidthPercentage != newWidthPercentage) {
           meterBar.css({
