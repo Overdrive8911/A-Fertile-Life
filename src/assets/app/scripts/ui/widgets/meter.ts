@@ -1,4 +1,5 @@
 import { TinyColor } from "@ctrl/tinycolor";
+import { getSugarCubeVariableValue } from "../../declarations/general_declarations";
 
 setup.widget.meter = (
   val,
@@ -11,6 +12,17 @@ setup.widget.meter = (
   highColor = "green",
   emptyColor = "transparent"
 ) => {
+  let parsedVal = 1;
+
+  if (typeof val == "number") parsedVal = val;
+  else {
+    const variableVal = getSugarCubeVariableValue(val);
+    if (typeof variableVal == "number") {
+      parsedVal = variableVal;
+    }
+  }
+  parsedVal = parsedVal > 1 ? 1 : parsedVal < 0 ? 0 : parsedVal;
+
   // Helper: Parse a color string into an RGB object with an alpha channel.
   const parseColor = (color: string) => {
     const tc = new TinyColor(color);
@@ -25,12 +37,12 @@ setup.widget.meter = (
 
   // Choose the interpolation range based on the val.
   const [startColor, endColor] =
-    val <= 0.5
+    parsedVal <= 0.5
       ? [parseColor(lowColor), parseColor(midColor)]
       : [parseColor(midColor), parseColor(highColor)];
 
   // Normalize t within the current half segment
-  const t = val <= 0.5 ? val * 2 : (val - 0.5) * 2;
+  const t = parsedVal <= 0.5 ? parsedVal * 2 : (parsedVal - 0.5) * 2;
 
   // Interpolate each color channel.
   const r = Math.round(lerp(startColor.r, endColor.r, t));
@@ -53,7 +65,7 @@ setup.widget.meter = (
   );
 
   const meterBar = $("<div/>").css({
-    width: `${val * 100}%`,
+    width: `${parsedVal * 100}%`,
     height: "100%",
     backgroundColor: meterColor,
   });
