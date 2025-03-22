@@ -216,13 +216,15 @@
   }
 
   // Target the actual stat bar
-  & .chapel-meter,
   & .meter-body {
     border: 2px var(--ui-image-border-color) solid;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
 
     box-sizing: border-box;
+    > div {
+      border-radius: inherit;
+    }
   }
 }
 
