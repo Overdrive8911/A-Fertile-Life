@@ -59,7 +59,6 @@ export type Player = {
   // illness: number,
   immunity: number;
   energy: number;
-  maxEnergy: number;
 
   womb: Womb;
 

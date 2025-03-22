@@ -90,7 +90,6 @@ export const saveVar_player: Player = {
   maxHp: 100,
   immunity: 85 /* Resistance to illness */,
   energy: 70 /* 0 - 10 -> Completely exhausted, 11 - 25 -> exhausted, 26 - 40 -> very tired, 41 - 50 - Tired, 51 - 60 -> Fatigued, 61 - 75 - Normal, 76 - 85 -> Perky, 86 - 99 -> Energetic, 100 -> Completely Refreshed */,
-  maxEnergy: 100,
 
   /* Womb, Pregnancy and Birth */
   /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
