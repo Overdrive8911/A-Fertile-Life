@@ -49,7 +49,7 @@ export type Player = {
 
   inventory: Inventory;
 
-  mentalStats: {
+  mental: {
     mood: number;
     intelligence: number;
   };
@@ -68,7 +68,6 @@ export type Player = {
   muscleDefinition: number;
 
   fullness: number;
-  maxFullness: number;
   caloriesEaten: number;
   /* UNUSED stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */
   sag: number;

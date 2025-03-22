@@ -44,7 +44,7 @@ setup.widget.meter = (
     "background-color": emptyColor,
   });
 
-  idOrClasses.forEach((idOrClass) =>
+  idOrClasses?.forEach((idOrClass) =>
     idOrClass.match(/^#/)
       ? meterContainer.attr("id", idOrClass.slice(1))
       : meterContainer.addClass(idOrClass.slice(1))

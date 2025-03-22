@@ -59,7 +59,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
-                    <<showmeter "pcEnergyBar" `$player.energy / $player.maxEnergy`>>
+                    <<meter `$player.energy / $player.maxEnergy` null null null "blue" "blue" "blue">>
                 </span>
             </div>
         </div>
@@ -69,7 +69,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/mood.webp" alt="Yellow Smiley Face Mood Icon">
 
                 <span class="ui-stat-bar-mood">
-                    <<showmeter "pcMoodBar" `$player.mood / 100`>>
+                    <<meter `$player.mental.mood / 100`>>
                 </span>
             </div>
 
@@ -77,7 +77,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/stomach.webp" alt="Pink Stomach Icon">
 
                 <span class="ui-stat-bar-hunger">
-                    <<showmeter "pcHungerBar" `$player.fullness / $player.maxFullness`>>
+                    <<meter "$player.fullness / 100">>
                 </span>
             </div>
         </div>
@@ -87,7 +87,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
 
                 <span class="ui-stat-bar-womb-hp">
-                    <<showmeter "pcWombHPBar" `$player.womb.hp / $player.womb.maxHp`>>
+                    <<meter "$player.womb.hp / $player.womb.maxHp">>
                 </span>
             </div>
 
@@ -95,7 +95,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
 
                 <span class="ui-stat-bar-womb-lvl">
-                    <<showmeter "pcWombLvlBar" `$player.womb.exp / $player.womb.maxExp`>>
+                    <<meter "$player.womb.exp / $player.womb.maxExp">>
                 </span>
             </div>
         </div>
