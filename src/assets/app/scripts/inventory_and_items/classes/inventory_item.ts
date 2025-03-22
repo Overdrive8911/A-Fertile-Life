@@ -46,7 +46,7 @@ export class InventoryItem {
       ownData[prop] = clone(this[prop as any as keyof InventoryItem]);
     }, this);
 
-    return JSON.reviveWrapper(
+    return Serial.createReviver(
       `new ${(this.constructor as typeof InventoryItem).name}($ReviveData$)`,
       ownData
     );
