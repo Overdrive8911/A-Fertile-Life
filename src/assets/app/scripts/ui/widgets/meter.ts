@@ -20,7 +20,7 @@ setup.widget.meter = (
   val,
   parent,
   width = MeterContainer.WIDTH,
-  height = MeterContainer.HEIGHT,
+  height = "1rem",
   idOrClasses = [],
   lowColor = "red",
   midColor = "yellow",

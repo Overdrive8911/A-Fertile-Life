@@ -6,8 +6,8 @@ export type Widgets = {
    *
    * @param value - Either a decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100% or a string representing a valid sugarcube variable name (with the $ or _) that stores the aforementioned decimal (otherwise it defaults to 1). If a variable string is passed, the meter auto-updates when the variable changes.
    * @param parentElement - The parent element to append the meter to
-   * @param width - Defaults to 100% of the parent container
-   * @param height - Defaults to 100% of the parent container
+   * @param width - Defaults to `100%` of the parent container
+   * @param height - Defaults to `1rem`
    * @param idOrClasses - An array of strings representing the id and/or classes to add to the meter
    * @param lowColor - A valid css color representing the `low` percentage. Can be skipped with `""`. Defaults to `red`
    * @param midColor - A valid css color representing the `middle` percentage. Can be skipped with `""`. Defaults to `yellow`
