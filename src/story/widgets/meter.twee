@@ -1,0 +1,21 @@
+:: Widget_Meter [widget nobr]
+  /**
+   * @param value (arg0) - Either a decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100% or a string representing a valid sugarcube variable name (with the $ or _) that stores the aforementioned decimal (otherwise it defaults to 1). If a variable string is passed, the meter auto-updates when the variable changes.
+   * @param parentElement (_widgetMeterId) - The parent element to append the meter to
+   * @param width (arg1) - Defaults to 100% of the parent container
+   * @param height (arg2) - Defaults to 100% of the parent container
+   * @param idOrClasses (arg3) - An array of strings representing the id and/or classes to add to the meter
+   * @param lowColor (arg4) - A valid css color representing the `low` percentage. Can be skipped with `""`. Defaults to `red`
+   * @param midColor (arg5) - A valid css color representing the `middle` percentage. Can be skipped with `""`. Defaults to `yellow`
+   * @param highColor (arg6) - A valid css color representing the `high` percentage. Can be skipped with `""`. Defaults to `green`
+   * @param emptyColor (arg7) - A valid css color representing the `empty` area of the meter. Can be skipped with `""`. Defaults to `transparent`
+   * @returns
+   */
+<<widget "meter">>
+  <<set _widgetMeterCount = _widgetMeterCount ?? 1>>
+  <<set _widgetMeterId = "widgetMeterId" + _widgetMeterCount++>>
+  <span @id="_widgetMeterId"></span>
+  <<done>>
+    <<run setup.widget.meter(_args[0], "#"+_widgetMeterId, _args[1],  _args[2], _args[3], _args[4], _args[5], _args[6], _args[7])>>
+  <</done>>
+<</widget>>
