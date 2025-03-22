@@ -59,7 +59,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
-                    <<meter `$player.energy / $player.maxEnergy` null null null "blue" "blue" "blue">>
+                    <<meter `$player.energy / 100` null null null "blue" "blue" "blue">>
                 </span>
             </div>
         </div>
