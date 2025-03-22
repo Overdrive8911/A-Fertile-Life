@@ -12,7 +12,7 @@ const enum MeterContainer {
 $("<style>")
   .prop("type", "text/css")
   .html(
-    `.${MeterContainer.CLASS}{width:${MeterContainer.WIDTH};height:${MeterContainer.HEIGHT};background-color:${MeterContainer.EMPTY_COLOR};border:1px solid black};box-sizing:border-box`
+    `.${MeterContainer.CLASS}{width:${MeterContainer.WIDTH};height:${MeterContainer.HEIGHT};background-color:${MeterContainer.EMPTY_COLOR};border:1px solid black;box-sizing:border-box;}`
   )
   .appendTo("head");
 
