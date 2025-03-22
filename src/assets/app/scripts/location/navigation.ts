@@ -134,9 +134,10 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
 
   setLastWarpDestination(currentArea.uuid);
 
+  setPlayerLocation(destination);
+
   // load the passage
   if (!doNotWarp) {
-    setPlayerLocation(destination);
     // Calculate the amount of time to travel between the areas
     globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
       updateTimeWithDistance(dist);
