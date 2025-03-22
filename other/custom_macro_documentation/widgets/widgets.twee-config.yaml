@@ -41,15 +41,6 @@ sugarcube-2:
           ```
       parameters:
         - text &+ number
-    updatePlayerStats:
-      name: updatePlayerStats
-      description: |-
-        Updates all the player stats at once.
-
-        Usage:
-          ```
-          <<updatePlayerStats>>
-          ```
     character:
       name: character
       container: true

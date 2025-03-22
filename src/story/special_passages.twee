@@ -1,3 +1,1 @@
 :: PassageDone {"position":"2000,0"}
-/* Update all the stat bars at the beginning of a passage */
-<<updatePlayerStats>>
