@@ -23,12 +23,14 @@ setup.widget.meter = (
   }
   parsedVal = parsedVal > 1 ? 1 : parsedVal < 0 ? 0 : parsedVal;
 
-  const meterContainer = $("<div/>").css({
-    width: width,
-    height: height,
-    backgroundColor: emptyColor,
-    border: "1px solid black",
-  });
+  const meterContainer = $("<div/>")
+    .css({
+      width: width,
+      height: height,
+      backgroundColor: emptyColor,
+      border: "1px solid black",
+    })
+    .addClass("meter-body");
   idOrClasses.forEach((idOrClass) =>
     idOrClass.match(/^#/)
       ? meterContainer.attr("id", idOrClass.slice(1))
