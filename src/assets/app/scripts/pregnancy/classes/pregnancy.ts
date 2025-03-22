@@ -301,7 +301,7 @@ export class Pregnancy {
 
       // To remove repetition
       const getStatDiff = (stat: FetalGrowthStatsEnum) => {
-        return Fetus.getStatToAddAfterDevelopmentProgress(
+        return Fetus.calcGrowthStatChange(
           oldDevelopmentRatio,
           newDevelopmentRatio,
           stat
