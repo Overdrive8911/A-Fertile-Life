@@ -125,10 +125,10 @@ class Food extends Item {
     user.womb.addHp(
       user.womb.maxHp * hpChange * 0.3 + user.womb.maxHp * wombHpChange
     );
-    user.mentalStats.mood += moodChange;
+    user.mental.mood += moodChange;
     fullnessChange
-      ? (user.fullness += user.maxFullness * fullnessChange)
-      : (user.fullness += user.maxFullness * 10);
+      ? (user.fullness += 100 * fullnessChange)
+      : (user.fullness += 100 * 10);
     user.womb.exp += Womb.getExpLimit(user.womb.lvl + 1) * expChange;
   }
 }
