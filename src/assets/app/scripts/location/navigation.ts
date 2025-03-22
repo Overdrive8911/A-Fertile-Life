@@ -114,6 +114,7 @@ export function setPlayerLocation(destination: UUID) {
 export function warpToArea(destination: UUID, doNotWarp = false) {
   const currentArea = activeArea();
   const destinationArea = getAreaFromUUID(destination);
+  if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
   // if (typeof destination == 'string') {
