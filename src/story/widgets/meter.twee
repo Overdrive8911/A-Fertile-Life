@@ -15,7 +15,9 @@
   <<set _widgetMeterCount = _widgetMeterCount ?? 1>>
   <<set _widgetMeterId = "widgetMeterId" + _widgetMeterCount++>>
   <span @id="_widgetMeterId"></span>
-  <<done>>
+  <<capture _widgetMeterId>>
+    <<done>>
     <<run setup.widget.meter(_args[0], "#"+_widgetMeterId, _args[1],  _args[2], _args[3], _args[4], _args[5], _args[6], _args[7])>>
   <</done>>
+  <</capture>>
 <</widget>>
