@@ -4,7 +4,7 @@ sugarcube-2:
       name: updateGameTime
       description: |-
         <<updateGameTime "nextDay" 7 30>> to skip to 7:30 am on the next day
-        
+
         <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards
 
         Easy enough?
