@@ -13,7 +13,7 @@
    */
 <<widget "meter">>
   <<set _widgetMeterCount = _widgetMeterCount ?? 1>>
-  <<set _widgetMeterId = "widgetMeterId" + _widgetMeterCount++>>
+  <<set _widgetMeterId = "widgetMeterId" + _widgetMeterCount++ + crypto.randomUUID()>>
   <span @id="_widgetMeterId"></span>
   <<capture _widgetMeterId>>
     <<done>>
