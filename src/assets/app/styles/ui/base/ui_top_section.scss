@@ -216,7 +216,8 @@
   }
 
   // Target the actual stat bar
-  & .chapel-meter {
+  & .chapel-meter,
+  & .meter-body {
     border: 2px var(--ui-image-border-color) solid;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
