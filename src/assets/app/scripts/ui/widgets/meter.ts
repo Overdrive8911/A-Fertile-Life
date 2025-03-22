@@ -1,6 +1,7 @@
 import { TinyColor } from "@ctrl/tinycolor";
 import { getSugarCubeVariableValue } from "../../declarations/general_declarations";
 
+let isMeterContainerClassPresent = false;
 setup.widget.meter = (
   val,
   parent,
@@ -23,14 +24,20 @@ setup.widget.meter = (
   }
   parsedVal = parsedVal > 1 ? 1 : parsedVal < 0 ? 0 : parsedVal;
 
-  const meterContainer = $("<div/>")
-    .css({
-      width: width,
-      height: height,
-      backgroundColor: emptyColor,
-      border: "1px solid black",
-    })
-    .addClass("meter-body");
+  const meterContainerClass = "meter-body";
+
+  // Dynamically create a class for the meter container
+  if (!isMeterContainerClassPresent) {
+    $("<style>")
+      .prop("type", "text/css")
+      .html(
+        `.${meterContainerClass}{width:${width};height:${height};background-color:${emptyColor};border:1px solid black}`
+      )
+      .appendTo("head");
+    isMeterContainerClassPresent = true;
+  }
+
+  const meterContainer = $("<div/>").addClass(meterContainerClass);
   idOrClasses.forEach((idOrClass) =>
     idOrClass.match(/^#/)
       ? meterContainer.attr("id", idOrClass.slice(1))
