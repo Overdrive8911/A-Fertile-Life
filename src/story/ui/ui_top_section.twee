@@ -50,7 +50,8 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
 
                 <span class="ui-stat-bar-hp">
-                    <<showmeter "pcHPBar" `$player.hp / $player.maxHp`>> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                    /*<<showmeter "pcHPBar" `$player.hp / $player.maxHp`>> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                    <<meter "$player.hp / $player.maxHp">>
                 </span>
             </div>
             
