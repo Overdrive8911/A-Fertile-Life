@@ -141,19 +141,6 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
     // Calculate the amount of time to travel between the areas
     globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
       updateTimeWithDistance(dist);
-
-      const playerWomb = variables().player.womb;
-      playerWomb.updatePregnancy();
-      playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
-
-      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
-
-      if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
-        playerWomb.postpartumCounter -=
-          (variables().gameDateAndTime.getTime() -
-            playerWomb.lastBirth!.getTime()) /
-          1000;
-      }
     });
 
     Engine.play(passageToLoad);
