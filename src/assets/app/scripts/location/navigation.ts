@@ -114,10 +114,13 @@ export function setPlayerLocation(destination: UUID) {
  * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data
  *
  * @param destination - Either a UUID or a passage name that is attached to any instance of a location, sub-location, etc
- * @param doNotWarp - If true, then this just checks if the passage to warp to exists
+ * @param doNotLoadPassage - If true, then this doesn't load up the default passage of the new area. Useful if you want to change the player's area but don't want to load up the default passage associated with the area.
  * @returns
  */
-export function warpToArea(destination: UUID | string, doNotWarp = false) {
+export function warpToArea(
+  destination: UUID | string,
+  doNotLoadPassage = false
+) {
   const currentArea = activeArea();
   const possibleUUIDIfDestinationIsAPassageName =
     globalMap.uuidFromPassage(destination);
@@ -148,13 +151,13 @@ export function warpToArea(destination: UUID | string, doNotWarp = false) {
     possibleUUIDIfDestinationIsAPassageName ?? (destination as UUID)
   );
 
-  // load the passage
-  if (!doNotWarp) {
-    // Calculate the amount of time to travel between the areas
-    globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
-      updateTimeWithDistance(dist);
-    });
+  // Calculate the amount of time to travel between the areas
+  globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
+    updateTimeWithDistance(dist);
+  });
 
+  // load the passage
+  if (!doNotLoadPassage) {
     Engine.play(passageToLoad);
   }
 }
