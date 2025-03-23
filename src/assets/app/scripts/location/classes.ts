@@ -1,4 +1,4 @@
-import { compress, decompress } from 'lz-string'
+import { compress, decompress } from "lz-string";
 import {
   Direction,
   MapEntityFlags,
@@ -8,41 +8,41 @@ import {
   LocationId,
   SubLocationId,
   MapEntityId,
-} from './enums'
+} from "./enums";
 import type {
   AnyArea,
   AreaId,
   SubAreas,
   SuperAreas,
   UUID,
-} from './types_and_interfaces'
-import { oppositeDirection } from './general_location_data'
-import Queue from 'yocto-queue'
+} from "./types_and_interfaces";
+import { oppositeDirection } from "./general_location_data";
+import Queue from "yocto-queue";
 
 type ChildConnectionMap = Map<
   { from: UUID; to: UUID },
   {
-    dist: number
+    dist: number;
     /**
      * An array of `Direction`s needed to transverse between the areas
      */
-    dir: Direction[]
+    dir: Direction[];
   }
->
-type ChildConnectionSessionStorageKey = `mapChildConnections_${string}`
+>;
+type ChildConnectionSessionStorageKey = `mapChildConnections_${string}`;
 type ChildConnectionSessionStorageData = Partial<
   Record<ChildConnectionSessionStorageKey, ChildConnectionMap>
->
+>;
 /**
  * Used to determine when to clear older entries in the session storage
  */
-type ChildConnectionSessionStorageIndex = ChildConnectionSessionStorageKey[]
-type ChildConnectionSessionStorageIndexName = 'mapDataIndex'
+type ChildConnectionSessionStorageIndex = ChildConnectionSessionStorageKey[];
+type ChildConnectionSessionStorageIndexName = "mapDataIndex";
 // type SessionStorageIndexes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 type Connections<T extends MapEntity<any, any, any>> = Map<
   Direction,
   { area: T; distance?: number }
->
+>;
 const enum SessionStorage {
   LIMIT = 10,
 }
@@ -65,7 +65,7 @@ class MapEntity<
    * The `MapEntity` instance that contains this instance
    *
    */
-  parent: ParentType extends never ? undefined : ParentType = null as any
+  parent: ParentType extends never ? undefined : ParentType = null as any;
 
   /**
    * All the `MapEntity` instances that are contained within this instance. Like a House containing rooms. Each child has some direction data that relates it to other children in this `MapEntity`
@@ -73,49 +73,49 @@ class MapEntity<
    */
   childrenData: ChildType extends never
     ? undefined
-    : Map<ChildType, Connections<ChildType>> = new Map() as any
+    : Map<ChildType, Connections<ChildType>> = new Map() as any;
 
-  uuid: UUID
+  uuid: UUID;
 
   /**
    * This is a temporary cache used to quickly determine the distance between any two child areas.
    *
    * NOTE: This will be cleared when the player moves to another area (not a child area)
    */
-  #mapChildConnectionData: ChildConnectionMap | undefined
+  #mapChildConnectionData: ChildConnectionMap | undefined;
 
   /**
    * Solely used as a makeshift type
    */
   //@ts-ignore
-  private classType: MapEntity<ChildType, IdType, ParentType>
+  private classType: MapEntity<ChildType, IdType, ParentType>;
   /**
    * Solely used as a makeshift type
    */
   //@ts-ignore
-  private uuidType: Exclude<typeof this.classType, undefined>['uuid']
+  private uuidType: Exclude<typeof this.classType, undefined>["uuid"];
 
   //SECTION - Static properties
 
   /**
    * regionUUIDCounter
    */
-  private static r = 0
+  private static r = 0;
 
   /**
    * subRegionUUIDCounter
    */
-  private static sR = 0
+  private static sR = 0;
 
   /**
    * locationUUIDCounter
    */
-  private static l = 0
+  private static l = 0;
 
   /**
    * subLocationUUIDCounter
    */
-  private static sL = 0
+  private static sL = 0;
   //!SECTION
 
   constructor(
@@ -135,11 +135,11 @@ class MapEntity<
     classData?: Partial<typeof this.classType>
   ) {
     //@ts-ignore
-    delete this.classType
+    delete this.classType;
     //@ts-ignore
-    delete this.uuidType
+    delete this.uuidType;
 
-    const constructor = this.constructor as typeof MapEntity
+    const constructor = this.constructor as typeof MapEntity;
 
     this.uuid =
       this instanceof SubLocation
@@ -152,44 +152,46 @@ class MapEntity<
         ? `${MapEntityId.REGION}_${constructor.r++}`
         : this instanceof GlobalMap
         ? MapEntityId.GLOBAL_MAP
-        : MapEntityId.DUMMY
+        : MapEntityId.DUMMY;
 
     if (classData) {
       for (const key in classData) {
         if (Object.prototype.hasOwnProperty.call(classData, key)) {
-          const prop = key as keyof typeof this.classType
+          const prop = key as keyof typeof this.classType;
           //@ts-ignore
-          this[prop] = classData[prop]
+          this[prop] = classData[prop];
         }
       }
     }
   }
   clone() {
     //@ts-ignore
-    return new (this.constructor as typeof this.classType)(...[, , , ,], this)
+    return new (this.constructor as typeof this.classType)(...[, , , ,], this);
   }
   toJSON() {
     //@ts-ignore
-    const ownData: typeof this.classType = {}
+    const ownData: typeof this.classType = {};
 
-    Object.keys(this).forEach(pn => {
-      const p = pn as keyof typeof ownData
+    Object.keys(this).forEach((pn) => {
+      const p = pn as keyof typeof ownData;
 
       //@ts-ignore
-      ownData[p] = clone((this as unknown as Partial<typeof this.classType>)[p])
-    }, this)
+      ownData[p] = clone(
+        (this as unknown as Partial<typeof this.classType>)[p]
+      );
+    }, this);
 
     return Serial.createReviver(
       `new ${this.constructor.name}(...[,,,,],$ReviveData$)`,
       ownData
-    )
+    );
   }
 
   /**
    * NOTE: This also includes the class instance that called this getter
    */
   get siblings() {
-    return this.parent?.childrenData
+    return this.parent?.childrenData;
   }
 
   /**
@@ -197,47 +199,47 @@ class MapEntity<
    *
    * @param referenceArea - If given and multiple origin areas exist, the closest origin area is picked.
    */
-  async originArea(): Promise<ChildType[] | null>
-  async originArea(referenceArea: ChildType): Promise<ChildType | null>
+  async originArea(): Promise<ChildType[] | null>;
+  async originArea(referenceArea: ChildType): Promise<ChildType | null>;
   async originArea(
     referenceArea?: ChildType
   ): Promise<ChildType | ChildType[] | null> {
-    if (!this.childrenData?.size) return null
+    if (!this.childrenData?.size) return null;
 
-    const returnAreas: ChildType[] = []
-    let firstArea: ChildType | null = null
-    let hasSetFirstArea = false
+    const returnAreas: ChildType[] = [];
+    let firstArea: ChildType | null = null;
+    let hasSetFirstArea = false;
 
     for (const c of this.childrenData.keys()) {
-      const child = c as ChildType
+      const child = c as ChildType;
 
       if (!hasSetFirstArea) {
-        firstArea = child
-        hasSetFirstArea = true
+        firstArea = child;
+        hasSetFirstArea = true;
       }
 
-      if (child.flags & MapEntityFlags.IS_ENTRY_POINT) returnAreas.push(child)
+      if (child.flags & MapEntityFlags.IS_ENTRY_POINT) returnAreas.push(child);
     }
 
-    if (!returnAreas.length) return firstArea
+    if (!returnAreas.length) return firstArea;
 
     if (referenceArea) {
       return (async () => {
         const distances = await Promise.all(
-          returnAreas.map(async area => ({
+          returnAreas.map(async (area) => ({
             area,
             distance: await this.getDistance(area, referenceArea),
           }))
-        )
+        );
 
         // Sort in ascending order so the shortest path will be at index0
-        distances.sort((a, b) => a.distance - b.distance)
+        distances.sort((a, b) => a.distance - b.distance);
 
-        return distances.map(d => d.area)[0]
-      })()
+        return distances.map((d) => d.area)[0];
+      })();
     }
 
-    return returnAreas.length ? returnAreas : firstArea
+    return returnAreas.length ? returnAreas : firstArea;
   }
 
   /**
@@ -246,36 +248,36 @@ class MapEntity<
    * @returns The class that this method belongs to
    */
   addArea(...areas: ChildType[]): typeof this.classType {
-    if (!this.childrenData) this.childrenData = new Map() as any
+    if (!this.childrenData) this.childrenData = new Map() as any;
 
-    areas.forEach(area => {
+    areas.forEach((area) => {
       if (this.childrenData.has(area)) {
         console.error(
           `${area.name} already exists as a child of ${this.name}.\n\n OVERWRITING DATA ANYWAY.`
-        )
+        );
       }
 
-      area.parent = this
-      this.childrenData.set(area, new Map())
-    })
+      area.parent = this;
+      this.childrenData.set(area, new Map());
+    });
 
-    return this
+    return this;
   }
 
-  removeArea(...area: (ChildType | ChildType['id'])[]): typeof this.classType {
-    area.forEach(val => {
+  removeArea(...area: (ChildType | ChildType["id"])[]): typeof this.classType {
+    area.forEach((val) => {
       // `ChildType["id"]` will always bea number
       //@ts-ignore
-      const idToRemove = typeof val == 'number' ? val : val.id
+      const idToRemove = typeof val == "number" ? val : val.id;
 
       if (!this.childrenData?.delete(idToRemove)) {
         console.warn(
           `There was no child data in the map entity, ${this.name}, with the id, ${idToRemove}`
-        )
+        );
       }
-    })
+    });
 
-    return this
+    return this;
   }
 
   // getArea(areaId: ChildType['id']) {
@@ -298,51 +300,51 @@ class MapEntity<
    */
   connect(
     ...data: {
-      from: ChildType
-      areas: { to: ChildType; dir: Direction; dist?: number }[]
+      from: ChildType;
+      areas: { to: ChildType; dir: Direction; dist?: number }[];
     }[]
   ): typeof this.classType {
-    data.forEach(val => {
-      val.areas.forEach(area => {
+    data.forEach((val) => {
+      val.areas.forEach((area) => {
         const oppositeDir = oppositeDirection[area.dir],
           currArea = val.from,
-          destArea = area.to
+          destArea = area.to;
         let currAreaDirections = this.childrenData.get(currArea),
-          destAreaDirections = this.childrenData.get(destArea)
+          destAreaDirections = this.childrenData.get(destArea);
 
         // Ensure we aren't working with undefined values
         if (!currAreaDirections) {
-          this.addArea(currArea)
-          currAreaDirections = this.childrenData.get(currArea)
+          this.addArea(currArea);
+          currAreaDirections = this.childrenData.get(currArea);
         }
         if (!destAreaDirections) {
-          this.addArea(destArea)
-          destAreaDirections = this.childrenData.get(destArea)
+          this.addArea(destArea);
+          destAreaDirections = this.childrenData.get(destArea);
         }
 
-        const currAreaDir = currAreaDirections as Connections<ChildType>
-        const destAreaDir = destAreaDirections as Connections<ChildType>
+        const currAreaDir = currAreaDirections as Connections<ChildType>;
+        const destAreaDir = destAreaDirections as Connections<ChildType>;
 
         // Check if the connection doesn't exist already
         if (!currAreaDir.has(area.dir) && !destAreaDir.has(oppositeDir)) {
-          const dist = area.dist ?? 1
+          const dist = area.dist ?? 1;
           // Set the connection for this map entity
-          currAreaDir.set(area.dir, { area: destArea, distance: dist })
+          currAreaDir.set(area.dir, { area: destArea, distance: dist });
 
           // Also set the connection on the other map entity for bi-directional travel
           destAreaDir.set(oppositeDir, {
             area: currArea,
             distance: dist,
-          })
+          });
         } else {
           console.warn(
             `In the Map Entity, ${this.name}, the children, ${currArea.name} and ${destArea.name}, cannot be connected to each since either of them is already connected to another area with the same direction.`
-          )
+          );
         }
-      })
-    })
+      });
+    });
 
-    return this
+    return this;
   }
 
   /**
@@ -352,28 +354,28 @@ class MapEntity<
    * @returns
    */
   async getDistance(
-    childArea1: ChildType | ChildType['id'],
-    childArea2: ChildType | ChildType['id']
+    childArea1: ChildType | ChildType["id"],
+    childArea2: ChildType | ChildType["id"]
   ) {
-    if (childArea1 == childArea2) return 0
+    if (childArea1 == childArea2) return 0;
 
-    const childConnectionData = await this.getChildConnections()
+    const childConnectionData = await this.getChildConnections();
     const id1: typeof this.uuidType = !(childArea1 instanceof MapEntity)
       ? childArea1
-      : childArea1.uuid
+      : childArea1.uuid;
     const id2: typeof this.uuidType = !(childArea2 instanceof MapEntity)
       ? childArea2
-      : childArea2.uuid
-    let dist = random(1, 10) // Just a silly default
+      : childArea2.uuid;
+    let dist = random(1, 10); // Just a silly default
 
     for (const [idPair, data] of childConnectionData) {
       if (Object.values(idPair).includesAll(id1, id2)) {
-        dist = data.dist
-        break
+        dist = data.dist;
+        break;
       }
     }
 
-    return dist
+    return dist;
   }
 
   /**
@@ -382,60 +384,61 @@ class MapEntity<
    * @returns
    */
   async #generateMapOfConnectionsForChildData(forceGenerate = false) {
-    const sessionData = await this.#getSessionMapData()
+    const sessionData = await this.#getSessionMapData();
     // There's no data for this map entity's children so generate one
     if (forceGenerate || (!sessionData.size && this.childrenData.size > 1)) {
-      let finalMapOfConnections: ChildConnectionMap = new Map()
+      let finalMapOfConnections: ChildConnectionMap = new Map();
 
       const getMapChildConnectionPairData = async (
         area1: typeof this.uuidType,
         area2: typeof this.uuidType,
         data: ChildConnectionMap
       ) => {
-        let passes = false
-        let dist = 0
-        let idPair: { from: UUID; to: UUID } | null = null
+        let passes = false;
+        let dist = 0;
+        let idPair: { from: UUID; to: UUID } | null = null;
 
         for (const [idObject, d] of data) {
           if (Object.values(idObject).includesAll(area1, area2)) {
-            passes = true
-            dist = d.dist ?? 1
-            idPair = idObject
-            break
+            passes = true;
+            dist = d.dist ?? 1;
+            idPair = idObject;
+            break;
           }
         }
 
         return passes
           ? { idPair: idPair as { from: UUID; to: UUID }, dist: dist }
-          : null
-      }
+          : null;
+      };
 
       const getDataOfAllConnectionsToChildArea = async (
         originArea: ChildType
       ) => {
         type QueueElement = {
-          area: typeof originArea
+          area: typeof originArea;
           /**
            * `cumulativeDistance`
            */
-          accDist: number
+          accDist: number;
           /**
            * This will be an array of the directions it takes to reach here from `originAreaId`
            */
-          dir: Direction[]
-        }
-        const queuedAreas = new Queue<QueueElement>()
-        queuedAreas.enqueue({ area: originArea, accDist: 0, dir: [] })
-        const visitedAreas = new Set<typeof originArea>()
-        const result: ChildConnectionMap = new Map()
+          dir: Direction[];
+        };
+        const queuedAreas = new Queue<QueueElement>();
+        queuedAreas.enqueue({ area: originArea, accDist: 0, dir: [] });
+        const visitedAreas = new Set<typeof originArea>();
+        const result: ChildConnectionMap = new Map();
 
-        visitedAreas.add(originArea)
+        visitedAreas.add(originArea);
 
         while (queuedAreas.size > 0) {
-          const currentAreaToIterateOver = queuedAreas.dequeue() as QueueElement
-          const iteratedArea = currentAreaToIterateOver.area
-          const iteratedCumulativeDistance = currentAreaToIterateOver.accDist
-          const iteratedArrayOfDirections = currentAreaToIterateOver.dir
+          const currentAreaToIterateOver =
+            queuedAreas.dequeue() as QueueElement;
+          const iteratedArea = currentAreaToIterateOver.area;
+          const iteratedCumulativeDistance = currentAreaToIterateOver.accDist;
+          const iteratedArrayOfDirections = currentAreaToIterateOver.dir;
 
           if (iteratedArea != originArea)
             result.set(
@@ -444,43 +447,43 @@ class MapEntity<
                 dist: iteratedCumulativeDistance,
                 dir: iteratedArrayOfDirections,
               }
-            )
+            );
 
           // Enqueue all direct connections
           const iteratedAreaConnections = this.childrenData?.get(
             iteratedArea
-          ) as Connections<ChildType>
+          ) as Connections<ChildType>;
 
           if (iteratedAreaConnections) {
             for await (const [
               direction,
               mapEntityDataForConnection,
             ] of iteratedAreaConnections) {
-              const connectionArea = mapEntityDataForConnection.area
+              const connectionArea = mapEntityDataForConnection.area;
               if (!visitedAreas.has(connectionArea)) {
-                visitedAreas.add(connectionArea)
-                const newDirArray = clone(iteratedArrayOfDirections)
-                newDirArray.push(direction)
+                visitedAreas.add(connectionArea);
+                const newDirArray = clone(iteratedArrayOfDirections);
+                newDirArray.push(direction);
                 queuedAreas.enqueue({
                   area: connectionArea,
                   accDist:
                     iteratedCumulativeDistance +
                     (mapEntityDataForConnection.distance ?? 1),
                   dir: newDirArray,
-                })
+                });
               }
             }
           }
         }
 
-        return result
-      }
+        return result;
+      };
 
       // Loop through each child's connections and determine the total distance as well the directions
       for (const [child] of this.childrenData) {
         const childMapOfConnections = await getDataOfAllConnectionsToChildArea(
           child as ChildType
-        )
+        );
 
         // Prepend the contents of the child map
         for (const [idObject, { dir, dist }] of childMapOfConnections) {
@@ -489,28 +492,28 @@ class MapEntity<
             idObject.from,
             idObject.to,
             finalMapOfConnections
-          )
-          const previousDist = previouslyStoredData?.dist ?? 1
+          );
+          const previousDist = previouslyStoredData?.dist ?? 1;
 
           if (previouslyStoredData) {
             finalMapOfConnections.set(previouslyStoredData.idPair, {
               dist: previousDist < dist ? previousDist : dist,
               dir: dir,
-            })
+            });
           } else {
-            finalMapOfConnections.set(idObject, { dir: dir, dist: dist })
+            finalMapOfConnections.set(idObject, { dir: dir, dist: dist });
           }
         }
       }
 
-      this.#mapChildConnectionData = finalMapOfConnections
+      this.#mapChildConnectionData = finalMapOfConnections;
 
-      await this.#setSessionMapData(this.#mapChildConnectionData)
+      await this.#setSessionMapData(this.#mapChildConnectionData);
 
-      return this.#mapChildConnectionData
+      return this.#mapChildConnectionData;
     } else if (sessionData.size) {
       // Load up from the session data
-      this.getChildConnections()
+      this.getChildConnections();
     }
   }
 
@@ -520,10 +523,10 @@ class MapEntity<
    */
   static get #arrOfStoredMapData(): ChildConnectionSessionStorageIndex {
     const parsedData = sessionStorage.getItem(
-      'mapDataIndex' as ChildConnectionSessionStorageIndexName
-    )
+      "mapDataIndex" as ChildConnectionSessionStorageIndexName
+    );
 
-    return parsedData ? JSON.parse(decompress(parsedData)) : []
+    return parsedData ? JSON.parse(decompress(parsedData)) : [];
   }
 
   /**
@@ -532,42 +535,42 @@ class MapEntity<
   static #addToStoredMapData(
     dataStringIndex: ChildConnectionSessionStorageKey
   ) {
-    const storedMapData = this.#arrOfStoredMapData
+    const storedMapData = this.#arrOfStoredMapData;
 
     if (!storedMapData.includes(dataStringIndex)) {
       if (storedMapData.length >= SessionStorage.LIMIT) {
-        const indexOfMapDataToDelete = storedMapData.shift()
-        sessionStorage.removeItem(indexOfMapDataToDelete ?? '')
+        const indexOfMapDataToDelete = storedMapData.shift();
+        sessionStorage.removeItem(indexOfMapDataToDelete ?? "");
       }
 
-      storedMapData.push(dataStringIndex)
+      storedMapData.push(dataStringIndex);
 
       sessionStorage.setItem(
-        'mapDataIndex' as ChildConnectionSessionStorageIndexName,
+        "mapDataIndex" as ChildConnectionSessionStorageIndexName,
         compress(JSON.stringify(storedMapData))
-      )
+      );
     }
   }
 
   async #setSessionMapData(value: ChildConnectionMap) {
-    const key: keyof ChildConnectionSessionStorageData = `mapChildConnections_${this.uuid}`
+    const key: keyof ChildConnectionSessionStorageData = `mapChildConnections_${this.uuid}`;
     try {
       // const storedMapDataIndex = MapEntity.arrOfStoredMapData.length
-      sessionStorage.setItem(key, compress(JSON.stringify([...value])))
-      MapEntity.#addToStoredMapData(key)
-      return true
+      sessionStorage.setItem(key, compress(JSON.stringify([...value])));
+      MapEntity.#addToStoredMapData(key);
+      return true;
     } catch (error) {
-      const e = error as DOMException
+      const e = error as DOMException;
       console.error(
-        'Could not store generated map connection data in session storage. The error is: ',
+        "Could not store generated map connection data in session storage. The error is: ",
         e
-      )
-      return false
+      );
+      return false;
     }
   }
   // TODO: compress this before storing
   async #getSessionMapData() {
-    const noObjectInSessionStorageError = 'Missing Data in session storage!'
+    const noObjectInSessionStorageError = "Missing Data in session storage!";
     try {
       const deserializedObject = JSON.parse(
         decompress(
@@ -575,46 +578,46 @@ class MapEntity<
             `mapChildConnections_${this.uuid}` as keyof ChildConnectionSessionStorageData
           ) as string // Yes, this can still fail :p
         )
-      )
-      if (!deserializedObject) throw new Error(noObjectInSessionStorageError)
+      );
+      if (!deserializedObject) throw new Error(noObjectInSessionStorageError);
 
       const mapConnectionData = new Map(
         deserializedObject
-      ) as ChildConnectionMap
+      ) as ChildConnectionMap;
 
-      return mapConnectionData
+      return mapConnectionData;
     } catch (error) {
       // TODO
-      const e = error as Error
+      const e = error as Error;
       if (e.message == noObjectInSessionStorageError) {
       }
 
-      return new Map() as ChildConnectionMap // Return an empty map so we can check if there's actually any data to use
+      return new Map() as ChildConnectionMap; // Return an empty map so we can check if there's actually any data to use
     }
   }
   // NOTE: Always call this if you want the map connection data
   protected async getChildConnections(): Promise<ChildConnectionMap> {
     // try {
-    let mapData: ChildConnectionMap
+    let mapData: ChildConnectionMap;
 
-    if (this.#mapChildConnectionData) mapData = this.#mapChildConnectionData
+    if (this.#mapChildConnectionData) mapData = this.#mapChildConnectionData;
     else {
       try {
         // Load up the data from the session storage, if any
-        this.#mapChildConnectionData = await this.#getSessionMapData()
+        this.#mapChildConnectionData = await this.#getSessionMapData();
 
         if (!this.#mapChildConnectionData.size)
-          throw new Error('No stored map connection data in session storage')
+          throw new Error("No stored map connection data in session storage");
 
-        mapData = this.#mapChildConnectionData
+        mapData = this.#mapChildConnectionData;
       } catch (error) {
         // Regenerate the data
         return this.#generateMapOfConnectionsForChildData(
           true
-        ) as Promise<ChildConnectionMap>
+        ) as Promise<ChildConnectionMap>;
       }
     }
-    return mapData
+    return mapData;
     // } catch (error) {
     //   console.error("Error getting map child connection data");
     // }
@@ -625,47 +628,47 @@ class MapEntity<
 /**
  * This is the smallest area that the player can access and also the only areas that are directly linked to passages. Every other `MapEntity` child instance is just a container that directly or indirectly contains this.
  */
-type SubLocationIconUrl = `/media/img/map/icons/sub_location/${string}.webp`
+type SubLocationIconUrl = `/media/img/map/icons/sub_location/${string}.webp`;
 export class SubLocation extends MapEntity<
   never,
   Exclude<SubLocationId, SubLocationId.DUMMY>,
   Location
 > {
   static #getUrl(subLocation: string): SubLocationIconUrl {
-    return `/media/img/map/icons/sub_location/${subLocation}.webp`
+    return `/media/img/map/icons/sub_location/${subLocation}.webp`;
   }
 
   // Stores relative urls to the icons for sub locations
   // NOTE - Add the urls of sub locations with mini icons here. Use lowercase
   static #icons: Partial<Record<SubLocationId, SubLocationIconUrl>> = {
-    [SubLocationId.DUMMY]: this.#getUrl('dummy'),
+    [SubLocationId.DUMMY]: this.#getUrl("dummy"),
 
-    [SubLocationId.RECEPTION]: this.#getUrl('reception'),
+    [SubLocationId.RECEPTION]: this.#getUrl("reception"),
 
-    [SubLocationId.HALLWAY]: this.#getUrl('hallway'),
+    [SubLocationId.HALLWAY]: this.#getUrl("hallway"),
 
-    [SubLocationId.PHARMACY]: SubLocation.#getUrl('pharmacy'),
+    [SubLocationId.PHARMACY]: SubLocation.#getUrl("pharmacy"),
 
-    [SubLocationId.PORCH]: SubLocation.#getUrl('porch'),
+    [SubLocationId.PORCH]: SubLocation.#getUrl("porch"),
 
-    [SubLocationId.CORRIDOR]: SubLocation.#getUrl('corridor'),
+    [SubLocationId.CORRIDOR]: SubLocation.#getUrl("corridor"),
 
-    [SubLocationId.ROOM]: SubLocation.#getUrl('room'),
+    [SubLocationId.ROOM]: SubLocation.#getUrl("room"),
 
-    [SubLocationId.LAB]: SubLocation.#getUrl('lab'),
+    [SubLocationId.LAB]: SubLocation.#getUrl("lab"),
 
-    [SubLocationId.CONSULTATION]: SubLocation.#getUrl('consultation'),
+    [SubLocationId.CONSULTATION]: SubLocation.#getUrl("consultation"),
 
-    [SubLocationId.OFFICE_WORK]: SubLocation.#getUrl('office_work'),
+    [SubLocationId.OFFICE_WORK]: SubLocation.#getUrl("office_work"),
 
     [SubLocationId.MEASUREMENT_CLOSET]:
-      SubLocation.#getUrl('measurement_closet'),
+      SubLocation.#getUrl("measurement_closet"),
 
-    [SubLocationId.PLAYER_ROOM]: SubLocation.#getUrl('room'),
-    [SubLocationId.BEDROOM]: SubLocation.#getUrl('bedroom'),
-    [SubLocationId.BATHROOM]: SubLocation.#getUrl('bathroom'),
-    [SubLocationId.LIVING_ROOM]: SubLocation.#getUrl('living_room'),
-  }
+    [SubLocationId.PLAYER_ROOM]: SubLocation.#getUrl("room"),
+    [SubLocationId.BEDROOM]: SubLocation.#getUrl("bedroom"),
+    [SubLocationId.BATHROOM]: SubLocation.#getUrl("bathroom"),
+    [SubLocationId.LIVING_ROOM]: SubLocation.#getUrl("living_room"),
+  };
 
   constructor(
     ...args: ConstructorParameters<
@@ -676,14 +679,14 @@ export class SubLocation extends MapEntity<
       >
     >
   ) {
-    super(...args)
+    super(...args);
     // Sub-Locations don't have children so delete the property
-    delete this.childrenData
+    delete this.childrenData;
   }
 
   get iconUrl() {
-    const icons = SubLocation.#icons
-    return icons[this.id] ?? (icons[SubLocationId.DUMMY] as SubLocationIconUrl)
+    const icons = SubLocation.#icons;
+    return icons[this.id] ?? (icons[SubLocationId.DUMMY] as SubLocationIconUrl);
   }
 
   // get uniqueId(): AreaUniqueId {
@@ -711,7 +714,7 @@ export class Location extends MapEntity<
       >
     >
   ) {
-    super(...args)
+    super(...args);
     // delete this.passage
   }
 
@@ -731,7 +734,7 @@ export class SubRegion extends MapEntity<Location, SubRegionId, Region> {
       typeof MapEntity<Location, SubRegionId, Region>
     >
   ) {
-    super(...args)
+    super(...args);
     // delete this.passage
   }
 
@@ -752,7 +755,7 @@ export class Region extends MapEntity<
       typeof MapEntity<SubRegion, Exclude<RegionId, RegionId.DUMMY>, GlobalMap>
     >
   ) {
-    super(...args)
+    super(...args);
     // delete this.passage
   }
 
@@ -770,73 +773,73 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    *
    * @type {Map<typeof this.uuid, SubAreas>}
    */
-  #uuidMapCache: Map<typeof this.uuid, SubAreas> = new Map()
+  #uuidMapCache: Map<typeof this.uuid, SubAreas> = new Map();
 
   /**
    * Used to fetch the required UUID from a passage
    */
-  #passageUUIDCache: Map<string, UUID[]> = new Map()
+  #passageUUIDCache: Map<string, UUID[]> = new Map();
 
   constructor(
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
   ) {
-    super(...args)
+    super(...args);
     // delete this.passage
 
     // Global Map doesn't have a parent so delete the property
-    delete this.parent
+    delete this.parent;
   }
 
   async initMapCache() {
-    if (!this.childrenData.size) return
+    if (!this.childrenData.size) return;
 
     // Use BFS to cache all the uuids and their corresponding class instance references
     this.#uuidMapCache = await (async () => {
-      type QueueElement = { area: AnyArea }
+      type QueueElement = { area: AnyArea };
 
-      const queuedAreas = new Queue<QueueElement>()
-      queuedAreas.enqueue({ area: this })
+      const queuedAreas = new Queue<QueueElement>();
+      queuedAreas.enqueue({ area: this });
 
-      const visitedAreas = new Set<AnyArea>()
-      const result = new Map<typeof this.uuid, SubAreas>()
+      const visitedAreas = new Set<AnyArea>();
+      const result = new Map<typeof this.uuid, SubAreas>();
 
-      visitedAreas.add(this)
+      visitedAreas.add(this);
 
       while (queuedAreas.size > 0) {
         //REVIEW - Maybe I could implement a queue class?
-        const areaToWorkWith = queuedAreas.dequeue()
-        const iteratedArea = areaToWorkWith!.area
+        const areaToWorkWith = queuedAreas.dequeue();
+        const iteratedArea = areaToWorkWith!.area;
         // if (iteratedArea != this) {
-        const iteratedUUID = iteratedArea.uuid
-        result.set(iteratedUUID, iteratedArea as SubAreas)
+        const iteratedUUID = iteratedArea.uuid;
+        result.set(iteratedUUID, iteratedArea as SubAreas);
 
-        const iteratedPassageName = iteratedArea.passage ?? ''
+        const iteratedPassageName = iteratedArea.passage ?? "";
         const existingPassageData =
-          this.#passageUUIDCache.get(iteratedPassageName)
+          this.#passageUUIDCache.get(iteratedPassageName);
 
         if (existingPassageData) {
           // Append this passage's uuid
-          existingPassageData.push(iteratedUUID)
+          existingPassageData.push(iteratedUUID);
         } else {
           // Init a new array for the data
-          this.#passageUUIDCache.set(iteratedPassageName, [iteratedUUID])
+          this.#passageUUIDCache.set(iteratedPassageName, [iteratedUUID]);
         }
         // }
 
         // Enqueue all child areas
-        const iteratedAreaChildren = iteratedArea.childrenData?.keys()
+        const iteratedAreaChildren = iteratedArea.childrenData?.keys();
 
         if (iteratedAreaChildren) {
           for await (const area of iteratedAreaChildren) {
             if (!visitedAreas.has(area)) {
-              visitedAreas.add(area)
-              queuedAreas.enqueue({ area: area })
+              visitedAreas.add(area);
+              queuedAreas.enqueue({ area: area });
             }
           }
         }
       }
-      return result
-    })()
+      return result;
+    })();
   }
 
   // get uniqueId(): AreaUniqueId {
@@ -848,12 +851,12 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    */
   areaFromUUID(uuid: typeof this.uuid) {
     if (this.#uuidMapCache.size == 0) {
-      this.initMapCache()
-      throw new Error('Map Cache is empty!')
+      this.initMapCache();
+      throw new Error("Map Cache is empty!");
     }
 
     //TODO: Find a way to return the user to a default area if this is invalid.
-    return this.#uuidMapCache.get(uuid) as SubAreas
+    return this.#uuidMapCache.get(uuid) as SubAreas;
     // // Expecting an array of 5 numbers here
     // const ids = uuid.match(/(\d+)/g) as unknown as number[]
 
@@ -874,11 +877,11 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    * Returns a reference to the current area the player is in, if any. If it cannot infer the player's location, it simply defaults to the `GlobalMap`
    */
   get activeArea(): SubAreas | GlobalMap {
-    const uuid = variables().player.areaId
-    const currPassage = passage()
+    const uuid = variables().player.areaId;
+    const currPassage = passage();
 
     // This will, always have at least 1 item
-    const passageLinkedUUIDs = this.#passageUUIDCache.get(currPassage)
+    const passageLinkedUUIDs = this.#passageUUIDCache.get(currPassage);
 
     return passageLinkedUUIDs
       ? passageLinkedUUIDs.includes(uuid)
@@ -886,7 +889,12 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
         : this.areaFromUUID(
             passageLinkedUUIDs[random(99) % passageLinkedUUIDs.length]
           )
-      : this
+      : this;
+  }
+
+  uuidFromPassage(passageName: string) {
+    const uuids = this.#passageUUIDCache.get(passageName);
+    return uuids ? either(...uuids) : null;
   }
 
   /**
@@ -895,30 +903,30 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    * @param area2
    */
   async getDistance2(area1: AnyArea, area2: AnyArea): Promise<number> {
-    let travelDist = 0
-    let commonParent: Exclude<AnyArea, SubLocation>
+    let travelDist = 0;
+    let commonParent: Exclude<AnyArea, SubLocation>;
 
     if (area1 instanceof GlobalMap || area2 instanceof GlobalMap)
-      commonParent = this
+      commonParent = this;
     else if (area1.parent == area2.parent) {
-      return area1.parent.getDistance(area1 as any, area2 as any)
+      return area1.parent.getDistance(area1 as any, area2 as any);
     } else {
       const getCommonParent = (area1: SubAreas, area2: SubAreas) => {
-        const parent1 = area1.parent
-        const parent2 = area2.parent
+        const parent1 = area1.parent;
+        const parent2 = area2.parent;
 
         if (parent1 instanceof GlobalMap || parent2 instanceof GlobalMap) {
-          return this
+          return this;
         }
 
         if (parent1 != parent2) {
-          return getCommonParent(parent1, parent2)
+          return getCommonParent(parent1, parent2);
         } else {
-          return parent1
+          return parent1;
         }
-      }
+      };
 
-      commonParent = getCommonParent(area1, area2)
+      commonParent = getCommonParent(area1, area2);
     }
 
     const getDistanceToSpecificParent = async (
@@ -926,32 +934,32 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
       specificParent: SuperAreas,
       dist = 0
     ) => {
-      if (area instanceof GlobalMap) return dist
+      if (area instanceof GlobalMap) return dist;
 
-      const parent = area.parent
+      const parent = area.parent;
 
       const accumulatedDist =
         dist +
         (await parent.getDistance(
           area as any,
           (await parent.originArea(area as any)) as any
-        ))
+        ));
 
-      if (parent == specificParent) return accumulatedDist
+      if (parent == specificParent) return accumulatedDist;
       else
         return getDistanceToSpecificParent(
           parent,
           specificParent,
           accumulatedDist
-        )
-    }
+        );
+    };
 
     const dist1 = await getDistanceToSpecificParent(area1, commonParent),
-      dist2 = await getDistanceToSpecificParent(area2, commonParent)
+      dist2 = await getDistanceToSpecificParent(area2, commonParent);
 
-    travelDist = (dist1 ?? 0) + (dist2 ?? 0)
+    travelDist = (dist1 ?? 0) + (dist2 ?? 0);
 
-    return travelDist
+    return travelDist;
   }
 }
 // !SECTION
