@@ -1,5 +1,5 @@
+import { dispatchCustomEvent } from "../declarations/custom_events";
 import { CustomEventName } from "../declarations/enums";
-import type { TimeUpdateEventData } from "./types";
 
 export function updateGameTimeVariable(timeInSeconds: number) {
   // copy out the date
@@ -11,20 +11,8 @@ export function updateGameTimeVariable(timeInSeconds: number) {
   );
 
   // Dispatch an event for other stuff that rely on time to work
-  window.dispatchEvent(
-    new CustomEvent(CustomEventName.TIME_UPDATE, {
-      detail: {
-        prevTime: oldDate,
-        currTime: variables().gameDateAndTime,
-      } as TimeUpdateEventData,
-    })
-  );
-}
-
-export function listenToTimeUpdateEvent(
-  func: (data: TimeUpdateEventData) => void
-) {
-  $(window).on(CustomEventName.TIME_UPDATE, (e) => {
-    func(e.detail as unknown as TimeUpdateEventData);
+  dispatchCustomEvent(CustomEventName.TIME_UPDATE, {
+    prevTime: oldDate,
+    currTime: variables().gameDateAndTime,
   });
 }

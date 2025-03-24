@@ -1,4 +1,3 @@
-import type { SugarCubeStoryVariables } from "twine-sugarcube";
 import { globalMap } from "../location/game_locations/global_map";
 import type { UUID } from "../location/types_and_interfaces";
 import type { SugarcubeVariable } from "./types";
