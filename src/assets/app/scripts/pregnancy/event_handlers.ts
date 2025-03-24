@@ -1,6 +1,7 @@
-import { listenToTimeUpdateEvent } from "../date_and_time/date_and_time_declarations";
+import { listenToCustomEvent } from "../declarations/custom_events";
+import { CustomEventName } from "../declarations/enums";
 
-listenToTimeUpdateEvent((d) => {
+listenToCustomEvent(CustomEventName.TIME_UPDATE, (d) => {
   const playerWomb = variables().player.womb;
   playerWomb.updatePregnancy();
   playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
