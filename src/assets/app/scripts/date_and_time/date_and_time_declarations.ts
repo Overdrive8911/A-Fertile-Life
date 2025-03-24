@@ -1,3 +1,6 @@
+import { CustomEventName } from "../declarations/enums";
+import type { TimeUpdateEventData } from "./types";
+
 export function updateGameTimeVariable(timeInSeconds: number) {
   // copy out the date
   const oldDate = new Date(variables().gameDateAndTime);
@@ -7,17 +10,21 @@ export function updateGameTimeVariable(timeInSeconds: number) {
     oldDate.getTime() + 1000 * timeInSeconds
   );
 
-  // Do stuff that should update when time changes
-  const playerWomb = variables().player.womb;
-  playerWomb.updatePregnancy();
-  playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
+  // Dispatch an event for other stuff that rely on time to work
+  window.dispatchEvent(
+    new CustomEvent(CustomEventName.TIME_UPDATE, {
+      detail: {
+        prevTime: oldDate,
+        currTime: variables().gameDateAndTime,
+      } as TimeUpdateEventData,
+    })
+  );
+}
 
-  if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
-
-  if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
-    playerWomb.postpartumCounter -=
-      (variables().gameDateAndTime.getTime() -
-        playerWomb.lastBirth!.getTime()) /
-      1000;
-  }
+export function listenToTimeUpdateEvent(
+  func: (data: TimeUpdateEventData) => void
+) {
+  $(window).on(CustomEventName.TIME_UPDATE, (e) => {
+    func(e.detail as unknown as TimeUpdateEventData);
+  });
 }
