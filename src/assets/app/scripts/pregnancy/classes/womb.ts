@@ -528,22 +528,24 @@ export class Womb {
     }
 
     const hpRatio = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
+    let hpToAdd = 0;
     if (hpRatio >= WombHealth.VERY_HEALTHY) {
-      return 5;
+      hpToAdd = 5;
     } else if (
       hpRatio > WombHealth.VERY_HEALTHY &&
       hpRatio >= WombHealth.HEALTHY
     ) {
-      return 4;
+      hpToAdd = 4;
     } else if (hpRatio > WombHealth.HEALTHY && hpRatio >= WombHealth.MEDIOCRE) {
-      return 3;
+      hpToAdd = 3;
     } else if (hpRatio > WombHealth.MEDIOCRE && hpRatio >= WombHealth.POOR) {
-      return 2;
+      hpToAdd = 2;
     } else if (hpRatio > WombHealth.POOR && hpRatio >= WombHealth.VERY_POOR) {
-      return 1;
-    }
+      hpToAdd = 1;
+    } else hpToAdd = 0.5;
 
-    return 0.5;
+    if (womb.hp + hpToAdd > womb.maxHp) return 0;
+    else return hpToAdd;
   }
 
   // NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD
