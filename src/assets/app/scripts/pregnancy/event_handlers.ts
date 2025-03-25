@@ -3,7 +3,7 @@ import { CustomEventName } from "../declarations/enums";
 
 listenToCustomEvent(CustomEventName.TIME_UPDATE, (d) => {
   const playerWomb = variables().player.womb;
-  playerWomb.updatePregnancy();
+  playerWomb.updatePregnancy(d.currTime.getTime() - d.prevTime.getTime());
   playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
 
   if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
