@@ -1,4 +1,6 @@
+import type { GameDateAndTime } from "./classes";
+
 export interface TimeUpdateEventData {
-  prevTime: Date;
-  currTime: Date;
+  prevTime: GameDateAndTime;
+  currTime: GameDateAndTime;
 }

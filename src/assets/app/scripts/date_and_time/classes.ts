@@ -16,6 +16,8 @@ export class GameDateAndTime extends Date {
   );
   constructor(...args: Parameters<typeof Date>) {
     super(...args);
+    // Ensure the correct prototype is used
+    Object.setPrototypeOf(this, GameDateAndTime.prototype);
   }
 
   static days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
@@ -36,6 +38,17 @@ export class GameDateAndTime extends Date {
 
   clone() {
     return new GameDateAndTime(this);
+  }
+
+  toJSON() {
+    var ownData = {};
+    Object.keys(this).forEach((prop) => {
+      //@ts-ignore
+      ownData[prop] = clone(this[prop]);
+    });
+    return Serial.createReviver(
+      `new ${GameDateAndTime.name}(${this.getTime()})`
+    ) as any;
   }
 
   /**
@@ -71,6 +84,13 @@ export class GameDateAndTime extends Date {
     return `${GameDateAndTime.days[this.getUTCDay()]}, ${this.getUTCDate()} ${
       GameDateAndTime.months[this.getUTCMonth()]
     }` as const;
+  }
+
+  /**
+   * In case you need to assign the value of another date
+   */
+  update(date: Date) {
+    this.setTime(date.getTime());
   }
 }
 
