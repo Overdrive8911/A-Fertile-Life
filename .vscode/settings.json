@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["lerp"]
+  "cSpell.words": ["lerp"],
+  "liveServer.settings.root": "/dist/"
 }
