@@ -1,4 +1,4 @@
-import { build, write, $ } from "bun";
+import { build, write, $, sleep } from "bun";
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
@@ -31,8 +31,10 @@ if (mode == "development") {
       });
     } catch (error) {
       console.log("Build failed. Error:", error);
-      console.log("Retrying");
-      await tryBuild();
+      console.log("Retrying in 5s");
+      sleep(5000).finally(async () => {
+        await tryBuild();
+      });
     }
   };
   let subscription = watcher.subscribe(Directory.APP, async (_, events) => {
