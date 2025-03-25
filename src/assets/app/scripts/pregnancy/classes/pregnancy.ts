@@ -205,12 +205,6 @@ export class Pregnancy {
     elapsedTime: number,
     inputUser = variables().player
   ) {
-    // NOTE - `customTime` must be in seconds.
-
-    const currentTime = variables().gameDateAndTime;
-    // const pregUpdateTimeBeforeGettingAffectedByThisFunction =
-    //   this.lastPregUpdate != null ? this.lastPregUpdate : this.dateConceived;
-
     this.fetuses.forEach((targetFetus) => {
       // Determine how much to progress the fetus since the last update
       // Also get useful data
