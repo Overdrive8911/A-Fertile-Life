@@ -10,7 +10,6 @@ declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     locationData: LocationObject;
     initSaveVars: () => void;
-    updateTime: () => void;
 
     widget: Widgets;
   }
