@@ -4,6 +4,7 @@ import "./inventory_and_items/index";
 import "./pregnancy/index";
 import "./location/index";
 import "./ui/index";
+import "./scene/index";
 
 import "./extensions/check_vars/checkvars-macro.min";
 import "./extensions/click_to_proceed/click-to-proceed";
