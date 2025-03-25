@@ -1,3 +1,4 @@
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import type { NumberKeys } from "../../declarations/types";
 import {
   FetalGrowthStatsEnum,
@@ -29,10 +30,6 @@ export class Pregnancy {
   id!: number;
   fetuses: Map<number /* fetusId */, Fetus> = new Map();
   dateConceived = variables().gameDateAndTime;
-  /**
-   * Tells the last time the pregnancy progress was calculated.
-   */
-  lastPregUpdate = this.dateConceived;
 
   // static readonly #numOfPossibleFetusIds = 256
 
@@ -205,17 +202,9 @@ export class Pregnancy {
    */
   updateGrowth(
     womb: Womb,
-    elapsedTime = (variables().gameDateAndTime.getTime() -
-      this.lastPregUpdate.getTime()) /
-      1000,
+    elapsedTime: number,
     inputUser = variables().player
   ) {
-    // NOTE - `customTime` must be in seconds.
-
-    const currentTime = variables().gameDateAndTime;
-    // const pregUpdateTimeBeforeGettingAffectedByThisFunction =
-    //   this.lastPregUpdate != null ? this.lastPregUpdate : this.dateConceived;
-
     this.fetuses.forEach((targetFetus) => {
       // Determine how much to progress the fetus since the last update
       // Also get useful data
@@ -383,7 +372,6 @@ export class Pregnancy {
       } else {
         targetFetus.amnioticFluidVolume = newFluidVolume;
       }
-      this.lastPregUpdate = currentTime;
 
       // Adjust fetal hp
       targetFetus.hp = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
@@ -446,5 +434,5 @@ export class Pregnancy {
     return this.devRatio > gMaxDevelopmentState;
   }
 }
-//@ts-ignore
-window[Pregnancy.name] = Pregnancy;
+
+attachClassToWindow(Pregnancy);

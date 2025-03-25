@@ -8,6 +8,7 @@ import type {
 } from "../../declarations/types_and_interfaces";
 import type { Player } from "../../../declarations/player_declarations";
 import { Womb } from "../../../pregnancy/classes/womb";
+import { attachClassToWindow } from "../../../declarations/general_declarations";
 
 export const enum FoodEffect {
   // SECTION - Healing Effects. These also heal the womb by 30%
@@ -144,4 +145,4 @@ class Food extends Item {
 //     super(data);
 //   }
 // }
-(window as any)[Food.name] = Food;
+attachClassToWindow(Food);

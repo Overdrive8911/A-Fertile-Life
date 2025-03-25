@@ -1,4 +1,7 @@
-import { getWeightedAverage } from "../../declarations/general_declarations";
+import {
+  attachClassToWindow,
+  getWeightedAverage,
+} from "../../declarations/general_declarations";
 import { FertilityLevel, WombHealth } from "../declarations/enums";
 import type {
   PregPerksObject,
@@ -525,22 +528,24 @@ export class Womb {
     }
 
     const hpRatio = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
+    let hpToAdd = 0;
     if (hpRatio >= WombHealth.VERY_HEALTHY) {
-      return 5;
+      hpToAdd = 5;
     } else if (
       hpRatio > WombHealth.VERY_HEALTHY &&
       hpRatio >= WombHealth.HEALTHY
     ) {
-      return 4;
+      hpToAdd = 4;
     } else if (hpRatio > WombHealth.HEALTHY && hpRatio >= WombHealth.MEDIOCRE) {
-      return 3;
+      hpToAdd = 3;
     } else if (hpRatio > WombHealth.MEDIOCRE && hpRatio >= WombHealth.POOR) {
-      return 2;
+      hpToAdd = 2;
     } else if (hpRatio > WombHealth.POOR && hpRatio >= WombHealth.VERY_POOR) {
-      return 1;
-    }
+      hpToAdd = 1;
+    } else hpToAdd = 0.5;
 
-    return 0.5;
+    if (womb.hp + hpToAdd > womb.maxHp) return 0;
+    else return hpToAdd;
   }
 
   // NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD
@@ -752,13 +757,17 @@ export class Womb {
    * REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
    *
    * TODO - Add side effects to womb health
+   *
+   * @param elapsedTime - in seconds
    */
-  updatePregnancy() {
+  updatePregnancy(elapsedTime: number) {
     // NOTE - `customTime` must be in seconds.
 
     // The target is pregnant so do everything required under here
     if (this.isPregnant) {
-      this.pregnancies.forEach((pregnancy) => pregnancy.updateGrowth(this));
+      this.pregnancies.forEach((pregnancy) =>
+        pregnancy.updateGrowth(this, elapsedTime)
+      );
       return true;
     }
     return false;
@@ -995,5 +1004,5 @@ export class Womb {
     return this.#maxCapacity * mod;
   }
 }
-// @ts-expect-error
-window[Womb.name] = Womb;
+
+attachClassToWindow(Womb);

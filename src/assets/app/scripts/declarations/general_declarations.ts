@@ -1,4 +1,3 @@
-import type { SugarCubeStoryVariables } from "twine-sugarcube";
 import { globalMap } from "../location/game_locations/global_map";
 import type { UUID } from "../location/types_and_interfaces";
 import type { SugarcubeVariable } from "./types";
@@ -85,4 +84,9 @@ export function isEditableElementSelected(e: any | Event) {
 
 export const getSugarCubeVariableValue = (varName: SugarcubeVariable) => {
   return State.getVar(varName) as unknown;
+};
+
+/** Only needed for stateful custom classes */
+export const attachClassToWindow = (classConstructor: Function) => {
+  (window as any)[classConstructor.name] = classConstructor;
 };

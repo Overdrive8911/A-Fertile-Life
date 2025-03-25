@@ -17,14 +17,6 @@ Macro.add("impregnate", {
   },
 });
 
-Macro.add("updatePregnancy", {
-  handler: function () {
-    const womb: Womb = this.args[0];
-
-    womb.updatePregnancy();
-  },
-});
-
 Macro.add("isPregBellySizeInRange", {
   handler: function () {
     const womb: Womb = this.args[0];

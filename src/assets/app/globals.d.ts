@@ -1,3 +1,4 @@
+import type { GameDateAndTime } from "./scripts/date_and_time/classes";
 import type { StoryFlags } from "./scripts/declarations/general_declarations";
 import type { Player } from "./scripts/declarations/player_declarations";
 import type {
@@ -10,15 +11,12 @@ declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     locationData: LocationObject;
     initSaveVars: () => void;
-    updateTime: () => void;
 
     widget: Widgets;
   }
 
   export interface SugarCubeStoryVariables {
-    gameDateAndTime: Date;
-    gameTimeDisplay: string;
-    gameDateDisplay: string;
+    gameDateAndTime: GameDateAndTime;
     player: Player;
     storyFlags: StoryFlags;
   }

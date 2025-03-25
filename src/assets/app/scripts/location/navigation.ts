@@ -110,10 +110,24 @@ export function setPlayerLocation(destination: UUID) {
   variables().player.areaId = destination;
 }
 
-// "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. If `doNotWarp` is true, then this just checks if the passage to warp to exists
-export function warpToArea(destination: UUID, doNotWarp = false) {
+/**
+ * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data
+ *
+ * @param destination - Either a UUID or a passage name that is attached to any instance of a location, sub-location, etc
+ * @param doNotLoadPassage - If true, then this doesn't load up the default passage of the new area. Useful if you want to change the player's area but don't want to load up the default passage associated with the area.
+ * @returns
+ */
+export function warpToArea(
+  destination: UUID | string,
+  doNotLoadPassage = false
+) {
   const currentArea = activeArea();
-  const destinationArea = getAreaFromUUID(destination);
+  const possibleUUIDIfDestinationIsAPassageName =
+    globalMap.uuidFromPassage(destination);
+  const destinationArea = possibleUUIDIfDestinationIsAPassageName
+    ? getAreaFromUUID(possibleUUIDIfDestinationIsAPassageName)
+    : getAreaFromUUID(destination as UUID);
+  if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
   // if (typeof destination == 'string') {
@@ -133,27 +147,17 @@ export function warpToArea(destination: UUID, doNotWarp = false) {
 
   setLastWarpDestination(currentArea.uuid);
 
+  setPlayerLocation(
+    possibleUUIDIfDestinationIsAPassageName ?? (destination as UUID)
+  );
+
+  // Calculate the amount of time to travel between the areas
+  globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
+    updateTimeWithDistance(dist);
+  });
+
   // load the passage
-  if (!doNotWarp) {
-    setPlayerLocation(destination);
-    // Calculate the amount of time to travel between the areas
-    globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
-      updateTimeWithDistance(dist);
-
-      const playerWomb = variables().player.womb;
-      playerWomb.updatePregnancy();
-      playerWomb.addHp(playerWomb.gradualWombHealthIncreaser());
-
-      if (playerWomb.isLiableForBirth) playerWomb.triggerBirth();
-
-      if (!playerWomb.isPregnant && playerWomb.isPostPartum) {
-        playerWomb.postpartumCounter -=
-          (variables().gameDateAndTime.getTime() -
-            playerWomb.lastBirth!.getTime()) /
-          1000;
-      }
-    });
-
+  if (!doNotLoadPassage) {
     Engine.play(passageToLoad);
   }
 }

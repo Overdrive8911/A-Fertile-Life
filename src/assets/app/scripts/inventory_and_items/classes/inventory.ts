@@ -1,3 +1,4 @@
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import { ItemId, ItemTag } from "../declarations/item_enums";
 import type {
   AnyItemDynamicData,
@@ -317,4 +318,4 @@ export class Inventory {
   }
 }
 
-(window as any)[Inventory.name] = Inventory;
+attachClassToWindow(Inventory);
