@@ -1,5 +1,6 @@
 // Add a macro to deal with time changing
 
+import { updateGameTimeVariable } from "./date_and_time_declarations";
 import {
   skipSomeDaysToSpecificTime,
   skipToNextDayWithSpecificTime,
@@ -74,12 +75,8 @@ Macro.add("skipTime", {
       newMinutes = utcMinutes + minutes;
     }
 
-    variables().gameDateAndTime = new Date(
-      fullYear,
-      utcMonth,
-      utcDate + days,
-      newHours,
-      newMinutes
+    updateGameTimeVariable(
+      new Date(fullYear, utcMonth, utcDate + days, newHours, newMinutes)
     );
   },
 });
