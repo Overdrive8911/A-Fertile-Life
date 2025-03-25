@@ -752,13 +752,17 @@ export class Womb {
    * REVIEW - We need to do 5 things; generating the appropriate newHeight, newWeight, and amnioticFluidVolume by each foetus as well as updating the developmentWeek and belly size of the mother. Some genes and drugs will also be able to affect this so there is need to take note
    *
    * TODO - Add side effects to womb health
+   *
+   * @param elapsedTime - in seconds
    */
-  updatePregnancy() {
+  updatePregnancy(elapsedTime: number) {
     // NOTE - `customTime` must be in seconds.
 
     // The target is pregnant so do everything required under here
     if (this.isPregnant) {
-      this.pregnancies.forEach((pregnancy) => pregnancy.updateGrowth(this));
+      this.pregnancies.forEach((pregnancy) =>
+        pregnancy.updateGrowth(this, elapsedTime)
+      );
       return true;
     }
     return false;
