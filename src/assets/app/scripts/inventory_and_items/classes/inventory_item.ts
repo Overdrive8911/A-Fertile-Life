@@ -1,4 +1,5 @@
 // import { gInGameItems } from "./declarations/game_item_declarations";
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import { gInGameItems } from "../declarations/game_item_declarations";
 import { ItemId } from "../declarations/item_enums";
 import type {
@@ -131,4 +132,4 @@ export class InventoryItem {
   }
 }
 
-(window as any)[InventoryItem.name] = InventoryItem;
+attachClassToWindow(InventoryItem);

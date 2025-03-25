@@ -1,4 +1,7 @@
-import { getWeightedAverage } from "../../declarations/general_declarations";
+import {
+  attachClassToWindow,
+  getWeightedAverage,
+} from "../../declarations/general_declarations";
 import { FertilityLevel, WombHealth } from "../declarations/enums";
 import type {
   PregPerksObject,
@@ -999,5 +1002,5 @@ export class Womb {
     return this.#maxCapacity * mod;
   }
 }
-// @ts-expect-error
-window[Womb.name] = Womb;
+
+attachClassToWindow(Womb);
