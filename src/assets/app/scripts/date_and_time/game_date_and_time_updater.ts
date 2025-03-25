@@ -1,5 +1,5 @@
-import { averageWalkingSpeed } from '../location/other_data'
-import { updateGameTimeVariable } from './date_and_time_declarations'
+import { averageWalkingSpeed } from "../location/other_data";
+import { updateGameTimeVariable } from "./date_and_time_declarations";
 
 export const updateTimeWithDistance = (
   dist: number,
@@ -12,11 +12,9 @@ export const updateTimeWithDistance = (
         averageWalkingSpeed[0] * 10 - 1,
         averageWalkingSpeed[0] * 10 + 1
       )
-  )
-
-  // Change the in-game time
-  updateGameTimeVariable(timeToTravel)
-}
+  );
+  updateGameTimeVariable(timeToTravel);
+};
 
 // Skip forward `day` times to the specified time (in hrs and minutes)
 export const skipSomeDaysToSpecificTime = (
@@ -24,28 +22,30 @@ export const skipSomeDaysToSpecificTime = (
   hours: number,
   minutes: number
 ) => {
-  hours++
+  hours++;
 
   if (hours < 0) {
-    hours = 0
+    hours = 0;
   }
-  hours = hours % 24
+  hours = hours % 24;
 
   if (minutes < 0) {
-    minutes = 0
+    minutes = 0;
   }
-  minutes = minutes % 60
+  minutes = minutes % 60;
 
-  variables().gameDateAndTime = new Date(
-    variables().gameDateAndTime.getFullYear(),
-    variables().gameDateAndTime.getUTCMonth(),
-    variables().gameDateAndTime.getUTCDate() + days,
-    hours,
-    minutes
-  )
-}
+  updateGameTimeVariable(
+    new Date(
+      variables().gameDateAndTime.getFullYear(),
+      variables().gameDateAndTime.getUTCMonth(),
+      variables().gameDateAndTime.getUTCDate() + days,
+      hours,
+      minutes
+    )
+  );
+};
 
 // Skip to the next day and stop at the particular hour(0 till 23) and minutes(0 till 59)
 export function skipToNextDayWithSpecificTime(hours: number, minutes: number) {
-  skipSomeDaysToSpecificTime(1, hours, minutes)
+  skipSomeDaysToSpecificTime(1, hours, minutes);
 }
