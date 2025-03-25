@@ -2,10 +2,14 @@ import { listenToCustomEvent } from "../declarations/custom_events";
 import { CustomEventName } from "../declarations/enums";
 
 const updateGameTimeDisplay = () => {
-  if (variables().gameDateAndTime == undefined)
-    variables().gameDateAndTime = new Date(Date.UTC(2021, 1, 3, 20));
+  const vars = variables();
+  if (!vars.gameDateAndTime) {
+    vars.gameDateAndTime = new Date(Date.UTC(2021, 1, 3, 20));
+  }
 
-  // Update game date variable
+  const gameDateAndTime = vars.gameDateAndTime;
+
+  // Update game date display
   const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const months = [
     "JAN",
@@ -21,65 +25,27 @@ const updateGameTimeDisplay = () => {
     "NOV",
     "DEC",
   ];
+  vars.gameDateDisplay = `${
+    days[gameDateAndTime.getUTCDay()]
+  }, ${gameDateAndTime.getUTCDate()} ${months[gameDateAndTime.getUTCMonth()]}`;
 
-  const gameDateAndTime = variables().gameDateAndTime;
-  // Get the day (e.g Monday)
-  const gameDateAndTime_Day = days[gameDateAndTime.getUTCDay()];
+  // Update game time display
+  const hours = gameDateAndTime.getUTCHours();
+  const minutes = gameDateAndTime.getUTCMinutes();
+  const isAM = hours < 12;
 
-  // Get the date (e.g 1st)
-  const gameDateAndTime_Date = gameDateAndTime.getUTCDate();
+  const formattedHours = (hours % 12 || 12).toLocaleString(undefined, {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  const formattedMinutes = minutes.toLocaleString(undefined, {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
-  // Get the month
-  const gameDateAndTime_Month = months[gameDateAndTime.getUTCMonth()];
-
-  // Put the string in the variable
-  variables().gameDateDisplay = `${gameDateAndTime_Day}, ${gameDateAndTime_Date} ${gameDateAndTime_Month}`;
-
-  // Update game Time variable
-  // Get the time in hours for the day
-  const gameDateAndTime_DayHours: number = gameDateAndTime.getUTCHours();
-  // Get the time in minutes for the hour
-  const gameDateAndTime_DayMinutes: number = gameDateAndTime.getUTCMinutes();
-
-  if (gameDateAndTime_DayHours < 12) {
-    // AM
-    const gameDateAndTime_DayHoursFormatted: string =
-      gameDateAndTime_DayHours === 0
-        ? (12).toLocaleString(undefined, {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })
-        : gameDateAndTime_DayHours.toLocaleString(undefined, {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          });
-    const gameDateAndTime_DayMinutesFormatted: string =
-      gameDateAndTime_DayMinutes.toLocaleString(undefined, {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      });
-
-    variables().gameTimeDisplay = `${gameDateAndTime_DayHoursFormatted}:${gameDateAndTime_DayMinutesFormatted} AM`;
-  } else {
-    // PM
-    const gameDateAndTime_DayHoursFormatted: string =
-      gameDateAndTime_DayHours === 12
-        ? (12).toLocaleString(undefined, {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })
-        : (gameDateAndTime_DayHours - 12).toLocaleString(undefined, {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          });
-    const gameDateAndTime_DayMinutesFormatted: string =
-      gameDateAndTime_DayMinutes.toLocaleString(undefined, {
-        minimumIntegerDigits: 2,
-        useGrouping: false,
-      });
-
-    variables().gameTimeDisplay = `${gameDateAndTime_DayHoursFormatted}:${gameDateAndTime_DayMinutesFormatted} PM`;
-  }
+  vars.gameTimeDisplay = `${formattedHours}:${formattedMinutes} ${
+    isAM ? "AM" : "PM"
+  }`;
 };
 
 // Update whenever time changes
