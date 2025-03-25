@@ -17,5 +17,8 @@ export function updateGameTimeVariable(timeInSecondsOrNewDate: number | Date) {
   dispatchCustomEvent(CustomEventName.TIME_UPDATE, {
     prevTime: oldDate,
     currTime: variables().gameDateAndTime,
+    get timeDiff() {
+      return (this.currTime.getTime() - this.prevTime.getTime()) / 1000;
+    },
   });
 }
