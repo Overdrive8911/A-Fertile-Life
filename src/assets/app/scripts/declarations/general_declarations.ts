@@ -85,3 +85,8 @@ export function isEditableElementSelected(e: any | Event) {
 export const getSugarCubeVariableValue = (varName: SugarcubeVariable) => {
   return State.getVar(varName) as unknown;
 };
+
+/** Only needed for stateful custom classes */
+export const attachClassToWindow = (classConstructor: Function) => {
+  (window as any)[classConstructor.name] = classConstructor;
+};

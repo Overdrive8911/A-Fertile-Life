@@ -1,3 +1,5 @@
+import { attachClassToWindow } from "../declarations/general_declarations";
+
 /**
  * Mostly just the `Date` class with a few utility methods sprinkled in
  */
@@ -94,4 +96,4 @@ export class GameDateAndTime extends Date {
   }
 }
 
-(window as any)[GameDateAndTime.name] = GameDateAndTime;
+attachClassToWindow(GameDateAndTime);

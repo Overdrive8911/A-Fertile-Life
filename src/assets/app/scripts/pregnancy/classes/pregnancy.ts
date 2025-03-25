@@ -1,3 +1,4 @@
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import type { NumberKeys } from "../../declarations/types";
 import {
   FetalGrowthStatsEnum,
@@ -439,5 +440,5 @@ export class Pregnancy {
     return this.devRatio > gMaxDevelopmentState;
   }
 }
-//@ts-ignore
-window[Pregnancy.name] = Pregnancy;
+
+attachClassToWindow(Pregnancy);

@@ -1,3 +1,4 @@
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import {
   FetusSpecies,
   WombHealth,
@@ -285,5 +286,5 @@ export class Fetus {
     return newStat - oldStat;
   }
 }
-// @ts-expect-error
-window[Fetus.name] = Fetus;
+
+attachClassToWindow(Fetus);
