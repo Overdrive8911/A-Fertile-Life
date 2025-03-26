@@ -18,14 +18,25 @@ export class SceneData {
     this.scenes.push({ passage: passageName, area: area ?? player().areaId });
   }
 
+  /**
+   * Retrieves the first scene in the scenes array, representing the initial scene.
+   */
   get initialScene() {
     return this.scenes[0];
   }
+  /**
+   * Retrieves the scene that is currently active or in progress.
+   */
   get currentScene() {
     return this.scenes[this.scenes.length - 1];
   }
+  /**
+   * Retrieves the second-to-last scene in the scenes array, if it exists.
+   *
+   * Returns `null` if there is only one or no scene in the array.
+   */
   get lastScene() {
-    return this.scenes[this.scenes.length - 2];
+    return this.scenes.length > 1 ? this.scenes[this.scenes.length - 2] : null;
   }
 }
 
