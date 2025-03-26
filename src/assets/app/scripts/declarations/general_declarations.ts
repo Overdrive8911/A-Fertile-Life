@@ -90,3 +90,7 @@ export const getSugarCubeVariableValue = (varName: SugarcubeVariable) => {
 export const attachClassToWindow = (classConstructor: Function) => {
   (window as any)[classConstructor.name] = classConstructor;
 };
+
+export function player() {
+  return variables().player;
+}
