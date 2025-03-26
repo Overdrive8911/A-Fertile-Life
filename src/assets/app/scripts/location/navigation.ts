@@ -10,11 +10,9 @@ import {
 } from "./classes";
 import { globalMap } from "./game_locations/global_map";
 import { backupPassageName, oppositeDirection } from "./general_location_data";
-import {
-  activeArea,
-  getAreaFromUUID,
-} from "../declarations/general_declarations";
+import { activeArea, player } from "../declarations/general_declarations";
 import { updateTimeWithDistance } from "../date_and_time/game_date_and_time_updater";
+import { getAreaFromUUID, getAreaUUID } from "./functions";
 
 function getConnectedArea(
   area: SubLocation,
@@ -107,7 +105,7 @@ export function warpToConnectedArea(direction: Direction) {
 }
 
 export function setPlayerLocation(destination: AreaUUID) {
-  variables().player.areaId = destination;
+  player().areaId = destination;
 }
 
 /**
@@ -122,11 +120,7 @@ export function warpToArea(
   doNotLoadPassage = false
 ) {
   const currentArea = activeArea();
-  const possibleUUIDIfDestinationIsAPassageName =
-    globalMap.uuidFromPassage(destination);
-  const destinationArea = possibleUUIDIfDestinationIsAPassageName
-    ? getAreaFromUUID(possibleUUIDIfDestinationIsAPassageName)
-    : getAreaFromUUID(destination as AreaUUID);
+  const destinationArea = getAreaFromUUID(destination);
   if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
@@ -147,9 +141,7 @@ export function warpToArea(
 
   setLastWarpDestination(currentArea.uuid);
 
-  setPlayerLocation(
-    possibleUUIDIfDestinationIsAPassageName ?? (destination as AreaUUID)
-  );
+  setPlayerLocation(getAreaUUID(destination));
 
   // Calculate the amount of time to travel between the areas
   globalMap.getDistance2(currentArea, destinationArea).then((dist) => {

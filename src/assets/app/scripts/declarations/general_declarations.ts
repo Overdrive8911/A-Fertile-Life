@@ -41,10 +41,6 @@ export function activeArea() {
   return globalMap.activeArea;
 }
 
-export function getAreaFromUUID(uuid: AreaUUID) {
-  return globalMap.areaFromUUID(uuid);
-}
-
 export const getRandomNumberFromRangeInclusive = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
