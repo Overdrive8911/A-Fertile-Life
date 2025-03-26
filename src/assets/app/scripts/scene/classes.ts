@@ -1,3 +1,4 @@
+import type { SugarCubeStoryVariables } from "twine-sugarcube";
 import {
   attachClassToWindow,
   player,
@@ -5,6 +6,7 @@ import {
 import { currentArea } from "../location/functions";
 import type { AreaUUID } from "../location/types_and_interfaces";
 import type { Scene, SceneState } from "./types";
+import { SceneEnum } from "./enums";
 
 /**
  * Meant to keep track of the progress and other data about a scene in progress.
@@ -21,14 +23,34 @@ export class SceneData {
    */
   initialArea = currentArea();
 
+  /**
+   * Useful to know whether a current scene is paused
+   */
   state?: SceneState;
+
+  /**
+   * A backup of all other story variables as at the time of this class's instantiation
+   */
+  stateBackup!: Exclude<SugarCubeStoryVariables, SceneEnum.STORY_VARIABLE_NAME>;
 
   constructor(passageName: string, area?: AreaUUID);
   constructor(classOrClassLikeObject: SceneData);
   constructor(passageNameOrClassLike: string | SceneData, area?: AreaUUID) {
-    if (typeof passageNameOrClassLike == "string")
+    if (typeof passageNameOrClassLike == "string") {
       this.addScene(passageNameOrClassLike, area);
-    else {
+      const stateVariables = variables();
+
+      // Copy over the current state of the variables
+      for (const key in stateVariables) {
+        if (
+          Object.prototype.hasOwnProperty.call(stateVariables, key) &&
+          key != SceneEnum.STORY_VARIABLE_NAME
+        ) {
+          //@ts-ignore
+          this.stateBackup[key] = clone(stateVariables[key]);
+        }
+      }
+    } else {
       for (const key in passageNameOrClassLike) {
         if (Object.prototype.hasOwnProperty.call(passageNameOrClassLike, key)) {
           //@ts-ignore
