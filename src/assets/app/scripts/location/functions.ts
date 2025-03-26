@@ -2,6 +2,9 @@ import { SceneEnum } from "../scene/enums";
 import { globalMap } from "./game_locations/global_map";
 import type { AreaUUID } from "./types_and_interfaces";
 
+/**
+ * This doesn't consider if a passage that isn't assigned to an area / not already passed in a scene is given, but that's a user error that'd pretty much only happen in twinescript
+ */
 export function getAreaUUID(uuidOrPassageName: AreaUUID | string) {
   return (
     globalMap.uuidFromPassage(uuidOrPassageName) ??
