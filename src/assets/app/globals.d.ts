@@ -3,7 +3,7 @@ import type { StoryFlags } from "./scripts/declarations/general_declarations";
 import type { Player } from "./scripts/declarations/player_declarations";
 import type {
   AreaUniqueId,
-  UUID,
+  AreaUUID,
 } from "./scripts/location/types_and_interfaces";
 import type { SceneData } from "./scripts/scene/classes";
 import type { SceneEnum } from "./scripts/scene/enums";

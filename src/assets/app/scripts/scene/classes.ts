@@ -2,7 +2,7 @@ import {
   attachClassToWindow,
   player,
 } from "../declarations/general_declarations";
-import type { UUID } from "../location/types_and_interfaces";
+import type { AreaUUID } from "../location/types_and_interfaces";
 import type { Scene } from "./types";
 
 /**
@@ -14,7 +14,7 @@ export class SceneData {
    */
   scenes: Scene[] = [];
 
-  constructor(passageName: string, area?: UUID) {
+  constructor(passageName: string, area?: AreaUUID) {
     this.scenes.push({ passage: passageName, area: area ?? player().areaId });
   }
 

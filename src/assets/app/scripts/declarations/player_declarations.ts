@@ -1,5 +1,5 @@
 import type { Inventory } from "../inventory_and_items/classes/inventory";
-import type { UUID } from "../location/types_and_interfaces";
+import type { AreaUUID } from "../location/types_and_interfaces";
 import type { Womb } from "../pregnancy/classes/womb";
 import type { Breasts } from "./body_stats/breast_class_definitions";
 
@@ -8,7 +8,7 @@ export type Player = {
   /**
    * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
    */
-  areaId: UUID;
+  areaId: AreaUUID;
   personality: {
     enthusiasm: number;
     apathy: number;

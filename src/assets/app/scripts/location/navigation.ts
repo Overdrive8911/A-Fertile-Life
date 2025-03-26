@@ -1,6 +1,6 @@
 import { setLastWarpDestination } from "./other_data";
 import { Direction, MapEntityFlags } from "./enums";
-import type { SubAreas, UUID } from "./types_and_interfaces";
+import type { SubAreas, AreaUUID } from "./types_and_interfaces";
 import {
   GlobalMap,
   SubLocation,
@@ -106,7 +106,7 @@ export function warpToConnectedArea(direction: Direction) {
   return false;
 }
 
-export function setPlayerLocation(destination: UUID) {
+export function setPlayerLocation(destination: AreaUUID) {
   variables().player.areaId = destination;
 }
 
@@ -118,7 +118,7 @@ export function setPlayerLocation(destination: UUID) {
  * @returns
  */
 export function warpToArea(
-  destination: UUID | string,
+  destination: AreaUUID | string,
   doNotLoadPassage = false
 ) {
   const currentArea = activeArea();
@@ -126,7 +126,7 @@ export function warpToArea(
     globalMap.uuidFromPassage(destination);
   const destinationArea = possibleUUIDIfDestinationIsAPassageName
     ? getAreaFromUUID(possibleUUIDIfDestinationIsAPassageName)
-    : getAreaFromUUID(destination as UUID);
+    : getAreaFromUUID(destination as AreaUUID);
   if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
@@ -148,7 +148,7 @@ export function warpToArea(
   setLastWarpDestination(currentArea.uuid);
 
   setPlayerLocation(
-    possibleUUIDIfDestinationIsAPassageName ?? (destination as UUID)
+    possibleUUIDIfDestinationIsAPassageName ?? (destination as AreaUUID)
   );
 
   // Calculate the amount of time to travel between the areas

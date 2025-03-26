@@ -1,5 +1,5 @@
 import { globalMap } from "../location/game_locations/global_map";
-import type { UUID } from "../location/types_and_interfaces";
+import type { AreaUUID } from "../location/types_and_interfaces";
 import type { SugarcubeVariable } from "./types";
 
 export const enum StoryFlags {
@@ -41,7 +41,7 @@ export function activeArea() {
   return globalMap.activeArea;
 }
 
-export function getAreaFromUUID(uuid: UUID) {
+export function getAreaFromUUID(uuid: AreaUUID) {
   return globalMap.areaFromUUID(uuid);
 }
 

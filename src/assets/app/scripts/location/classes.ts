@@ -14,13 +14,13 @@ import type {
   AreaId,
   SubAreas,
   SuperAreas,
-  UUID,
+  AreaUUID,
 } from "./types_and_interfaces";
 import { oppositeDirection } from "./general_location_data";
 import Queue from "yocto-queue";
 
 type ChildConnectionMap = Map<
-  { from: UUID; to: UUID },
+  { from: AreaUUID; to: AreaUUID },
   {
     dist: number;
     /**
@@ -75,7 +75,7 @@ class MapEntity<
     ? undefined
     : Map<ChildType, Connections<ChildType>> = new Map() as any;
 
-  uuid: UUID;
+  uuid: AreaUUID;
 
   /**
    * This is a temporary cache used to quickly determine the distance between any two child areas.
@@ -396,7 +396,7 @@ class MapEntity<
       ) => {
         let passes = false;
         let dist = 0;
-        let idPair: { from: UUID; to: UUID } | null = null;
+        let idPair: { from: AreaUUID; to: AreaUUID } | null = null;
 
         for (const [idObject, d] of data) {
           if (Object.values(idObject).includesAll(area1, area2)) {
@@ -408,7 +408,7 @@ class MapEntity<
         }
 
         return passes
-          ? { idPair: idPair as { from: UUID; to: UUID }, dist: dist }
+          ? { idPair: idPair as { from: AreaUUID; to: AreaUUID }, dist: dist }
           : null;
       };
 
@@ -778,7 +778,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
   /**
    * Used to fetch the required UUID from a passage
    */
-  #passageUUIDCache: Map<string, UUID[]> = new Map();
+  #passageUUIDCache: Map<string, AreaUUID[]> = new Map();
 
   constructor(
     ...args: ConstructorParameters<typeof MapEntity<Region, GlobalMapId, never>>
