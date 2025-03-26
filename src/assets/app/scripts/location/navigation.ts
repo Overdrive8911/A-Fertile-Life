@@ -13,6 +13,7 @@ import { backupPassageName, oppositeDirection } from "./general_location_data";
 import { activeArea, player } from "../declarations/general_declarations";
 import { updateTimeWithDistance } from "../date_and_time/game_date_and_time_updater";
 import { getAreaFromUUID, getAreaUUID } from "./functions";
+import { isSceneActive } from "../scene/functions";
 
 function getConnectedArea(
   area: SubLocation,
@@ -109,7 +110,7 @@ export function setPlayerLocation(destination: AreaUUID) {
 }
 
 /**
- * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data
+ * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. Does not load a passage if the player is in a scene
  *
  * @param destination - Either a UUID or a passage name that is attached to any instance of a location, sub-location, etc
  * @param doNotLoadPassage - If true, then this doesn't load up the default passage of the new area. Useful if you want to change the player's area but don't want to load up the default passage associated with the area.
@@ -149,7 +150,7 @@ export function warpToArea(
   });
 
   // load the passage
-  if (!doNotLoadPassage) {
+  if (!doNotLoadPassage || !isSceneActive()) {
     Engine.play(passageToLoad);
   }
 }
