@@ -2,6 +2,7 @@ import {
   attachClassToWindow,
   player,
 } from "../declarations/general_declarations";
+import { currentArea } from "../location/functions";
 import type { AreaUUID } from "../location/types_and_interfaces";
 import type { Scene } from "./types";
 
@@ -15,6 +16,10 @@ export class SceneData {
    * This will always have at least **one** element
    */
   scenes: Scene[] = [];
+  /**
+   * The last area the player was in before this class was instantiated
+   */
+  initialArea = currentArea();
 
   constructor(passageName: string, area?: AreaUUID);
   constructor(classOrClassLikeObject: SceneData);
