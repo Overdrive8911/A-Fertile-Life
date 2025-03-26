@@ -5,6 +5,7 @@ import type {
   AreaUniqueId,
   UUID,
 } from "./scripts/location/types_and_interfaces";
+import type { SceneData } from "./scripts/scene/classes";
 import type { SceneEnum } from "./scripts/scene/enums";
 import type { Widgets } from "./scripts/ui/widgets/types";
 
@@ -17,7 +18,7 @@ declare module "twine-sugarcube" {
   }
 
   export interface SugarCubeStoryVariables {
-    [SceneEnum.STORY_VARIABLE_NAME]: "";
+    [SceneEnum.STORY_VARIABLE_NAME]: SceneData;
     gameDateAndTime: GameDateAndTime;
     player: Player;
     storyFlags: StoryFlags;
