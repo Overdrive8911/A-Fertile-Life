@@ -16,8 +16,31 @@ export class SceneData {
    */
   #scenes: Scene[] = [];
 
-  constructor(passageName: string, area?: AreaUUID) {
-    this.addScene(passageName, area);
+  constructor(passageName: string, area?: AreaUUID);
+  constructor(classOrClassLikeObject: SceneData);
+  constructor(passageNameOrClassLike: string | SceneData, area?: AreaUUID) {
+    if (typeof passageNameOrClassLike == "string")
+      this.addScene(passageNameOrClassLike, area);
+    else {
+      for (const key in passageNameOrClassLike) {
+        if (Object.prototype.hasOwnProperty.call(passageNameOrClassLike, key)) {
+          //@ts-ignore
+          this[key] = passageNameOrClassLike[key];
+        }
+      }
+    }
+  }
+
+  clone() {
+    return new SceneData(this);
+  }
+  toJSON() {
+    var ownData = {};
+    Object.keys(this).forEach((prop) => {
+      //@ts-ignore
+      ownData[prop] = clone(this[prop]);
+    });
+    return Serial.createReviver(`new ${SceneData.name}($ReviveData$)`, ownData);
   }
 
   /**
