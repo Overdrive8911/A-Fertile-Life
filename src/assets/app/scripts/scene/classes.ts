@@ -17,7 +17,7 @@ export class SceneData {
   scenes: Scene[] = [];
 
   constructor(passageName: string, area?: AreaUUID) {
-    this.scenes.push({ passage: passageName, area: area ?? player().areaId });
+    this.addScene(passageName, area);
   }
 
   /**
@@ -46,6 +46,10 @@ export class SceneData {
    */
   scene(passageName: string) {
     return this.scenes.find((scene) => scene.passage == passageName);
+  }
+
+  addScene(passageName: string, area?: AreaUUID) {
+    this.scenes.push({ passage: passageName, area: area ?? player().areaId });
   }
 }
 
