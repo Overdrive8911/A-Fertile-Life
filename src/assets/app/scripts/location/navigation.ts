@@ -157,7 +157,9 @@ export function warpToArea(
 export function isNavigationButtonUsable(direction: Direction) {
   const currArea = activeArea();
 
-  return currArea instanceof GlobalMap
+  return isSceneActive()
+    ? false
+    : currArea instanceof GlobalMap
     ? false
     : getConnectedArea(currArea, direction)
     ? true
