@@ -222,10 +222,10 @@ $(document).on(":passageend", () => {
   };
 
   // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
-  navButtonUsabilityActions(isNorthNavigable ?? false, northButton);
-  navButtonUsabilityActions(isEastNavigable ?? false, eastButton);
-  navButtonUsabilityActions(isSouthNavigable ?? false, southButton);
-  navButtonUsabilityActions(isWestNavigable ?? false, westButton);
+  navButtonUsabilityActions(isNorthNavigable, northButton);
+  navButtonUsabilityActions(isEastNavigable, eastButton);
+  navButtonUsabilityActions(isSouthNavigable, southButton);
+  navButtonUsabilityActions(isWestNavigable, westButton);
 
   // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
   // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
