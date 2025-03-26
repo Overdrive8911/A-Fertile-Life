@@ -5,6 +5,14 @@ export function dispatchCustomEvent(
   eventName: CustomEventName.TIME_UPDATE,
   data: TimeUpdateEventData
 ): void;
+export function dispatchCustomEvent(
+  eventName: CustomEventName.SCENE_START,
+  data: {}
+): void;
+export function dispatchCustomEvent(
+  eventName: CustomEventName.SCENE_END,
+  data: {}
+): void;
 export function dispatchCustomEvent(eventName: CustomEventName, data: any) {
   window.dispatchEvent(new CustomEvent(eventName, { detail: data }));
 }
@@ -12,6 +20,14 @@ export function dispatchCustomEvent(eventName: CustomEventName, data: any) {
 export function listenToCustomEvent(
   eventName: CustomEventName.TIME_UPDATE,
   func: (data: TimeUpdateEventData) => void
+): void;
+export function listenToCustomEvent(
+  eventName: CustomEventName.SCENE_START,
+  func: (data: {}) => void
+): void;
+export function listenToCustomEvent(
+  eventName: CustomEventName.SCENE_END,
+  func: (data: {}) => void
 ): void;
 export function listenToCustomEvent(
   eventName: CustomEventName,
