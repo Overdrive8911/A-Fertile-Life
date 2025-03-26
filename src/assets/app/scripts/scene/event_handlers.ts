@@ -3,13 +3,13 @@ import { CustomEventName } from "../declarations/enums";
 import { SceneData } from "./classes";
 import { SceneEnum } from "./enums";
 
-listenToCustomEvent(CustomEventName.SCENE_START, (scene) => {
+listenToCustomEvent(CustomEventName.SCENE_START, (sceneData) => {
   variables()[SceneEnum.STORY_VARIABLE_NAME] = new SceneData(
-    scene.passage,
-    scene.area
+    sceneData.passage,
+    sceneData.area
   );
 });
 
-listenToCustomEvent(CustomEventName.SCENE_END, (_) => {
+listenToCustomEvent(CustomEventName.SCENE_END, (sceneData) => {
   delete variables()[SceneEnum.STORY_VARIABLE_NAME];
 });

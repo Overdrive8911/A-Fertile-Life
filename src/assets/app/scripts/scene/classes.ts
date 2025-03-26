@@ -4,7 +4,7 @@ import {
 } from "../declarations/general_declarations";
 import { currentArea } from "../location/functions";
 import type { AreaUUID } from "../location/types_and_interfaces";
-import type { Scene } from "./types";
+import type { Scene, SceneState } from "./types";
 
 /**
  * Meant to keep track of the progress and other data about a scene in progress.
@@ -20,6 +20,8 @@ export class SceneData {
    * The last area the player was in before this class was instantiated
    */
   initialArea = currentArea();
+
+  state?: SceneState;
 
   constructor(passageName: string, area?: AreaUUID);
   constructor(classOrClassLikeObject: SceneData);
