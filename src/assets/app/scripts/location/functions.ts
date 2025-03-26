@@ -1,3 +1,4 @@
+import { player } from "../declarations/general_declarations";
 import { SceneEnum } from "../scene/enums";
 import { globalMap } from "./game_locations/global_map";
 import type { AreaUUID } from "./types_and_interfaces";
@@ -16,4 +17,8 @@ export function getAreaUUID(uuidOrPassageName: AreaUUID | string) {
 
 export function getAreaFromUUID(uuidOrPassageName: AreaUUID | string) {
   return globalMap.areaFromUUID(getAreaUUID(uuidOrPassageName));
+}
+
+export function currentArea() {
+  return getAreaFromUUID(player().areaId);
 }
