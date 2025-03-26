@@ -38,6 +38,13 @@ export class SceneData {
   get lastScene() {
     return this.scenes.length > 1 ? this.scenes[this.scenes.length - 2] : null;
   }
+
+  /**
+   * Gets the scene (if any) that has the same passage name with the given argument
+   */
+  scene(passageName: string) {
+    return this.scenes.find((scene) => scene.passage == passageName);
+  }
 }
 
 attachClassToWindow(SceneData);
