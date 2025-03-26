@@ -6,7 +6,9 @@ import type { AreaUUID } from "../location/types_and_interfaces";
 import type { Scene } from "./types";
 
 /**
- * Meant to keep track of the progress and other data about a scene in progress
+ * Meant to keep track of the progress and other data about a scene in progress.
+ *
+ * NOTE: Only one instance of this should exist at any time (for now)
  */
 export class SceneData {
   /**
