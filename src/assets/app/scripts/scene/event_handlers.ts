@@ -25,6 +25,7 @@ listenToCustomEvent(CustomEventName.SCENE_START, (sceneData) => {
 listenToCustomEvent(CustomEventName.SCENE_END, (sceneData) => {
   switch (sceneData.state) {
     case SceneEnum.STATE_PAUSED:
+      // Just "pause" the scene
       break;
     // This fallthrough is deliberate :3
     //@ts-ignore

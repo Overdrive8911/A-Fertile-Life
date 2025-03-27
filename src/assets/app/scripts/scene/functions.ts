@@ -7,6 +7,7 @@ import {
   setStoryFlag,
   StoryFlags,
 } from "../declarations/general_declarations";
+import { getAreaFromUUID, getAreaUUID } from "../location/functions";
 import type { AreaUUID } from "../location/types_and_interfaces";
 import { SceneEnum } from "./enums";
 import type { SceneState } from "./types";
@@ -36,8 +37,23 @@ export function isSceneActive() {
   return isAnyStoryFlagSet(StoryFlags.IS_SCENE_ACTIVE);
 }
 
-export function endScene(option?: SceneState) {
+/**
+ * Ends / Cancels / Pauses the active scene
+ *
+ * @param option - If passed, can be used to "cancel" or "pause" a scene. The first reverts the game to how it was before the scene started which the latter temporarily postpones a scene.
+ * @param passageOrArea - Teleports the player to this area. An `AreaUUID` must be able to be determined from this.
+ */
+export function endScene(
+  option?: SceneState,
+  passageOrArea?: string | AreaUUID
+) {
   clearStoryFlag(StoryFlags.IS_SCENE_ACTIVE);
+
+  // Warp the user back to a default passage
+  Engine.play(
+    getAreaFromUUID(getAreaUUID(passageOrArea ?? player().areaId)).passage ??
+      variables()[SceneEnum.STORY_VARIABLE_NAME]!.initialArea.passage!
+  );
 
   dispatchCustomEvent(CustomEventName.SCENE_END, {
     passage: passage(),

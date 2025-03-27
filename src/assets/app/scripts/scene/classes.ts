@@ -26,7 +26,7 @@ export class SceneData {
   /**
    * Useful to know whether a current scene is paused
    */
-  state?: SceneState;
+  state?: SceneEnum.STATE_PAUSED;
 
   /**
    * A backup of all other story variables as at the time of this class's instantiation
