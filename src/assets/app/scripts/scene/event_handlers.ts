@@ -27,6 +27,8 @@ listenToCustomEvent(CustomEventName.SCENE_END, (sceneData) => {
   switch (sceneData.state) {
     case SceneEnum.STATE_PAUSED:
       // Just "pause" the scene
+      const scene = variables()[SceneEnum.STORY_VARIABLE_NAME]!;
+      scene.state = SceneEnum.STATE_PAUSED;
       break;
     // This fallthrough is deliberate :3
     //@ts-ignore
