@@ -42,22 +42,16 @@ export class SceneData {
       const stateVariables = variables();
 
       // Copy over the current state of the variables
-      for (const key in stateVariables) {
-        if (
-          Object.prototype.hasOwnProperty.call(stateVariables, key) &&
-          key != SceneEnum.STORY_VARIABLE_NAME
-        ) {
-          //@ts-ignore
-          this.stateBackup[key] = clone(stateVariables[key]);
-        }
-      }
+      Object.keys(passageNameOrClassLike).forEach((prop) => {
+        if (prop != SceneEnum.STORY_VARIABLE_NAME)
+          //@ts-expect-error
+          this.stateBackup[prop] = clone(stateVariables[prop]);
+      }, this);
     } else {
-      for (const key in passageNameOrClassLike) {
-        if (Object.prototype.hasOwnProperty.call(passageNameOrClassLike, key)) {
-          //@ts-ignore
-          this[key] = passageNameOrClassLike[key];
-        }
-      }
+      Object.keys(passageNameOrClassLike).forEach((prop) => {
+        //@ts-expect-error
+        this[prop] = clone(passageNameOrClassLike[prop]);
+      }, this);
     }
   }
 
