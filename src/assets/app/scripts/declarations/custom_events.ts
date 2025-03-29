@@ -22,10 +22,7 @@ export function dispatchCustomEvent(
   eventName: CustomEventName.SCENE_END,
   data: SceneEventData
 ): void;
-export function dispatchCustomEvent(
-  eventName: CustomEventName,
-  data: TimeUpdateEventData | SceneEventData
-) {
+export function dispatchCustomEvent(eventName: CustomEventName, data: any) {
   window.dispatchEvent(new CustomEvent(eventName, { detail: data }));
 }
 
