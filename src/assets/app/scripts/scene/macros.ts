@@ -2,6 +2,9 @@ import type { MacroContext } from "twine-sugarcube";
 import { doesPassageExist } from "../declarations/general_declarations";
 import { startScene } from "./functions";
 
+const noPassageNamePassed = Error("No passage name passed.");
+const passageDoesNotExist = Error("Passage does not exist.");
+
 Macro.add("startScene", {
   handler: () => {
     const self = this as unknown as MacroContext;
@@ -9,10 +12,10 @@ Macro.add("startScene", {
     const sceneStartPassageName = self.args[0] as string | undefined;
 
     if (!sceneStartPassageName) {
-      throw Error("No passage name passed.");
+      throw noPassageNamePassed;
     } else {
       if (!doesPassageExist(sceneStartPassageName)) {
-        throw Error("Passage does not exist.");
+        throw passageDoesNotExist;
       } else {
         startScene(sceneStartPassageName);
       }
