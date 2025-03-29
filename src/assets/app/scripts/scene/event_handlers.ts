@@ -20,11 +20,11 @@ listenToCustomEvent(CustomEventName.SCENE_START, (sceneData) => {
     case SceneEnum.STATE_CANCELLED:
     // This shouldn't happen because a cancelled scene would not be stored
     default:
-      Engine.play(sceneData.passage);
       variables()[SceneEnum.STORY_VARIABLE_NAME] = new SceneData(
         sceneData.passage,
         sceneData.area
       );
+      Engine.play(sceneData.passage);
   }
 });
 
