@@ -88,3 +88,9 @@
 <p>
     <<link "Reload Passage" "PlayerSandbox">><</link>>
 </p>
+
+<p>
+    <<link "Test Prologue Scene">>
+        <<startScene "Prologue_Beginning">>
+    <</link>>
+</p>
