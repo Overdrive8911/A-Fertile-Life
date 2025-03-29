@@ -8,7 +8,7 @@ const noPassageNamePassed = Error("No passage name passed.");
 const passageDoesNotExist = Error("Passage does not exist.");
 
 Macro.add("startScene", {
-  handler: () => {
+  handler() {
     const self = this as unknown as MacroContext;
 
     const sceneStartPassageName = self.args[0] as string | undefined;
@@ -26,7 +26,7 @@ Macro.add("startScene", {
 });
 
 Macro.add("endScene", {
-  handler: () => {
+  handler() {
     const self = this as unknown as MacroContext;
 
     const option = self.args[0] as SceneState | undefined;
