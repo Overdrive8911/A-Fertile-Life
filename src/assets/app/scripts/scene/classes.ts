@@ -42,7 +42,7 @@ export class SceneData {
       const stateVariables = variables();
 
       // Copy over the current state of the variables
-      Object.keys(passageNameOrClassLike).forEach((prop) => {
+      Object.keys(stateVariables).forEach((prop) => {
         if (prop != SceneEnum.STORY_VARIABLE_NAME)
           //@ts-expect-error
           this.stateBackup[prop] = clone(stateVariables[prop]);
