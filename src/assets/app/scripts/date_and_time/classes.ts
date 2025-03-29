@@ -42,7 +42,7 @@ export class GameDateAndTime extends Date {
     return new GameDateAndTime(this);
   }
 
-  toJSON() {
+  override toJSON() {
     return Serial.createReviver(
       `new ${GameDateAndTime.name}(${this.getTime()})`
     ) as any;

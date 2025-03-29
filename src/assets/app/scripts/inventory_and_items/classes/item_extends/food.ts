@@ -69,7 +69,11 @@ class Food extends Item {
     this.addTags(ItemTag.FOOD);
   }
 
-  applyEffect(effect: FoodEffect, user: Player, shouldInvert?: boolean): void {
+  override applyEffect(
+    effect: FoodEffect,
+    user: Player,
+    shouldInvert?: boolean
+  ): void {
     let hpChange = 0,
       wombHpChange = 0,
       moodChange = 0,
