@@ -90,3 +90,7 @@ export const attachClassToWindow = (classConstructor: Function) => {
 export function player() {
   return variables().player;
 }
+
+export function doesPassageExist(passageName: string) {
+  return Story.has(passageName);
+}
