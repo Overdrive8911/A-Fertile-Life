@@ -1,5 +1,9 @@
 import type { TimeUpdateEventData } from "../date_and_time/types";
-import type { Scene, SceneEventData } from "../scene/types";
+import type {
+  Scene,
+  SceneEventData,
+  SceneProgressEventData,
+} from "../scene/types";
 import type { CustomEventName } from "./enums";
 // NOTE: All custom event definitions should be placed here
 export function dispatchCustomEvent(
@@ -9,6 +13,10 @@ export function dispatchCustomEvent(
 export function dispatchCustomEvent(
   eventName: CustomEventName.SCENE_START,
   data: SceneEventData
+): void;
+export function dispatchCustomEvent(
+  eventName: CustomEventName.SCENE_PROGRESS,
+  data: SceneProgressEventData
 ): void;
 export function dispatchCustomEvent(
   eventName: CustomEventName.SCENE_END,
@@ -28,6 +36,10 @@ export function listenToCustomEvent(
 export function listenToCustomEvent(
   eventName: CustomEventName.SCENE_START,
   func: (data: SceneEventData) => void
+): void;
+export function listenToCustomEvent(
+  eventName: CustomEventName.SCENE_PROGRESS,
+  func: (data: SceneProgressEventData) => void
 ): void;
 export function listenToCustomEvent(
   eventName: CustomEventName.SCENE_END,

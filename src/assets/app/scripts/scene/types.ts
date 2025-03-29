@@ -1,4 +1,5 @@
 import type { AreaUUID } from "../location/types_and_interfaces";
+import type { SceneData } from "./classes";
 import type { SceneEnum } from "./enums";
 
 /**
@@ -16,4 +17,11 @@ export type SceneState = SceneEnum.STATE_PAUSED | SceneEnum.STATE_CANCELLED;
  */
 export interface SceneEventData extends Scene {
   state?: SceneState;
+}
+
+/**
+ * The structure of the data sent in custom events for **progressing** through scenes
+ */
+export interface SceneProgressEventData {
+  scene: SceneData;
 }

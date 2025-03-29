@@ -1,8 +1,12 @@
-import { listenToCustomEvent } from "../declarations/custom_events";
+import {
+  dispatchCustomEvent,
+  listenToCustomEvent,
+} from "../declarations/custom_events";
 import { CustomEventName } from "../declarations/enums";
 import { currentArea } from "../location/functions";
 import { SceneData } from "./classes";
 import { SceneEnum } from "./enums";
+import { isSceneActive } from "./functions";
 
 listenToCustomEvent(CustomEventName.SCENE_START, (sceneData) => {
   let storedSceneData = variables()[SceneEnum.STORY_VARIABLE_NAME];
@@ -62,5 +66,15 @@ listenToCustomEvent(CustomEventName.SCENE_END, (sceneData) => {
     // }
     default:
       delete variables()[SceneEnum.STORY_VARIABLE_NAME];
+  }
+});
+
+$(window).on(":passageend", () => {
+  if (isSceneActive()) {
+    // Add the current passage to the scene data
+    const sceneData = variables()[SceneEnum.STORY_VARIABLE_NAME]!;
+    sceneData.addScene(passage());
+
+    dispatchCustomEvent(CustomEventName.SCENE_PROGRESS, { scene: sceneData });
   }
 });
