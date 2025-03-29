@@ -4,7 +4,9 @@ import { globalMap } from "./game_locations/global_map";
 import type { AreaUUID } from "./types_and_interfaces";
 
 function isValidAreaUUID(possibleUUID: string): boolean {
-  return typeof getAreaFromUUID(possibleUUID) != "undefined" ? true : false;
+  return typeof globalMap.areaFromUUID(possibleUUID as AreaUUID) != "undefined"
+    ? true
+    : false;
 }
 /**
  * This doesn't consider if a passage that isn't assigned to an area / not already passed in a scene is given, but that's a user error that'd pretty much only happen in twinescript
