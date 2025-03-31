@@ -9,30 +9,38 @@ sugarcube-2:
           type: string
           required: true
       container: false
-
     endScene:
       description: >
-        Ends the current scene and optionally warps to a designated passage or area (use a passage name that belongs to an areas as the **first** argument).
+        Ends the current scene and optionally warps to a designated passage or
+        area (use a passage name that belongs to an areas as the **first**
+        argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
-          type: "string|AreaUUID"
+          type: string|AreaUUID
           required: false
       container: false
-
     pauseScene:
       description: >
-        Pauses the current scene (using a paused state) and optionally warps to a designated passage or area (use a passage name that belongs to an areas as the **first** argument).
+        Pauses the current scene (using a paused state) and optionally warps to
+        a designated passage or area (use a passage name that belongs to an
+        areas as the **first** argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
-          type: "string|AreaUUID"
+          type: string|AreaUUID
           required: false
       container: false
-
     cancelScene:
       description: >
-        Cancels the current scene (using a cancelled state) and optionally warps to a designated passage or area use a passage name that belongs to an areas as the **first** argument).
+        Cancels the current scene (using a cancelled state) and optionally warps
+        to a designated passage or area use a passage name that belongs to an
+        areas as the **first** argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
-          type: "string|AreaUUID"
+          type: string|AreaUUID
           required: false
       container: false
+    warp:
+      name: warp
+      description: >
+        Warps to a designated passage or area (use a passage name that belongs
+        to an areas as the **first** argument).
