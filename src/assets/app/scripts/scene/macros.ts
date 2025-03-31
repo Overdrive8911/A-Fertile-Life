@@ -3,6 +3,7 @@ import { doesPassageExist } from "../declarations/general_declarations";
 import { endScene, startScene } from "./functions";
 import type { SceneState } from "./types";
 import type { AreaUUID } from "../location/types_and_interfaces";
+import { SceneEnum } from "./enums";
 
 const noPassageNamePassed = Error("No passage name passed.");
 const passageDoesNotExist = Error("Passage does not exist.");
@@ -29,12 +30,36 @@ Macro.add("endScene", {
   handler() {
     const self = this as unknown as MacroContext;
 
-    const option = self.args[0] as SceneState | undefined;
     const passageOrAreaIdToWarpTo = self.args[0] as
       | string
       | AreaUUID
       | undefined;
 
-    endScene(option, passageOrAreaIdToWarpTo);
+    endScene(undefined, passageOrAreaIdToWarpTo);
+  },
+});
+
+Macro.add("pauseScene", {
+  handler() {
+    const self = this as unknown as MacroContext;
+
+    const passageOrAreaIdToWarpTo = self.args[0] as
+      | string
+      | AreaUUID
+      | undefined;
+
+    endScene(SceneEnum.STATE_PAUSED, passageOrAreaIdToWarpTo);
+  },
+});
+
+Macro.add("cancelScene", {
+  handler() {
+    const self = this as unknown as MacroContext;
+    const passageOrAreaIdToWarpTo = self.args[0] as
+      | string
+      | AreaUUID
+      | undefined;
+
+    endScene(SceneEnum.STATE_CANCELLED, passageOrAreaIdToWarpTo);
   },
 });
