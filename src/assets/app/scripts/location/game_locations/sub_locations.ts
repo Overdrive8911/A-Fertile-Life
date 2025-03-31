@@ -130,4 +130,18 @@ export const subLocation_OfficeWork = new SubLocation(
   "Office",
   "Fertilo_Inc_Office_Work"
 );
+
+export const subLocation_ceoOffice = new SubLocation(
+  SubLocationId.CEO_OFFICE,
+  "CEO Office",
+  "Fertilo_Inc_CEO_Office",
+  "Fertilo's Domain"
+);
+
+export const subLocation_fertiloIncPlayerRoom = new SubLocation(
+  SubLocationId.ROOM,
+  "Your Room",
+  "Fertilo_Inc_Player_Room",
+  "Your New Room"
+);
 //!SECTION

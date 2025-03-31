@@ -21,6 +21,8 @@ import {
   subLocation_playerLivingRoom,
   subLocation_playerPorch,
   subLocation_playerBathroom,
+  subLocation_ceoOffice,
+  subLocation_fertiloIncPlayerRoom,
 } from "./sub_locations";
 import { Location } from "../classes";
 
@@ -155,6 +157,16 @@ export const location_fertiloIncGroundFloor = new Location(
 //@ts-ignore
 window.t = location_fertiloIncGroundFloor;
 console.log(location_fertiloIncGroundFloor);
+
+export const location_fertiloIncTopFloor = new Location(
+  LocationId.FERTILO_INC_TOP_FLOOR,
+  "Top Floor"
+).addArea(subLocation_ceoOffice);
+
+export const location_fertiloIncUnderground = new Location(
+  LocationId.FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
+  "Underground"
+).addArea(subLocation_fertiloIncPlayerRoom);
 
 export const location_playerHouse = new Location(
   LocationId.PLAYER_HOUSE,

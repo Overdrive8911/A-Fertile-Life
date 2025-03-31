@@ -1,4 +1,4 @@
-:: Prologue_ArrivedAtFertiloInc [prologue characterCreation location_fertiloIncGroundFloor subLocation_porch] {"position":"150,275"}
+:: Prologue_ArrivedAtFertiloInc [prologue characterCreation] {"position":"150,275"}
 <<ctp Prologue_ArrivedAtFertiloInc_ctpId1>>
     <div class="maleSpeech">
         <p>
@@ -89,13 +89,13 @@
             You turn to the building behind, it's exactly how the letter described it; a massive hospital painted white and green, its most obvious feature is the large green logo of an expecting mother cradling her belly, underneath which, is the name of the hospital; Fertilo Inc. The odd thing about it though is the neighbourhood it's situated in; poorly lit streets, rundown houses covered in graffiti and an atmosphere that reeks of neglect and disrepair; causing it to stick out like a sore thumb.
         </p>
         
-        [[Go in.->Prologue_ArrivedAtFertiloInc_1]]
+        <<progressScene "Go in." 'Prologue_ArrivedAtFertiloInc_1' 'Fertilo_Inc_Reception'>>
     <</timed>>
 
 <</ctp>>
 
 
-:: Prologue_ArrivedAtFertiloInc_1 [prologue location_fertiloIncGroundFloor subLocation_reception] {"position":"25,275"}
+:: Prologue_ArrivedAtFertiloInc_1 [prologue] {"position":"25,275"}
 <p>
     You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, 
     <span class="femaleSpeech">
@@ -127,7 +127,8 @@
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation location_fertiloIncGroundFloor subLocation_reception] {"position":"25,400"}
+:: FertiloInc_CharacterCreation_TalkToReceptionist [prologue characterCreation] {"position":"25,400"}
+<<skipTime 0 0 3>>
 <p>
     You return the book after dropping your name and signature. The receptionist takes it while saying, 
     <span class="femaleSpeech1">
@@ -226,11 +227,11 @@
 
 <p>
     <span class="femaleSpeech1">
-    “Okay, we're here. Now, miss <<PC>>, would you please [[get on the scale?->FertiloInc_CharacterCreation]]”</span>
+    “Okay, we're here. Now, miss <<PC>>, would you please <<progressScene "get on the scale?" 'FertiloInc_CharacterCreation' 'Fertilo_Inc_Measurement_Closet'>>”</span>
 </p>
 
 
-:: FertiloInc_CharacterCreation [characterCreation location_fertiloIncGroundFloor subLocation_measurementCloset] {"position":"150,400"}
+:: FertiloInc_CharacterCreation [characterCreation] {"position":"150,400"}
 /* Handle getting the PC's weight */
 <<ctp "FertiloInc_CharacterCreation_ctpId1">>
     <p>
@@ -457,7 +458,7 @@
 <</ctp>>
 
 
-:: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue location_fertiloIncGroundFloor subLocation_measurementCloset] {"position":"275,400"}
+:: FertiloInc_CharacterCreation_DoneWithMeasurements [characterCreation prologue ] {"position":"275,400"}
 <p>
     You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight.
 </p>
@@ -481,4 +482,4 @@
     </span>
 </p>
 
-[[Follow the directions->FertiloInc_Prologue_MeetTheDoctor]]
+<<progressScene "Follow the directions." 'FertiloInc_Prologue_MeetTheDoctor' 'Fertilo_Inc_CEO_Office'>>
