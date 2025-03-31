@@ -1,19 +1,20 @@
-import './classes'
-import './functions'
-import './map_svg_data'
-import './other_data'
+import "./classes";
+import "./functions";
+import "./map_svg_data";
+import "./other_data";
 // import './related_location_data'
-import './general_location_data'
+import "./general_location_data";
 // import './location_data_object_intializer'
 // import './location_helper_functions'
 // import './location_map_image_handlers'
-import './navigation'
-import './event_handlers'
+import "./navigation";
+import "./event_handlers";
+import "./macros";
 
-import './game_locations/sub_locations'
-import './game_locations/locations'
-import './game_locations/sub_regions'
-import './game_locations/regions'
-import './game_locations/global_map'
+import "./game_locations/sub_locations";
+import "./game_locations/locations";
+import "./game_locations/sub_regions";
+import "./game_locations/regions";
+import "./game_locations/global_map";
 
-import './map_code/index'
+import "./map_code/index";

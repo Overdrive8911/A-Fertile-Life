@@ -1,5 +1,6 @@
 // Add a macro to deal with time changing
 
+import { updateGameTimeVariable } from "./date_and_time_declarations";
 import {
   skipSomeDaysToSpecificTime,
   skipToNextDayWithSpecificTime,
@@ -55,11 +56,12 @@ Macro.add("skipTime", {
     // Check if the new time is okay
     let newHours = 0,
       newMinutes = 0;
-    const utcHours = variables().gameDateAndTime.getUTCHours(),
-      utcMinutes = variables().gameDateAndTime.getUTCMinutes(),
-      utcMonth = variables().gameDateAndTime.getUTCMonth(),
-      fullYear = variables().gameDateAndTime.getFullYear(),
-      utcDate = variables().gameDateAndTime.getUTCDate();
+    const gameDateAndTime = variables().gameDateAndTime,
+      utcHours = gameDateAndTime.getUTCHours(),
+      utcMinutes = gameDateAndTime.getUTCMinutes(),
+      utcMonth = gameDateAndTime.getUTCMonth(),
+      fullYear = gameDateAndTime.getFullYear(),
+      utcDate = gameDateAndTime.getUTCDate();
     if (utcHours + hours > 23) {
       newHours += (utcHours + hours) % 24;
       days += parseInt(((utcHours + hours) / 24).toFixed(0));
@@ -74,12 +76,8 @@ Macro.add("skipTime", {
       newMinutes = utcMinutes + minutes;
     }
 
-    variables().gameDateAndTime = new Date(
-      fullYear,
-      utcMonth,
-      utcDate + days,
-      newHours,
-      newMinutes
+    updateGameTimeVariable(
+      new Date(fullYear, utcMonth, utcDate + days, newHours, newMinutes)
     );
   },
 });

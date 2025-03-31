@@ -8,29 +8,31 @@
     "serve": "cd ./dist && bun run browser-sync start --server --watch --no-open --no-inject-changes --no-ghost-mode --no-ui --reload-delay '1000'",
     "dev-watch": "NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run serve",
     "dev-watch:no-server": "NODE_ENV=development bun run --no-clear-screen ./build.ts",
-    "prod": "NODE_ENV=production bun run ./build.ts"
+    "prod": "NODE_ENV=production bun run ./build.ts",
+    "check-types": "tsc"
   },
   "template-author": "Iceman8911",
   "license": "MIT",
   "template-license": "MIT",
   "devDependencies": {
-    "@types/bun": "^1.2.2",
+    "@types/bun": "^1.2.5",
     "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^11.0.4",
     "@types/twine-sugarcube": "^2.37.2",
     "browser-sync": "^3.0.3",
     "@parcel/watcher": "^2.5.1",
-    "postcss": "^8.5.2",
+    "postcss": "^8.5.3",
     "tweenode": "^0.2.9",
-    "typescript": "^5.7.3",
-    "autoprefixer": "^10.4.20",
+    "typescript": "^5.8.2",
+    "autoprefixer": "^10.4.21",
     "clean-css": "^5.3.3",
     "fs-extra": "^11.3.0",
-    "sass-embedded": "^1.85.0"
+    "sass-embedded": "^1.85.1"
   },
   "dependencies": {
+    "@ctrl/tinycolor": "^4.1.0",
     "lz-string": "^1.5.0",
     "pixi.js": "^8.8.1",
-    "yocto-queue": "^1.1.1"
+    "yocto-queue": "^1.2.0"
   }
 }

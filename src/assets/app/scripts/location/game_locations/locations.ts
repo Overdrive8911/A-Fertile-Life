@@ -1,4 +1,4 @@
-import { Direction, LocationId } from '../enums'
+import { Direction, Distance, LocationId } from "../enums";
 import {
   subLocation_Porch,
   subLocation_Reception,
@@ -16,15 +16,19 @@ import {
   subLocation_Lab,
   subLocation_Consultation,
   subLocation_OfficeWork,
-  subLocation_playerRoom,
+  subLocation_playerKitchen,
   subLocation_playerBedroom,
   subLocation_playerLivingRoom,
-} from './sub_locations'
-import { Location } from '../classes'
+  subLocation_playerPorch,
+  subLocation_playerBathroom,
+  subLocation_ceoOffice,
+  subLocation_fertiloIncPlayerRoom,
+} from "./sub_locations";
+import { Location } from "../classes";
 
 export const location_fertiloIncGroundFloor = new Location(
   LocationId.FERTILO_INC_GROUND_FLOOR,
-  'Fertilo Inc (Ground Floor)'
+  "Fertilo Inc (Ground Floor)"
 )
   .addArea(
     subLocation_Porch,
@@ -148,25 +152,48 @@ export const location_fertiloIncGroundFloor = new Location(
         },
       ],
     }
-  )
+  );
 
 //@ts-ignore
-window.t = location_fertiloIncGroundFloor
-console.log(location_fertiloIncGroundFloor)
+window.t = location_fertiloIncGroundFloor;
+console.log(location_fertiloIncGroundFloor);
+
+export const location_fertiloIncTopFloor = new Location(
+  LocationId.FERTILO_INC_TOP_FLOOR,
+  "Top Floor"
+).addArea(subLocation_ceoOffice);
+
+export const location_fertiloIncUnderground = new Location(
+  LocationId.FERTILO_INC_FIRST_FLOOR_UNDERGROUND,
+  "Underground"
+).addArea(subLocation_fertiloIncPlayerRoom);
 
 export const location_playerHouse = new Location(
   LocationId.PLAYER_HOUSE,
-  'Your House'
+  "Your House"
 )
   .addArea(
-    subLocation_playerRoom,
+    subLocation_playerKitchen,
     subLocation_playerBedroom,
-    subLocation_playerLivingRoom
+    subLocation_playerLivingRoom,
+    subLocation_playerPorch,
+    subLocation_playerBathroom
   )
   .connect({
-    from: subLocation_playerRoom,
+    from: subLocation_playerBedroom,
     areas: [
       { to: subLocation_playerBedroom, dir: Direction.SOUTH },
       { to: subLocation_playerLivingRoom, dir: Direction.EAST },
     ],
   })
+  .connect({
+    from: subLocation_playerLivingRoom,
+    areas: [
+      { to: subLocation_playerKitchen, dir: Direction.EAST },
+      {
+        to: subLocation_playerPorch,
+        dir: Direction.SOUTH,
+        dist: Distance.VERY_SHORT,
+      },
+    ],
+  });

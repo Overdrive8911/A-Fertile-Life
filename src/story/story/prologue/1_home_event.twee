@@ -1,4 +1,4 @@
-:: Prologue_Beginning [prologue location_playerHouse subLocation_bedroom] {"position":"25,25"}
+:: Prologue_Beginning [prologue] {"position":"25,25"}
 <p>
     You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's 9:00PM and the chilly nighttime wind blows into your room, although it does nothing to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss, leaving him looking shaken each time they left. Not even up to a week later, sales started dropping steadily, which just worsened the situation.
 </p>
@@ -112,12 +112,12 @@
         <span class="femaleSpeech">
             <i>Better than nothing.</i>
         </span> 
-        For now, you'll try to get some [[sleep->Prologue_WakeUpAndBrushTeeth]].
+        For now, you'll try to get some <<progressScene "sleep" 'Prologue_WakeUpAndBrushTeeth' 'Player_Bathroom'>>.
     </p>
 <</ctp>>
 
 
-:: Prologue_WakeUpAndBrushTeeth [prologue location_playerHouse subLocation_bathroom] {"position":"150,25"}
+:: Prologue_WakeUpAndBrushTeeth [prologue] {"position":"150,25"}
 <<updateGameTime "nextDay" 7 00>>
 
 <p>
@@ -144,7 +144,7 @@ The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
     </span> 
     You sigh and spit into the sink. 
     <span class="femaleSpeech">
-        <i>I'll just figure it out, [[later->Prologue_DressedAndEnteringBus]] once my brain fog clears.</i>
+        <i>I'll just figure it out, <<progressScene "later" 'Prologue_DressedAndEnteringBus' 'Player_Porch'>> once my brain fog clears.</i>
     </span>
 </p>
 

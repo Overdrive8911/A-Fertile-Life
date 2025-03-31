@@ -1,7 +1,5 @@
-import {
-  BellyState,
-  BirthRecordThreshold,
-} from "./declarations/preg_declarations";
+import { BirthRecordThreshold } from "./declarations/enums";
+import { BellyState } from "./declarations/variables";
 
 // NOTE - This function assumes the player is pregnant
 function getPlayerPregDescription() {

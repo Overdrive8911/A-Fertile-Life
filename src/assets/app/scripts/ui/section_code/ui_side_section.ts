@@ -10,11 +10,7 @@ let uiSideBarToggleState = true;
 
 $(document).on(":passageend", () => {
   // To make sure the changes stick around when loading the game
-  if (uiSideBarToggleState) {
-    $("[id='ui-side-bar']").addClass("stowed");
-  } else {
-    $("[id='ui-side-bar']").removeClass("stowed");
-  }
+  toggleSideBar();
   uiSideBarToggleHandler();
 
   // // Pass in an event
@@ -32,50 +28,32 @@ $(document).on(":passageend", () => {
   // }
   // TODO - Allow users add keyboard shortcuts they'd prefer
   // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-state-button").ariaClick(() => {
-    // Open or stow the side bar
-    uiSideBarToggleState = !uiSideBarToggleState;
-    if (uiSideBarToggleState) {
-      $("[id='ui-side-bar']").addClass("stowed");
-    } else {
-      $("[id='ui-side-bar']").removeClass("stowed");
-    }
-    uiSideBarToggleHandler();
-  });
+  $("#ui-side-bar-toggle-state-button")
+    .off("click")
+    .ariaClick(() => {
+      handleSidebarToggle();
+    });
   $(window)
     .off("keyup.sideBarToggleState")
     .on("keyup.sideBarToggleState", (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "q") {
-        // Open or stow the side bar
-        uiSideBarToggleState = !uiSideBarToggleState;
-        if (uiSideBarToggleState) {
-          $("[id='ui-side-bar']").addClass("stowed");
-        } else {
-          $("[id='ui-side-bar']").removeClass("stowed");
-        }
-        uiSideBarToggleHandler();
+        handleSidebarToggle();
       }
     });
 
   // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-map-button").ariaClick(() => {
-    // Wait for 1 second so the button can't be infinitely spammed
-    setTimeout(() => {
-      // Open or stow the map interface
-      actionInterfaceToggleHandler(".ui-side-bar-popout-map");
-    }, 150);
-  });
+  $("#ui-side-bar-toggle-map-button")
+    .off("click")
+    .ariaClick(() => {
+      toggleMapInterface();
+    });
   $(window)
     .off("keyup.sideBarToggleMap")
     .on("keyup.sideBarToggleMap", (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "z") {
-        // Wait for 0.15 seconds so the button can't be infinitely spammed
-        setTimeout(() => {
-          // Open or stow the map interface
-          actionInterfaceToggleHandler(".ui-side-bar-popout-map");
-        }, 150);
+        toggleMapInterface();
       }
     });
 
@@ -107,3 +85,25 @@ $(document).on(":passageend", () => {
 $(window).on("resize", () => {
   uiSideBarToggleHandler();
 });
+
+/** Open or stow the side bar*/
+function handleSidebarToggle() {
+  uiSideBarToggleState = !uiSideBarToggleState;
+  toggleSideBar();
+  uiSideBarToggleHandler();
+}
+
+function toggleMapInterface() {
+  setTimeout(() => {
+    // Open or stow the map interface with a small delay to prevent infinite spamming
+    actionInterfaceToggleHandler(".ui-side-bar-popout-map");
+  }, 150);
+}
+
+function toggleSideBar() {
+  if (uiSideBarToggleState) {
+    $("[id='ui-side-bar']").addClass("stowed");
+  } else {
+    $("[id='ui-side-bar']").removeClass("stowed");
+  }
+}

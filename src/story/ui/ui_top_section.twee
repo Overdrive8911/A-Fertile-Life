@@ -29,10 +29,9 @@
     <!-- This will be a black background wrapped in a double green border -->
     <div id="ui-settings-button-time-border-and-bg">
         <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
-        <!-- $gameTimeDisplay is set via typescript and is a string of the current time in digital format -->
         <div id="ui-settings-button-time">
-            <div><<live $gameDateDisplay>></div>
-            <div><<live $gameTimeDisplay>></div>
+            <div>{{ $gameDateAndTime.dateText }}</div>
+            <div>{{ $gameDateAndTime.timeText }}</div>
         </div>
     </div>
 </div>
@@ -50,7 +49,8 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
 
                 <span class="ui-stat-bar-hp">
-                    <<showmeter "pcHPBar" `$player.hp / $player.maxHp`>> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                    /*<<showmeter "pcHPBar" `$player.hp / $player.maxHp`>> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
+                    <<meter "$player.hp / $player.maxHp">>
                 </span>
             </div>
             
@@ -58,7 +58,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
 
                 <span class="ui-stat-bar-energy">
-                    <<showmeter "pcEnergyBar" `$player.energy / $player.maxEnergy`>>
+                    <<meter `$player.energy / 100` null "1rem" null "blue" "blue" "blue">>
                 </span>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/mood.webp" alt="Yellow Smiley Face Mood Icon">
 
                 <span class="ui-stat-bar-mood">
-                    <<showmeter "pcMoodBar" `$player.mood / 100`>>
+                    <<meter `$player.mental.mood / 100`>>
                 </span>
             </div>
 
@@ -76,7 +76,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/stomach.webp" alt="Pink Stomach Icon">
 
                 <span class="ui-stat-bar-hunger">
-                    <<showmeter "pcHungerBar" `$player.fullness / $player.maxFullness`>>
+                    <<meter "$player.fullness / 100">>
                 </span>
             </div>
         </div>
@@ -86,7 +86,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
 
                 <span class="ui-stat-bar-womb-hp">
-                    <<showmeter "pcWombHPBar" `$player.womb.hp / $player.womb.maxHp`>>
+                    <<meter "$player.womb.hp / $player.womb.maxHp">>
                 </span>
             </div>
 
@@ -94,7 +94,7 @@
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
 
                 <span class="ui-stat-bar-womb-lvl">
-                    <<showmeter "pcWombLvlBar" `$player.womb.exp / $player.womb.maxExp`>>
+                    <<meter "$player.womb.exp / $player.womb.maxExp">>
                 </span>
             </div>
         </div>

@@ -2,11 +2,9 @@ import { Breasts } from "../declarations/body_stats/breast_class_definitions";
 import type { Player } from "../declarations/player_declarations";
 import { Inventory } from "../inventory_and_items/classes/inventory";
 import { defaultWarpDestination } from "../location/other_data";
-import { Womb } from "../pregnancy/classes";
-import {
-  FertilityLevel,
-  BellyState,
-} from "../pregnancy/declarations/preg_declarations";
+import { Womb } from "../pregnancy/classes/womb";
+import { FertilityLevel } from "../pregnancy/declarations/enums";
+import { BellyState } from "../pregnancy/declarations/variables";
 
 export const saveVar_player: Player = {
   /* Money */
@@ -79,7 +77,7 @@ export const saveVar_player: Player = {
 
   /* Mental Stats */
   /* All of them have a max of 100 */
-  mentalStats: {
+  mental: {
     mood: 70,
     intelligence: 75,
   },
@@ -92,7 +90,6 @@ export const saveVar_player: Player = {
   maxHp: 100,
   immunity: 85 /* Resistance to illness */,
   energy: 70 /* 0 - 10 -> Completely exhausted, 11 - 25 -> exhausted, 26 - 40 -> very tired, 41 - 50 - Tired, 51 - 60 -> Fatigued, 61 - 75 - Normal, 76 - 85 -> Perky, 86 - 99 -> Energetic, 100 -> Completely Refreshed */,
-  maxEnergy: 100,
 
   /* Womb, Pregnancy and Birth */
   /* A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions */
@@ -115,7 +112,6 @@ export const saveVar_player: Player = {
 
   /* Stomach and Hunger */
   fullness: 85 /* From 0 to 100. Decreases over time, especially when doing strenuous work. Increases after eating. As long as its above 70, the user will not be hungry. The user cannot eat if the amount of fullness is 100 */,
-  maxFullness: 100,
   caloriesEaten: 2100 /* Stores the daily amount of calories consumed by the user. Is used in calculating changes to weight */,
   /* UNUSED stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */
   sag: 0 /* Slowly increases depending on womb.curCapacity. Some upgrades reduce its progress. Reduces when not pregnant */,

@@ -1,9 +1,17 @@
+import type { Player } from "../../declarations/player_declarations";
 import type { Item } from "../classes/item";
-import type { Clothing, Drug, Food } from "../item_class_extends";
-import type { ClothingState } from "./item_enums";
+import type { Clothing } from "../classes/item_extends/clothing";
+import type { Drug } from "../classes/item_extends/drug";
+import type { Food } from "../classes/item_extends/food";
+import type { ClothingState } from "../classes/item_extends/clothing";
 
 // NOTE - All item specific data should extend from this
-export interface GenericItemDynamicData {}
+export interface GenericItemDynamicData {
+  /**
+   * All items may have a reference to the user holding them
+   */
+  user?: Player;
+}
 export type ItemCallback = (
   // inventoryObject: Inventory,
   // storageIdInInventory: number,
@@ -42,13 +50,21 @@ export type ItemConstructorArgs<T extends Item> = Partial<{
 export type SortingId = number; // Used in sorting the items. no two items can have the same SortingId
 export type ExtraIdDataType = number | string;
 
-// ANCHOR - Extensions of `GenericItemDynamicData`
+// SECTION - Extensions of `GenericItemDynamicData`
+export interface FoodDynamicData extends GenericItemDynamicData {
+  timeSinceObtained: number; // In seconds
+}
 export interface ClothingDynamicData extends GenericItemDynamicData {
   clothingState: ClothingState;
 }
 
+// !SECTION
+
 // NOTE: Add all item data types here
-export type AnyItemDynamicData = ClothingDynamicData | GenericItemDynamicData;
+export type AnyItemDynamicData =
+  | FoodDynamicData
+  | ClothingDynamicData
+  | GenericItemDynamicData;
 
 export type AllClothingDurabilityPoints =
   | ClothingState.DURABILITY_LVL_1

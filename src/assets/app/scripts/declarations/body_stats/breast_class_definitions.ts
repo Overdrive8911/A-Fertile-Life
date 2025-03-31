@@ -58,7 +58,7 @@ export class Breasts {
       ownData[prop] = clone(this[prop]);
     }, this);
 
-    return JSON.reviveWrapper(
+    return Serial.createReviver(
       `new ${(this.constructor as typeof Breasts).name}($ReviveData$)`,
       ownData
     );
