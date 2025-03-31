@@ -120,6 +120,7 @@ export function warpToArea(
   destination: AreaUUID | string,
   doNotLoadPassage = false
 ) {
+  console.info(`The destination to warp to is ${destination}`);
   const currentArea = activeArea();
   const destinationArea = getAreaFromUUID(destination);
   if (currentArea == destinationArea) return;
