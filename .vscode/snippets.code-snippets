@@ -1,0 +1,311 @@
+{
+  // Place your snippets for twee3-sugarcube-2 here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+
+  // numberpool_macro_set MACROS
+  "Macro: numberinput": {
+    "prefix": ":numberinput",
+    "body": [
+      "<<numberinput \"${1:receiverName}\" ${2:defaultValue} ${3:minValue} ${4:maxValue}>>"
+    ],
+    "description": "Creates a whole number input box, used to modify the value of the $variable with the given name."
+  },
+  "Macro: numberpool": {
+    "prefix": ":numberpool",
+    "body": [
+      "<<numberpool \"${1:receiverName}\">>\n${2:content}\n<</numberpool>>"
+    ],
+    "description": "Creates a number pool for use with the other macros from this set. Only useful when paired with them."
+  },
+  "Macro: numberslider": {
+    "prefix": ":numberslider",
+    "body": [
+      "<<numberslider \"${1:receiverName}\" ${2:defaultValue} ${3:minValue} ${4:maxValue} ${5:stepValue}>>"
+    ],
+    "description": "Creates a number range slider, used to modify the value of the $variable with the given name."
+  },
+
+  // CTP (click-to-proceed)
+  "Macro: clicktoproceed": {
+    "prefix": [":ctp", ":clicktoproceed"],
+    "body": ["<<ctp ${1:id}>>\n${2:content}\n<</ctp>>"],
+    "description": "The main CTP macro inside which all content is written."
+  },
+  "Macro: clicktoproceed_next": {
+    "prefix": [":ctpNext"],
+    "body": ["<<ctpNext>>"],
+    "description": "To be used inside `<<ctp>>` to separate the content into blocks."
+  },
+  "Macro: clicktoproceed_advance": {
+    "prefix": [":ctpAdvance"],
+    "body": ["<<ctpAdvance ${1:id}>>"],
+    "description": "The 'proceed' part of Click To Proceed... Used to move the train forward and show the next blocks."
+  },
+  "Macro: clicktoproceed_back": {
+    "prefix": [":ctpBack"],
+    "body": ["<<ctpBack ${1:id}>>"],
+    "description": "Turns back time and goes back one block."
+  },
+
+  /* Live Update */
+  "Macro: live": {
+    "prefix": [":live"],
+    "body": ["<<live $1>>"],
+    "description": "Similar to <<print>> but allows the variable printed by this macro to be updated by the <<update>> macro."
+  },
+  "Macro: live (l)": {
+    "prefix": [":l"],
+    "body": ["<<l $1>>"],
+    "description": "Similar to <<=>> but allows the variable printed by this macro to be updated by the <<update>> macro."
+  },
+  "Macro: live (HTML)": {
+    "prefix": [":lh"],
+    "body": ["<<lh $1>>"],
+    "description": "Similar to <<->> but allows the variable printed by this macro to be updated by the <<update>> macro. Encodes special html characters in its output."
+  },
+  "Macro: liveblock": {
+    "prefix": [":liveblock"],
+    "body": ["<<liveblock>>\n${1:content}\n<</liveblock>>"],
+    "description": "Creates a block in which variables included in the block can be updated at once by the <<update>> macro."
+  },
+  "Macro: liveblock (lb)": {
+    "prefix": [":lb"],
+    "body": ["<<lb>>\n${1:content}\n<</lb>>"],
+    "description": "Creates a block in which variables included in the block can be updated at once by the <<update>> macro."
+  },
+  "Macro: update": {
+    "prefix": [":update"],
+    "body": ["<<update>>"],
+    "description": "Triggers the a synthetic event `:liveupdate` to update the live displays created using the <<live>> or <<liveblock>> macro."
+  },
+  "Macro: update (upd)": {
+    "prefix": [":upd"],
+    "body": ["<<upd>>"],
+    "description": "Triggers the a synthetic event `:liveupdate` to update the live displays created using the <<live>> or <<liveblock>> macro."
+  },
+
+  /* nosp (No space) macro */
+  "Macro: nosp": {
+    "prefix": [":nosp", ":nospace"],
+    "body": ["<<nosp>>\n$1\n<</nosp>>"],
+    "description": "Functionally similar to <<nobr>> but also removes whitespaces."
+  },
+
+  /* checkvars macro */
+  "Macro: checkvars": {
+    "prefix": [":checkvars"],
+    "body": ["<<checkvars>>"],
+    "description": "Creates and opens a debugging dialog which displays the current state of the story's $variable store (State.variables)."
+  },
+
+  // /* meter-macros */
+  // "Macro: newmeter":
+  // {
+  // 	"prefix": [":newmeter", ":bar", ":meter"],
+  // 	"body": [
+  // 		"<<newmeter \"${1:name}\" ${2:value}>>\n$3\n<</newmeter>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+  // "Macro: colors (newmeter)":
+  // {
+  // 	"prefix": [":colors"],
+  // 	"body": [
+  // 		"<<colors ${1:full} ${2:empty} ${3:backing}>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+  // "Macro: sizing (newmeter)":
+  // {
+  // 	"prefix": [":sizing"],
+  // 	"body": [
+  // 		"<<sizing ${1:width} ${2:height}>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+  // "Macro: animation (newmeter)":
+  // {
+  // 	"prefix": [":animation"],
+  // 	"body": [
+  // 		"<<animation ${1:timeOrFalse} \"${2:easing}\">>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+  // "Macro: label (newmeter)":
+  // {
+  // 	"prefix": [":label"],
+  // 	"body": [
+  // 		"<<label \"${1:labelText}\" ${2:textColor} ${3:alignment}>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+
+  // "Macro: showmeter":
+  // {
+  // 	"prefix": [":showmeter"],
+  // 	"body": [
+  // 		"<<showmeter \"${1:name}\" ${2:value}>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+  // "Macro: updatemeter":
+  // {
+  // 	"prefix": [":updatemeter"],
+  // 	"body": [
+  // 		"<<updatemeter \"${1:name}\" ${2:value}>>"
+  // 	],
+  // 	"description": "See custom_macro_documentation/meter-macro/meter-macros.md."
+  // },
+
+  // MY MACROS
+  "MyMacro: updateGameTime": {
+    "prefix": [":updateGameTime"],
+    "body": ["<<updateGameTime ${1:day(s)} ${2:hour(s)} ${3:minute(s)}>>"],
+    "description": "<<updateGameTime 'nextDay' 7 30>> to skip to 7:30 am on the next day or <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards. Easy enough?"
+  },
+  "MyMacro: skipTime": {
+    "prefix": [":skipTime"],
+    "body": ["<<skipTime ${1:day(s)} ${2:hour(s)} ${3:minute(s)}>>"],
+    "description": ""
+  },
+  "MyMacro: impregnate": {
+    "prefix": [":impregnate"],
+    "body": [
+      "<<impregnate ${1:virility} ${2:virilityBonus} ${3:targetWombVariable} ${4:(optional) numberOfFetusesToSpawn}>>"
+    ],
+    "description": ""
+  },
+  "MyMacro: updatePregnancy": {
+    "prefix": [":updatePregnancy"],
+    "body": ["<<updatePregnancy ${1:targetWombVariable}>>"],
+    "description": ""
+  },
+  "MyMacro: isPregBellySizeInRange": {
+    "prefix": [":isPregBellySizeInRange"],
+    "body": [
+      "<<isPregBellySizeInRange ${1:wombInstance} ${2:varToStoreBooleanResult} ${3:lowerLimit_e.g_\"EARLY_PREGNANCY\"} ${3:upperLimit_e.g_\"LATE_PREGNANCY\"}>>"
+    ],
+    "description": ""
+  },
+  "MyMacro: giveItem": {
+    "prefix": [":giveItem", ":addItem"],
+    "body": ["<<giveItem ${1:itemId} ${2:amount(optional)}>>"],
+    "description": "<<giveItem FOOD_CHEESE>> adds 1 cheese to the player's inventory\n\n<<giveItem FOOD_CHEESE 7>> adds 7 cheese to the player's inventory\n\nItems can be found in `gInGameItems`.Easy enough?"
+  },
+  "MyMacro: deleteItem": {
+    "prefix": [":deleteItem", ":removeItem"],
+    "body": ["<<deleteItem ${1:itemId} ${2:amount(optional)}>>"],
+    "description": "<<deleteItem FOOD_CHEESE>> removes 1 cheese from the player's inventory\n\n<<deleteItem FOOD_CHEESE 7>> removes 7 cheese from the player's inventory\n\nItems can be found in `gInGameItems`.Easy enough?"
+  },
+  "MyMacro: startScene": {
+    "prefix": [":startScene"],
+    "body": ["<<startScene '${1:passageForScene}'>>"]
+  },
+  "MyMacro: endScene": {
+    "prefix": [":endScene"],
+    "body": ["<<endScene '${1:passageForAreaToWarpTo}'>>"]
+  },
+  "MyMacro: pauseScene": {
+    "prefix": [":pauseScene"],
+    "body": ["<<pauseScene '${1:passageForAreaToWarpTo}'>>"]
+  },
+  "MyMacro: cancelScene": {
+    "prefix": [":cancelScene"],
+    "body": ["<<cancelScene '${1:passageForAreaToWarpTo}'>>"]
+  },
+  "MyMacro: warp": {
+    "prefix": [":warp"],
+    "body": ["<<warp '${1:passageForAreaToWarpTo}'>>"]
+  },
+
+  /* WIDGETS. I use :: in their prefixes */
+  "Widget: playerName": {
+    "prefix": ["::pc", "::pcName", "::player", "::playerName"],
+    "body": ["<<PC>>"],
+    "description": "Gets the first name from the variable $player.name and wraps it in a player name specific class."
+  },
+  "Widget: changePCPersonality": {
+    "prefix": ["::changePCPersonality"],
+    "body": ["<<changePCPersonality \"${1:personality}\" ${2:value}>>"],
+    "description": "This widget will be used to increment or decrement the PC's personality as well as also increasing and decreasing other personality values depending on some situations."
+  },
+  "Widget: changePCRelationship": {
+    "prefix": ["::changePCRelationship"],
+    "body": ["<<changePCRelationship \"${1:character}\" ${2:value}>>"],
+    "description": "This widget is used to change the relationship value between the player and another character. If the relationship does not exist, it automatically adds it."
+  },
+  "Widget: updatePlayerStats": {
+    "prefix": ["::updatePlayerStats"],
+    "body": ["<<updatePlayerStats>>"],
+    "description": "Updates all the player's stats at once."
+  },
+  "Widget: character": {
+    "prefix": [":char", ":character"],
+    "body": [
+      "<<character \"${1:name}\" \"${2:nameOfClassForTheColorToUse}\" \"${3:value}\">>\n\t$4\n<</character>>"
+    ],
+    "description": ""
+  },
+  "Widget: meter": {
+    "prefix": ["::meter"],
+    "body": ["<<meter \"${1:variableNameOrValue}\">>"],
+    "description": ""
+  },
+  "Widget: startSceneLink": {
+    "prefix": "::startSceneLink",
+    "body": ["<<startSceneLink \"${1:linkText}\" '${2:passageName}'>>"]
+  },
+  "Widget: endSceneLink": {
+    "prefix": ["::endSceneLink"],
+    "body": ["<<endSceneLink \"${1:linkText}\" '${2:passageName}'>>"]
+  },
+  "Widget: pauseSceneLink": {
+    "prefix": ["::pauseSceneLink"],
+    "body": ["<<pauseSceneLink \"${1:linkText}\" '${2:passageName}'>>"]
+  },
+  "Widget: cancelSceneLink": {
+    "prefix": ["::cancelSceneLink"],
+    "body": ["<<cancelSceneLink \"${1:linkText}\" '${2:passageName}'>>"]
+  },
+  "Widget: progressScene": {
+    "prefix": ["::progressScene"],
+    "body": [
+      "<<warp \"${1:linkText}\" '${2:passageName}' '${3:passageNameToChangeTheCurrentArea}'>>"
+    ]
+  },
+
+  // My own snippets to make things faster
+  "Quick Paragragh": {
+    "prefix": ["<p>", "p"],
+    "body": ["<p>\n\t$1\n</p>"],
+    "description": ""
+  },
+  "Quick Span + Class": {
+    "prefix": ["<span>", "span"],
+    "body": ["<span class=\"$1\">\n\t“$2”\n</span>"],
+    "description": ""
+  },
+  "Quick Span + Class (femaleSpeech)": {
+    "prefix": ["femaleSpeech"],
+    "body": ["<span class=\"femaleSpeech\">\n\t“$1”\n</span>"],
+    "description": ""
+  },
+  "G.I.G.I Speech": {
+    "prefix": ["gigi", "g.i.g.i"],
+    "body": [
+      "<<character \"G.I.G.I\" \"roboSpeech\" \"default\">>\n\t“$1”\n<</character>>"
+    ],
+    "description": ""
+  }
+}
