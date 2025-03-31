@@ -96,7 +96,8 @@ export class SceneData {
   }
 
   addScene(passageName: string, area = player().areaId) {
-    if (this.lastScene?.passage != passageName)
+    // This isn't a mistake and I don't really wanna change the type rn
+    if (this.currentScene?.passage != passageName)
       this.scenes.push({ passage: passageName, area: area });
   }
 }
