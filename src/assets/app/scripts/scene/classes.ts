@@ -95,8 +95,9 @@ export class SceneData {
     return this.scenes.find((scene) => scene.passage == passageName);
   }
 
-  addScene(passageName: string, area?: AreaUUID) {
-    this.scenes.push({ passage: passageName, area: area ?? player().areaId });
+  addScene(passageName: string, area = player().areaId) {
+    if (this.lastScene?.passage != passageName)
+      this.scenes.push({ passage: passageName, area: area });
   }
 }
 
