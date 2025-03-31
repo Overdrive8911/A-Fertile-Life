@@ -3,5 +3,3 @@
 <<include "VariableInitialization">>
 
 <<include "GeneralSettings">>
-
-<<include "MeterDeclaration">>

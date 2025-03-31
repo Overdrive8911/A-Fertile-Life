@@ -1,0 +1,45 @@
+:: Widget_scenes [widget nobr]
+/* These are just link wrappers to the actual macros */
+
+/*- Arg 0 - Link Title (string)
+  - Arg 1 - Passage to play (string)*/
+<<widget "startSceneLink">>
+  <<link _args[0]>>
+    <<startScene _args[1]>>
+  <</link>>
+<</widget>>
+
+/*- Arg 0 - Link Title (string)
+  - Arg 1 - Passage to play (string)
+  - Arg 2 - Passage of Area to change th player's location to (string) */
+<<widget "progressScene">>
+  <<link _args[0] _args[1]>>
+    <<warp _args[2]>>
+  <</link>>
+<</widget>>
+
+
+/*- Arg 0 - Link Title (string)
+  - Arg 1 - Passage to play (string)*/
+<<widget "endSceneLink">>
+  <<link _args[0]>>
+    <<endScene _args[1]>>
+  <</link>>
+<</widget>>
+
+/*- Arg 0 - Link Title (string)
+  - Arg 1 - Passage to play (string)*/
+<<widget "pauseSceneLink">>
+  <<link _args[0]>>
+    <<pauseScene _args[1]>>
+  <</link>>
+<</widget>>
+
+
+/*- Arg 0 - Link Title (string)
+  - Arg 1 - Passage to play (string)*/
+<<widget "cancelSceneLink">>
+  <<link _args[0]>>
+    <<cancelScene _args[1]>>
+  <</link>>
+<</widget>>

@@ -1,3 +1,4 @@
+import { attachClassToWindow } from "../../declarations/general_declarations";
 import { ItemId, ItemTag } from "../declarations/item_enums";
 import type {
   AnyItemDynamicData,
@@ -310,9 +311,11 @@ export class Inventory {
       ownData[prop] = clone(this[prop as any as keyof Inventory]);
     }, this);
 
-    return JSON.reviveWrapper(
+    return Serial.createReviver(
       `new ${(this.constructor as typeof Inventory).name}($ReviveData$)`,
       ownData
     );
   }
 }
+
+attachClassToWindow(Inventory);

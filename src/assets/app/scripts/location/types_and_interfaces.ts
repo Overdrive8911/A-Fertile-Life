@@ -4,7 +4,7 @@ import type {
   Location,
   SubLocation,
   GlobalMap,
-} from './classes'
+} from "./classes";
 import type {
   GlobalMapId,
   LocationId,
@@ -12,7 +12,7 @@ import type {
   RegionId,
   SubLocationId,
   SubRegionId,
-} from './enums'
+} from "./enums";
 
 // NOTE: Any id for a possible area should be added to this union.
 export type AreaId =
@@ -20,19 +20,19 @@ export type AreaId =
   | SubLocationId
   | SubRegionId
   | RegionId
-  | GlobalMapId
+  | GlobalMapId;
 export type AreaUniqueId =
-  `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`
-export type SubAreas = Region | SubRegion | Location | SubLocation
-export type AnyArea = GlobalMap | SubAreas
-export type SuperAreas = Exclude<AnyArea, SubLocation>
-export type UUID =
+  `${GlobalMapId}_${RegionId}_${SubRegionId}_${LocationId}_${SubLocationId}`;
+export type SubAreas = Region | SubRegion | Location | SubLocation;
+export type AnyArea = GlobalMap | SubAreas;
+export type SuperAreas = Exclude<AnyArea, SubLocation>;
+export type AreaUUID =
   | `${Exclude<
       MapEntityId,
       MapEntityId.DUMMY | MapEntityId.GLOBAL_MAP
     >}_${number}`
   | `${MapEntityId.GLOBAL_MAP}`
-  | `${MapEntityId.DUMMY}`
-export type Coords = { x: number; y: number; z: number }
+  | `${MapEntityId.DUMMY}`;
+export type Coords = { x: number; y: number; z: number };
 
-export type SvgString = string
+export type SvgString = string;

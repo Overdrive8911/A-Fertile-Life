@@ -1,3 +1,4 @@
+import type { Player } from "../../declarations/player_declarations";
 import {
   ItemColor,
   ItemId,
@@ -9,7 +10,15 @@ import type {
   ItemConstructorArgs,
 } from "../declarations/types_and_interfaces";
 
-export class Item {
+/**
+ * Description placeholder
+ *
+ * @export
+ * @class Item
+ * @typedef {Item}
+ * @template {any} [ItemEffect=never] // NOTE: Ensure that this is an **enum of bit flags**
+ */
+export class Item<ItemEffect extends number = number> {
   // // ANCHOR - This class accepts 3 arguments; an object which may have any data of the non-method properties of this class, a function to serve as the handler callback of the item to create, or both in an object described by `allData` which is {data: ..., handler: ...}
   #itemId?: ItemId; // Entry in `ItemId`. Also used to get the name of the items
   #name?: string;
@@ -20,13 +29,61 @@ export class Item {
   #tags?: ItemTag[]; // For sorting items
   #color?: ItemColor; // Just for aesthetics
 
+  /**
+   * This is an array of values where each value is either an `effect` to apply, an object consisting of an `effect` to apply and a flag to do the reverse of what the effect normally does, or a function that takes the player as an argument and does something with it that none of the `effect`s can do
+   */
+  effect?: (
+    | ItemEffect
+    | { type: ItemEffect; invert: true }
+    | ((user: Player) => void)
+  )[];
+
+  /**
+   * If the item can be used. If not, it's just a collectible
+   *
+   * //NOTE: **EVERY ITEM IS UNUSABLE UNLESS EXPLICITLY SET OTHERWISE**
+   */
+  usable = false;
+
   // A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
   customCallBack?: ItemCallback; // NOTE: Add this when initializing a new item and a special "default callback" is required.
-  // ANCHOR: The `defaultCallback()` is simply the default function that should be called when an item in the inventory is used. Like wearing / removing clothing, consuming food or drugs, etc.
+  /**
+   *
+   * // ANCHOR: The `defaultCallback()` is simply the default function that should be called when an item in the inventory is used. Like wearing / removing clothing, consuming food or drugs, etc.
+   */
   protected defaultCallback(...args: Parameters<ItemCallback>) {
     // REVIEW - What should the generic item callback be?
     // TODO - Fix this typescript error
+    const user = args[0]?.user;
+
+    if (user && this.effect) {
+      this.effect.forEach((effect) => {
+        if (typeof effect === "function") {
+          effect(user);
+        } else if (typeof effect === "object") {
+          if (effect.invert) {
+            // Invert the effect
+            this.applyEffect(effect.type, user, true);
+          } else {
+            this.applyEffect(effect.type, user);
+          }
+        } else {
+          this.applyEffect(effect, user);
+        }
+      });
+    }
+
     return 0 as ReturnType<ItemCallback>;
+  }
+  /**
+   * **OVERRIDE ME** on any item that can apply *effects* to the user such as `Food` and `Drug`s
+   */
+  protected applyEffect(
+    effect: ItemEffect,
+    user: Player,
+    shouldInvert = false
+  ) {
+    console.log("Default Effect applied aka NOTHING :3. Override this method");
   }
 
   constructor(data?: ItemConstructorArgs<Item>) {
@@ -125,7 +182,7 @@ export class Item {
   // SECTION - Methods
   addTags(...tagsToAdd: ItemTag[]) {
     // Remove any unneeded tags
-    tagsToAdd.delete(ItemTag.ALL);
+    tagsToAdd.deleteAll(ItemTag.ALL);
 
     // Initialize the `tags` array if its still undefined
     this.#tags ??= [];
@@ -135,7 +192,7 @@ export class Item {
   // Returns an array of the removed tags
   removeTags(...tagsToRemove: ItemTag[]): ItemTag[] {
     if (!this.#tags) return [];
-    return this.#tags.delete(...tagsToRemove);
+    return this.#tags.deleteAll(...tagsToRemove);
   }
   // !SECTION
 

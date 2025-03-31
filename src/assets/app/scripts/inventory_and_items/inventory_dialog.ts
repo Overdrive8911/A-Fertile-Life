@@ -1,10 +1,10 @@
 import type { Inventory } from "./classes/inventory";
 import type { Item } from "./classes/item";
+import { Clothing } from "./classes/item_extends/clothing";
 import { gInGameItems } from "./declarations/game_item_declarations";
 import { ItemId, ItemTag } from "./declarations/item_enums";
 import type { ClothingDynamicData } from "./declarations/types_and_interfaces";
 import { inventoryTooltipHandler } from "./inventory_event_handlers";
-import { Clothing } from "./item_class_extends";
 
 $(window).on("resize", () => {
   // Run this on resizing too
@@ -62,9 +62,10 @@ export const openInventoryDialog = () => {
   // SECTION - Populate inventoryRow
   populateInventoryRowItems(inventoryRow);
 
-  Dialog.setup("Inventory", "inventory-dialog");
-  Dialog.append(inventoryTabs).append(inventoryRow);
-  Dialog.open();
+  Dialog.create("Inventory", "inventory-dialog")
+    .append(inventoryTabs)
+    .append(inventoryRow)
+    .open();
 
   // Make the tabs as long as the rows
   inventoryTabsHandler();
@@ -164,7 +165,10 @@ function populateInventoryRowItems(
           </div>
         </div>
 
-        <div class="inventory-item-footer">x${numOfDuplicates}&nbsp</div>
+        <div class="inventory-item-footer">
+          ${item.usable ? `<button>Use</button>` : ""}
+          &nbsp;x${numOfDuplicates}
+        </div>
       </div>`
     );
   }

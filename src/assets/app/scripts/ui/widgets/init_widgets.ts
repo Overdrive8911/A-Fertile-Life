@@ -1,0 +1,1 @@
+setup.widget = setup.widget || {};

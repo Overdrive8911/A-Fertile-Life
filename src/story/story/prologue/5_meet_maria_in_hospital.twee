@@ -1,4 +1,5 @@
-:: FertiloInc_Prologue_MeetMaria [prologue location_fertiloIncTopFloor subLocation_ceoOffice] {"position":"25,650"}
+:: FertiloInc_Prologue_MeetMaria [prologue] {"position":"25,650"}
+<<skipTime 0 0 10>>
 <p>
     You tell Mr. Fert that your questions have been satisfied and he nods in response. 
     <span class="maleSpeech">
@@ -190,6 +191,6 @@
         </span> Maria replies, idly rubbing her bump as you and Mr. Fert leave the office.
     </p>
 
-    [[Leave the office->FertiloInc_Prologue_GettingToYourNewRoom]]
+    <<progressScene "Leave the office." 'FertiloInc_Prologue_GettingToYourNewRoom' 'Fertilo_Inc_Player_Room'>>
 
 <</ctp>>

@@ -1,6 +1,6 @@
 import type { Inventory } from "../inventory_and_items/classes/inventory";
-import type { UUID } from "../location/types_and_interfaces";
-import type { Womb } from "../pregnancy/classes";
+import type { AreaUUID } from "../location/types_and_interfaces";
+import type { Womb } from "../pregnancy/classes/womb";
 import type { Breasts } from "./body_stats/breast_class_definitions";
 
 export type Player = {
@@ -8,7 +8,7 @@ export type Player = {
   /**
    * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
    */
-  areaId: UUID;
+  areaId: AreaUUID;
   personality: {
     enthusiasm: number;
     apathy: number;
@@ -49,7 +49,7 @@ export type Player = {
 
   inventory: Inventory;
 
-  mentalStats: {
+  mental: {
     mood: number;
     intelligence: number;
   };
@@ -59,7 +59,6 @@ export type Player = {
   // illness: number,
   immunity: number;
   energy: number;
-  maxEnergy: number;
 
   womb: Womb;
 
@@ -68,7 +67,6 @@ export type Player = {
   muscleDefinition: number;
 
   fullness: number;
-  maxFullness: number;
   caloriesEaten: number;
   /* UNUSED stretchMarks:           0,                  /* 0 -> No stretch marks, 1 - 25 -> Light stretch marks, 26 - 50 -> Visible stretch marks, 51 - 75 -> Prominent stretch marks, 76 - 100 -> Black and Blue */
   sag: number;
