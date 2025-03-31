@@ -1,5 +1,5 @@
 import { globalMap } from "../location/game_locations/global_map";
-import type { UUID } from "../location/types_and_interfaces";
+import type { AreaUUID } from "../location/types_and_interfaces";
 import type { SugarcubeVariable } from "./types";
 
 export const enum StoryFlags {
@@ -7,7 +7,7 @@ export const enum StoryFlags {
   /**
    * Used to determine if a particular story-important scene is active
    */
-  IS_EVENT_ACTIVE = 1 << 0,
+  IS_SCENE_ACTIVE = 1 << 0,
 }
 
 /**
@@ -39,10 +39,6 @@ export function toggleStoryFlag(flag: StoryFlags) {
 // SECTION: Location specific helper functions
 export function activeArea() {
   return globalMap.activeArea;
-}
-
-export function getAreaFromUUID(uuid: UUID) {
-  return globalMap.areaFromUUID(uuid);
 }
 
 export const getRandomNumberFromRangeInclusive = (min: number, max: number) => {
@@ -90,3 +86,11 @@ export const getSugarCubeVariableValue = (varName: SugarcubeVariable) => {
 export const attachClassToWindow = (classConstructor: Function) => {
   (window as any)[classConstructor.name] = classConstructor;
 };
+
+export function player() {
+  return variables().player;
+}
+
+export function doesPassageExist(passageName: string) {
+  return Story.has(passageName);
+}

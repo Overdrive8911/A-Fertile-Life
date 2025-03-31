@@ -1,6 +1,6 @@
 import { setLastWarpDestination } from "./other_data";
 import { Direction, MapEntityFlags } from "./enums";
-import type { SubAreas, UUID } from "./types_and_interfaces";
+import type { SubAreas, AreaUUID } from "./types_and_interfaces";
 import {
   GlobalMap,
   SubLocation,
@@ -10,11 +10,10 @@ import {
 } from "./classes";
 import { globalMap } from "./game_locations/global_map";
 import { backupPassageName, oppositeDirection } from "./general_location_data";
-import {
-  activeArea,
-  getAreaFromUUID,
-} from "../declarations/general_declarations";
+import { activeArea, player } from "../declarations/general_declarations";
 import { updateTimeWithDistance } from "../date_and_time/game_date_and_time_updater";
+import { getAreaFromUUID, getAreaUUID } from "./functions";
+import { isSceneActive } from "../scene/functions";
 
 function getConnectedArea(
   area: SubLocation,
@@ -106,27 +105,24 @@ export function warpToConnectedArea(direction: Direction) {
   return false;
 }
 
-export function setPlayerLocation(destination: UUID) {
-  variables().player.areaId = destination;
+export function setPlayerLocation(destination: AreaUUID) {
+  player().areaId = destination;
 }
 
 /**
- * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data
+ * "Warp" to an area by loading the default passage for it and updating the location and sub location ids in the save data. Does not load a passage if the player is in a scene
  *
  * @param destination - Either a UUID or a passage name that is attached to any instance of a location, sub-location, etc
  * @param doNotLoadPassage - If true, then this doesn't load up the default passage of the new area. Useful if you want to change the player's area but don't want to load up the default passage associated with the area.
  * @returns
  */
 export function warpToArea(
-  destination: UUID | string,
+  destination: AreaUUID | string,
   doNotLoadPassage = false
 ) {
+  console.info(`The destination to warp to is ${destination}`);
   const currentArea = activeArea();
-  const possibleUUIDIfDestinationIsAPassageName =
-    globalMap.uuidFromPassage(destination);
-  const destinationArea = possibleUUIDIfDestinationIsAPassageName
-    ? getAreaFromUUID(possibleUUIDIfDestinationIsAPassageName)
-    : getAreaFromUUID(destination as UUID);
+  const destinationArea = getAreaFromUUID(destination);
   if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
@@ -147,9 +143,7 @@ export function warpToArea(
 
   setLastWarpDestination(currentArea.uuid);
 
-  setPlayerLocation(
-    possibleUUIDIfDestinationIsAPassageName ?? (destination as UUID)
-  );
+  setPlayerLocation(getAreaUUID(destination));
 
   // Calculate the amount of time to travel between the areas
   globalMap.getDistance2(currentArea, destinationArea).then((dist) => {
@@ -157,14 +151,16 @@ export function warpToArea(
   });
 
   // load the passage
-  if (!doNotLoadPassage) {
+  if (!doNotLoadPassage || !isSceneActive()) {
     Engine.play(passageToLoad);
   }
 }
 export function isNavigationButtonUsable(direction: Direction) {
   const currArea = activeArea();
 
-  return currArea instanceof GlobalMap
+  return isSceneActive()
+    ? false
+    : currArea instanceof GlobalMap
     ? false
     : getConnectedArea(currArea, direction)
     ? true

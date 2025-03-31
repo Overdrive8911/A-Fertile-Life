@@ -1,4 +1,4 @@
-:: PlayerSandbox
+:: PlayerSandbox {"position":"25,225"}
 <p>
     Here, you are. Standing in the middle of the void. Surrounded by the nothingness that once held your reality together. That time is long past however. You came here for a reason; to experiment, to experiment to your fill. In this place, nothing can truly be created or destroyed but the dark matter her can be moulded to your will.
 </p>
@@ -87,4 +87,10 @@
 
 <p>
     <<link "Reload Passage" "PlayerSandbox">><</link>>
+</p>
+
+<p>
+    <<link "Test Prologue Scene">>
+        <<startScene "Prologue_Beginning">>
+    <</link>>
 </p>

@@ -42,12 +42,7 @@ export class GameDateAndTime extends Date {
     return new GameDateAndTime(this);
   }
 
-  toJSON() {
-    var ownData = {};
-    Object.keys(this).forEach((prop) => {
-      //@ts-ignore
-      ownData[prop] = clone(this[prop]);
-    });
+  override toJSON() {
     return Serial.createReviver(
       `new ${GameDateAndTime.name}(${this.getTime()})`
     ) as any;

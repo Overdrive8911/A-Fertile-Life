@@ -193,7 +193,7 @@ export class Clothing extends Item {
   }
 
   // SECTION - Clothing Item Methods
-  defaultCallback(
+  override defaultCallback(
     data?: ClothingDynamicData,
     inventory = variables().player.inventory
   ) {

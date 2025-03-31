@@ -36,12 +36,12 @@ export const enum MapEntityFlags {
     INACCESSIBLE_FROM_DOWN,
 }
 export const enum Direction {
-  NORTH = 'North',
-  EAST = 'East',
-  SOUTH = 'South',
-  WEST = 'West',
-  UP = 'Up',
-  DOWN = 'Down',
+  NORTH = "North",
+  EAST = "East",
+  SOUTH = "South",
+  WEST = "West",
+  UP = "Up",
+  DOWN = "Down",
 }
 export const enum Distance {
   NONE = 0,
@@ -68,7 +68,7 @@ export const enum SubLocationId {
 
   PHARMACY,
 
-  PLAYER_ROOM,
+  KITCHEN,
   LIVING_ROOM,
   BATHROOM,
   BEDROOM,
@@ -120,11 +120,11 @@ export const enum GlobalMapId {
 }
 
 export const enum MapEntityId {
-  DUMMY = '0',
-  SUB_LOCATION = '1',
-  LOCATION = '2',
-  SUB_REGION = '3',
-  REGION = '4',
-  GLOBAL_MAP = '5',
+  DUMMY = "0",
+  SUB_LOCATION = "1",
+  LOCATION = "2",
+  SUB_REGION = "3",
+  REGION = "4",
+  GLOBAL_MAP = "5",
 }
 //!SECTION
