@@ -12,7 +12,7 @@ sugarcube-2:
 
     endScene:
       description: >
-        Ends the current scene and optionally warps to a designated passage or area.
+        Ends the current scene and optionally warps to a designated passage or area (use a passage name that belongs to an areas as the **first** argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
           type: "string|AreaUUID"
@@ -21,7 +21,7 @@ sugarcube-2:
 
     pauseScene:
       description: >
-        Pauses the current scene (using a paused state) and optionally warps to a designated passage or area.
+        Pauses the current scene (using a paused state) and optionally warps to a designated passage or area (use a passage name that belongs to an areas as the **first** argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
           type: "string|AreaUUID"
@@ -30,7 +30,7 @@ sugarcube-2:
 
     cancelScene:
       description: >
-        Cancels the current scene (using a cancelled state) and optionally warps to a designated passage or area.
+        Cancels the current scene (using a cancelled state) and optionally warps to a designated passage or area use a passage name that belongs to an areas as the **first** argument).
       parameters:
         - name: passageOrAreaIdToWarpTo
           type: "string|AreaUUID"
