@@ -1,0 +1,38 @@
+sugarcube-2:
+  macros:
+    startScene:
+      description: >
+        Starts a new scene using the provided passage name. Throws an error if
+        no passage name is passed or if the passage does not exist.
+      parameters:
+        - name: passageName
+          type: string
+          required: true
+      container: false
+
+    endScene:
+      description: >
+        Ends the current scene and optionally warps to a designated passage or area.
+      parameters:
+        - name: passageOrAreaIdToWarpTo
+          type: "string|AreaUUID"
+          required: false
+      container: false
+
+    pauseScene:
+      description: >
+        Pauses the current scene (using a paused state) and optionally warps to a designated passage or area.
+      parameters:
+        - name: passageOrAreaIdToWarpTo
+          type: "string|AreaUUID"
+          required: false
+      container: false
+
+    cancelScene:
+      description: >
+        Cancels the current scene (using a cancelled state) and optionally warps to a designated passage or area.
+      parameters:
+        - name: passageOrAreaIdToWarpTo
+          type: "string|AreaUUID"
+          required: false
+      container: false
