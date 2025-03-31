@@ -14,23 +14,23 @@ import { SubLocation } from "../classes";
 import { MapEntityFlags, SubLocationId } from "../enums";
 
 // SECTION: Player House
-export const subLocation_playerRoom = new SubLocation(
-  SubLocationId.PLAYER_ROOM,
+export const subLocation_playerBedroom = new SubLocation(
+  SubLocationId.BEDROOM,
   "Your Room",
-  "Player_Room",
-  "Smells like you :3"
+  "Player_Bedroom",
+  "ZZZ..."
+);
+export const subLocation_playerKitchen = new SubLocation(
+  SubLocationId.KITCHEN,
+  "Your Kitchen",
+  "Player_Kitchen",
+  "Smells good ^w^"
 );
 export const subLocation_playerBathroom = new SubLocation(
   SubLocationId.BATHROOM,
   "Your Bathroom",
   "Player_Bathroom",
   "^w^"
-);
-export const subLocation_playerBedroom = new SubLocation(
-  SubLocationId.BEDROOM,
-  "Your Bedroom",
-  "",
-  "ZZZ..."
 );
 export const subLocation_playerLivingRoom = new SubLocation(
   SubLocationId.LIVING_ROOM,

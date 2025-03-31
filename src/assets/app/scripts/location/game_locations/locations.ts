@@ -1,4 +1,4 @@
-import { Direction, LocationId } from '../enums'
+import { Direction, LocationId } from "../enums";
 import {
   subLocation_Porch,
   subLocation_Reception,
@@ -16,15 +16,15 @@ import {
   subLocation_Lab,
   subLocation_Consultation,
   subLocation_OfficeWork,
-  subLocation_playerRoom,
+  subLocation_playerKitchen,
   subLocation_playerBedroom,
   subLocation_playerLivingRoom,
-} from './sub_locations'
-import { Location } from '../classes'
+} from "./sub_locations";
+import { Location } from "../classes";
 
 export const location_fertiloIncGroundFloor = new Location(
   LocationId.FERTILO_INC_GROUND_FLOOR,
-  'Fertilo Inc (Ground Floor)'
+  "Fertilo Inc (Ground Floor)"
 )
   .addArea(
     subLocation_Porch,
@@ -148,25 +148,25 @@ export const location_fertiloIncGroundFloor = new Location(
         },
       ],
     }
-  )
+  );
 
 //@ts-ignore
-window.t = location_fertiloIncGroundFloor
-console.log(location_fertiloIncGroundFloor)
+window.t = location_fertiloIncGroundFloor;
+console.log(location_fertiloIncGroundFloor);
 
 export const location_playerHouse = new Location(
   LocationId.PLAYER_HOUSE,
-  'Your House'
+  "Your House"
 )
   .addArea(
-    subLocation_playerRoom,
+    subLocation_playerKitchen,
     subLocation_playerBedroom,
     subLocation_playerLivingRoom
   )
   .connect({
-    from: subLocation_playerRoom,
+    from: subLocation_playerKitchen,
     areas: [
       { to: subLocation_playerBedroom, dir: Direction.SOUTH },
       { to: subLocation_playerLivingRoom, dir: Direction.EAST },
     ],
-  })
+  });

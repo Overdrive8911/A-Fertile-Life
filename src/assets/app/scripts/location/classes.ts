@@ -664,7 +664,7 @@ export class SubLocation extends MapEntity<
     [SubLocationId.MEASUREMENT_CLOSET]:
       SubLocation.#getUrl("measurement_closet"),
 
-    [SubLocationId.PLAYER_ROOM]: SubLocation.#getUrl("room"),
+    [SubLocationId.KITCHEN]: SubLocation.#getUrl("room"),
     [SubLocationId.BEDROOM]: SubLocation.#getUrl("bedroom"),
     [SubLocationId.BATHROOM]: SubLocation.#getUrl("bathroom"),
     [SubLocationId.LIVING_ROOM]: SubLocation.#getUrl("living_room"),
