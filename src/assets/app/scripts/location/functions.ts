@@ -12,12 +12,9 @@ function isValidAreaUUID(possibleUUID: string): boolean {
  * This doesn't consider if a passage that isn't assigned to an area / not already passed in a scene is given, but that's a user error that'd pretty much only happen in twinescript
  */
 export function getAreaUUID(uuidOrPassageName: AreaUUID | string) {
-  return globalMap.uuidFromPassage(uuidOrPassageName) ??
-    variables()[SceneEnum.STORY_VARIABLE_NAME]?.scene(uuidOrPassageName)
-      ?.area ??
-    isValidAreaUUID(uuidOrPassageName)
+  return isValidAreaUUID(uuidOrPassageName)
     ? (uuidOrPassageName as AreaUUID)
-    : globalMap.uuid;
+    : globalMap.uuidFromPassage(uuidOrPassageName) ?? globalMap.uuid;
 }
 
 export function getAreaFromUUID(uuidOrPassageName: AreaUUID | string) {
