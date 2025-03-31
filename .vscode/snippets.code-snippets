@@ -281,7 +281,7 @@
   "Widget: progressScene": {
     "prefix": ["::progressScene"],
     "body": [
-      "<<warp \"${1:linkText}\" '${2:passageName}' '${3:passageNameToChangeTheCurrentArea}'>>"
+      "<<progressScene \"${1:linkText}\" '${2:passageName}' '${3:passageNameToChangeTheCurrentArea}'>>"
     ]
   },
 
