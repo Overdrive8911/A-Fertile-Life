@@ -112,7 +112,7 @@
         <span class="femaleSpeech">
             <i>Better than nothing.</i>
         </span> 
-        For now, you'll try to get some [[sleep->Prologue_WakeUpAndBrushTeeth]].
+        For now, you'll try to get some <<progressScene "sleep" 'Prologue_WakeUpAndBrushTeeth' 'Player_Bathroom'>>.
     </p>
 <</ctp>>
 
