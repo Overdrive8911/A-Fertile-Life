@@ -1,0 +1,25 @@
+:: Widget_scenes [widget nobr]
+/* These are just link wrappers to the actual macros */
+<<widget "startSceneLink">>
+  <<link _args[0]>>
+    <<startScene _args[1]>>
+  <</link>>
+<</widget>>
+
+<<widget "endSceneLink">>
+  <<link _args[0]>>
+    <<endScene _args[1]>>
+  <</link>>
+<</widget>>
+
+<<widget "pauseSceneLink">>
+  <<link _args[0]>>
+    <<pauseScene _args[1]>>
+  <</link>>
+<</widget>>
+
+<<widget "cancelSceneLink">>
+  <<link _args[0]>>
+    <<cancelScene _args[1]>>
+  <</link>>
+<</widget>>
