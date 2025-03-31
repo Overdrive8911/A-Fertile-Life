@@ -144,7 +144,7 @@ The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
     </span> 
     You sigh and spit into the sink. 
     <span class="femaleSpeech">
-        <i>I'll just figure it out, [[later->Prologue_DressedAndEnteringBus]] once my brain fog clears.</i>
+        <i>I'll just figure it out, <<progressScene "later" 'Prologue_DressedAndEnteringBus' 'Player_Porch'>> once my brain fog clears.</i>
     </span>
 </p>
 

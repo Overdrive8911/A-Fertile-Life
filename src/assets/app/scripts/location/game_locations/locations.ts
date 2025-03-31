@@ -1,4 +1,4 @@
-import { Direction, LocationId } from "../enums";
+import { Direction, Distance, LocationId } from "../enums";
 import {
   subLocation_Porch,
   subLocation_Reception,
@@ -19,6 +19,8 @@ import {
   subLocation_playerKitchen,
   subLocation_playerBedroom,
   subLocation_playerLivingRoom,
+  subLocation_playerPorch,
+  subLocation_playerBathroom,
 } from "./sub_locations";
 import { Location } from "../classes";
 
@@ -161,12 +163,25 @@ export const location_playerHouse = new Location(
   .addArea(
     subLocation_playerKitchen,
     subLocation_playerBedroom,
-    subLocation_playerLivingRoom
+    subLocation_playerLivingRoom,
+    subLocation_playerPorch,
+    subLocation_playerBathroom
   )
   .connect({
-    from: subLocation_playerKitchen,
+    from: subLocation_playerBedroom,
     areas: [
       { to: subLocation_playerBedroom, dir: Direction.SOUTH },
       { to: subLocation_playerLivingRoom, dir: Direction.EAST },
+    ],
+  })
+  .connect({
+    from: subLocation_playerLivingRoom,
+    areas: [
+      { to: subLocation_playerKitchen, dir: Direction.EAST },
+      {
+        to: subLocation_playerPorch,
+        dir: Direction.SOUTH,
+        dist: Distance.VERY_SHORT,
+      },
     ],
   });

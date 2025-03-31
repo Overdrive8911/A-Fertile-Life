@@ -38,6 +38,12 @@ export const subLocation_playerLivingRoom = new SubLocation(
   "",
   "Still smells like you :3"
 );
+export const subLocation_playerPorch = new SubLocation(
+  SubLocationId.PORCH,
+  "Porch",
+  "Player_Porch",
+  "Grassy..."
+);
 //!SECTION
 
 //SECTION: Fertilo Inc
