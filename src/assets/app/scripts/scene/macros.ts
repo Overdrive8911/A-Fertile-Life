@@ -1,7 +1,6 @@
 import type { MacroContext } from "twine-sugarcube";
 import { doesPassageExist } from "../declarations/general_declarations";
 import { endScene, startScene } from "./functions";
-import type { SceneState } from "./types";
 import type { AreaUUID } from "../location/types_and_interfaces";
 import { SceneEnum } from "./enums";
 
