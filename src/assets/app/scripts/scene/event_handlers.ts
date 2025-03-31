@@ -14,7 +14,7 @@ listenToCustomEvent(CustomEventName.SCENE_START, (sceneData) => {
     case SceneEnum.STATE_PAUSED:
       // There's already the data of a scene stored so continue from there
       delete storedSceneData!.state;
-      storedSceneData!.initialArea = currentArea();
+      storedSceneData!.initialArea = currentArea().uuid;
       Engine.play(storedSceneData!.currentScene.passage);
       break;
     case SceneEnum.STATE_CANCELLED:

@@ -52,7 +52,8 @@ export function endScene(
   // Warp the user back to a default passage
   Engine.play(
     getAreaFromUUID(getAreaUUID(passageOrArea ?? player().areaId)).passage ??
-      variables()[SceneEnum.STORY_VARIABLE_NAME]!.initialArea.passage!
+      getAreaFromUUID(variables()[SceneEnum.STORY_VARIABLE_NAME]!.initialArea)
+        .passage!
   );
 
   dispatchCustomEvent(CustomEventName.SCENE_END, {

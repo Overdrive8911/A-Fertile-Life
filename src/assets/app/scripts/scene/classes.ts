@@ -5,7 +5,7 @@ import {
 } from "../declarations/general_declarations";
 import { currentArea } from "../location/functions";
 import type { AreaUUID } from "../location/types_and_interfaces";
-import type { Scene, SceneState } from "./types";
+import type { Scene } from "./types";
 import { SceneEnum } from "./enums";
 
 /**
@@ -19,9 +19,9 @@ export class SceneData {
    */
   scenes: Scene[] = [];
   /**
-   * The last area the player was in before this class was instantiated
+   * The area uuid of the last area the player was in before this class was instantiated
    */
-  initialArea = currentArea();
+  initialArea = currentArea().uuid;
 
   /**
    * Useful to know whether a current scene is paused
