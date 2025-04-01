@@ -7,7 +7,7 @@ import {
 } from "../../../../enums";
 
 // SECTION: Player House
-const Bedroom = new SubLocation(
+export const Bedroom = new SubLocation(
   SubLocationId.BEDROOM,
   "Your Room",
   "Player_Bedroom",

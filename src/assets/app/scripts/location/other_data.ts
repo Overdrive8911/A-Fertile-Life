@@ -1,4 +1,4 @@
-import { getAreaFromUUID } from "./functions";
+import { Bedroom as playerBedroom } from "./game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
 
 export const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
@@ -24,7 +24,7 @@ export const setMapPopoutZoomLvl = (lvl: number) => {
 export const gPlayerMapSpriteSrc =
   "/media/img/map/icons/player_map_sprite.webp";
 
-export const defaultWarpDestination = getAreaFromUUID("Player_Bedroom").uuid;
+export const defaultWarpDestination = playerBedroom.uuid;
 
 export let lastWarpDestination = defaultWarpDestination; // When the function `warpToArea()` is called, this value is updated if the warp is possible or has happened. When called by `navigateInDirectionOnMap()`, it is set to null instead
 
