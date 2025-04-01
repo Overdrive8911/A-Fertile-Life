@@ -886,17 +886,17 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
     // This will, always have at least 1 item
     const passageLinkedUUIDs = this.#passageUUIDCache.get(currPassage);
 
-    return passageLinkedUUIDs
+    return isSceneActive() &&
+      variables()[SceneEnum.STORY_VARIABLE_NAME]!.scene(currPassage)?.area
+      ? this.areaFromUUID(
+          variables()[SceneEnum.STORY_VARIABLE_NAME]!.scene(currPassage)!.area
+        )
+      : passageLinkedUUIDs
       ? passageLinkedUUIDs.includes(uuid)
         ? this.areaFromUUID(uuid)
         : this.areaFromUUID(
             passageLinkedUUIDs[random(99) % passageLinkedUUIDs.length]
           )
-      : // Also consider if a scene is active
-      isSceneActive()
-      ? this.areaFromUUID(
-          variables()[SceneEnum.STORY_VARIABLE_NAME]!.scene(currPassage)!.area
-        )
       : this;
   }
 

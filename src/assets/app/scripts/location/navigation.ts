@@ -123,6 +123,9 @@ export function warpToArea(
   console.info(`The destination to warp to is ${destination}`);
   const currentArea = activeArea();
   const destinationArea = getAreaFromUUID(destination);
+  console.log(destinationArea);
+  console.log(getAreaUUID(destination));
+  console.log(":p");
   if (currentArea == destinationArea) return;
 
   let passageToLoad = destinationArea.passage ?? backupPassageName;
