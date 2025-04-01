@@ -14,7 +14,7 @@ import "./macros";
 import "./game_locations/sub_locations";
 import "./game_locations/locations";
 import "./game_locations/sub_regions";
-import "./game_locations/regions";
+import "./game_locations/central_hirtheford";
 import "./game_locations/global_map";
 
 import "./map_code/index";

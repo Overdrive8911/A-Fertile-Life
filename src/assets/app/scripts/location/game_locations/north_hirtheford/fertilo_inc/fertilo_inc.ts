@@ -1,11 +1,8 @@
-import { SubRegion } from "../classes";
-import { Direction, Distance, SubRegionId } from "../enums";
-import {
-  location_fertiloIncGroundFloor,
-  location_fertiloIncTopFloor,
-  location_fertiloIncUnderground,
-  location_playerHouse,
-} from "./locations";
+import { SubRegion } from "../../../classes";
+import { SubRegionId, Direction, Distance } from "../../../enums";
+import { location_fertiloIncGroundFloor } from "./locations/ground_floor";
+import { location_fertiloIncTopFloor } from "./locations/top_floor";
+import { location_fertiloIncUnderground } from "./locations/underground";
 
 export const subRegion_fertiloInc = new SubRegion(
   SubRegionId.FERTILO_INC,
@@ -28,10 +25,3 @@ export const subRegion_fertiloInc = new SubRegion(
       },
     ],
   });
-
-export const subRegion_testNeighbourhood = new SubRegion(
-  SubRegionId.TEST_NEIGHBOURHOOD,
-  "Neighbourhood",
-  undefined,
-  "Test Description"
-).addArea(location_playerHouse);

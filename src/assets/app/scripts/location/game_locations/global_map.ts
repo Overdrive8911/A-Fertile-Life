@@ -1,19 +1,17 @@
-import { GlobalMap } from '../classes'
-import { Direction, Distance, GlobalMapId } from '../enums'
-import {
-  region_northHirtheford,
-  region_eastHirtheford,
-  region_southHirtheford,
-  region_westHirtheford,
-  region_centralHirtheford,
-} from './regions'
+import { GlobalMap } from "../classes";
+import { Direction, Distance, GlobalMapId } from "../enums";
+import { region_centralHirtheford } from "./central_hirtheford/central_hirtheford";
+import { region_eastHirtheford } from "./east_hirtheford/east_hirtheford";
+import { region_northHirtheford } from "./north_hirtheford/north_hirtheford";
+import { region_southHirtheford } from "./south_hirtheford/south_hirtheford";
+import { region_westHirtheford } from "./west_hirtheford/west_hirtheford";
 
 /**
  * Anything to do with searching for a location should be done with this
  *
  * NOTE: **DO NOT INSTANTIATE ANOTHER INSTANCE OF `GlobalMap`**
  */
-export const globalMap = new GlobalMap(GlobalMapId.GLOBAL, 'Global Map')
+export const globalMap = new GlobalMap(GlobalMapId.GLOBAL, "Global Map");
 
 globalMap
   .addArea(
@@ -66,11 +64,10 @@ globalMap
     //   dir: Direction.WEST,
     //   dist: Distance.VERY_LONG,
     // }
-  )
+  );
 
 //@ts-ignore
-window.tt = globalMap
-
-;(async () => {
-  await globalMap.initMapCache()
-})()
+window.tt = globalMap;
+(async () => {
+  await globalMap.initMapCache();
+})();
