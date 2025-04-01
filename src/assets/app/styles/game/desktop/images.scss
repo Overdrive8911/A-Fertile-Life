@@ -25,7 +25,7 @@ body::after {
   }
 }
 
-img[src^="general/envelope"] {
+img[src^="media/img/general/envelope"] {
   --img-envelope-width: 64px;
   width: var(--img-envelope-width);
   height: auto;
