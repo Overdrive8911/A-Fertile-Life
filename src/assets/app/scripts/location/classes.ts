@@ -19,6 +19,8 @@ import type {
 import { oppositeDirection } from "./general_location_data";
 import Queue from "yocto-queue";
 import { player } from "../declarations/general_declarations";
+import { isSceneActive } from "../scene/functions";
+import { SceneEnum } from "../scene/enums";
 
 type ChildConnectionMap = Map<
   { from: AreaUUID; to: AreaUUID },
@@ -890,6 +892,11 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
         : this.areaFromUUID(
             passageLinkedUUIDs[random(99) % passageLinkedUUIDs.length]
           )
+      : // Also consider if a scene is active
+      isSceneActive()
+      ? this.areaFromUUID(
+          variables()[SceneEnum.STORY_VARIABLE_NAME]!.scene(currPassage)!.area
+        )
       : this;
   }
 
