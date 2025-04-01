@@ -18,6 +18,7 @@ import type {
 } from "./types_and_interfaces";
 import { oppositeDirection } from "./general_location_data";
 import Queue from "yocto-queue";
+import { player } from "../declarations/general_declarations";
 
 type ChildConnectionMap = Map<
   { from: AreaUUID; to: AreaUUID },
@@ -877,7 +878,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    * Returns a reference to the current area the player is in, if any. If it cannot infer the player's location, it simply defaults to the `GlobalMap`
    */
   get activeArea(): SubAreas | GlobalMap {
-    const uuid = variables().player.areaId;
+    const uuid = player().areaId;
     const currPassage = passage();
 
     // This will, always have at least 1 item
