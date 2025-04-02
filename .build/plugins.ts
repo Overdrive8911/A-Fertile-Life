@@ -52,22 +52,44 @@ async function processCSS(cssString: string, filePath?: string) {
 export const processStyles: BunPlugin = {
   name: "Process Game Styles",
   setup(build) {
-    build.onStart(async () => {
-      if (mode == "development") {
-        const subscription = watcher.subscribe(Directory.STYLES, async () => {
-          // Replace the css file
-          await write(
-            Directory.BUNDLED_STYLES,
-            await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
-          );
-        });
-        process.on("SIGINT", async () => {
-          await (await subscription).unsubscribe();
-          process.exit(0);
-        });
-      }
-      const css = await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT);
-      await write(Directory.BUNDLED_STYLES, css);
+    // build.onStart(async () => {
+    //   if (mode == "development") {
+    //     const subscription = watcher.subscribe(Directory.STYLES, async () => {
+    //       // Replace the css file
+    //       await write(
+    //         Directory.BUNDLED_STYLES,
+    //         await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
+    //       );
+    //     });
+    //     process.on("SIGINT", async () => {
+    //       await (await subscription).unsubscribe();
+    //       process.exit(0);
+    //     });
+    //   }
+    //   const css = await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT);
+    //   await write(Directory.BUNDLED_STYLES, css);
+    // });
+    build.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
+      const convertedCSS = (await sass.compileAsync(path)).css;
+
+      const baseUrl = process.cwd() + Directory.ASSETS.replace(".", "");
+
+      // Regex explanation:
+      // url\((['"]?)    : Matches 'url(' followed by an optional quote (captured as group 1)
+      // \/              : Matches a literal slash indicating the start of an absolute path
+      // ([^'")]+)       : Captures one or more characters that are not a quote, closing parenthesis, or double quote (group 2)
+      // \1              : Matches the same quote character as captured in group 1 (if any)
+      // \)              : Matches the closing parenthesis ')'
+      const updatedCSS = convertedCSS.replace(
+        /url\((['"]?)\/([^'")]+)\1\)/g,
+        (match, quote, path) => {
+          return `url(${quote}${baseUrl}/${path}${quote})`;
+        }
+      );
+
+      // console.log(updatedCss);
+
+      return { contents: updatedCSS, loader: "css" };
     });
   },
 };
