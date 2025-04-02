@@ -1,4 +1,4 @@
-import { Directory } from "../../../../../../.build/variables";
+import { Directory } from "../../../../../../.build/enums";
 import "./dialog.scss" with {type:"css" };
 
 const defaultEmotion = "default";

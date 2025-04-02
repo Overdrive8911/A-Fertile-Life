@@ -1,15 +1,16 @@
-import { build, write, $, sleep } from "bun";
+import { build, write, $, sleep, type BuildConfig } from "bun";
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
   copyOtherAssets,
   processStyles,
 } from "./.build/plugins";
-import { Directory, mode } from "./.build/variables";
+import { mode } from "./.build/variables";
+import { Directory } from "./.build/enums";
 import watcher from "@parcel/watcher";
 import { setupTweego } from "tweenode";
 
-const buildResult = await build({
+const buildConfig: BuildConfig = {
   entrypoints: [Directory.SCRIPT_ENTRYPOINT + ""],
   outdir: Directory.BUNDLED_SCRIPTS_DIR + "",
   minify: mode === "production",
@@ -20,15 +21,13 @@ const buildResult = await build({
     copyOtherAssets,
   ],
   drop: mode === "production" ? ["console", "window"] : [],
-});
+};
+const buildResult = await build(buildConfig);
 
 if (mode == "development") {
   const tryBuild = async () => {
     try {
-      await build({
-        entrypoints: [Directory.SCRIPT_ENTRYPOINT + ""],
-        outdir: Directory.BUNDLED_SCRIPTS_DIR + "",
-      });
+      await build(buildConfig);
     } catch (error) {
       console.log("Build failed. Error:", error);
       console.log("Retrying in 5s");

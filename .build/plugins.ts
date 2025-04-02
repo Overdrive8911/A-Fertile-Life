@@ -4,7 +4,8 @@ import postcss from "postcss";
 import autoprefixer from "autoprefixer";
 import CleanCSS from "clean-css";
 import watcher from "@parcel/watcher";
-import { Directory, mode } from "./variables";
+import { mode } from "./variables";
+import { Directory } from "./enums";
 import { link, mkdir, rm } from "node:fs/promises";
 import { dirname } from "node:path";
 
