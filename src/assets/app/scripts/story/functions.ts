@@ -21,16 +21,17 @@ type PassageDescriptorWithOptionalTags = {
    */
   name: string;
   /**
-   * The raw text of the passage.
+   * The raw text of the passage. Can optionally be split up into chunks of text for ease of use
    * @since 2.0.0
    */
-  text: string;
+  text: string | string[];
 };
 /** Use this for any passages you want to add*/
 export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
+  const text = passageData.text;
   passagesToAdd.push({
     name: passageData.name,
     tags: passageData.tags ?? [""],
-    text: passageData.text,
+    text: typeof text == "string" ? text : text.join(""),
   });
 }
