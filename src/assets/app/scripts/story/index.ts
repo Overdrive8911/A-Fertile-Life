@@ -1,2 +1,2 @@
 import "./functions";
-import "./index";
+import "./passages/index";

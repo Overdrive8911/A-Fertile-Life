@@ -1,0 +1,101 @@
+import { addPassage } from "../functions";
+
+addPassage({
+  text: `<p>
+    Here, you are. Standing in the middle of the void. Surrounded by the nothingness that once held your reality together. That time is long past however. You came here for a reason; to experiment, to experiment to your fill. In this place, nothing can truly be created or destroyed but the dark matter her can be moulded to your will.
+</p>
+
+<p>
+<<set _t =0.5>>
+    Custom meter: <<meter "_t" "11.5rem" "1rem">>
+<<button "Increase">>
+    <<set _t = _t >=1 ? 0: _t + 0.1>>
+<</button>>
+</p>
+
+<p>
+    It's time to get down to business, so go on and manipulate this new world to how you see fit!
+</p>
+
+<<textbox "$addToInventory" "CHEESE">>
+<p>
+    <<link "Add the Item above to Inventory (Click 'Enter' before this link)">>
+        <<giveItem $addToInventory>>
+    <</link>>
+    <br>
+    <<link "Add 5 of them">><<giveItem $addToInventory 5>><</link>>
+</p>
+
+<<textbox "$removeFromInventory" "CHEESE">>
+<p>
+    <<link "Remove the Item above to Inventory (Click 'Enter' before this link)">>
+        <<deleteItem $removeFromInventory>>
+    <</link>>
+    <br>
+    <<link "Remove 5 of them">><<deleteItem $removeFromInventory 5>><</link>>
+</p>
+
+<p>
+    <<link "Add All Items Once">>
+        <<run setup.addAllItems()>>
+    <</link>>
+</p>
+
+<p>
+    <<link "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!">>
+        <<impregnate 60 5 $player.womb 1>>
+    <</link>>
+</p>
+
+<p>
+    [[Teleport to default map|Fertilo_Inc_Porch]]
+</p>
+
+<p>
+    <<link "Skip 30 minutes">>
+        <<skipTime 0 0 30>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Rewind 30 minutes">>
+        <<skipTime 0 0 -30>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Skip 1 day">>
+        <<skipTime 1 0 0>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Rewind 1 day">>
+        <<skipTime -1 0 0>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Skip 1 week">>
+        <<skipTime 7 0 0>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Rewind 1 week">>
+        <<skipTime -7 0 0>>
+    <</link>>
+</p>
+
+<p>
+    <<link "Reload Passage" "PlayerSandbox">><</link>>
+</p>
+
+<p>
+    <<link "Test Prologue Scene">>
+        <<startScene "Prologue_Beginning">>
+    <</link>>
+</p>`,
+  name: "PlayerSandbox",
+  tags: [""],
+});
