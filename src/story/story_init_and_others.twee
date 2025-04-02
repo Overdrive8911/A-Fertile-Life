@@ -3,3 +3,5 @@
 <<include "VariableInitialization">>
 
 <<include "GeneralSettings">>
+
+<<run setup.initPassages()>>

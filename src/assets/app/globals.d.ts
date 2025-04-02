@@ -13,7 +13,7 @@ declare module "twine-sugarcube" {
   export interface SugarCubeSetupObject {
     locationData: LocationObject;
     initSaveVars: () => void;
-
+    initPassages: () => void;
     widget: Widgets;
   }
 
