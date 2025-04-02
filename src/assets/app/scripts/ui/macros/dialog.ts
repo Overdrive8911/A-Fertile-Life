@@ -1,4 +1,5 @@
 import { Directory } from "../../../../../../.build/variables";
+import "./dialog.scss" with {type:"css" };
 
 const defaultEmotion = "default";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
