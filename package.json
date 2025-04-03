@@ -6,7 +6,7 @@
   "description": "A starter template for a modern Twine development workflow",
   "scripts": {
     "serve": "cd ./dist && bun run browser-sync start --server --watch --no-open --no-inject-changes --no-ghost-mode --no-ui --reload-delay '1000'",
-    "generate-css-module-types": "bun run tcm src -w",
+    "generate-css-module-types": "bun run tcm src -w -c",
     "dev-watch": "bun run dev-watch:no-server & bun run serve",
     "dev-watch:no-server": "NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run generate-css-module-types",
     "prod": "NODE_ENV=production bun run ./build.ts",
