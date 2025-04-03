@@ -100,7 +100,7 @@ export async function copyAssets() {
     Directory.BUNDLED_ASSETS
   );
 
-  console.log(filePaths);
+  // console.log(filePaths);
   filePaths.forEach(async (path) => {
     await write(
       Directory.BUNDLED_STORY_ASSETS + "/" + path,
