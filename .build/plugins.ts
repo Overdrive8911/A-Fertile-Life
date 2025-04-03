@@ -29,14 +29,6 @@ export const cleanDirectories: BunPlugin = {
   },
 };
 
-// As of 06 / 02 / 2025, Bun can't directly watch over the changes of scss files so this should help enough
-// TODO: Add error handling
-async function convertSCSSFileToCSS(filePath: string) {
-  const convertedCSS = (await sass.compileAsync(filePath)).css;
-  if (mode == "production") {
-    return await processCSS(convertedCSS, filePath);
-  } else return convertedCSS;
-}
 async function processCSS(cssString: string, filePath?: string) {
   // Process the CSS with PostCSS and autoprefixer
   const processedCSS = (
@@ -53,23 +45,6 @@ async function processCSS(cssString: string, filePath?: string) {
 export const processStyles: BunPlugin = {
   name: "Process Game Styles",
   setup(build) {
-    // build.onStart(async () => {
-    //   if (mode == "development") {
-    //     const subscription = watcher.subscribe(Directory.STYLES, async () => {
-    //       // Replace the css file
-    //       await write(
-    //         Directory.BUNDLED_STYLES,
-    //         await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT)
-    //       );
-    //     });
-    //     process.on("SIGINT", async () => {
-    //       await (await subscription).unsubscribe();
-    //       process.exit(0);
-    //     });
-    //   }
-    //   const css = await convertSCSSFileToCSS(Directory.STYLE_ENTRYPOINT);
-    //   await write(Directory.BUNDLED_STYLES, css);
-    // });
     build.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
       const convertedCSS = (await sass.compileAsync(path)).css;
 
