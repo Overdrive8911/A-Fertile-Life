@@ -93,6 +93,22 @@ const getFilePathsRecursivelyFromDirectory = async (
   return filePaths;
 };
 
+/** For moving all the bundled assets into the final directory*/
+export async function copyAssets() {
+  const filePaths = await getFilePathsRecursivelyFromDirectory(
+    "*",
+    Directory.BUNDLED_ASSETS
+  );
+
+  console.log(filePaths);
+  filePaths.forEach(async (path) => {
+    await write(
+      Directory.BUNDLED_STORY_ASSETS + "/" + path,
+      file(Directory.BUNDLED_ASSETS + "/" + path)
+    );
+  });
+}
+
 const trimFilePath = (path: string) => {
   return "./" + path.replace(process.cwd(), "");
 };

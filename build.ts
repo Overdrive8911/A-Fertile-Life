@@ -2,6 +2,7 @@ import { build, write, $, sleep, type BuildConfig } from "bun";
 import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
+  copyAssets,
   copyOtherAssets,
   scssToCss,
 } from "./.build/plugins";
@@ -68,6 +69,9 @@ if (buildResult) {
     } --output=../${Directory.BUNDLED_STORY_NAME} ../${Directory.STORY} ../${
       Directory.BUNDLED_SCRIPTS_DIR
     }`; // ../${Directory.BUNDLED_STYLES_DIR}`;
+    await copyAssets();
+
+    // Copy over the assets
 
     // write(Directory.BUNDLED_STORY_NAME, blob())
     // await tweego.process({

@@ -12,6 +12,7 @@ export const enum Directory {
    */
   BUNDLED_STORY = "./dist",
   BUNDLED_STORY_NAME = BUNDLED_STORY + "/index.html",
+  BUNDLED_STORY_ASSETS = BUNDLED_STORY + "/assets",
 
   // SECTION
   ASSETS = BASE + "/assets",
@@ -41,6 +42,7 @@ export const enum Directory {
   STORY = BASE + "/story",
   HEAD_CONTENT = BASE + "/head_content.html",
 
+  BUNDLED_ASSETS = OUTPUT + "/assets",
   // Changed my mind on having these be in different directories
   BUNDLED_SCRIPTS_DIR = OUTPUT, // + "/app/scripts",
   BUNDLED_STYLES_DIR = OUTPUT, // + "/app/styles",
