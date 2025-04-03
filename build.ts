@@ -31,7 +31,7 @@ const buildResult = await build(buildConfig);
 if (mode == "development") {
   const tryBuild = async () => {
     try {
-      await build(buildConfig);
+      await build({ ...buildConfig, plugins: [scssToCss] });
     } catch (error) {
       console.log("Build failed. Error:", error);
       console.log("Retrying in 5s");
