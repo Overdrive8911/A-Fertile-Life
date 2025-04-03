@@ -880,7 +880,7 @@ export class GlobalMap extends MapEntity<Region, GlobalMapId, never> {
    * Returns a reference to the current area the player is in, if any. If it cannot infer the player's location, it simply defaults to the `GlobalMap`
    */
   get activeArea(): SubAreas | GlobalMap {
-    const uuid = player().areaId;
+    const uuid = player()?.areaId ?? "1_0";
     const currPassage = passage();
 
     // This will, always have at least 1 item
