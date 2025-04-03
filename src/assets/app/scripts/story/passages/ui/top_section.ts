@@ -1,124 +1,101 @@
 import { UiPassageName } from "./enums";
+import { forceAddUI } from "./functions";
 
-const passageText = `<!-- Container for inventory, settings, saves, restart, etc icons and time -->
-<div id="ui-top-bar-left">
-    <!-- TODO - Change the name if this id. also consider adding the names of the icons right beneath the icons themselves or revealing the names via a hover popup -->
-    <!-- Container for everything above except time  -->
+const nonBreakingSpace = "&#x00A0;";
+
+const passageText = [
+  // Container for inventory, settings, saves, restart, etc icons and time
+  `<div id="ui-top-bar-left">
     <div id="ui-settings-buttons">
-        /*NOTE - Settings/save/restart/etc, Stat bars, money/reputation are all classes because they are duplicated unto the sidebar and hidden in the top bar in mobile devices currently in portrait mode */
         <div class="ui-settings-button-inventory ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
         </div>
-        <!-- Save -->
         <div class="ui-settings-button-save ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
         </div>
-        <!-- Settings -->
         <div class="ui-settings-button-settings ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/settings.webp" alt="Greyscale Gear-shaped Settings Button">
         </div>
-        <!-- Restart -->
         <div class="ui-settings-button-restart ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/restart.webp" alt="Greyscale Restart Button">
         </div>
-        <!-- Report Bugs -->
         <div class="ui-settings-button-report-bugs ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/bug_report.webp" alt="Greyscale Bug Report Button">
         </div>
     </div>
-    
-    <!-- This will be a black background wrapped in a double green border -->
     <div id="ui-settings-button-time-border-and-bg">
-        <!-- Time. It'll be pushed off to the right side a bit and will be in digital format. Tapping it will switch between 12hrs and 24hrs -->
         <div id="ui-settings-button-time">
             <div>{{ $gameDateAndTime.dateText }}</div>
             <div>{{ $gameDateAndTime.timeText }}</div>
         </div>
     </div>
-</div>
+</div>`,
+  // Container for the middle section that contains the stat bars and their icons
 
-<!-- Container for the middle section that contains the stat bars and their icons -->
-<div id="ui-top-bar-middle">
-    <!-- Container for all the stat bars and icons -->
+  // Each `ui-stat-bars-group` is a container for a pair of 2 stat bars, and their icons, to be grouped as a column i.e HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL
+  `<div id="ui-top-bar-middle">
     <div id="ui-stat-bars">
-        <!-- Container for a pair of 2 stat bars, and their icons, to be grouped as a column i.e HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL  -->
         <div class="ui-stat-bars-group">
-            <!-- Container for a single stat bar and its icon -->
             <div class="ui-stat-bar-and-icon">
-                /*TODO - Turn these paths into a variable */
-                /* TODO - Use the class to determine the path to the image */
-                <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">         /* Health icon */
-
+                <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/heart.webp" alt="Red Heart-shaped Health Icon">
                 <span class="ui-stat-bar-hp">
-                    /*<<showmeter "pcHPBar" "$player.hp / $player.maxHp">> /*TODO - Make the "HP: $health" be outside and to the right side of the bar by forcing the meter to be inline. The same goes for the rest */
                     <<meter "$player.hp / $player.maxHp">>
                 </span>
             </div>
-            
             <div class="ui-stat-bar-and-icon">
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/energy.webp" alt="Yellow Lightning-shaped Energy Icon">
-
                 <span class="ui-stat-bar-energy">
                     <<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>
                 </span>
             </div>
         </div>
-
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/mood.webp" alt="Yellow Smiley Face Mood Icon">
-
                 <span class="ui-stat-bar-mood">
                     <<meter "$player.mental.mood / 100">>
                 </span>
             </div>
-
             <div class="ui-stat-bar-and-icon">
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/stomach.webp" alt="Pink Stomach Icon">
-
                 <span class="ui-stat-bar-hunger">
                     <<meter "$player.fullness / 100">>
                 </span>
             </div>
         </div>
-
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_hp.webp" alt="Pink Womb Icon with a small red heart in the lower right corner">
-
                 <span class="ui-stat-bar-womb-hp">
                     <<meter "$player.womb.hp / $player.womb.maxHp">>
                 </span>
             </div>
-
             <div class="ui-stat-bar-and-icon">
                 <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/uterus_exp.webp" alt="Pink Womb Icon with a small experience bar in the lower right corner">
-
                 <span class="ui-stat-bar-womb-lvl">
                     <<meter "$player.womb.exp / $player.womb.maxExp">>
                 </span>
             </div>
         </div>
     </div>
-</div>
+</div>`,
 
-<div id="ui-top-bar-right">
+  `<div id="ui-top-bar-right">
     <div id="ui-stat-others">
         <div class="ui-stat-others-money">
-            /* 00A0 is a non-breaking whitespace */
-            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/money.webp" alt="Three stacks of green cash layered above each other"> &#x00A0;&#x00A0;: 2300
+            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/money.webp" alt="Three stacks of green cash layered above each other"> ${
+              nonBreakingSpace + nonBreakingSpace
+            }: 2300
         </div>
         <div class="ui-stat-others-reputation">
-            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/reputation.webp" alt="Reputation Icon"> &#x00A0;&#x00A0;: 20%
+            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/reputation.webp" alt="Reputation Icon"> ${
+              nonBreakingSpace + nonBreakingSpace
+            }: 20%
         </div>
     </div>
-</div>
+</div>`,
+  // It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in
+  `<div id="ui-top-bar-current-location-view">Fertilo Inc Reception</div>`,
+];
 
-<!-- It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in -->
-<div id="ui-top-bar-current-location-view">Fertilo Inc Reception</div>`;
-
-$(document).one(":passageend", () => {
-  const element = $(`[data-init-passage=${UiPassageName.TOP_SECTION}]`);
-  element.wiki(passageText).find("br").remove();
-  Engine.play(passage());
-});
+forceAddUI(UiPassageName.TOP_SECTION, passageText);
