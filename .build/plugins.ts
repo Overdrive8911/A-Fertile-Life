@@ -51,11 +51,16 @@ async function processCSS(cssString: string, filePath?: string) {
   return code.toString();
 }
 
+/**
+ * Also works with regular css files
+ */
 export const scssToCss: BunPlugin = {
   name: "SCSS To CSS",
   setup(build) {
-    build.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
-      const convertedCSS = (await sass.compileAsync(path)).css;
+    build.onLoad({ filter: /\.(scss|css)$/ }, async ({ path }) => {
+      const convertedCSS = path.endsWith(".scss")
+        ? (await sass.compileAsync(path)).css
+        : await file(path).text();
 
       const baseUrl = process.cwd() + Directory.ASSETS.replace(".", "");
 
