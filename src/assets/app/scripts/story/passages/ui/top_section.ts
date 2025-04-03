@@ -1,6 +1,7 @@
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
-import inventoryIcon from "./../../../../../media/img/ui/icons/24x24/purse_inventory.webp";
+import inventoryIcon from "./../../../../../media/img/ui/ic ons/24x24/purse_inventory.webp";
+import saveIcon from "./../../../../../media/img/ui/icons/24x24/save.webp";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -12,7 +13,7 @@ const passageText = [
             <img class="icon24x24 icon-filter pixel-art" src=${inventoryIcon} alt="Greyscale Purse-shaped Inventory Button">
         </div>
         <div class="ui-settings-button-save ui-icon-glow">
-            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
+            <img class="icon24x24 icon-filter pixel-art" src=${saveIcon} alt="Greyscale Floppy Disk-shaped Save Button">
         </div>
         <div class="ui-settings-button-settings ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/settings.webp" alt="Greyscale Gear-shaped Settings Button">
