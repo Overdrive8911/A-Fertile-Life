@@ -67,7 +67,7 @@ export const scssToCss: BunPlugin = {
       // \)              : Matches the closing parenthesis ')'
       const updatedCSS = convertedCSS.replace(
         /url\((['"]?)\/([^'")]+)\1\)/g,
-        (match, quote, path) => {
+        (_, quote, path) => {
           return `url(${quote}${baseUrl}/${path}${quote})`;
         }
       );
