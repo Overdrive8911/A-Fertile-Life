@@ -3,7 +3,7 @@ import {
   bundleScriptAndStyleExtensions,
   cleanDirectories,
   copyOtherAssets,
-  processStyles,
+  scssToCss,
 } from "./.build/plugins";
 import { mode } from "./.build/variables";
 import { Directory } from "./.build/enums";
@@ -16,7 +16,7 @@ const buildConfig: BuildConfig = {
   minify: mode === "production",
   plugins: [
     cleanDirectories,
-    processStyles,
+    scssToCss,
     // bundleScriptAndStyleExtensions,
     copyOtherAssets,
   ],

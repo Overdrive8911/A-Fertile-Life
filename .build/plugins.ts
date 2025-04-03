@@ -51,8 +51,8 @@ async function processCSS(cssString: string, filePath?: string) {
   return code.toString();
 }
 
-export const processStyles: BunPlugin = {
-  name: "Process Game Styles",
+export const scssToCss: BunPlugin = {
+  name: "SCSS To CSS",
   setup(build) {
     build.onLoad({ filter: /\.scss$/ }, async ({ path }) => {
       const convertedCSS = (await sass.compileAsync(path)).css;
