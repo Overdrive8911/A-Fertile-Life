@@ -1,7 +1,7 @@
 declare const styles: {
-  readonly "--macro-ctp-hidden": string;
-  readonly "--macro-ctp-t8n": string;
-  readonly "macro-ctp-t8n": string;
+  readonly "macroCtpHidden": string;
+  readonly "macroCtpT8N": string;
+  readonly "macroCtpT8N": string;
 };
 export = styles;
 
