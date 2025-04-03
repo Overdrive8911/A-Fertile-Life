@@ -1,6 +1,6 @@
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
-import inventoryIcon from "./../../../../../media/img/ui/ic ons/24x24/purse_inventory.webp";
+import inventoryIcon from "./../../../../../media/img/ui/icons/24x24/purse_inventory.webp";
 import saveIcon from "./../../../../../media/img/ui/icons/24x24/save.webp";
 
 const nonBreakingSpace = "&#x00A0;";
