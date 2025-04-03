@@ -19,7 +19,7 @@ const buildConfig: BuildConfig = {
     cleanDirectories,
     scssToCss,
     // bundleScriptAndStyleExtensions,
-    copyOtherAssets,
+    // copyOtherAssets,
   ],
   drop: mode === "production" ? ["console", "window"] : [],
   naming: {

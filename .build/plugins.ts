@@ -193,6 +193,9 @@ export const bundleScriptAndStyleExtensions: BunPlugin = {
   },
 };
 
+/**
+ * UNUSED
+ */
 export const copyOtherAssets: BunPlugin = {
   name: "Copy Non-Code Assets (e.g audio, fonts, images, etc)",
   setup(build) {
