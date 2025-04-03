@@ -67,7 +67,7 @@ if (buildResult) {
       mode == "development" ? "-t" : ""
     } --output=../${Directory.BUNDLED_STORY_NAME} ../${Directory.STORY} ../${
       Directory.BUNDLED_SCRIPTS_DIR
-    } ../${Directory.BUNDLED_STYLES_DIR}`;
+    }`; // ../${Directory.BUNDLED_STYLES_DIR}`;
 
     // write(Directory.BUNDLED_STORY_NAME, blob())
     // await tweego.process({

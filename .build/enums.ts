@@ -41,8 +41,9 @@ export const enum Directory {
   STORY = BASE + "/story",
   HEAD_CONTENT = BASE + "/head_content.html",
 
-  BUNDLED_SCRIPTS_DIR = OUTPUT + "/app/scripts",
-  BUNDLED_STYLES_DIR = OUTPUT + "/app/styles",
+  // Changed my mind on having these be in different directories
+  BUNDLED_SCRIPTS_DIR = OUTPUT, // + "/app/scripts",
+  BUNDLED_STYLES_DIR = OUTPUT, // + "/app/styles",
   BUNDLED_SCRIPTS = BUNDLED_SCRIPTS_DIR + "/index.js",
   BUNDLED_STYLES = BUNDLED_STYLES_DIR + "/main.css",
 
