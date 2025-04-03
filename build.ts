@@ -21,6 +21,9 @@ const buildConfig: BuildConfig = {
     copyOtherAssets,
   ],
   drop: mode === "production" ? ["console", "window"] : [],
+  naming: {
+    asset: "assets/[name]-[hash].[ext]",
+  },
 };
 const buildResult = await build(buildConfig);
 

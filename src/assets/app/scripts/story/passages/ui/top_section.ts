@@ -1,5 +1,6 @@
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
+import inventoryIcon from "./../../../../../media/img/ui/icons/24x24/purse_inventory.webp";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -8,7 +9,7 @@ const passageText = [
   `<div id="ui-top-bar-left">
     <div id="ui-settings-buttons">
         <div class="ui-settings-button-inventory ui-icon-glow">
-            <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/purse_inventory.webp" alt="Greyscale Purse-shaped Inventory Button">
+            <img class="icon24x24 icon-filter pixel-art" src=${inventoryIcon} alt="Greyscale Purse-shaped Inventory Button">
         </div>
         <div class="ui-settings-button-save ui-icon-glow">
             <img class="icon24x24 icon-filter pixel-art" src="media/img/ui/icons/24x24/save.webp" alt="Greyscale Floppy Disk-shaped Save Button">
