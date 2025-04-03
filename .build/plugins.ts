@@ -1,8 +1,6 @@
 import { file, Glob, Transpiler, write, type BunPlugin } from "bun";
 import * as sass from "sass-embedded";
-import postcss from "postcss";
-import autoprefixer from "autoprefixer";
-import CleanCSS from "clean-css";
+import { transform } from "lightningcss";
 import watcher from "@parcel/watcher";
 import { mode } from "./variables";
 import { Directory } from "./enums";
@@ -30,16 +28,27 @@ export const cleanDirectories: BunPlugin = {
 };
 
 async function processCSS(cssString: string, filePath?: string) {
-  // Process the CSS with PostCSS and autoprefixer
-  const processedCSS = (
-    await postcss([autoprefixer]).process(cssString, {
-      from: filePath,
-      to: filePath?.replace(/\.scss$/, ".css"),
-    })
-  ).css;
+  const filename = filePath || "input.css";
 
-  // Minify the CSS using CleanCSS
-  return new CleanCSS().minify(processedCSS).styles;
+  // Lightning CSS automatically applies vendor prefixes based on the specified targets.
+  // It also minifies the output when `minify` is set to true.
+  const { code } = transform({
+    filename,
+    code: Buffer.from(cssString),
+    minify: mode == "production",
+
+    // Define browser targets to control autoprefixing and feature transpilation.
+    targets: {
+      chrome: 80,
+      firefox: 80,
+      safari: 13,
+      edge: 80,
+    },
+  });
+
+  // Return the transformed CSS as a string.
+  console.log(code.toString());
+  return code.toString();
 }
 
 export const processStyles: BunPlugin = {

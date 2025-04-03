@@ -15,19 +15,16 @@
   "license": "MIT",
   "template-license": "MIT",
   "devDependencies": {
+    "@parcel/watcher": "^2.5.1",
     "@types/bun": "^1.2.5",
-    "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^11.0.4",
     "@types/twine-sugarcube": "^2.37.2",
     "browser-sync": "^3.0.3",
-    "@parcel/watcher": "^2.5.1",
-    "postcss": "^8.5.3",
-    "tweenode": "^0.2.9",
-    "typescript": "^5.8.2",
-    "autoprefixer": "^10.4.21",
-    "clean-css": "^5.3.3",
     "fs-extra": "^11.3.0",
-    "sass-embedded": "^1.85.1"
+    "lightningcss": "^1.29.3",
+    "sass-embedded": "^1.85.1",
+    "tweenode": "^0.2.9",
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^4.1.0",
