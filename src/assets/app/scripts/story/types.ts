@@ -16,3 +16,14 @@ export type PassageDescriptorWithOptionalTags = {
    */
   text: string | string[];
 };
+
+export type GenericHtmlElementAttributes = Partial<{
+  id: string;
+  classes: string[];
+  [key: `data-${string}`]: string;
+}>;
+
+export type ImageElementAttributes = GenericHtmlElementAttributes & {
+  src: string;
+  alt?: string;
+};
