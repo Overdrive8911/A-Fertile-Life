@@ -88,8 +88,8 @@ const passageText = [
         },
         div(
           { id: "ui-settings-button-time", class: [timeDisplay] },
-          div({}, "{{ $gameDateAndTime.dateText }}") +
-            div({}, "{{ $gameDateAndTime.timeText }}")
+          div("{{ $gameDateAndTime.dateText }}") +
+            div("{{ $gameDateAndTime.timeText }}")
         )
       )
   ),
