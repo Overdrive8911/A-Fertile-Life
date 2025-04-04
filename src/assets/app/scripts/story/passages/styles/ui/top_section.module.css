@@ -1,33 +1,3 @@
-/*TODO - Arrange all these declarations later*/
-.topBar {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-
-  right: 0;
-
-  width: calc(100% - var(--ui-side-bar-width));
-  min-height: 52px;
-  height: var(--ui-top-bar-height);
-
-  position: fixed;
-  /* // background-color: var(--ui-bar-background-color);
-  // background-color: wheat; */
-
-  border-top: thin solid var(--ui-bar-border-color);
-  border-bottom: thin solid var(--ui-bar-border-color);
-
-  background-color: var(--ui-bar-background-color);
-
-  font-size: 0.8em;
-
-  @media screen and (max-width: 500px) {
-    :root:has([class^="sideBar"].stowed) {
-      justify-content: space-evenly;
-    }
-  }
-}
-
 .topBarLeft {
   display: flex;
   flex: 1 1 auto;

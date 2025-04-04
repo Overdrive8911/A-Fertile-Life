@@ -66,3 +66,73 @@
   --icon-border-filter: drop-shadow(1px 0px 0 var(--ui-image-border-color)) drop-shadow(0px 1px 0px var(--ui-image-border-color)) drop-shadow(-1px 0px 0px var(--ui-image-border-color)) drop-shadow(0px -1px 0px var(--ui-image-border-color));
   --icon-brightness-filter: brightness(95%);
 }
+
+/*SECTION: ID's in the new story interface */
+[id="ui-top-bar"] {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  right: 0;
+
+  width: calc(100% - var(--ui-side-bar-width));
+  min-height: 52px;
+  height: var(--ui-top-bar-height);
+
+  position: fixed;
+  /* // background-color: var(--ui-bar-background-color);
+  // background-color: wheat; */
+
+  border-top: thin solid var(--ui-bar-border-color);
+  border-bottom: thin solid var(--ui-bar-border-color);
+
+  background-color: var(--ui-bar-background-color);
+
+  font-size: 0.8em;
+
+  @media screen and (max-width: 500px) {
+    :root:has([class^="sideBar"].stowed) {
+      justify-content: space-evenly;
+    }
+  }
+}
+
+[id="ui-side-section"] {
+  position: fixed;
+  left: 0;
+  width: calc(var(--ui-side-bar-action-menu-width) + var(--ui-side-bar-width) + var(--ui-side-bar-action-interface-total-width));
+  height: 100%;
+
+  display: flex;
+
+  /* align-items: center; */
+
+  /* // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if #ui-side-bar-action-interface is open. */
+  /* // NOTE - This needs revising if I add extra options to #ui-side-bar-action-interface */
+  &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
+    &>[id="ui-side-bar-action-menu"] {
+      &> :not([id="ui-side-bar-toggle-state-button"]) {
+        filter: brightness(85%);
+      }
+    }
+  }
+}
+
+[id="ui-bottom-bar"] {
+  position: fixed;
+  bottom: 0;
+  /* // left: var(--ui-side-bar-width); */
+  right: 0;
+  z-index: 1;
+
+  height: var(--ui-bottom-bar-height);
+  width: calc(100% - var(--ui-side-bar-width));
+
+  display: flex;
+
+  background-color: var(--ui-bar-background-color);
+
+  border-top: thin solid var(--ui-bar-border-color);
+}
+
+/*!SECTION */
