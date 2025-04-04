@@ -23,9 +23,14 @@ import {
   otherStats,
   otherStatsChild,
   topBarMiddle,
+  statBarContainer,
+  statBarGroup,
+  statBarAndIcon,
+  topBarRight,
+  currArea,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
-import { div, img } from "../../functions";
+import { div, img, span } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -97,90 +102,75 @@ const passageText = [
   div(
     { class: [topBarMiddle] },
     div(
-      { id: "ui-stat-bars" },
+      { class: [statBarContainer] },
       div(
-        { class: ["ui-stat-bars-group"] },
+        { class: [statBarGroup] },
         div(
-          { class: ["ui-stat-bar-and-icon"] },
+          { class: [statBarAndIcon] },
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
             alt: "Red Heart-shaped Health Icon",
-          }) +
-            `<span class="ui-stat-bar-hp">
-                <<meter "$player.hp / $player.maxHp">>
-            </span>`
+          }) + span(`<<meter "$player.hp / $player.maxHp">>`)
         ) +
           div(
-            { class: ["ui-stat-bar-and-icon"] },
+            { class: [statBarAndIcon] },
             img({
-              class: ["icon24x24", iconFilter, pixelArt],
+              class: [icon24X24, iconFilter, pixelArt],
               src: energyIcon,
               alt: "Yellow Lightning-shaped Energy Icon",
             }) +
-              `<span class="ui-stat-bar-energy">
-                  <<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>
-              </span>`
+              span(
+                `<<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>`
+              )
           )
       ) +
         div(
-          { class: ["ui-stat-bars-group"] },
+          { class: [statBarGroup] },
           div(
-            { class: ["ui-stat-bar-and-icon"] },
+            { class: [statBarAndIcon] },
             img({
-              class: ["icon24x24", iconFilter, pixelArt],
+              class: [icon24X24, iconFilter, pixelArt],
               src: moodIcon,
               alt: "Yellow Smiley Face Mood Icon",
-            }) +
-              `<span class="ui-stat-bar-mood">
-                  <<meter "$player.mental.mood / 100">>
-              </span>`
+            }) + span(`<<meter "$player.mental.mood / 100">>`)
           ) +
             div(
-              { class: ["ui-stat-bar-and-icon"] },
+              { class: [statBarAndIcon] },
               img({
-                class: ["icon24x24", iconFilter, pixelArt],
+                class: [icon24X24, iconFilter, pixelArt],
                 src: fullnessIcon,
                 alt: "Pink Stomach Icon",
-              }) +
-                `<span class="ui-stat-bar-hunger">
-                    <<meter "$player.fullness / 100">>
-                </span>`
+              }) + span(`<<meter "$player.fullness / 100">>`)
             )
         ) +
         div(
-          { class: ["ui-stat-bars-group"] },
+          { class: [statBarGroup] },
           div(
-            { class: ["ui-stat-bar-and-icon"] },
+            { class: [statBarAndIcon] },
             img({
-              class: ["icon24x24", iconFilter, pixelArt],
+              class: [icon24X24, iconFilter, pixelArt],
               src: wombHpIcon,
               alt: "Pink Womb Icon with a small red heart in the lower right corner",
-            }) +
-              `<span class="ui-stat-bar-womb-hp">
-                  <<meter "$player.womb.hp / $player.womb.maxHp">>
-              </span>`
+            }) + span(`<<meter "$player.womb.hp / $player.womb.maxHp">>`)
           ) +
             div(
-              { class: ["ui-stat-bar-and-icon"] },
+              { class: [statBarAndIcon] },
               img({
-                class: ["icon24x24", iconFilter, pixelArt],
+                class: [icon24X24, iconFilter, pixelArt],
                 src: wombExpIcon,
                 alt: "Pink Womb Icon with a small experience bar in the lower right corner",
-              }) +
-                `<span class="ui-stat-bar-womb-lvl">
-                    <<meter "$player.womb.exp / $player.womb.maxExp">>
-                </span>`
+              }) + span(`<<meter "$player.womb.exp / $player.womb.maxExp">>`)
             )
         )
     )
   ),
   div(
-    { id: "ui-top-bar-right" },
+    { class: [topBarRight] },
     div(
-      { id: "ui-stat-others" },
+      { class: [otherStats] },
       div(
-        { class: ["ui-stat-others-money"] },
+        { class: [otherStatsChild] },
         img({
           class: ["icon24x24", iconFilter, pixelArt],
           src: moneyIcon,
@@ -188,7 +178,7 @@ const passageText = [
         }) + `${nonBreakingSpace + nonBreakingSpace}: 2300`
       ) +
         div(
-          { class: ["ui-stat-others-reputation"] },
+          { class: [otherStatsChild] },
           img({
             class: ["icon24x24", iconFilter, pixelArt],
             src: reputationIcon,
@@ -198,7 +188,7 @@ const passageText = [
     )
   ),
   // It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in
-  div({ id: "ui-top-bar-current-location-view" }, "Fertilo Inc Reception"),
+  div({ class: [currArea] }, "Fertilo Inc Reception"),
 ];
 
 forceAddUI(UiPassageName.TOP_SECTION, passageText);

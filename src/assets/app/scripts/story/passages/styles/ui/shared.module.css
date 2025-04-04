@@ -16,6 +16,8 @@
 
   /* When a stat bar is a sibling to an img with this class, then adjust the width and position of the stat bar by half the size of the image's dimension */
   ~span {
+    --dimension: 16px;
+
     /* Shift the stat bar to the left so it stays underneath the stat icon */
     --val: calc(var(--dimension) / 2);
     width: calc(100% - var(--val));
@@ -31,15 +33,29 @@
 
 .icon20X20 {
   composes: iconBase;
-  --dimension: 20px
+  --dimension: 20px;
+
+  ~span {
+    --dimension: 20px;
+  }
 }
 
 .icon24X24 {
   composes: iconBase;
-  --dimension: 24px
+
+  --dimension: 24px;
+
+  ~span {
+    --dimension: 24px;
+  }
 }
 
 .icon32X32 {
   composes: iconBase;
-  --dimension: 32px
+
+  --dimension: 32px;
+
+  ~span {
+    --dimension: 32px;
+  }
 }

@@ -219,7 +219,7 @@
   }
 
   /* // Target the external span of the stat bars. (NOT MUCH CAN BE DONE HER TBF) */
-  &>[class|="ui-stat-bar"] {
+  >span {
     /* Make sure that the stat bars are inline */
     /* // display: inline-block; */
 
@@ -228,7 +228,7 @@
   }
 
   /* // Target the actual stat bar */
-  & .meter-body {
+  .meter-body {
     border: 2px var(--ui-image-border-color) solid;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;

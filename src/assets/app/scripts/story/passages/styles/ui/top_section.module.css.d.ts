@@ -10,7 +10,6 @@ declare const styles: {
   readonly "stowed": string;
   readonly "timeDisplay": string;
   readonly "timeDisplayContainer": string;
-  readonly "topBar": string;
   readonly "topBarLeft": string;
   readonly "topBarMiddle": string;
   readonly "topBarRight": string;
