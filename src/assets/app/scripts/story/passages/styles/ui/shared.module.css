@@ -25,21 +25,21 @@
   }
 }
 
-.icon16x16 {
+.icon16X16 {
   composes: iconBase;
 }
 
-.icon20x20 {
+.icon20X20 {
   composes: iconBase;
   --dimension: 20px
 }
 
-.icon24x24 {
+.icon24X24 {
   composes: iconBase;
   --dimension: 24px
 }
 
-.icon32x32 {
+.icon32X32 {
   composes: iconBase;
   --dimension: 32px
 }
