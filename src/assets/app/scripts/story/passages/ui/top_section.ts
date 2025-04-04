@@ -52,13 +52,13 @@ const passageText = [
     <div id="ui-stat-bars">
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${heartIcon} alt="Red Heart-shaped Health Icon">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${heartIcon} alt="Red Heart-shaped Health Icon">
                 <span class="ui-stat-bar-hp">
                     <<meter "$player.hp / $player.maxHp">>
                 </span>
             </div>
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${energyIcon} alt="Yellow Lightning-shaped Energy Icon">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${energyIcon} alt="Yellow Lightning-shaped Energy Icon">
                 <span class="ui-stat-bar-energy">
                     <<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>
                 </span>
@@ -66,13 +66,13 @@ const passageText = [
         </div>
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${moodIcon} alt="Yellow Smiley Face Mood Icon">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${moodIcon} alt="Yellow Smiley Face Mood Icon">
                 <span class="ui-stat-bar-mood">
                     <<meter "$player.mental.mood / 100">>
                 </span>
             </div>
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${fullnessIcon} alt="Pink Stomach Icon">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${fullnessIcon} alt="Pink Stomach Icon">
                 <span class="ui-stat-bar-hunger">
                     <<meter "$player.fullness / 100">>
                 </span>
@@ -80,13 +80,13 @@ const passageText = [
         </div>
         <div class="ui-stat-bars-group">
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${wombHpIcon} alt="Pink Womb Icon with a small red heart in the lower right corner">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${wombHpIcon} alt="Pink Womb Icon with a small red heart in the lower right corner">
                 <span class="ui-stat-bar-womb-hp">
                     <<meter "$player.womb.hp / $player.womb.maxHp">>
                 </span>
             </div>
             <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 icon-filter pixel-art" src=${wombExpIcon} alt="Pink Womb Icon with a small experience bar in the lower right corner">
+                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${wombExpIcon} alt="Pink Womb Icon with a small experience bar in the lower right corner">
                 <span class="ui-stat-bar-womb-lvl">
                     <<meter "$player.womb.exp / $player.womb.maxExp">>
                 </span>
@@ -98,12 +98,12 @@ const passageText = [
   `<div id="ui-top-bar-right">
     <div id="ui-stat-others">
         <div class="ui-stat-others-money">
-            <img class="icon24x24 icon-filter pixel-art" src=${moneyIcon} alt="Three stacks of green cash layered above each other"> ${
+            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${moneyIcon} alt="Three stacks of green cash layered above each other"> ${
     nonBreakingSpace + nonBreakingSpace
   }: 2300
         </div>
         <div class="ui-stat-others-reputation">
-            <img class="icon24x24 icon-filter pixel-art" src=${reputationIcon} alt="Reputation Icon"> ${
+            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${reputationIcon} alt="Reputation Icon"> ${
     nonBreakingSpace + nonBreakingSpace
   }: 20%
         </div>
