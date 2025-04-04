@@ -1,5 +1,8 @@
 import type { PassageBase } from "twine-sugarcube";
-import type { PassageDescriptorWithOptionalTags } from "./types";
+import type {
+  GenericHtmlElementAttributes,
+  PassageDescriptorWithOptionalTags,
+} from "./types";
 
 const passagesToAdd: PassageBase[] = [];
 
@@ -18,3 +21,26 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
     text: typeof text == "string" ? text : text.join(""),
   });
 }
+
+// SECTION - Utility html elements
+function containerElement(
+  elementTag: string,
+  data: GenericHtmlElementAttributes,
+  content: string
+) {
+  const attributes = Object.entries(data).reduce((acc, [key, val]) => {
+    return `${acc} ${key}="${typeof val == "string" ? val : val?.join(" ")}"`;
+  }, "");
+
+  return `<${elementTag} ${attributes}>${content}</${elementTag}>`;
+}
+
+export function div(data: GenericHtmlElementAttributes, content: string) {
+  return containerElement("div", data, content);
+}
+
+// !SECTION
+
+// SECTION - Macros and widgets
+
+// !SECTION
