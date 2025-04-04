@@ -42,7 +42,11 @@ if (mode == "development") {
   };
   let subscription = watcher.subscribe(Directory.APP, async (_, events) => {
     events.forEach(async (e) => {
-      if (e.path.endsWith(".ts")) {
+      if (
+        e.path.endsWith(".ts") ||
+        e.path.endsWith(".css") ||
+        e.path.endsWith(".scss")
+      ) {
         await tryBuild();
       }
     });
