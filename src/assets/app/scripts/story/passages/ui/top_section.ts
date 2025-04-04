@@ -15,6 +15,7 @@ import moneyIcon from "./../../../../../media/img/ui/icons/24x24/money.webp";
 import reputationIcon from "./../../../../../media/img/ui/icons/24x24/reputation.webp";
 
 import { iconFilter, pixelArt } from "./../styles/img.module.css";
+import { img } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -23,7 +24,11 @@ const passageText = [
   `<div id="ui-top-bar-left">
     <div id="ui-settings-buttons">
         <div class="ui-settings-button-inventory ui-icon-glow">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${inventoryIcon} alt="Greyscale Purse-shaped Inventory Button">
+            ${img({
+              class: ["icon24x24", iconFilter, pixelArt],
+              src: inventoryIcon,
+              alt: "Greyscale Purse-shaped Inventory Button",
+            })}
         </div>
         <div class="ui-settings-button-save ui-icon-glow">
             <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${saveIcon} alt="Greyscale Floppy Disk-shaped Save Button">
