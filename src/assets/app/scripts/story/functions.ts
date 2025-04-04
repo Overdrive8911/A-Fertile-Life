@@ -24,32 +24,34 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
 }
 
 // SECTION - Utility html elements
-function containerElement(
+function element(
   elementTag: string,
   data: GenericHtmlElementAttributes,
-  content: string
+  content?: string
 ) {
   const attributes = Object.entries(data).reduce((acc, [key, val]) => {
     return `${acc} ${key}="${typeof val == "string" ? val : val?.join(" ")}"`;
   }, "");
 
-  return `<${elementTag} ${attributes}>${content}</${elementTag}>`;
+  return content
+    ? `<${elementTag} ${attributes}>${content}</${elementTag}>`
+    : `<${elementTag} ${attributes} />`;
 }
 
 export function div(data: GenericHtmlElementAttributes, content: string) {
-  return containerElement("div", data, content);
+  return element("div", data, content);
 }
 
 export function span(data: GenericHtmlElementAttributes, content: string) {
-  return containerElement("span", data, content);
+  return element("span", data, content);
 }
 
 export function p(data: GenericHtmlElementAttributes, content: string) {
-  return containerElement("p", data, content);
+  return element("p", data, content);
 }
 
-export function img(data: ImageElementAttributes, content: string) {
-  return containerElement("img", data, content);
+export function img(data: ImageElementAttributes) {
+  return element("img", data);
 }
 
 // !SECTION
