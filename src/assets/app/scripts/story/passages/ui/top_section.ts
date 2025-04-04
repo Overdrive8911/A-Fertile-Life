@@ -22,6 +22,7 @@ import {
   timeDisplay,
   otherStats,
   otherStatsChild,
+  topBarMiddle,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
 import { div, img } from "../../functions";
@@ -94,7 +95,7 @@ const passageText = [
   ),
   // Container for the middle section that contains the stat bars and their icons
   div(
-    { id: "ui-top-bar-middle" },
+    { id: topBarMiddle },
     div(
       { id: "ui-stat-bars" },
       div(
