@@ -15,6 +15,12 @@ import moneyIcon from "./../../../../../media/img/ui/icons/24x24/money.webp";
 import reputationIcon from "./../../../../../media/img/ui/icons/24x24/reputation.webp";
 
 import { iconFilter, pixelArt } from "./../styles/img.module.css";
+import {
+  topBarLeft,
+  settings as topBarSettingsArea,
+  timeDisplayContainer,
+  timeDisplay,
+} from "./../styles/ui/top_section.module.css";
 import { div, img } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
@@ -22,11 +28,11 @@ const nonBreakingSpace = "&#x00A0;";
 const passageText = [
   // Container for inventory, settings, saves, restart, etc icons and time
   div(
-    { id: "ui-top-bar-left" },
+    { id: "ui-top-bar-left", class: [topBarLeft] },
     div(
-      { id: "ui-settings-buttons" },
+      { id: "ui-settings-buttons", class: [topBarSettingsArea] },
       div(
-        { class: ["ui-settings-button-inventory", "ui-icon-glow"] },
+        { class: ["ui-icon-glow"] },
 
         img({
           class: ["icon24x24", iconFilter, pixelArt],
@@ -35,7 +41,7 @@ const passageText = [
         })
       ) +
         div(
-          { class: ["ui-settings-button-save", "ui-icon-glow"] },
+          { class: ["ui-icon-glow"] },
 
           img({
             class: ["icon24x24", iconFilter, pixelArt],
@@ -44,7 +50,7 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-settings-button-settings", "ui-icon-glow"] },
+          { class: ["ui-icon-glow"] },
 
           img({
             class: ["icon24x24", iconFilter, pixelArt],
@@ -53,7 +59,7 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-settings-button-restart", "ui-icon-glow"] },
+          { class: ["ui-icon-glow"] },
 
           img({
             class: ["icon24x24", iconFilter, pixelArt],
@@ -62,7 +68,7 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-settings-button-report-bugs", "ui-icon-glow"] },
+          { class: ["ui-icon-glow"] },
 
           img({
             class: ["icon24x24", iconFilter, pixelArt],
@@ -72,9 +78,12 @@ const passageText = [
         )
     ) +
       div(
-        { id: "ui-settings-button-time-border-and-bg" },
+        {
+          id: "ui-settings-button-time-border-and-bg",
+          class: [timeDisplayContainer],
+        },
         div(
-          { id: "ui-settings-button-time" },
+          { id: "ui-settings-button-time", class: [timeDisplay] },
           div({}, "{{ $gameDateAndTime.dateText }}") +
             div({}, "{{ $gameDateAndTime.timeText }}")
         )
