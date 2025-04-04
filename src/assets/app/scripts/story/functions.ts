@@ -24,20 +24,23 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
 }
 
 // SECTION - Utility html elements
-function createElement(elementTag: string): `<${string} ${string} />`;
+type SelfClosingElement = `<${string} />`;
+type SelfClosingElementWithAttributes = `<${string} ${string} />`;
+type ContainerElement = `<${string}> ${string} </${string}>`;
+type ContainerElementWithAttributes =
+  `<${string} ${string}> ${string} </${string}>`;
+
+function createElement(elementTag: string): SelfClosingElement;
 function createElement(
   elementTag: string,
   data: GenericHtmlElementAttributes
-): `<${string} ${string} />`;
-function createElement(
-  elementTag: string,
-  content: string
-): `<${string} ${string}> ${string} </${string}>`;
+): SelfClosingElementWithAttributes;
+function createElement(elementTag: string, content: string): ContainerElement;
 function createElement(
   elementTag: string,
   data: GenericHtmlElementAttributes,
   content: string
-): `<${string} ${string}> ${string} </${string}>`;
+): ContainerElementWithAttributes;
 function createElement(
   elementTag: string,
   dataOrMaybeContent?: GenericHtmlElementAttributes | string,
@@ -52,9 +55,13 @@ function createElement(
         }, "")
       : "";
 
-  const htmlNoContentStr = `<${elementTag} ${attributes} />` as const;
-  const htmlContentStr = (content: string) =>
-    `<${elementTag} ${attributes}>${content}</${elementTag}>` as const;
+  const htmlNoContentStr:
+    | SelfClosingElement
+    | SelfClosingElementWithAttributes = `<${elementTag} ${attributes} />`;
+  const htmlContentStr = (
+    content: string
+  ): ContainerElement | ContainerElementWithAttributes =>
+    `<${elementTag} ${attributes}> ${content} </${elementTag}>`;
 
   return typeof dataOrMaybeContent == "object"
     ? actualContent
