@@ -23,19 +23,19 @@ const passageText = [
   `<div id="ui-top-bar-left">
     <div id="ui-settings-buttons">
         <div class="ui-settings-button-inventory ui-icon-glow">
-            <img class="icon24x24 icon-filter ${imgStyles.pixelArt}" src=${inventoryIcon} alt="Greyscale Purse-shaped Inventory Button">
+            <img class="icon24x24 ${imgStyles.iconFilter} ${imgStyles.pixelArt}" src=${inventoryIcon} alt="Greyscale Purse-shaped Inventory Button">
         </div>
         <div class="ui-settings-button-save ui-icon-glow">
-            <img class="icon24x24 icon-filter ${imgStyles.pixelArt}" src=${saveIcon} alt="Greyscale Floppy Disk-shaped Save Button">
+            <img class="icon24x24 ${imgStyles.iconFilter} ${imgStyles.pixelArt}" src=${saveIcon} alt="Greyscale Floppy Disk-shaped Save Button">
         </div>
         <div class="ui-settings-button-settings ui-icon-glow">
-            <img class="icon24x24 icon-filter ${imgStyles.pixelArt}" src=${settingsIcon} alt="Greyscale Gear-shaped Settings Button">
+            <img class="icon24x24 ${imgStyles.iconFilter} ${imgStyles.pixelArt}" src=${settingsIcon} alt="Greyscale Gear-shaped Settings Button">
         </div>
         <div class="ui-settings-button-restart ui-icon-glow">
-            <img class="icon24x24 icon-filter ${imgStyles.pixelArt}" src=${restartIcon} alt="Greyscale Restart Button">
+            <img class="icon24x24 ${imgStyles.iconFilter} ${imgStyles.pixelArt}" src=${restartIcon} alt="Greyscale Restart Button">
         </div>
         <div class="ui-settings-button-report-bugs ui-icon-glow">
-            <img class="icon24x24 icon-filter ${imgStyles.pixelArt}" src=${bugReportIcon} alt="Greyscale Bug Report Button">
+            <img class="icon24x24 ${imgStyles.iconFilter} ${imgStyles.pixelArt}" src=${bugReportIcon} alt="Greyscale Bug Report Button">
         </div>
     </div>
     <div id="ui-settings-button-time-border-and-bg">
