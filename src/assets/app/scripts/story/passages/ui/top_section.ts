@@ -92,71 +92,111 @@ const passageText = [
       )
   ),
   // Container for the middle section that contains the stat bars and their icons
-
-  // Each `ui-stat-bars-group` is a container for a pair of 2 stat bars, and their icons, to be grouped as a column i.e HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL
-  `<div id="ui-top-bar-middle">
-    <div id="ui-stat-bars">
-        <div class="ui-stat-bars-group">
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${heartIcon} alt="Red Heart-shaped Health Icon">
-                <span class="ui-stat-bar-hp">
-                    <<meter "$player.hp / $player.maxHp">>
-                </span>
-            </div>
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${energyIcon} alt="Yellow Lightning-shaped Energy Icon">
-                <span class="ui-stat-bar-energy">
-                    <<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>
-                </span>
-            </div>
-        </div>
-        <div class="ui-stat-bars-group">
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${moodIcon} alt="Yellow Smiley Face Mood Icon">
-                <span class="ui-stat-bar-mood">
-                    <<meter "$player.mental.mood / 100">>
-                </span>
-            </div>
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${fullnessIcon} alt="Pink Stomach Icon">
-                <span class="ui-stat-bar-hunger">
+  div(
+    { id: "ui-top-bar-middle" },
+    div(
+      { id: "ui-stat-bars" },
+      div(
+        { class: ["ui-stat-bars-group"] },
+        div(
+          { class: ["ui-stat-bar-and-icon"] },
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: heartIcon,
+            alt: "Red Heart-shaped Health Icon",
+          }) +
+            `<span class="ui-stat-bar-hp">
+                <<meter "$player.hp / $player.maxHp">>
+            </span>`
+        ) +
+          div(
+            { class: ["ui-stat-bar-and-icon"] },
+            img({
+              class: ["icon24x24", iconFilter, pixelArt],
+              src: energyIcon,
+              alt: "Yellow Lightning-shaped Energy Icon",
+            }) +
+              `<span class="ui-stat-bar-energy">
+                  <<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>
+              </span>`
+          )
+      ) +
+        div(
+          { class: ["ui-stat-bars-group"] },
+          div(
+            { class: ["ui-stat-bar-and-icon"] },
+            img({
+              class: ["icon24x24", iconFilter, pixelArt],
+              src: moodIcon,
+              alt: "Yellow Smiley Face Mood Icon",
+            }) +
+              `<span class="ui-stat-bar-mood">
+                  <<meter "$player.mental.mood / 100">>
+              </span>`
+          ) +
+            div(
+              { class: ["ui-stat-bar-and-icon"] },
+              img({
+                class: ["icon24x24", iconFilter, pixelArt],
+                src: fullnessIcon,
+                alt: "Pink Stomach Icon",
+              }) +
+                `<span class="ui-stat-bar-hunger">
                     <<meter "$player.fullness / 100">>
-                </span>
-            </div>
-        </div>
-        <div class="ui-stat-bars-group">
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${wombHpIcon} alt="Pink Womb Icon with a small red heart in the lower right corner">
-                <span class="ui-stat-bar-womb-hp">
-                    <<meter "$player.womb.hp / $player.womb.maxHp">>
-                </span>
-            </div>
-            <div class="ui-stat-bar-and-icon">
-                <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${wombExpIcon} alt="Pink Womb Icon with a small experience bar in the lower right corner">
-                <span class="ui-stat-bar-womb-lvl">
+                </span>`
+            )
+        ) +
+        div(
+          { class: ["ui-stat-bars-group"] },
+          div(
+            { class: ["ui-stat-bar-and-icon"] },
+            img({
+              class: ["icon24x24", iconFilter, pixelArt],
+              src: wombHpIcon,
+              alt: "Pink Womb Icon with a small red heart in the lower right corner",
+            }) +
+              `<span class="ui-stat-bar-womb-hp">
+                  <<meter "$player.womb.hp / $player.womb.maxHp">>
+              </span>`
+          ) +
+            div(
+              { class: ["ui-stat-bar-and-icon"] },
+              img({
+                class: ["icon24x24", iconFilter, pixelArt],
+                src: wombExpIcon,
+                alt: "Pink Womb Icon with a small experience bar in the lower right corner",
+              }) +
+                `<span class="ui-stat-bar-womb-lvl">
                     <<meter "$player.womb.exp / $player.womb.maxExp">>
-                </span>
-            </div>
-        </div>
-    </div>
-</div>`,
-
-  `<div id="ui-top-bar-right">
-    <div id="ui-stat-others">
-        <div class="ui-stat-others-money">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${moneyIcon} alt="Three stacks of green cash layered above each other"> ${
-    nonBreakingSpace + nonBreakingSpace
-  }: 2300
-        </div>
-        <div class="ui-stat-others-reputation">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${reputationIcon} alt="Reputation Icon"> ${
-    nonBreakingSpace + nonBreakingSpace
-  }: 20%
-        </div>
-    </div>
-</div>`,
+                </span>`
+            )
+        )
+    )
+  ),
+  div(
+    { id: "ui-top-bar-right" },
+    div(
+      { id: "ui-stat-others" },
+      div(
+        { class: ["ui-stat-others-money"] },
+        img({
+          class: ["icon24x24", iconFilter, pixelArt],
+          src: moneyIcon,
+          alt: "Three stacks of green cash layered above each other",
+        }) + `${nonBreakingSpace + nonBreakingSpace}: 2300`
+      ) +
+        div(
+          { class: ["ui-stat-others-reputation"] },
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: reputationIcon,
+            alt: "Reputation Icon",
+          }) + `${nonBreakingSpace + nonBreakingSpace}: 20%`
+        )
+    )
+  ),
   // It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in
-  `<div id="ui-top-bar-current-location-view">Fertilo Inc Reception</div>`,
+  div({ id: "ui-top-bar-current-location-view" }, "Fertilo Inc Reception"),
 ];
 
 forceAddUI(UiPassageName.TOP_SECTION, passageText);
