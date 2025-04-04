@@ -23,6 +23,7 @@ import {
   otherStats,
   otherStatsChild,
 } from "./../styles/ui/top_section.module.css";
+import { icon24X24 } from "./../styles/ui/shared.module.css";
 import { div, img } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
@@ -37,7 +38,7 @@ const passageText = [
         { class: ["ui-icon-glow"] },
 
         img({
-          class: ["icon24x24", iconFilter, pixelArt],
+          class: [icon24X24, iconFilter, pixelArt],
           src: inventoryIcon,
           alt: "Greyscale Purse-shaped Inventory Button",
         })
@@ -46,7 +47,7 @@ const passageText = [
           { class: ["ui-icon-glow"] },
 
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: saveIcon,
             alt: "Greyscale Floppy Disk-shaped Save Button",
           })
@@ -55,7 +56,7 @@ const passageText = [
           { class: ["ui-icon-glow"] },
 
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: settingsIcon,
             alt: "Greyscale Gear-shaped Settings Button",
           })
@@ -64,7 +65,7 @@ const passageText = [
           { class: ["ui-icon-glow"] },
 
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: restartIcon,
             alt: "Greyscale Restart Button",
           })
@@ -73,7 +74,7 @@ const passageText = [
           { class: ["ui-icon-glow"] },
 
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: bugReportIcon,
             alt: "Greyscale Bug Report Button",
           })
