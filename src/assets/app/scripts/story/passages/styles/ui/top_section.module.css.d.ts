@@ -7,6 +7,7 @@ declare const styles: {
   readonly "statBarAndIcon": string;
   readonly "statBarContainer": string;
   readonly "statBarGroup": string;
+  readonly "stowed": string;
   readonly "timeDisplay": string;
   readonly "timeDisplayContainer": string;
   readonly "topBar": string;
