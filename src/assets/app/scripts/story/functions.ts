@@ -24,21 +24,21 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
 }
 
 // SECTION - Utility html elements
-function element(elementTag: string): `<${string} ${string} />`;
-function element(
+function createElement(elementTag: string): `<${string} ${string} />`;
+function createElement(
   elementTag: string,
   data: GenericHtmlElementAttributes
 ): `<${string} ${string} />`;
-function element(
+function createElement(
   elementTag: string,
   content: string
 ): `<${string} ${string}> ${string} </${string}>`;
-function element(
+function createElement(
   elementTag: string,
   data: GenericHtmlElementAttributes,
   content: string
 ): `<${string} ${string}> ${string} </${string}>`;
-function element(
+function createElement(
   elementTag: string,
   dataOrMaybeContent?: GenericHtmlElementAttributes | string,
   actualContent?: string
@@ -66,19 +66,19 @@ function element(
 }
 
 export function div(data: GenericHtmlElementAttributes, content: string) {
-  return element("div", data, content);
+  return createElement("div", data, content);
 }
 
 export function span(data: GenericHtmlElementAttributes, content: string) {
-  return element("span", data, content);
+  return createElement("span", data, content);
 }
 
 export function p(data: GenericHtmlElementAttributes, content: string) {
-  return element("p", data, content);
+  return createElement("p", data, content);
 }
 
 export function img(data: ImageElementAttributes) {
-  return element("img", data);
+  return createElement("img", data);
 }
 
 // !SECTION
