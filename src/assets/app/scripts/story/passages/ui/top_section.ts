@@ -20,6 +20,8 @@ import {
   settings as topBarSettingsArea,
   timeDisplayContainer,
   timeDisplay,
+  otherStats,
+  otherStatsChild,
 } from "./../styles/ui/top_section.module.css";
 import { div, img } from "../../functions";
 

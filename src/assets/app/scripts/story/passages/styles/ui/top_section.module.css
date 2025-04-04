@@ -166,11 +166,11 @@
   width: 100%;
 
   font-size: 90%;
+}
 
-  /* Target the separate containers for both the money and reputation */
-  >div {
-    @include mixin.uiRightmostIconsFlexContainer;
-  }
+/* Target the separate containers for both the money and reputation */
+.otherStatsChild {
+  composes: rightmostIconContainer from "./shared.module.css";
 }
 
 .statBarAndIcon {
