@@ -1,6 +1,7 @@
 import type { PassageBase } from "twine-sugarcube";
 import type {
   GenericHtmlElementAttributes,
+  ImageElementAttributes,
   PassageDescriptorWithOptionalTags,
 } from "./types";
 
@@ -37,6 +38,18 @@ function containerElement(
 
 export function div(data: GenericHtmlElementAttributes, content: string) {
   return containerElement("div", data, content);
+}
+
+export function span(data: GenericHtmlElementAttributes, content: string) {
+  return containerElement("span", data, content);
+}
+
+export function p(data: GenericHtmlElementAttributes, content: string) {
+  return containerElement("p", data, content);
+}
+
+export function img(data: ImageElementAttributes, content: string) {
+  return containerElement("img", data, content);
 }
 
 // !SECTION
