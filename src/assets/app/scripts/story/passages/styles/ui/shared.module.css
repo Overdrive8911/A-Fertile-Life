@@ -3,3 +3,43 @@
   align-items: center;
   justify-content: space-evenly;
 }
+
+.iconBase {
+  --dimension: 16px;
+
+  width: var(--dimension);
+  height: var(--dimension);
+  object-fit: scale-down;
+  display: block;
+  object-position: center;
+  aspect-ratio: 1/1;
+
+  /* When a stat bar is a sibling to an img with this class, then adjust the width and position of the stat bar by half the size of the image's dimension */
+  ~span {
+    /* Shift the stat bar to the left so it stays underneath the stat icon */
+    --val: calc(var(--dimension) / 2);
+    width: calc(100% - var(--val));
+    right: var(--val);
+    position: relative;
+    z-index: -1;
+  }
+}
+
+.icon16x16 {
+  composes: iconBase;
+}
+
+.icon20x20 {
+  composes: iconBase;
+  --dimension: 20px
+}
+
+.icon24x24 {
+  composes: iconBase;
+  --dimension: 24px
+}
+
+.icon32x32 {
+  composes: iconBase;
+  --dimension: 32px
+}
