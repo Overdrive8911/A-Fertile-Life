@@ -168,9 +168,9 @@
   font-size: 90%;
 
   /* Target the separate containers for both the money and reputation */
-  /* &>[class|="ui-stat-others"] {
+  >div {
     @include mixin.uiRightmostIconsFlexContainer;
-  } */
+  }
 }
 
 .statBarAndIcon {
