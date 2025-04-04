@@ -24,10 +24,15 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
 }
 
 // SECTION - Utility html elements
+function element(elementTag: string): `<${string} ${string} />`;
 function element(
   elementTag: string,
   data: GenericHtmlElementAttributes
 ): `<${string} ${string} />`;
+function element(
+  elementTag: string,
+  content: string
+): `<${string} ${string}> ${string} </${string}>`;
 function element(
   elementTag: string,
   data: GenericHtmlElementAttributes,
@@ -35,16 +40,29 @@ function element(
 ): `<${string} ${string}> ${string} </${string}>`;
 function element(
   elementTag: string,
-  data: GenericHtmlElementAttributes,
-  content?: string
+  dataOrMaybeContent?: GenericHtmlElementAttributes | string,
+  actualContent?: string
 ) {
-  const attributes = Object.entries(data).reduce((acc, [key, val]) => {
-    return `${acc} ${key}="${typeof val == "string" ? val : val?.join(" ")}"`;
-  }, "");
+  const attributes =
+    typeof dataOrMaybeContent == "object"
+      ? Object.entries(dataOrMaybeContent).reduce((acc, [key, val]) => {
+          return `${acc} ${key}="${
+            typeof val == "string" ? val : val?.join(" ")
+          }"`;
+        }, "")
+      : "";
 
-  return content
-    ? `<${elementTag} ${attributes}>${content}</${elementTag}>`
-    : `<${elementTag} ${attributes} />`;
+  const htmlNoContentStr = `<${elementTag} ${attributes} />` as const;
+  const htmlContentStr = (content: string) =>
+    `<${elementTag} ${attributes}>${content}</${elementTag}>` as const;
+
+  return typeof dataOrMaybeContent == "object"
+    ? actualContent
+      ? htmlContentStr(actualContent)
+      : htmlNoContentStr
+    : dataOrMaybeContent
+    ? htmlContentStr(dataOrMaybeContent)
+    : htmlNoContentStr;
 }
 
 export function div(data: GenericHtmlElementAttributes, content: string) {
