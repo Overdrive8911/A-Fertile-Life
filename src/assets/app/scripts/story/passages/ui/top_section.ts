@@ -30,9 +30,9 @@ const nonBreakingSpace = "&#x00A0;";
 const passageText = [
   // Container for inventory, settings, saves, restart, etc icons and time
   div(
-    { id: "ui-top-bar-left", class: [topBarLeft] },
+    { class: [topBarLeft] },
     div(
-      { id: "ui-settings-buttons", class: [topBarSettingsArea] },
+      { class: [topBarSettingsArea] },
       div(
         { class: ["ui-icon-glow"] },
 
