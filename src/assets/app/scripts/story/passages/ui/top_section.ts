@@ -95,7 +95,7 @@ const passageText = [
   ),
   // Container for the middle section that contains the stat bars and their icons
   div(
-    { id: topBarMiddle },
+    { class: [topBarMiddle] },
     div(
       { id: "ui-stat-bars" },
       div(
