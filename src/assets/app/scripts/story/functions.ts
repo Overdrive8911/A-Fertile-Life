@@ -26,6 +26,15 @@ export function addPassage(passageData: PassageDescriptorWithOptionalTags) {
 // SECTION - Utility html elements
 function element(
   elementTag: string,
+  data: GenericHtmlElementAttributes
+): `<${string} ${string} />`;
+function element(
+  elementTag: string,
+  data: GenericHtmlElementAttributes,
+  content: string
+): `<${string} ${string}> ${string} </${string}>`;
+function element(
+  elementTag: string,
   data: GenericHtmlElementAttributes,
   content?: string
 ) {
