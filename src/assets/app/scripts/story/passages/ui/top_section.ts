@@ -15,41 +15,71 @@ import moneyIcon from "./../../../../../media/img/ui/icons/24x24/money.webp";
 import reputationIcon from "./../../../../../media/img/ui/icons/24x24/reputation.webp";
 
 import { iconFilter, pixelArt } from "./../styles/img.module.css";
-import { img } from "../../functions";
+import { div, img } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
 const passageText = [
   // Container for inventory, settings, saves, restart, etc icons and time
-  `<div id="ui-top-bar-left">
-    <div id="ui-settings-buttons">
-        <div class="ui-settings-button-inventory ui-icon-glow">
-            ${img({
-              class: ["icon24x24", iconFilter, pixelArt],
-              src: inventoryIcon,
-              alt: "Greyscale Purse-shaped Inventory Button",
-            })}
-        </div>
-        <div class="ui-settings-button-save ui-icon-glow">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${saveIcon} alt="Greyscale Floppy Disk-shaped Save Button">
-        </div>
-        <div class="ui-settings-button-settings ui-icon-glow">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${settingsIcon} alt="Greyscale Gear-shaped Settings Button">
-        </div>
-        <div class="ui-settings-button-restart ui-icon-glow">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${restartIcon} alt="Greyscale Restart Button">
-        </div>
-        <div class="ui-settings-button-report-bugs ui-icon-glow">
-            <img class="icon24x24 ${iconFilter} ${pixelArt}" src=${bugReportIcon} alt="Greyscale Bug Report Button">
-        </div>
-    </div>
-    <div id="ui-settings-button-time-border-and-bg">
-        <div id="ui-settings-button-time">
-            <div>{{ $gameDateAndTime.dateText }}</div>
-            <div>{{ $gameDateAndTime.timeText }}</div>
-        </div>
-    </div>
-</div>`,
+  div(
+    { id: "ui-top-bar-left" },
+    div(
+      { id: "ui-settings-buttons" },
+      div(
+        { class: ["ui-settings-button-inventory", "ui-icon-glow"] },
+
+        img({
+          class: ["icon24x24", iconFilter, pixelArt],
+          src: inventoryIcon,
+          alt: "Greyscale Purse-shaped Inventory Button",
+        })
+      ) +
+        div(
+          { class: ["ui-settings-button-save", "ui-icon-glow"] },
+
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: saveIcon,
+            alt: "Greyscale Floppy Disk-shaped Save Button",
+          })
+        ) +
+        div(
+          { class: ["ui-settings-button-settings", "ui-icon-glow"] },
+
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: settingsIcon,
+            alt: "Greyscale Gear-shaped Settings Button",
+          })
+        ) +
+        div(
+          { class: ["ui-settings-button-restart", "ui-icon-glow"] },
+
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: restartIcon,
+            alt: "Greyscale Restart Button",
+          })
+        ) +
+        div(
+          { class: ["ui-settings-button-report-bugs", "ui-icon-glow"] },
+
+          img({
+            class: ["icon24x24", iconFilter, pixelArt],
+            src: bugReportIcon,
+            alt: "Greyscale Bug Report Button",
+          })
+        )
+    ) +
+      div(
+        { id: "ui-settings-button-time-border-and-bg" },
+        div(
+          { id: "ui-settings-button-time" },
+          div({}, "{{ $gameDateAndTime.dateText }}") +
+            div({}, "{{ $gameDateAndTime.timeText }}")
+        )
+      )
+  ),
   // Container for the middle section that contains the stat bars and their icons
 
   // Each `ui-stat-bars-group` is a container for a pair of 2 stat bars, and their icons, to be grouped as a column i.e HP & ENG, HUNGER & MOOD, and WOMB HP & WOMB LVL
