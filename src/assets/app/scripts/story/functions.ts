@@ -72,16 +72,46 @@ function createElement(
     : htmlNoContentStr;
 }
 
-export function div(data: GenericHtmlElementAttributes, content: string) {
-  return createElement("div", data, content);
+export function div(content: string): ContainerElement;
+export function div(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function div(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("div", dataOrContent, content as string)
+    : createElement("div", dataOrContent);
 }
 
-export function span(data: GenericHtmlElementAttributes, content: string) {
-  return createElement("span", data, content);
+export function span(content: string): ContainerElement;
+export function span(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function span(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("span", dataOrContent, content as string)
+    : createElement("span", dataOrContent);
 }
 
-export function p(data: GenericHtmlElementAttributes, content: string) {
-  return createElement("p", data, content);
+export function p(content: string): ContainerElement;
+export function p(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function p(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("p", dataOrContent, content as string)
+    : createElement("p", dataOrContent);
 }
 
 export function img(data: ImageElementAttributes) {
