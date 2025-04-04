@@ -1,31 +1,17 @@
 import { TinyColor } from "@ctrl/tinycolor";
 import { getSugarCubeVariableValue } from "../../declarations/general_declarations";
-
-const enum MeterContainer {
-  CLASS = "meter-body",
-  WIDTH = "100%",
-  HEIGHT = "100%",
-  EMPTY_COLOR = "transparent",
-}
-
-// Dynamically create a class for the meter container
-$("<style>")
-  .prop("type", "text/css")
-  .html(
-    `.${MeterContainer.CLASS}{width:${MeterContainer.WIDTH};height:${MeterContainer.HEIGHT};background-color:${MeterContainer.EMPTY_COLOR};border:1px solid black;box-sizing:border-box;}`
-  )
-  .appendTo("head");
+import { meterBody } from "./meter.module.css";
 
 setup.widget.meter = (
   val,
   parent,
-  width = MeterContainer.WIDTH,
+  width,
   height = "1rem",
   idOrClasses = [],
   lowColor = "red",
   midColor = "yellow",
   highColor = "green",
-  emptyColor = MeterContainer.EMPTY_COLOR
+  emptyColor
 ) => {
   let parsedVal = 1;
 
@@ -38,11 +24,11 @@ setup.widget.meter = (
   }
   parsedVal = parsedVal > 1 ? 1 : parsedVal < 0 ? 0 : parsedVal;
 
-  const meterContainer = $("<div/>").addClass(MeterContainer.CLASS).css({
-    width: width,
-    height: height,
-    "background-color": emptyColor,
-  });
+  const meterContainer = $(`<div class="${meterBody}">`);
+
+  if (width) meterContainer.css({ width: width });
+  if (height) meterContainer.css({ height: height });
+  if (emptyColor) meterContainer.css({ "background-color": emptyColor });
 
   idOrClasses?.forEach((idOrClass) =>
     idOrClass.match(/^#/)
