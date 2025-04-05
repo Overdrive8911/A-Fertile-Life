@@ -30,7 +30,7 @@ import {
   currArea,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
-import { div, img, span } from "../../functions";
+import { div, img, meter, span } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -111,7 +111,7 @@ const passageText = [
             class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
             alt: "Red Heart-shaped Health Icon",
-          }) + span(`<<meter "$player.hp / $player.maxHp">>`)
+          }) + span(meter("$player.hp / $player.maxHp"))
         ) +
           div(
             { class: [statBarAndIcon] },
@@ -121,7 +121,15 @@ const passageText = [
               alt: "Yellow Lightning-shaped Energy Icon",
             }) +
               span(
-                `<<meter "$player.energy / 100" null "1rem" null "blue" "blue" "blue">>`
+                meter(
+                  "$player.energy / 100",
+                  undefined,
+                  "1rem",
+                  undefined,
+                  "blue",
+                  "blue",
+                  "blue"
+                )
               )
           )
       ) +
@@ -133,7 +141,7 @@ const passageText = [
               class: [icon24X24, iconFilter, pixelArt],
               src: moodIcon,
               alt: "Yellow Smiley Face Mood Icon",
-            }) + span(`<<meter "$player.mental.mood / 100">>`)
+            }) + span(meter("$player.mental.mood / 100"))
           ) +
             div(
               { class: [statBarAndIcon] },
@@ -141,7 +149,7 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: fullnessIcon,
                 alt: "Pink Stomach Icon",
-              }) + span(`<<meter "$player.fullness / 100">>`)
+              }) + span(meter("$player.fullness / 100"))
             )
         ) +
         div(
@@ -152,7 +160,7 @@ const passageText = [
               class: [icon24X24, iconFilter, pixelArt],
               src: wombHpIcon,
               alt: "Pink Womb Icon with a small red heart in the lower right corner",
-            }) + span(`<<meter "$player.womb.hp / $player.womb.maxHp">>`)
+            }) + span(meter("$player.womb.hp / $player.womb.maxHp"))
           ) +
             div(
               { class: [statBarAndIcon] },
@@ -160,7 +168,7 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: wombExpIcon,
                 alt: "Pink Womb Icon with a small experience bar in the lower right corner",
-              }) + span(`<<meter "$player.womb.exp / $player.womb.maxExp">>`)
+              }) + span(meter("$player.womb.exp / $player.womb.maxExp"))
             )
         )
     )
