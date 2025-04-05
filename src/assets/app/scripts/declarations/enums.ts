@@ -8,3 +8,7 @@ export const enum CustomEventName {
 export const enum CustomMacro {
   METER = "meter",
 }
+
+export const enum Default {
+  MAX_STAT = "100",
+}
