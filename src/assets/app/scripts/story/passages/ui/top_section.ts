@@ -30,7 +30,7 @@ import {
   currArea,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
-import { div, img, liveVar, meter, span } from "../../functions";
+import { div, img, liveVar, meter, span, stateFulVar } from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -110,7 +110,15 @@ const passageText = [
             class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
             alt: "Red Heart-shaped Health Icon",
-          }) + span(meter("$player.hp / $player.maxHp"))
+          }) +
+            span(
+              meter(
+                `${stateFulVar("player", "hp")} / ${stateFulVar(
+                  "player",
+                  "maxHp"
+                )}`
+              )
+            )
         ) +
           div(
             { class: [statBarAndIcon] },
