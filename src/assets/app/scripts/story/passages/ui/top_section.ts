@@ -48,9 +48,9 @@ const nonBreakingSpaces = "&#x00A0;&#x00A0;";
 const passageText = [
   // Container for inventory, settings, saves, restart, etc icons and time
   div(
-    { class: [topBarLeft] },
+    { class: topBarLeft },
     div(
-      { class: [topBarSettingsArea] },
+      { class: topBarSettingsArea },
       div(
         img({
           class: [icon24X24, iconFilter, pixelArt],
@@ -89,10 +89,10 @@ const passageText = [
     ) +
       div(
         {
-          class: [timeDisplayContainer],
+          class: timeDisplayContainer,
         },
         div(
-          { class: [timeDisplay] },
+          { class: timeDisplay },
           div(liveVar(gameDateAndTimeVar("dateText"))) +
             div(liveVar(gameDateAndTimeVar("timeText")))
         )
@@ -100,13 +100,13 @@ const passageText = [
   ),
   // Container for the middle section that contains the stat bars and their icons
   div(
-    { class: [topBarMiddle] },
+    { class: topBarMiddle },
     div(
-      { class: [statBarContainer] },
+      { class: statBarContainer },
       div(
-        { class: [statBarGroup] },
+        { class: statBarGroup },
         div(
-          { class: [statBarAndIcon] },
+          { class: statBarAndIcon },
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
@@ -114,7 +114,7 @@ const passageText = [
           }) + span(meter(`${playerVar("hp")} / ${playerVar("maxHp")}`))
         ) +
           div(
-            { class: [statBarAndIcon] },
+            { class: statBarAndIcon },
             img({
               class: [icon24X24, iconFilter, pixelArt],
               src: energyIcon,
@@ -134,9 +134,9 @@ const passageText = [
           )
       ) +
         div(
-          { class: [statBarGroup] },
+          { class: statBarGroup },
           div(
-            { class: [statBarAndIcon] },
+            { class: statBarAndIcon },
             img({
               class: [icon24X24, iconFilter, pixelArt],
               src: moodIcon,
@@ -147,7 +147,7 @@ const passageText = [
               )
           ) +
             div(
-              { class: [statBarAndIcon] },
+              { class: statBarAndIcon },
               img({
                 class: [icon24X24, iconFilter, pixelArt],
                 src: fullnessIcon,
@@ -156,9 +156,9 @@ const passageText = [
             )
         ) +
         div(
-          { class: [statBarGroup] },
+          { class: statBarGroup },
           div(
-            { class: [statBarAndIcon] },
+            { class: statBarAndIcon },
             img({
               class: [icon24X24, iconFilter, pixelArt],
               src: wombHpIcon,
@@ -167,7 +167,7 @@ const passageText = [
               span(meter(`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`))
           ) +
             div(
-              { class: [statBarAndIcon] },
+              { class: statBarAndIcon },
               img({
                 class: [icon24X24, iconFilter, pixelArt],
                 src: wombExpIcon,
@@ -178,11 +178,11 @@ const passageText = [
     )
   ),
   div(
-    { class: [topBarRight] },
+    { class: topBarRight },
     div(
-      { class: [otherStats] },
+      { class: otherStats },
       div(
-        { class: [otherStatsChild] },
+        { class: otherStatsChild },
         img({
           class: [icon24X24, iconFilter, pixelArt],
           src: moneyIcon,
@@ -190,7 +190,7 @@ const passageText = [
         }) + `${nonBreakingSpaces}: 2300`
       ) +
         div(
-          { class: [otherStatsChild] },
+          { class: otherStatsChild },
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: reputationIcon,
@@ -200,7 +200,7 @@ const passageText = [
     )
   ),
   // It will be positioned below the top bar (using flex power) and will show the name of the current location/sub location the player is in
-  div({ class: [currArea] }, "Fertilo Inc Reception"),
+  div({ class: currArea }, "Fertilo Inc Reception"),
 ];
 
 forceAddUI(UiPassageName.TOP_SECTION, passageText);

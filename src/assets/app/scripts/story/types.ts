@@ -19,7 +19,7 @@ export type PassageDescriptorWithOptionalTags = {
 
 export type GenericHtmlElementAttributes = Partial<{
   id: string;
-  class: string[];
+  class: string | string[];
   [key: `data-${string}`]: string;
 }>;
 
