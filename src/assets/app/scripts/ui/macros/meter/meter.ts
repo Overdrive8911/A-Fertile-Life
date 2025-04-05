@@ -36,12 +36,12 @@ Macro.add(CustomMacro.METER, {
 export type MeterArgType = Parameters<typeof createMeter>;
 function createMeter(
   val: number | SugarcubeVariable,
-  width: string,
+  width?: string,
   height = "1rem",
   lowColor = "red",
   midColor = "yellow",
   highColor = "green",
-  emptyColor: string
+  emptyColor?: string
 ) {
   let parsedVal = 1;
 
