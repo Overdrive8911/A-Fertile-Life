@@ -9,4 +9,4 @@ export type NumberKeys<T> = {
 /**
  * Stuff like `$var`, `$var.foo`, `_var.foo[bar]`
  */
-export type SugarcubeVariable = `$${string}` | `_${string}`;
+export type SugarcubeVariable = `$${string}` | `_${string}` | `setup.${string}`;
