@@ -1,4 +1,9 @@
-import type { PassageBase } from "twine-sugarcube";
+import type {
+  PassageBase,
+  SugarCubeSetupObject,
+  SugarCubeStoryVariables,
+  SugarCubeTemporaryVariables,
+} from "twine-sugarcube";
 import type {
   GenericHtmlElementAttributes,
   ImageElementAttributes,
@@ -161,6 +166,42 @@ export function meter(...args: MeterArgType) {
 // !SECTION
 
 // SECTION - Others
+
+// Constructs all valid paths into a nested object T
+type Path<T> = T extends object
+  ? {
+      [K in keyof T]: [K] | [K, ...Path<T[K]>];
+    }[keyof T]
+  : [];
+// // Given an object T and a tuple path P, returns the type at that nested location.
+// type PathValue<T, P extends any[]> = P extends [infer K, ...infer Rest]
+//   ? K extends keyof T
+//     ? Rest extends []
+//       ? T[K]
+//       : PathValue<T[K], Rest>
+//     : never
+//   : T;
+function getStoryVar<T, P extends Path<T>>(obj: T, ...path: P) {
+  const identifier =
+    obj == variables() ? "$" : obj == temporary() ? "_" : "setup.";
+
+  return identifier + path.join(".");
+}
+
+export function stateFulVar<P extends Path<SugarCubeStoryVariables>>(
+  ...args: P
+) {
+  return getStoryVar(variables(), ...args);
+}
+export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(
+  ...args: P
+) {
+  return getStoryVar(temporary(), ...args);
+}
+export function staticVar<P extends Path<SugarCubeSetupObject>>(...args: P) {
+  return getStoryVar(setup, ...args);
+}
+
 /**
  * Use this on a string that evaluates to a variable so that changes made to the variable show up on the passage :D
  */

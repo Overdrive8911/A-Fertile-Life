@@ -18,7 +18,7 @@ declare module "twine-sugarcube" {
   }
 
   export interface SugarCubeStoryVariables {
-    [SceneEnum.STORY_VARIABLE_NAME]?: SceneData;
+    // [SceneEnum.STORY_VARIABLE_NAME]?: SceneData;
     gameDateAndTime: GameDateAndTime;
     player: Player;
     storyFlags: StoryFlags;
