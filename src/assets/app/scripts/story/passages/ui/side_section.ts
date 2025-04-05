@@ -1,8 +1,9 @@
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
 
-const passageText = `/* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
-<div id="ui-side-bar" class="stowed">
+const passageText = [
+  /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
+  `<div id="ui-side-bar" class="stowed">
     <div id="ui-side-bar-game-info">
         <div id="ui-side-bar-game-info-name">A Fertile Life</div>
         <div id="ui-side-bar-game-info-author">by Overdrive8911.</div>
@@ -28,10 +29,10 @@ const passageText = `/* TODO - Add a ".stowed" class later and make the javascri
 
     /* The player's AI companion. Not completely sure yet tho */
     <div id="ui-side-bar-assistant-device"></div>
-</div>
+</div>`,
 
-/* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
-<div id="ui-side-bar-action-menu">
+  /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
+  `<div id="ui-side-bar-action-menu">
     <button id="ui-side-bar-toggle-state-button">
         <img class="icon16x16 pixel-art" src="media/img/ui/icons/16x16/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
         <div>(Q)</div>
@@ -40,10 +41,10 @@ const passageText = `/* TODO - Add a ".stowed" class later and make the javascri
         <img class="icon16x16 pixel-art" src="media/img/ui/icons/16x16/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
         <div>(Z)</div>
     </button>
-</div>
+</div>`,
 
-/* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
-<div id="ui-side-bar-action-interface" class="stowed">
+  /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
+  `<div id="ui-side-bar-action-interface" class="stowed">
     <div class="ui-side-bar-popout-map" class="hidden">
         INSERT MAP HERE PLS
         /* This is be an invisible bar at the bottom of the map area that holds the "Zoom In", "Zoom Out", and "Large view" buttons. NOTE - It's positioned respective to "ui-side-bar-action-interface" not the map area itself */
@@ -59,6 +60,7 @@ const passageText = `/* TODO - Add a ".stowed" class later and make the javascri
             </button>
         </div>
     </div>
-</div>`;
+</div>`,
+];
 
 forceAddUI(UiPassageName.SIDE_SECTION, passageText);
