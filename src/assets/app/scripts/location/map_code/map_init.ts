@@ -1,7 +1,10 @@
 import { Application } from "pixi.js";
+import { convertToClass } from "../../declarations/general_declarations";
+import { popoutMap } from "../../story/passages/styles/ui/side_section.module.css";
 
 $(window).on(":passageend", async () => {
-  const container = document.querySelector(".ui-side-bar-popout-map");
+  const popoutMapClass = convertToClass(popoutMap);
+  const container = document.querySelector(popoutMapClass);
   console.log(container);
   if (container) {
     const app = new Application();
@@ -11,8 +14,6 @@ $(window).on(":passageend", async () => {
     // Then adding the application's canvas to the DOM body.
     container.prepend(app.canvas);
   } else {
-    console.error(
-      'No element with the class "ui-side-bar-popout-map" was found.'
-    );
+    console.error(`No element with the class "${popoutMapClass}" was found.`);
   }
 });
