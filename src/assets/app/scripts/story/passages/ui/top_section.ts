@@ -88,11 +88,10 @@ const passageText = [
     ) +
       div(
         {
-          id: "ui-settings-button-time-border-and-bg",
           class: [timeDisplayContainer],
         },
         div(
-          { id: "ui-settings-button-time", class: [timeDisplay] },
+          { class: [timeDisplay] },
           div("{{ $gameDateAndTime.dateText }}") +
             div("{{ $gameDateAndTime.timeText }}")
         )
