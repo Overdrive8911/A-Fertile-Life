@@ -194,7 +194,7 @@ const passageText = [
       div(
         { class: [otherStatsChild] },
         img({
-          class: ["icon24x24", iconFilter, pixelArt],
+          class: [icon24X24, iconFilter, pixelArt],
           src: moneyIcon,
           alt: "Three stacks of green cash layered above each other",
         }) + `${nonBreakingSpace + nonBreakingSpace}: 2300`
@@ -202,7 +202,7 @@ const passageText = [
         div(
           { class: [otherStatsChild] },
           img({
-            class: ["icon24x24", iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt],
             src: reputationIcon,
             alt: "Reputation Icon",
           }) + `${nonBreakingSpace + nonBreakingSpace}: 20%`
