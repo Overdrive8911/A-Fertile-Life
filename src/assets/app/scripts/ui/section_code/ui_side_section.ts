@@ -1,4 +1,13 @@
-import { isEditableElementSelected } from "../../declarations/general_declarations";
+import {
+  convertToClass,
+  isEditableElementSelected,
+} from "../../declarations/general_declarations";
+import {
+  actionInterface,
+  sideBar,
+  toggleMapBtn,
+  toggleStateBtn,
+} from "../../story/passages/styles/ui/side_section.module.css";
 import {
   actionInterfaceToggleHandler,
   ui_isActionInterfaceOpen,
@@ -27,8 +36,8 @@ $(document).on(":passageend", () => {
   //   return true;
   // }
   // TODO - Allow users add keyboard shortcuts they'd prefer
-  // SECTION - Attach the handler to #ui-side-bar-toggle-state-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-state-button")
+  // SECTION - Attach the handler  and allow it be activated by a click or keypress
+  $(convertToClass(toggleStateBtn))
     .off("click")
     .ariaClick(() => {
       handleSidebarToggle();
@@ -44,7 +53,7 @@ $(document).on(":passageend", () => {
     });
 
   // SECTION - Attach the handler to #ui-side-bar-toggle-map-button and allow it be activated by a click or keypress
-  $("#ui-side-bar-toggle-map-button")
+  $(convertToClass(toggleMapBtn))
     .off("click")
     .ariaClick(() => {
       toggleMapInterface();
@@ -62,7 +71,7 @@ $(document).on(":passageend", () => {
   // Will allow the action interface to stay open after passage navigation
   // NOTE - Every new item for the action interface needs some code here
   if (ui_isActionInterfaceOpen) {
-    $("#ui-side-bar-action-interface").removeClass("stowed");
+    $(convertToClass(actionInterface)).removeClass("stowed");
 
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
@@ -79,7 +88,7 @@ $(document).on(":passageend", () => {
     // Temporarily disable any transition
     // $("#ui-side-bar-action-interface").css("transition", "");
 
-    $("#ui-side-bar-action-interface").addClass("stowed");
+    $(convertToClass(actionInterface)).addClass("stowed");
   }
 });
 
@@ -103,9 +112,10 @@ function toggleMapInterface() {
 }
 
 function toggleSideBar() {
+  const sideBarClass = convertToClass(sideBar);
   if (uiSideBarToggleState) {
-    $("[id='ui-side-bar']").addClass("stowed");
+    $(sideBarClass).addClass("stowed");
   } else {
-    $("[id='ui-side-bar']").removeClass("stowed");
+    $(sideBarClass).removeClass("stowed");
   }
 }
