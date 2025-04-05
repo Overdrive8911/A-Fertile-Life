@@ -192,12 +192,18 @@ export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(
 export function staticVar<P extends Path<SugarCubeSetupObject>>(...args: P) {
   return getStoryVar(setup, ...args) as `setup.${string}`;
 }
-// Just to reduce repetition for the player's properties :3
+// Just to reduce repetition :3
 export function playerVar<P extends Path<SugarCubeStoryVariables["player"]>>(
   ...args: P
 ) {
   //@ts-ignore
   return stateFulVar("player", ...args);
+}
+export function gameDateAndTimeVar<
+  P extends Path<SugarCubeStoryVariables["gameDateAndTime"]>
+>(...args: P) {
+  //@ts-ignore
+  return stateFulVar("gameDateAndTime", ...args);
 }
 // !SECTION
 
