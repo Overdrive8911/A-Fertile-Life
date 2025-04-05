@@ -28,6 +28,10 @@ import {
   statBarAndIcon,
   topBarRight,
   currArea,
+  inventoryBtn,
+  saveBtn,
+  settingBtn,
+  restartBtn,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
 import {
@@ -53,28 +57,28 @@ const passageText = [
       { class: topBarSettingsArea },
       div(
         img({
-          class: [icon24X24, iconFilter, pixelArt],
+          class: [icon24X24, iconFilter, pixelArt, inventoryBtn],
           src: inventoryIcon,
           alt: "Greyscale Purse-shaped Inventory Button",
         })
       ) +
         div(
           img({
-            class: [icon24X24, iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt, saveBtn],
             src: saveIcon,
             alt: "Greyscale Floppy Disk-shaped Save Button",
           })
         ) +
         div(
           img({
-            class: [icon24X24, iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt, settingBtn],
             src: settingsIcon,
             alt: "Greyscale Gear-shaped Settings Button",
           })
         ) +
         div(
           img({
-            class: [icon24X24, iconFilter, pixelArt],
+            class: [icon24X24, iconFilter, pixelArt, restartBtn],
             src: restartIcon,
             alt: "Greyscale Restart Button",
           })
