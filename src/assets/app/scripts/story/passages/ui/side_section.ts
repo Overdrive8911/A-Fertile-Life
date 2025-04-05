@@ -1,35 +1,50 @@
+import { div } from "../../functions";
+import {
+  assistantDevice,
+  backupContainer1,
+  backupContainer2,
+  gameInfoAuthor,
+  gameInfoBox,
+  gameInfoName,
+  gameInfoOthers,
+  playerImage,
+  sideBar,
+} from "../styles/ui/side_section.module.css";
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
 
 const passageText = [
   /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
-  `<div id="ui-side-bar" class="stowed">
-    <div id="ui-side-bar-game-info">
-        <div id="ui-side-bar-game-info-name">A Fertile Life</div>
-        <div id="ui-side-bar-game-info-author">by Overdrive8911.</div>
-        /* Stuff like sharing the game and other relevant info abt it like wikis, etc */
-        <div id="ui-side-bar-game-info-others">Lorem Ipsum Du Ala Mon.</div>
-    </div>
+  div(
+    { class: sideBar },
+    div(
+      { class: gameInfoBox },
+      div({ class: gameInfoName }, "A Fertile Life") +
+        div({ class: gameInfoAuthor }, "by Overdrive8911.") +
+        // Stuff like sharing the game and other relevant info abt it like wikis, etc
+        div({ class: gameInfoOthers }, "Lorem Ipsum Du Ala Mon.")
+    ) +
+      // NOTE - This will store some elements from the top bar, as well as the action interface, when the screen width is too small (i.e smartphones)
+      div(
+        { class: backupContainer1 },
+        // Honestly, I don't feel like giving them classes/ids.
+        // Just remember that:
 
-    /*NOTE - This will store some elements from the top bar, as well as the action interface, when the screen width is too small (i.e smartphones) */
-    <div id="ui-side-bar-backup-container1">
-        /* Honestly, I don't feel like giving them classes/ids.
-        Just remember that: */
-        <div></div>     /* Stores the leftmost icons (settings/saves/restart/etc) */
-        <div></div>     /* Stores the rightmost icons (money/reputation/etc) */
-        <div></div>     /* Stored the contents of the action interface */
-  </div>
-
-    /* The last 2 div elements here will consume most of the space */
-    <div id="ui-side-bar-player-image"></div>
-
-    /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
-    /* Will only contain the stat bars */
-    <div id="ui-side-bar-backup-container2"></div>
-
-    /* The player's AI companion. Not completely sure yet tho */
-    <div id="ui-side-bar-assistant-device"></div>
-</div>`,
+        // Stores the leftmost icons (settings/saves/restart/etc)
+        div("") +
+          // Stores the rightmost icons (money/reputation/etc)
+          div("") +
+          // Stored the contents of the action interface
+          div("")
+      ) +
+      // The last 2 div elements here will consume most of the space
+      div({ class: playerImage }, "") +
+      /*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
+      /* Will only contain the stat bars */
+      div({ class: backupContainer2 }, "") +
+      /* The player's AI companion. Not completely sure yet tho */
+      div({ class: assistantDevice }, "")
+  ),
 
   /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
   `<div id="ui-side-bar-action-menu">
