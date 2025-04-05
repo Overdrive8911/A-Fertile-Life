@@ -185,21 +185,21 @@ function getStoryVar<T, P extends Path<T>>(obj: T, ...path: P) {
   const identifier =
     obj == variables() ? "$" : obj == temporary() ? "_" : "setup.";
 
-  return identifier + path.join(".");
+  return `${identifier}${path.join(".")}` as const;
 }
 
 export function stateFulVar<P extends Path<SugarCubeStoryVariables>>(
   ...args: P
 ) {
-  return getStoryVar(variables(), ...args);
+  return getStoryVar(variables(), ...args) as `$${string}`;
 }
 export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(
   ...args: P
 ) {
-  return getStoryVar(temporary(), ...args);
+  return getStoryVar(temporary(), ...args) as `_${string}`;
 }
 export function staticVar<P extends Path<SugarCubeSetupObject>>(...args: P) {
-  return getStoryVar(setup, ...args);
+  return getStoryVar(setup, ...args) as `setup.${string}`;
 }
 
 /**
