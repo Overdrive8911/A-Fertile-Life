@@ -1,15 +1,22 @@
 import { button, div, img } from "../../functions";
 import {
+  actionInterface,
   actionMenu,
   assistantDevice,
   backupContainer1,
   backupContainer2,
+  btnLargeView,
+  btnZoomIn,
+  btnZoomOut,
   gameInfoAuthor,
   gameInfoBox,
   gameInfoName,
   gameInfoOthers,
   playerImage,
+  popoutMap,
+  popoutMapBtnBar,
   sideBar,
+  stowed,
   toggleMapBtn,
   toggleStateBtn,
 } from "../styles/ui/side_section.module.css";
@@ -20,7 +27,7 @@ import gpsIcon from "./../../../../../media/img/ui/icons/16x16/gps_icon.webp";
 import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
 import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
 import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
-import { icon16X16 } from "../styles/ui/shared.module.css";
+import { icon16X16, icon20X20 } from "../styles/ui/shared.module.css";
 import { pixelArt } from "../styles/img.module.css";
 
 const passageText = [
@@ -77,24 +84,29 @@ const passageText = [
       )
   ),
 
-  /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
-  `<div id="ui-side-bar-action-interface" class="stowed">
-    <div class="ui-side-bar-popout-map" class="hidden">
-        INSERT MAP HERE PLS
-        /* This is be an invisible bar at the bottom of the map area that holds the "Zoom In", "Zoom Out", and "Large view" buttons. NOTE - It's positioned respective to "ui-side-bar-action-interface" not the map area itself */
-        <div class="ui-side-bar-popout-map-button-bar">
-            <button class="button-zoom-in">
-                <img class="icon20x20 pixel-art" src="media/img/ui/icons/20x20/zoom_in.webp">
-            </button>
-            <button class="button-zoom-out">
-                <img class="icon20x20 pixel-art" src="media/img/ui/icons/20x20/zoom_out.webp">
-            </button>
-            <button class="button-large-view">
-                <img class="icon20x20 pixel-art" src="media/img/ui/icons/20x20/large_view.webp">
-            </button>
-        </div>
-    </div>
-</div>`,
+  /* Stuff like the map will appear here. It's meant to extend off when needed */
+  div(
+    { class: [actionInterface, stowed] },
+    div(
+      { class: popoutMap },
+      /* This is be an invisible bar at the bottom of the map area that holds the "Zoom In", "Zoom Out", and "Large view" buttons. NOTE - It's positioned respective to "ui-side-bar-action-interface" not the map area itself */
+      div(
+        { class: popoutMapBtnBar },
+        button(
+          { class: btnZoomIn },
+          img({ class: [icon20X20, pixelArt], src: zoomIn })
+        ) +
+          button(
+            { class: btnZoomOut },
+            img({ class: [icon20X20, pixelArt], src: zoomOut })
+          ) +
+          button(
+            { class: btnLargeView },
+            img({ class: [icon20X20, pixelArt], src: largeView })
+          )
+      )
+    )
+  ),
 ];
 
 forceAddUI(UiPassageName.SIDE_SECTION, passageText);

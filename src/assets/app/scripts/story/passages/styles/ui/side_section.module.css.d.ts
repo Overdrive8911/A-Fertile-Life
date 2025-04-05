@@ -4,6 +4,9 @@ declare const styles: {
   readonly "assistantDevice": string;
   readonly "backupContainer1": string;
   readonly "backupContainer2": string;
+  readonly "btnLargeView": string;
+  readonly "btnZoomIn": string;
+  readonly "btnZoomOut": string;
   readonly "gameInfoAuthor": string;
   readonly "gameInfoBox": string;
   readonly "gameInfoName": string;
