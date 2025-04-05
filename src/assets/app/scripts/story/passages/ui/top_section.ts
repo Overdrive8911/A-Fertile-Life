@@ -43,7 +43,7 @@ import {
 } from "../../functions";
 import { Default } from "../../../declarations/enums";
 
-const nonBreakingSpace = "&#x00A0;";
+const nonBreakingSpaces = "&#x00A0;&#x00A0;";
 
 const passageText = [
   // Container for inventory, settings, saves, restart, etc icons and time
@@ -197,7 +197,7 @@ const passageText = [
           class: [icon24X24, iconFilter, pixelArt],
           src: moneyIcon,
           alt: "Three stacks of green cash layered above each other",
-        }) + `${nonBreakingSpace + nonBreakingSpace}: 2300`
+        }) + `${nonBreakingSpaces}: 2300`
       ) +
         div(
           { class: [otherStatsChild] },
@@ -205,7 +205,7 @@ const passageText = [
             class: [icon24X24, iconFilter, pixelArt],
             src: reputationIcon,
             alt: "Reputation Icon",
-          }) + `${nonBreakingSpace + nonBreakingSpace}: 20%`
+          }) + `${nonBreakingSpaces}: 20%`
         )
     )
   ),
