@@ -159,3 +159,12 @@ export function meter(...args: MeterArgType) {
 }
 
 // !SECTION
+
+// SECTION - Others
+/**
+ * Use this on a string that evaluates to a variable so that changes made to the variable show up on the passage :D
+ */
+export function liveVar(variable: string) {
+  return `{{${variable}}}` as const;
+}
+// !SECTION
