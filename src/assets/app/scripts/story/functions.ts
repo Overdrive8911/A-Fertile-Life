@@ -123,7 +123,7 @@ export function img(data: ImageElementAttributes) {
 // !SECTION
 
 // SECTION - Macros and widgets
-type Macro = `<<${string} ${string}>><</${string}>>`;
+type Macro = `<<${string} ${string}>>`;
 type ContainerMacro = `<<${string} ${string}>>${string}<</${string}>>`;
 function createMacro(
   macroName: string,
@@ -139,11 +139,19 @@ function createMacro(
   args: (string | number | undefined | null)[],
   content?: string
 ): Macro | ContainerMacro {
-  return `<<${macroName} ${args
+  const argsString = args
     .map((val) =>
-      typeof val == "string" ? `"${val}"` : typeof val == "number" ? val : ""
+      typeof val == "string"
+        ? `"${val}"`
+        : typeof val == "number"
+        ? val
+        : "undefined"
     )
-    .join(" ")}>>${content}<</${macroName}>>`;
+    .join(" ");
+
+  return content
+    ? `<<${macroName} ${argsString}>>${content}<</${macroName}>>`
+    : `<<${macroName} ${argsString}>>`;
 }
 
 export function meter(...args: MeterArgType) {
