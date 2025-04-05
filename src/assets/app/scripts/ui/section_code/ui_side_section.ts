@@ -49,9 +49,10 @@ $(document).on(":passageend", () => {
     .ariaClick(() => {
       toggleMapInterface();
     });
+  const sideBarToggleMapKeyUpEvent = "keyup.sideBarToggleMap";
   $(window)
-    .off("keyup.sideBarToggleMap")
-    .on("keyup.sideBarToggleMap", (keyEvent) => {
+    .off(sideBarToggleMapKeyUpEvent)
+    .on(sideBarToggleMapKeyUpEvent, (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "z") {
         toggleMapInterface();
