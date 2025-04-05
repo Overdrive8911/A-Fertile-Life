@@ -13,6 +13,7 @@ declare const styles: {
   readonly "popoutMapBtnBar": string;
   readonly "sideBar": string;
   readonly "stowed": string;
+  readonly "toggleMapBtn": string;
   readonly "toggleStateBtn": string;
 };
 export = styles;

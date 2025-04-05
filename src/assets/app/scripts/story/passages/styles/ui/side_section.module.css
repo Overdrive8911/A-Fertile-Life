@@ -81,6 +81,8 @@
   .toggleStateBtn>img {
     transform: rotate(180deg);
   }
+
+  .toggleMapBtn {}
 }
 
 .gameInfoBox {

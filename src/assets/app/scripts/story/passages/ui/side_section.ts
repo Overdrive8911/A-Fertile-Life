@@ -1,5 +1,6 @@
-import { div } from "../../functions";
+import { button, div, img } from "../../functions";
 import {
+  actionMenu,
   assistantDevice,
   backupContainer1,
   backupContainer2,
@@ -9,6 +10,8 @@ import {
   gameInfoOthers,
   playerImage,
   sideBar,
+  toggleMapBtn,
+  toggleStateBtn,
 } from "../styles/ui/side_section.module.css";
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
@@ -17,6 +20,8 @@ import gpsIcon from "./../../../../../media/img/ui/icons/16x16/gps_icon.webp";
 import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
 import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
 import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
+import { icon16X16 } from "../styles/ui/shared.module.css";
+import { pixelArt } from "../styles/img.module.css";
 
 const passageText = [
   /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
@@ -52,16 +57,25 @@ const passageText = [
   ),
 
   /* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
-  `<div id="ui-side-bar-action-menu">
-    <button id="ui-side-bar-toggle-state-button">
-        <img class="icon16x16 pixel-art" src="media/img/ui/icons/16x16/left_facing_arrow_head_pointer.webp" alt="A left facing arrow head">
-        <div>(Q)</div>
-    </button>
-    <button id="ui-side-bar-toggle-map-button">
-        <img class="icon16x16 pixel-art" src="media/img/ui/icons/16x16/gps_icon.webp" alt="A greyscale icon of a simple gps over a circle">
-        <div>(Z)</div>
-    </button>
-</div>`,
+  div(
+    { class: actionMenu },
+    button(
+      { class: toggleStateBtn },
+      img({
+        class: [icon16X16, pixelArt],
+        src: leftArrowHead,
+        alt: "A left facing arrow head",
+      }) + div("(Q)")
+    ) +
+      button(
+        { class: toggleMapBtn },
+        img({
+          class: [icon16X16, pixelArt],
+          src: gpsIcon,
+          alt: "A greyscale icon of a simple gps over a circle",
+        }) + div("(Z)")
+      )
+  ),
 
   /* Stuff like the map will appear here. It's meant to extend off #ui-side-bar-action-menu when needed */
   `<div id="ui-side-bar-action-interface" class="stowed">
