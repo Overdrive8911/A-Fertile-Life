@@ -1,17 +1,26 @@
+import { convertToClass } from "../../declarations/general_declarations";
+import {
+  actionInterface,
+  backupContainer1,
+} from "../../story/passages/styles/ui/side_section.module.css";
+
 function copyActionInterfaceContentsToSideBar() {
   const verySlimMobileWidth = "screen and (max-width: 415px)";
 
   if (window.matchMedia(verySlimMobileWidth).matches) {
-    const actionInterface = $("[id='ui-side-bar-action-interface']");
-    for (const actionInterfaceChild of actionInterface.children()) {
+    const actionInterfaceElement = $(convertToClass(actionInterface));
+
+    for (const actionInterfaceChild of actionInterfaceElement.children()) {
+      const backupContainer3rdChild = $(
+        `${convertToClass(backupContainer1)}>:nth-child(3)`
+      );
+
       // Copy the each child in the action interface e.g the map popout
-      if (!actionInterface.hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").append(
-          $(actionInterfaceChild).clone(true)
-        );
+      if (!actionInterfaceElement.hasClass("stowed")) {
+        backupContainer3rdChild.append($(actionInterfaceChild).clone(true));
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(3)").empty();
+        backupContainer3rdChild.empty();
       }
     }
   }
