@@ -4,6 +4,8 @@ import type {
   ImageElementAttributes,
   PassageDescriptorWithOptionalTags,
 } from "./types";
+import type { MeterArgType } from "../ui/macros/meter/meter";
+import { CustomMacro } from "../declarations/enums";
 
 const passagesToAdd: PassageBase[] = [];
 
@@ -121,5 +123,31 @@ export function img(data: ImageElementAttributes) {
 // !SECTION
 
 // SECTION - Macros and widgets
+type Macro = `<<${string} ${string}>><</${string}>>`;
+type ContainerMacro = `<<${string} ${string}>>${string}<</${string}>>`;
+function createMacro(
+  macroName: string,
+  args: (string | number | undefined | null)[]
+): Macro;
+function createMacro(
+  macroName: string,
+  args: (string | number | undefined | null)[],
+  content: string
+): ContainerMacro;
+function createMacro(
+  macroName: string,
+  args: (string | number | undefined | null)[],
+  content?: string
+): Macro | ContainerMacro {
+  return `<<${macroName} ${args
+    .map((val) =>
+      typeof val == "string" ? `"${val}"` : typeof val == "number" ? val : ""
+    )
+    .join(" ")}>>${content}<</${macroName}>>`;
+}
+
+export function meter(...args: MeterArgType) {
+  return createMacro(CustomMacro.METER, args);
+}
 
 // !SECTION

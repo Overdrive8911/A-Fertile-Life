@@ -4,3 +4,7 @@ export const enum CustomEventName {
   SCENE_PROGRESS = "@sceneProgress",
   SCENE_END = "@sceneEnd",
 }
+
+export const enum CustomMacro {
+  METER = "meter",
+}
