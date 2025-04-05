@@ -5,6 +5,7 @@ declare const styles: {
   readonly "icon32X32": string;
   readonly "iconBase": string;
   readonly "rightmostIconContainer": string;
+  readonly "sideBarActionMenuHeightRange": string;
 };
 export = styles;
 

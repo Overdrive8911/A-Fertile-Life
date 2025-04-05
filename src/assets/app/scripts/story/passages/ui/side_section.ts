@@ -18,7 +18,7 @@ const passageText = [
         <div></div>     /* Stores the leftmost icons (settings/saves/restart/etc) */
         <div></div>     /* Stores the rightmost icons (money/reputation/etc) */
         <div></div>     /* Stored the contents of the action interface */
-    </div>
+  </div>
 
     /* The last 2 div elements here will consume most of the space */
     <div id="ui-side-bar-player-image"></div>
