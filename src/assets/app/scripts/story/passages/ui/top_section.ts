@@ -36,6 +36,7 @@ import {
   img,
   liveVar,
   meter,
+  playerVar,
   span,
   stateFulVar,
 } from "../../functions";
@@ -118,15 +119,7 @@ const passageText = [
             class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
             alt: "Red Heart-shaped Health Icon",
-          }) +
-            span(
-              meter(
-                `${stateFulVar("player", "hp")} / ${stateFulVar(
-                  "player",
-                  "maxHp"
-                )}`
-              )
-            )
+          }) + span(meter(`${playerVar("hp")} / ${playerVar("maxHp")}`))
         ) +
           div(
             { class: [statBarAndIcon] },
@@ -137,7 +130,7 @@ const passageText = [
             }) +
               span(
                 meter(
-                  "$player.energy / 100",
+                  `${playerVar("energy")} / `,
                   undefined,
                   "1rem",
                   undefined,
