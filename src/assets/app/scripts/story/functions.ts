@@ -121,6 +121,20 @@ export function p(
     : createElement("p", dataOrContent);
 }
 
+export function button(content: string): ContainerElement;
+export function button(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function button(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("button", dataOrContent, content as string)
+    : createElement("button", dataOrContent);
+}
+
 export function img(data: ImageElementAttributes) {
   return createElement("img", data);
 }
