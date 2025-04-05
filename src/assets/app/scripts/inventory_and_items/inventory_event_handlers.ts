@@ -1,8 +1,10 @@
+import { convertToClass } from "../declarations/general_declarations";
+import { inventoryBtn as inventoryBtnElement } from "../story/passages/styles/ui/top_section.module.css";
 import { openInventoryDialog } from "./inventory_dialog";
 
 // SECTION - For adding functionality to the inventory icon in the top bar
 $(document).on(":passageend", () => {
-  const inventoryBtn = $(".ui-settings-button-inventory");
+  const inventoryBtn = $(convertToClass(inventoryBtnElement));
 
   inventoryBtn.ariaClick(() => {
     openInventoryDialog();

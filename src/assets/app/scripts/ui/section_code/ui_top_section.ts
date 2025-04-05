@@ -1,12 +1,18 @@
+import { convertToClass } from "../../declarations/general_declarations";
+import {
+  restartBtn,
+  saveBtn,
+  settingBtn,
+} from "./../../story/passages/styles/ui/top_section.module.css";
 $(document).on(":passageend", () => {
   // SECTION - Add the settings, restart and save menus to the icons
-  $(".ui-settings-button-settings").ariaClick(() => {
+  $(convertToClass(settingBtn)).ariaClick(() => {
     UI.settings();
   });
-  $(".ui-settings-button-save").ariaClick(() => {
+  $(convertToClass(saveBtn)).ariaClick(() => {
     UI.saves();
   });
-  $(".ui-settings-button-restart").ariaClick(() => {
+  $(convertToClass(restartBtn)).ariaClick(() => {
     UI.restart();
   });
 

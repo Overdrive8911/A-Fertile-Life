@@ -94,3 +94,8 @@ export function player() {
 export function doesPassageExist(passageName: string) {
   return Story.has(passageName);
 }
+
+// Smol utility func for adding "." to imported class names from css modules
+export function convertToClass(name: string) {
+  return `.${name}` as const;
+}
