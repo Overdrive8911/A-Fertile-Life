@@ -7,6 +7,7 @@ export function forceAddUI(
   $(document).one(":passageend", () => {
     const element = $(`[data-init-passage=${dataInitPassageName}]`);
     element
+      .empty()
       .wiki(
         typeof textToWikify == "string" ? textToWikify : textToWikify.join("")
       )
