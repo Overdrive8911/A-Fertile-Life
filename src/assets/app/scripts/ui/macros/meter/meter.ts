@@ -1,18 +1,58 @@
 import { TinyColor } from "@ctrl/tinycolor";
-import { getSugarCubeVariableValue } from "../../declarations/general_declarations";
+import { getSugarCubeVariableValue } from "../../../declarations/general_declarations";
 import { meterBody } from "./meter.module.css";
+import type { SugarcubeVariable } from "../../../declarations/types";
 
-setup.widget.meter = (
-  val,
-  parent,
-  width,
+Macro.add("meter", {
+  handler() {
+    const args = this.args;
+    const val = args[0];
+    const width = args[1];
+    const height = args[2];
+    const idOrClasses = args[3];
+    const lowColor = args[4];
+    const midColor = args[5];
+    const highColor = args[6];
+    const emptyColor = args[7];
+
+    $(this.output).append(
+      createMeter(
+        val,
+        width,
+        height,
+        idOrClasses,
+        lowColor,
+        midColor,
+        highColor,
+        emptyColor
+      )
+    );
+  },
+});
+
+/**
+ * Can be used as a stat bar or whatever. It can also be styled using the class `.meter-body`
+ *
+ * @param val - Either a decimal between 0 and 1 inclusively, where 0 is 0% and 1 is 100% or a string representing a valid sugarcube variable name (with the $ or _) that stores the aforementioned decimal (otherwise it defaults to 1). If a variable string is passed, the meter auto-updates when the variable changes.
+ * @param width - Defaults to `100%` of the parent container
+ * @param height - Defaults to `1rem`
+ * @param idOrClasses - An array of strings representing the id and/or classes to add to the meter
+ * @param lowColor - A valid css color representing the `low` percentage. Can be skipped with `""`. Defaults to `red`
+ * @param midColor - A valid css color representing the `middle` percentage. Can be skipped with `""`. Defaults to `yellow`
+ * @param highColor - A valid css color representing the `high` percentage. Can be skipped with `""`. Defaults to `green`
+ * @param emptyColor - A valid css color representing the `empty` area of the meter. Can be skipped with `""`. Defaults to `transparent`
+ * @returns
+ */
+function createMeter(
+  val: number | SugarcubeVariable,
+  width: string,
   height = "1rem",
-  idOrClasses = [],
+  idOrClasses: string[] = [],
   lowColor = "red",
   midColor = "yellow",
   highColor = "green",
-  emptyColor
-) => {
+  emptyColor: string
+) {
   let parsedVal = 1;
 
   if (typeof val == "number") parsedVal = val;
@@ -71,10 +111,8 @@ setup.widget.meter = (
     });
   }
 
-  typeof parent == "string"
-    ? $(parent).append(meterContainer.append(meterBar))
-    : parent.append(meterContainer.append(meterBar));
-};
+  return meterContainer.append(meterBar);
+}
 
 function getMeterColor(
   meterVal: number,
