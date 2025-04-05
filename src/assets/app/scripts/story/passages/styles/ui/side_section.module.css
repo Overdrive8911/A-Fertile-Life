@@ -12,7 +12,7 @@
 
 /* // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if #ui-side-bar-action-interface is open.
   // NOTE - This needs revising if I add extra options to #ui-side-bar-action-interface
-  &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
+  &:has([id="ui-side-bar-action-interface"]:not([class*=stowed])) {
     &>[id="ui-side-bar-action-menu"] {
       &> :not([id="ui-side-bar-toggle-state-button"]) {
         @include mixin.darkenUIButton;
@@ -66,7 +66,7 @@
 }
 
 /* // If the sidebar is currently stowed, shrink it */
-:root:has(.sideBar.stowed) {
+:root:has(.sideBar[class*=stowed]) {
   --ui-side-bar-width: 1rem;
 
   .sideBar {
@@ -250,7 +250,7 @@
   }
 
   /* // Close it smh */
-  &.stowed {
+  &[class*=stowed] {
     /* // display: none; */
     width: 0px;
 
@@ -268,7 +268,7 @@
 }
 
 /* // If the action interface is currently stowed, shrink it */
-:root:has(.actionInterface.stowed) {
+:root:has(.actionInterface[class*=stowed]) {
   --ui-side-bar-action-interface-total-width: 0px;
 
   & .popoutMapBtnBar>button {

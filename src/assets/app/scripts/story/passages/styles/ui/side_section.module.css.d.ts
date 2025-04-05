@@ -15,7 +15,6 @@ declare const styles: {
   readonly "popoutMap": string;
   readonly "popoutMapBtnBar": string;
   readonly "sideBar": string;
-  readonly "stowed": string;
   readonly "toggleMapBtn": string;
   readonly "toggleStateBtn": string;
 };
