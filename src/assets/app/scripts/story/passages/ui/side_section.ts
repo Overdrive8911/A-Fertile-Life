@@ -12,6 +12,11 @@ import {
 } from "../styles/ui/side_section.module.css";
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
+import leftArrowHead from "./../../../../../media/img/ui/icons/16x16/left_facing_arrow_head_pointer.webp";
+import gpsIcon from "./../../../../../media/img/ui/icons/16x16/gps_icon.webp";
+import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
+import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
+import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
 
 const passageText = [
   /* TODO - Add a ".stowed" class later and make the javascript simply toggle the class (for the most part) */
