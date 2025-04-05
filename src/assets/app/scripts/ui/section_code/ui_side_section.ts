@@ -33,9 +33,10 @@ $(document).on(":passageend", () => {
     .ariaClick(() => {
       handleSidebarToggle();
     });
+  const sideBarToggleKeyUpEvent = "keyup.sideBarToggleState";
   $(window)
-    .off("keyup.sideBarToggleState")
-    .on("keyup.sideBarToggleState", (keyEvent) => {
+    .off(sideBarToggleKeyUpEvent)
+    .on(sideBarToggleKeyUpEvent, (keyEvent) => {
       if (isEditableElementSelected(keyEvent)) return false;
       if (keyEvent.key === "q") {
         handleSidebarToggle();
