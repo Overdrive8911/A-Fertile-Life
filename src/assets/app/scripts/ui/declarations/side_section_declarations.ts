@@ -2,7 +2,14 @@ import { convertToClass } from "../../declarations/general_declarations";
 import {
   actionInterface,
   backupContainer1,
+  backupContainer2,
+  popoutMap,
+  sideBar,
 } from "../../story/passages/styles/ui/side_section.module.css";
+import {
+  otherStats,
+  settingBtn,
+} from "../../story/passages/styles/ui/top_section.module.css";
 
 function copyActionInterfaceContentsToSideBar() {
   const verySlimMobileWidth = "screen and (max-width: 415px)";
@@ -35,11 +42,21 @@ export function uiSideBarToggleHandler() {
   let prevMobileMaxWidth;
   const slimMobileWidth = "screen and (max-width: 500px)";
   const wideMobileWidth = "screen and (max-width: 780px)";
+  const backupContainer1ChildSelector = convertToClass(backupContainer1);
+  const backupContainer1FirstChild = $(
+    `${backupContainer1ChildSelector}>:nth-child(1)`
+  );
+  const backupContainer1SecondChild = $(
+    `${backupContainer1ChildSelector}>:nth-child(2)`
+  );
+  const backupContainer2ChildSelector = convertToClass(backupContainer2);
+  const isNotStowed = !$(convertToClass(sideBar)).hasClass("stowed");
+
   const generalMobileUISettingsReset = () => {
     // TODO - PLEASE REVISE THIS
-    $("#ui-side-bar-backup-container1 > div").empty();
+    $(`${backupContainer1ChildSelector} > div`).empty();
 
-    $("#ui-side-bar-backup-container2").empty();
+    $(backupContainer2ChildSelector).empty();
 
     $("[id|='ui-navigation-option-button']").removeClass(
       "ui-navigation-button-small"
@@ -58,28 +75,24 @@ export function uiSideBarToggleHandler() {
       generalMobileUISettingsReset();
     }
     //Deal with the leftmost icons
-    for (const uiIcon of $("#ui-settings-buttons").children()) {
+    for (const uiIcon of $(convertToClass(settingBtn)).children()) {
       // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
-      if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(1)").append(
-          $(uiIcon).clone(true)
-        );
+      if (isNotStowed) {
+        backupContainer1FirstChild.append($(uiIcon).clone(true));
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(1)").empty();
+        backupContainer1FirstChild.empty();
       }
     }
 
     //Deal with the rightmost icons (money/rep)
-    for (const uiIcon of $("#ui-stat-others").children()) {
+    for (const uiIcon of $(convertToClass(otherStats)).children()) {
       // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
-      if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(2)").append(
-          $(uiIcon).clone(true)
-        );
+      if (isNotStowed) {
+        backupContainer1SecondChild.append($(uiIcon).clone(true));
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(2)").empty();
+        backupContainer1SecondChild.empty();
       }
     }
 
@@ -88,17 +101,17 @@ export function uiSideBarToggleHandler() {
     for (const statBarColumnGroup of $("#ui-stat-bars").children()) {
       for (const statBar of $(statBarColumnGroup).children()) {
         // Copy the each stat bar and paste into the side bar
-        if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-          $("#ui-side-bar-backup-container2").append($(statBar).clone(true));
+        if (isNotStowed) {
+          $(backupContainer2ChildSelector).append($(statBar).clone(true));
         } else {
           // Empty the container
-          $("#ui-side-bar-backup-container2").empty();
+          $(backupContainer2ChildSelector).empty();
         }
       }
     }
 
     //Extra
-    if (!$("[id='ui-side-bar']").hasClass("stowed")) {
+    if (isNotStowed) {
       // Change the size of the bottom bar navigation settings
       $("[id|='ui-navigation-option-button']").addClass(
         "ui-navigation-button-small"
@@ -119,33 +132,29 @@ export function uiSideBarToggleHandler() {
       generalMobileUISettingsReset();
     }
 
-    for (const uiIcon of $("#ui-settings-buttons").children()) {
+    for (const uiIcon of $(convertToClass(settingBtn)).children()) {
       // Copy the data for all the leftmost icons with their event handlers and show them in the side bar
-      if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(1)").append(
-          $(uiIcon).clone(true)
-        );
+      if (isNotStowed) {
+        backupContainer1FirstChild.append($(uiIcon).clone(true));
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(1)").empty();
+        backupContainer1FirstChild.empty();
       }
     }
 
-    for (const uiIcon of $("#ui-stat-others").children()) {
+    for (const uiIcon of $(convertToClass(otherStats)).children()) {
       // Copy the data for all the rightmost icons with their event handlers and show them in the side bar
-      if (!$("[id='ui-side-bar']").hasClass("stowed")) {
-        $("#ui-side-bar-backup-container1 > :nth-child(2)").append(
-          $(uiIcon).clone(true)
-        );
+      if (isNotStowed) {
+        backupContainer1SecondChild.append($(uiIcon).clone(true));
       } else {
         // Empty the container
-        $("#ui-side-bar-backup-container1 > :nth-child(2)").empty();
+        backupContainer1SecondChild.empty();
       }
     }
   }
   //SECTION - For much wider screens like laptops/desktops/i-pads, just reset it
   else {
-    if (!$("[id='ui-side-bar']").hasClass("stowed")) {
+    if (isNotStowed) {
       // The side bar is open and the user is probably in landscape mode/is on something like an ipad so empty the backup containers and restore the stat bars since there's enough space for them
       generalMobileUISettingsReset();
     }
@@ -161,15 +170,17 @@ export const actionInterfaceToggleHandler = (actionInterfaceChild: string) => {
   // if ($("#ui-side-bar-action-interface").hasClass("stowed")) ui_isActionInterfaceOpen = false;
   // else ui_isActionInterfaceOpen = true;
   ui_isActionInterfaceOpen = !ui_isActionInterfaceOpen;
+
+  const actionInterfaceElement = $(convertToClass(actionInterface));
   if (ui_isActionInterfaceOpen) {
-    $("#ui-side-bar-action-interface").removeClass("stowed");
+    actionInterfaceElement.removeClass("stowed");
     // $(actionInterfaceChild).addClass("hidden");
   } else {
-    $("#ui-side-bar-action-interface").addClass("stowed");
+    actionInterfaceElement.addClass("stowed");
     // $(actionInterfaceChild).removeClass("hidden");
   }
 
-  if (actionInterfaceChild == ".ui-side-bar-popout-map") {
+  if (actionInterfaceChild == convertToClass(popoutMap)) {
     ui_isMapInActionInterfaceOpen = !ui_isMapInActionInterfaceOpen;
     if (ui_isMapInActionInterfaceOpen) {
       $(actionInterfaceChild).removeClass("hidden");
