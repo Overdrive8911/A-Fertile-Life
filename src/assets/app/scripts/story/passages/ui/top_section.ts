@@ -30,7 +30,15 @@ import {
   currArea,
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
-import { div, img, liveVar, meter, span, stateFulVar } from "../../functions";
+import {
+  div,
+  gameDateAndTimeVar,
+  img,
+  liveVar,
+  meter,
+  span,
+  stateFulVar,
+} from "../../functions";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -92,8 +100,8 @@ const passageText = [
         },
         div(
           { class: [timeDisplay] },
-          div(liveVar("$gameDateAndTime.dateText")) +
-            div(liveVar("$gameDateAndTime.timeText"))
+          div(liveVar(gameDateAndTimeVar("dateText"))) +
+            div(liveVar(gameDateAndTimeVar("timeText")))
         )
       )
   ),
