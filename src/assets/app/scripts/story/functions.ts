@@ -199,6 +199,12 @@ export function playerVar<P extends Path<SugarCubeStoryVariables["player"]>>(
   //@ts-ignore
   return stateFulVar("player", ...args);
 }
+export function playerWombVar<
+  P extends Path<SugarCubeStoryVariables["player"]["womb"]>
+>(...args: P) {
+  //@ts-ignore
+  return playerVar("womb", ...args);
+}
 export function gameDateAndTimeVar<
   P extends Path<SugarCubeStoryVariables["gameDateAndTime"]>
 >(...args: P) {

@@ -10,5 +10,5 @@ export const enum CustomMacro {
 }
 
 export const enum Default {
-  MAX_STAT = "100",
+  MAX_STAT = 100,
 }

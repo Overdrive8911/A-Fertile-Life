@@ -37,9 +37,11 @@ import {
   liveVar,
   meter,
   playerVar,
+  playerWombVar,
   span,
   stateFulVar,
 } from "../../functions";
+import { Default } from "../../../declarations/enums";
 
 const nonBreakingSpace = "&#x00A0;";
 
@@ -130,7 +132,7 @@ const passageText = [
             }) +
               span(
                 meter(
-                  `${playerVar("energy")} / `,
+                  `${playerVar("energy")} / ${Default.MAX_STAT}`,
                   undefined,
                   "1rem",
                   undefined,
@@ -149,7 +151,10 @@ const passageText = [
               class: [icon24X24, iconFilter, pixelArt],
               src: moodIcon,
               alt: "Yellow Smiley Face Mood Icon",
-            }) + span(meter("$player.mental.mood / 100"))
+            }) +
+              span(
+                meter(`${playerVar("mental", "mood")} / ${Default.MAX_STAT}`)
+              )
           ) +
             div(
               { class: [statBarAndIcon] },
@@ -157,7 +162,7 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: fullnessIcon,
                 alt: "Pink Stomach Icon",
-              }) + span(meter("$player.fullness / 100"))
+              }) + span(meter(`${playerVar("fullness")} / ${Default.MAX_STAT}`))
             )
         ) +
         div(
@@ -168,7 +173,8 @@ const passageText = [
               class: [icon24X24, iconFilter, pixelArt],
               src: wombHpIcon,
               alt: "Pink Womb Icon with a small red heart in the lower right corner",
-            }) + span(meter("$player.womb.hp / $player.womb.maxHp"))
+            }) +
+              span(meter(`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`))
           ) +
             div(
               { class: [statBarAndIcon] },
@@ -176,7 +182,7 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: wombExpIcon,
                 alt: "Pink Womb Icon with a small experience bar in the lower right corner",
-              }) + span(meter("$player.womb.exp / $player.womb.maxExp"))
+              }) + span(meter(`${playerWombVar("exp")} / 1000}`))
             )
         )
     )
