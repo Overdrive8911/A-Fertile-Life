@@ -52,8 +52,6 @@ const passageText = [
     div(
       { class: [topBarSettingsArea] },
       div(
-        { class: ["ui-icon-glow"] },
-
         img({
           class: [icon24X24, iconFilter, pixelArt],
           src: inventoryIcon,
@@ -61,8 +59,6 @@ const passageText = [
         })
       ) +
         div(
-          { class: ["ui-icon-glow"] },
-
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: saveIcon,
@@ -70,8 +66,6 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-icon-glow"] },
-
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: settingsIcon,
@@ -79,8 +73,6 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-icon-glow"] },
-
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: restartIcon,
@@ -88,8 +80,6 @@ const passageText = [
           })
         ) +
         div(
-          { class: ["ui-icon-glow"] },
-
           img({
             class: [icon24X24, iconFilter, pixelArt],
             src: bugReportIcon,
