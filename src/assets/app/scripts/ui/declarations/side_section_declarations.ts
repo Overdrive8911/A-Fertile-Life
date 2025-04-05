@@ -1,4 +1,5 @@
 import { convertToClass } from "../../declarations/general_declarations";
+import { stowed } from "../../story/passages/styles/ui/shared.module.css";
 import {
   actionInterface,
   backupContainer1,
@@ -23,7 +24,7 @@ function copyActionInterfaceContentsToSideBar() {
       );
 
       // Copy the each child in the action interface e.g the map popout
-      if (!actionInterfaceElement.hasClass("stowed")) {
+      if (!actionInterfaceElement.hasClass(stowed)) {
         backupContainer3rdChild.append($(actionInterfaceChild).clone(true));
       } else {
         // Empty the container
@@ -50,7 +51,7 @@ export function uiSideBarToggleHandler() {
     `${backupContainer1ChildSelector}>:nth-child(2)`
   );
   const backupContainer2ChildSelector = convertToClass(backupContainer2);
-  const isNotStowed = !$(convertToClass(sideBar)).hasClass("stowed");
+  const isNotStowed = !$(convertToClass(sideBar)).hasClass(stowed);
 
   const generalMobileUISettingsReset = () => {
     // TODO - PLEASE REVISE THIS
@@ -64,9 +65,9 @@ export function uiSideBarToggleHandler() {
   };
 
   // if (settings.uiSideBarToggle) {
-  //   $("#ui-side-bar").addClass("stowed");
+  //   $("#ui-side-bar").addClass(stowed);
   // } else if (!settings.uiSideBarToggle) {
-  //   $("#ui-side-bar").removeClass("stowed");
+  //   $("#ui-side-bar").removeClass(stowed);
   // }
   if (window.matchMedia(slimMobileWidth).matches) {
     //SECTION - For slim portrait modes on mobile
@@ -166,17 +167,17 @@ export function uiSideBarToggleHandler() {
 export let ui_isActionInterfaceOpen = false;
 export let ui_isMapInActionInterfaceOpen = false;
 export const actionInterfaceToggleHandler = (actionInterfaceChild: string) => {
-  // $("#ui-side-bar-action-interface").toggleClass("stowed");
-  // if ($("#ui-side-bar-action-interface").hasClass("stowed")) ui_isActionInterfaceOpen = false;
+  // $("#ui-side-bar-action-interface").toggleClass(stowed);
+  // if ($("#ui-side-bar-action-interface").hasClass(stowed)) ui_isActionInterfaceOpen = false;
   // else ui_isActionInterfaceOpen = true;
   ui_isActionInterfaceOpen = !ui_isActionInterfaceOpen;
 
   const actionInterfaceElement = $(convertToClass(actionInterface));
   if (ui_isActionInterfaceOpen) {
-    actionInterfaceElement.removeClass("stowed");
+    actionInterfaceElement.removeClass(stowed);
     // $(actionInterfaceChild).addClass("hidden");
   } else {
-    actionInterfaceElement.addClass("stowed");
+    actionInterfaceElement.addClass(stowed);
     // $(actionInterfaceChild).removeClass("hidden");
   }
 

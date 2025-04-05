@@ -2,8 +2,10 @@ import {
   convertToClass,
   isEditableElementSelected,
 } from "../../declarations/general_declarations";
+import { stowed } from "../../story/passages/styles/ui/shared.module.css";
 import {
   actionInterface,
+  popoutMap,
   sideBar,
   toggleMapBtn,
   toggleStateBtn,
@@ -71,7 +73,7 @@ $(document).on(":passageend", () => {
   // Will allow the action interface to stay open after passage navigation
   // NOTE - Every new item for the action interface needs some code here
   if (ui_isActionInterfaceOpen) {
-    $(convertToClass(actionInterface)).removeClass("stowed");
+    $(convertToClass(actionInterface)).removeClass(stowed);
 
     // Check if the map is meant to be displayed
     if (ui_isMapInActionInterfaceOpen) {
@@ -88,7 +90,7 @@ $(document).on(":passageend", () => {
     // Temporarily disable any transition
     // $("#ui-side-bar-action-interface").css("transition", "");
 
-    $(convertToClass(actionInterface)).addClass("stowed");
+    $(convertToClass(actionInterface)).addClass(stowed);
   }
 });
 
@@ -107,15 +109,15 @@ function handleSidebarToggle() {
 function toggleMapInterface() {
   setTimeout(() => {
     // Open or stow the map interface with a small delay to prevent infinite spamming
-    actionInterfaceToggleHandler(".ui-side-bar-popout-map");
+    actionInterfaceToggleHandler(popoutMap);
   }, 150);
 }
 
 function toggleSideBar() {
   const sideBarClass = convertToClass(sideBar);
   if (uiSideBarToggleState) {
-    $(sideBarClass).addClass("stowed");
+    $(sideBarClass).addClass(stowed);
   } else {
-    $(sideBarClass).removeClass("stowed");
+    $(sideBarClass).removeClass(stowed);
   }
 }

@@ -16,7 +16,6 @@ import {
   popoutMap,
   popoutMapBtnBar,
   sideBar,
-  stowed,
   toggleMapBtn,
   toggleStateBtn,
 } from "../styles/ui/side_section.module.css";
@@ -27,7 +26,12 @@ import gpsIcon from "./../../../../../media/img/ui/icons/16x16/gps_icon.webp";
 import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
 import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
 import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
-import { icon16X16, icon20X20 } from "../styles/ui/shared.module.css";
+import {
+  hidden,
+  icon16X16,
+  icon20X20,
+  stowed,
+} from "../styles/ui/shared.module.css";
 import { pixelArt } from "../styles/img.module.css";
 
 const passageText = [
@@ -88,7 +92,7 @@ const passageText = [
   div(
     { class: [actionInterface, stowed] },
     div(
-      { class: popoutMap },
+      { class: [popoutMap, hidden] },
       /* This is be an invisible bar at the bottom of the map area that holds the "Zoom In", "Zoom Out", and "Large view" buttons. NOTE - It's positioned respective to "ui-side-bar-action-interface" not the map area itself */
       div(
         { class: popoutMapBtnBar },
