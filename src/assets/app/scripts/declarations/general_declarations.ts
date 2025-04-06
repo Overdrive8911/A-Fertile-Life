@@ -97,5 +97,12 @@ export function doesPassageExist(passageName: string) {
 
 // Smol utility func for adding "." to imported class names from css modules
 export function convertToClass(name: string) {
+  const className = `.${name}`;
+
+  // In some cases (like composition) the class name is actually multiple classes, separated by spaces
+  // This is a hacky way to fix that
+  if (className.includes(" ")) {
+    return className.split(" ").join(".");
+  }
   return `.${name}` as const;
 }
