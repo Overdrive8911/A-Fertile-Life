@@ -91,7 +91,7 @@
   font-size: 0.8em;
 
   @media screen and (max-width: 500px) {
-    :root:has([class^="sideBar"].stowed) {
+    :root:has([class^="sideBar"][class*=stowed]) {
       justify-content: space-evenly;
     }
   }
@@ -107,11 +107,11 @@
 
   /* align-items: center; */
 
-  /* // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if #ui-side-bar-action-interface is open. */
-  /* // NOTE - This needs revising if I add extra options to #ui-side-bar-action-interface */
-  &:has([id="ui-side-bar-action-interface"]:not(.stowed)) {
-    &>[id="ui-side-bar-action-menu"] {
-      &> :not([id="ui-side-bar-toggle-state-button"]) {
+  /* // Target subsequent containers other than #ui-side-bar-toggle-state-button and darken them if .actionInterface is open. */
+  /* // NOTE - This needs revising if I add extra options to .actionInterface */
+  &:has([class*="actionInterface"]:not([class*=stowed])) {
+    &>[class*="actionMenu"] {
+      &> :not([class*=toggleStateBtn]) {
         filter: brightness(85%);
       }
     }
