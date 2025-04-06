@@ -11,6 +11,7 @@ import type {
 } from "./types";
 import type { MeterArgType } from "../ui/macros/meter/meter";
 import { CustomMacro } from "../declarations/enums";
+import type { SugarcubeVariable } from "../declarations/types";
 
 const passagesToAdd: PassageBase[] = [];
 
@@ -175,6 +176,18 @@ function createMacro(
 
 export function macroMeter(...args: MeterArgType) {
   return createMacro(CustomMacro.METER, args);
+}
+
+/** Alternative to `<<set>>` and `<<run>>`.
+ * @param val - Use any object that can be `JSON.stringify`'d or converted to a string easily. Otherwise, just write the object or whatever in string format.
+ */
+export function macroSetOrRun(
+  storyVariable: SugarcubeVariable,
+  val: string | number | object
+) {
+  return `<<set ${storyVariable}=${
+    typeof val == "string" ? val : JSON.stringify(val)
+  }>>`;
 }
 
 // !SECTION
