@@ -153,10 +153,11 @@ $(document).on(":passageend", () => {
 
   // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
   element.ariaClick(() => {
-    if (element.attr(attrName) == "true") {
+    const elementAttrValue = element.attr(attrName);
+    if (elementAttrValue) {
       // The location's name is currently displayed so try to display the sub location (if any)
       setAreaName();
-    } else if (element.attr(attrName) == "false") {
+    } else if (!elementAttrValue) {
       // The sub location's name is currently displayed so display it's location
       setParentName();
     }
