@@ -181,7 +181,7 @@ export const actionInterfaceToggleHandler = (actionInterfaceChild: string) => {
     // $(actionInterfaceChild).removeClass("hidden");
   }
 
-  if (actionInterfaceChild == convertToClass(popoutMap)) {
+  if (actionInterfaceChild == popoutMap) {
     ui_isMapInActionInterfaceOpen = !ui_isMapInActionInterfaceOpen;
     if (ui_isMapInActionInterfaceOpen) {
       $(actionInterfaceChild).removeClass("hidden");
