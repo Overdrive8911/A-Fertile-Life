@@ -7,11 +7,14 @@ import type {
 import type {
   GenericHtmlElementAttributes,
   ImageElementAttributes,
+  ImageMarkup,
+  LinkMarkup,
   PassageDescriptorWithOptionalTags,
 } from "./types";
 import type { MeterArgType } from "../ui/macros/meter/meter";
 import { CustomMacro } from "../declarations/enums";
 import type { SugarcubeVariable } from "../declarations/types";
+import type { StoryPassageName } from "./enums";
 
 const passagesToAdd: PassageBase[] = [];
 
@@ -188,6 +191,33 @@ export function macroSetOrRun(
   return `<<set ${storyVariable}=${
     typeof val == "string" ? val : JSON.stringify(val)
   }>>` as const;
+}
+
+export function macroButton(
+  linkText: string,
+  textToRunOnClick: string,
+  passageToLinkTo?: StoryPassageName
+):
+  | `<<button ${string}>> ${string} <</button>`
+  | `<<button ${string} ${StoryPassageName}>> ${string} <</button>>`;
+export function macroButton(
+  linkMarkup: LinkMarkup,
+  textToRunOnClick: string
+): `<<button ${LinkMarkup}>> ${string} <</button>`;
+export function macroButton(
+  imageMarkup: ImageMarkup,
+  textToRunOnClick: string
+): `<<button ${ImageMarkup}>> ${string} <</button>`;
+export function macroButton(
+  linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
+  textToRunOnClick: string,
+  passageToLinkTo?: StoryPassageName
+) {
+  return `<<button ${
+    linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
+      ? linkTextOrLinkMarkupOrImageMarkup
+      : `"${linkTextOrLinkMarkupOrImageMarkup}"`
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</button>`;
 }
 
 // !SECTION
