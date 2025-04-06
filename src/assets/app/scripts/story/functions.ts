@@ -187,7 +187,7 @@ export function macroSetOrRun(
 ) {
   return `<<set ${storyVariable}=${
     typeof val == "string" ? val : JSON.stringify(val)
-  }>>`;
+  }>>` as const;
 }
 
 // !SECTION
