@@ -1,11 +1,11 @@
 import { convertToClass } from "../../declarations/general_declarations";
-import { stowed } from "../../story/passages/styles/ui/shared.module.css";
 import {
   actionInterface,
   backupContainer1,
   backupContainer2,
   popoutMap,
   sideBar,
+  stowed,
 } from "../../story/passages/styles/ui/side_section.module.css";
 import {
   otherStats,

@@ -11,10 +11,12 @@ declare const styles: {
   readonly "gameInfoBox": string;
   readonly "gameInfoName": string;
   readonly "gameInfoOthers": string;
+  readonly "hidden": string;
   readonly "playerImage": string;
   readonly "popoutMap": string;
   readonly "popoutMapBtnBar": string;
   readonly "sideBar": string;
+  readonly "stowed": string;
   readonly "toggleMapBtn": string;
   readonly "toggleStateBtn": string;
 };

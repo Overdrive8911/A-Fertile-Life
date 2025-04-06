@@ -65,11 +65,3 @@
     --dimension: 32px;
   }
 }
-
-/* // Doesn't do anything by itself but I use it to know whether something is open or closed */
-.stowed {}
-
-.hidden {
-  /* //I use it to hide stuff. Should never be active with ".stowed" */
-  display: none;
-}

@@ -12,10 +12,12 @@ import {
   gameInfoBox,
   gameInfoName,
   gameInfoOthers,
+  hidden,
   playerImage,
   popoutMap,
   popoutMapBtnBar,
   sideBar,
+  stowed,
   toggleMapBtn,
   toggleStateBtn,
 } from "../styles/ui/side_section.module.css";
@@ -26,12 +28,7 @@ import gpsIcon from "./../../../../../media/img/ui/icons/16x16/gps_icon.webp";
 import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
 import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
 import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
-import {
-  hidden,
-  icon16X16,
-  icon20X20,
-  stowed,
-} from "../styles/ui/shared.module.css";
+import { icon16X16, icon20X20 } from "../styles/ui/shared.module.css";
 import { pixelArt } from "../styles/img.module.css";
 
 const passageText = [

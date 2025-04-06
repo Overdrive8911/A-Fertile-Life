@@ -2,11 +2,11 @@ import {
   convertToClass,
   isEditableElementSelected,
 } from "../../declarations/general_declarations";
-import { stowed } from "../../story/passages/styles/ui/shared.module.css";
 import {
   actionInterface,
   popoutMap,
   sideBar,
+  stowed,
   toggleMapBtn,
   toggleStateBtn,
 } from "../../story/passages/styles/ui/side_section.module.css";
