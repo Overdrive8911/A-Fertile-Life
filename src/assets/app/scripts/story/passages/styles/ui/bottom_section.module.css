@@ -1,0 +1,14 @@
+.navOptions {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.northBtn,
+.southBtn,
+.eastBtn,
+.westBtn {
+  line-height: 11px;
+}

@@ -4,10 +4,17 @@ import { isNavigationButtonUsable, warpToConnectedArea } from "./navigation";
 import { Direction } from "./enums";
 import {
   activeArea,
+  convertToClass,
   isAnyStoryFlagSet,
   StoryFlags,
 } from "../declarations/general_declarations";
 import { GlobalMap, SubLocation, type Location } from "./classes";
+import {
+  eastBtn,
+  northBtn,
+  southBtn,
+  westBtn,
+} from "../story/passages/styles/ui/bottom_section.module.css";
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -158,10 +165,10 @@ $(document).on(":passageend", () => {
 
 // SECTION - For everything relating to the navigational buttons and the text displayed at the bottom of any "default" tagged passage
 $(document).on(":passageend", () => {
-  const northButton = $("#ui-navigation-option-button-north");
-  const eastButton = $("#ui-navigation-option-button-east");
-  const southButton = $("#ui-navigation-option-button-south");
-  const westButton = $("#ui-navigation-option-button-west");
+  const northButton = $(convertToClass(northBtn));
+  const eastButton = $(convertToClass(eastBtn));
+  const southButton = $(convertToClass(southBtn));
+  const westButton = $(convertToClass(westBtn));
 
   // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
   const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH);
