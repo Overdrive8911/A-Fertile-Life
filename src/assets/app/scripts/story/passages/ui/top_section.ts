@@ -39,7 +39,7 @@ import {
   gameDateAndTimeVar,
   img,
   liveVar,
-  meter,
+  macroMeter,
   playerVar,
   playerWombVar,
   span,
@@ -115,7 +115,7 @@ const passageText = [
             class: [icon24X24, iconFilter, pixelArt],
             src: heartIcon,
             alt: "Red Heart-shaped Health Icon",
-          }) + span(meter(`${playerVar("hp")} / ${playerVar("maxHp")}`))
+          }) + span(macroMeter(`${playerVar("hp")} / ${playerVar("maxHp")}`))
         ) +
           div(
             { class: statBarAndIcon },
@@ -125,7 +125,7 @@ const passageText = [
               alt: "Yellow Lightning-shaped Energy Icon",
             }) +
               span(
-                meter(
+                macroMeter(
                   `${playerVar("energy")} / ${Default.MAX_STAT}`,
                   undefined,
                   "1rem",
@@ -147,7 +147,9 @@ const passageText = [
               alt: "Yellow Smiley Face Mood Icon",
             }) +
               span(
-                meter(`${playerVar("mental", "mood")} / ${Default.MAX_STAT}`)
+                macroMeter(
+                  `${playerVar("mental", "mood")} / ${Default.MAX_STAT}`
+                )
               )
           ) +
             div(
@@ -156,7 +158,10 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: fullnessIcon,
                 alt: "Pink Stomach Icon",
-              }) + span(meter(`${playerVar("fullness")} / ${Default.MAX_STAT}`))
+              }) +
+                span(
+                  macroMeter(`${playerVar("fullness")} / ${Default.MAX_STAT}`)
+                )
             )
         ) +
         div(
@@ -168,7 +173,9 @@ const passageText = [
               src: wombHpIcon,
               alt: "Pink Womb Icon with a small red heart in the lower right corner",
             }) +
-              span(meter(`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`))
+              span(
+                macroMeter(`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`)
+              )
           ) +
             div(
               { class: statBarAndIcon },
@@ -176,7 +183,7 @@ const passageText = [
                 class: [icon24X24, iconFilter, pixelArt],
                 src: wombExpIcon,
                 alt: "Pink Womb Icon with a small experience bar in the lower right corner",
-              }) + span(meter(`${playerWombVar("exp")} / 1000}`))
+              }) + span(macroMeter(`${playerWombVar("exp")} / 1000}`))
             )
         )
     )

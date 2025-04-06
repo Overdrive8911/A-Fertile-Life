@@ -173,7 +173,7 @@ function createMacro(
     : `<<${macroName} ${argsString}>>`;
 }
 
-export function meter(...args: MeterArgType) {
+export function macroMeter(...args: MeterArgType) {
   return createMacro(CustomMacro.METER, args);
 }
 
