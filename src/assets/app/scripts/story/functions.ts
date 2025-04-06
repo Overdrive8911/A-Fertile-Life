@@ -247,6 +247,8 @@ export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(
 ) {
   return getStoryVar(temporary(), ...args) as `_${string}`;
 }
+/** Utility func for counters in passages */
+export const tempCounterVar = tempVar("counter") as "_counter";
 export function staticVar<P extends Path<SugarCubeSetupObject>>(...args: P) {
   return getStoryVar(setup, ...args) as `setup.${string}`;
 }
