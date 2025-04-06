@@ -17,6 +17,8 @@ import {
 } from "../story/passages/styles/ui/bottom_section.module.css";
 import { unusable } from "./nav_button.module.css";
 import { currArea } from "../story/passages/styles/ui/top_section.module.css";
+import { div } from "../story/functions";
+import { icon24X24 } from "../story/passages/styles/ui/shared.module.css";
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -141,7 +143,13 @@ $(document).on(":passageend", () => {
 
       element.text(area.name).append(
         // Use the icon as a mask over a color that will be set by css
-        `<div class="icon24x24" style="mask: url('${imgUrl}') center/contain;"></div>`
+        div(
+          {
+            class: icon24X24,
+            style: `mask: url('${imgUrl}') center/contain;`,
+          },
+          ""
+        )
       );
     }
     element.attr(attrName, "false");
