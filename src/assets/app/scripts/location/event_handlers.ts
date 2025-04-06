@@ -195,22 +195,23 @@ $(document).on(":passageend", () => {
     navigate(Direction.WEST);
   });
 
+  const navBtnKeyUpEventName = "keyup.navigation_buttons";
   // Key Events
   $(document)
-    .off("keyup.navigation_buttons") // To prevent multiple handlers from getting attached
-    .on("keyup.navigation_buttons", (e) => {
+    .off(navBtnKeyUpEventName) // To prevent multiple handlers from getting attached
+    .on(navBtnKeyUpEventName, (e) => {
       if (!validateKeyEvent(e)) return false;
       if (e.key == "w" && isNorthNavigable) navigate(Direction.NORTH);
     })
-    .on("keyup.navigation_buttons", (e) => {
+    .on(navBtnKeyUpEventName, (e) => {
       if (!validateKeyEvent(e)) return false;
       if (e.key == "d" && isEastNavigable) navigate(Direction.EAST);
     })
-    .on("keyup.navigation_buttons", (e) => {
+    .on(navBtnKeyUpEventName, (e) => {
       if (!validateKeyEvent(e)) return false;
       if (e.key == "s" && isSouthNavigable) navigate(Direction.SOUTH);
     })
-    .on("keyup.navigation_buttons", (e) => {
+    .on(navBtnKeyUpEventName, (e) => {
       if (!validateKeyEvent(e)) return false;
       if (e.key == "a" && isWestNavigable) navigate(Direction.WEST);
     });
