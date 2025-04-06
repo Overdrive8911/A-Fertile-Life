@@ -15,6 +15,7 @@ import {
   southBtn,
   westBtn,
 } from "../story/passages/styles/ui/bottom_section.module.css";
+import { unusable } from "./nav_button.module.css";
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -222,10 +223,10 @@ $(document).on(":passageend", () => {
   ) => {
     if (!canMoveInDirection) {
       button.prop("disabled", true);
-      button.css("filter", "brightness(45%)").css("pointer-events", "none");
+      button.addClass(unusable);
     } else {
       button.prop("disabled", false);
-      button.css("filter", "").css("pointer-events", "");
+      button.removeClass(unusable);
     }
   };
 
