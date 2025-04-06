@@ -23,6 +23,13 @@ declare module "twine-sugarcube" {
     player: Player;
     storyFlags: StoryFlags;
   }
+
+  export interface SugarCubeTemporaryVariables {
+    /**
+     * General purpose counter for use in passages
+     */
+    counter: number;
+  }
 }
 
 export {};
