@@ -16,6 +16,7 @@ import {
   westBtn,
 } from "../story/passages/styles/ui/bottom_section.module.css";
 import { unusable } from "./nav_button.module.css";
+import { currArea } from "../story/passages/styles/ui/top_section.module.css";
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
@@ -128,8 +129,8 @@ function validateKeyEvent(e: unknown) {
 
 // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
 $(document).on(":passageend", () => {
-  // Update the name of the location/sub location shown in "#ui-top-bar-current-location-view". An attribute "is-location-name" will store whether what is displayed is "true" or "false"
-  const element = $("#ui-top-bar-current-location-view");
+  // Update the name of the location/sub location shown. An attribute "is-location-name" will store whether what is displayed is "true" or "false"
+  const element = $(convertToClass(currArea));
   const attrName = "is-location-name";
 
   const area = activeArea();
