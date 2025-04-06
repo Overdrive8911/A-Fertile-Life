@@ -21,6 +21,20 @@ import Queue from "yocto-queue";
 import { player } from "../declarations/general_declarations";
 import { isSceneActive } from "../scene/functions";
 import { SceneEnum } from "../scene/enums";
+import dummyImg from "./../../../media/img/map/icons/sub_location/dummy.webp";
+import receptionImg from "./../../../media/img/map/icons/sub_location/reception.webp";
+import hallwayImg from "./../../../media/img/map/icons/sub_location/hallway.webp";
+import pharmacyImg from "./../../../media/img/map/icons/sub_location/pharmacy.webp";
+import porchImg from "./../../../media/img/map/icons/sub_location/porch.webp";
+import corridorImg from "./../../../media/img/map/icons/sub_location/corridor.webp";
+import roomImg from "./../../../media/img/map/icons/sub_location/room.webp";
+import labImg from "./../../../media/img/map/icons/sub_location/lab.webp";
+import consultationImg from "./../../../media/img/map/icons/sub_location/consultation.webp";
+import officeImg from "./../../../media/img/map/icons/sub_location/office_work.webp";
+import measureClosetImg from "./../../../media/img/map/icons/sub_location/measuring_closet.webp";
+import bedroomImg from "./../../../media/img/map/icons/sub_location/bedroom.webp";
+import bathroomImg from "./../../../media/img/map/icons/sub_location/bathroom.webp";
+import livingRoomImg from "./../../../media/img/map/icons/sub_location/living_room.webp";
 
 type ChildConnectionMap = Map<
   { from: AreaUUID; to: AreaUUID },
@@ -631,46 +645,40 @@ class MapEntity<
 /**
  * This is the smallest area that the player can access and also the only areas that are directly linked to passages. Every other `MapEntity` child instance is just a container that directly or indirectly contains this.
  */
-type SubLocationIconUrl = `/media/img/map/icons/sub_location/${string}.webp`;
 export class SubLocation extends MapEntity<
   never,
   Exclude<SubLocationId, SubLocationId.DUMMY>,
   Location
 > {
-  static #getUrl(subLocation: string): SubLocationIconUrl {
-    return `/media/img/map/icons/sub_location/${subLocation}.webp`;
-  }
-
   // Stores relative urls to the icons for sub locations
   // NOTE - Add the urls of sub locations with mini icons here. Use lowercase
-  static #icons: Partial<Record<SubLocationId, SubLocationIconUrl>> = {
-    [SubLocationId.DUMMY]: this.#getUrl("dummy"),
+  static #icons: Partial<Record<SubLocationId, string>> = {
+    [SubLocationId.DUMMY]: dummyImg,
 
-    [SubLocationId.RECEPTION]: this.#getUrl("reception"),
+    [SubLocationId.RECEPTION]: receptionImg,
 
-    [SubLocationId.HALLWAY]: this.#getUrl("hallway"),
+    [SubLocationId.HALLWAY]: hallwayImg,
 
-    [SubLocationId.PHARMACY]: SubLocation.#getUrl("pharmacy"),
+    [SubLocationId.PHARMACY]: pharmacyImg,
 
-    [SubLocationId.PORCH]: SubLocation.#getUrl("porch"),
+    [SubLocationId.PORCH]: porchImg,
 
-    [SubLocationId.CORRIDOR]: SubLocation.#getUrl("corridor"),
+    [SubLocationId.CORRIDOR]: corridorImg,
 
-    [SubLocationId.ROOM]: SubLocation.#getUrl("room"),
+    [SubLocationId.ROOM]: roomImg,
 
-    [SubLocationId.LAB]: SubLocation.#getUrl("lab"),
+    [SubLocationId.LAB]: labImg,
 
-    [SubLocationId.CONSULTATION]: SubLocation.#getUrl("consultation"),
+    [SubLocationId.CONSULTATION]: consultationImg,
 
-    [SubLocationId.OFFICE_WORK]: SubLocation.#getUrl("office_work"),
+    [SubLocationId.OFFICE_WORK]: officeImg,
 
-    [SubLocationId.MEASUREMENT_CLOSET]:
-      SubLocation.#getUrl("measurement_closet"),
+    [SubLocationId.MEASUREMENT_CLOSET]: measureClosetImg,
 
-    [SubLocationId.KITCHEN]: SubLocation.#getUrl("room"),
-    [SubLocationId.BEDROOM]: SubLocation.#getUrl("bedroom"),
-    [SubLocationId.BATHROOM]: SubLocation.#getUrl("bathroom"),
-    [SubLocationId.LIVING_ROOM]: SubLocation.#getUrl("living_room"),
+    // [SubLocationId.KITCHEN]: SubLocation.#getUrl("room"),
+    [SubLocationId.BEDROOM]: bedroomImg,
+    [SubLocationId.BATHROOM]: bathroomImg,
+    [SubLocationId.LIVING_ROOM]: livingRoomImg,
   };
 
   constructor(
@@ -689,7 +697,7 @@ export class SubLocation extends MapEntity<
 
   get iconUrl() {
     const icons = SubLocation.#icons;
-    return icons[this.id] ?? (icons[SubLocationId.DUMMY] as SubLocationIconUrl);
+    return icons[this.id] ?? (icons[SubLocationId.DUMMY] as string);
   }
 
   // get uniqueId(): AreaUniqueId {
