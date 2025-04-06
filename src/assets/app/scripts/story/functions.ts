@@ -192,10 +192,11 @@ function getStoryVar<T, P extends Path<T>>(obj: T, ...path: P) {
 
   return `${identifier}${path.join(".")}` as const;
 }
-
 export function stateFulVar<P extends Path<SugarCubeStoryVariables>>(
+  //@ts-ignore
   ...args: P
 ) {
+  //@ts-ignore
   return getStoryVar(variables(), ...args) as `$${string}`;
 }
 export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(

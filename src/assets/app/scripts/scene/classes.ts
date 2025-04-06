@@ -31,7 +31,7 @@ export class SceneData {
   /**
    * A backup of all other story variables as at the time of this class's instantiation
    */
-  stateBackup: Exclude<SugarCubeStoryVariables, SceneEnum.STORY_VARIABLE_NAME> =
+  stateBackup: Omit<SugarCubeStoryVariables, SceneEnum.STORY_VARIABLE_NAME> =
     {} as any;
 
   constructor(passageName: string, area?: AreaUUID);
