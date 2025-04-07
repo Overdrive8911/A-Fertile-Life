@@ -143,6 +143,11 @@ export function img(data: ImageElementAttributes) {
   return createElement("img", data);
 }
 
+/**
+ * Simple line break :D
+ */
+export const br = "<br>";
+
 // !SECTION
 
 // SECTION - Macros and widgets
