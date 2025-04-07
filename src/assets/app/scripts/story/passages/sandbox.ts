@@ -1,101 +1,74 @@
-import { addPassage } from "../functions";
+import { ItemId } from "../../inventory_and_items/declarations/item_enums";
+import {
+  addPassage,
+  br,
+  macroButton,
+  macroLink,
+  macroMeter,
+  macroSetOrRun,
+  macroTextBox,
+  p,
+  tempCounterVar,
+  tempVar,
+} from "../functions";
 
 addPassage({
-  text: `<p>
-    Here, you are. Standing in the middle of the void. Surrounded by the nothingness that once held your reality together. That time is long past however. You came here for a reason; to experiment, to experiment to your fill. In this place, nothing can truly be created or destroyed but the dark matter her can be moulded to your will.
-</p>
-
-<p>
-<<set _t =0.5>>
-    Custom meter: <<meter "_t" "11.5rem" "1rem">>
-<<button "Increase">>
-    <<set _t = _t >=1 ? 0: _t + 0.1>>
-<</button>>
-</p>
-
-<p>
-    It's time to get down to business, so go on and manipulate this new world to how you see fit!
-</p>
-
-<<textbox "$addToInventory" "CHEESE">>
-<p>
-    <<link "Add the Item above to Inventory (Click 'Enter' before this link)">>
-        <<giveItem $addToInventory>>
-    <</link>>
-    <br>
-    <<link "Add 5 of them">><<giveItem $addToInventory 5>><</link>>
-</p>
-
-<<textbox "$removeFromInventory" "CHEESE">>
-<p>
-    <<link "Remove the Item above to Inventory (Click 'Enter' before this link)">>
-        <<deleteItem $removeFromInventory>>
-    <</link>>
-    <br>
-    <<link "Remove 5 of them">><<deleteItem $removeFromInventory 5>><</link>>
-</p>
-
-<p>
-    <<link "Add All Items Once">>
-        <<run setup.addAllItems()>>
-    <</link>>
-</p>
-
-<p>
-    <<link "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!">>
-        <<impregnate 60 5 $player.womb 1>>
-    <</link>>
-</p>
-
-<p>
-    [[Teleport to default map|Fertilo_Inc_Porch]]
-</p>
-
-<p>
-    <<link "Skip 30 minutes">>
-        <<skipTime 0 0 30>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Rewind 30 minutes">>
-        <<skipTime 0 0 -30>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Skip 1 day">>
-        <<skipTime 1 0 0>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Rewind 1 day">>
-        <<skipTime -1 0 0>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Skip 1 week">>
-        <<skipTime 7 0 0>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Rewind 1 week">>
-        <<skipTime -7 0 0>>
-    <</link>>
-</p>
-
-<p>
-    <<link "Reload Passage" "PlayerSandbox">><</link>>
-</p>
-
-<p>
-    <<link "Test Prologue Scene">>
-        <<startScene "Prologue_Beginning">>
-    <</link>>
-</p>`,
+  text:
+    p(
+      "Here, you are. Standing in the middle of the void. Surrounded by the nothingness that once held your reality together. That time is long past however. You came here for a reason; to experiment, to experiment to your fill. In this place, nothing can truly be created or destroyed but the dark matter her can be moulded to your will."
+    ) +
+    p(
+      macroSetOrRun(tempCounterVar, 0.5) +
+        "Custom meter:" +
+        macroMeter(tempCounterVar, "11.5rem", "1rem") +
+        macroButton(
+          "Increase",
+          macroSetOrRun(
+            tempCounterVar,
+            tempCounterVar + ">=1?0:" + tempCounterVar + "+0.1"
+          )
+        )
+    ) +
+    p(
+      "It's time to get down to business, so go on and manipulate this new world to how you see fit!"
+    ) +
+    macroTextBox(tempVar("cache1"), ItemId.CHEESE) +
+    p(
+      macroLink(
+        "Add the Item above to Inventory (Click 'Enter' before this link)",
+        // TODO: Use a function instead of a raw string
+        `<<giveItem ${tempVar("cache1")}>>`
+      ) +
+        br +
+        macroLink("Add 5 of them", `<<giveItem ${tempVar("cache1")} 5>>`)
+    ) +
+    macroTextBox(tempVar("cache2"), ItemId.CHEESE) +
+    p(
+      macroLink(
+        "Remove the Item above to Inventory (Click 'Enter' before this link)",
+        `<<deleteItem ${tempVar("cache2")}}>>`
+      ) +
+        br +
+        macroLink("Remove 5 of them", `<<deleteItem ${tempVar("cache2")} 5>>`)
+    ) +
+    p(macroLink("Add All Items Once", `<<run setup.addAllItems()>>`)) +
+    p(
+      macroLink(
+        "PLAP! PLAP! PLAP! PLAP! Get Pregnant! Get Pregnant! Get Pregnant! Get Pregnant!",
+        `<<impregnate 60 5 $player.womb 1>>`
+      )
+    ) +
+    //@ts-expect-error I'll have to fix the types later :p
+    p(macroLink("[[Teleport to default map|Fertilo_Inc_Porch]]")) +
+    p(macroLink("Skip 30 minutes", `<<skipTime 0 0 30>>`)) +
+    p(macroLink("Rewind 30 minutes", `<<skipTime 0 0 -30>>`)) +
+    p(macroLink("Skip 1 day", `<<skipTime 1 0 0>>`)) +
+    p(macroLink("Rewind 1 day", `<<skipTime -1 0 0>>`)) +
+    p(macroLink("Skip 1 week", `<<skipTime 7 0 0>>`)) +
+    p(macroLink("Rewind 1 week", `<<skipTime -7 0 0>>`)) +
+    //@ts-expect-error I'll have to fix the types later :p
+    p(macroLink("[[Reload Passage|PlayerSandbox]]")) +
+    p(macroLink("Test Prologue Scene", `<<startScene "Prologue_Beginning">>`)),
   name: "PlayerSandbox",
   tags: [""],
 });
