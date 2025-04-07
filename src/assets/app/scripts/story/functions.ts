@@ -199,7 +199,7 @@ export function macroSetOrRun(
 }
 
 type SimpleMacroBtn =
-  | `<<button ${string}>> ${string} <</button>`
+  | `<<button ${string}>> ${string} <</button>>`
   | `<<button ${string} ${StoryPassageName}>> ${string} <</button>>`;
 export function macroButton(
   linkText: string,
@@ -209,11 +209,11 @@ export function macroButton(
 export function macroButton(
   linkMarkup: LinkMarkup,
   textToRunOnClick: string
-): `<<button ${LinkMarkup}>> ${string} <</button>`;
+): `<<button ${LinkMarkup}>> ${string} <</button>>`;
 export function macroButton(
   imageMarkup: ImageMarkup,
   textToRunOnClick: string
-): `<<button ${ImageMarkup}>> ${string} <</button>`;
+): `<<button ${ImageMarkup}>> ${string} <</button>>`;
 export function macroButton(
   linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
   textToRunOnClick: string,
@@ -223,7 +223,7 @@ export function macroButton(
     linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
       ? linkTextOrLinkMarkupOrImageMarkup
       : `"${linkTextOrLinkMarkupOrImageMarkup}"`
-  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</button>`;
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</button>>`;
 }
 
 /**
@@ -247,7 +247,7 @@ export function macroTextBox(
 }
 
 type SimpleMacroLink =
-  | `<<link ${string}>> ${string} <</link>`
+  | `<<link ${string}>> ${string} <</link>>`
   | `<<link ${string} ${StoryPassageName}>> ${string} <</link>>`;
 export function macroLink(
   linkText: string,
@@ -257,11 +257,11 @@ export function macroLink(
 export function macroLink(
   linkMarkup: LinkMarkup,
   textToRunOnClick: string
-): `<<link ${LinkMarkup}>> ${string} <</link>`;
+): `<<link ${LinkMarkup}>> ${string} <</link>>`;
 export function macroLink(
   imageMarkup: ImageMarkup,
   textToRunOnClick: string
-): `<<link ${ImageMarkup}>> ${string} <</link>`;
+): `<<link ${ImageMarkup}>> ${string} <</link>>`;
 export function macroLink(
   linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
   textToRunOnClick: string,
@@ -271,7 +271,7 @@ export function macroLink(
     linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
       ? linkTextOrLinkMarkupOrImageMarkup
       : `"${linkTextOrLinkMarkupOrImageMarkup}"`
-  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</link>`;
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</link>>`;
 }
 
 // !SECTION
