@@ -8,5 +8,7 @@ export type NumberKeys<T> = {
 
 /**
  * Stuff like `$var`, `$var.foo`, `_var.foo[bar]`
+ *
+ * TODO: Make this type more specific instead of simple template string types
  */
 export type SugarcubeVariable = `$${string}` | `_${string}` | `setup.${string}`;
