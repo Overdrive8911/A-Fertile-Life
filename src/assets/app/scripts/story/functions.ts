@@ -241,7 +241,7 @@ export function macroTextBox(
   passageName?: StoryPassageName,
   autoFocus = false
 ) {
-  return `<<textbox ${variableName} ${defaultValue} ${passageName ?? ""} ${
+  return `<<textbox "${variableName}" ${defaultValue} ${passageName ?? ""} ${
     autoFocus ? "autofocus" : ""
   }>>` as const;
 }
