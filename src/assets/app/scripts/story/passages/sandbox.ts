@@ -59,7 +59,6 @@ addPassage({
         `<<impregnate 60 5 $player.womb 1>>`
       )
     ) +
-    //@ts-expect-error I'll have to fix the types later :p
     p(macroLink("[[Teleport to default map|Fertilo_Inc_Porch]]")) +
     p(macroLink("Skip 30 minutes", `<<skipTime 0 0 30>>`)) +
     p(macroLink("Rewind 30 minutes", `<<skipTime 0 0 -30>>`)) +

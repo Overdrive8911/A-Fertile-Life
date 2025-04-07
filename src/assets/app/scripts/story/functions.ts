@@ -251,27 +251,27 @@ type SimpleMacroLink =
   | `<<link ${string} ${StoryPassageName}>> ${string} <</link>>`;
 export function macroLink(
   linkText: string,
-  textToRunOnClick: string,
+  textToRunOnClick?: string,
   passageToLinkTo?: StoryPassageName
 ): SimpleMacroLink;
 export function macroLink(
   linkMarkup: LinkMarkup,
-  textToRunOnClick: string
+  textToRunOnClick?: string
 ): `<<link ${LinkMarkup}>> ${string} <</link>>`;
 export function macroLink(
   imageMarkup: ImageMarkup,
-  textToRunOnClick: string
+  textToRunOnClick?: string
 ): `<<link ${ImageMarkup}>> ${string} <</link>>`;
 export function macroLink(
   linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
-  textToRunOnClick: string,
+  textToRunOnClick?: string,
   passageToLinkTo?: StoryPassageName
 ) {
   return `<<link ${
     linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
       ? linkTextOrLinkMarkupOrImageMarkup
       : `"${linkTextOrLinkMarkupOrImageMarkup}"`
-  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</link>>`;
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick ?? ""} <</link>>`;
 }
 
 // !SECTION
