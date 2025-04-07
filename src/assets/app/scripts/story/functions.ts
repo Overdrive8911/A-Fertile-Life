@@ -241,6 +241,34 @@ export function macroTextBox(
   }>>` as const;
 }
 
+type SimpleMacroLink =
+  | `<<link ${string}>> ${string} <</link>`
+  | `<<link ${string} ${StoryPassageName}>> ${string} <</link>>`;
+export function macroLink(
+  linkText: string,
+  textToRunOnClick: string,
+  passageToLinkTo?: StoryPassageName
+): SimpleMacroLink;
+export function macroLink(
+  linkMarkup: LinkMarkup,
+  textToRunOnClick: string
+): `<<link ${LinkMarkup}>> ${string} <</link>`;
+export function macroLink(
+  imageMarkup: ImageMarkup,
+  textToRunOnClick: string
+): `<<link ${ImageMarkup}>> ${string} <</link>`;
+export function macroLink(
+  linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
+  textToRunOnClick: string,
+  passageToLinkTo?: StoryPassageName
+) {
+  return `<<link ${
+    linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
+      ? linkTextOrLinkMarkupOrImageMarkup
+      : `"${linkTextOrLinkMarkupOrImageMarkup}"`
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</link>`;
+}
+
 // !SECTION
 
 // SECTION - Variable-specific functions
