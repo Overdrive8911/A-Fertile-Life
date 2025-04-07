@@ -28,7 +28,11 @@ declare module "twine-sugarcube" {
     /**
      * General purpose counter for use in passages
      */
-    counter: number;
+    counter?: number;
+    // General purpose cache for use in passages
+    cache1?: number | string;
+    cache2?: number | string;
+    cache3?: number | string;
   }
 }
 
