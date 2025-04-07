@@ -1,0 +1,15 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../../../twine-documentation"
+	}
+],
+  "settings": {
+    "twee3LanguageTools.passage.group": "Folder",
+    "twee3LanguageTools.passage.list": true,
+    "typescript.tsdk": "a-fertile-life/node_modules/typescript/lib"
+  }
+}
