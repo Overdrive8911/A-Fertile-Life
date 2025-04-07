@@ -5,5 +5,5 @@
     /* [[Prologue_Beginning]] */
     <<startSceneLink 'Start' 'Prologue_Beginning'>>
     <br><br><br>
-    <<link "Debug" "PlayerSandbox">><</link>>
+    <<link "Debug" "DebugSandbox">><</link>>
 </h2>

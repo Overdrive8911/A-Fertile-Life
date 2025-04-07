@@ -67,8 +67,8 @@ addPassage({
     p(macroLink("Skip 1 week", `<<skipTime 7 0 0>>`)) +
     p(macroLink("Rewind 1 week", `<<skipTime -7 0 0>>`)) +
     //@ts-expect-error I'll have to fix the types later :p
-    p(macroLink("[[Reload Passage|PlayerSandbox]]")) +
+    p(macroLink("[[Reload Passage|DebugSandbox]]")) +
     p(macroLink("Test Prologue Scene", `<<startScene "Prologue_Beginning">>`)),
-  name: "PlayerSandbox",
+  name: "DebugSandbox",
   tags: [""],
 });
