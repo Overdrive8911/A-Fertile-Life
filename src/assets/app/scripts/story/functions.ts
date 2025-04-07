@@ -220,6 +220,26 @@ export function macroButton(
   } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</button>`;
 }
 
+/**
+ * @param variableName: The name of the variable to modify, which must be quoted—e.g., "$foo". Object and array property references are also supported—e.g., "$foo.bar", "$foo['bar']", & "$foo[0]".
+ *
+ * @param defaultValue: The default value of the text box.
+ *
+ * @param passageName: (optional) The name of the passage to go to if the return/enter key is pressed. May be called either with the passage name or with a link markup.
+ *
+ * @param autofocus: (optional) Keyword, used to signify that the text box should automatically receive focus. Only use the keyword once per page; attempting to focus more than one element is undefined behavior.
+ */
+export function macroTextBox(
+  variableName: SugarcubeVariable,
+  defaultValue: string | number,
+  passageName?: StoryPassageName,
+  autoFocus = false
+) {
+  return `<<textbox ${variableName} ${defaultValue} ${passageName ?? ""} ${
+    autoFocus ? "autofocus" : ""
+  }>>` as const;
+}
+
 // !SECTION
 
 // SECTION - Variable-specific functions
