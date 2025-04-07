@@ -193,13 +193,14 @@ export function macroSetOrRun(
   }>>` as const;
 }
 
+type SimpleMacroBtn =
+  | `<<button ${string}>> ${string} <</button>`
+  | `<<button ${string} ${StoryPassageName}>> ${string} <</button>>`;
 export function macroButton(
   linkText: string,
   textToRunOnClick: string,
   passageToLinkTo?: StoryPassageName
-):
-  | `<<button ${string}>> ${string} <</button>`
-  | `<<button ${string} ${StoryPassageName}>> ${string} <</button>>`;
+): SimpleMacroBtn;
 export function macroButton(
   linkMarkup: LinkMarkup,
   textToRunOnClick: string
