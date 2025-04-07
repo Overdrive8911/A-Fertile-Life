@@ -202,28 +202,28 @@ type SimpleMacroBtn =
   | `<<button ${string}>> ${string} <</button>>`
   | `<<button ${string} ${StoryPassageName}>> ${string} <</button>>`;
 export function macroButton(
+  linkMarkup: LinkMarkup,
+  textToRunOnClick?: string
+): `<<button ${LinkMarkup}>> ${string} <</button>>`;
+export function macroButton(
+  imageMarkup: ImageMarkup,
+  textToRunOnClick?: string
+): `<<button ${ImageMarkup}>> ${string} <</button>>`;
+export function macroButton(
   linkText: string,
   textToRunOnClick: string,
   passageToLinkTo?: StoryPassageName
 ): SimpleMacroBtn;
 export function macroButton(
-  linkMarkup: LinkMarkup,
-  textToRunOnClick: string
-): `<<button ${LinkMarkup}>> ${string} <</button>>`;
-export function macroButton(
-  imageMarkup: ImageMarkup,
-  textToRunOnClick: string
-): `<<button ${ImageMarkup}>> ${string} <</button>>`;
-export function macroButton(
   linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
-  textToRunOnClick: string,
+  textToRunOnClick?: string,
   passageToLinkTo?: StoryPassageName
 ) {
   return `<<button ${
     linkTextOrLinkMarkupOrImageMarkup.endsWith("]")
       ? linkTextOrLinkMarkupOrImageMarkup
       : `"${linkTextOrLinkMarkupOrImageMarkup}"`
-  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick} <</button>>`;
+  } ${passageToLinkTo ?? ""}>> ${textToRunOnClick ?? ""} <</button>>`;
 }
 
 /**
@@ -250,11 +250,6 @@ type SimpleMacroLink =
   | `<<link ${string}>> ${string} <</link>>`
   | `<<link ${string} ${StoryPassageName}>> ${string} <</link>>`;
 export function macroLink(
-  linkText: string,
-  textToRunOnClick?: string,
-  passageToLinkTo?: StoryPassageName
-): SimpleMacroLink;
-export function macroLink(
   linkMarkup: LinkMarkup,
   textToRunOnClick?: string
 ): `<<link ${LinkMarkup}>> ${string} <</link>>`;
@@ -262,6 +257,11 @@ export function macroLink(
   imageMarkup: ImageMarkup,
   textToRunOnClick?: string
 ): `<<link ${ImageMarkup}>> ${string} <</link>>`;
+export function macroLink(
+  linkText: string,
+  textToRunOnClick?: string,
+  passageToLinkTo?: StoryPassageName
+): SimpleMacroLink;
 export function macroLink(
   linkTextOrLinkMarkupOrImageMarkup: string | LinkMarkup | ImageMarkup,
   textToRunOnClick?: string,
