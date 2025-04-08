@@ -1,17 +1,15 @@
 import { ItemId } from "../../inventory_and_items/declarations/item_enums";
 import { StoryPassageName } from "../enums";
+import { tempCounterVar, tempVar } from "../functions/others";
 import {
-  addPassage,
-  br,
   macroButton,
   macroLink,
   macroMeter,
   macroSetOrRun,
   macroTextBox,
-  p,
-  tempCounterVar,
-  tempVar,
-} from "../functions";
+} from "../functions/macros";
+import { br, p } from "../functions/html_elements";
+import { addPassage } from "../functions/passage_funcs";
 
 addPassage({
   text:

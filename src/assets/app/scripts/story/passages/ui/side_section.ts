@@ -1,4 +1,4 @@
-import { button, div, img } from "../../functions";
+import { button, div, img } from "../../functions/html_elements";
 import {
   actionInterface,
   actionMenu,

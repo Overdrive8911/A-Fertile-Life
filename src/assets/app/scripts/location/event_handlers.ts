@@ -17,7 +17,7 @@ import {
 } from "../story/passages/styles/ui/bottom_section.module.css";
 import { unusable } from "./nav_button.module.css";
 import { currArea } from "../story/passages/styles/ui/top_section.module.css";
-import { div } from "../story/functions";
+import { div } from "../story/functions/html_elements";
 import { icon24X24 } from "../story/passages/styles/ui/shared.module.css";
 
 // Pass in an Event

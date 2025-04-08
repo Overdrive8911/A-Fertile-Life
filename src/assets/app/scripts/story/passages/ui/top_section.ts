@@ -35,16 +35,14 @@ import {
 } from "./../styles/ui/top_section.module.css";
 import { icon24X24 } from "./../styles/ui/shared.module.css";
 import {
-  div,
   gameDateAndTimeVar,
-  img,
   liveVar,
-  macroMeter,
   playerVar,
   playerWombVar,
-  span,
   stateFulVar,
-} from "../../functions";
+} from "../../functions/others";
+import { macroMeter } from "../../functions/macros";
+import { div, img, span } from "../../functions/html_elements";
 import { Default } from "../../../declarations/enums";
 
 const nonBreakingSpaces = "&#x00A0;&#x00A0;";

@@ -1,4 +1,4 @@
-import { button, div } from "../../functions";
+import { button, div } from "../../functions/html_elements";
 import {
   eastBtn,
   navOptions,
