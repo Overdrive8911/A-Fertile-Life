@@ -92,6 +92,34 @@ export function p(
     : createElement("p", dataOrContent);
 }
 
+export function em(content: string): ContainerElement;
+export function em(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function em(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("em", dataOrContent, content as string)
+    : createElement("em", dataOrContent);
+}
+
+export function strong(content: string): ContainerElement;
+export function strong(
+  data: GenericHtmlElementAttributes,
+  content: string
+): ContainerElementWithAttributes;
+export function strong(
+  dataOrContent: GenericHtmlElementAttributes | string,
+  content?: string
+) {
+  return typeof dataOrContent == "object"
+    ? createElement("strong", dataOrContent, content as string)
+    : createElement("strong", dataOrContent);
+}
+
 export function button(content: string): ContainerElement;
 export function button(
   data: GenericHtmlElementAttributes,
