@@ -125,3 +125,15 @@ export function macroLink(
       : `"${linkTextOrLinkMarkupOrImageMarkup}"`
   } ${passageToLinkTo ?? ""}>> ${textToRunOnClick ?? ""} <</link>>`;
 }
+
+export function macroImage(
+  imgUrl: string,
+  passageToLinkTo?: StoryPassageName,
+  title?: string
+): ImageMarkup {
+  if (!passageToLinkTo && !title) return `[img[${imgUrl}]]`;
+  else if (!passageToLinkTo && title) return `[img[${title}|${imgUrl}]]`;
+  else if (passageToLinkTo && !title)
+    return `[img[${imgUrl}][${passageToLinkTo}]]`;
+  else return `[img[${title}|${imgUrl}][${passageToLinkTo}]]`;
+}
