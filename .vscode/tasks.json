@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "bun",
+      "script": "cross-env NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run generate-css-module-types",
+      "problemMatcher": [],
+      "label": "bun: dev-watch:no-server",
+      "detail": "bun run cross-env NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run generate-css-module-types - package.json",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
