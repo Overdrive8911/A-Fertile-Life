@@ -1,4 +1,4 @@
-import { Bedroom as playerBedroom } from "./game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
+import { playerBedroom as playerBedroom } from "./game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
 
 export const distanceToMetresConversionRange: [min: number, max: number] = [
   0.85, 1.15,
