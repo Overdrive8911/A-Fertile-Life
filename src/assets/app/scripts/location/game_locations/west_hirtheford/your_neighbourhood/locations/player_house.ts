@@ -1,3 +1,4 @@
+import { StoryPassageName } from "../../../../../story/enums";
 import { SubLocation, Location } from "../../../../classes";
 import {
   SubLocationId,
@@ -10,31 +11,31 @@ import {
 export const playerBedroom = new SubLocation(
   SubLocationId.BEDROOM,
   "Your Room",
-  "Player_Bedroom",
+  StoryPassageName.PLAYER_BEDROOM,
   "ZZZ..."
 );
 export const playerKitchen = new SubLocation(
   SubLocationId.KITCHEN,
   "Your Kitchen",
-  "Player_Kitchen",
+  StoryPassageName.PLAYER_KITCHEN,
   "Smells good ^w^"
 );
 export const playerBathroom = new SubLocation(
   SubLocationId.BATHROOM,
   "Your Bathroom",
-  "Player_Bathroom",
+  StoryPassageName.PLAYER_BATHROOM,
   "^w^"
 );
 export const playerLivingRoom = new SubLocation(
   SubLocationId.LIVING_ROOM,
   "Your Living Room",
-  "",
+  StoryPassageName.PLAYER_LIVING_ROOM,
   "Still smells like you :3"
 );
 export const playerPorch = new SubLocation(
   SubLocationId.PORCH,
   "Porch",
-  "Player_Porch",
+  StoryPassageName.PLAYER_PORCH,
   "Grassy..."
 );
 
