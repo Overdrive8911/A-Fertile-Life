@@ -27,9 +27,9 @@ function createElement(
   const attributes =
     typeof dataOrMaybeContent == "object"
       ? Object.entries(dataOrMaybeContent).reduce((acc, [key, val]) => {
-          return `${acc} ${key}="${
+          return `${acc} ${key}='${
             typeof val == "string" ? val : val?.join(" ")
-          }"`;
+          }'`;
         }, "")
       : "";
 
