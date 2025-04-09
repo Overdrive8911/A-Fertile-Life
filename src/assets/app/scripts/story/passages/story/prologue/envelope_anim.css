@@ -1,0 +1,14 @@
+/* NOTE: There's a bug with the CSS parser that hashes only the keyframe anim name but not it's references in `animation` or `animation-name` */
+@keyframes envelopeAnim {
+  0% {
+    content: url("./../../../../../../media/img/general/envelope_closed.webp");
+  }
+
+  50% {
+    content: url("./../../../../../../media/img/general/envelope_in-between.webp")
+  }
+
+  100% {
+    content: url("./../../../../../../media/img/general/envelope_open.webp")
+  }
+}

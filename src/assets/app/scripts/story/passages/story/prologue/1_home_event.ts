@@ -53,7 +53,8 @@ addPassage({
           return (
             macroLink(
               span({ class: [pixelArt, envelope] }, macroImage(closedEnvelope)),
-              progressText + macroAddClass(envelope, playAnim)
+              progressText +
+                macroAddClass(`[src='${closedEnvelope}']`, playAnim)
             ) +
             br +
             br
