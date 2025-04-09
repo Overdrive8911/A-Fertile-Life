@@ -1,3 +1,4 @@
+import { playerBedroom } from "../../../../location/game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
 import { br, div, em, p, span, strong } from "../../../functions/html_elements";
@@ -16,6 +17,7 @@ import { envelope, letterPaper, playAnim } from "./envelope_anim.module.css";
 
 addPassage({
   name: StoryPassageName.PROLOGUE_BEGINNING,
+  tags: [playerBedroom.uuid],
   text:
     p(
       "You lie on your bed in your house, sprawled across the material while staring at the ceiling. It's 9:00PM and the chilly nighttime wind blows into your room, although it does nothing to cool the tense air around you. The past few weeks have been really hectic. Ever since the unfortunate accident at your job, almost a month before, everything's been falling apart. It started with the weird men, dressed in black, that have been coming over to your workplace to meet your boss, leaving him looking shaken each time they left. Not even up to a week later, sales started dropping steadily, which just worsened the situation."
