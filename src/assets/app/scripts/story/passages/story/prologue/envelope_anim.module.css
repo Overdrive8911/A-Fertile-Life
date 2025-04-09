@@ -1,0 +1,38 @@
+/* Preload image frames */
+body::after {
+  content: url("./../../../../../../media/img/general/envelope_in-between.webp") url("./../../../../../../media/img/general/envelope_open.webp");
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -999;
+}
+
+@keyframes anim {
+  0% {
+    content: url("./../../../../../../media/img/general/envelope_closed.webp");
+  }
+
+  50% {
+    content: url("./../../../../../../media/img/general/envelope_in-between.webp")
+  }
+
+  100% {
+    content: url("./../../../../../../media/img/general/envelope_open.webp")
+  }
+}
+
+.envelope {
+  --img-envelope-width: 64px;
+  width: var(--img-envelope-width);
+  height: auto;
+  position: relative;
+  left: calc(50% - (0.5 * var(--img-envelope-width)));
+
+  image-rendering: auto;
+
+  /* Attach this class to the image element that the animation should play on */
+  & .playAnim {
+    animation: forwards ease-out 0.25s basicEnvelopeAnimation;
+  }
+}

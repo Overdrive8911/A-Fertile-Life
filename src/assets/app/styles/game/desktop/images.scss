@@ -1,43 +1,5 @@
 @use "../../partials/mixin.scss" as mixin;
 @use "../../partials/functions" as func;
-// Preload image frames
-body::after {
-  content: func.image("general/envelope_in-between.webp")
-    func.image("general/envelope_open.webp");
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  z-index: -999;
-}
-
-@keyframes basicEnvelopeAnimation {
-  0% {
-    content: func.image("general/envelope_closed.webp");
-  }
-
-  50% {
-    content: func.image("general/envelope_in-between.webp");
-  }
-
-  100% {
-    content: func.image("general/envelope_open.webp");
-  }
-}
-
-img[src^="media/img/general/envelope"] {
-  --img-envelope-width: 64px;
-  width: var(--img-envelope-width);
-  height: auto;
-  position: relative;
-  left: calc(50% - (0.5 * var(--img-envelope-width)));
-
-  image-rendering: auto;
-
-  &.envelope_play_animation {
-    animation: forwards ease-out 0.25s basicEnvelopeAnimation;
-  }
-}
 
 // For displayed maps
 // .ui-side-bar-popout-map > svg {
