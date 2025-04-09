@@ -191,3 +191,16 @@ export function macroTimed(
 
   return returnString;
 }
+
+/**
+ * For running arbitrary javascript like:
+ * 
+ * ```
+ *  <<script>>
+            $("html").scrollTop($("html").scrollTop() + 50);
+    <</script>>
+  ```
+ */
+export function macroScript(javascriptStringToRun: string) {
+  return createMacro("script", [], javascriptStringToRun);
+}
