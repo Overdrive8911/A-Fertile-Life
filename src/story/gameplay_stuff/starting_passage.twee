@@ -2,8 +2,8 @@
 /* The first passage the game loads, duh */
 /* TODO - Make it pretty ;3 */
 <h2>
-    /* [[Prologue_Beginning]] */
-    <<startSceneLink 'Start' 'Prologue_Beginning'>>
+    [[Start->Prologue_Beginning]]
+    /* <<startSceneLink 'Start' 'Prologue_Beginning'>> */
     <br><br><br>
     <<link "Debug" "DebugSandbox">><</link>>
 </h2>
