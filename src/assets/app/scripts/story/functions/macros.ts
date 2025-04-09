@@ -164,3 +164,30 @@ export function macroRemoveClass(
       : ""
   }">>`;
 }
+
+type CssTimeValue = `${number}s` | `${number}ms`;
+/**
+ * Executes its contents after the given delay, inserting any output into the passage in its place. Additional timed executions may be chained via <<next>>
+ */
+export function macroTimed(
+  delayAndContent: { delay?: CssTimeValue; content: string }[],
+  shouldTransition = false
+) {
+  let returnString = "";
+
+  delayAndContent.forEach(({ delay, content }, index) => {
+    if (index == 0) {
+      returnString += `<<timed ${delay ?? "2.5s"} ${
+        shouldTransition ? "t8n" : ""
+      }>> ${content}`;
+    } else {
+      returnString += ` <<next ${delay ?? ""}>> ${content}`;
+    }
+
+    if (index == delayAndContent.length - 1) {
+      returnString += ` <</timed>>`;
+    }
+  });
+
+  return returnString;
+}
