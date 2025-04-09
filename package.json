@@ -5,8 +5,8 @@
   "template-version": "0.3.1-beta",
   "description": "A starter template for a modern Twine development workflow",
   "scripts": {
-    "serve": "cd ./dist && bun run browser-sync start --server --watch --no-open --no-inject-changes --no-ghost-mode --no-ui --reload-delay '1000'",
-    "generate-css-module-types": "bun run tcm src -w -c",
+    "serve": "cd ./dist && bun run --bun browser-sync start --server --watch --no-open --no-inject-changes --no-ghost-mode --no-ui --reload-delay '1000'",
+    "generate-css-module-types": "bun run --bun tcm src -w -c",
     "dev-watch": "bun run dev-watch:no-server & bun run serve",
     "dev-watch:no-server": "cross-env NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run generate-css-module-types",
     "prod": "cross-env NODE_ENV=production bun run ./build.ts",
