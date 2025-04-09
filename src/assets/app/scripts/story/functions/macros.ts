@@ -137,3 +137,30 @@ export function macroImage(
     return `[img[${imgUrl}][${passageToLinkTo}]]`;
   else return `[img[${title}|${imgUrl}][${passageToLinkTo}]]`;
 }
+
+/**
+ * @param selector: The CSS/jQuery-style selector used to target element(s).
+ * @param classNames: The names of the class(es)
+ */
+export function macroAddClass(selector: string, classNames: string | string[]) {
+  return `<<addclass "${selector}" "${
+    typeof classNames == "string" ? classNames : classNames.join(" ")
+  }">>`;
+}
+
+/**
+ * @param selector: The CSS/jQuery-style selector used to target element(s).
+ * @param classNames: The names of the class(es). If there are none, all classes attached to the element(s) will be removed.
+ */
+export function macroRemoveClass(
+  selector: string,
+  classNames?: string | string[]
+) {
+  return `<<removeclass "${selector}" "${
+    typeof classNames == "string"
+      ? classNames
+      : classNames
+      ? classNames.join(" ")
+      : ""
+  }">>`;
+}
