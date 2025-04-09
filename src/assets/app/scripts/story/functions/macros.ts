@@ -204,3 +204,20 @@ export function macroTimed(
 export function macroScript(javascriptStringToRun: string) {
   return createMacro("script", [], javascriptStringToRun);
 }
+
+/**
+ * Executes its contents and replaces the contents of the selected element(s) with the output.
+ *
+ * @param selector: The CSS/jQuery-style selector used to target element(s).
+ * @param shouldTransition: (optional) Keyword, used to signify that a CSS transition should be applied to the incoming insertions.
+ * @param content: Content to be inserted.
+ */
+export function macroReplace(
+  selector: string,
+  content?: string,
+  shouldTransition = false
+) {
+  return `<<replace '${selector}' ${shouldTransition ? "t8n" : ""}>> ${
+    content ?? ""
+  } <</replace>>` as const;
+}
