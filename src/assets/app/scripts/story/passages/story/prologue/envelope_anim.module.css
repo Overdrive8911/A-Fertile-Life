@@ -23,11 +23,11 @@ body::after {
 }
 
 .envelope {
-  --img-envelope-width: 64px;
-  width: var(--img-envelope-width);
+  --width: 64px;
+  width: var(--width);
   height: auto;
   position: relative;
-  left: calc(50% - (0.5 * var(--img-envelope-width)));
+  left: calc(50% - (0.5 * var(--width)));
 
   image-rendering: auto;
 
