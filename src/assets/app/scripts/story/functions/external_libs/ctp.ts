@@ -55,9 +55,7 @@ interface CtpParam {
    * Defaults to true
    */
   forward?: boolean;
-  progress?: (
-    progressText: CtpAdvance | CtpBack
-  ) => `${string} ${CtpAdvance | CtpBack} ${string}`;
+  progress?: (progressText: CtpAdvance | CtpBack) => string;
 }
 
 /**
@@ -84,10 +82,11 @@ export function ctp(id: string, ...args: CtpParam[]): CtpBlock {
 
     if (index == 0) {
       concatArgs = `<<ctp "${id}" ${ctpKeywordString}>> ${contentToAppend}`;
-    } else if (index == argsLength - 1) {
-      concatArgs += `<<ctpNext ${ctpKeywordString}>> ${contentToAppend}`;
     } else {
-      concatArgs += `<<ctpNext ${ctpKeywordString}>> ${contentToAppend} <</ctp>>`;
+      concatArgs += `<<ctpNext ${ctpKeywordString}>> ${contentToAppend}`;
+    }
+    if (index == argsLength - 1) {
+      concatArgs += "<</ctp>>";
     }
   });
 
