@@ -6,7 +6,16 @@ import {
   skipToNextDayWithSpecificTime,
 } from "./game_date_and_time_updater";
 
-// E.g <<updateGameTime "nextDay" 7 30>> to skip to 7:30 on the next day, <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards
+/** E.g <<updateGameTime "nextDay" 7 30>> to skip to 7:30 on the next day, <<updateGameTime 21 15 21>> to skip to 3:21 pm 21 days forwards*/
+export function macroUpdateGameTime(
+  days: number | "nextDay",
+  hours: number,
+  minutes: number
+) {
+  return `<<updateGameTime ${
+    typeof days === "number" ? days : "nextDay"
+  } ${hours} ${minutes}>>` as const;
+}
 Macro.add("updateGameTime", {
   skipArgs: false,
   handler: function () {
@@ -30,8 +39,12 @@ Macro.add("updateGameTime", {
   },
 });
 
-// To skip a couple of minutes/days/hours forwards or backwards instead of jumping towards a static TIME like in `updateGameTime`
-// e.g <<skipTime 0 5 2>> will skip 5 hours and 2 minutes into the future, <<skipTime 0 -5 2>> will skip 5 hours backwards and then, 2 minutes forwards, <<skipTime 1 3 5>> will skip 1 day, 3 hours and 5 minutes forwards.
+/** To skip a couple of minutes/days/hours forwards or backwards instead of jumping towards a static TIME like in `updateGameTime`
+ *
+ * // e.g <<skipTime 0 5 2>> will skip 5 hours and 2 minutes into the future, <<skipTime 0 -5 2>> will skip 5 hours backwards and then, 2 minutes forwards, <<skipTime 1 3 5>> will skip 1 day, 3 hours and 5 minutes forwards.*/
+export function macroSkipTime(days: number, hours: number, minutes: number) {
+  return `<<skipTime ${days} ${hours} ${minutes}>>` as const;
+}
 Macro.add("skipTime", {
   skipArgs: false,
   handler: function () {
