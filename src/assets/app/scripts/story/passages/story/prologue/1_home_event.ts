@@ -1,3 +1,4 @@
+import { macroUpdateGameTime } from "../../../../date_and_time/macro_definitions";
 import { playerBedroom } from "../../../../location/game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
@@ -140,5 +141,44 @@ addPassage({
               )}`
           ),
       }
+    ),
+});
+
+addPassage({
+  name: StoryPassageName.PROLOGUE_WAKE_UP_AND_BRUSH_TEETH,
+  tags: [playerBedroom.uuid],
+  text:
+    macroUpdateGameTime("nextDay", 7, 0) +
+    p(
+      "The digital alarm clock rings out loudly, waking you up. It is 7:00 AM."
+    ) +
+    /*TODO - The PC will be able to choose their mood once they wake up and this will decide their default personality; enthusiastic, apathy, or disapproval */
+    /*TODO - Also the PC will have morning sickness and strange cravings */
+    p(
+      "Hitting it instinctively, you silence the alarm. You drudgingly pull yourself out of your bed to get to the toilet. You didn't get much sleep; the entire night was spent rolling about on your bed contemplating about the letter and your choice. Although, for some reason, you feel even more lethargic than you expected. " +
+        em(
+          { class: femaleSpeech },
+          "Ugh, please tell me this isn't one of the symptoms the letter hinted at…"
+        )
+    ) +
+    p(
+      "In your bathroom, you stand in front of the mirror situated right above the sink and see a pair of baggy eyes staring back. You're still wearing your clothes from yesterday; a well-worn plain baggy black shirt with a pair of comfy shorts, but you never cared much about clothing as long as it's comfortable."
+    ) +
+    p(
+      "You absent-mindedly pick up a toothbrush and slather some paste on it, still thinking of the letter yesterday. " +
+        em(
+          { class: femaleSpeech },
+          "What am I going to say when I get there? It's not like I can just say, “Oh hi there, why the FUCK were you spying on me?”"
+        ) +
+        " You sigh and spit into the sink. " +
+        em(
+          { class: femaleSpeech },
+          "I'll just figure it out, " +
+            macroLink(
+              "later",
+              "",
+              StoryPassageName.PROLOGUE_DRESSED_AND_ENTERING_BUS
+            )
+        )
     ),
 });
