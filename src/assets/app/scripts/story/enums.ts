@@ -6,6 +6,9 @@ export const enum StoryPassageName {
   PROLOGUE_BEGINNING = "Prologue_Beginning",
   PROLOGUE_WAKE_UP_AND_BRUSH_TEETH = "Prologue_WakeUpAndBrushTeeth",
   PROLOGUE_DRESSED_AND_ENTERING_BUS = "Prologue_DressedAndEnteringBus",
+  PROLOGUE_BUS_DREAM_0 = "Prologue_BusDream#0",
+  PROLOGUE_BUS_DREAM_1 = "Prologue_BusDream#1",
+
   PLAYER_BATHROOM = "Player_Bathroom",
   PLAYER_BEDROOM = "Player_Bedroom",
   PLAYER_KITCHEN = "Player_Kitchen",
