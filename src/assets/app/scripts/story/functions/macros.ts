@@ -225,3 +225,33 @@ export function macroReplace(
 export function macroSilently(content: string) {
 	return `<<silently>> ${content} <</silently>>` as const;
 }
+
+/**
+ * This should be a Twinescript string that evaluates to a boolean.
+ *
+ * TODO: Make this type more strict
+ */
+type Conditional = string;
+/**
+ *
+ * @param args - NOTE: The first condition must exist. In fact, the only time a condition may not exist is if it is the last argument since it will be converted to `else` instead of `elseIf`
+ */
+export function macroIf(
+	...args: { condition?: Conditional; content: string }[]
+) {
+	let returnString = "";
+
+	args.forEach(({ condition, content }, index) => {
+		if (index == 0) {
+			returnString += `<<if ${condition ?? ""}>> ${content}`;
+		} else {
+			returnString += condition
+				? `<<elseif ${condition}>> ${content}`
+				: `<<else>> ${content}`;
+		}
+
+		if (index == args.length - 1) {
+			returnString += `<</if>>`;
+		}
+	});
+}
