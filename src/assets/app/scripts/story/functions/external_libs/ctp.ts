@@ -50,6 +50,9 @@ type CtpKeywordString =
 type CtpBlock = `<<ctp "${string}" ${CtpKeywordString}>> ${string} <</ctp>>`;
 interface CtpParam {
 	options?: CtpKeywords;
+	/**
+	 * Yeah, I don't see the use of this anymore :p
+	 */
 	content?: string;
 	/**
 	 * Defaults to true
