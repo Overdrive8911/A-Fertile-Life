@@ -61,3 +61,5 @@ export function gameDateAndTimeVar<
 export function liveVar(variable: string) {
   return `{{${variable}}}` as const;
 }
+
+export const PC = "<<PC>>";
