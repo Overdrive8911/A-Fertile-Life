@@ -12,13 +12,12 @@ import {
 	otherSpeech,
 } from "../../styles/speech.module.css";
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_DRESSED_AND_ENTERING_BUS,
-	tags: [playerPorch.uuid],
-	text:
-		p(
-			"You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers; normally, they'd be a tad too big to fit, but currently your body fills it out nicely. You would've chosen something different if not for the fact that basically nothing else fit; you're not sure if it's the ice cream you've been using to cope lately."
-		) +
+addPassage(
+	StoryPassageName.PROLOGUE_DRESSED_AND_ENTERING_BUS,
+	[playerPorch.uuid],
+	p(
+		"You're now dressed and exiting your house, wearing something casual; business casual. It's a plain creamy cotton T-shirt tucked into nice grey trousers; normally, they'd be a tad too big to fit, but currently your body fills it out nicely. You would've chosen something different if not for the fact that basically nothing else fit; you're not sure if it's the ice cream you've been using to cope lately."
+	) +
 		p(
 			"But that isn't where your focus is, you're still muttering to yourself, reciting different ways to start your conversation without coming across as rude or desperate. You walk over to the nearby bus stop, still pondering over your thoughts. It's only when you hear the hum of a bus coming to rest, you look up. You see the bus you normally board to work—well, used to."
 		) +
@@ -49,12 +48,13 @@ addPassage({
 					"",
 					StoryPassageName.PROLOGUE_BUS_DREAM_0
 				)}`
-		),
-});
+		)
+);
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_BUS_DREAM_0,
-	text: ctpNoId(
+addPassage(
+	StoryPassageName.PROLOGUE_BUS_DREAM_0,
+	[],
+	ctpNoId(
 		{
 			options: { t8n: true },
 			content: `...${br}`,
@@ -78,16 +78,16 @@ addPassage({
 				) +
 				p(em(macroLink("Almost…", "", StoryPassageName.PROLOGUE_BUS_DREAM_1))),
 		}
-	),
-});
+	)
+);
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_BUS_DREAM_1,
-	text:
-		/*TODO - Add lactation */
-		p(
-			"You try to move your hand, as if to stretch, and you notice that you're naked. You gasp in shock—well, you would have if you could. Your mouth opened, but no sound came out. You flail your limbs, trying to get your bearings in this odd place. Eventually, you manage to get into an upright position; at least you think you are, there doesn't seem to be any concept of direction here."
-		) +
+addPassage(
+	StoryPassageName.PROLOGUE_BUS_DREAM_1,
+	[],
+	/*TODO - Add lactation */
+	p(
+		"You try to move your hand, as if to stretch, and you notice that you're naked. You gasp in shock—well, you would have if you could. Your mouth opened, but no sound came out. You flail your limbs, trying to get your bearings in this odd place. Eventually, you manage to get into an upright position; at least you think you are, there doesn't seem to be any concept of direction here."
+	) +
 		p(
 			"Sticking out both of your arms, you do some swimming strokes in an attempt to move from your spot. It's futile, though. Just as you give up trying, you feel a strange warmth from within. It's very similar to what you've been experiencing in the past month, except much more intense."
 		) +
@@ -100,15 +100,15 @@ addPassage({
 				"",
 				StoryPassageName.PROLOGUE_BUS_DREAM_2
 			)}`
-		),
-});
+		)
+);
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_BUS_DREAM_2,
-	text:
-		p(
-			"You place a hand on your middle and sense a strong pressure beneath it. Bit by bit, it begins to swell; your skin stretching more and more by the second. In just a short while, there's a little bump that makes you look three months pregnant. Your eyes widen in shock at your belly, but before you can process what happened, you feel a stronger force pushing from within; you're still growing."
-		) +
+addPassage(
+	StoryPassageName.PROLOGUE_BUS_DREAM_2,
+	[],
+	p(
+		"You place a hand on your middle and sense a strong pressure beneath it. Bit by bit, it begins to swell; your skin stretching more and more by the second. In just a short while, there's a little bump that makes you look three months pregnant. Your eyes widen in shock at your belly, but before you can process what happened, you feel a stronger force pushing from within; you're still growing."
+	) +
 		p(
 			"Your midsection steadily balloons out even further as it rounds out nicely, popping your navel and making you look past six months with triplets. Even in the weightless vacuum, you feel like you're carrying a rock on your torso. You wrap your arms around the firm globe sticking out of you, and feel something push out a bit of your skin from within. If you weren't sure of what is in you, you are now; that was clearly a kick… And another! You're utterly dumbfounded, but for some reason, something in you can't help but nurse it. You always wanted a family of your own after all… Or it could be from the sudden rush of hormones, you're not really sure."
 		) +
@@ -131,12 +131,13 @@ addPassage({
 				"",
 				StoryPassageName.PROLOGUE_BUS_DREAM_3
 			)}`
-		),
-});
+		)
+);
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_BUS_DREAM_3,
-	text: p(
+addPassage(
+	StoryPassageName.PROLOGUE_BUS_DREAM_3,
+	[],
+	p(
 		span({ class: otherSpeech }, "POP!") +
 			br +
 			br +
@@ -153,5 +154,5 @@ addPassage({
 				],
 				true
 			)
-	),
-});
+	)
+);

@@ -6,10 +6,10 @@ import { macroLink, macroTimed } from "../../../functions/macros";
 import { addPassage } from "../../../functions/passage_funcs";
 import { femaleSpeech, maleSpeech } from "../../styles/speech.module.css";
 
-addPassage({
-	name: StoryPassageName.PROLOGUE_ARRIVED_AT_FERTILO_INC,
-	tags: [fertiloIncGroundFloorPorch.uuid],
-	text: ctpNoId(
+addPassage(
+	StoryPassageName.PROLOGUE_ARRIVED_AT_FERTILO_INC,
+	[fertiloIncGroundFloorPorch.uuid],
+	ctpNoId(
 		{
 			content: p({ class: maleSpeech }, "“Miss?…"),
 			progress(progressText) {
@@ -94,5 +94,5 @@ addPassage({
 					true
 				),
 		}
-	),
-});
+	)
+);
