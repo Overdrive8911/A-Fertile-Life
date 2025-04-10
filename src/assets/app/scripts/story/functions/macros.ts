@@ -221,3 +221,7 @@ export function macroReplace(
     content ?? ""
   } <</replace>>` as const;
 }
+
+export function macroSilently(content: string) {
+	return `<<silently>> ${content} <</silently>>` as const;
+}
