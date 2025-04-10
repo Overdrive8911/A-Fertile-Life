@@ -1,10 +1,18 @@
-import { fertiloIncGroundFloorPorch } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/ground_floor";
+import {
+	fertiloIncGroundFloorPorch,
+	fertiloIncGroundFloorReception,
+} from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/ground_floor";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
-import { em, p, span } from "../../../functions/html_elements";
-import { macroLink, macroTimed } from "../../../functions/macros";
+import { br, em, p, span, strong } from "../../../functions/html_elements";
+import { macroLink, macroTextBox, macroTimed } from "../../../functions/macros";
+import { stateFulVar } from "../../../functions/others";
 import { addPassage } from "../../../functions/passage_funcs";
-import { femaleSpeech, maleSpeech } from "../../styles/speech.module.css";
+import {
+	femaleSpeech,
+	femaleSpeech1,
+	maleSpeech,
+} from "../../styles/speech.module.css";
 
 addPassage(
 	StoryPassageName.PROLOGUE_ARRIVED_AT_FERTILO_INC,
@@ -95,4 +103,50 @@ addPassage(
 				),
 		}
 	)
+);
+
+addPassage(
+	StoryPassageName.PROLOGUE_ARRIVED_AT_FERTILO_INC_1,
+	[fertiloIncGroundFloorReception.uuid],
+	p(
+		"You gulp down hard, clutching your purse closer, and walk to the entrance. The automated door notices your presence and slides open to allow you in. Upon entering the building, you're hit by a cool breeze from its interior. You shiver a bit and look around, " +
+			em(
+				{ class: femaleSpeech },
+				`This place is HUGE! I thought it would be big, but not ${strong(
+					"this"
+				)} big. `
+			) +
+			"You're still in awe at the sheer size of the hospital when a young-looking ginger-haired receptionist in calls out to you from her desk, a few feet in front."
+	) +
+		p(
+			span(
+				{ class: femaleSpeech1 },
+				"“Good morning, miss. Do you have an appointment with one of our doctors?” "
+			) +
+				`she asks in a calm voice. 
+				You notice her and quickly walk towards the front desk. Once you get close enough, you hear her speak again, ${span(
+					{ class: femaleSpeech1 },
+					"“I almost forgot, please write your name and signature here,” "
+				)} she adds, pushing a pen and a thick-covered leather book to you.`
+		) +
+		ctpNoId(
+			{
+				content: "",
+				progress(progressText) {
+					return macroLink("Take the pen.", progressText);
+				},
+			},
+			{
+				options: { clear: true },
+				content:
+					br +
+					/* Input the player's name */
+					strong("Name:") +
+					macroTextBox(
+						stateFulVar("player", "name"),
+						"Peizhu",
+						StoryPassageName.PROLOGUE_CHARACTER_CREATION_TALK_TO_RECEPTIONIST
+					),
+			}
+		)
 );
