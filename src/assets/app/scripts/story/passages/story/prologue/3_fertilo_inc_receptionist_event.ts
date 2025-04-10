@@ -93,10 +93,6 @@ addPassage({
 					],
 					true
 				),
-			// progress(progressText) {
-			// 	/* Load the remaining ctp passage after a while */
-			// 	return macroTimed([{ delay: "3s", content: progressText }]);
-			// },
 		}
 	),
 });
