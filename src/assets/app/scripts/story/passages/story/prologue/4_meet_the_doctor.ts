@@ -1,8 +1,9 @@
+import { macroSkipTime } from "../../../../date_and_time/macro_definitions";
 import { convertToClass } from "../../../../declarations/general_declarations";
 import { fertiloIncTopFloorCeoOffice } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/top_floor";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
-import { em, p, span } from "../../../functions/html_elements";
+import { div, em, p, span, strong } from "../../../functions/html_elements";
 import { macroLink, macroReplace } from "../../../functions/macros";
 import { PC } from "../../../functions/others";
 import { addPassage } from "../../../functions/passage_funcs";
@@ -135,5 +136,87 @@ addPassage(
 addPassage(
 	StoryPassageName.PROLOGUE_INFO_DUMP,
 	[fertiloIncTopFloorCeoOffice.uuid],
-	""
+	macroSkipTime(0, 0, 3.5) +
+		p(
+			"A quick prick to your neck silences you and quickly drains your energy, forcing you back to your seat. You try to speak, but your mouth refuses to move. All you can do is to struggle quietly watch Mr. Fert who you see is beside you, holding a syringe. Now is probably not the best time to notice it, but you see that he's pretty tall; probably above 6 feet by a good margin. " +
+				em({ class: femaleSpeech }, "When… Did… He… Get… There?")
+		) +
+		p(
+			{ class: maleSpeech },
+			"“Forgive me for that, but you were getting hysterical.”"
+		) +
+		p(
+			"You give him an intense glare, then roll your yes when it becomes exhausting."
+		) +
+		p(
+			span(
+				{ class: maleSpeech },
+				"“Don't worry much, see this other thing here?” "
+			) +
+				"He pulls out a small casing from his pocket. " +
+				span(
+					{ class: maleSpeech },
+					"“This will give you back your strength, and you'll get it once I'm done.”"
+				)
+		) +
+		p(
+			"Other than the slowing movement of your eyes, you remain completely unresponsive. You want to be angry with him but can't find any more strength for that."
+		) +
+		p({ class: maleSpeech }, "“Good, so let's continue.”") +
+		p(
+			span(
+				{ class: maleSpeech },
+				`“We're the few ${em(
+					"successful"
+				)} results of genetic experimentation. Ever heard of the ${strong(
+					"Super Human Extensive Modification Project"
+				)}, ${strong("The SHEM Project")} or ${strong("S.H.E.M.P")}?”`
+			)
+		) +
+		em(
+			{ class: femaleSpeech },
+			"SHEMP? That sounds stupid, but why does the name feel familiar…"
+		) /* Fert's basically monologuing */ +
+		div(
+			{ class: maleSpeech },
+			p(
+				"“It sounds familiar, right? Well, that's because the project created us. It was a couple of decades ago in the 80s when the operation began, with technology far beyond its time, a private corporation sponsored by the government was tasked with the objective of achieving maximum human perfection. It might sound illogical or far-fetched, but somehow they had the equipment and man power that would even rival some of the greatest technological and health giants of our time."
+			) +
+				p(
+					"The SHEM Project sourced DNA from basically every race as well as, a few animals, as long as they were genetically 'pure'. What was decided as pure and how they obtained it was quite unethical to say the least…"
+				) +
+				p(
+					"After getting enough viable samples, they decided the best course of action was to create a bunch of us who in general would be better and more efficient than normal people. But also have an extreme affinity for a particular trait. For you, me and my wife, that trait is hyper-fertility. Why would they need that? It makes sense when you realize that it would be the best way to create a constant and “natural” supply of our kind, as well as passing on favourable traits to newer generations. It was expected that the “ideal human” would be birthed after long enough."
+				) +
+				p(
+					"You see, we were created to be steeping stones in their journey to perfection. But people aren't perfect, so it was not surprising when out of the thousands of experiments created, most were either unviable or expired within a week. Even those deemed as successful as us did not come without flaw…"
+				) +
+				p(
+					`As fertility-focused creations, our ability to bear offspring has been amplified a hundred-fold. Many of the problems associated with reproduction are a non-issue to us. The issue here is that our body is so adapted to childbearing that it ${strong(
+						"needs"
+					)} to continuously do that. If not, we would get worsening symptoms till eventually our organs fail. This is our major imperfection but was overlooked by our creators since we weren't needed for much else other than breeding. The only reason you've lasted this long is that the gene that enhances your reproductive capabilities has been dormant; at least until the accident at your former workplace, unlike mine and my partner's, which were activated promptly after creation.`
+				) +
+				p(
+					"Fortunately—or unfortunately, depending on how you see it, it was found out that they committed multiple crimes against humanity in the name of science. The government, in order to save their face, cut off all their funding and demanded us, the results. The heads of the project decided to bail and destroy all the evidence, which should've included us. But the thing is, I can't remember any more details afterwards; the same goes for my wife. It's almost as if they wiped our memories of that incident."
+				) +
+				p(
+					"I guess killing the rest of us wasn't worth the effort it took to make us, so they decided to scatter us instead; my spouse was the only one I found. In that case, it could mean they've been lying low all this while waiting for the right time, but it's been decades and nothing of note has happened relating to the project. Our only concern is the government, as long as you don't give them a reason to, they won't disturb us."
+				) +
+				p(
+					"Now, back to you. I've been looking for the rest of our 'kind' ever since I attained my wealth; it started about a decade ago. In summary, it's been mostly unfruitful, that is, until I discovered you last month. You need to know that when your trait is 'activated', there are specific pheromones you'd unconsciously release which can be tested for. When the news came in, I sent some people to help me confirm it and when it came back positive, I was elated but worried too; it also seemed that the government was onto you."
+				) +
+				p(
+					"Using my connections, I was also able to find out who you were and where you live, then I ordered one of my staff to bug your house and monitor you. I needed to accurately know your situation before I could make my proposition. I'm not proud of it—personal privacy is very important—but the end justifies the means, after all…”"
+				)
+		) +
+		p(
+			`With that, he finishes and pulls out the syringe from before, ${span(
+				{ class: maleSpeech },
+				"“Now that has been cleared up, I won't go back on my word,”"
+			)} and jabs your neck. ${span(
+				{ class: maleSpeech },
+				"“Once again, I apologize for my rudeness.”"
+			)}`
+		) +
+		macroLink("Next", "", StoryPassageName.PROLOGUE_INFO_DUMP_1)
 );
