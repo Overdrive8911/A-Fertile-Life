@@ -1,4 +1,5 @@
 import { convertToClass } from "../../../../declarations/general_declarations";
+import { fertiloIncTopFloorCeoOffice } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/top_floor";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
 import { em, p, span } from "../../../functions/html_elements";
@@ -15,7 +16,7 @@ import {
 
 addPassage(
 	StoryPassageName.PROLOGUE_MEET_THE_DOCTOR,
-	[],
+	[fertiloIncTopFloorCeoOffice.uuid],
 	p(
 		/* Maybe I can use "condition" instead of "gravidity" */
 		"You leave the room and gently close the door behind you. Following the directions on the paper, you exit the visitor's area, cross the hallway, pass a bunch of nurseries, loop through some rooms, ride an elevator, as well as a couple of escalators until you finally reach the doctor's office. You don't encounter much of the staff, but the majority of the few you do see were all pregnant; some even more than Katie but strangely unfazed by their gravidity. It's a bit unsettling, but they're nice and even help you out after getting lost a couple of times."
@@ -129,4 +130,10 @@ addPassage(
 				},
 			}
 		)
+);
+
+addPassage(
+	StoryPassageName.PROLOGUE_INFO_DUMP,
+	[fertiloIncTopFloorCeoOffice.uuid],
+	""
 );
