@@ -3,9 +3,9 @@ import { convertToClass } from "../../../../declarations/general_declarations";
 import { fertiloIncTopFloorCeoOffice } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/top_floor";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
-import { div, em, p, span, strong } from "../../../functions/html_elements";
+import { br, div, em, p, span, strong } from "../../../functions/html_elements";
 import { macroLink, macroReplace } from "../../../functions/macros";
-import { PC } from "../../../functions/others";
+import { PC, stateFulVar } from "../../../functions/others";
 import { addPassage } from "../../../functions/passage_funcs";
 import { changeMe, clearMe } from "../../styles/other.module.css";
 import {
@@ -219,4 +219,104 @@ addPassage(
 			)}`
 		) +
 		macroLink("Next", "", StoryPassageName.PROLOGUE_INFO_DUMP_1)
+);
+
+addPassage(
+	StoryPassageName.PROLOGUE_INFO_DUMP_1,
+	[fertiloIncTopFloorCeoOffice.uuid],
+	macroSkipTime(0, 0, 5) +
+		p(
+			"Almost immediately, you feel a surge of energy coursing within yourself and, in seconds, you're back on your feet. You look back at Mr. Fert who's now standing beside his desk and waiting for your reply. " +
+				span(
+					{ class: femaleSpeech },
+					`“${em(
+						"Sigh."
+					)}  I really want to argue with you, but from every that's been happening recently, what you said does make ${em(
+						"some"
+					)} sense. However, I still have some questions for you,”`
+				) +
+				" you tell him."
+		) +
+		p(
+			"After taking his seat, he replies, " +
+				span(
+					{ class: maleSpeech },
+					"“I'm glad you understand, feel free to ask anything, and I'll answer it as best as I can.”"
+				)
+		) +
+		/* Just a comment showing the links for ease
+    <<link "It's been decades, right. How old are you?">><</link>>
+    <<link "About your wife…">><</link>>
+    <<link "How did you get <i>this</i> rich?">><</link>>
+    <<link "What's Fertilo Inc about?">><</link>>
+    <<link "What happened to the receptionist, Katie?">><</link>>
+    <<link "So they wiped our memory and scattered us?…">><</link>>
+    <<link "Is there any more stuff I should know about S.H.E.M.P?">><</link>>
+    <<link "So where am I gonna be staying for now?">><</link>>
+    <<link "About my condition, what are you trying to say?">><</link>>
+    <<link "There's a tattoo I think you should know about">><</link>>
+    <<link "No question">><</link>>
+    */
+
+		/*TODO - Make the texts in the link more coherent when put together */
+		macroLink(
+			"It's been decades, right. How old are you?",
+			macroReplace(
+				convertToClass(changeMe),
+				p(
+					{ class: femaleSpeech },
+					`“You said your search began a decade ago, right? How old ${em(
+						"are"
+					)} you? You look barely thirty, and even that's an overstatement.”`
+				) +
+					p(
+						"Mr. Fert looks at you and places his hand beneath his chin. " +
+							span(
+								{ class: femaleSpeech },
+								"“Hmm, if I'm remembering correctly, I'm much closer to forty; thirty-eight to be exact.”"
+							)
+					) +
+					p(
+						"You gasp in surprise, " +
+							span(
+								{ class: femaleSpeech },
+								"“Huh? You're bluffing, that can't be true, why do you look so young?”"
+							)
+					) +
+					p(
+						{ class: maleSpeech },
+						"“It's a side effect of our hyper-fertility; younger bodies in their prime are much more suitable for reproduction, and so we'll tend to look young for pretty much our entire lives.”"
+					) +
+					p(
+						{ class: maleSpeech },
+						`“Wait, let me get you straight. You're saying I'll look ${em(
+							"perpetually"
+						)} young? No wrinkles, back pain, arthritis, or droopy boobs?”`
+					) +
+					p(
+						{ class: maleSpeech },
+						"“Most likely, in fact, you're probably older than you think.”"
+					) +
+					p(
+						"You sigh in relief, " +
+							span(
+								{ class: femaleSpeech },
+								"“At least that's a really nice positive in all this.”"
+							)
+					) +
+					p(
+						{ class: femaleSpeech },
+						em(
+							`But what did he mean by "older". I'm definitely sure I'm ${stateFulVar(
+								"player",
+								"body",
+								"age",
+								"physical"
+							)}…`
+						)
+					),
+				true
+			)
+		) +
+		br
 );
