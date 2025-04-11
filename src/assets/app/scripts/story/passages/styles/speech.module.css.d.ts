@@ -1,4 +1,5 @@
 declare const styles: {
+  readonly "defaultText": string;
   readonly "femaleSpeech": string;
   readonly "femaleSpeech1": string;
   readonly "femaleSpeech2": string;
@@ -10,6 +11,7 @@ declare const styles: {
   readonly "otherSpeech": string;
   readonly "playerName": string;
   readonly "roboSpeech": string;
+  readonly "statNeutral": string;
 };
 export = styles;
 

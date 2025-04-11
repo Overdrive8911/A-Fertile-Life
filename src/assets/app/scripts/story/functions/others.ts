@@ -62,4 +62,7 @@ export function liveVar(variable: string) {
 	return `{{${variable}}}` as const;
 }
 
+/**
+ * The Player's name
+ */
 export const PC = "<<PC>>";

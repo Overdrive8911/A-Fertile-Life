@@ -20,3 +20,9 @@ export function addPassage(
 		text: typeof text == "string" ? text : text.join(""),
 	});
 }
+
+export function macroEither(...args: (number | string)[]) {
+	return `either(${args
+		.map((arg) => (typeof arg == "number" ? arg : `"${arg}"`))
+		.join(", ")})`;
+}

@@ -63,3 +63,14 @@
 .playerName {
   color: hsl(120, 65%, 55%);
 }
+
+/* For relatively unimportant stat changes / notifications */
+.statNeutral {
+  /* Denotes that a stat is acceptable/okay */
+  color: hsl(39, 100%, 49%);
+}
+
+/* For when I need to reset the color :p */
+.defaultText {
+  color: var(--ui-default-text-color);
+}
