@@ -640,3 +640,37 @@ addPassage(
 		}
 	)
 );
+
+addPassage(
+	StoryPassageName.PROLOGUE_CHARACTER_CREATION_DONE_WITH_MEASUREMENTS,
+	[fertiloIncGroundFloorMeasurementCloset.uuid],
+	p(
+		"You put your clothes back one carefully; it'll definitely be awful if it rips. Once you're done, you fill the clipboard form, with your measurements, and return to the room with Katie in it. You close the door to the smaller room behind you and turn to her, the scene is truly a sight."
+	) +
+		p(
+			"She's a sweaty mess. Her skirt is pulled down halfway and her legs spread apart, giving quite a show, but the thing that's even more absurd is her belly. It's a much larger dome stretched to capacity—you swear she looks overdue with triplets—and has soundly defeated her clothing, opting to lewdly stick out of it. Her bump is bulging out menacingly, with the area surrounding her popped navel reddening with strain; when you look closer, you notice that it's still growing, albeit slowly. It also seems that Katie hasn't noticed you yet."
+		) +
+		p(
+			`You're completely baffled, but it's been a weird day, so you don't visibly react to it. Instead, you move to her other side to get her attention, but you discover her shirt is soaked around her bust; two visible darker spots right where her nipples are. Looking more closely at her face, you see that she's in ecstasy—well, she ${em(
+				"is"
+			)} making ${em(
+				"that"
+			)} face so you think so—and mumbling gibberish to herself. She's still unresponsive to your presence, even when you call out to her.`
+		) +
+		p(
+			"Unsure of what to do now, you decide to leave her and find another staff to help. But just before you exit the room, Katie lets out a loud moan, and the activity in her belly suddenly surges, but otherwise remains oblivious to you. You turn back and see her midsection covered with a flurry of bulges from its occupants; it's almost like the dream you had, but it feels so different seeing it in real life, almost tempting in fact. She groans again and a folded piece of paper falls out of her hand, which you pick up."
+		) +
+		p(
+			`The directions to the doctor's office are scribbled on it, as well as an apology from Katie. It seems that she expected her current predicament but didn't realize it would be this soon, and she doesn't require any assistance; that this is apparently ${em(
+				"normal"
+			)} for her. ${em(
+				{ class: femaleSpeech },
+				"Everything here is so weird."
+			)}`
+		) +
+		macroLink(
+			"Follow the directions.",
+			"",
+			StoryPassageName.PROLOGUE_MEET_THE_DOCTOR
+		)
+);
