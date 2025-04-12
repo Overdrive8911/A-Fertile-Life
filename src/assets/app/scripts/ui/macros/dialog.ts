@@ -1,5 +1,5 @@
 import { Directory } from "../../../../../../.build/enums";
-import "./dialog.scss" with {type:"css" };
+import "./dialog.module.css";
 
 const defaultEmotion = "default";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
