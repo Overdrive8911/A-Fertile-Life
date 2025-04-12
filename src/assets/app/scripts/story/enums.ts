@@ -18,6 +18,7 @@ export const enum StoryPassageName {
 	PROLOGUE_MEET_THE_DOCTOR = "FertiloInc_Prologue_MeetTheDoctor",
 	PROLOGUE_INFO_DUMP = "FertiloInc_Prologue_InfoDump",
 	PROLOGUE_INFO_DUMP_1 = "FertiloInc_Prologue_InfoDump1",
+	PROLOGUE_MEET_MARIA = "FertiloInc_Prologue_MeetMaria",
 
 	PLAYER_BATHROOM = "Player_Bathroom",
 	PLAYER_BEDROOM = "Player_Bedroom",
