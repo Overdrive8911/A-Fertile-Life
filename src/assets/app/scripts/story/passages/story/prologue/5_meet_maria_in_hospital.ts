@@ -1,0 +1,242 @@
+import { macroSkipTime } from "../../../../date_and_time/macro_definitions";
+import { fertiloIncTopFloorCeoOffice } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/top_floor";
+import { fertiloIncPlayerRoom } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/underground";
+import { StoryPassageName } from "../../../enums";
+import { ctp, ctpAdvance, ctpNoId } from "../../../functions/external_libs/ctp";
+import { br, em, p, span } from "../../../functions/html_elements";
+import { macroIf, macroLink, macroSetOrRun } from "../../../functions/macros";
+import { PC } from "../../../functions/others";
+import {
+	addPassage,
+	generateRandomTempVar,
+} from "../../../functions/passage_funcs";
+import {
+	femaleSpeech,
+	femaleSpeech1,
+	maleSpeech,
+	otherSpeech,
+} from "../../styles/speech.module.css";
+
+// Define temporary variable names used in the logic
+const tempPCEnthusiasm = generateRandomTempVar();
+const tempPCDisapproval = generateRandomTempVar();
+
+addPassage(
+	StoryPassageName.PROLOGUE_MEET_MARIA,
+	[fertiloIncTopFloorCeoOffice.uuid],
+	macroSkipTime(0, 0, 10) +
+		p(
+			"You tell Mr. Fert that your questions have been satisfied and he nods in response. " +
+				span(
+					{ class: maleSpeech },
+					"“And just in time too, the lady I requested for should be nearing our location, right about no—”"
+				)
+		) +
+		p(
+			span({ class: otherSpeech }, em("Knock knock.")) +
+				" A knock on the door interrupts him from finishing, however he smiles and continues, " +
+				span({ class: maleSpeech }, "“That must be her,”") +
+				" he tells you. " +
+				"After which, he turns to the door and vocalises, " +
+				span({ class: maleSpeech }, "“Come in!”")
+		) +
+		p(
+			/*NOTE - She's wearing a hoodie bcus she doesn't want people to see her being pregnant */
+			"The door opens to reveal a feminine figure wearing an awkwardly-oversized black hoodie, who hastily walks into the office and grabs a close-by chair to sit on — although, not without clumsily bumping into a few. " +
+				span(
+					{ class: femaleSpeech1 },
+					`“Sorry I'm late, there were some ${em(
+						"complications"
+					)} with the task you gave me…”`
+				) +
+				" she says, /* REVIEW - Eh, not so sure abt this one */with a heavy indian accent, failing to notice your presence beside her."
+		) +
+		p(
+			"You attempt introducing yourself to get her attention but a hand wave from the doctor causes you to pause. He focuses back on the woman and tells her, " +
+				span(
+					{ class: maleSpeech },
+					"“We can talk about that later, Maria, but didn't you notice our special guest? You don't need to be shy, dear.”"
+				)
+		) +
+		p(
+			/* TODO - Maybe tone down on the description lol */
+			span({ class: femaleSpeech1 }, "“G-guest?”") +
+				" she asks, pulling down her hood and turning to the side, /*She pulls down her hood,*/revealing the delicate beauty of a young woman — just into her twenties — blessed with striking chestnut/* REVIEW - Maybe chestnut/auburn hair? */ hair, accentuated by her sparkling eyes, that harmoniously complements her auburn-brown skin. /*You wonder why she'd ever hide it from the world.*//*You almost wonder why she isn't more confident with it.*/ "
+		) +
+		/* <p>
+            <span class="femaleSpeech1">
+                “What guest?”
+            </span> she asks, as she turns to her side and finally notices you.
+        </p> */
+		p(
+			span({ class: femaleSpeech1 }, "“Eeek!”") +
+				" She almost jumps out of her seat, but catches herself /*just*/ in time. " +
+				span({ class: femaleSpeech1 }, "“A-ah, it's you… Sorry about that,”") +
+				" she apologises, laughing nervously, " +
+				span({ class: femaleSpeech1 }, "“I didn't see you there…”")
+		) +
+		ctpNoId(
+			// Use the defined CTP ID
+			{
+				// First step: Show the links
+				progress(progressText) {
+					/* enthusiastic option */
+					return (
+						macroLink(
+							"It's no problem at all.",
+							macroSetOrRun(tempPCEnthusiasm, 1, true) +
+								// Assuming changePCPersonality is a custom macro string
+								`<<changePCPersonality "enthusiasm" ${tempPCEnthusiasm}>>` +
+								progressText
+						) +
+						br +
+						/* disapproving option (That was rude / <i>This</i> is the spy you sent?) */
+						macroLink(
+							"That was rude…",
+							macroSetOrRun(tempPCDisapproval, 1, true) +
+								// Assuming changePCPersonality is a custom macro string
+								`<<changePCPersonality "disapproval" ${tempPCDisapproval}>>` +
+								progressText
+						)
+					);
+				},
+			},
+			{
+				// Second step: Show content based on the choice
+				options: { clear: true }, // Clear the previous links
+				progress(progressText) {
+					return (
+						macroIf(
+							{
+								condition: `${tempPCEnthusiasm} == 1`,
+								content: p(
+									span(
+										{ class: femaleSpeech },
+										"“Don't beat yourself over it, it happens to the best of us,”"
+									) +
+										" you tell her. " +
+										"Sticking out your hand, you continue, " +
+										span(
+											{ class: femaleSpeech },
+											/*, Miriam*/
+											`“My name's ${PC}, and I take it you're Maria. Honestly, if not for you face, I'd have mistaken you for my neighbour; you sound exactly like her. I hope that sweet, young mother's doing well.”`
+										)
+								),
+							},
+							{
+								condition: `${tempPCDisapproval} == 1`,
+								content: p(
+									span({ class: femaleSpeech }, "“Well, that was quite rude…") +
+										" you reply, wearing a frown, " +
+										span(
+											{ class: femaleSpeech },
+											"“But, it wasn't deliberate so no harm done.”"
+										) +
+										" Sticking out an arm, you continue," +
+										span(
+											{ class: femaleSpeech },
+											`“In any case, my name's ${PC}, and you're Maria, right? Your voice reminds me of my neighbour, I almost mistook you for her before I saw your face.”`
+										)
+								),
+							}
+						) +
+						p(
+							/*REVIEW - 🤷‍♀️ Rewrite this*/
+							"Maria's face flushes a bit and shakes your hand. She glances over at Mr. Fert — who gives a knowing nod — and turns back to face you before replying, " +
+								span(
+									{ class: femaleSpeech1 },
+									`“Well, about that… I ${em("am")} her.”`
+								)
+						) +
+						p(
+							"You pause and look at her with a baffled expression. " +
+								span(
+									{ class: femaleSpeech },
+									/*Come again?*/
+									"“That can't be true, you two look nothing alike.”"
+								)
+						) +
+						p(
+							"She clasps her hands together and fiddles with her fingers. " +
+								span(
+									{ class: femaleSpeech1 },
+									`“I mean, that was all thanks to make-up, lots of it, and the fact that you probably never saw anything else about me other than my face; /*I admit */I am ${em(
+										"pretty"
+									)} reserved.”`
+								)
+						) +
+						p(
+							{ class: femaleSpeech },
+							"“But, she's expecting, and I even saw her this morning… Unless, you're also—”"
+						) +
+						p(
+							span({ class: femaleSpeech1 }, "“Pregnant,”") +
+								" she finishes, gesturing to her obscured midsection, with a very red face that asks why she said that. " +
+								/*REVIEW - Rewrite this */
+								"With a bit of squinting, you can see her arms resting over an un-obvious bump. She gently presses into the hidden mass, as if to make sure you know what she means."
+						) +
+						p(
+							span(
+								{ class: femaleSpeech },
+								"“So you were pretending to be my neighbour for a few weeks to successfully spy on me while being pregnant?”"
+							) +
+								" you tell her, before bowing your head. " +
+								span({ class: femaleSpeech }, "“Man, I'm losing my game…”")
+						) +
+						p(
+							"Maria attempts to gently pat your back and says, " +
+								span(
+									{ class: femaleSpeech1 },
+									`“There there… It wasn't exactly easy for me at all, since carrying ${em(
+										"this"
+									)} around was way more troublesome than I thought; in fact, I wouldn't have gone after you if not for dad over here.”`
+								)
+						) +
+						p(
+							"You raise your head up. " +
+								span(
+									{ class: femaleSpeech },
+									"“Dad? Wait, do you mean Mr. Fert is your father?”"
+								)
+						) +
+						p(
+							span(
+								{ class: femaleSpeech1 },
+								"“Well, not by biologically, but yeah. I thought he'd have told you by now since you both were expecting me, right?”"
+							) +
+								" She turns back to Mr. Fert." +
+								span(
+									{ class: femaleSpeech1 },
+									"“…I didn't make a mistake, did I?”"
+								) +
+								" she says, her voice becoming much softer, as if a child admitting their fault."
+						) +
+						p(
+							"Mr. Fert grins at his daughter and says, " +
+								span(
+									{ class: maleSpeech },
+									"“There's no problem with that, sweetheart. I believe it was more appropriate for you to say it anyway.”"
+								) +
+								" You manage to hear a barely audible sigh of relief from her."
+						) +
+						p(
+							"He pulls down a sleeve, exposing his classical-styled watch, and glances at the time. " +
+								span(
+									{ class: maleSpeech },
+									`“Oh. It's already time to show you where you'll be staying for now. Maria, I'm sorry to cut our meeting short but I'll check in with you shortly. ${PC}, lets get going.”`
+								)
+						) +
+						p(
+							span({ class: femaleSpeech1 }, "“O-okay, I'll wait…”") +
+								" Maria replies, idly rubbing her bump as you and Mr. Fert leave the office."
+						) +
+						macroLink(
+							"Leave the office.",
+							"", // Assuming this enum exists
+							StoryPassageName.PROLOGUE_GETTING_TO_YOUR_NEW_ROOM // Assuming this location UUID is imported/defined
+						)
+					);
+				},
+			}
+		)
+);
