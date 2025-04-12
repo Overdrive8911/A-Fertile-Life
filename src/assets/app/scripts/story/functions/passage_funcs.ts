@@ -21,6 +21,14 @@ export function addPassage(
 	});
 }
 
+/**
+ * Use this for every temp variable you want to create
+ */
+export function generateRandomTempVar() {
+	// Get rid of invalid characters
+	return `_temp${crypto.randomUUID().split("-").join("")}` as const;
+}
+
 export function macroEither(...args: (number | string)[]) {
 	return `either(${args
 		.map((arg) => (typeof arg == "number" ? arg : `"${arg}"`))

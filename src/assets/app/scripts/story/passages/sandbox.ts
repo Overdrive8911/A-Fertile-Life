@@ -1,6 +1,5 @@
 import { ItemId } from "../../inventory_and_items/declarations/item_enums";
 import { StoryPassageName } from "../enums";
-import { tempCounterVar, tempVar } from "../functions/others";
 import {
 	macroButton,
 	macroLink,
@@ -9,7 +8,11 @@ import {
 	macroTextBox,
 } from "../functions/macros";
 import { br, p } from "../functions/html_elements";
-import { addPassage } from "../functions/passage_funcs";
+import { addPassage, generateRandomTempVar } from "../functions/passage_funcs";
+
+const tempCounterVar = generateRandomTempVar();
+const tempVarCache1 = generateRandomTempVar();
+const tempVarCache2 = generateRandomTempVar();
 
 addPassage(
 	StoryPassageName.DEBUG_SANDBOX,
@@ -32,24 +35,24 @@ addPassage(
 		p(
 			"It's time to get down to business, so go on and manipulate this new world to how you see fit!"
 		) +
-		macroTextBox(tempVar("cache1"), ItemId.CHEESE) +
+		macroTextBox(tempVarCache1, ItemId.CHEESE) +
 		p(
 			macroLink(
 				"Add the Item above to Inventory (Click 'Enter' before this link)",
 				// TODO: Use a function instead of a raw string
-				`<<giveItem ${tempVar("cache1")}>>`
+				`<<giveItem ${tempVarCache1}>>`
 			) +
 				br +
-				macroLink("Add 5 of them", `<<giveItem ${tempVar("cache1")} 5>>`)
+				macroLink("Add 5 of them", `<<giveItem ${tempVarCache1} 5>>`)
 		) +
-		macroTextBox(tempVar("cache2"), ItemId.CHEESE) +
+		macroTextBox(tempVarCache2, ItemId.CHEESE) +
 		p(
 			macroLink(
 				"Remove the Item above to Inventory (Click 'Enter' before this link)",
-				`<<deleteItem ${tempVar("cache2")}}>>`
+				`<<deleteItem ${tempVarCache2}}>>`
 			) +
 				br +
-				macroLink("Remove 5 of them", `<<deleteItem ${tempVar("cache2")} 5>>`)
+				macroLink("Remove 5 of them", `<<deleteItem ${tempVarCache2} 5>>`)
 		) +
 		p(macroLink("Add All Items Once", `<<run setup.addAllItems()>>`)) +
 		p(

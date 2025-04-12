@@ -2,38 +2,29 @@ import type { GameDateAndTime } from "./scripts/date_and_time/classes";
 import type { StoryFlags } from "./scripts/declarations/general_declarations";
 import type { Player } from "./scripts/declarations/player_declarations";
 import type {
-  AreaUniqueId,
-  AreaUUID,
+	AreaUniqueId,
+	AreaUUID,
 } from "./scripts/location/types_and_interfaces";
 import type { SceneData } from "./scripts/scene/classes";
 import type { SceneEnum } from "./scripts/scene/enums";
 import type { Widgets } from "./scripts/ui/widgets/types";
 
 declare module "twine-sugarcube" {
-  export interface SugarCubeSetupObject {
-    locationData: LocationObject;
-    initSaveVars: () => void;
-    initPassages: () => void;
-    widget: Widgets;
-  }
+	export interface SugarCubeSetupObject {
+		locationData: LocationObject;
+		initSaveVars: () => void;
+		initPassages: () => void;
+		widget: Widgets;
+	}
 
-  export interface SugarCubeStoryVariables {
-    [SceneEnum.STORY_VARIABLE_NAME]?: SceneData;
-    gameDateAndTime: GameDateAndTime;
-    player: Player;
-    storyFlags: StoryFlags;
-  }
+	export interface SugarCubeStoryVariables {
+		[SceneEnum.STORY_VARIABLE_NAME]?: SceneData;
+		gameDateAndTime: GameDateAndTime;
+		player: Player;
+		storyFlags: StoryFlags;
+	}
 
-  export interface SugarCubeTemporaryVariables {
-    /**
-     * General purpose counter for use in passages
-     */
-    counter?: number;
-    // General purpose cache for use in passages
-    cache1?: number | string;
-    cache2?: number | string;
-    cache3?: number | string;
-  }
+	export interface SugarCubeTemporaryVariables {}
 }
 
 export {};

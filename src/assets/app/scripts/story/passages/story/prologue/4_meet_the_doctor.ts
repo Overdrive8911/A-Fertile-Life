@@ -20,7 +20,10 @@ import {
 	macroSetOrRun,
 } from "../../../functions/macros";
 import { PC, stateFulVar } from "../../../functions/others";
-import { addPassage } from "../../../functions/passage_funcs";
+import {
+	addPassage,
+	generateRandomTempVar,
+} from "../../../functions/passage_funcs";
 import {
 	changeMe,
 	changeMe1,
@@ -35,11 +38,11 @@ import {
 } from "../../styles/speech.module.css";
 
 // Define temporary variable names used in the logic
-const tempPCenthusiasm = "_tempPCenthusiasm";
-const tempPCapathy = "_tempPCapathy";
-const tempPCdisapproval = "_tempPCdisapproval";
-const hasPlayerMadeAChoice = "_hasPlayerMadeAChoice";
-const playerShowedTattoo = "_playerShowedTattoo";
+const tempPCenthusiasm = generateRandomTempVar();
+const tempPCapathy = generateRandomTempVar();
+const tempPCdisapproval = generateRandomTempVar();
+const hasPlayerMadeAChoice = generateRandomTempVar();
+const playerShowedTattoo = generateRandomTempVar();
 
 // Placeholder for included content generation functions or strings
 const enthusiasmPassageContent =

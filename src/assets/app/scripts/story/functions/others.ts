@@ -24,13 +24,6 @@ export function stateFulVar<P extends Path<SugarCubeStoryVariables>>(
 	//@ts-ignore
 	return getStoryVar(variables(), ...args) as `$${string}`;
 }
-export function tempVar<P extends Path<SugarCubeTemporaryVariables>>(
-	...args: P
-) {
-	return getStoryVar(temporary(), ...args) as `_${string}`;
-}
-/** Utility func for counters in passages */
-export const tempCounterVar = tempVar("counter") as "_counter";
 export function staticVar<P extends Path<SugarCubeSetupObject>>(...args: P) {
 	return getStoryVar(setup, ...args) as `setup.${string}`;
 }

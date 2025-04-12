@@ -24,7 +24,11 @@ import {
 	macroTimed,
 } from "../../../functions/macros";
 import { PC, stateFulVar } from "../../../functions/others";
-import { addPassage, macroEither } from "../../../functions/passage_funcs";
+import {
+	addPassage,
+	generateRandomTempVar,
+	macroEither,
+} from "../../../functions/passage_funcs";
 import {
 	changeMe,
 	changeMe1,
@@ -289,20 +293,20 @@ addPassage(
 );
 
 const playerWeight = stateFulVar("player", "body", "weight");
-const playerWeightReactionVar = "_playerWeightDescription";
+const playerWeightReactionVar = generateRandomTempVar();
 const playerHeight = stateFulVar("player", "body", "height");
-const playerHeightReactionVar = "_playerHeightDescription";
+const playerHeightReactionVar = generateRandomTempVar();
 
-const defaultPlayerWaistSize = "_defaultPlayerWaistSize";
-const minPlayerWaistSize = "_minPlayerWaistSize";
-const maxPlayerWaistSize = "_maxPlayerWaistSize";
-const playerFormerWaistSize = "_playerFormerWaistSize";
+const defaultPlayerWaistSize = generateRandomTempVar();
+const minPlayerWaistSize = generateRandomTempVar();
+const maxPlayerWaistSize = generateRandomTempVar();
+const playerFormerWaistSize = generateRandomTempVar();
 const playerWaistSize = stateFulVar("player", "body", "waistSize");
 
-const defaultPlayerHipSize = "_defaultPlayerHipSize";
-const minPlayerHipSize = "_minPlayerHipSize";
-const maxPlayerHipSize = "_maxPlayerHipSize";
-const playerFormerHipSize = "_playerFormerHipSize";
+const defaultPlayerHipSize = generateRandomTempVar();
+const minPlayerHipSize = generateRandomTempVar();
+const maxPlayerHipSize = generateRandomTempVar();
+const playerFormerHipSize = generateRandomTempVar();
 const playerHipSize = stateFulVar("player", "body", "hipSize");
 addPassage(
 	StoryPassageName.PROLOGUE_CHARACTER_CREATION,
