@@ -186,5 +186,5 @@ export function img(data: ImageElementAttributes) {
 /**
  * Simple line break :D
  */
-
 export const br = "<br>";
+export const hr = "<hr>";
