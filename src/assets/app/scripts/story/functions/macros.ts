@@ -223,6 +223,16 @@ export function macroReplace(
 	} <</replace>>` as const;
 }
 
+export function macroLinkReplace(
+	linkText: string,
+	content: string,
+	shouldTransition = false
+) {
+	return `<<linkreplace "${linkText}" ${
+		shouldTransition ? "t8n" : ""
+	}>> ${content} <</linkreplace>>` as const;
+}
+
 export function macroSilently(content: string) {
 	return `<<silently>> ${content} <</silently>>` as const;
 }
