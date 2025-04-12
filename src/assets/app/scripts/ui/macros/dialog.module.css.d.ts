@@ -1,5 +1,7 @@
 declare const styles: {
-  readonly "dialog": string;
+  readonly "body": string;
+  readonly "img": string;
+  readonly "name": string;
 };
 export = styles;
 
