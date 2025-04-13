@@ -1,15 +1,54 @@
 /* The main container */
 .body {
   --width: 100%;
-  --height: 10rem;
-
+  --height: 3rem;
+  --padding: 0.5rem;
+  --border-radius: 1rem;
+  --img-dimension: 64px;
+  position: relative;
   width: var(--width);
+  /* height: var(--height); */
   min-height: fit-content;
-  border: 1px black solid;
+
+  display: flex;
+  flex-direction: column;
+  max-width: 55vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* The box for the name of the character the generate dialog is for */
-.name {}
+.name {
+  height: 1.5rem;
+  width: fit-content;
+  padding: var(--padding);
+  border: 1px black solid;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
 
-/* The image of the character */
-.img {}
+/* The box for the image and content of the dialog */
+.imgAndContent {
+  display: flex;
+  padding: var(--padding);
+  gap: 0.5rem;
+  border: 1px black solid;
+  border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+}
+
+/* The image of the character, */
+.img {
+  width: var(--img-dimension);
+  height: var(--img-dimension);
+  border: thin solid black;
+  border-radius: var(--border-radius);
+}
+
+/* The text content of the dialog */
+.content {
+  overflow-y: auto;
+  max-height: 10vh;
+}

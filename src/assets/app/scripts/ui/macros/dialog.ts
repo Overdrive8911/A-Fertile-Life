@@ -5,6 +5,8 @@ import {
 	body as dialogBodyClass,
 	name as dialogNameClass,
 	img as dialogImgClass,
+	content as dialogImgContent,
+	imgAndContent,
 } from "./dialog.module.css";
 
 const defaultEmotion = "default";
@@ -79,11 +81,15 @@ function createDialog(
 	emotion = "default"
 ): JQuery<HTMLElement> {
 	const dialogBody = $(div({ class: dialogBodyClass }, ""));
+	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
 	const dialogName = $(div({ class: dialogNameClass }, name));
 	const dialogImg = $(img({ class: dialogImgClass, src: "" }));
-	const dialogContent = $(div(content));
+	const dialogContent = $(div({ class: dialogImgContent }, content));
 
-	dialogBody.append(dialogName, dialogImg, dialogContent);
+	dialogBody.append(
+		dialogName,
+		dialogImgAndContentContainer.append(dialogImg, dialogContent)
+	);
 
 	return dialogBody;
 }
