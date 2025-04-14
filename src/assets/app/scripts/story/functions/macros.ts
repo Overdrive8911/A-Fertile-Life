@@ -7,16 +7,16 @@ import type { LinkMarkup, ImageMarkup } from "../types";
 // SECTION - Macros and widgets
 type Macro = `<<${string} ${string}>>`;
 type ContainerMacro = `<<${string} ${string}>>${string}<</${string}>>`;
-function createMacro(
+export function createMacro(
 	macroName: string,
 	args: (string | number | undefined | null)[]
 ): Macro;
-function createMacro(
+export function createMacro(
 	macroName: string,
 	args: (string | number | undefined | null)[],
 	content: string
 ): ContainerMacro;
-function createMacro(
+export function createMacro(
 	macroName: string,
 	args: (string | number | undefined | null)[],
 	content?: string

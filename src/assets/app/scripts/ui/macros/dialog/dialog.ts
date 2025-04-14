@@ -13,6 +13,7 @@ import {
 	narratorDialog,
 } from "./dialog.module.css";
 import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
+import { createMacro } from "../../../story/functions/macros";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
  * It's inputs include the name of the character and an optional color and / or emotion. Content passed into this container macro is rendered as text in the created speech box.
  * 
@@ -65,6 +66,10 @@ Macro.add("dialog", {
 	},
 });
 
+export function macroDialog(...args: DialogArgs) {
+	return createMacro("dialog", args);
+}
+
 /**
  * These determine the colors and general style of the dialog.
  */
@@ -104,6 +109,8 @@ export const enum DialogType {
 }
 
 // TODO: Hovering / clicking the name shows a bit of extra info about the afore mentioned character (if any)
+
+type DialogArgs = Parameters<typeof createDialog>;
 
 /**
  *
