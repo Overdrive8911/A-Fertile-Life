@@ -46,6 +46,10 @@
   font-size: 1.5rem;
   font-family: Jersey-20;
   border-bottom-color: transparent;
+
+  span {
+    font-size: 0.75rem;
+  }
 }
 
 /* The box for the image and content of the dialog */
@@ -74,3 +78,30 @@
   overflow-y: auto;
   max-height: 15vh;
 }
+
+/* SECTION - Dialog-specific styling */
+.maleDialog {
+  .name {
+    color: hsl(195, 100%, 68%);
+  }
+}
+
+.femaleDialog {
+  .name {
+    color: hsl(351, 100%, 90%);
+  }
+}
+
+.otherDialog {
+  .name {
+    color: hsl(0, 0%, 85%);
+  }
+}
+
+.narratorDialog {
+  .name {
+    color: rgb(97, 236, 97)
+  }
+}
+
+/* !SECTION */

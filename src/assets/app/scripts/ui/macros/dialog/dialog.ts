@@ -7,6 +7,10 @@ import {
 	img as dialogImgClass,
 	content as dialogImgContent,
 	imgAndContent,
+	maleDialog,
+	femaleDialog,
+	otherDialog,
+	narratorDialog,
 } from "./dialog.module.css";
 import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
@@ -116,6 +120,8 @@ function createDialog(
 	image = defaultImg
 ): JQuery<HTMLElement> {
 	let displayName = name;
+	const dialogClasses = [dialogBodyClass];
+
 	switch (dialogType) {
 		case DialogType.GENERIC:
 			break;
@@ -125,20 +131,24 @@ function createDialog(
 		case DialogType.AI:
 			break;
 		case DialogType.MALE:
-			displayName += ` · ${span("He/him")}`;
+			displayName += span("· he/him");
+			dialogClasses.push(maleDialog);
 			break;
 		case DialogType.FEMALE:
-			displayName += ` · ${span("She/her")}`;
+			displayName += span("· she/her");
+			dialogClasses.push(femaleDialog);
 			break;
 		case DialogType.OTHER:
-			displayName += ` · ${span("They/them")}`;
+			displayName += span("· they/them");
+			dialogClasses.push(otherDialog);
 			break;
 		case DialogType.NARRATOR:
+			dialogClasses.push(narratorDialog);
 			break;
 		case DialogType.ETHEREAL:
 			break;
 	}
-	const dialogBody = $(div({ class: dialogBodyClass }, ""));
+	const dialogBody = $(div({ class: dialogClasses }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
 	const dialogName = $(div({ class: dialogNameClass }, displayName));
 	const dialogImg = $(img({ class: dialogImgClass, src: image }));
