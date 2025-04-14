@@ -8,8 +8,7 @@ import {
 	content as dialogImgContent,
 	imgAndContent,
 } from "./dialog.module.css";
-
-const defaultEmotion = "default";
+import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
  * It's inputs include the name of the character and an optional color and / or emotion. Content passed into this container macro is rendered as text in the created speech box.
  * 
@@ -101,11 +100,20 @@ export const enum DialogType {
 }
 
 // TODO: Hovering / clicking the name shows a bit of extra info about the afore mentioned character (if any)
+
+/**
+ *
+ * @param name The name to be displayed over the dialog box
+ * @param content The text of the dialog
+ * @param dialogType Determines the style of the dialog.
+ * @param image Must be a an imported url to a valid image file
+ * @returns A Jquery wrapped HTMLElement for the created dialog.
+ */
 function createDialog(
 	name = "Dummy",
 	content = "",
 	dialogType = DialogType.GENERIC,
-	emotion = "default"
+	image = defaultImg
 ): JQuery<HTMLElement> {
 	const dialogBody = $(div({ class: dialogBodyClass }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
@@ -115,7 +123,7 @@ function createDialog(
 			dialogType == DialogType.PLAYER ? "You" : name
 		)
 	);
-	const dialogImg = $(img({ class: dialogImgClass, src: "" }));
+	const dialogImg = $(img({ class: dialogImgClass, src: image }));
 	const dialogContent = $(div({ class: dialogImgContent }, content));
 
 	dialogBody.append(
