@@ -12,7 +12,7 @@
 
   display: flex;
   flex-direction: column;
-  max-width: 55vw;
+  max-width: 85%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -22,7 +22,7 @@
   height: 1.5rem;
   width: fit-content;
   padding: var(--padding);
-  border: 1px black solid;
+  /* border: 1px black solid; */
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   display: flex;
   justify-content: center;
@@ -33,9 +33,11 @@
 /* The box for the image and content of the dialog */
 .imgAndContent {
   display: flex;
+  /* justify-content: center; */
+  align-items: center;
   padding: var(--padding);
   gap: 0.5rem;
-  border: 1px black solid;
+  /* border: 1px black solid; */
   border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
 }
 
@@ -50,5 +52,18 @@
 /* The text content of the dialog */
 .content {
   overflow-y: auto;
-  max-height: 10vh;
+  max-height: 15vh;
+}
+
+.name,
+.imgAndContent {
+  /* Cyan */
+  background-color: #22a6a8;
+  /*background-color: #8a2be2; /* Purple */
+  /*background-color: #8c0cb8; /* Magenta */
+  /*background-color: #3a3f44; /* Grey */
+  /* Another dark purple closer to the background */
+  background-color: hsl(250deg 30% 16% / 75%);
+  /* color:white; */
+  color: #f3e8fc;
 }
