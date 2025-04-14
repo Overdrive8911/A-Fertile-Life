@@ -28,6 +28,7 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  font-family: Jersey-15;
 }
 
 /* The box for the image and content of the dialog */
@@ -66,4 +67,12 @@
   background-color: hsl(250deg 30% 16% / 75%);
   /* color:white; */
   color: #f3e8fc;
+}
+
+@font-face {
+  font-family: 'Jersey-15';
+  src: url('./../../../../fonts/jersey-15/Jersey15-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
