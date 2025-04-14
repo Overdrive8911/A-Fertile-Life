@@ -4,7 +4,7 @@
   --height: 3rem;
   --padding: 0.5rem;
   --border-radius: 1rem;
-  --img-dimension: 64px;
+  --img-dimension: 4rem;
   position: relative;
   width: var(--width);
   /* height: var(--height); */
