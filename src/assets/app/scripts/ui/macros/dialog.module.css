@@ -27,8 +27,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-family: Jersey-15;
+  font-size: 1.5rem;
+  font-family: Jersey-20;
 }
 
 /* The box for the image and content of the dialog */
