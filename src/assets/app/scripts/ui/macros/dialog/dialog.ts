@@ -14,6 +14,7 @@ import {
 } from "./dialog.module.css";
 import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
 import { createMacro } from "../../../story/functions/macros";
+import { pixelArt } from "../../../story/passages/styles/img.module.css";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
  * It's inputs include the name of the character and an optional color and / or emotion. Content passed into this container macro is rendered as text in the created speech box.
  * 
@@ -158,7 +159,7 @@ function createDialog(
 	const dialogBody = $(div({ class: dialogClasses }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
 	const dialogName = $(div({ class: dialogNameClass }, displayName));
-	const dialogImg = $(img({ class: dialogImgClass, src: image }));
+	const dialogImg = $(img({ class: [dialogImgClass, pixelArt], src: image }));
 	const dialogContent = $(div({ class: dialogImgContent }, content));
 
 	dialogBody.append(
