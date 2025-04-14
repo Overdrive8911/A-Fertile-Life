@@ -11,10 +11,21 @@ import {
 	femaleDialog,
 	otherDialog,
 	narratorDialog,
+	neutral,
+	happy,
+	angry,
+	bored,
+	embarrassed,
+	sad,
+	shock,
+	sus,
+	surprise,
 } from "./dialog.module.css";
 import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
+import gigiImg from "./../../../../../media/img/characters/icons/gigi.webp";
 import { createMacro } from "../../../story/functions/macros";
 import { pixelArt } from "../../../story/passages/styles/img.module.css";
+import { CharacterEmotion, CharacterName } from "../../../declarations/enums";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
  * It's inputs include the name of the character and an optional color and / or emotion. Content passed into this container macro is rendered as text in the created speech box.
  * 
@@ -118,16 +129,16 @@ type DialogArgs = Parameters<typeof createDialog>;
  * @param name The name to be displayed over the dialog box
  * @param content The text of the dialog
  * @param dialogType Determines the style of the dialog.
- * @param image Must be a an imported url to a valid image file
+ * @param emotion Must be a an imported url to a valid image file
  * @returns A Jquery wrapped HTMLElement for the created dialog.
  */
 function createDialog(
-	name = "Dummy",
+	name = CharacterName.DUMMY,
 	content = "",
 	dialogType = DialogType.GENERIC,
-	image = defaultImg
+	emotion = CharacterEmotion.NEUTRAL
 ): JQuery<HTMLElement> {
-	let displayName = name;
+	let displayName: string = name;
 	const dialogClasses = [dialogBodyClass];
 
 	switch (dialogType) {
@@ -156,10 +167,78 @@ function createDialog(
 		case DialogType.ETHEREAL:
 			break;
 	}
+
+	let spriteSheetPositionStyle = neutral;
+
+	switch (emotion) {
+		case CharacterEmotion.HAPPY:
+			spriteSheetPositionStyle = happy;
+			break;
+		case CharacterEmotion.SAD:
+			spriteSheetPositionStyle = sad;
+			break;
+		case CharacterEmotion.ANGRY:
+			spriteSheetPositionStyle = angry;
+			break;
+		case CharacterEmotion.SHOCK:
+			spriteSheetPositionStyle = shock;
+			break;
+		case CharacterEmotion.BORED:
+			spriteSheetPositionStyle = bored;
+			break;
+		case CharacterEmotion.SURPRISE:
+			spriteSheetPositionStyle = surprise;
+			break;
+		case CharacterEmotion.BRUH:
+			spriteSheetPositionStyle = bored;
+			break;
+		case CharacterEmotion.EMBARRASSED:
+			spriteSheetPositionStyle = embarrassed;
+			break;
+		case CharacterEmotion.SUS:
+			spriteSheetPositionStyle = sus;
+			break;
+
+		case CharacterEmotion.NEUTRAL:
+		default:
+			spriteSheetPositionStyle = neutral;
+	}
+
+	const characterSheetImages: Partial<Record<CharacterName, string>> = {
+		[CharacterName.DUMMY]: defaultImg,
+		[CharacterName.GIGI]: gigiImg,
+	};
+
+	// // REVIEW: Might move this out of here and make it more general
+	// const spriteSheetPosition = (
+	// 	emotion: CharacterEmotion,
+	// 	container: JQuery<HTMLElement>
+	// ) => {
+	// 	const [_, val, dimensionUnit] = container
+	// 		.css("--img-dimension")
+	// 		.match(/^(\d*\.?\d+)([a-zA-Z%]+)$/) as [string, string, string];
+	// 	const dimensionVal = parseFloat(val);
+
+	// 	return `-${(emotion % 3) * dimensionVal}${dimensionUnit} -${
+	// 		Math.trunc(emotion / 3) * dimensionVal
+	// 	}${dimensionUnit}` as const;
+	// };$.css
+
 	const dialogBody = $(div({ class: dialogClasses }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
 	const dialogName = $(div({ class: dialogNameClass }, displayName));
-	const dialogImg = $(img({ class: [dialogImgClass, pixelArt], src: image }));
+	const dialogImg = $(
+		div(
+			{
+				class: [dialogImgClass, pixelArt, spriteSheetPositionStyle],
+				style: `background-image:url(${
+					characterSheetImages[name] ??
+					characterSheetImages[CharacterName.DUMMY]!
+				})`,
+			},
+			""
+		)
+	);
 	const dialogContent = $(div({ class: dialogImgContent }, content));
 
 	dialogBody.append(

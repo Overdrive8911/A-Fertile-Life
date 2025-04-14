@@ -13,7 +13,15 @@ export const enum Default {
 	MAX_STAT = 100,
 }
 
-export const enum CharacterImg {
+// TODO: Add more relevant characters here
+export const enum CharacterName {
+	DUMMY = "Dummy",
+	/** This sin't really the player's name */
+	PLAYER = "P",
+	GIGI = "G.I.G.I",
+}
+
+export const enum CharacterEmotion {
 	NEUTRAL,
 	HAPPY,
 	SAD,
@@ -21,4 +29,8 @@ export const enum CharacterImg {
 	SHOCK,
 	BORED,
 	SURPRISE,
+	// Optional
+	BRUH,
+	EMBARRASSED,
+	SUS,
 }

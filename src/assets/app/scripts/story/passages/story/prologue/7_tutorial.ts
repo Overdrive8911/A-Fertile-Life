@@ -1,3 +1,7 @@
+import {
+	CharacterEmotion,
+	CharacterName,
+} from "../../../../declarations/enums";
 import { fertiloIncPlayerRoom } from "../../../../location/game_locations/north_hirtheford/fertilo_inc/locations/underground";
 import { DialogType, macroDialog } from "../../../../ui/macros/dialog/dialog";
 import { StoryPassageName } from "../../../enums";
@@ -32,10 +36,10 @@ addPassage(
 			// `<<character "G.I.G.I" "roboSpeech" "default">>“Morning sleepy head. It's almost time for work!”<</character>>`
 			// `<<dialog "G.I.G.I" "“Morning sleepy head. It's almost time for work!”">>`
 			macroDialog(
-				"G.I.G.I",
+				CharacterName.GIGI,
 				"“Morning sleepy head. It's almost time for work!”",
 				DialogType.AI,
-				defaultGigi
+				CharacterEmotion.HAPPY
 			)
 		) +
 		p(

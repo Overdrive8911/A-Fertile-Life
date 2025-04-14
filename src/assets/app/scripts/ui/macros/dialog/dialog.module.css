@@ -69,6 +69,48 @@
   height: var(--img-dimension);
   /* border: thin solid black; */
   border-radius: var(--border-radius);
+  /* Since  */
+  background-repeat: no-repeat;
+  background-size: calc(var(--img-dimension) * 3);
+
+  /* SECTION: Background Positioning */
+  &.neutral {
+    background-position: 0 0
+  }
+
+  &.happy {
+    background-position: calc(var(--img-dimension) * -1) 0;
+  }
+
+  &.sad {
+    background-position: calc(var(--img-dimension) * -2) 0;
+  }
+
+  &.angry {
+    background-position: 0 calc(var(--img-dimension) * -1);
+  }
+
+  &.shock {
+    background-position: calc(var(--img-dimension) * -1) calc(var(--img-dimension) * -1);
+  }
+
+  &.bored {
+    background-position: calc(var(--img-dimension) * -2) calc(var(--img-dimension) * -1);
+  }
+
+  &.surprise {
+    background-position: 0 calc(var(--img-dimension) * -2);
+  }
+
+  &.embarrassed {
+    background-position: calc(var(--img-dimension) * -1) calc(var(--img-dimension) * -2);
+  }
+
+  &.sus {
+    background-position: calc(var(--img-dimension) * -2) calc(var(--img-dimension) * -2);
+  }
+
+  /* !SECTION */
 }
 
 /* The text content of the dialog */
