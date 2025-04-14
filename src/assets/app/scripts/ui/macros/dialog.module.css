@@ -17,6 +17,22 @@
   margin-right: auto;
 }
 
+.name,
+.imgAndContent,
+.img {
+  /* Cyan */
+  background-color: #22a6a8;
+  /*background-color: #8a2be2; /* Purple */
+  /*background-color: #8c0cb8; /* Magenta */
+  /*background-color: #3a3f44; /* Grey */
+  /* Another dark purple closer to the background */
+  background-color: hsl(250deg 30% 16% / 75%);
+  /* color:white; */
+  color: #f3e8fc;
+
+  border: thin solid var(--ui-bar-border-color);
+}
+
 /* The box for the name of the character the generate dialog is for */
 .name {
   height: 1.5rem;
@@ -29,6 +45,7 @@
   align-items: center;
   font-size: 1.5rem;
   font-family: Jersey-20;
+  border-bottom-color: transparent;
 }
 
 /* The box for the image and content of the dialog */
@@ -46,7 +63,7 @@
 .img {
   width: var(--img-dimension);
   height: var(--img-dimension);
-  border: thin solid black;
+  /* border: thin solid black; */
   border-radius: var(--border-radius);
 }
 
@@ -54,17 +71,4 @@
 .content {
   overflow-y: auto;
   max-height: 15vh;
-}
-
-.name,
-.imgAndContent {
-  /* Cyan */
-  background-color: #22a6a8;
-  /*background-color: #8a2be2; /* Purple */
-  /*background-color: #8c0cb8; /* Magenta */
-  /*background-color: #3a3f44; /* Grey */
-  /* Another dark purple closer to the background */
-  background-color: hsl(250deg 30% 16% / 75%);
-  /* color:white; */
-  color: #f3e8fc;
 }
