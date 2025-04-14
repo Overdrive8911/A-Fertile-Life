@@ -1,24 +1,24 @@
-@use "../partials/functions" as func;
+// @use "../partials/functions" as func;
 
-/* For DIGITAL-7 */
-@font-face {
-  font-family: DIGITAL-7;
-  src: func.font("digital-7/digital-7.ttf");
-}
+// /* For DIGITAL-7 */
+// @font-face {
+//   font-family: DIGITAL-7;
+//   src: func.font("digital-7/digital-7.ttf");
+// }
 
-@font-face {
-  font-family: DIGITAL-7;
-  src: func.font("digital-7/digital-7-italic.ttf");
-  font-style: italic;
-}
+// @font-face {
+//   font-family: DIGITAL-7;
+//   src: func.font("digital-7/digital-7-italic.ttf");
+//   font-style: italic;
+// }
 
-@font-face {
-  font-family: DIGITAL-7-monospace;
-  src: func.font("digital-7/digital-7-mono.ttf");
-}
+// @font-face {
+//   font-family: DIGITAL-7-monospace;
+//   src: func.font("digital-7/digital-7-mono.ttf");
+// }
 
-@font-face {
-  font-family: DIGITAL-7-monospace;
-  src: func.font("digital-7/digital-7-mono-italic.ttf");
-  font-style: italic;
-}
+// @font-face {
+//   font-family: DIGITAL-7-monospace;
+//   src: func.font("digital-7/digital-7-mono-italic.ttf");
+//   font-style: italic;
+// }

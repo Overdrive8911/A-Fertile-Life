@@ -49,8 +49,8 @@
 .timeDisplay {
   text-align: center;
 
-  font-family: DIGITAL-7-monospace, Courier, monospace;
-  font-style: italic;
+  font-family: Orbitron;
+  /* font-style: normal; */
   font-size: var(--ui-top-bar-left-digital-clock-font-size);
 
   /* REVIEW - Make it glow like a digital clock */
@@ -81,7 +81,7 @@
   @media screen and (max-width: 500px) {
     :root:has([class^="sideBar"]:not(.stowed)) {
       /* Change the clock text back to it's monospace version */
-      font-family: DIGITAL-7-monospace, Courier, monospace;
+      font-family: Orbitron, Courier, monospace;
     }
 
     :root:has([class^="sideBar"].stowed) {
