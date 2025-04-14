@@ -69,6 +69,8 @@
 
 /* The text content of the dialog */
 .content {
+  /* padding: var(--padding); */
+  scrollbar-gutter: stable;
   overflow-y: auto;
   max-height: 15vh;
 }
