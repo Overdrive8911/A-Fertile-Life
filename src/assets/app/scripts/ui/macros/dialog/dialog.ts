@@ -1,5 +1,5 @@
-import { Directory } from "../../../../../../.build/enums";
-import { div, img } from "../../story/functions/html_elements";
+import { Directory } from "../../../../../../../.build/enums";
+import { div, img } from "../../../story/functions/html_elements";
 import "./dialog.module.css";
 import {
 	body as dialogBodyClass,

@@ -1,2 +1,2 @@
-import "./dialog";
+import "./dialog/dialog";
 import "./meter/meter";
