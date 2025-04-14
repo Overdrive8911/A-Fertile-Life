@@ -1,3 +1,3 @@
 import "./scripts/index";
 import "./styles/main.scss";
-import "./styles/globals.css";
+import "./styles/fonts.css";
