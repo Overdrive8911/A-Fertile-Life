@@ -1,5 +1,5 @@
 import { Directory } from "../../../../../../../.build/enums";
-import { div, img } from "../../../story/functions/html_elements";
+import { div, img, span } from "../../../story/functions/html_elements";
 import "./dialog.module.css";
 import {
 	body as dialogBodyClass,
@@ -115,14 +115,32 @@ function createDialog(
 	dialogType = DialogType.GENERIC,
 	image = defaultImg
 ): JQuery<HTMLElement> {
+	let displayName = name;
+	switch (dialogType) {
+		case DialogType.GENERIC:
+			break;
+		case DialogType.PLAYER:
+			displayName = "You";
+			break;
+		case DialogType.AI:
+			break;
+		case DialogType.MALE:
+			displayName += ` · ${span("He/him")}`;
+			break;
+		case DialogType.FEMALE:
+			displayName += ` · ${span("She/her")}`;
+			break;
+		case DialogType.OTHER:
+			displayName += ` · ${span("They/them")}`;
+			break;
+		case DialogType.NARRATOR:
+			break;
+		case DialogType.ETHEREAL:
+			break;
+	}
 	const dialogBody = $(div({ class: dialogBodyClass }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
-	const dialogName = $(
-		div(
-			{ class: dialogNameClass },
-			dialogType == DialogType.PLAYER ? "You" : name
-		)
-	);
+	const dialogName = $(div({ class: dialogNameClass }, displayName));
 	const dialogImg = $(img({ class: dialogImgClass, src: image }));
 	const dialogContent = $(div({ class: dialogImgContent }, content));
 
