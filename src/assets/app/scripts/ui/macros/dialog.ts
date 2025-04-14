@@ -63,17 +63,44 @@ Macro.add("dialog", {
 });
 
 /**
- * These determine the colors and general style of the dialog
+ * These determine the colors and general style of the dialog.
  */
 export const enum DialogType {
+	/**
+	 * Default, no specific styling.
+	 */
 	GENERIC,
+	/**
+	 * Name defaults to "You". Colors are a bit muted.
+	 */
 	PLAYER,
+	/**
+	 * For G.I.G.I, your AI assistant. Holographic colors and a special holographic-like font.
+	 */
 	AI,
+	/**
+	 * For generic males. Blue / Cyan.
+	 */
 	MALE,
+	/**
+	 * For generic females. Pink / Pink-purple.
+	 */
 	FEMALE,
-	IMPORTANT,
+	/**
+	 * For generic others. Grey / Greyish-blue.
+	 */
+	OTHER,
+	/**
+	 * For descriptive text and game / ui messages. Green / Greyish-green.
+	 */
+	NARRATOR,
+	/**
+	 * For the extra-terrestrial.
+	 */
+	ETHEREAL,
 }
 
+// TODO: Hovering / clicking the name shows a bit of extra info about the afore mentioned character (if any)
 function createDialog(
 	name = "Dummy",
 	content = "",
