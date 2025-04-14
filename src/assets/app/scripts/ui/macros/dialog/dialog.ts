@@ -109,7 +109,12 @@ function createDialog(
 ): JQuery<HTMLElement> {
 	const dialogBody = $(div({ class: dialogBodyClass }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
-	const dialogName = $(div({ class: dialogNameClass }, name));
+	const dialogName = $(
+		div(
+			{ class: dialogNameClass },
+			dialogType == DialogType.PLAYER ? "You" : name
+		)
+	);
 	const dialogImg = $(img({ class: dialogImgClass, src: "" }));
 	const dialogContent = $(div({ class: dialogImgContent }, content));
 
