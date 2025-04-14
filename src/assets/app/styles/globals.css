@@ -1,0 +1,56 @@
+/* Atkinson Hyperlegible Regular */
+@font-face {
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('./../../fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Regular.ttf') format('ttf');
+  font-weight: 400;
+  /* 400 is equivalent to normal */
+  font-style: normal;
+  font-display: swap;
+  /* Optional: Improves perceived performance */
+}
+
+/* Atkinson Hyperlegible Italic */
+@font-face {
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('./../../fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Italic.ttf') format('ttf');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Atkinson Hyperlegible Bold */
+@font-face {
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('./../../fonts/atkinson-hyperlegible/AtkinsonHyperlegible-Bold.ttf') format('ttf');
+  font-weight: 700;
+  /* 700 is equivalent to bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Atkinson Hyperlegible Bold Italic */
+@font-face {
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('./../../fonts/atkinson-hyperlegible/AtkinsonHyperlegible-BoldItalic.ttf') format('ttf');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* --- Example Usage --- */
+body {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  /* Use the font */
+}
+
+strong,
+b {
+  font-weight: 700;
+  /* Ensure bold tags use the bold weight */
+}
+
+em,
+i {
+  font-style: italic;
+  /* Ensure italic tags use the italic style */
+}
