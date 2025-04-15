@@ -72,8 +72,11 @@
   /* Since  */
   background-repeat: no-repeat;
   background-size: calc(var(--img-dimension) * 3);
+  --sheet-dimension: 32px;
 
-  /* SECTION: Background Positioning */
+  /* SECTION: Background Positioning.
+    Since the spritesheet only has 3 columns
+  */
   &.neutral {
     background-position: 0 0
   }
@@ -137,6 +140,16 @@
 .otherDialog {
   .name {
     color: hsl(0, 0%, 85%);
+  }
+}
+
+.aiDialog {
+  .name {
+    /* Light Cyan */
+    color: hsl(184, 87%, 80%);
+
+    /* Subtle glow effect using a slightly darker/more saturated cyan */
+    text-shadow: 0 0 4px hsla(184, 87%, 65%, 0.7);
   }
 }
 

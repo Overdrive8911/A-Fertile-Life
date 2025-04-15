@@ -1,4 +1,5 @@
 declare const styles: {
+  readonly "aiDialog": string;
   readonly "angry": string;
   readonly "body": string;
   readonly "bored": string;

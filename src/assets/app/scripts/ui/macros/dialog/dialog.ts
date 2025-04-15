@@ -20,6 +20,7 @@ import {
 	shock,
 	sus,
 	surprise,
+	aiDialog,
 } from "./dialog.module.css";
 import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
 import gigiImg from "./../../../../../media/img/characters/icons/gigi.webp";
@@ -148,6 +149,7 @@ function createDialog(
 			displayName = "You";
 			break;
 		case DialogType.AI:
+			dialogClasses.push(aiDialog);
 			break;
 		case DialogType.MALE:
 			displayName += span("· he/him");
