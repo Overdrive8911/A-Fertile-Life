@@ -75,6 +75,8 @@
 .img {
   width: var(--img-dimension);
   height: var(--img-dimension);
+  min-width: var(--img-dimension);
+  min-height: var(--img-dimension);
   /* border: thin solid black; */
   border-radius: var(--border-radius);
   background-repeat: no-repeat;
