@@ -12,13 +12,15 @@
   --img-dimension: calc(var(--spritesheet-block) * var(--scale-factor));
   --shadow-radius: 0.25rem;
   position: relative;
-  width: var(--width);
+  /* width: var(--width); */
+  width: fit-content;
   /* height: var(--height); */
   min-height: fit-content;
 
   display: flex;
   flex-direction: column;
   max-width: 85%;
+  min-width: 60%;
   margin-left: auto;
   margin-right: auto;
 }
