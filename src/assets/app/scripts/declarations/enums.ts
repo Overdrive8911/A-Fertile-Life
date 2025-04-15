@@ -33,4 +33,5 @@ export const enum CharacterEmotion {
 	BRUH,
 	EMBARRASSED,
 	SUS,
+	PANIC,
 }
