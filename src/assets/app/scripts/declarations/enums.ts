@@ -17,7 +17,7 @@ export const enum Default {
 export const enum CharacterName {
 	DUMMY = "Dummy",
 	/** This sin't really the player's name */
-	PLAYER = "P",
+	PLAYER = "You",
 	GIGI = "G.I.G.I",
 }
 

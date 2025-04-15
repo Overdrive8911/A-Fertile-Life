@@ -146,7 +146,7 @@ function createDialog(
 		case DialogType.GENERIC:
 			break;
 		case DialogType.PLAYER:
-			displayName = "You";
+			displayName = CharacterName.PLAYER;
 			break;
 		case DialogType.AI:
 			dialogClasses.push(aiDialog);
