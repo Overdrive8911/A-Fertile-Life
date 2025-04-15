@@ -15,7 +15,7 @@ export const enum Default {
 
 // TODO: Add more relevant characters here
 export const enum CharacterName {
-	DUMMY = "Dummy",
+	DUMMY = "???",
 	/** This sin't really the player's name */
 	PLAYER = "You",
 	GIGI = "G.I.G.I",
