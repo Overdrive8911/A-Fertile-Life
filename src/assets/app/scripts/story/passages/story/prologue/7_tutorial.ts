@@ -32,15 +32,11 @@ addPassage(
 			"You slowly raise your head towards the large white table in the center of your room. There, your eyes widen as you see a small floating thing with a holographic screen; most likely what issued the command."
 		) +
 		/* TODO - Insert a picture of the player looking at G.I.G.I */
-		p(
-			// `<<character "G.I.G.I" "roboSpeech" "default">>“Morning sleepy head. It's almost time for work!”<</character>>`
-			// `<<dialog "G.I.G.I" "“Morning sleepy head. It's almost time for work!”">>`
-			macroDialog(
-				CharacterName.GIGI,
-				"“Morning sleepy head. It's almost time for work!”",
-				DialogType.AI,
-				CharacterEmotion.HAPPY
-			)
+		macroDialog(
+			CharacterName.GIGI,
+			"Morning sleepy head. It's almost time for work!",
+			DialogType.AI,
+			CharacterEmotion.HAPPY
 		) +
 		p(
 			`<<character "G.I.G.I" "roboSpeech" "happy_2">>“I am your General Artificial Intelligence for Gynaecological Insights; G.A.I.G.I, but I'd prefer you exclude the "A". You're looking at the prototype of one of the greatest achievements in all of medical history! I'll be tracking your vitals and be monitoring your condition for the duration of your stay here. And before you ask about my origins, they're confidential. All that's important for you to know is that the doctor assigned me to you…”<</character>>`
