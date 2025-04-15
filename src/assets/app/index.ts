@@ -1,5 +1,3 @@
-import "./styles/fonts.css";
-import "./styles/variables.css";
-import "./styles/extensions.css";
+import "./styles/index.css";
 import "./scripts/index";
 // import "./styles/main.scss";

@@ -1,0 +1,60 @@
+[id="interface"] {
+  position: absolute;
+  z-index: -5;
+
+  /* // Make sure the background is large enough */
+  min-height: 130%;
+  width: 100%;
+
+  background-color: var(--ui-bar-background-color);
+}
+
+[id="passages"] {
+  width: calc(100% - var(--ui-side-bar-width));
+  /* margin: 0 calc(var(--ui-side-bar-width) + 2em) 20vh 20vw; */
+  /* margin: 0 auto auto auto; */
+  position: relative;
+  top: calc(var(--ui-top-bar-height) + 3rem);
+  left: var(--ui-side-bar-width);
+  z-index: -1;
+
+  padding-bottom: calc(var(--ui-bottom-bar-height) + 1.5rem);
+
+  background-color: var(--ui-bar-background-color);
+
+  /* Turn the main passage area into a flex box and manipulate the actual passages within it */
+  display: flex;
+  justify-content: space-around;
+
+  overflow-x: hidden;
+
+  &>div[id|="passage"] {
+    /* max-width: 54em; */
+    width: 70%;
+
+    & input:not(:disabled):focus,
+    input:not(:disabled):hover,
+    select:not(:disabled):focus,
+    select:not(:disabled):hover,
+    textarea:not(:disabled):focus,
+    textarea:not(:disabled):hover {
+      background-color: var(--ui-bar-background-color);
+      border-color: var(--ui-bar-border-color);
+      filter: brightness(135%);
+    }
+  }
+}
+
+#ui-dialog-titlebar {
+  background-color: var(--ui-bar-border-color);
+}
+
+#ui-dialog-body {
+  background-color: var(--ui-bar-background-color);
+  border-color: var(--ui-bar-border-color);
+}
+
+#ui-dialog-close {
+  /* // Force the "x" button to revert back to the default text color */
+  color: unset;
+}
