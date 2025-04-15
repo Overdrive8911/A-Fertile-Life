@@ -4,7 +4,13 @@
   --height: 3rem;
   --padding: 0.5rem;
   --border-radius: 1rem;
-  --img-dimension: 4rem;
+  /* The size of each sprite in the spritesheet */
+  --spritesheet-block: 32px;
+  /* Used to scale the sprites as needed */
+  --scale-factor: 2;
+  /* The actual visible size of the image */
+  --img-dimension: calc(var(--spritesheet-block) * var(--scale-factor));
+  --shadow-radius: 0.25rem;
   position: relative;
   width: var(--width);
   /* height: var(--height); */
@@ -69,48 +75,53 @@
   height: var(--img-dimension);
   /* border: thin solid black; */
   border-radius: var(--border-radius);
-  /* Since  */
   background-repeat: no-repeat;
   background-size: calc(var(--img-dimension) * 3);
-  --sheet-dimension: 32px;
+
+  /* The sprite sheet has 3 columns and 4 rows */
+  background-size: calc(var(--img-dimension) * 3) calc(var(--img-dimension) * 4);
+
+  --row-or-col-1: calc(var(--img-dimension) * -1);
+  --row-or-col-2: calc(var(--img-dimension) * -2);
+
 
   /* SECTION: Background Positioning.
     Since the spritesheet only has 3 columns
   */
   &.neutral {
-    background-position: 0 0
+    background-position: 0 0;
   }
 
   &.happy {
-    background-position: calc(var(--img-dimension) * -1) 0;
+    background-position: var(--row-or-col-1) 0;
   }
 
   &.sad {
-    background-position: calc(var(--img-dimension) * -2) 0;
+    background-position: var(--row-or-col-2) 0;
   }
 
   &.angry {
-    background-position: 0 calc(var(--img-dimension) * -1);
+    background-position: 0 var(--row-or-col-1);
   }
 
   &.shock {
-    background-position: calc(var(--img-dimension) * -1) calc(var(--img-dimension) * -1);
+    background-position: var(--row-or-col-1) var(--row-or-col-1);
   }
 
   &.bored {
-    background-position: calc(var(--img-dimension) * -2) calc(var(--img-dimension) * -1);
+    background-position: var(--row-or-col-2) var(--row-or-col-1);
   }
 
   &.surprise {
-    background-position: 0 calc(var(--img-dimension) * -2);
+    background-position: 0 var(--row-or-col-2);
   }
 
   &.embarrassed {
-    background-position: calc(var(--img-dimension) * -1) calc(var(--img-dimension) * -2);
+    background-position: var(--row-or-col-1) var(--row-or-col-2);
   }
 
   &.sus {
-    background-position: calc(var(--img-dimension) * -2) calc(var(--img-dimension) * -2);
+    background-position: var(--row-or-col-2) var(--row-or-col-2);
   }
 
   /* !SECTION */
@@ -149,7 +160,11 @@
     color: hsl(184, 87%, 80%);
 
     /* Subtle glow effect using a slightly darker/more saturated cyan */
-    text-shadow: 0 0 4px hsla(184, 87%, 65%, 0.7);
+    text-shadow: 0 0 var(--shadow-radius) hsla(184, 87%, 65%, 0.7);
+  }
+
+  .img {
+    box-shadow: 0 0 var(--shadow-radius) hsla(184, 87%, 65%, 0.7);
   }
 }
 
