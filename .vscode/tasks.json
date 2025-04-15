@@ -7,7 +7,10 @@
 			"problemMatcher": [],
 			"label": "bun: dev-watch:no-server",
 			"detail": "bun run cross-env NODE_ENV=development bun run --no-clear-screen ./build.ts & bun run generate-css-module-types - package.json",
-			"group": "build"
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
 			"type": "bun",
@@ -15,10 +18,7 @@
 			"problemMatcher": [],
 			"label": "bun: dev-watch",
 			"detail": "bun run dev-watch:no-server & bun run serve - package.json",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build"
 		}
 	]
 }
