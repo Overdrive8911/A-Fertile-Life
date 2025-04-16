@@ -10,11 +10,13 @@
   min-height: 160px;
 }
 
+/* TODO: See whether I can make this get imported last */
+/* NOTE: Spritesheets and other icon related css should use these variables */
 .iconBase {
-  --dimension: 16px;
+  --icon-dimension: 16px;
 
-  width: var(--dimension);
-  height: var(--dimension);
+  width: var(--icon-dimension);
+  height: var(--icon-dimension);
   object-fit: scale-down;
   display: block;
   object-position: center;
@@ -22,10 +24,10 @@
 
   /* When a stat bar is a sibling to an img with this class, then adjust the width and position of the stat bar by half the size of the image's dimension */
   ~span {
-    --dimension: 16px;
+    --icon-dimension: 16px;
 
     /* Shift the stat bar to the left so it stays underneath the stat icon */
-    --val: calc(var(--dimension) / 2);
+    --val: calc(var(--icon-dimension) / 2);
     width: calc(100% - var(--val));
     right: var(--val);
     position: relative;
@@ -39,29 +41,89 @@
 
 .icon20X20 {
   composes: iconBase;
-  --dimension: 20px;
+  --icon-dimension: 20px;
 
   ~span {
-    --dimension: 20px;
+    --icon-dimension: 20px;
   }
 }
 
 .icon24X24 {
   composes: iconBase;
 
-  --dimension: 24px;
+  --icon-dimension: 24px;
 
   ~span {
-    --dimension: 24px;
+    --icon-dimension: 24px;
   }
 }
 
-.icon32X32 {
+.icon96X96 {
   composes: iconBase;
 
-  --dimension: 32px;
+  --icon-dimension: 96px;
 
   ~span {
-    --dimension: 32px;
+    --icon-dimension: 96px;
+  }
+}
+
+.icon40X40 {
+  composes: iconBase;
+
+  --icon-dimension: 40px;
+
+  ~span {
+    --icon-dimension: 40px;
+  }
+}
+
+.icon48X48 {
+  composes: iconBase;
+
+  --icon-dimension: 48px;
+
+  ~span {
+    --icon-dimension: 48px;
+  }
+}
+
+.icon64X64 {
+  composes: iconBase;
+
+  --icon-dimension: 64px;
+
+  ~span {
+    --icon-dimension: 64px;
+  }
+}
+
+.icon80X80 {
+  composes: iconBase;
+
+  --icon-dimension: 80px;
+
+  ~span {
+    --icon-dimension: 80px;
+  }
+}
+
+.icon96X96 {
+  composes: iconBase;
+
+  --icon-dimension: 96px;
+
+  ~span {
+    --icon-dimension: 96px;
+  }
+}
+
+.icon128X128 {
+  composes: iconBase;
+
+  --icon-dimension: 128px;
+
+  ~span {
+    --icon-dimension: 128px;
   }
 }

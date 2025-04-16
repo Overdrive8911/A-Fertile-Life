@@ -142,7 +142,14 @@ if (buildResult) {
 			// }
 			await $`[ ! -L "${Directory.BUNDLED_STORY_ASSETS}" ] && ln -s ../${Directory.BUNDLED_ASSETS}/ ${Directory.BUNDLED_STORY_ASSETS} || true`;
 			await $`echo "Symlink ready."`;
-			await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`;
+			try {
+				await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`;
+			} catch (error) {
+				sleep(1000).finally(
+					async () =>
+						await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`
+				);
+			}
 		} else {
 			await compileStory();
 		}

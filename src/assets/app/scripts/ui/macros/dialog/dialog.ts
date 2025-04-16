@@ -22,11 +22,12 @@ import {
 	surprise,
 	aiDialog,
 } from "./dialog.module.css";
-import defaultImg from "./../../../../../media/img/characters/icons/default.webp";
+import monoColorIcons from "./../../../../styles/spritesheet/mono_color_icons.module.css";
 import gigiImg from "./../../../../../media/img/characters/icons/gigi.webp";
 import { createMacro } from "../../../story/functions/macros";
 import { pixelArt } from "../../../story/passages/styles/img.module.css";
 import { CharacterEmotion, CharacterName } from "../../../declarations/enums";
+import { icon64X64 } from "../../../story/passages/styles/ui/shared.module.css";
 /** Puts the text in a stylised speech box with the character's icon and text / container color (if any)
  * It's inputs include the name of the character and an optional color and / or emotion. Content passed into this container macro is rendered as text in the created speech box.
  * 
@@ -218,7 +219,7 @@ function createDialog(
 	}
 
 	const characterSheetImages: Partial<Record<CharacterName, string>> = {
-		[CharacterName.DUMMY]: defaultImg,
+		// [CharacterName.DUMMY]: monoColorSpriteSheet,
 		[CharacterName.GIGI]: gigiImg,
 	};
 
@@ -235,7 +236,9 @@ function createDialog(
 	// 	return `-${(emotion % 3) * dimensionVal}${dimensionUnit} -${
 	// 		Math.trunc(emotion / 3) * dimensionVal
 	// 	}${dimensionUnit}` as const;
-	// };$.css
+	// };$.css'
+
+	const characterSheetImageToUse = characterSheetImages[name];
 
 	const dialogBody = $(div({ class: dialogClasses }, ""));
 	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
@@ -243,11 +246,18 @@ function createDialog(
 	const dialogImg = $(
 		div(
 			{
-				class: [dialogImgClass, pixelArt, spriteSheetPositionStyle],
-				style: `background-image:url(${
-					characterSheetImages[name] ??
-					characterSheetImages[CharacterName.DUMMY]!
-				})`,
+				class: characterSheetImageToUse
+					? [dialogImgClass, pixelArt, icon64X64, spriteSheetPositionStyle]
+					: [
+							dialogImgClass,
+							pixelArt,
+							icon64X64,
+							monoColorIcons.spriteSheet,
+							monoColorIcons.personIcon,
+					  ],
+				style: characterSheetImageToUse
+					? `background-image:url(${characterSheetImages[name]!})`
+					: "opacity:0.5",
 			},
 			""
 		)

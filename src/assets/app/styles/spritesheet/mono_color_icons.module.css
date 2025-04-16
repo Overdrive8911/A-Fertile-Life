@@ -1,0 +1,25 @@
+.spriteSheet {
+  background-image: url("./../../../media/img/spritesheet/mono-color-icons.webp");
+  width: var(--icon-dimension);
+  height: var(--icon-dimension);
+
+  /* 5 rows and columns */
+  --row-or-col-1: calc(var(--icon-dimension) * -1);
+  --row-or-col-2: calc(var(--icon-dimension) * -2);
+  --row-or-col-3: calc(var(--icon-dimension) * -3);
+  --row-or-col-4: calc(var(--icon-dimension) * -4);
+
+  background-size: calc(var(--icon-dimension) * 5);
+}
+
+.personIcon {
+  background-position: 0 0;
+}
+
+.gpsIcon {
+  background-position: var(--row-or-col-1) 0;
+}
+
+.leftArrowIcon {
+  background-position: var(--row-or-col-2) 0;
+}

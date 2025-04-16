@@ -5,11 +5,12 @@
   --padding: 0.5rem;
   --border-radius: 1rem;
   /* The size of each sprite in the spritesheet */
-  --spritesheet-block: 32px;
+  /* --spritesheet-block: 32px; */
   /* Used to scale the sprites as needed */
-  --scale-factor: 2;
+  /* --scale-factor: 2 !important; */
   /* The actual visible size of the image */
-  --img-dimension: calc(var(--spritesheet-block) * var(--scale-factor));
+  /* --img-dimension: calc(var(--spritesheet-block) * var(--scale-factor)); */
+  /* --img-dimension: var(--icon-dimension); */
   --shadow-radius: 0.25rem;
   position: relative;
   /* width: var(--width); */
@@ -74,20 +75,20 @@
 
 /* The image of the character, */
 .img {
-  width: var(--img-dimension);
-  height: var(--img-dimension);
-  min-width: var(--img-dimension);
-  min-height: var(--img-dimension);
+  width: var(--icon-dimension);
+  height: var(--icon-dimension);
+  min-width: var(--icon-dimension);
+  min-height: var(--icon-dimension);
   /* border: thin solid black; */
   border-radius: var(--border-radius);
   background-repeat: no-repeat;
-  background-size: calc(var(--img-dimension) * 3);
+  background-size: calc(var(--icon-dimension) * 3);
 
   /* The sprite sheet has 3 columns and 4 rows */
-  background-size: calc(var(--img-dimension) * 3) calc(var(--img-dimension) * 4);
+  background-size: calc(var(--icon-dimension) * 3) calc(var(--icon-dimension) * 4);
 
-  --row-or-col-1: calc(var(--img-dimension) * -1);
-  --row-or-col-2: calc(var(--img-dimension) * -2);
+  --row-or-col-1: calc(var(--icon-dimension) * -1);
+  --row-or-col-2: calc(var(--icon-dimension) * -2);
 
 
   /* SECTION: Background Positioning.
