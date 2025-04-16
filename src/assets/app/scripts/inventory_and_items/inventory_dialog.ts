@@ -1,251 +1,282 @@
+import { convertToClass } from "../declarations/general_declarations";
+import {
+	br,
+	button,
+	div,
+	em,
+	img,
+	p,
+	span,
+} from "../story/functions/html_elements";
+import { pixelArt } from "../story/passages/styles/img.module.css";
+import { statNeutral } from "../story/passages/styles/speech.module.css";
 import type { Inventory } from "./classes/inventory";
 import type { Item } from "./classes/item";
 import { Clothing } from "./classes/item_extends/clothing";
 import { gInGameItems } from "./declarations/game_item_declarations";
 import { ItemId, ItemTag } from "./declarations/item_enums";
 import type { ClothingDynamicData } from "./declarations/types_and_interfaces";
+import {
+	dialog,
+	row,
+	tabs,
+	item as itemClass,
+	itemName,
+	itemImage,
+	tooltip,
+	itemFooter,
+	selected,
+} from "./inventory.module.css";
 import { inventoryTooltipHandler } from "./inventory_event_handlers";
 
+const SORTING_TAG_ATTR = "data-sorting-tag";
+
 $(window).on("resize", () => {
-  // Run this on resizing too
-  inventoryTabsHandler();
+	// Run this on resizing too
+	inventoryTabsHandler();
 });
 
 export const openInventoryDialog = () => {
-  // For stuff like All, Food, Key Items, Drugs, etc
-  let inventoryTabs = $('<div class="inventory-tabs"></div>');
-  let inventoryRow = $('<div class="inventory-row"></div>');
+	// For stuff like All, Food, Key Items, Drugs, etc
+	let inventoryTabs = $(div({ class: tabs }, ""));
+	let inventoryRow = $(div({ class: row }, ""));
 
-  // SECTION - Populate inventoryTabs
-  let arrayOfTabStrings = Object.values(ItemTag).filter((value) => {
-    return typeof value == "string" && value != ItemId[ItemId.DUMMY];
-  }) as string[];
+	// SECTION - Populate inventoryTabs
+	let arrayOfTabStrings = Object.values(ItemTag).filter((value) => {
+		return typeof value == "string" && value != ItemId[ItemId.DUMMY];
+	}) as string[];
 
-  // Leave the old array untouched
-  let editedArr = [...arrayOfTabStrings];
+	// Leave the old array untouched
+	let editedArr = [...arrayOfTabStrings];
 
-  // To turn stuff like "DUMMY" to "Dummy"
-  editedArr.forEach((tabString, index) => {
-    let str = tabString.toLocaleLowerCase();
-    str = str.charAt(0).toLocaleUpperCase() + str.slice(1);
+	// To turn stuff like "DUMMY" to "Dummy"
+	editedArr.forEach((tabString, index) => {
+		let str = tabString.toLocaleLowerCase();
+		str = str.charAt(0).toLocaleUpperCase() + str.slice(1);
 
-    if (str.includes("_")) {
-      // Remove hyphenations and adjust the case of successive words
-      const splitStr = str.split("_");
+		if (str.includes("_")) {
+			// Remove hyphenations and adjust the case of successive words
+			const splitStr = str.split("_");
 
-      splitStr.forEach((string, index) => {
-        // replace `str` with the final string
-        if (index == 0) {
-          str = string;
-        } else {
-          str += ` ${string.charAt(0).toLocaleUpperCase() + string.slice(1)}`;
-        }
-      });
-    }
+			splitStr.forEach((string, index) => {
+				// replace `str` with the final string
+				if (index == 0) {
+					str = string;
+				} else {
+					str += ` ${string.charAt(0).toLocaleUpperCase() + string.slice(1)}`;
+				}
+			});
+		}
 
-    editedArr[index] = str;
-  });
+		editedArr[index] = str;
+	});
 
-  for (let i = 0; i < editedArr.length; i++) {
-    const tabString = editedArr[i];
-    // The real ItemTag is stored as the `sorting-tag`
-    let tab = $(
-      `<button sorting-tag=${arrayOfTabStrings[i]}>${tabString}</button>`
-    );
-    tab.ariaClick(() => {
-      inventoryTabButtonHandler(tab, inventoryRow);
-    });
+	for (let i = 0; i < editedArr.length; i++) {
+		const tabString = editedArr[i];
+		// The real ItemTag is stored as the `sorting-tag`
+		let tab = $(
+			button({ [SORTING_TAG_ATTR]: arrayOfTabStrings[i] }, tabString)
+		);
+		tab.ariaClick(() => {
+			inventoryTabButtonHandler(tab, inventoryRow);
+		});
 
-    inventoryTabs.append(tab);
-  }
+		inventoryTabs.append(tab);
+	}
 
-  // SECTION - Populate inventoryRow
-  populateInventoryRowItems(inventoryRow);
+	// SECTION - Populate inventoryRow
+	populateInventoryRowItems(inventoryRow);
 
-  Dialog.create("Inventory", "inventory-dialog")
-    .append(inventoryTabs)
-    .append(inventoryRow)
-    .open();
+	Dialog.create("Inventory", dialog)
+		.append(inventoryTabs)
+		.append(inventoryRow)
+		.open();
 
-  // Make the tabs as long as the rows
-  inventoryTabsHandler();
+	// Make the tabs as long as the rows
+	inventoryTabsHandler();
 
-  // Add the mouseover event to the items. This ensures it happens on the first time the dialog is opened
-  inventoryTooltipHandler();
+	// Add the mouseover event to the items. This ensures it happens on the first time the dialog is opened
+	inventoryTooltipHandler();
 };
 
 function populateInventoryRowItems(
-  inventoryRow: JQuery<HTMLElement>,
-  sortingTag?: ItemTag,
-  inventory?: Inventory
+	inventoryRow: JQuery<HTMLElement>,
+	sortingTag?: ItemTag,
+	inventory?: Inventory
 ) {
-  if (sortingTag == undefined) sortingTag = ItemTag.ALL;
+	if (sortingTag == undefined) sortingTag = ItemTag.ALL;
 
-  if (!inventory) inventory = variables().player.inventory; // default to the player inventory if not explicitly given
+	if (!inventory) inventory = variables().player.inventory; // default to the player inventory if not explicitly given
 
-  let noDupeItemArr = inventory.arrOfUniqueItemIds;
+	let noDupeItemArr = inventory.arrOfUniqueItemIds;
 
-  // Sort using the sortingTag (except if its `ItemTag.ALL`)
-  if (sortingTag != ItemTag.ALL) {
-    noDupeItemArr = noDupeItemArr.filter((id) => {
-      return (
-        gInGameItems[id] ?? (gInGameItems[ItemId.DUMMY] as Item)
-      ).tags.includes(sortingTag);
-    });
+	// Sort using the sortingTag (except if its `ItemTag.ALL`)
+	if (sortingTag != ItemTag.ALL) {
+		noDupeItemArr = noDupeItemArr.filter((id) => {
+			return (
+				gInGameItems[id] ?? (gInGameItems[ItemId.DUMMY] as Item)
+			).tags.includes(sortingTag);
+		});
 
-    if (sortingTag == ItemTag.CLOTHING) {
-      // Sort clothing by prioritizing equipped ones
-      noDupeItemArr.sort((itemA, itemB) => {
-        let isClothingEquipped = { a: false, b: false };
+		if (sortingTag == ItemTag.CLOTHING) {
+			// Sort clothing by prioritizing equipped ones
+			noDupeItemArr.sort((itemA, itemB) => {
+				let isClothingEquipped = { a: false, b: false };
 
-        // A utility function to find out if ANY clothing of a particular type / with a particular id is equipped
-        const func = (
-          clothingItemId: ItemId,
-          flag: keyof typeof isClothingEquipped
-        ) => {
-          inventory.getItem(clothingItemId)?.forEach((inventoryItem) => {
-            const storedData = inventoryItem.dynamicData as ClothingDynamicData;
+				// A utility function to find out if ANY clothing of a particular type / with a particular id is equipped
+				const func = (
+					clothingItemId: ItemId,
+					flag: keyof typeof isClothingEquipped
+				) => {
+					inventory.getItem(clothingItemId)?.forEach((inventoryItem) => {
+						const storedData = inventoryItem.dynamicData as ClothingDynamicData;
 
-            if (Clothing.isEquipped(storedData))
-              isClothingEquipped[flag] = true;
-          });
-        };
+						if (Clothing.isEquipped(storedData))
+							isClothingEquipped[flag] = true;
+					});
+				};
 
-        // Run the functions for both items
-        func(itemA, "a");
-        func(itemB, "b");
+				// Run the functions for both items
+				func(itemA, "a");
+				func(itemB, "b");
 
-        const isItemAEquipped = isClothingEquipped.a;
-        const isItemBEquipped = isClothingEquipped.b;
+				const isItemAEquipped = isClothingEquipped.a;
+				const isItemBEquipped = isClothingEquipped.b;
 
-        // Now to compare and return results
-        if (isItemAEquipped && !isItemBEquipped) return -1;
-        else if (!isItemAEquipped && isItemBEquipped) return 1;
-        else return 0;
-      });
-    }
-  }
+				// Now to compare and return results
+				if (isItemAEquipped && !isItemBEquipped) return -1;
+				else if (!isItemAEquipped && isItemBEquipped) return 1;
+				else return 0;
+			});
+		}
+	}
 
-  for (let i = 0; i < noDupeItemArr.length; i++) {
-    const itemId = noDupeItemArr[i];
-    let item = gInGameItems[itemId] ?? (gInGameItems[ItemId.DUMMY] as Item);
-    const numOfDuplicates = inventory.getItemCount(itemId);
-    const nameOfItem = item.name;
-    const itemImageUrl = item.imgUrl;
+	for (let i = 0; i < noDupeItemArr.length; i++) {
+		const itemId = noDupeItemArr[i];
+		let item = gInGameItems[itemId] ?? (gInGameItems[ItemId.DUMMY] as Item);
+		const numOfDuplicates = inventory.getItemCount(itemId);
+		const nameOfItem = item.name;
+		const itemImageUrl = item.imgUrl;
 
-    const itemSellingPrice = /*item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
+		const itemSellingPrice = /*item.price == ItemProperties.PRICE_CANNOT_BE_BOUGHT
           ? `$0`
           : */ `$${item.price * 0.45}`;
-    const itemWeight =
-      item.weight < 1000
-        ? `${item.weight}g`
-        : `${(item.weight / 1000).toFixed(2)}kg`;
-    const itemDescription = item.description;
+		const itemWeight =
+			item.weight < 1000
+				? `${item.weight}g`
+				: `${(item.weight / 1000).toFixed(2)}kg`;
+		const itemDescription = item.description;
 
-    // TODO - Add at most 3 different locations the item was found and finally a Use button
+		// TODO - Add at most 3 different locations the item was found and finally a Use button
 
-    // Append the name, amount and image of the item
-    inventoryRow.append(
-      `<div class="inventory-item">
-        <div class="inventory-item-name">&nbsp${nameOfItem}&nbsp</div>
+		// Append the name, amount and image of the item
+		const nonBreakingSpace = "&nbsp;";
+		inventoryRow.append(
+			div(
+				{ class: itemClass },
+				div(
+					{ class: itemName },
+					nonBreakingSpace +
+						nameOfItem +
+						nonBreakingSpace +
+						div(
+							{ class: [itemImage, pixelArt] },
+							img({ src: itemImageUrl }) +
+								div(
+									{ class: tooltip },
+									p(em(itemDescription)) +
+										p(
+											`Selling Price = ${
+												span({ class: statNeutral }, itemSellingPrice) + br
+											}Weight = ${span({ class: statNeutral }, itemWeight)}`
+										)
+								)
+						) +
+						div(
+							{ class: itemFooter },
+							(item.usable ? `<button>Use</button>` : "") +
+								nonBreakingSpace +
+								"x" +
+								numOfDuplicates
+						)
+				)
+			)
+		);
+	}
 
-        <div class="inventory-item-image pixel-art">
-          <img src=${itemImageUrl}>
-
-          <div class="inventory-tooltip">
-            <p>
-              <i>${itemDescription}</i>
-            </p>
-
-            <p>
-                Selling Price = <span class="playerStatNeutral">${itemSellingPrice}</span>
-                <br>
-                Weight = <span class="playerStatNeutral">${itemWeight}</span>
-            </p>
-          </div>
-        </div>
-
-        <div class="inventory-item-footer">
-          ${item.usable ? `<button>Use</button>` : ""}
-          &nbsp;x${numOfDuplicates}
-        </div>
-      </div>`
-    );
-  }
-
-  // Add the mouseover event to the items
-  inventoryTooltipHandler();
+	// Add the mouseover event to the items
+	inventoryTooltipHandler();
 }
 
 function inventoryTabButtonHandler(
-  currentButton: JQuery<HTMLElement>,
-  inventoryRow: JQuery<HTMLElement>
+	currentButton: JQuery<HTMLElement>,
+	inventoryRow: JQuery<HTMLElement>
 ) {
-  // Check the current selected button (the selected button will have a "selected" class)
-  const currentSelectedBtn = getCurrentSelectedButton();
+	// Check the current selected button (the selected button will have a "selected" class)
+	const currentSelectedBtn = getCurrentSelectedButton();
 
-  // Set the selected button to the one from the argument
-  if (currentSelectedBtn != currentButton) currentButton.addClass("selected");
+	// Set the selected button to the one from the argument
+	if (currentSelectedBtn != currentButton) currentButton.addClass(selected);
 
-  // If not undefined and not the same button, remove the selected class from currentSelectedBtn
-  if (currentSelectedBtn && currentSelectedBtn[0] != currentButton[0])
-    currentSelectedBtn.removeClass("selected");
+	// If not undefined and not the same button, remove the selected class from currentSelectedBtn
+	if (currentSelectedBtn && currentSelectedBtn[0] != currentButton[0])
+		currentSelectedBtn.removeClass(selected);
 
-  // Resort the items shown in the inventory
-  // but first, get the value we'll be sorting with
-  const sortingTag = getSortingValueFromSelectedBtn(currentButton);
+	// Resort the items shown in the inventory
+	// but first, get the value we'll be sorting with
+	const sortingTag = getSortingValueFromSelectedBtn(currentButton);
 
-  // Empty the element containing our displayed items and rebuild it with the new sorting order
-  inventoryRow.empty();
-  populateInventoryRowItems(inventoryRow, sortingTag);
+	// Empty the element containing our displayed items and rebuild it with the new sorting order
+	inventoryRow.empty();
+	populateInventoryRowItems(inventoryRow, sortingTag);
 }
 
 function getCurrentSelectedButton(): JQuery<HTMLElement> | undefined {
-  const invTabs = $(".inventory-tabs");
+	const invTabs = $(convertToClass(tabs));
 
-  // Loop through its children (the buttons) and check for any with the "selected" class
-  for (let i = 0; i < invTabs.children().length; i++) {
-    const tab = invTabs.children()[i];
+	// Loop through its children (the buttons) and check for any with the "selected" class
+	for (let i = 0; i < invTabs.children().length; i++) {
+		const tab = invTabs.children()[i];
 
-    if ($(tab).hasClass("selected")) {
-      return $(tab);
-    }
-  }
+		if ($(tab).hasClass(selected)) {
+			return $(tab);
+		}
+	}
 
-  // Didn't find any so return undefined
-  return undefined;
+	// Didn't find any so return undefined
+	return undefined;
 }
 
 function getSortingValueFromSelectedBtn(button: JQuery<HTMLElement>): ItemTag {
-  // Get the `sorting-tag` of the button that was created with the latter
-  const sortingTag = button.attr("sorting-tag");
+	// Get the `sorting-tag` of the button that was created with the latter
+	const sortingTag = button.attr(SORTING_TAG_ATTR);
 
-  // Get all the string tags from `ItemTag`
-  const tagArray = Object.values(ItemTag).filter((value) => {
-    return typeof value == "string";
-  }) as string[];
+	// Get all the string tags from `ItemTag`
+	const tagArray = Object.values(ItemTag).filter((value) => {
+		return typeof value == "string";
+	}) as string[];
 
-  for (let i = 0; i < tagArray.length; i++) {
-    const tag = tagArray[i];
+	for (let i = 0; i < tagArray.length; i++) {
+		const tag = tagArray[i];
 
-    if (sortingTag == tag) return i;
-  }
+		if (sortingTag == tag) return i;
+	}
 
-  // Shouldn't happen if this function is called correctly
-  return ItemTag.ALL;
+	// Shouldn't happen if this function is called correctly
+	return ItemTag.ALL;
 }
 
 // Deal with the inventory tabs (basically making them as long as inventory-row is)
 function inventoryTabsHandler() {
-  const inventoryTabsContainer = $(`.inventory-tabs`);
+	const inventoryTabsContainer = $(convertToClass(tabs));
 
-  const inventoryRowContainer = $(`.inventory-row`);
+	const inventoryRowContainer = $(convertToClass(row));
 
-  // Set the width of the tabs to that of the inventory row (including the latter's padding)
-  inventoryTabsContainer.width(
-    (inventoryRowContainer.width() ?? 0) +
-      parseInt(inventoryRowContainer.css("padding-left")) +
-      parseInt(inventoryRowContainer.css("padding-right")) +
-      4
-  );
+	// Set the width of the tabs to that of the inventory row (including the latter's padding)
+	inventoryTabsContainer.width(
+		(inventoryRowContainer.width() ?? 0) +
+			parseInt(inventoryRowContainer.css("padding-left")) +
+			parseInt(inventoryRowContainer.css("padding-right")) +
+			4
+	);
 }
