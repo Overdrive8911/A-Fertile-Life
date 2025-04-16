@@ -142,6 +142,17 @@ function createDialog(
 	let displayName: string = name;
 	const dialogClasses = [dialogBodyClass];
 
+	// Set some defaults with the character name
+	switch (name) {
+		case CharacterName.DUMMY:
+			break;
+		case CharacterName.PLAYER:
+			break;
+		case CharacterName.GIGI:
+			dialogType = DialogType.AI;
+			break;
+	}
+
 	switch (dialogType) {
 		case DialogType.GENERIC:
 			break;

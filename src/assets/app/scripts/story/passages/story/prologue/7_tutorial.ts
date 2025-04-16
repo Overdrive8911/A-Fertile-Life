@@ -34,22 +34,20 @@ addPassage(
 		/* TODO - Insert a picture of the player looking at G.I.G.I */
 		macroDialog(
 			CharacterName.GIGI,
-			"Morning sleepy head. It's almost time for work!",
-			DialogType.AI
+			"Morning sleepy head. It's almost time for work!"
 		) +
 		macroDialog(
 			CharacterName.GIGI,
 			"I am your General Artificial Intelligence for Gynaecological Insights; G.A.I.G.I, but I'd prefer you exclude the 'A'. You're looking at the prototype of one of the greatest achievements in all of medical history! I'll be tracking your vitals and be monitoring your condition for the duration of your stay here. And before you ask about my origins, they're confidential. All that's important for you to know is that the doctor assigned me to you…",
-			DialogType.AI,
+			undefined,
 			CharacterEmotion.HAPPY
 		) +
 		p(
 			"The introduction, of what you now believe to be a robot, ends with it looking around your room with curiosity. It levitates towards different corners, shelves and wardrobes, opening a few to inspect the contents, before descending to simply floating above the table."
 		) +
 		macroDialog(
-			CharacterName.GIGI,
-			"Nice room you got here. Much nicer than the bleak white ones I'm used to.",
-			DialogType.AI
+			CharacterName.GIGI, 
+			"Nice room you got here. Much nicer than the bleak white ones I'm used to."
 		) +
 		p(
 			"After the robot stops talking, it stares silently at you for almost a minute, seemingly waiting for something."
@@ -57,7 +55,7 @@ addPassage(
 		macroDialog(
 			CharacterName.GIGI,
 			"…Uh, this is the part where you ask some questions. We're kinda pressed for time.",
-			DialogType.AI,
+			undefined,
 			CharacterEmotion.BORED
 		) +
 		p({ class: femaleSpeech }, `“Oh! I'm ${PC}. So, G.I.G.I, um…”`) +
