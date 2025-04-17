@@ -1,4 +1,4 @@
-import { build, write, $, sleep, type BuildConfig, serve } from "bun";
+import { build, write, $, sleep, type BuildConfig } from "bun";
 import {
 	bundleScriptAndStyleExtensions,
 	cleanDirectories,
@@ -11,6 +11,9 @@ import { Directory } from "./.build/enums";
 import watcher from "@parcel/watcher";
 import { setupTweego } from "tweenode";
 import { existsSync, symlinkSync } from "fs-extra";
+// https://www.npmjs.com/package/create-serve
+//@ts-expect-error
+import serve from "create-serve";
 
 const buildConfig: BuildConfig = {
 	entrypoints: [Directory.SCRIPT_ENTRYPOINT + ""],
@@ -89,6 +92,7 @@ if (buildResult) {
 				if (shouldCompile) {
 					shouldCompile = false;
 					await compileStory();
+					serve.update();
 					// console.log("I am called " + calledTimes++ + " times");
 					setTimeout(() => {
 						shouldCompile = true;
@@ -147,7 +151,14 @@ if (buildResult) {
 			// await $`bunx refreshin --port 3000 --directory ${Directory.BUNDLED_STORY} -b false`;
 			// await $`bunx yalive-server dev -c '{"root": "dist", "port": 3000, "cors": true, "https": true, "historyApiFallback": true }'`;…
 			// await $`bunx five-server`
-			await $`bun run --bun browser-sync start -s "${Directory.BUNDLED_STORY}" --files "${Directory.BUNDLED_STORY}/**/*.html" --port ${Directory.PORT} --no-open --reload-delay 1000 --reload-debounce 1000`;
+			// await $`bun run --bun browser-sync start -s "${Directory.BUNDLED_STORY}" --files "${Directory.BUNDLED_STORY}/**/*.html" --port ${Directory.PORT} --no-open --reload-delay 1000 --reload-debounce 1000`;
+			// await $`bun ./dist/index.html`;
+			// await $`bunx alive-server --port=3000 --no-browser --open="${Directory.BUNDLED_STORY}" --watch="${Directory.BUNDLED_STORY}" --ignore="${Directory.BUNDLED_STORY_ASSETS}"`;
+			serve.start({
+				port: Directory.PORT,
+				root: Directory.BUNDLED_STORY,
+				live: true,
+			});
 		} else {
 			await compileStory();
 		}

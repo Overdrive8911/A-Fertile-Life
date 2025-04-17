@@ -18,7 +18,7 @@
 		"@types/bun": "^1.2.5",
 		"@types/fs-extra": "^11.0.4",
 		"@types/twine-sugarcube": "^2.37.2",
-		"browser-sync": "^3.0.4",
+		"create-serve": "^1.0.1",
 		"cross-env": "^7.0.3",
 		"fs-extra": "^11.3.0",
 		"lightningcss": "^1.29.3",
