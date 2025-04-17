@@ -1,14 +1,26 @@
 /* NOTE: There's a bug with the CSS parser that hashes only the keyframe anim name but not it's references in `animation` or `animation-name` */
 @keyframes envelopeAnim {
   0% {
-    content: url("./../../../../../../media/img/general/envelope_closed.webp");
+    background-position: 0 0;
   }
 
-  50% {
-    content: url("./../../../../../../media/img/general/envelope_in-between.webp")
+  33.333% {
+    background-position: 0 0;
+  }
+
+  33.334% {
+    background-position: 0 calc(var(--height) * -1);
+  }
+
+  66.666% {
+    background-position: 0 calc(var(--height) * -1);
+  }
+
+  66.667% {
+    background-position: 0 calc(var(--height) * -2);
   }
 
   100% {
-    content: url("./../../../../../../media/img/general/envelope_open.webp")
+    background-position: 0 calc(var(--height) * -2);
   }
 }

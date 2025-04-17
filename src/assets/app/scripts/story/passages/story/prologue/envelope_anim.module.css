@@ -1,26 +1,43 @@
 @import "./envelope_anim.css";
 
 /* Preload image frames */
-body::after {
+/* body::after {
   content: url("./../../../../../../media/img/general/envelope_in-between.webp") url("./../../../../../../media/img/general/envelope_open.webp");
   position: absolute;
   width: 0;
   height: 0;
   overflow: hidden;
   z-index: -999;
-}
+} */
 
 .envelope {
-  --width: 64px;
+  /* The true dimensions of each sprite in the spritesheet */
+  --sprite-width: 128px;
+  --sprite-height: 96px;
+  --scale-factor: 1;
+  /* The actual visible size of the image */
+  --width: calc(var(--sprite-width) * var(--scale-factor));
+  --height: calc(var(--sprite-height) * var(--scale-factor));
+
   width: var(--width);
-  height: auto;
+  height: var(--height);
   position: relative;
   left: calc(50% - (0.5 * var(--width)));
 
+  background-image: url("./../../../../../../media/img/spritesheet/envelope_anim.webp");
+  /* 1 column and 3 rows */
+  background-size: var(--width) calc(var(--height) * 3);
+  background-repeat: no-repeat;
+
+  /* It looks better like this imo */
   image-rendering: auto;
 
   /* Attach this class to the image element that the animation should play on */
-  & .playAnim {
+  &.playAnim {
+    /* transform: scale(2); */
+    /* --closed: 0 0;
+    --open-half: 0 calc(var(--height) * -1);
+    --open-full: 0 calc(var(--height) * -2); */
     animation: envelopeAnim forwards ease-out 0.25s;
   }
 }

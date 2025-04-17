@@ -1,4 +1,5 @@
 import { macroUpdateGameTime } from "../../../../date_and_time/macro_definitions";
+import { convertToClass } from "../../../../declarations/general_declarations";
 import { playerBedroom } from "../../../../location/game_locations/west_hirtheford/your_neighbourhood/locations/player_house";
 import { StoryPassageName } from "../../../enums";
 import { ctpNoId } from "../../../functions/external_libs/ctp";
@@ -13,7 +14,6 @@ import {
 import { addPassage } from "../../../functions/passage_funcs";
 import { pixelArt } from "../../styles/img.module.css";
 import { femaleSpeech, otherSpeech } from "../../styles/speech.module.css";
-import closedEnvelope from "./../../../../../../media/img/general/envelope_closed.webp";
 import { envelope, letterPaper, playAnim } from "./envelope_anim.module.css";
 
 addPassage(
@@ -54,9 +54,8 @@ addPassage(
 					// Display an envelope image. The player should click it to open it and then the letter fades in
 					return (
 						macroLink(
-							span({ class: [pixelArt, envelope] }, macroImage(closedEnvelope)),
-							progressText +
-								macroAddClass(`[src='${closedEnvelope}']`, playAnim)
+							div({ class: [pixelArt, envelope] }, ""),
+							progressText + macroAddClass(convertToClass(envelope), playAnim)
 						) +
 						br +
 						br
