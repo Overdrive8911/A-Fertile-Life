@@ -247,11 +247,10 @@ function createDialog(
 		div(
 			{
 				class: characterSheetImageToUse
-					? [dialogImgClass, pixelArt, icon64X64, spriteSheetPositionStyle]
+					? [dialogImgClass, pixelArt, spriteSheetPositionStyle]
 					: [
 							dialogImgClass,
 							pixelArt,
-							icon64X64,
 							monoColorIcons.spriteSheet,
 							monoColorIcons.personIcon,
 					  ],

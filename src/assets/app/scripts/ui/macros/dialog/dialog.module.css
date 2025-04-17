@@ -75,6 +75,7 @@
 
 /* The image of the character, */
 .img {
+  composes: icon64X64 from "./../../../story/passages/styles/ui/shared.module.css";
   width: var(--icon-dimension);
   height: var(--icon-dimension);
   min-width: var(--icon-dimension);

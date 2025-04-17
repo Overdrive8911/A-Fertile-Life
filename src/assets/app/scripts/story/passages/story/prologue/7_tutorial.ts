@@ -46,7 +46,7 @@ addPassage(
 			"The introduction, of what you now believe to be a robot, ends with it looking around your room with curiosity. It levitates towards different corners, shelves and wardrobes, opening a few to inspect the contents, before descending to simply floating above the table."
 		) +
 		macroDialog(
-			CharacterName.GIGI, 
+			CharacterName.GIGI,
 			"Nice room you got here. Much nicer than the bleak white ones I'm used to."
 		) +
 		p(
