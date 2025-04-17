@@ -123,11 +123,6 @@ if (buildResult) {
 				// await (await subscription2).unsubscribe();
 				process.exit(0);
 			});
-			// await $`bunx reload -p 3000 -d ${Directory.BUNDLED_STORY}`;
-			// await $`bunx browser-sync start -s "dist" --files "dist" --no-open --reload-debounce 2000 --reload-delay 2000`;
-			// await $`bunx browser-sync start -s "dist" --files "dist" --no-open --reload-debounce 1500`;
-			// await $`bunx livereload dist/ -p 3000 -w 1000 -f 'index.html'`;
-			// await $`cd ./dist && bunx live-server --port=3000 --wait=1500 --no-browser`;
 			// write(RELOAD_TXT, "Used as a hacky debounce workaround");
 			// const target = Directory.BUNDLED_ASSETS;
 			// const linkPath = Directory.BUNDLED_STORY_ASSETS;
@@ -142,14 +137,17 @@ if (buildResult) {
 			// }
 			await $`[ ! -L "${Directory.BUNDLED_STORY_ASSETS}" ] && ln -s ../${Directory.BUNDLED_ASSETS}/ ${Directory.BUNDLED_STORY_ASSETS} || true`;
 			await $`echo "Symlink ready."`;
-			try {
-				await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`;
-			} catch (error) {
-				sleep(1000).finally(
-					async () =>
-						await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`
-				);
-			}
+			// await $`bunx reload -p 3000 -d ${Directory.BUNDLED_STORY} -e html`;
+			// await $`bunx browser-sync start -s "dist" --files "dist" --no-open --reload-debounce 2000 --reload-delay 2000`;
+			// await $`bunx browser-sync start -s "dist" --files "dist" --no-open --reload-debounce 1500`;
+			// await $`bunx livereload dist/ -p 3000 -w 1000 -f 'index.html'`;
+			// await $`cd ./dist && bunx live-server --port=3000 --wait=500 --ignore= --no-browser`;
+			// await $`bunx alive-server --port=3000 --no-browser --open="${Directory.BUNDLED_STORY}" --watch="${Directory.BUNDLED_STORY}" --ignore="${Directory.BUNDLED_STORY_ASSETS}"`;
+			// await $`bun run --bun rapidpreview --path ${Directory.BUNDLED_STORY} --port ${Directory.PORT}`;
+			// await $`bunx refreshin --port 3000 --directory ${Directory.BUNDLED_STORY} -b false`;
+			// await $`bunx yalive-server dev -c '{"root": "dist", "port": 3000, "cors": true, "https": true, "historyApiFallback": true }'`;…
+			// await $`bunx five-server`
+			await $`bun run --bun browser-sync start -s "${Directory.BUNDLED_STORY}" --files "${Directory.BUNDLED_STORY}/**/*.html" --port ${Directory.PORT} --no-open --reload-delay 1000 --reload-debounce 1000`;
 		} else {
 			await compileStory();
 		}
