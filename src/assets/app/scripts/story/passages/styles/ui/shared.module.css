@@ -58,13 +58,14 @@
   }
 }
 
-.icon96X96 {
+
+.icon32X32 {
   composes: iconBase;
 
-  --icon-dimension: 96px;
+  --icon-dimension: 32px;
 
   ~span {
-    --icon-dimension: 96px;
+    --icon-dimension: 32px;
   }
 }
 
