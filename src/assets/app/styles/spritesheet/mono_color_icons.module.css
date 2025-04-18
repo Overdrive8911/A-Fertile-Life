@@ -51,3 +51,18 @@
   composes: spriteSheet;
   background-position: var(--row-or-col-2) var(--row-or-col-1);
 }
+
+.zoomInIcon {
+  composes: spriteSheet;
+  background-position: var(--row-or-col-3) var(--row-or-col-1);
+}
+
+.zoomOutIcon {
+  composes: spriteSheet;
+  background-position: var(--row-or-col-4) var(--row-or-col-1);
+}
+
+.largeViewIcon {
+  composes: spriteSheet;
+  background-position: 0 var(--row-or-col-2);
+}

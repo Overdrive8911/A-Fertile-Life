@@ -24,9 +24,6 @@ import {
 import { UiPassageName } from "./enums";
 import { forceAddUI } from "./functions";
 import monoColorIcons from "./../../../../styles/spritesheet/mono_color_icons.module.css";
-import zoomIn from "./../../../../../media/img/ui/icons/20x20/zoom_in.webp";
-import zoomOut from "./../../../../../media/img/ui/icons/20x20/zoom_out.webp";
-import largeView from "./../../../../../media/img/ui/icons/20x20/large_view.webp";
 import { icon16X16, icon20X20 } from "../styles/ui/shared.module.css";
 import { pixelArt } from "../styles/img.module.css";
 
@@ -106,15 +103,21 @@ const passageText = [
 				{ class: popoutMapBtnBar },
 				button(
 					{ class: btnZoomIn },
-					img({ class: [icon20X20, pixelArt], src: zoomIn })
+					div({ class: [icon20X20, pixelArt, monoColorIcons.zoomInIcon] }, "")
 				) +
 					button(
 						{ class: btnZoomOut },
-						img({ class: [icon20X20, pixelArt], src: zoomOut })
+						div(
+							{ class: [icon20X20, pixelArt, monoColorIcons.zoomOutIcon] },
+							""
+						)
 					) +
 					button(
 						{ class: btnLargeView },
-						img({ class: [icon20X20, pixelArt], src: largeView })
+						div(
+							{ class: [icon20X20, pixelArt, monoColorIcons.largeViewIcon] },
+							""
+						)
 					)
 			)
 		)

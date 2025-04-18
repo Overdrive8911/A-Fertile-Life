@@ -85,7 +85,7 @@
     }
   }
 
-  .toggleStateBtn>img {
+  .toggleStateBtn>:first-child {
     transform: rotate(180deg);
   }
 
