@@ -3,6 +3,7 @@ declare const styles: {
   readonly "icon16X16": string;
   readonly "icon20X20": string;
   readonly "icon24X24": string;
+  readonly "icon32X32": string;
   readonly "icon40X40": string;
   readonly "icon48X48": string;
   readonly "icon64X64": string;

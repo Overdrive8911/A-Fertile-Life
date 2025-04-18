@@ -1,5 +1,5 @@
 .spriteSheet {
-  background-image: url("./../../../media/img/spritesheet/mono-color-icons.webp");
+  background-image: url("./../../../media/img/spritesheet/color-icons.webp");
   width: var(--icon-dimension);
   height: var(--icon-dimension);
 
@@ -12,42 +12,42 @@
   background-size: calc(var(--icon-dimension) * 5);
 }
 
-.personIcon {
+.heartIcon {
   composes: spriteSheet;
   background-position: 0 0;
 }
 
-.gpsIcon {
+.energyIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-1) 0;
 }
 
-.leftArrowIcon {
+.moodIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-2) 0;
 }
 
-.inventoryIcon {
+.hungerIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-3) 0;
 }
 
-.saveIcon {
+.uterusExpIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-4) 0;
 }
 
-.settingsIcon {
+.uterusHpIcon {
   composes: spriteSheet;
   background-position: 0 var(--row-or-col-1);
 }
 
-.restartIcon {
+.moneyIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-1) var(--row-or-col-1);
 }
 
-.bugReportIcon {
+.reputationIcon {
   composes: spriteSheet;
   background-position: var(--row-or-col-2) var(--row-or-col-1);
 }

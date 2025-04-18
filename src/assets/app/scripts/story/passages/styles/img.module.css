@@ -2,11 +2,15 @@
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 
-  /* &[class^="icon"] { */
-  /* Devices with different screen densities can make small icons look arguably worse */
-  /* However, using X2 larger sprites and scaling them down plus `image-rendering: auto` fix the jagged line issue with some very slight blur :D */
-  /* image-rendering: auto;
-  } */
+  /* Smaller sprites look pretty awful without the blur :p (Besides, the blur isn't too noticeable on them  */
+  &[class*="icon16"],
+  &[class*="icon20"],
+  &[class*="icon24"],
+  &[class*="icon32"],
+  &[class*="icon40"],
+  &[class*="icon48"] {
+    image-rendering: auto;
+  }
 }
 
 .iconFilter {
