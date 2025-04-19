@@ -49,3 +49,18 @@ hr {
   background-color: var(--ui-bar-background-color);
   border-color: var(--ui-bar-border-color);
 }
+
+/* ::-webkit-scrollbar {
+  width: 20px
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px grey;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #008078;
+  border-radius: 10px
+} */

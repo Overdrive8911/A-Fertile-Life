@@ -32,7 +32,7 @@ const buildConfig: BuildConfig = {
 					// bundleScriptAndStyleExtensions,
 					// copyOtherAssets,
 			  ],
-	drop: mode === "production" ? ["console", "window"] : [],
+	drop: mode === "production" ? ["console"] : [],
 	naming: {
 		asset: "assets/[name]-[hash].[ext]",
 	},
@@ -43,6 +43,8 @@ const buildConfig: BuildConfig = {
 	// 		: undefined,
 };
 const buildResult = await build(buildConfig);
+
+const BUILD_COOLDOWN = 1000;
 
 if (mode == "development") {
 	const tryBuild = async () => {
@@ -57,13 +59,20 @@ if (mode == "development") {
 		}
 	};
 	let subscription = watcher.subscribe(Directory.APP, async (_, events) => {
+		let shouldCompile = true;
 		events.forEach(async (e) => {
-			if (
-				e.path.endsWith(".ts") ||
-				e.path.endsWith(".css") ||
-				e.path.endsWith(".scss")
-			) {
-				await tryBuild();
+			if (shouldCompile) {
+				shouldCompile = false;
+				if (
+					e.path.endsWith(".ts") ||
+					e.path.endsWith(".css") ||
+					e.path.endsWith(".scss")
+				) {
+					await tryBuild();
+				}
+				setTimeout(() => {
+					shouldCompile = true;
+				}, BUILD_COOLDOWN);
 			}
 		});
 	});
@@ -96,7 +105,7 @@ if (buildResult) {
 					// console.log("I am called " + calledTimes++ + " times");
 					setTimeout(() => {
 						shouldCompile = true;
-					}, 1000);
+					}, BUILD_COOLDOWN);
 				}
 				// // A hacky way to prevent the live server from reloading multiple times over a short period of time
 				// if (shouldReloadServer) {

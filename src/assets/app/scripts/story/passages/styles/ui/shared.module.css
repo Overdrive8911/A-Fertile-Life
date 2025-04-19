@@ -14,6 +14,8 @@
 /* NOTE: Spritesheets and other icon related css should use these variables */
 .iconBase {
   --icon-dimension: 16px;
+  /* Moved from `img.module.css` */
+  /* filter: var(--icon-border-filter) var(--icon-brightness-filter); */
 
   width: var(--icon-dimension);
   height: var(--icon-dimension);

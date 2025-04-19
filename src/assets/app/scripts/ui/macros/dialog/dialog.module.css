@@ -167,11 +167,11 @@
     color: hsl(184, 87%, 80%);
 
     /* Subtle glow effect using a slightly darker/more saturated cyan */
-    text-shadow: 0 0 var(--shadow-radius) hsla(184, 87%, 65%, 0.7);
+    text-shadow: var(--shadow-glow);
   }
 
   .img {
-    box-shadow: 0 0 var(--shadow-radius) hsla(184, 87%, 65%, 0.7);
+    box-shadow: var(--shadow-glow);
   }
 }
 

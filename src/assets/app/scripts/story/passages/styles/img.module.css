@@ -12,7 +12,3 @@
     image-rendering: auto;
   }
 }
-
-.iconFilter {
-  filter: var(--icon-border-filter) var(--icon-brightness-filter);
-}

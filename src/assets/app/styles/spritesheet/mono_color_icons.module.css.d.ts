@@ -5,6 +5,7 @@ declare const styles: {
   readonly "largeViewIcon": string;
   readonly "leftArrowIcon": string;
   readonly "personIcon": string;
+  readonly "reminderIcon": string;
   readonly "restartIcon": string;
   readonly "saveIcon": string;
   readonly "settingsIcon": string;

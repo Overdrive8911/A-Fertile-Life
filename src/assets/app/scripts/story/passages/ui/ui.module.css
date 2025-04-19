@@ -1,0 +1,414 @@
+.ui {
+  display: flex;
+  justify-content: space-around;
+  gap: 2vw;
+  width: 100vw;
+  height: 100vh;
+  --default-border: thin solid var(--ui-bar-border-color);
+
+  --default-background: rgba(0, 0, 0, 0.1);
+
+  >div {
+    /* border: thin solid black; */
+  }
+}
+
+/* SECTION - LEFT AREA. Contains the time and other settings */
+.left {
+  /* font-family: Orbitron; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 12.5%;
+}
+
+.sideViews {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex: 0.5 1 30%;
+
+    background-color: var(--ui-top-bar-left-digital-clock-bg);
+    border: thick double var(--ui-top-bar-left-digital-clock-main-colour);
+    box-sizing: border-box;
+
+    height: 4rem;
+    align-self: center;
+
+    /* To prevent the time from overflowing */
+    min-width: fit-content;
+
+    /* Adding padding at the sides makes it look better at smaller resolutions */
+    padding: 0 0.35rem;
+
+    text-align: center;
+
+    font-family: Orbitron;
+    /* font-style: normal; */
+    font-size: var(--ui-top-bar-left-digital-clock-font-size);
+
+    /* REVIEW - Make it glow like a digital clock */
+    color: var(--ui-top-bar-left-digital-clock-main-colour);
+    /* // text-shadow: var(--ui-top-bar-left-digital-clock-text-shadow-colour) 3px 2px;
+  
+    // Center the text well on mobile devices */
+    line-height: normal;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* // Target the first div containing the day, date and month */
+    &> :first-child {
+      --height: calc(var(--ui-top-bar-height) * (35 / 100));
+      font-size: var(--height);
+      line-height: var(--height);
+    }
+
+    /* // Target the second di containing the actual time */
+    &> :last-child {
+      line-height: var(--ui-top-bar-left-digital-clock-font-size);
+      text-shadow: var(--ui-top-bar-left-digital-clock-text-shadow-colour) 3px 2px;
+    }
+  }
+
+  /* This will be a grid with the buttons on the right-hand side */
+  .map {
+    aspect-ratio: 1.25/1;
+    display: grid;
+    grid-template-columns: 1fr 1.75rem;
+    grid-template-rows: 1fr 1fr;
+    overflow: hidden;
+
+    /* This is the area for the actual map */
+    >:first-child {
+      grid-column: 1/2;
+      grid-row: 1/3;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .zoomInBtn,
+    .zoomOutBtn {
+      grid-column: 2/3;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-left: var(--default-border);
+      background-color: var(--ui-bar-border-color);
+    }
+
+    .zoomInBtn {
+      grid-row: 1/2;
+      border-bottom: var(--default-border);
+      border-bottom-color: var(--ui-bar-background-color);
+    }
+
+    .zoomOutBtn {
+      grid-row: 2/3;
+    }
+  }
+
+  .reminders {
+
+    /* This is the title of the reminder area containing the name and icon */
+    >:first-child {
+      padding: 0 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+
+      font-size: 1.25rem;
+      /* text-align: center; */
+      border-bottom: var(--default-border);
+      border-width: medium;
+    }
+
+    /* THis is a wrapper containing the list of reminders */
+    >:last-child {
+      padding: 0.5rem;
+
+      /* This is the list of reminders */
+      >div {
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        overflow-y: auto;
+        max-height: 10vh;
+      }
+    }
+  }
+
+  .otherStats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    >* {
+      /* gap: 0.25rem; */
+    }
+
+    >*,
+    /* Target any icon + text wrappers */
+    >*>div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+  }
+
+}
+
+.utilityBtns {
+  min-height: 35%;
+  margin-bottom: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  >* {
+    border: var(--default-border);
+    border-radius: 1rem;
+    background-color: var(--default-background);
+    padding: 0.5rem;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    /* font-size: 1.15rem; */
+    font-size: 1.25rem;
+
+    &:hover {
+      /* box-shadow: var(--shadow-glow);
+      filter: brightness(110%); */
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .save {}
+
+  .inventory {}
+
+  .settings {}
+
+  .restart {}
+}
+
+
+/* !SECTION */
+
+/* SECTION - MIDDLE AREA. The largest area since it'll contain the main passage text */
+.middle {
+  min-width: 45vw;
+  max-width: 50vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.passageArea {
+  padding: 0 1rem;
+  margin: 0.5rem;
+  height: 72.5vh;
+  overflow-y: auto;
+}
+
+/* Giving the wrapper some padding to make it look better when a scrollbar appears on `.nav` */
+div:has(>.nav) {
+  padding: 0.5rem;
+}
+
+/* Either contains the navigation links in a passage, or contains a d-pad for moving between areas */
+.nav {
+  /* This padding is solely for the scrollbar */
+  padding-right: 0.125rem;
+
+  font-size: 1rem;
+  /* margin: 0 auto; */
+  /* height: 7rem;
+  width: 7rem; */
+  height: 17.5vh;
+  max-height: 17.5vh;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  /* padding: 0.5rem; */
+
+  overflow-y: auto;
+
+  /* There are a minimum of 9 links */
+  &:has(:nth-child(9)) {
+    font-size: 0.9rem;
+  }
+
+  /* Target the container of each link */
+  >div {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* !SECTION */
+
+/* SECTION - RIGHT AREA. Contains the Player stats and others */
+.right {
+  width: 17.5vw;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+
+  >div {
+    &:not(:first-child) {
+      border-top: var(--default-border);
+    }
+
+    /* border-right: var(--default-border);
+    border-left: var(--default-border); */
+
+    /* Each sub container will have the first div as it's description */
+    >:first-child {
+      font-size: 1.5rem;
+      text-align: center;
+      border-bottom: var(--default-border);
+      border-width: medium;
+    }
+
+    &:last-child {
+      border-bottom: var(--default-border);
+
+    }
+  }
+}
+
+.statBars {
+
+  /* Target the container div of each stat bar + icon pair */
+  >div:not(:first-child) {
+    width: 90%;
+    margin: 0.5rem auto 0;
+    display: grid;
+    grid-template-areas:
+      "icon meter";
+    align-items: center;
+
+    >* {
+      /* position: relative; */
+    }
+
+    /* Leave a small gap on the last item */
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+
+    /* Target every stat icon */
+    >div {
+      grid-area: icon;
+      justify-self: start;
+      z-index: 10;
+
+      border: 3px var(--ui-image-border-color) solid;
+      border-radius: 1rem;
+      background-color: black;
+    }
+
+    /* Target the wrapper of every stat bar */
+    >span {
+      grid-area: meter;
+      /* Stretch across the entire grid */
+      grid-column: 1/3;
+      margin-left: 5%;
+
+      /* Target the actual stat bar */
+      [class^=meterBody] {
+        border: thin var(--ui-image-border-color) solid;
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+
+        box-sizing: border-box;
+
+        position: relative;
+        left: 7.5%;
+
+        >div {
+          border-radius: inherit;
+        }
+      }
+    }
+  }
+
+
+}
+
+.statEffects {
+  >div {
+
+    /* Target the container for displaying the status effect icons */
+    &:last-child {
+      aspect-ratio: 1.5 /1;
+    }
+  }
+}
+
+.playerSprite {
+  >:last-child {
+    /* max-width: 100%; */
+    aspect-ratio: 1/1;
+    width: 100%;
+    /* height: 100%; */
+  }
+}
+
+/* !SECTION */
+
+.left,
+.right {
+  height: 95%;
+  max-height: 95%;
+  margin: auto 0;
+}
+
+div:has(>.passageArea),
+.right,
+.middle>:last-child,
+.reminders,
+.map,
+.nav>div {
+  border-radius: 1rem;
+  background-color: var(--default-background);
+  backdrop-filter: blur(4px);
+  border: var(--default-border);
+}
+
+.utilityBtns>*,
+.zoomInBtn,
+.zoomOutBtn,
+.nav>div {
+  &:hover {
+    cursor: pointer;
+    box-shadow: var(--shadow-glow);
+    filter: brightness(110%);
+  }
+}

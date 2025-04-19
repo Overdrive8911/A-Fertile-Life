@@ -16,7 +16,7 @@ import monoColorIcons from "./../../../../styles/spritesheet/mono_color_icons.mo
 // import reputationIcon from "./../../../../../media/img/ui/icons/24x24/reputation.webp";
 import colorIcons from "./../../../../styles/spritesheet/color_icons.module.css";
 
-import { iconFilter, pixelArt } from "./../styles/img.module.css";
+import { pixelArt } from "./../styles/img.module.css";
 import {
 	topBarLeft,
 	settings as topBarSettingsArea,
@@ -60,7 +60,7 @@ const passageText = [
 					{
 						class: [
 							icon24X24,
-							iconFilter,
+
 							pixelArt,
 							inventoryBtn,
 							monoColorIcons.inventoryIcon,
@@ -72,13 +72,7 @@ const passageText = [
 				div(
 					div(
 						{
-							class: [
-								icon24X24,
-								iconFilter,
-								pixelArt,
-								saveBtn,
-								monoColorIcons.saveIcon,
-							],
+							class: [icon24X24, pixelArt, saveBtn, monoColorIcons.saveIcon],
 						},
 						""
 					)
@@ -87,7 +81,7 @@ const passageText = [
 					{
 						class: [
 							icon24X24,
-							iconFilter,
+
 							pixelArt,
 							settingBtn,
 							monoColorIcons.settingsIcon,
@@ -99,7 +93,7 @@ const passageText = [
 					{
 						class: [
 							icon24X24,
-							iconFilter,
+
 							pixelArt,
 							restartBtn,
 							monoColorIcons.restartIcon,
@@ -111,7 +105,7 @@ const passageText = [
 					{
 						class: [
 							icon24X24,
-							iconFilter,
+
 							pixelArt,
 							// inventoryBtn,
 							monoColorIcons.bugReportIcon,
@@ -144,7 +138,7 @@ const passageText = [
 						{
 							class: [
 								icon24X24,
-								iconFilter,
+
 								pixelArt,
 								// inventoryBtn,
 								colorIcons.heartIcon,
@@ -159,7 +153,7 @@ const passageText = [
 							{
 								class: [
 									icon24X24,
-									iconFilter,
+
 									pixelArt,
 									// inventoryBtn,
 									colorIcons.energyIcon,
@@ -188,7 +182,7 @@ const passageText = [
 							{
 								class: [
 									icon24X24,
-									iconFilter,
+
 									pixelArt,
 									// inventoryBtn,
 									colorIcons.moodIcon,
@@ -208,7 +202,7 @@ const passageText = [
 								{
 									class: [
 										icon24X24,
-										iconFilter,
+
 										pixelArt,
 										// inventoryBtn,
 										colorIcons.hungerIcon,
@@ -229,7 +223,7 @@ const passageText = [
 							{
 								class: [
 									icon24X24,
-									iconFilter,
+
 									pixelArt,
 									// inventoryBtn,
 									colorIcons.uterusHpIcon,
@@ -247,7 +241,7 @@ const passageText = [
 								{
 									class: [
 										icon24X24,
-										iconFilter,
+
 										pixelArt,
 										// inventoryBtn,
 										colorIcons.uterusExpIcon,
@@ -269,7 +263,7 @@ const passageText = [
 					{
 						class: [
 							icon24X24,
-							iconFilter,
+
 							pixelArt,
 							// inventoryBtn,
 							colorIcons.moneyIcon,
@@ -284,7 +278,7 @@ const passageText = [
 						{
 							class: [
 								icon24X24,
-								iconFilter,
+
 								pixelArt,
 								// inventoryBtn,
 								colorIcons.reputationIcon,

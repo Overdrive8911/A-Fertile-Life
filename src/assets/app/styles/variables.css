@@ -65,4 +65,5 @@
 :root {
   --icon-border-filter: drop-shadow(1px 0px 0 var(--ui-image-border-color)) drop-shadow(0px 1px 0px var(--ui-image-border-color)) drop-shadow(-1px 0px 0px var(--ui-image-border-color)) drop-shadow(0px -1px 0px var(--ui-image-border-color));
   --icon-brightness-filter: brightness(95%);
+  --shadow-glow: 0 0 0.25rem hsla(184, 87%, 65%, 0.7);
 }

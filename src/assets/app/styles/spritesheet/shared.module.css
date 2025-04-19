@@ -1,0 +1,13 @@
+.spriteSheet5X5 {
+  composes: pixelArt from "../../scripts/story/passages/styles/img.module.css";
+  width: var(--icon-dimension);
+  height: var(--icon-dimension);
+
+  /* 5 rows and columns */
+  --row-or-col-1: calc(var(--icon-dimension) * -1);
+  --row-or-col-2: calc(var(--icon-dimension) * -2);
+  --row-or-col-3: calc(var(--icon-dimension) * -3);
+  --row-or-col-4: calc(var(--icon-dimension) * -4);
+
+  background-size: calc(var(--icon-dimension) * 5);
+}
