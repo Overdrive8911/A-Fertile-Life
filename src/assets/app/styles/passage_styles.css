@@ -31,6 +31,10 @@
   &>div[id|="passage"] {
     /* max-width: 54em; */
     width: 70%;
+    border-radius: 1rem;
+    padding: 0 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
 
     & input:not(:disabled):focus,
     input:not(:disabled):hover,
