@@ -49,8 +49,7 @@ runOnPassageEnd((e) => {
 	observer?.disconnect;
 	observer = watchDOM($passageContent[0], {}, (mutations) => {
 		mutations.forEach((mutation) => {
-			const $addedNodes = $(mutation.addedNodes);
-			processLinks($addedNodes);
+			processLinks($(mutation.addedNodes));
 		});
 	});
 }, false);
