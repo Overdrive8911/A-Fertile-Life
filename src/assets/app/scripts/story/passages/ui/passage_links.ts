@@ -33,7 +33,7 @@ runOnPassageEnd((e) => {
 				const $linkContainer = $link.parent();
 				$linkContainer.remove();
 			});
-			$link.wrap(div({ role: "button", tabIndex: "0" }, ""));
+			$link.wrap(div(""));
 
 			$link.parent().on("click keydown", (ev) => {
 				if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
