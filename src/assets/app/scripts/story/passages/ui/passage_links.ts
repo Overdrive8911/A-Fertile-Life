@@ -15,7 +15,8 @@ runOnPassageEnd((e) => {
 	function processLinks($elementToSearchForLinks: JQuery<any>) {
 		const $addedLinks = $elementToSearchForLinks.find(
 			// "a[data-passage]:not(.link-broken)"
-			"[data-name*=link]:has(a)"
+			// "[data-name*=link]:has(a)"
+			"a.link-internal"
 		);
 
 		$addedLinks.each((_, ele) => {
@@ -37,7 +38,7 @@ runOnPassageEnd((e) => {
 			$link.parent().on("click keydown", (ev) => {
 				if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
 					e.preventDefault();
-					$link.children().trigger("click");
+					$link.trigger("click");
 				}
 			});
 		});
