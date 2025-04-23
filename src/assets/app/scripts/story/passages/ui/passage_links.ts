@@ -12,35 +12,57 @@ runOnPassageEnd((e) => {
 	const $bottomLinkContainer = $(convertToClass(nav)).empty();
 	const $passageContent = $((e.detail as any).content);
 
-	function processLinks($elementToSearchForLinks: JQuery<any>) {
-		const $addedLinks = $elementToSearchForLinks.find(
-			// "a[data-passage]:not(.link-broken)"
-			// "[data-name*=link]:has(a)"
-			"a.link-internal"
-		);
+	function processLinks(
+		$elementToSearchForLinks: JQuery<any>,
+		areLinksAdded = true
+	) {
+		const linkSelector = "a.link-internal";
+		const $possibleChildLinks = $elementToSearchForLinks.find(linkSelector);
 
-		$addedLinks.each((_, ele) => {
+		// Sometimes (especially when links are removed via replacing and the likes) `$elementToSearchForLinks` is the link itself.
+		const $links =
+			$possibleChildLinks.length > 0
+				? $possibleChildLinks
+				: $elementToSearchForLinks.is(linkSelector)
+				? $elementToSearchForLinks
+				: $();
+
+		$links.each((_, ele) => {
 			const $originalLink = $(ele);
-			const $link = $originalLink.clone(true);
 
-			$link.appendTo($bottomLinkContainer).ariaClick(() => {
-				const linkOffset = $originalLink.offset()?.top ?? 0;
-				const passageContentOffset = $passageContent.offset()?.top ?? 0;
-				const distance = linkOffset - passageContentOffset;
+			if (areLinksAdded) {
+				const $link = $originalLink.clone(true);
 
-				$(convertToClass(passageArea)).animate({ scrollTop: distance }, 750);
+				$link.appendTo($bottomLinkContainer).ariaClick((e) => {
+					// Otherwise, we'd get some recursion issues >~<
+					e.stopPropagation();
+					const linkOffset = $originalLink.offset()?.top ?? 0;
+					const passageContentOffset = $passageContent.offset()?.top ?? 0;
+					const distance = linkOffset - passageContentOffset;
 
-				const $linkContainer = $link.parent();
-				$linkContainer.remove();
-			});
-			$link.wrap(div(""));
+					$(convertToClass(passageArea)).animate({ scrollTop: distance }, 750);
 
-			$link.parent().on("click keydown", (ev) => {
-				if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
-					e.preventDefault();
-					$link.trigger("click");
-				}
-			});
+					// const $linkContainer = $link.parent();
+					// $linkContainer.remove();
+				});
+				$link.wrap(div(""));
+
+				$link.parent().on("click keydown", (ev) => {
+					if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
+						e.preventDefault();
+						$link.trigger("click");
+					}
+				});
+			} else {
+				// Search for links in the bottom container with identical text and remove them.
+				$bottomLinkContainer
+					.find(linkSelector)
+					.filter(function () {
+						return $(this).html() == $originalLink.html();
+					})
+					.parent()
+					.remove();
+			}
 		});
 	}
 
@@ -49,6 +71,7 @@ runOnPassageEnd((e) => {
 	observer?.disconnect;
 	observer = watchDOM($passageContent[0], {}, (mutations) => {
 		mutations.forEach((mutation) => {
+			processLinks($(mutation.removedNodes), false);
 			processLinks($(mutation.addedNodes));
 		});
 	});
