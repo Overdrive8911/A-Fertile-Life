@@ -31,14 +31,14 @@ runOnPassageEnd((e) => {
 			const $originalLink = $(ele);
 
 			if (areLinksAdded) {
+				const linkOffset = $originalLink.offset()?.top ?? 0;
+				const passageContentOffset = $passageContent.offset()?.top ?? 0;
+				const distance = linkOffset - passageContentOffset;
 				const $link = $originalLink.clone(true);
 
 				$link.appendTo($bottomLinkContainer).ariaClick((e) => {
 					// Otherwise, we'd get some recursion issues >~<
 					e.stopPropagation();
-					const linkOffset = $originalLink.offset()?.top ?? 0;
-					const passageContentOffset = $passageContent.offset()?.top ?? 0;
-					const distance = linkOffset - passageContentOffset;
 
 					$(convertToClass(passageArea)).animate({ scrollTop: distance }, 750);
 
