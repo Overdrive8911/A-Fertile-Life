@@ -16,6 +16,7 @@ import {
 	macroButton,
 	macroIf,
 	macroLink,
+	macroLinkReplace,
 	macroPrint,
 	macroReplace,
 	macroSetOrRun,
@@ -164,7 +165,7 @@ addPassage(
 			{
 				content: "",
 				progress(progressText) {
-					return macroLink("Take the pen.", progressText);
+					return macroLinkReplace("Take the pen.", progressText);
 				},
 			},
 			{

@@ -7,7 +7,10 @@ import { div } from "../../functions/html_elements";
 import { nav, passageArea } from "./ui.module.css";
 
 let observer: MutationObserver | undefined;
-// This will move all links (connected to other passages) in the current passage into a special container for ease of use.
+
+// This will copy all links in the current passage into a special container for ease of use.
+// It will also scroll the passage to the link's position.
+// Copied links will be removed when te passage is refreshed or the original link is removed from the DOM.
 runOnPassageEnd((e) => {
 	const $bottomLinkContainer = $(convertToClass(nav)).empty();
 	const $passageContent = $((e.detail as any).content);
