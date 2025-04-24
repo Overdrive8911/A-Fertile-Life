@@ -30,38 +30,41 @@ runOnPassageEnd((e) => {
 		$links.each((_, ele) => {
 			const $originalLink = $(ele);
 
+			function getIdenticalLinkInBottomContainer() {
+				return $bottomLinkContainer.find(linkSelector).filter(function () {
+					return $(this).html() == $originalLink.html();
+				});
+			}
+
 			if (areLinksAdded) {
-				const linkOffset = $originalLink.offset()?.top ?? 0;
-				const passageContentOffset = $passageContent.offset()?.top ?? 0;
-				const distance = linkOffset - passageContentOffset;
-				const $link = $originalLink.clone(true);
+				// Prevent duplicates in cases liked timed macros
+				if (getIdenticalLinkInBottomContainer().length < 1) {
+					const linkOffset = $originalLink.offset()?.top ?? 0;
+					const passageContentOffset = $passageContent.offset()?.top ?? 0;
+					const distance = linkOffset - passageContentOffset;
+					const $link = $originalLink.clone(true);
 
-				$link.appendTo($bottomLinkContainer).ariaClick((e) => {
-					// Otherwise, we'd get some recursion issues >~<
-					e.stopPropagation();
+					$link.appendTo($bottomLinkContainer).ariaClick((e) => {
+						// Otherwise, we'd get some recursion issues >~<
+						e.stopPropagation();
 
-					$(convertToClass(passageArea)).animate({ scrollTop: distance }, 750);
+						$(convertToClass(passageArea)).animate(
+							{ scrollTop: distance },
+							750
+						);
+					});
+					$link.wrap(div(""));
 
-					// const $linkContainer = $link.parent();
-					// $linkContainer.remove();
-				});
-				$link.wrap(div(""));
-
-				$link.parent().on("click keydown", (ev) => {
-					if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
-						e.preventDefault();
-						$link.trigger("click");
-					}
-				});
+					$link.parent().on("click keydown", (ev) => {
+						if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
+							e.preventDefault();
+							$link.trigger("click");
+						}
+					});
+				}
 			} else {
 				// Search for links in the bottom container with identical text and remove them.
-				$bottomLinkContainer
-					.find(linkSelector)
-					.filter(function () {
-						return $(this).html() == $originalLink.html();
-					})
-					.parent()
-					.remove();
+				getIdenticalLinkInBottomContainer().parent().remove();
 			}
 		});
 	}
