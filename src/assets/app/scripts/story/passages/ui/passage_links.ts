@@ -68,7 +68,7 @@ runOnPassageEnd((e) => {
 
 	processLinks($passageContent);
 
-	observer?.disconnect;
+	observer?.disconnect();
 	observer = watchDOM($passageContent[0], {}, (mutations) => {
 		mutations.forEach((mutation) => {
 			processLinks($(mutation.removedNodes), false);
