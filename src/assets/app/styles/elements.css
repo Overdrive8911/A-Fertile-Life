@@ -64,3 +64,23 @@ hr {
   background: #008078;
   border-radius: 10px
 } */
+
+#ui-dialog-titlebar {
+  background-color: var(--ui-bar-border-color);
+}
+
+#ui-dialog-body {
+  background-color: var(--ui-bar-background-color);
+  border-color: var(--ui-bar-border-color);
+
+  &.saves {
+    >h2 {
+      background-color: var(--ui-bar-background-color);
+    }
+  }
+}
+
+#ui-dialog-close {
+  /* // Force the "x" button to revert back to the default text color */
+  color: unset;
+}

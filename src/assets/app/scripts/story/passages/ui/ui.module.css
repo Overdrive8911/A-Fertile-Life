@@ -228,6 +228,22 @@
   margin: 0.5rem;
   height: 72.5vh;
   overflow-y: auto;
+
+  /* &input:not(:disabled):focus,
+    input:not(:disabled):hover,
+    select:not(:disabled):focus,
+    select:not(:disabled):hover,
+    textarea:not(:disabled):focus,
+    textarea:not(:disabled):hover {
+      background-color: var(--ui-bar-background-color);
+      border-color: var(--ui-bar-border-color);
+      filter: brightness(135%);
+    } */
+  :is(input, select, textarea):not(:disabled):is(:hover, :focus) {
+    background-color: var(--ui-bar-background-color);
+    border-color: var(--ui-bar-border-color);
+    filter: brightness(135%);
+  }
 }
 
 /* Giving the wrapper some padding to make it look better when a scrollbar appears on `.nav` */
