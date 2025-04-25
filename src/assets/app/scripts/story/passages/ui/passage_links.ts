@@ -16,7 +16,7 @@ runOnPassageEnd((e) => {
 	const $passageContent = $((e.detail as any).content);
 
 	function processLinks(
-		$elementToSearchForLinks: JQuery<any>,
+		$elementToSearchForLinks: JQuery | JQuery<NodeList>,
 		areLinksAdded = true
 	) {
 		const linkSelector = "a.link-internal";
