@@ -1,4 +1,3 @@
-import { TinyColor } from "@ctrl/tinycolor";
 import { getSugarCubeVariableValue } from "../../../declarations/general_declarations";
 import { meterBody } from "./meter.module.css";
 import type { SugarcubeVariable } from "../../../declarations/types";
@@ -114,12 +113,24 @@ function getMeterColor(
 	highColor: string
 ) {
 	// Helper: Parse a color string into an RGB object with an alpha channel.
-	const parseColor = (color: string) => {
-		const tc = new TinyColor(color);
-		if (!tc.isValid) {
-			throw new Error(`Invalid color string: ${color}`);
-		}
-		return tc.toRgb(); // returns an object { r, g, b, a }
+	const parseColor = (colorName: string) => {
+		const temp = document.createElement("div");
+		temp.style.color = colorName;
+		document.body.appendChild(temp);
+
+		// Read the computed style back
+		const rgbString = getComputedStyle(temp).color as
+			| `rgb(${number}, ${number}, ${number})`
+			| `rgb(${number}, ${number}, ${number}, ${number})`;
+		document.body.removeChild(temp);
+
+		const [r, g, b, a] = rgbString.match(/\d+/g) ?? ["0", "0", "0"];
+		return {
+			r: parseInt(r),
+			g: parseInt(g),
+			b: parseInt(b),
+			a: a ? parseFloat(a) : 255,
+		};
 	};
 
 	// Linear interpolation function

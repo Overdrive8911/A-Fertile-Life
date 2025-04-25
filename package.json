@@ -28,7 +28,6 @@
 		"typescript": "^5.8.2"
 	},
 	"dependencies": {
-		"@ctrl/tinycolor": "^4.1.0",
 		"lz-string": "^1.5.0",
 		"pixi.js": "^8.8.1",
 		"yocto-queue": "^1.2.0"
