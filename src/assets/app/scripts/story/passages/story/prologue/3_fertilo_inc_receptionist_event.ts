@@ -309,6 +309,11 @@ const minPlayerHipSize = generateRandomTempVar();
 const maxPlayerHipSize = generateRandomTempVar();
 const playerFormerHipSize = generateRandomTempVar();
 const playerHipSize = stateFulVar("player", "body", "hipSize");
+
+const waistAndHipDescription1 = ("Your waist is " +
+	span({ class: statNeutral }, playerWaistSize + " inches") +
+	" while your hips ") as `Your waist is ${number} inches while your hips `;
+
 addPassage(
 	StoryPassageName.PROLOGUE_CHARACTER_CREATION,
 	[fertiloIncGroundFloorMeasurementCloset.uuid],
@@ -530,12 +535,7 @@ addPassage(
 									macroReplace(convertToClass(clearMe2)) +
 									macroReplace(
 										convertToClass(changeMe1),
-										"Your waist size is " +
-											span(
-												{ class: statNeutral },
-												playerWaistSize + " inches"
-											) +
-											" while your hips are…",
+										waistAndHipDescription1 + "are…",
 										true
 									)
 							)
@@ -574,12 +574,8 @@ addPassage(
 									macroReplace(convertToClass(clearMe3)) +
 									macroReplace(
 										convertToClass(changeMe1),
-										"Your waist is " +
-											span(
-												{ class: statNeutral },
-												playerWaistSize + " inches"
-											) +
-											" while your hips measure " +
+										waistAndHipDescription1 +
+											"measure " +
 											span({ class: statNeutral }, playerHipSize + " inches")
 									)
 							)
