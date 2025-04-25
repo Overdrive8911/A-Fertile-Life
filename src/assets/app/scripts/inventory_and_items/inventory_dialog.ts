@@ -38,8 +38,8 @@ $(window).on("resize", () => {
 
 export const openInventoryDialog = () => {
 	// For stuff like All, Food, Key Items, Drugs, etc
-	let inventoryTabs = $(div({ class: tabs }, ""));
-	let inventoryRow = $(div({ class: row }, ""));
+	let inventoryTabs = $(div({ class: tabs }));
+	let inventoryRow = $(div({ class: row }));
 
 	// SECTION - Populate inventoryTabs
 	let arrayOfTabStrings = Object.values(ItemTag).filter((value) => {

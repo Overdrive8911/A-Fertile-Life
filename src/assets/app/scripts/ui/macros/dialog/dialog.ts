@@ -240,8 +240,8 @@ function createDialog(
 
 	const characterSheetImageToUse = characterSheetImages[name];
 
-	const dialogBody = $(div({ class: dialogClasses }, ""));
-	const dialogImgAndContentContainer = $(div({ class: imgAndContent }, ""));
+	const dialogBody = $(div({ class: dialogClasses }));
+	const dialogImgAndContentContainer = $(div({ class: imgAndContent }));
 	const dialogName = $(div({ class: dialogNameClass }, displayName));
 	const dialogImg = $(
 		div(

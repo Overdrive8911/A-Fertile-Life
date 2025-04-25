@@ -54,7 +54,7 @@ addPassage(
 					// Display an envelope image. The player should click it to open it and then the letter fades in
 					return (
 						macroLink(
-							div({ class: [pixelArt, envelope] }, ""),
+							div({ class: [pixelArt, envelope] }),
 							progressText + macroAddClass(convertToClass(envelope), playAnim)
 						) +
 						br +

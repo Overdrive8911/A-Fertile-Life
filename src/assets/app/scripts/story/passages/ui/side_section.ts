@@ -45,19 +45,19 @@ const passageText = [
 				// Just remember that:
 
 				// Stores the leftmost icons (settings/saves/restart/etc)
-				div("") +
+				div() +
 					// Stores the rightmost icons (money/reputation/etc)
-					div("") +
+					div() +
 					// Stored the contents of the action interface
-					div("")
+					div()
 			) +
 			// The last 2 div elements here will consume most of the space
-			div({ class: playerImage }, "") +
+			div({ class: playerImage }) +
 			/*NOTE - This will store some elements from the top bar when the screen width is too small (i.e smartphones) */
 			/* Will only contain the stat bars */
-			div({ class: backupContainer2 }, "") +
+			div({ class: backupContainer2 }) +
 			/* The player's AI companion. Not completely sure yet tho */
-			div({ class: assistantDevice }, "")
+			div({ class: assistantDevice })
 	),
 
 	/* Contains buttons the user can interact with. Currently it contains the side toggle button and the map toggle */
@@ -103,7 +103,7 @@ const passageText = [
 				{ class: popoutMapBtnBar },
 				button(
 					{ class: btnZoomIn },
-					div({ class: [icon20X20, pixelArt, monoColorIcons.zoomInIcon] }, "")
+					div({ class: [icon20X20, pixelArt, monoColorIcons.zoomInIcon] })
 				) +
 					button(
 						{ class: btnZoomOut },

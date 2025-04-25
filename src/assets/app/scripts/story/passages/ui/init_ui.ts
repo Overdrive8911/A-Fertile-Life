@@ -69,7 +69,7 @@ const storyUI = div(
 					{ class: reminders },
 					div(
 						"REMINDERS" +
-							div({ class: [icon24X24, monoColorIcons.reminderIcon] }, "")
+							div({ class: [icon24X24, monoColorIcons.reminderIcon] })
 					) +
 						div(
 							// Wrapper div to make the scrollbar look less clunky.
@@ -81,11 +81,11 @@ const storyUI = div(
 					div("MAP CANVAS HERE. TAP TO OPEN A MAGNIFIED VIEW.") +
 						div(
 							{ class: zoomInBtn },
-							div({ class: [icon24X24, monoColorIcons.zoomInIcon] }, "")
+							div({ class: [icon24X24, monoColorIcons.zoomInIcon] })
 						) +
 						div(
 							{ class: zoomOutBtn },
-							div({ class: [icon24X24, monoColorIcons.zoomOutIcon] }, "")
+							div({ class: [icon24X24, monoColorIcons.zoomOutIcon] })
 						)
 				) +
 				div(
@@ -169,8 +169,8 @@ const storyUI = div(
 			{ class: middle },
 			div(
 				// This div here is just a wrapper solely because having a scrollbar looks blegh otherwise
-				div({ class: passageArea }, "")
-			) + div(div({ class: nav }, ""))
+				div({ class: passageArea })
+			) + div(div({ class: nav }))
 		) +
 		div(
 			{ class: right },
@@ -280,13 +280,13 @@ const storyUI = div(
 					div("STATUS EFFECTS") +
 						// This div will the container of the icons representing whatever ailments / buffs / status effects the player is suffering / benefiting from.
 						// It will be able to show, at most, 16 ~ 36 icons at a time
-						div("")
+						div()
 				) +
 				div(
 					{ class: playerSprite },
 					div("YOU") +
 						// This div will host the player's sprite
-						div("")
+						div()
 				)
 		)
 );

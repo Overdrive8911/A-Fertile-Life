@@ -1153,6 +1153,6 @@ addPassage(
 			StoryPassageName.PROLOGUE_MEET_MARIA // Target passage
 		) +
 		/* An empty div to add words from the links above */
-		div({ class: changeMe }, "")
+		div({ class: changeMe })
 	/* After this, in the next passage, Mr. Fert gives the PC living accommodations after explaining their new job and they meet Maria */
 );

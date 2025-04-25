@@ -13,16 +13,16 @@ function createElement(
 	elementTag: string,
 	data: GenericHtmlElementAttributes
 ): SelfClosingElementWithAttributes;
-function createElement(elementTag: string, content: string): ContainerElement;
+function createElement(elementTag: string, content?: string): ContainerElement;
 function createElement(
 	elementTag: string,
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 function createElement(
 	elementTag: string,
-	dataOrMaybeContent?: GenericHtmlElementAttributes | string,
-	actualContent?: string
+	dataOrMaybeContent: GenericHtmlElementAttributes | string = "",
+	actualContent = ""
 ) {
 	const attributes =
 		typeof dataOrMaybeContent == "object"
@@ -37,7 +37,7 @@ function createElement(
 		| SelfClosingElement
 		| SelfClosingElementWithAttributes = `<${elementTag} ${attributes} />`;
 	const htmlContentStr = (
-		content: string
+		content?: string
 	): ContainerElement | ContainerElementWithAttributes =>
 		`<${elementTag} ${attributes}> ${content} </${elementTag}>`;
 
@@ -50,31 +50,31 @@ function createElement(
 		: htmlNoContentStr;
 }
 
-export function div(content: string): ContainerElement;
+export function div(content?: string): ContainerElement;
 export function div(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function div(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("div", dataOrContent, content as string)
+		? createElement("div", dataOrContent, content)
 		: createElement("div", dataOrContent);
 }
 
-export function span(content: string): ContainerElement;
+export function span(content?: string): ContainerElement;
 export function span(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function span(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("span", dataOrContent, content as string)
+		? createElement("span", dataOrContent, content)
 		: createElement("span", dataOrContent);
 }
 
@@ -110,73 +110,73 @@ export function list(
 	}
 }
 
-export function p(content: string): ContainerElement;
+export function p(content?: string): ContainerElement;
 export function p(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function p(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("p", dataOrContent, content as string)
+		? createElement("p", dataOrContent, content)
 		: createElement("p", dataOrContent);
 }
 
-export function em(content: string): ContainerElement;
+export function em(content?: string): ContainerElement;
 export function em(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function em(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("em", dataOrContent, content as string)
+		? createElement("em", dataOrContent, content)
 		: createElement("em", dataOrContent);
 }
 
-export function strong(content: string): ContainerElement;
+export function strong(content?: string): ContainerElement;
 export function strong(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function strong(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("strong", dataOrContent, content as string)
+		? createElement("strong", dataOrContent, content)
 		: createElement("strong", dataOrContent);
 }
 
-export function underline(content: string): ContainerElement;
+export function underline(content?: string): ContainerElement;
 export function underline(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function underline(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("underline", dataOrContent, content as string)
+		? createElement("underline", dataOrContent, content)
 		: createElement("underline", dataOrContent);
 }
 
-export function button(content: string): ContainerElement;
+export function button(content?: string): ContainerElement;
 export function button(
 	data: GenericHtmlElementAttributes,
-	content: string
+	content?: string
 ): ContainerElementWithAttributes;
 export function button(
-	dataOrContent: GenericHtmlElementAttributes | string,
+	dataOrContent?: GenericHtmlElementAttributes | string,
 	content?: string
 ) {
 	return typeof dataOrContent == "object"
-		? createElement("button", dataOrContent, content as string)
+		? createElement("button", dataOrContent, content)
 		: createElement("button", dataOrContent);
 }
 
