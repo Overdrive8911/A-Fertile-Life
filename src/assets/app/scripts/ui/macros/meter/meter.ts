@@ -124,7 +124,7 @@ function getMeterColor(
 			| `rgb(${number}, ${number}, ${number}, ${number})`;
 		document.body.removeChild(temp);
 
-		const [r, g, b, a] = rgbString.match(/\d+/g) ?? ["0", "0", "0"];
+		const [r, g, b, a] = rgbString.match(/\d+(\.\d+)?/g) ?? ["0", "0", "0"];
 		return {
 			r: parseInt(r),
 			g: parseInt(g),
