@@ -7,6 +7,10 @@ import { div } from "../../functions/html_elements";
 import { nav, passageArea } from "./ui.module.css";
 
 let observer: MutationObserver | undefined;
+/**
+ * This will connect all the links and their copies
+ */
+const linkMap = new WeakMap<HTMLElement | NodeList, HTMLElement | NodeList>();
 
 // This will copy all links in the current passage into a special container for ease of use.
 // Copied links, when clicked, also scroll the passage to the original link's position unless they are connected to other passages.
@@ -30,22 +34,22 @@ runOnPassageEnd((e) => {
 				? $elementToSearchForLinks
 				: $();
 
-		$links.each((_, ele) => {
-			const $originalLink = $(ele);
+		$links.each((_, originalLink) => {
+			const $originalLink = $(originalLink);
 
 			function getIdenticalLinkInBottomContainer() {
-				return $bottomLinkContainer.find(linkSelector).filter(function () {
-					return $(this).html() == $originalLink.html();
-				});
+				return linkMap.get(originalLink);
 			}
 
 			if (areLinksAdded) {
-				// Prevent duplicates in cases liked timed macros
-				if (getIdenticalLinkInBottomContainer().length < 1) {
+				// Prevent duplicates in cases like timed macros
+				if (!getIdenticalLinkInBottomContainer()) {
 					const linkOffset = $originalLink.offset()?.top ?? 0;
 					const passageContentOffset = $passageContent.offset()?.top ?? 0;
 					const distance = linkOffset - passageContentOffset;
 					const $link = $originalLink.clone(true);
+
+					linkMap.set(originalLink, $link[0]);
 
 					$link.appendTo($bottomLinkContainer).ariaClick((e) => {
 						// Otherwise, we'd get some recursion issues >~<
@@ -70,8 +74,10 @@ runOnPassageEnd((e) => {
 					});
 				}
 			} else {
-				// Search for links in the bottom container with identical text and remove them.
-				getIdenticalLinkInBottomContainer().parent().remove();
+				$(getIdenticalLinkInBottomContainer() ?? {})
+					.parent()
+					.remove();
+				linkMap.delete(originalLink);
 			}
 		});
 	}
