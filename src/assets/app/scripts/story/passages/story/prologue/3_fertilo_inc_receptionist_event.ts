@@ -323,14 +323,14 @@ addPassage(
 					) +
 					span(
 						{ class: clearMe },
-						macroNumberInput(playerWeight, playerWeight, 50, 80)
-					) +
-					" kg" +
-					macroButton(
-						"Done",
-						progressText +
-							/* This will remove the numberinput and button that the player inputted their height in */
-							macroReplace(convertToClass(clearMe))
+						macroNumberInput(playerWeight, playerWeight, 50, 80) +
+							" kg" +
+							macroButton(
+								"Done",
+								progressText +
+									/* This will remove the numberinput and button that the player inputted their height in */
+									macroReplace(convertToClass(clearMe))
+							)
 					)
 				);
 			},
@@ -388,15 +388,16 @@ addPassage(
 							" cm" +
 							macroButton(
 								"Done",
-								progressText + macroReplace(convertToClass(clearMe1))
-							) +
-							/* This will remove the numberinput and button that the player inputted their height in */
-							/* Replace "Your height is…" in and show the player's actual height */
-							macroReplace(
-								convertToClass(changeMe),
-								"Your height is " +
-									span({ class: statNeutral }, playerHeight + "cm"),
-								true
+								progressText +
+									macroReplace(convertToClass(clearMe1)) +
+									/* This will remove the numberinput and button that the player inputted their height in */
+									/* Replace "Your height is…" in and show the player's actual height */
+									macroReplace(
+										convertToClass(changeMe),
+										"Your height is " +
+											span({ class: statNeutral }, playerHeight + " cm."),
+										true
+									)
 							)
 					)
 				);
@@ -526,18 +527,16 @@ addPassage(
 								"Done",
 								progressText +
 									/* This will remove the numberslider and button that the player inputted their waist size in */
+									macroReplace(convertToClass(clearMe2)) +
 									macroReplace(
-										convertToClass(clearMe2) +
-											macroReplace(
-												convertToClass(clearMe1),
-												"Your waist size is " +
-													span(
-														{ class: statNeutral },
-														playerWaistSize + " inches"
-													) +
-													" while your hips are…",
-												true
-											)
+										convertToClass(changeMe1),
+										"Your waist size is " +
+											span(
+												{ class: statNeutral },
+												playerWaistSize + " inches"
+											) +
+											" while your hips are…",
+										true
 									)
 							)
 					)
