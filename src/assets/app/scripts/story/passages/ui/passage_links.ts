@@ -6,7 +6,8 @@ import {
 import { div } from "../../functions/html_elements";
 import { nav, passageArea } from "./ui.module.css";
 
-let observer: MutationObserver | undefined;
+let passageObserver: MutationObserver | undefined;
+let linkContainerObserver: MutationObserver | undefined;
 /**
  * This will connect all the links and their copies
  */
@@ -18,12 +19,12 @@ const linkMap = new WeakMap<HTMLElement | NodeList, HTMLElement | NodeList>();
 runOnPassageEnd((e) => {
 	const $bottomLinkContainer = $(convertToClass(nav)).empty();
 	const $passageContent = $((e.detail as any).content);
+	const linkSelector = "a.link-internal";
 
 	function processLinks(
 		$elementToSearchForLinks: JQuery | JQuery<NodeList>,
 		areLinksAdded = true
 	) {
-		const linkSelector = "a.link-internal";
 		const $possibleChildLinks = $elementToSearchForLinks.find(linkSelector);
 
 		// Sometimes (especially when links are removed via replacing and the likes) `$elementToSearchForLinks` is the link itself.
@@ -34,7 +35,7 @@ runOnPassageEnd((e) => {
 				? $elementToSearchForLinks
 				: $();
 
-		$links.each((_, originalLink) => {
+		$links.each((index, originalLink) => {
 			const $originalLink = $(originalLink);
 
 			function getIdenticalLinkInBottomContainer() {
@@ -79,16 +80,41 @@ runOnPassageEnd((e) => {
 					.remove();
 				linkMap.delete(originalLink);
 			}
+
+			// Add numbers to all the links initially
+			$(getIdenticalLinkInBottomContainer() ?? {}).html(
+				`${index + 1}. ${$originalLink.html()}`
+			);
 		});
 	}
 
 	processLinks($passageContent);
 
-	observer?.disconnect();
-	observer = watchDOM($passageContent[0], {}, (mutations) => {
+	passageObserver?.disconnect();
+	passageObserver = watchDOM($passageContent[0], {}, (mutations) => {
 		mutations.forEach((mutation) => {
 			processLinks($(mutation.removedNodes), false);
 			processLinks($(mutation.addedNodes));
 		});
 	});
+
+	linkContainerObserver?.disconnect();
+	linkContainerObserver = watchDOM(
+		$bottomLinkContainer[0],
+		{ subtree: false },
+		(_) => {
+			const $links = $bottomLinkContainer.find(linkSelector);
+			// Loop through all the links and give / edit their listing numbers
+			$links.each((index, link) => {
+				const $link = $(link);
+
+				// "1. Your voice is a bit odd." gives "Your voice is a bit odd."
+				const linkText = $link.html();
+				const textToRemove = linkText.match(/^\d+\.\s*/)?.[0] ?? "";
+				const parsedLinkText = linkText.replace(textToRemove, "");
+
+				$link.html(`${index + 1}. ${parsedLinkText}`);
+			});
+		}
+	);
 }, false);
