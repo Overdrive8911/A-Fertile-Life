@@ -397,7 +397,7 @@ div:has(>.nav) {
   }
 }
 
-/* !SECTION */
+/* !SECTION - Shared Styles*/
 
 .left,
 .right {
@@ -428,3 +428,5 @@ div:has(>.passageArea),
     filter: brightness(110%);
   }
 }
+
+/* !SECTION */
