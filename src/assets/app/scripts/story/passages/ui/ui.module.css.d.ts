@@ -3,7 +3,9 @@ declare const styles: {
   readonly "left": string;
   readonly "map": string;
   readonly "middle": string;
+  readonly "mobile": string;
   readonly "nav": string;
+  readonly "open": string;
   readonly "otherStats": string;
   readonly "passageArea": string;
   readonly "playerSprite": string;

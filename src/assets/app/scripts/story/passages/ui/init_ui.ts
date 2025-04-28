@@ -35,6 +35,7 @@ import {
 	reminders,
 	zoomInBtn,
 	zoomOutBtn,
+	mobile,
 } from "./ui.module.css";
 import { Default } from "../../../declarations/enums";
 import { MeterDefault } from "../../../ui/macros/meter/meter";
@@ -53,118 +54,121 @@ import { MeterDefault } from "../../../ui/macros/meter/meter";
 //     <div id="passages"></div>
 
 const statBarWidth = "90%";
+const timeContainer = div(
+	{ class: time },
+	div(liveVar(gameDateAndTimeVar("dateText"))) +
+		div(liveVar(gameDateAndTimeVar("timeText")))
+);
+const utilityBtnElements =
+	div(
+		{ class: save },
+		div(
+			{
+				class: [icon24X24, monoColorIcons.saveIcon],
+			},
+			""
+		) + "Save"
+	) +
+	div(
+		{ class: inventory },
+		div(
+			{
+				class: [icon24X24, monoColorIcons.inventoryIcon],
+			},
+			""
+		) + "Inventory"
+	) +
+	div(
+		{ class: settings },
+		div(
+			{
+				class: [icon24X24, monoColorIcons.settingsIcon],
+			},
+			""
+		) + "Settings"
+	) +
+	div(
+		{ class: restart },
+		div(
+			{
+				class: [icon24X24, monoColorIcons.restartIcon],
+			},
+			""
+		) + "Restart"
+	);
+const reminderContainer = div(
+	{ class: reminders },
+	div("REMINDERS" + div({ class: [icon24X24, monoColorIcons.reminderIcon] })) +
+		div(
+			// Wrapper div to make the scrollbar look less clunky.
+			div("**Display a list of recent reminders here**")
+		)
+);
+const mapContainer = div(
+	{ class: map },
+	div("MAP CANVAS HERE. TAP TO OPEN A MAGNIFIED VIEW.") +
+		div(
+			{ class: zoomInBtn },
+			div({ class: [icon24X24, monoColorIcons.zoomInIcon] })
+		) +
+		div(
+			{ class: zoomOutBtn },
+			div({ class: [icon24X24, monoColorIcons.zoomOutIcon] })
+		)
+);
+
 // We'll have a grid with 3 columns
 const storyUI = div(
 	{ class: ui },
 	div(
-		{ class: left },
-		div(
-			{ class: sideViews },
-			div(
-				{ class: time },
-				div(liveVar(gameDateAndTimeVar("dateText"))) +
-					div(liveVar(gameDateAndTimeVar("timeText")))
-			) +
-				div(
-					{ class: reminders },
-					div(
-						"REMINDERS" +
-							div({ class: [icon24X24, monoColorIcons.reminderIcon] })
-					) +
-						div(
-							// Wrapper div to make the scrollbar look less clunky.
-							div("**Display a list of recent reminders here**")
-						)
-				) +
-				div(
-					{ class: map },
-					div("MAP CANVAS HERE. TAP TO OPEN A MAGNIFIED VIEW.") +
-						div(
-							{ class: zoomInBtn },
-							div({ class: [icon24X24, monoColorIcons.zoomInIcon] })
-						) +
-						div(
-							{ class: zoomOutBtn },
-							div({ class: [icon24X24, monoColorIcons.zoomOutIcon] })
-						)
-				) +
-				div(
-					{ class: otherStats },
-					div(
-						// { class: otherStatsChild },
-						div(
-							"Money" +
-								div(
-									{
-										class: [
-											icon24X24,
-
-											// inventoryBtn,
-											colorIcons.moneyIcon,
-										],
-									},
-									""
-								)
-						) + ": 2300"
-					) +
-						div(
-							""
-							// { class: otherStatsChild },
-							// div(
-							// 	{
-							// 		class: [
-							// 			icon24X24,
-
-							//
-							// 			// inventoryBtn,
-							// 			colorIcons.reputationIcon,
-							// 		],
-							// 	},
-							// 	""
-							// ) + ": 20%"
-						)
-				)
-		) +
-			div(
-				{ class: utilityBtns },
-				div(
-					{ class: save },
-					div(
-						{
-							class: [icon24X24, monoColorIcons.saveIcon],
-						},
-						""
-					) + "Save"
-				) +
-					div(
-						{ class: inventory },
-						div(
-							{
-								class: [icon24X24, monoColorIcons.inventoryIcon],
-							},
-							""
-						) + "Inventory"
-					) +
-					div(
-						{ class: settings },
-						div(
-							{
-								class: [icon24X24, monoColorIcons.settingsIcon],
-							},
-							""
-						) + "Settings"
-					) +
-					div(
-						{ class: restart },
-						div(
-							{
-								class: [icon24X24, monoColorIcons.restartIcon],
-							},
-							""
-						) + "Restart"
-					)
-			)
+		{ class: mobile },
+		div(timeContainer + utilityBtnElements + reminderContainer + mapContainer)
 	) +
+		div(
+			{ class: left },
+			div(
+				{ class: sideViews },
+				timeContainer +
+					reminderContainer +
+					mapContainer +
+					div(
+						{ class: otherStats },
+						div(
+							// { class: otherStatsChild },
+							div(
+								"Money" +
+									div(
+										{
+											class: [
+												icon24X24,
+
+												// inventoryBtn,
+												colorIcons.moneyIcon,
+											],
+										},
+										""
+									)
+							) + ": 2300"
+						) +
+							div(
+								""
+								// { class: otherStatsChild },
+								// div(
+								// 	{
+								// 		class: [
+								// 			icon24X24,
+
+								//
+								// 			// inventoryBtn,
+								// 			colorIcons.reputationIcon,
+								// 		],
+								// 	},
+								// 	""
+								// ) + ": 20%"
+							)
+					)
+			) + div({ class: utilityBtns }, utilityBtnElements)
+		) +
 		div(
 			{ class: middle },
 			div(

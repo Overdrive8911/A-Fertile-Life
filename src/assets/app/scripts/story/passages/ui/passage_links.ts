@@ -20,6 +20,11 @@ runOnPassageEnd((e) => {
 	const $bottomLinkContainer = $(convertToClass(nav)).empty();
 	const $passageContent = $((e.detail as any).content);
 	const linkSelector = "a.link-internal";
+	/**
+	 * Matches "1. " in "1. Test Button"
+	 */
+	const listNumberRegex = /^\d+\.\s*/;
+	const CLICK_EVENT = "click";
 
 	function processLinks(
 		$elementToSearchForLinks: JQuery | JQuery<NodeList>,
@@ -64,13 +69,31 @@ runOnPassageEnd((e) => {
 							// Snap back to the top so the player doesn't miss anything on the new passage :D
 							$passageArea.scrollTop(0);
 						}
+
+						// NOTE: In some cases, the link has no events (perhaps due to a passage reload?), checking it through the internal api and manually finding the original link should work.
+						if (!($ as any)._data(originalLink, "events")) {
+							const $realLink = $(convertToClass(passageArea))
+								.find(linkSelector)
+								.filter((_, possibleRealLink) => {
+									const linkText = $link.html();
+									return (
+										$(possibleRealLink).html() ==
+										linkText.replace(
+											linkText.match(listNumberRegex)?.[0] ?? "",
+											""
+										)
+									);
+								});
+
+							$realLink.trigger(CLICK_EVENT);
+						}
 					});
 					$link.wrap(div());
 
-					$link.parent().on("click keydown", (ev) => {
-						if (ev.type == "click" || ev.key == "Enter" || ev.key == " ") {
+					$link.parent().on(`${CLICK_EVENT} keydown`, (ev) => {
+						if (ev.type == CLICK_EVENT || ev.key == "Enter" || ev.key == " ") {
 							e.preventDefault();
-							$link.trigger("click");
+							$link.trigger(CLICK_EVENT);
 						}
 					});
 				}
@@ -110,7 +133,7 @@ runOnPassageEnd((e) => {
 
 				// "1. Your voice is a bit odd." gives "Your voice is a bit odd."
 				const linkText = $link.html();
-				const textToRemove = linkText.match(/^\d+\.\s*/)?.[0] ?? "";
+				const textToRemove = linkText.match(listNumberRegex)?.[0] ?? "";
 				const parsedLinkText = linkText.replace(textToRemove, "");
 
 				$link.html(`${index + 1}. ${parsedLinkText}`);
