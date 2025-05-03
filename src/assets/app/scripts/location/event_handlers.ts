@@ -3,17 +3,17 @@ import { gPlayerMapSpriteSrc } from "./other_data";
 import { isNavigationButtonUsable, warpToConnectedArea } from "./navigation";
 import { Direction } from "./enums";
 import {
-  activeArea,
-  convertToClass,
-  isAnyStoryFlagSet,
-  StoryFlags,
+	activeArea,
+	convertToClass,
+	isAnyStoryFlagSet,
+	StoryFlags,
 } from "../declarations/general_declarations";
 import { GlobalMap, SubLocation, type Location } from "./classes";
 import {
-  eastBtn,
-  northBtn,
-  southBtn,
-  westBtn,
+	eastBtn,
+	northBtn,
+	southBtn,
+	westBtn,
 } from "../story/passages/styles/ui/bottom_section.module.css";
 import { unusable } from "./nav_button.module.css";
 import { currArea } from "../story/passages/styles/ui/top_section.module.css";
@@ -22,16 +22,16 @@ import { icon24X24 } from "../story/passages/styles/ui/shared.module.css";
 
 // Pass in an Event
 function validateKeyEvent(e: unknown) {
-  const { target } = e as Event;
-  // Don't trigger in textboxes and similar elements
-  if (
-    target instanceof HTMLElement &&
-    (["INPUT", "TEXTAREA"].includes(target.nodeName) ||
-      target.isContentEditable)
-  )
-    return false;
+	const { target } = e as Event;
+	// Don't trigger in textboxes and similar elements
+	if (
+		target instanceof HTMLElement &&
+		(["INPUT", "TEXTAREA"].includes(target.nodeName) ||
+			target.isContentEditable)
+	)
+		return false;
 
-  return true;
+	return true;
 }
 
 // SECTION - For everything belonging to the map
@@ -131,276 +131,247 @@ function validateKeyEvent(e: unknown) {
 
 // SECTION - For everything relating to the location/subLocation display that resides right below the top bar
 $(document).on(":passageend", () => {
-  // Update the name of the location/sub location shown. An attribute "is-location-name" will store whether what is displayed is "true" or "false"
-  const element = $(convertToClass(currArea));
-  const attrName = "is-location-name";
+	// Update the name of the location/sub location shown. An attribute "is-location-name" will store whether what is displayed is "true" or "false"
+	const element = $(convertToClass(currArea));
+	const attrName = "is-location-name";
 
-  const area = activeArea();
+	const area = activeArea();
 
-  const setAreaName = () => {
-    if (area instanceof SubLocation) {
-      let imgUrl = area.iconUrl;
+	const setAreaName = () => {
+		if (area instanceof SubLocation) {
+			let imgUrl = area.iconUrl;
 
-      element.text(area.name).append(
-        // Use the icon as a mask over a color that will be set by css
-        div(
-          {
-            class: icon24X24,
-            style: `mask: url('${imgUrl}') center/contain;`,
-          },
-          ""
-        )
-      );
-    }
-    element.attr(attrName, "false");
-  };
-  const setParentName = () => {
-    element.text(!(area instanceof GlobalMap) ? area.parent.name : ":3");
-    element.attr(attrName, "true");
-  };
-  setAreaName();
+			element.text(area.name).append(
+				// Use the icon as a mask over a color that will be set by css
+				div(
+					{
+						class: icon24X24,
+						style: `mask: url('${imgUrl}') center/contain;`,
+					},
+					""
+				)
+			);
+		}
+		element.attr(attrName, "false");
+	};
+	const setParentName = () => {
+		element.text(!(area instanceof GlobalMap) ? area.parent.name : ":3");
+		element.attr(attrName, "true");
+	};
+	setAreaName();
 
-  // Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
-  element.ariaClick(() => {
-    const elementAttrValue = element.attr(attrName);
-    if (elementAttrValue) {
-      // The location's name is currently displayed so try to display the sub location (if any)
-      setAreaName();
-    } else if (!elementAttrValue) {
-      // The sub location's name is currently displayed so display it's location
-      setParentName();
-    }
-  });
+	// Add a handler to the element so that when clicked, it will alternate between the location's name and sub location's name
+	element.ariaClick(() => {
+		const elementAttrValue = element.attr(attrName);
+		if (elementAttrValue) {
+			// The location's name is currently displayed so try to display the sub location (if any)
+			setAreaName();
+		} else if (!elementAttrValue) {
+			// The sub location's name is currently displayed so display it's location
+			setParentName();
+		}
+	});
 });
 // !SECTION
 
 // SECTION - For everything relating to the navigational buttons and the text displayed at the bottom of any "default" tagged passage
 $(document).on(":passageend", () => {
-  const northButton = $(convertToClass(northBtn));
-  const eastButton = $(convertToClass(eastBtn));
-  const southButton = $(convertToClass(southBtn));
-  const westButton = $(convertToClass(westBtn));
+	// The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
+	const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH);
+	const isEastNavigable = isNavigationButtonUsable(Direction.EAST);
+	const isSouthNavigable = isNavigationButtonUsable(Direction.SOUTH);
+	const isWestNavigable = isNavigationButtonUsable(Direction.WEST);
+	const isUpNavigable = isNavigationButtonUsable(Direction.UP);
+	const isDownNavigable = isNavigationButtonUsable(Direction.DOWN);
 
-  // The copies of `lastWarpDestination` will be used for the bottom text displayed at the bottom of every "default" tagged passage
-  const isNorthNavigable = isNavigationButtonUsable(Direction.NORTH);
-  const isEastNavigable = isNavigationButtonUsable(Direction.EAST);
-  const isSouthNavigable = isNavigationButtonUsable(Direction.SOUTH);
-  const isWestNavigable = isNavigationButtonUsable(Direction.WEST);
-  console.warn("CHECKED ALL NAVIGATION BUTTONS FOR THEIR USABILITY.");
+	const navigate = (direction: Direction) => {
+		warpToConnectedArea(direction);
+	};
 
-  const navigate = (direction: Direction) => {
-    warpToConnectedArea(direction);
-  };
+	const navBtnKeyUpEventName = "keyup.navigation_buttons";
+	// Key Events
+	$(document)
+		.off(navBtnKeyUpEventName) // To prevent multiple handlers from getting attached
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "w" && isNorthNavigable) navigate(Direction.NORTH);
+		})
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "d" && isEastNavigable) navigate(Direction.EAST);
+		})
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "s" && isSouthNavigable) navigate(Direction.SOUTH);
+		})
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "a" && isWestNavigable) navigate(Direction.WEST);
+		})
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "q" && isUpNavigable) navigate(Direction.UP);
+		})
+		.on(navBtnKeyUpEventName, (e) => {
+			if (!validateKeyEvent(e)) return false;
+			if (e.key == "e" && isDownNavigable) navigate(Direction.DOWN);
+		});
 
-  // Click Events
-  northButton.ariaClick(() => {
-    navigate(Direction.NORTH);
-  });
-  eastButton.ariaClick(() => {
-    navigate(Direction.EAST);
-  });
-  southButton.ariaClick(() => {
-    navigate(Direction.SOUTH);
-  });
-  westButton.ariaClick(() => {
-    navigate(Direction.WEST);
-  });
+	// SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
+	// Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
+	if (!isAnyStoryFlagSet(StoryFlags.IS_SCENE_ACTIVE)) {
+		const currArea = activeArea();
+		const a = currArea.siblings?.get(currArea as any);
+		const currAreaDirections = a; //as Exclude<typeof a, undefined>
 
-  const navBtnKeyUpEventName = "keyup.navigation_buttons";
-  // Key Events
-  $(document)
-    .off(navBtnKeyUpEventName) // To prevent multiple handlers from getting attached
-    .on(navBtnKeyUpEventName, (e) => {
-      if (!validateKeyEvent(e)) return false;
-      if (e.key == "w" && isNorthNavigable) navigate(Direction.NORTH);
-    })
-    .on(navBtnKeyUpEventName, (e) => {
-      if (!validateKeyEvent(e)) return false;
-      if (e.key == "d" && isEastNavigable) navigate(Direction.EAST);
-    })
-    .on(navBtnKeyUpEventName, (e) => {
-      if (!validateKeyEvent(e)) return false;
-      if (e.key == "s" && isSouthNavigable) navigate(Direction.SOUTH);
-    })
-    .on(navBtnKeyUpEventName, (e) => {
-      if (!validateKeyEvent(e)) return false;
-      if (e.key == "a" && isWestNavigable) navigate(Direction.WEST);
-    });
+		const directionPool = [...(currAreaDirections?.keys() ?? [])];
+		const getRandomDirectionData = () => {
+			const dir = directionPool.pluck() ?? Direction.NORTH;
 
-  const navButtonUsabilityActions = (
-    canMoveInDirection: boolean,
-    button: JQuery<HTMLElement>
-  ) => {
-    if (!canMoveInDirection) {
-      button.prop("disabled", true);
-      button.addClass(unusable);
-    } else {
-      button.prop("disabled", false);
-      button.removeClass(unusable);
-    }
-  };
+			return { dir: dir, name: currAreaDirections?.get(dir)?.area.name ?? "" };
+		};
 
-  // if `isNavigationButtonUsable()` is true for a direction, disable the respective button and dim the colors
-  navButtonUsabilityActions(isNorthNavigable, northButton);
-  navButtonUsabilityActions(isEastNavigable, eastButton);
-  navButtonUsabilityActions(isSouthNavigable, southButton);
-  navButtonUsabilityActions(isWestNavigable, westButton);
+		const dirData1 = getRandomDirectionData();
+		const dirData2 = getRandomDirectionData();
+		const dirData3 = getRandomDirectionData();
+		const dirData4 = getRandomDirectionData();
+		const dirData5 = getRandomDirectionData();
+		const dirData6 = getRandomDirectionData();
 
-  // SECTION - Code to handle displaying helpful text at the bottom of an eligible passage
-  // Display a text, with a horizontal line above to section it away, at the bottom of every passage with a default tag that will tell the player what places the directions accessible lead to. The places in question will be highlighted. Note that the text should be randomly chosen from an array. E.g From {CURR_LOCATION}, you can head {east} to {EAST_LOCATION} or perhaps {south} to {SOUTH_LOCATION}. You're pretty sure that {WEST_LOCATION} is in the {west} and {NORTH_LOCATION} is in the {north}
-  if (!isAnyStoryFlagSet(StoryFlags.IS_SCENE_ACTIVE)) {
-    const currArea = activeArea();
-    const a = currArea.siblings?.get(currArea as any);
-    const currAreaDirections = a; //as Exclude<typeof a, undefined>
+		// Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
+		let CURR_AREA = currArea.name;
+		const AREA_DATA = {
+			1: {
+				direction: dirData1.dir,
+				name: dirData1.name,
+			},
+			2: {
+				direction: dirData2.dir,
+				name: dirData2.name,
+			},
+			3: {
+				direction: dirData3.dir,
+				name: dirData3.name,
+			},
+			4: {
+				direction: dirData4.dir,
+				name: dirData4.name,
+			},
 
-    const directionPool = [...(currAreaDirections?.keys() ?? [])];
-    const getRandomDirectionData = () => {
-      const dir = directionPool.pluck() ?? Direction.NORTH;
+			// TODO: Implement these later.
+			5: {
+				direction: dirData5.dir,
+				name: dirData5.name,
+			},
+			6: {
+				direction: dirData6.dir,
+				name: dirData6.name,
+			},
+		} as const;
 
-      return { dir: dir, name: currAreaDirections?.get(dir)?.area.name ?? "" };
-    };
+		const greenColorClass = "otherSpeech";
+		const orangeColorClass = "playerStatNeutral";
+		const returnGreenText = (text: string) => {
+			return `<span class=${greenColorClass}>${text}</span>`;
+		};
+		const returnOrangeText = (text: string) => {
+			return `<span class=${orangeColorClass}>${text}</span>`;
+		};
 
-    const dirData1 = getRandomDirectionData();
-    const dirData2 = getRandomDirectionData();
-    const dirData3 = getRandomDirectionData();
-    const dirData4 = getRandomDirectionData();
-    const dirData5 = getRandomDirectionData();
-    const dirData6 = getRandomDirectionData();
-
-    // Below is an array containing multiple sub arrays. Each sub array is split into 5 parts, to deal with a 4 possible location/sub location as well as the current location/sub location. One of sub arrays will be selected at random and appended to the end of the current passage ()
-    let CURR_AREA = currArea.name;
-    const AREA_DATA = {
-      1: {
-        direction: dirData1.dir,
-        name: dirData1.name,
-      },
-      2: {
-        direction: dirData2.dir,
-        name: dirData2.name,
-      },
-      3: {
-        direction: dirData3.dir,
-        name: dirData3.name,
-      },
-      4: {
-        direction: dirData4.dir,
-        name: dirData4.name,
-      },
-
-      // TODO: Implement these later.
-      5: {
-        direction: dirData5.dir,
-        name: dirData5.name,
-      },
-      6: {
-        direction: dirData6.dir,
-        name: dirData6.name,
-      },
-    } as const;
-
-    const greenColorClass = "otherSpeech";
-    const orangeColorClass = "playerStatNeutral";
-    const returnGreenText = (text: string) => {
-      return `<span class=${greenColorClass}>${text}</span>`;
-    };
-    const returnOrangeText = (text: string) => {
-      return `<span class=${orangeColorClass}>${text}</span>`;
-    };
-
-    const getRandomHelpfulText = () => {
-      const currAreaText = returnOrangeText(CURR_AREA);
-      const areaDir = (index: keyof typeof AREA_DATA) => {
-        return returnGreenText(AREA_DATA[index].direction);
-      };
-      const areaDirName = (index: keyof typeof AREA_DATA) => {
-        return returnGreenText(AREA_DATA[index].name);
-      };
-      /* NOTE 
+		const getRandomHelpfulText = () => {
+			const currAreaText = returnOrangeText(CURR_AREA);
+			const areaDir = (index: keyof typeof AREA_DATA) => {
+				return returnGreenText(AREA_DATA[index].direction);
+			};
+			const areaDirName = (index: keyof typeof AREA_DATA) => {
+				return returnGreenText(AREA_DATA[index].name);
+			};
+			/* NOTE 
         - No need to add unnecessary/messy whitespace 
         - Make sure that there is a punctuation at the end of each string (since if it will be the last string to be concatenated, the last character (i.e the punctuation) would be replaced with a period)
         */
-      //TODO - Add support for `up` and down`
-      const possibleHelpfulTextArray: string[][] = [
-        [
-          `From ${currAreaText},`,
+			//TODO - Add support for `up` and down`
+			const possibleHelpfulTextArray: string[][] = [
+				[
+					`From ${currAreaText},`,
 
-          `you can head ${areaDir(1)} to ${areaDirName(1)},`,
+					`you can head ${areaDir(1)} to ${areaDirName(1)},`,
 
-          `or perhaps ${areaDir(2)} to ${areaDirName(2)}.`,
+					`or perhaps ${areaDir(2)} to ${areaDirName(2)}.`,
 
-          `You're pretty sure that ${areaDirName(3)} is in the ${areaDirName(
-            3
-          )},`,
+					`You're pretty sure that ${areaDirName(3)} is in the ${areaDirName(
+						3
+					)},`,
 
-          `and ${areaDir(4)} is in the ${areaDirName(4)}.`,
-        ],
-        [
-          `Currently, you're in ${currAreaText},`,
+					`and ${areaDir(4)} is in the ${areaDirName(4)}.`,
+				],
+				[
+					`Currently, you're in ${currAreaText},`,
 
-          `${areaDirName(1)} is ${areaDir(1)} of here,`,
+					`${areaDirName(1)} is ${areaDir(1)} of here,`,
 
-          `while ${areaDirName(2)} is likely ${areaDir(2)}.`,
+					`while ${areaDirName(2)} is likely ${areaDir(2)}.`,
 
-          `${areaDirName(3)} is definitely ${areaDir(3)},`,
+					`${areaDirName(3)} is definitely ${areaDir(3)},`,
 
-          `with ${areaDirName(4)} in the ${areaDir(4)}.`,
-        ],
-        [
-          `If you were to leave ${currAreaText},`,
+					`with ${areaDirName(4)} in the ${areaDir(4)}.`,
+				],
+				[
+					`If you were to leave ${currAreaText},`,
 
-          `${areaDir(1)} is to the ${areaDirName(1)},`,
+					`${areaDir(1)} is to the ${areaDirName(1)},`,
 
-          `and ${areaDirName(2)}, ${areaDir(2)}.`,
+					`and ${areaDirName(2)}, ${areaDir(2)}.`,
 
-          `${areaDir(3)} goes in the ${areaDirName(3)},`,
+					`${areaDir(3)} goes in the ${areaDirName(3)},`,
 
-          `while ${areaDir(4)} is ${areaDirName(4)}.`,
-        ],
-      ];
+					`while ${areaDir(4)} is ${areaDirName(4)}.`,
+				],
+			];
 
-      const numOfValidAreas = currAreaDirections?.size ?? 0;
+			const numOfValidAreas = currAreaDirections?.size ?? 0;
 
-      const text = possibleHelpfulTextArray
-        .pluck()!
-        .filter((_, index) => {
-          return index <= numOfValidAreas;
-        })
-        .join(" ");
+			const text = possibleHelpfulTextArray
+				.pluck()!
+				.filter((_, index) => {
+					return index <= numOfValidAreas;
+				})
+				.join(" ");
 
-      return `<br><br><br><hr><p>${text.slice(0, text.length - 1) + "."}`;
-    };
+			return `<br><br><br><hr><p>${text.slice(0, text.length - 1) + "."}`;
+		};
 
-    const textToDisplay = getRandomHelpfulText();
-    const currentPassageOnDOM = $("#passages > [id^=passage]");
+		const textToDisplay = getRandomHelpfulText();
+		const currentPassageOnDOM = $("#passages > [id^=passage]");
 
-    // Append the text to the current passage
-    currentPassageOnDOM.append(textToDisplay);
-  }
-  // !SECTION
+		// Append the text to the current passage
+		currentPassageOnDOM.append(textToDisplay);
+	}
+	// !SECTION
 });
 // !SECTION
 
 // SECTION - For preloading related images
 // TODO: Replace this with a dynamically generated map
 $(document).one(":passageend", () => {
-  // NOTE - Move this function out of this namespace in the main branch
-  (function preloadImages() {
-    // NOTE - INSERT ALL IMAGES NEEDED HERE
-    const imageUrls = [
-      gPlayerMapSpriteSrc,
-      gLocationMapSvgTable[(activeArea() as Location).id],
-    ];
+	// NOTE - Move this function out of this namespace in the main branch
+	(function preloadImages() {
+		// NOTE - INSERT ALL IMAGES NEEDED HERE
+		const imageUrls = [
+			gPlayerMapSpriteSrc,
+			gLocationMapSvgTable[(activeArea() as Location).id],
+		];
 
-    imageUrls.forEach((url) => {
-      if (!url) return;
+		imageUrls.forEach((url) => {
+			if (!url) return;
 
-      if (url.includes("svg")) {
-        // Extract the value of the first's image's url in the svg
-        url = url.split(/(?<=href\=\")([a-zA-Z0-9/_.-]+)/)[1];
-      }
+			if (url.includes("svg")) {
+				// Extract the value of the first's image's url in the svg
+				url = url.split(/(?<=href\=\")([a-zA-Z0-9/_.-]+)/)[1];
+			}
 
-      const image = new Image();
-      image.src = url;
-    });
-  })();
+			const image = new Image();
+			image.src = url;
+		});
+	})();
 });
