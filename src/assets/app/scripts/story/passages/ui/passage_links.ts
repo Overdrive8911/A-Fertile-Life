@@ -1,4 +1,4 @@
-import { watchDOM } from "../../../declarations/functions";
+import { validateKeyEvent, watchDOM } from "../../../declarations/functions";
 import {
 	convertToClass,
 	runOnPassageEnd,
@@ -32,6 +32,9 @@ runOnPassageEnd((e) => {
 	const listStarterRegex = /^(\d+|🡺|🡸|🡹|🡻|🢙|🢛)\.\s*/;
 	const CLICK_EVENT = "click";
 	const currAreaConnections = currentAreaConnections();
+	const keydownNamespaceEvent = "keydown.navLink";
+
+	$(window).off(keydownNamespaceEvent);
 
 	function processLinks(
 		$elementToSearchForLinks: JQuery | JQuery<NodeList>,
@@ -49,6 +52,7 @@ runOnPassageEnd((e) => {
 
 		$links.each((index, originalLink) => {
 			const $originalLink = $(originalLink);
+			const listNumber = index + 1;
 
 			function getIdenticalLinkInBottomContainer() {
 				return linkMap.get(originalLink);
@@ -113,7 +117,7 @@ runOnPassageEnd((e) => {
 
 			// Add numbers to all the links initially
 			$(getIdenticalLinkInBottomContainer() ?? {}).html(
-				`${index + 1}. ${$originalLink.html()}`
+				`${listNumber}. ${$originalLink.html()}`
 			);
 		});
 	}
@@ -185,4 +189,18 @@ runOnPassageEnd((e) => {
 			});
 		});
 	}
+
+	// Add an event handler to the window for accessing the bottom container links
+	$(window).on(keydownNamespaceEvent, (ev) => {
+		const possibleNumberKeysClicked = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+		const numericKeyValue = parseInt(ev.key!);
+		const linkIndex = possibleNumberKeysClicked.findIndex(
+			(numKey) => numKey == numericKeyValue
+		);
+
+		if (validateKeyEvent(ev) && linkIndex != -1)
+			$($bottomLinkContainer.find(linkSelector)[linkIndex])
+				.parent()
+				.trigger(CLICK_EVENT);
+	});
 }, false);
