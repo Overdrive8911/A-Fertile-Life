@@ -370,6 +370,7 @@ div:has(>.nav) {
     align-items: center;
     text-align: center;
     overflow: visible;
+    word-break: break-word;
   }
 }
 
