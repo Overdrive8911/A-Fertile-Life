@@ -37,3 +37,19 @@ export function watchDOM(
 
 	return observer;
 }
+
+/**
+ * Pass in an Event
+ */
+export function validateKeyEvent(e: unknown) {
+	const { target } = e as Event;
+	// Don't trigger in textboxes and similar elements
+	if (
+		target instanceof HTMLElement &&
+		(["INPUT", "TEXTAREA"].includes(target.nodeName) ||
+			target.isContentEditable)
+	)
+		return false;
+
+	return true;
+}

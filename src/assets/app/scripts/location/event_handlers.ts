@@ -19,20 +19,7 @@ import { unusable } from "./nav_button.module.css";
 import { currArea } from "../story/passages/styles/ui/top_section.module.css";
 import { div } from "../story/functions/html_elements";
 import { icon24X24 } from "../story/passages/styles/ui/shared.module.css";
-
-// Pass in an Event
-function validateKeyEvent(e: unknown) {
-	const { target } = e as Event;
-	// Don't trigger in textboxes and similar elements
-	if (
-		target instanceof HTMLElement &&
-		(["INPUT", "TEXTAREA"].includes(target.nodeName) ||
-			target.isContentEditable)
-	)
-		return false;
-
-	return true;
-}
+import { validateKeyEvent } from "../declarations/functions";
 
 // SECTION - For everything belonging to the map
 // $(document).on(':passageend', () => {
