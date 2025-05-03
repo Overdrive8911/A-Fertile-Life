@@ -63,7 +63,8 @@ addPassage(
 		) +
 		p(
 			macroLink(
-				`[[Teleport to default map|${NorthHirthefordPassageName.FERTILO_INC_PORCH}]]`
+				"Teleport to default map",
+				`<<warp ${NorthHirthefordPassageName.FERTILO_INC_PORCH}>>`
 			)
 		) +
 		p(macroLink("Skip 30 minutes", `<<skipTime 0 0 30>>`)) +

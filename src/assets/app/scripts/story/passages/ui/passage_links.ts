@@ -3,7 +3,13 @@ import {
 	convertToClass,
 	runOnPassageEnd,
 } from "../../../declarations/general_declarations";
-import { div } from "../../functions/html_elements";
+import { Direction } from "../../../location/enums";
+import {
+	currentArea,
+	currentAreaConnections,
+} from "../../../location/functions";
+import { warpToConnectedArea } from "../../../location/navigation";
+import { div, span, strong } from "../../functions/html_elements";
 import { nav, passageArea } from "./ui.module.css";
 
 let passageObserver: MutationObserver | undefined;
@@ -21,10 +27,11 @@ runOnPassageEnd((e) => {
 	const $passageContent = $((e.detail as any).content);
 	const linkSelector = "a.link-internal";
 	/**
-	 * Matches "1. " in "1. Test Button"
+	 * Matches "1. " in "1. Test Button" and "🡺. " in "🡺. East to Bakery"
 	 */
-	const listNumberRegex = /^\d+\.\s*/;
+	const listStarterRegex = /^(\d+|🡺|🡸|🡹|🡻|🢙|🢛)\.\s*/;
 	const CLICK_EVENT = "click";
+	const currAreaConnections = currentAreaConnections();
 
 	function processLinks(
 		$elementToSearchForLinks: JQuery | JQuery<NodeList>,
@@ -79,7 +86,7 @@ runOnPassageEnd((e) => {
 									return (
 										$(possibleRealLink).html() ==
 										linkText.replace(
-											linkText.match(listNumberRegex)?.[0] ?? "",
+											linkText.match(listStarterRegex)?.[0] ?? "",
 											""
 										)
 									);
@@ -133,11 +140,49 @@ runOnPassageEnd((e) => {
 
 				// "1. Your voice is a bit odd." gives "Your voice is a bit odd."
 				const linkText = $link.html();
-				const textToRemove = linkText.match(listNumberRegex)?.[0] ?? "";
+				const textToRemove = linkText.match(listStarterRegex)?.[0] ?? "";
 				const parsedLinkText = linkText.replace(textToRemove, "");
 
 				$link.html(`${index + 1}. ${parsedLinkText}`);
 			});
 		}
 	);
+
+	// Add navigation buttons if the user is in the appropriate "area" passage
+	if (currentArea().passage == passage()) {
+		currAreaConnections.forEach(({ area }, direction) => {
+			let dirArrow: "🡺" | "🡸" | "🡹" | "🡻" | "🢙" | "🢛" = "🡺";
+
+			switch (direction) {
+				case Direction.NORTH:
+					dirArrow = "🡹";
+					break;
+				case Direction.EAST:
+					dirArrow = "🡺";
+					break;
+				case Direction.SOUTH:
+					dirArrow = "🡻";
+					break;
+				case Direction.WEST:
+					dirArrow = "🡸";
+					break;
+				case Direction.UP:
+					dirArrow = "🢙";
+					break;
+				case Direction.DOWN:
+					dirArrow = "🢛";
+					break;
+			}
+
+			const $navText = $(
+				span(`${dirArrow}. Go${strong(direction)}to${strong(area.name)}`)
+			);
+			$navText.prependTo($bottomLinkContainer);
+			$navText.wrap(div());
+			const $navTextWrapper = $navText.parent();
+			$navTextWrapper.ariaClick(() => {
+				warpToConnectedArea(direction);
+			});
+		});
+	}
 }, false);
