@@ -29,7 +29,7 @@ runOnPassageEnd((e) => {
 	/**
 	 * Matches "1. " in "1. Test Button" and "🡺. " in "🡺. East to Bakery"
 	 */
-	const listStarterRegex = /^(\d+|🡺|🡸|🡹|🡻|🢙|🢛)\.\s*/;
+	const listStarterRegex = /^\d+\.\s*/;
 	const CLICK_EVENT = "click";
 	const currAreaConnections = currentAreaConnections();
 	const keydownNamespaceEvent = "keydown.navLink";
