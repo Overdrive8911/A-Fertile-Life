@@ -1,0 +1,9 @@
+import "./consultation.passage";
+import "./corridor.passage";
+import "./hallway.passage";
+import "./lab.passage";
+import "./measurement_closet.passage";
+import "./office_work.passage";
+import "./pharmacy.passage";
+import "./porch.passage";
+import "./reception.passage";

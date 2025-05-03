@@ -24,10 +24,27 @@ export const enum StoryPassageName {
 	PROLOGUE_ENTERED_YOUR_ROOM = "FertiloInc_Prologue_EnteredYourRoom",
 	PROLOGUE_TUTORIAL_FOR_YOUR_ROOM = "FertiloInc_Prologue_TutorialForYourRoom",
 	PROLOGUE_TUTORIAL_TO_WORK = "FertiloInc_Prologue_TutorialToWork",
+}
 
-	PLAYER_BATHROOM = "Player_Bathroom",
-	PLAYER_BEDROOM = "Player_Bedroom",
-	PLAYER_KITCHEN = "Player_Kitchen",
-	PLAYER_LIVING_ROOM = "Player_LivingRoom",
-	PLAYER_PORCH = "Player_Porch",
+export const enum NorthHirthefordPassageName {
+	FERTILO_INC_CONSULTATION = "Fertilo_Inc_Consultation",
+	FERTILO_INC_CORRIDOR = "Fertilo_Inc_Corridor",
+	FERTILO_INC_HALLWAY = "Fertilo_Inc_Hallway",
+	FERTILO_INC_LAB = "Fertilo_Inc_Lab",
+	FERTILO_INC_CLOSET = "Fertilo_Inc_Closet",
+	FERTILO_INC_OFFICE = "Fertilo_Inc_Office",
+	FERTILO_INC_PHARMACY = "Fertilo_Inc_Pharmacy",
+	FERTILO_INC_PORCH = "Fertilo_Inc_Porch",
+	FERTILO_INC_RECEPTION = "Fertilo_Inc_Reception",
+	FERTILO_INC_OFFICE_CEO = "Fertilo_Inc_Office_Ceo",
+	FERTILO_INC_PLAYER_ROOM = "Fertilo_Inc_Player_Room",
+}
+
+export const enum WestHirthefordPassageName {
+	BACKUP = "Backup",
+	PLAYER_OLD_BATHROOM = "Player_Old_Bathroom",
+	PLAYER_OLD_BEDROOM = "Player_Old_Bedroom",
+	PLAYER_OLD_KITCHEN = "Player_Old_Kitchen",
+	PLAYER_OLD_PORCH = "Player_Old_Porch",
+	PLAYER_OLD_ROOM = "Player_Old_Room",
 }

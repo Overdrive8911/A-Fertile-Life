@@ -1,5 +1,5 @@
 import { ItemId } from "../../inventory_and_items/declarations/item_enums";
-import { StoryPassageName } from "../enums";
+import { NorthHirthefordPassageName, StoryPassageName } from "../enums";
 import {
 	macroButton,
 	macroLink,
@@ -61,7 +61,11 @@ addPassage(
 				`<<impregnate 60 5 $player.womb 1>>`
 			)
 		) +
-		p(macroLink("[[Teleport to default map|Fertilo_Inc_Porch]]")) +
+		p(
+			macroLink(
+				`[[Teleport to default map|${NorthHirthefordPassageName.FERTILO_INC_PORCH}]]`
+			)
+		) +
 		p(macroLink("Skip 30 minutes", `<<skipTime 0 0 30>>`)) +
 		p(macroLink("Rewind 30 minutes", `<<skipTime 0 0 -30>>`)) +
 		p(macroLink("Skip 1 day", `<<skipTime 1 0 0>>`)) +

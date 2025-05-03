@@ -1,3 +1,4 @@
+import { NorthHirthefordPassageName } from "../../../../../story/enums";
 import { Location, SubLocation } from "../../../../classes";
 import {
 	SubLocationId,
@@ -27,81 +28,85 @@ export {
 const porch = new SubLocation(
 	SubLocationId.PORCH,
 	"Porch",
-	"Fertilo_Inc_Porch",
+	NorthHirthefordPassageName.FERTILO_INC_PORCH,
 	"Get Porched",
 	MapEntityFlags.IS_ENTRY_OR_EXIT_POINT
 );
 const reception = new SubLocation(
 	SubLocationId.RECEPTION,
 	"Reception",
-	"Fertilo_Inc_Reception",
+	NorthHirthefordPassageName.FERTILO_INC_RECEPTION,
 	"The Entry Point of Fertilo Inc"
 );
 const MeasurementCloset = new SubLocation(
 	SubLocationId.MEASUREMENT_CLOSET,
 	"Measurement Closet",
-	"Fertilo_Inc_Measurement_Closet"
+	NorthHirthefordPassageName.FERTILO_INC_CLOSET
 );
 const Pharmacy1 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Pharmacy",
-	"Fertilo_Inc_Pharmacy"
+	NorthHirthefordPassageName.FERTILO_INC_PHARMACY
 );
 const Pharmacy2 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Pharmacy",
-	"Fertilo_Inc_Pharmacy"
+	NorthHirthefordPassageName.FERTILO_INC_PHARMACY
 );
 const Corridor1 = new SubLocation(
 	SubLocationId.CORRIDOR,
 	"Corridor",
-	"Fertilo_Inc_Corridor"
+	NorthHirthefordPassageName.FERTILO_INC_CORRIDOR
 );
 const Hallway1 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway2 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway3 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway4 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway5 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway6 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
 const Hallway7 = new SubLocation(
 	SubLocationId.HALLWAY,
 	"Hallway",
-	"Fertilo_Inc_Hallway"
+	NorthHirthefordPassageName.FERTILO_INC_HALLWAY
 );
-const Lab = new SubLocation(SubLocationId.LAB, "Laboratory", "Fertilo_Inc_Lab");
+const Lab = new SubLocation(
+	SubLocationId.LAB,
+	"Laboratory",
+	NorthHirthefordPassageName.FERTILO_INC_LAB
+);
 const Consultation = new SubLocation(
 	SubLocationId.CONSULTATION,
 	"Consultation Office",
-	"Fertilo_Inc_Consultation"
+	NorthHirthefordPassageName.FERTILO_INC_CONSULTATION
 );
 const OfficeWork = new SubLocation(
 	SubLocationId.OFFICE_WORK,
 	"Office",
-	"Fertilo_Inc_Office_Work"
+	NorthHirthefordPassageName.FERTILO_INC_OFFICE
 );
 
 export const location_fertiloIncGroundFloor = new Location(
