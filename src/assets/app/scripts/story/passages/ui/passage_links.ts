@@ -156,30 +156,41 @@ runOnPassageEnd((e) => {
 	if (currentArea().passage == passage()) {
 		currAreaConnections.forEach(({ area }, direction) => {
 			let dirArrow: "🡺" | "🡸" | "🡹" | "🡻" | "🢙" | "🢛" = "🡺";
+			let dirKeyShortcut: "W" | "A" | "S" | "D" | "Q" | "E" = "D";
 
 			switch (direction) {
 				case Direction.NORTH:
 					dirArrow = "🡹";
+					dirKeyShortcut = "W";
 					break;
 				case Direction.EAST:
 					dirArrow = "🡺";
+					dirKeyShortcut = "D";
 					break;
 				case Direction.SOUTH:
 					dirArrow = "🡻";
+					dirKeyShortcut = "S";
 					break;
 				case Direction.WEST:
 					dirArrow = "🡸";
+					dirKeyShortcut = "A";
 					break;
 				case Direction.UP:
 					dirArrow = "🢙";
+					dirKeyShortcut = "Q";
 					break;
 				case Direction.DOWN:
 					dirArrow = "🢛";
+					dirKeyShortcut = "E";
 					break;
 			}
 
 			const $navText = $(
-				span(`${dirArrow}. Go${strong(direction)}to${strong(area.name)}`)
+				span(
+					`${dirArrow}. Go${strong(direction)}to${strong(
+						`${area.name} (${dirKeyShortcut})`
+					)}`
+				)
 			);
 			$navText.prependTo($bottomLinkContainer);
 			$navText.wrap(div());
