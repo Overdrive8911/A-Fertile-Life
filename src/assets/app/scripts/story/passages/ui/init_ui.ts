@@ -116,13 +116,133 @@ const mapContainer = div(
 			div({ class: [icon24X24, monoColorIcons.zoomOutIcon] })
 		)
 );
+const rightBarContainer = div(
+	{ class: right },
+	div(
+		{ class: statBars },
+		div("STATS") +
+			div(
+				div(
+					{
+						class: [icon24X24, colorIcons.heartIcon],
+					},
+					""
+				) +
+					macroMeter(`${playerVar("hp")} / ${playerVar("maxHp")}`, statBarWidth)
+			) +
+			div(
+				div(
+					{
+						class: [
+							icon24X24,
+
+							// inventoryBtn,
+							colorIcons.energyIcon,
+						],
+					},
+					""
+				) +
+					macroMeter(
+						`${playerVar("energy")} / ${Default.MAX_STAT}`,
+						statBarWidth,
+						MeterDefault.HEIGHT,
+						"blue",
+						"blue",
+						"blue"
+					)
+			) +
+			div(
+				div(
+					{
+						class: [
+							icon24X24,
+
+							// inventoryBtn,
+							colorIcons.moodIcon,
+						],
+					},
+					""
+				) +
+					macroMeter(
+						`${playerVar("mental", "mood")} / ${Default.MAX_STAT}`,
+						statBarWidth
+					)
+			) +
+			div(
+				div(
+					{
+						class: [
+							icon24X24,
+
+							// inventoryBtn,
+							colorIcons.hungerIcon,
+						],
+					},
+					""
+				) +
+					macroMeter(
+						`${playerVar("fullness")} / ${Default.MAX_STAT}`,
+						statBarWidth
+					)
+			) +
+			div(
+				div(
+					{
+						class: [
+							icon24X24,
+
+							// inventoryBtn,
+							colorIcons.uterusHpIcon,
+						],
+					},
+					""
+				) +
+					macroMeter(
+						`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`,
+						statBarWidth
+					)
+			) +
+			div(
+				div(
+					{
+						class: [
+							icon24X24,
+
+							// inventoryBtn,
+							colorIcons.uterusExpIcon,
+						],
+					},
+					""
+				) + macroMeter(`${playerWombVar("exp")} / 1000}`, statBarWidth)
+			)
+	) +
+		div(
+			{ class: statEffects },
+			div("STATUS EFFECTS") +
+				// This div will the container of the icons representing whatever ailments / buffs / status effects the player is suffering / benefiting from.
+				// It will be able to show, at most, 16 ~ 36 icons at a time
+				div()
+		) +
+		div(
+			{ class: playerSprite },
+			div("YOU") +
+				// This div will host the player's sprite
+				div()
+		)
+);
 
 // We'll have a grid with 3 columns
 const storyUI = div(
 	{ class: ui },
 	div(
 		{ class: mobile },
-		div(timeContainer + utilityBtnElements + reminderContainer + mapContainer)
+		div(
+			timeContainer +
+				utilityBtnElements +
+				reminderContainer +
+				mapContainer +
+				rightBarContainer
+		)
 	) +
 		div(
 			{ class: left },
@@ -176,123 +296,7 @@ const storyUI = div(
 				div({ class: passageArea })
 			) + div(div({ class: nav }))
 		) +
-		div(
-			{ class: right },
-			div(
-				{ class: statBars },
-				div("STATS") +
-					div(
-						div(
-							{
-								class: [icon24X24, colorIcons.heartIcon],
-							},
-							""
-						) +
-							macroMeter(
-								`${playerVar("hp")} / ${playerVar("maxHp")}`,
-								statBarWidth
-							)
-					) +
-					div(
-						div(
-							{
-								class: [
-									icon24X24,
-
-									// inventoryBtn,
-									colorIcons.energyIcon,
-								],
-							},
-							""
-						) +
-							macroMeter(
-								`${playerVar("energy")} / ${Default.MAX_STAT}`,
-								statBarWidth,
-								MeterDefault.HEIGHT,
-								"blue",
-								"blue",
-								"blue"
-							)
-					) +
-					div(
-						div(
-							{
-								class: [
-									icon24X24,
-
-									// inventoryBtn,
-									colorIcons.moodIcon,
-								],
-							},
-							""
-						) +
-							macroMeter(
-								`${playerVar("mental", "mood")} / ${Default.MAX_STAT}`,
-								statBarWidth
-							)
-					) +
-					div(
-						div(
-							{
-								class: [
-									icon24X24,
-
-									// inventoryBtn,
-									colorIcons.hungerIcon,
-								],
-							},
-							""
-						) +
-							macroMeter(
-								`${playerVar("fullness")} / ${Default.MAX_STAT}`,
-								statBarWidth
-							)
-					) +
-					div(
-						div(
-							{
-								class: [
-									icon24X24,
-
-									// inventoryBtn,
-									colorIcons.uterusHpIcon,
-								],
-							},
-							""
-						) +
-							macroMeter(
-								`${playerWombVar("hp")} / ${playerWombVar("maxHp")}`,
-								statBarWidth
-							)
-					) +
-					div(
-						div(
-							{
-								class: [
-									icon24X24,
-
-									// inventoryBtn,
-									colorIcons.uterusExpIcon,
-								],
-							},
-							""
-						) + macroMeter(`${playerWombVar("exp")} / 1000}`, statBarWidth)
-					)
-			) +
-				div(
-					{ class: statEffects },
-					div("STATUS EFFECTS") +
-						// This div will the container of the icons representing whatever ailments / buffs / status effects the player is suffering / benefiting from.
-						// It will be able to show, at most, 16 ~ 36 icons at a time
-						div()
-				) +
-				div(
-					{ class: playerSprite },
-					div("YOU") +
-						// This div will host the player's sprite
-						div()
-				)
-		)
+		rightBarContainer
 );
 
 // This will attach a new container to the empty story interface that we can easily add stuff to
