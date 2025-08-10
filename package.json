@@ -15,11 +15,14 @@
     "tailwindcss": "^4.0.7",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
-    "vite-plugin-solid": "^2.11.6"
+    "vite-plugin-solid": "^2.11.6",
+    "daisyui": "^5.0.50"
   },
   "dependencies": {
-    "daisyui": "^5.0.50",
-    "solid-js": "^1.9.5"
+    "idb-keyval": "^6.2.2",
+    "quick-lru": "^7.0.1",
+    "solid-js": "^1.9.5",
+    "sugarbox": "^0.1.7"
   },
   "trustedDependencies": [
     "@tailwindcss/oxide"
