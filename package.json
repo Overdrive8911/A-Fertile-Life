@@ -1,35 +1,27 @@
 {
-	"name": "thy-weaver",
-	"type": "module",
-	"version": "0.0.0",
-	"template-version": "0.3.1-beta",
-	"description": "A starter template for a modern Twine development workflow",
-	"scripts": {
-		"generate-css-module-types": "bun run --bun tcm src -w -c",
-		"dev-watch": "cross-env NODE_ENV=development bun run --bun --no-clear-screen ./build.ts & bun run generate-css-module-types",
-		"prod": "cross-env NODE_ENV=production bun run --bun ./build.ts",
-		"check-types": "tsc"
-	},
-	"template-author": "Iceman8911",
-	"license": "MIT",
-	"template-license": "MIT",
-	"devDependencies": {
-		"@parcel/watcher": "^2.5.1",
-		"@types/bun": "^1.2.5",
-		"@types/fs-extra": "^11.0.4",
-		"@types/twine-sugarcube": "^2.37.2",
-		"create-serve": "^1.0.1",
-		"cross-env": "^7.0.3",
-		"fs-extra": "^11.3.0",
-		"lightningcss": "^1.29.3",
-		"sass-embedded": "^1.85.1",
-		"tweenode": "^0.2.9",
-		"typed-css-modules": "^0.9.1",
-		"typescript": "^5.8.2"
-	},
-	"dependencies": {
-		"lz-string": "^1.5.0",
-		"pixi.js": "^8.8.1",
-		"yocto-queue": "^1.2.0"
-	}
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.7",
+    "tailwindcss": "^4.0.7",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.11.6"
+  },
+  "dependencies": {
+    "daisyui": "^5.0.50",
+    "solid-js": "^1.9.5"
+  },
+  "trustedDependencies": [
+    "@tailwindcss/oxide"
+  ]
 }

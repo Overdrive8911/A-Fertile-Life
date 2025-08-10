@@ -1,3 +1,0 @@
-:: VariableInitialization [variables] {"position":"1600,300"}
-
-<<run setup.initSaveVars()>>

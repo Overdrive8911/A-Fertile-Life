@@ -1,1 +1,0 @@
-Any function/variable/whatever that is used in more than one file should be declared in this folder.
