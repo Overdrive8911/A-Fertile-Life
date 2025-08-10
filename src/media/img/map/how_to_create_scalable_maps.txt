@@ -1,0 +1,15 @@
+- Get a vector art program with the ability to export SVG files (e.g Inkscape)
+
+- Create a file in the program and import the image
+
+- Trim extra space so the canvas's size is the same with the image
+
+- Draw the map areas using the drawing tools (e.g Line, Circle, Rectangle, Polygon, etc)
+
+- Add Ids to the map areas. These Ids will have the same name as entries in MapLocation or MapSubLocation
+
+- Export an optimized svg, open it in a text editor and copy its contents over to the passage where the image map is to be displayed
+
+- Clean up extra information. All you need is the `<svg>` element with its `viewBox` attribute as well as the image itself (the image needs to have a height and width) AND finally, the paths and their id's within the element. Get rid of any any styling, you can use css for that
+
+- Feel free to add event handlers, passage navigation links/setters, and so on. You can also add classes to the paths and use css on them
