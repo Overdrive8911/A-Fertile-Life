@@ -1,8 +1,12 @@
 import type { Component } from "solid-js";
-import { PassageDisplay } from "./game/passages/passage-display";
+import MainUI from "./components/main-ui";
 
 const App: Component = () => {
-	return <PassageDisplay />;
+	return (
+		<div class="h-[100vh] w-[100vw] overflow-y-clip">
+			<MainUI />
+		</div>
+	);
 };
 
 export default App;
