@@ -10,13 +10,14 @@ import {
 import { For, type JSX } from "solid-js";
 import { PassageDisplay } from "./../game/passages/passage-display";
 
-const RIGHT_AND_LEFT_PANEL_DIMENSION = "h-[97.5%] w-[75%] contain-strict";
+const RIGHT_AND_LEFT_PANEL_DIMENSION =
+	"h-[97.5%] w-[85%] lg:w-[75%] contain-strict p-2 lg:p-4";
 const ROUNDED_BORDER = "rounded-2xl";
 
 function MainUI() {
 	return (
 		// So that on mobile portrait mode, the 3 panels can be accessed by simply swiping
-		<div class="h-full w-full carousel [scrollbar-width:auto] sm:[scrollbar-width:none] grid grid-cols-[100vw_100vw_100vw] sm:grid-cols-[0.85fr_1.75fr_1fr] py-4 *:h-full *:[scroll-snap-align:start]">
+		<div class="h-full w-full carousel [scrollbar-width:auto] sm:[scrollbar-width:none] grid grid-cols-[100vw_100vw_100vw] sm:grid-cols-[1fr_1.75fr_1fr] lg:grid-cols-[0.85fr_1.75fr_1fr] py-4 *:h-full *:[scroll-snap-align:start]">
 			<LeftPanel />
 
 			<CenterPanel />
@@ -31,7 +32,7 @@ function LeftPanel() {
 		function DigitalClock() {
 			return (
 				<div
-					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-3/4 mx-auto text-info`}
+					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-4/5 mx-auto text-info`}
 				>
 					<div class="countdown font-mono text-2xl text-shadow-[2px_2px_1px] text-shadow-info/25">
 						<span style="--value:15;"></span>:
@@ -105,7 +106,7 @@ function LeftPanel() {
 			return (
 				<button
 					type="button"
-					class="btn btn-primary btn-soft text-lg w-3/4"
+					class="btn btn-primary btn-soft text-lg w-4/5 p-0"
 					onClick={prop.handler}
 				>
 					{prop.children}
@@ -141,7 +142,7 @@ function LeftPanel() {
 	return (
 		<div class="flex justify-center items-center">
 			<div
-				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} p-4 grid grid-rows-[1.125fr_1fr] border border-primary ${ROUNDED_BORDER} text-center bg-base-200`}
+				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} grid grid-rows-[1.125fr_1fr] gap-4 border border-primary ${ROUNDED_BORDER} text-center bg-base-200 overflow-y-auto lg:overflow-y-clip overflow-x-clip`}
 			>
 				<TopPanel />
 
@@ -162,7 +163,7 @@ function CenterPanel() {
 			</main>
 
 			{/* Buttons for interacting with the passage*/}
-			<div class="grid grid-cols-3 md:grid-cols-4 gap-4 contain-strict overflow-auto">
+			<div class="grid grid-cols-3 lg:grid-cols-4 gap-4 contain-strict overflow-auto">
 				<For
 					each={[
 						"Option 1",
@@ -215,7 +216,7 @@ function RightPanel() {
 	return (
 		<div class="flex justify-center items-center">
 			<div
-				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} grid grid-rows-3 border border-primary ${ROUNDED_BORDER} text-center bg-base-200 p-4 gap-4`}
+				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} flex flex-col *:grow border border-primary ${ROUNDED_BORDER} text-center bg-base-200 gap-4 overflow-y-auto`}
 			>
 				<StatusDisplay />
 
