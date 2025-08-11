@@ -30,7 +30,7 @@ function LeftPanel() {
 		function DigitalClock() {
 			return (
 				<div
-					class={`${ROUNDED_BORDER} p-1 bg-base-300 grid grid-rows-2 place-items-center w-3/4 mx-auto text-info`}
+					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-3/4 mx-auto text-info`}
 				>
 					<div class="countdown font-mono text-2xl text-shadow-[2px_2px_1px] text-shadow-info/25">
 						<span style="--value:15;"></span>:
