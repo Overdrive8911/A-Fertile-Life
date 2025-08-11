@@ -87,7 +87,7 @@ function LeftPanel() {
 		}
 
 		return (
-			<div class="grid grid-rows-[0.75fr_1.25fr_1.5fr] gap-2">
+			<div class="grid grid-rows-[0.75fr_1.25fr_1.5fr] gap-4">
 				<DigitalClock />
 
 				<Reminders />
@@ -141,7 +141,7 @@ function LeftPanel() {
 	return (
 		<div class="flex justify-center items-center">
 			<div
-				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} p-4 grid grid-rows-2 border border-primary ${ROUNDED_BORDER} text-center bg-base-200`}
+				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} p-4 grid grid-rows-[1.125fr_1fr] border border-primary ${ROUNDED_BORDER} text-center bg-base-200`}
 			>
 				<TopPanel />
 
