@@ -1,3 +1,10 @@
+import {
+	BackpackIcon,
+	BellIcon,
+	RotateCcwIcon,
+	SaveIcon,
+	SettingsIcon,
+} from "lucide-solid";
 import { For, type JSX } from "solid-js";
 import { PassageDisplay } from "./../game/passages/passage-display";
 
@@ -38,7 +45,14 @@ function LeftPanel() {
 
 		function Reminders() {
 			return (
-				<Block title="REMINDERS">
+				<Block
+					title={
+						<>
+							REMINDERS
+							<BellIcon class="inline-block ml-1" />
+						</>
+					}
+				>
 					**Display a list of recent reminders here**
 				</Block>
 			);
@@ -81,10 +95,25 @@ function LeftPanel() {
 
 		return (
 			<div class="flex flex-col justify-end items-center gap-8 pb-4">
-				<Button>Save</Button>
-				<Button>Inventory</Button>
-				<Button>Settings</Button>
-				<Button>Restart</Button>
+				<Button>
+					<SaveIcon />
+					Save
+				</Button>
+
+				<Button>
+					<BackpackIcon />
+					Inventory
+				</Button>
+
+				<Button>
+					<SettingsIcon />
+					Settings
+				</Button>
+
+				<Button>
+					<RotateCcwIcon />
+					Restart
+				</Button>
 			</div>
 		);
 	}
@@ -178,7 +207,7 @@ function RightPanel() {
 	);
 }
 
-function Block(prop: { title: string; children: JSX.Element }) {
+function Block(prop: { title: JSX.Element; children: JSX.Element }) {
 	// return (
 	// 	// To hide the ugly border on the last element, we use the `last:` variant
 	// 	<div class="flex flex-col last:[&_div]:border-b-0">

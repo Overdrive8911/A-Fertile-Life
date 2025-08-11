@@ -1,30 +1,31 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@tailwindcss/vite": "^4.0.7",
-    "tailwindcss": "^4.0.7",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.0",
-    "vite-plugin-solid": "^2.11.6",
-    "daisyui": "^5.0.50"
-  },
-  "dependencies": {
-    "idb-keyval": "^6.2.2",
-    "quick-lru": "^7.0.1",
-    "solid-js": "^1.9.5",
-    "sugarbox": "^0.1.7"
-  },
-  "trustedDependencies": [
-    "@tailwindcss/oxide"
-  ]
+	"name": "vite-template-solid",
+	"version": "0.0.0",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"dev": "vite --port=3001",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.0.7",
+		"tailwindcss": "^4.0.7",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.0",
+		"vite-plugin-solid": "^2.11.6",
+		"daisyui": "^5.0.50"
+	},
+	"dependencies": {
+		"idb-keyval": "^6.2.2",
+		"lucide-solid": "^0.539.0",
+		"quick-lru": "^7.0.1",
+		"solid-js": "^1.9.5",
+		"sugarbox": "^0.1.7"
+	},
+	"trustedDependencies": [
+		"@tailwindcss/oxide"
+	]
 }
