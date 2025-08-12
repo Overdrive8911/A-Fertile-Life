@@ -9,6 +9,15 @@ import {
 } from "lucide-solid";
 import { For, type JSX } from "solid-js";
 import { PassageDisplay } from "./../game/passages/passage-display";
+import energyIcon from "./../media/img/icons/stats/energy.webp";
+import healthIcon from "./../media/img/icons/stats/heart.webp";
+import moneyIcon from "./../media/img/icons/stats/money.webp";
+import moodIcon from "./../media/img/icons/stats/mood.webp";
+import reputationIcon from "./../media/img/icons/stats/reputation.webp";
+import stomachIcon from "./../media/img/icons/stats/stomach.webp";
+import uterusExpIcon from "./../media/img/icons/stats/uterus-exp.webp";
+import uterusHpIcon from "./../media/img/icons/stats/uterus-hp.webp";
+import { StatMeter } from "./meter";
 
 const RIGHT_AND_LEFT_PANEL_DIMENSION =
 	"h-[97.5%] w-[85%] lg:w-[75%] contain-strict p-2 lg:p-4";
@@ -195,12 +204,21 @@ function RightPanel() {
 	function StatusDisplay() {
 		return (
 			<Block title="STATS">
-				<p>Health: 100</p>
-				<p>Happiness: 80</p>
-				<p>Wealth: 50</p>
-				<p>Energy: 70</p>
-				<p>Reputation: 60</p>
-				<p>Skills: Cooking, Farming, Crafting</p>
+				<div class="flex flex-col gap-2">
+					<StatMeter val={0.9} stat="Health" icon={healthIcon} />
+					<StatMeter val={0.69} stat="Energy" icon={energyIcon} />
+					<StatMeter val={0.87} stat="Mood" icon={moodIcon} />
+					<StatMeter val={0.72} stat="Fullness" icon={stomachIcon} />
+					<StatMeter val={0.89} stat="Womb Health" icon={uterusHpIcon} />
+					<StatMeter
+						val={0.23}
+						stat="Womb Exp"
+						icon={uterusExpIcon}
+						highColor="blue"
+						midColor="blue"
+						lowColor="blue"
+					/>
+				</div>
 			</Block>
 		);
 	}
