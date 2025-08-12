@@ -8,7 +8,7 @@
         "lucide-solid": "^0.539.0",
         "quick-lru": "^7.0.1",
         "solid-js": "^1.9.5",
-        "sugarbox": "^0.1.7",
+        "sugarbox": "^0.2.0",
       },
       "devDependencies": {
         "@tailwindcss/vite": "^4.0.7",
@@ -326,7 +326,7 @@
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
 
-    "sugarbox": ["sugarbox@0.1.7", "", { "dependencies": { "@iceman8911/tiny-prng": "^0.1.2", "@zalari/string-compression-utils": "^0.1.1" }, "peerDependencies": { "typescript": ">=4.5.0" }, "optionalPeers": ["typescript"] }, "sha512-MMJYp3ywv9gekL/CGa+melUzdREpfC8tWLqc/JDN9YV3aoxijF4WFuQKaB1bgAmkUvvV7wofDtdhxyQ5JTYGAw=="],
+    "sugarbox": ["sugarbox@0.2.0", "", { "dependencies": { "@iceman8911/tiny-prng": "^0.1.2", "@zalari/string-compression-utils": "^0.1.1" }, "peerDependencies": { "typescript": ">=4.5.0" }, "optionalPeers": ["typescript"] }, "sha512-WQOBNG5ljZ8Wxtd88qfwrt7vlCT/bwu3OwzFr0e/m/nF0U1VAtgzY+4bINnrLwoBfDMaPvlI+o/7DCEbIXg1Hg=="],
 
     "tailwindcss": ["tailwindcss@4.1.11", "", {}, "sha512-2E9TBm6MDD/xKYe+dvJZAmg3yxIEDNRc0jwlNyDg/4Fil2QcSLjFKGVff0lAf1jjeaArlG/M75Ey/EYr/OJtBA=="],
 
