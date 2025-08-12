@@ -2,9 +2,9 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { clamp } from "~/utils/math";
-import { GAME_ENGINE } from "../engine/engine";
 import { AVERAGE_WALKING_SPEED } from "../shared/constants";
+import { ClassId } from "../shared/enums";
+import { getRandomFloatInRange } from "../shared/utils";
 
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
 const months = [
@@ -47,7 +47,7 @@ class GameDateAndTime
 		Object.setPrototypeOf(this, GameDateAndTime.prototype);
 	}
 
-	static classId = "gameDateAndTime";
+	static classId = ClassId.DATE_AND_TIME;
 
 	static fromJSON(data: string): GameDateAndTime {
 		return new GameDateAndTime(data);
@@ -119,7 +119,7 @@ class GameDateAndTime
 		// Get the time to travel in seconds
 		const timeToTravel = Math.floor(
 			(dist / (movementSpeed ?? averageWalkingSpeed)) *
-				clamp(GAME_ENGINE.random * upperBound, lowerBound, upperBound),
+				getRandomFloatInRange(lowerBound, upperBound),
 		);
 
 		this.update(timeToTravel * 1000);
