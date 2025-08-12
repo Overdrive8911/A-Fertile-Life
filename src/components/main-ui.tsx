@@ -167,7 +167,7 @@ function CenterPanel() {
 			class={`grid grid-rows-[3.5fr_1fr] gap-6 px-1 *:border *:border-primary *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
 		>
 			{/* Main passage display*/}
-			<main class="overflow-auto contain-strict">
+			<main class="[line-height:1.6rem] overflow-auto contain-strict">
 				<PassageDisplay />
 			</main>
 
