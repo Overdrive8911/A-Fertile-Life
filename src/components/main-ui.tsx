@@ -8,6 +8,7 @@ import {
 	ZoomOutIcon,
 } from "lucide-solid";
 import { For, type JSX } from "solid-js";
+import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
 import healthIcon from "./../media/img/icons/stats/heart.webp";
@@ -18,6 +19,8 @@ import stomachIcon from "./../media/img/icons/stats/stomach.webp";
 import uterusExpIcon from "./../media/img/icons/stats/uterus-exp.webp";
 import uterusHpIcon from "./../media/img/icons/stats/uterus-hp.webp";
 import { StatMeter } from "./meter";
+import GameModal from "./modal/game-modal";
+import { showModal } from "./modal/generic-modal";
 
 const RIGHT_AND_LEFT_PANEL_DIMENSION =
 	"h-[97.5%] w-[85%] lg:w-[75%] contain-strict p-2 lg:p-4";
@@ -109,40 +112,65 @@ function LeftPanel() {
 
 	function BottomPanel() {
 		function Button(prop: {
-			handler?: (e: MouseEvent) => void;
 			children: JSX.Element;
+			onClick?: (e: MouseEvent) => void;
 		}) {
 			return (
 				<button
 					type="button"
 					class="btn btn-primary btn-soft text-lg w-4/5 p-0"
-					onClick={prop.handler}
+					onClick={prop.onClick}
 				>
 					{prop.children}
 				</button>
 			);
 		}
 
+		const saveDialogId = getRandomUUID(),
+			inventoryDialogId = getRandomUUID(),
+			settingsDialogId = getRandomUUID(),
+			restartDialogId = getRandomUUID();
+
 		return (
 			<div class="flex flex-col justify-end items-center gap-8 pb-4">
-				<Button>
+				<Button
+					onClick={(_) => {
+						showModal(saveDialogId);
+					}}
+				>
 					<SaveIcon />
 					Save
+					<SaveGameModal modalId={saveDialogId} />
 				</Button>
 
-				<Button>
+				<Button
+					onClick={(_) => {
+						showModal(inventoryDialogId);
+					}}
+				>
 					<BackpackIcon />
 					Inventory
+					<InventoryModal modalId={inventoryDialogId} />
 				</Button>
 
-				<Button>
+				<Button
+					onClick={(_) => {
+						showModal(settingsDialogId);
+					}}
+				>
 					<SettingsIcon />
 					Settings
+					<SettingsModal modalId={settingsDialogId} />
 				</Button>
 
-				<Button>
+				<Button
+					onClick={(_) => {
+						showModal(restartDialogId);
+					}}
+				>
 					<RotateCcwIcon />
 					Restart
+					<RestartModal modalId={restartDialogId} />
 				</Button>
 			</div>
 		);
@@ -262,6 +290,38 @@ function Block(prop: { title: JSX.Element; children: JSX.Element }) {
 
 			<div class="grow border-t border-primary p-2">{prop.children}</div>
 		</div>
+	);
+}
+
+function SaveGameModal(prop: { modalId: string }) {
+	return (
+		<GameModal modalId={prop.modalId} title="SAVE">
+			Gorb You :3
+		</GameModal>
+	);
+}
+
+function SettingsModal(prop: { modalId: string }) {
+	return (
+		<GameModal modalId={prop.modalId} title="SETTINGS">
+			Gorb You :3
+		</GameModal>
+	);
+}
+
+function InventoryModal(prop: { modalId: string }) {
+	return (
+		<GameModal modalId={prop.modalId} title="INVENTORY">
+			Gorb You :3
+		</GameModal>
+	);
+}
+
+function RestartModal(prop: { modalId: string }) {
+	return (
+		<GameModal modalId={prop.modalId} title="RESTART">
+			Gorb You :3
+		</GameModal>
 	);
 }
 
