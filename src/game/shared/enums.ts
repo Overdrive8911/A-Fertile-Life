@@ -26,6 +26,11 @@ const enum CharacterEmotion {
 const enum ClassId {
 	DATE_AND_TIME = "dateAndTime",
 	BREASTS = "breasts",
+	INVENTORY = "inventory",
+	INVENTORY_ITEM = "inventoryItem",
+	WOMB = "womb",
+	PREGNANCY = "preg",
+	FETUS = "fetus",
 }
 
 export { CharacterEmotion, CharacterName, ClassId };

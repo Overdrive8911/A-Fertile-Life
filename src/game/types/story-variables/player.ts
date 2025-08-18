@@ -1,9 +1,12 @@
-type Player = {
+import type { Breasts } from "~/game/body-stats/class/breast";
+import type { Inventory } from "~/game/inventory/class";
+
+type PlayerV0_0_1 = {
 	money: number;
 	/**
 	 * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
 	 */
-	// areaId: AreaUUID;
+	areaId: AreaUUID;
 	personality: {
 		enthusiasm: number;
 		apathy: number;
@@ -42,7 +45,7 @@ type Player = {
 	makeup: string;
 	nails: string;
 
-	// inventory: Inventory;
+	inventory: Inventory;
 
 	mental: {
 		mood: number;
@@ -55,9 +58,9 @@ type Player = {
 	immunity: number;
 	energy: number;
 
-	// womb: Womb;
+	womb: Womb;
 
-	// breasts: Breasts;
+	breasts: Breasts;
 
 	muscleDefinition: number;
 
@@ -97,4 +100,4 @@ type Player = {
             {name: "Maria",     exp: 0}, */
 };
 
-export type { Player };
+export type { PlayerV0_0_1 };

@@ -7,7 +7,11 @@
 		"start": "vite",
 		"dev": "vite --port=3003",
 		"build": "vite build",
-		"serve": "vite preview"
+		"serve": "vite preview",
+		"bun-start": "bun --bun run start",
+		"bun-dev": "bun --bun run dev",
+		"bun-build": "bun --bun run  build",
+		"bun-serve": "bun --bun run serve"
 	},
 	"license": "MIT",
 	"devDependencies": {
@@ -15,16 +19,19 @@
 		"@types/node": "^24.2.1",
 		"daisyui": "^5.0.50",
 		"tailwindcss": "^4.0.7",
+		"terser": "^5.43.1",
+		"tslib": "^2.8.1",
 		"typescript": "^5.7.2",
 		"vite": "^6.0.0",
-		"vite-plugin-solid": "^2.11.6"
+		"vite-plugin-solid": "^2.11.6",
+		"vite-plugin-typescript": "^1.0.4"
 	},
 	"dependencies": {
 		"idb-keyval": "^6.2.2",
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",
 		"solid-js": "^1.9.5",
-		"sugarbox": "^0.2.0"
+		"sugarbox": "^0.3.3"
 	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide"

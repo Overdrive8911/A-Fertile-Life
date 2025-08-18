@@ -9,9 +9,11 @@
 		"jsxImportSource": "solid-js",
 		"types": ["vite/client", "@types/node"],
 		"noEmit": true,
-		"isolatedModules": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
+		"preserveConstEnums": false,
+		"importsNotUsedAsValues": "remove",
+		"verbatimModuleSyntax": false,
 		"paths": {
 			"~/*": ["./src/*"]
 		}

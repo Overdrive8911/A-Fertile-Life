@@ -43,8 +43,8 @@ class Breasts
 		if (args.type === "shared") {
 			const {
 				data = {
-					size: CupSize.C - getRandomIntegerInRange(20, 25),
-					milkCapacity: MilkCapacity.AVERAGE - getRandomIntegerInRange(5, 15),
+					size: CupSize.C - getRandomIntegerInRange(0, 25),
+					milkCapacity: MilkCapacity.AVERAGE - getRandomIntegerInRange(0, 15),
 					isLactating: false,
 					nipple: NippleDescription.PROTRUDING,
 					areola: AreolaDescription.DEFAULT,
@@ -52,13 +52,15 @@ class Breasts
 				areas = [BreastLocation.LEFT, BreastLocation.RIGHT],
 			} = args;
 
-			areas.forEach((area) => this._breasts.set(area, data));
+			areas.forEach((area) => {
+				this._breasts.set(area, data);
+			});
 		} else {
 			const { breasts } = args;
 
-			breasts.forEach((breastData) =>
-				this._breasts.set(breastData.area, breastData.data),
-			);
+			breasts.forEach((breastData) => {
+				this._breasts.set(breastData.area, breastData.data);
+			});
 		}
 	}
 

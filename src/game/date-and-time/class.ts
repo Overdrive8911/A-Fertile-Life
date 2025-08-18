@@ -6,6 +6,17 @@ import { AVERAGE_WALKING_SPEED } from "../shared/constants";
 import { ClassId } from "../shared/enums";
 import { getRandomFloatInRange } from "../shared/utils";
 
+type DateData = {
+	day: Extract<(typeof days)[keyof typeof days], string>;
+	/** Number in month */
+	date: number;
+	month: Extract<(typeof months)[keyof typeof months], string>;
+	year: number;
+	/** 24-hour style */
+	hours: number;
+	minutes: number;
+};
+
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
 const months = [
 	"JAN",
@@ -57,40 +68,16 @@ class GameDateAndTime
 		return this.toISOString();
 	}
 
-	/**
-	 * Returns the current time of the day in digital format (hour and minutes)
-	 *
-	 * E.g `6:05 AM`
-	 */
-	get timeText() {
-		const hours = this.getUTCHours();
-		const minutes = this.getUTCMinutes();
-		const isAM = hours < 12;
-
-		const formattedHours = (hours % 12 || 12).toLocaleString(undefined, {
-			minimumIntegerDigits: 2,
-			useGrouping: false,
-		});
-
-		const formattedMinutes = minutes.toLocaleString(undefined, {
-			minimumIntegerDigits: 2,
-			useGrouping: false,
-		});
-
-		return `${formattedHours}:${formattedMinutes} ${
-			isAM ? "AM" : "PM"
-		}` as const;
-	}
-
-	/**
-	 * Returns the day (both text and number) and month
-	 *
-	 * E.g `WED, 3 FEB`
-	 */
-	get dateText() {
-		return `${days[this.getUTCDay()]}, ${this.getUTCDate()} ${
-			months[this.getUTCMonth()]
-		}` as const;
+	/** Simpler way to get relevant data */
+	get data(): DateData {
+		return {
+			date: this.getUTCDate(),
+			day: days[this.getUTCDay()],
+			hours: this.getUTCHours(),
+			month: months[this.getUTCMonth()],
+			minutes: this.getUTCMinutes(),
+			year: this.getUTCFullYear(),
+		};
 	}
 
 	/**
