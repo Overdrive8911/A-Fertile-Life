@@ -1,4 +1,4 @@
-import { GAME_VARIABLES } from "../engine/engine";
+import { GAME_VARIABLES } from "~/App";
 import { BirthRecordThreshold } from "./enums";
 import { BellyState } from "./variables";
 
@@ -7,7 +7,7 @@ function getPlayerPregDescription() {
 	let pregText =
 		"You ogle your body from the mirror positioned in front of you. ";
 
-	const womb = GAME_VARIABLES().player.womb;
+	const womb = GAME_VARIABLES.player.womb;
 	const approxBellySize = womb.lowerBellySizeThreshold;
 
 	// To reduce repetition

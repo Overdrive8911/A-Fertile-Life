@@ -84,6 +84,8 @@ class GameDateAndTime
 	 * In case you need to assign the value of another date or increment the data
 	 *
 	 * @param dateOrValueToIncrementBy a new date to replace the current date with or the time in milliseconds to increment the current date by
+	 *
+	 * @returns a new instance of `GameDateAndTime` with the updated time (useful in cases where you want to chain the method or force reactivity)
 	 */
 	update(dateOrValueToIncrementBy: Date | number) {
 		this.setTime(
@@ -91,6 +93,8 @@ class GameDateAndTime
 				? dateOrValueToIncrementBy.getTime()
 				: this.getTime() + dateOrValueToIncrementBy,
 		);
+
+		return new GameDateAndTime(this.getTime());
 	}
 
 	updateTimeWithDistance(
@@ -109,7 +113,7 @@ class GameDateAndTime
 				getRandomFloatInRange(lowerBound, upperBound),
 		);
 
-		this.update(timeToTravel * 1000);
+		return this.update(timeToTravel * 1000);
 	}
 
 	/** Skip forward `day` times to the specified time (in hrs and minutes) */
@@ -126,7 +130,7 @@ class GameDateAndTime
 		}
 		minutes = minutes % 60;
 
-		this.update(
+		return this.update(
 			new Date(
 				this.getFullYear(),
 				this.getUTCMonth(),
@@ -138,7 +142,7 @@ class GameDateAndTime
 	}
 	/** Skip to the next day and stop at the particular hour(0 till 23) and minutes(0 till 59) */
 	skipToNextDayWithSpecificTime(hours: number, minutes: number) {
-		this.skipTimeToSpecificTime(1, hours, minutes);
+		return this.skipTimeToSpecificTime(1, hours, minutes);
 	}
 }
 

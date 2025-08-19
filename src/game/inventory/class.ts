@@ -2,8 +2,8 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
+import { GAME_VARIABLES } from "~/App";
 import { either, includesAll } from "~/utils/iterable";
-import { GAME_VARIABLES } from "../engine/engine";
 import { type ItemId, ItemTag } from "../item/enums";
 import { InventoryItem } from "../item/inventory-item/class";
 import type { AnyItemDynamicData, ExtraIdDataType } from "../item/types";
@@ -78,7 +78,8 @@ class Inventory
 				locationObtained:
 					locationObtained !== undefined
 						? locationObtained
-						: GAME_VARIABLES().player.areaId,
+						: // : GAME_VARIABLES.player.areaId,
+							"",
 				inventoryId: newRandStorageId,
 			});
 

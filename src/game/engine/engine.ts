@@ -57,8 +57,4 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	classes: [GameDateAndTime, Inventory, InventoryItem, Pregnancy, Fetus, Womb],
 });
 
-function GAME_VARIABLES() {
-	return GAME_ENGINE.vars;
-}
-
-export { GAME_ENGINE, GAME_VARIABLES };
+export { GAME_ENGINE };

@@ -8,7 +8,8 @@ import {
 	ZoomOutIcon,
 } from "lucide-solid";
 import { For, type JSX } from "solid-js";
-import { GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_VARIABLES } from "~/App";
+import { GAME_ENGINE } from "~/game/engine/engine";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
@@ -43,11 +44,18 @@ function MainUI() {
 function LeftPanel() {
 	function TopPanel() {
 		function DigitalClock() {
-			const timeData = () => GAME_VARIABLES().gameDateAndTime.data;
+			const timeData = () => GAME_VARIABLES.gameDateAndTime.data;
 
 			return (
+				// biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
+				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 				<div
-					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-4/5 mx-auto text-info`}
+					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-4/5 mx-auto text-info select-none cursor-pointer`}
+					onClick={(_) => {
+						GAME_ENGINE.setVars((s) => {
+							s.gameDateAndTime = s.gameDateAndTime.update(1000 * 60 * 60);
+						});
+					}}
 				>
 					<div class="countdown font-mono text-2xl text-shadow-[2px_2px_1px] text-shadow-info/25">
 						<span style={{ "--value": timeData().hours }}></span>:

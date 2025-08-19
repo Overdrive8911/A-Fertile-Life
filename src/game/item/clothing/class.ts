@@ -1,4 +1,4 @@
-import { GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_VARIABLES } from "~/App";
 import type { Inventory } from "~/game/inventory/class";
 import { getRandomFloatInRange } from "~/game/shared/utils";
 import { isEmptyObject } from "~/utils/object";
@@ -21,7 +21,7 @@ class Clothing extends Item {
 	// SECTION - Clothing Item Methods
 	override defaultCallback(
 		data?: ClothingDynamicData,
-		inventory = GAME_VARIABLES().player.inventory,
+		inventory = GAME_VARIABLES.player.inventory,
 	) {
 		// ANCHOR - The stored clothing data is what we use to determine if a clothing item is equipped and what damage state it currently is
 		let storedClothingData = Clothing.sanitiseClothingData(data);

@@ -2,7 +2,7 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_VARIABLES } from "~/App";
 import { ClassId } from "~/game/shared/enums";
 import { getRandomIntegerInRange } from "~/game/shared/utils";
 import { clamp } from "~/utils/math";
@@ -88,7 +88,7 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		this.height = id / newLocal;
 		this.weight = id / newLocal;
 		this.amnioticFluidVolume = id / newLocal;
-		this.dateOfConception = GAME_VARIABLES().gameDateAndTime;
+		this.dateOfConception = GAME_VARIABLES.gameDateAndTime;
 	}
 
 	toJSON(): SerializedFetus {

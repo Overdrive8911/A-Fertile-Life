@@ -1,12 +1,13 @@
 import type { Breasts } from "~/game/body-stats/class/breast";
 import type { Inventory } from "~/game/inventory/class";
+import type { Womb } from "~/game/pregnancy/classes/womb";
 
 type PlayerV0_0_1 = {
 	money: number;
 	/**
 	 * The unique id of the `MapEntity` / `SubLocation` instance that the player is currently in.
 	 */
-	areaId: AreaUUID;
+	// areaId: AreaUUID;
 	personality: {
 		enthusiasm: number;
 		apathy: number;

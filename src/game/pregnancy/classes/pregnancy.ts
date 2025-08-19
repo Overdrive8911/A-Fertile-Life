@@ -2,8 +2,8 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
+import { GAME_VARIABLES } from "~/App";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
-import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,
@@ -43,7 +43,7 @@ export class Pregnancy
 {
 	id!: number;
 	fetuses: Map<number /* fetusId */, Fetus> = new Map();
-	dateConceived = GAME_VARIABLES().gameDateAndTime;
+	dateConceived = GAME_VARIABLES.gameDateAndTime;
 
 	// static readonly #numOfPossibleFetusIds = 256
 
@@ -209,7 +209,7 @@ export class Pregnancy
 	updateGrowth(
 		womb: Womb,
 		elapsedTime: number,
-		inputUser = GAME_VARIABLES().player,
+		inputUser = GAME_VARIABLES.player,
 	) {
 		this.fetuses.forEach((targetFetus) => {
 			// Determine how much to progress the fetus since the last update
@@ -425,7 +425,7 @@ export class Pregnancy
 		const devRatio = this.devRatio;
 		const sanitizedId = this.id || 1;
 		const chance =
-			((((GAME_VARIABLES().gameDateAndTime.getTime() / 1000) * sanitizedId) %
+			((((GAME_VARIABLES.gameDateAndTime.getTime() / 1000) * sanitizedId) %
 				devRatio) /
 				devRatio) *
 			100;

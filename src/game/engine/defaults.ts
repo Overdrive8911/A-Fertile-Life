@@ -14,7 +14,7 @@ const DEFAULT_VARIABLES: SaveDataV0_0_1 = {
 		money: 5800 /* The currency isn't something irl */,
 
 		/* Location */
-		areaId: defaultWarpDestination,
+		// areaId: defaultWarpDestination,
 
 		/* Personality and Mood(?) */
 		personality: {
