@@ -425,7 +425,7 @@ export class Pregnancy
 		const devRatio = this.devRatio;
 		const sanitizedId = this.id || 1;
 		const chance =
-			((((GAME_VARIABLES.gameDateAndTime.getTime() / 1000) * sanitizedId) %
+			((((GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000) * sanitizedId) %
 				devRatio) /
 				devRatio) *
 			100;

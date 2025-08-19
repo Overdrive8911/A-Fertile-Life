@@ -462,7 +462,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 				// !SECTION
 
 				// Update specific data for the womb
-				this.lastFertilized = GAME_VARIABLES.gameDateAndTime;
+				this.lastFertilized = GAME_VARIABLES.gameDateAndTime.date;
 				return true;
 			} else {
 				return false;
@@ -811,7 +811,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 				this.postpartumCounter *
 				(noPostpartumPerk.currLevel / Womb.perks.noPostpartum.maxLevel);
 		}
-		this.lastBirth = GAME_VARIABLES.gameDateAndTime;
+		this.lastBirth = GAME_VARIABLES.gameDateAndTime.date;
 		// Get the data of born children. We can use this to determine birth stats and other scene data.
 		return birthedChildren.map((child) => cloneClass(child));
 	}

@@ -47,15 +47,8 @@ function LeftPanel() {
 			const timeData = () => GAME_VARIABLES.gameDateAndTime.data;
 
 			return (
-				// biome-ignore lint/a11y/noStaticElementInteractions: <explanation>
-				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 				<div
 					class={`${ROUNDED_BORDER} border border-primary border-dashed p-1 bg-base-300 grid grid-rows-2 place-items-center w-4/5 mx-auto text-info select-none cursor-pointer`}
-					onClick={(_) => {
-						GAME_ENGINE.setVars((s) => {
-							s.gameDateAndTime = s.gameDateAndTime.update(1000 * 60 * 60);
-						});
-					}}
 				>
 					<div class="countdown font-mono text-2xl text-shadow-[2px_2px_1px] text-shadow-info/25">
 						<span style={{ "--value": timeData().hours }}></span>:

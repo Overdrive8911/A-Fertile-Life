@@ -88,7 +88,7 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		this.height = id / newLocal;
 		this.weight = id / newLocal;
 		this.amnioticFluidVolume = id / newLocal;
-		this.dateOfConception = GAME_VARIABLES.gameDateAndTime;
+		this.dateOfConception = GAME_VARIABLES.gameDateAndTime.date;
 	}
 
 	toJSON(): SerializedFetus {

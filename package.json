@@ -27,6 +27,7 @@
 		"vite-plugin-typescript": "^1.0.4"
 	},
 	"dependencies": {
+		"classy-solid": "^0.4.3",
 		"idb-keyval": "^6.2.2",
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",

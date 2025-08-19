@@ -1,3 +1,4 @@
+import { signalify } from "classy-solid";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
@@ -36,10 +37,9 @@ const months = [
 /**
  * Mostly just the `Date` class with a few utility methods sprinkled in
  */
-class GameDateAndTime
-	extends Date
-	implements SugarBoxCompatibleClassInstance<string>
-{
+class GameDateAndTime implements SugarBoxCompatibleClassInstance<number> {
+	date: Date;
+
 	// Mimic the constructor arguments for the regular date class
 	constructor();
 	constructor(value: number | string | Date);
@@ -53,30 +53,30 @@ class GameDateAndTime
 		ms?: number,
 	);
 	constructor(...args: Parameters<typeof Date>) {
-		super(...args);
-		// Ensure the correct prototype is used
-		Object.setPrototypeOf(this, GameDateAndTime.prototype);
+		this.date = new Date(...args);
+
+		signalify(this);
 	}
 
 	static classId = ClassId.DATE_AND_TIME;
 
-	static fromJSON(data: string): GameDateAndTime {
+	static fromJSON(data: number): GameDateAndTime {
 		return new GameDateAndTime(data);
 	}
 
-	override toJSON(): string {
-		return this.toISOString();
+	toJSON(): number {
+		return this.date.getTime();
 	}
 
 	/** Simpler way to get relevant data */
 	get data(): DateData {
 		return {
-			date: this.getUTCDate(),
-			day: days[this.getUTCDay()],
-			hours: this.getUTCHours(),
-			month: months[this.getUTCMonth()],
-			minutes: this.getUTCMinutes(),
-			year: this.getUTCFullYear(),
+			date: this.date.getUTCDate(),
+			day: days[this.date.getUTCDay()],
+			hours: this.date.getUTCHours(),
+			month: months[this.date.getUTCMonth()],
+			minutes: this.date.getUTCMinutes(),
+			year: this.date.getUTCFullYear(),
 		};
 	}
 
@@ -88,13 +88,13 @@ class GameDateAndTime
 	 * @returns a new instance of `GameDateAndTime` with the updated time (useful in cases where you want to chain the method or force reactivity)
 	 */
 	update(dateOrValueToIncrementBy: Date | number) {
-		this.setTime(
+		this.date.setTime(
 			dateOrValueToIncrementBy instanceof Date
 				? dateOrValueToIncrementBy.getTime()
-				: this.getTime() + dateOrValueToIncrementBy,
+				: this.date.getTime() + dateOrValueToIncrementBy,
 		);
 
-		return new GameDateAndTime(this.getTime());
+		this.date = new Date(this.date.getTime());
 	}
 
 	updateTimeWithDistance(
@@ -132,9 +132,9 @@ class GameDateAndTime
 
 		return this.update(
 			new Date(
-				this.getFullYear(),
-				this.getUTCMonth(),
-				this.getUTCDate() + days,
+				this.date.getFullYear(),
+				this.date.getUTCMonth(),
+				this.date.getUTCDate() + days,
 				hours,
 				minutes,
 			),
@@ -148,7 +148,7 @@ class GameDateAndTime
 
 // biome-ignore lint/correctness/noUnusedVariables: <Enforce static props>
 type ClassCheck = SugarBoxCompatibleClassConstructorCheck<
-	string,
+	number,
 	typeof GameDateAndTime
 >;
 
