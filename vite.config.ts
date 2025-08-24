@@ -9,7 +9,7 @@ export default defineConfig({
 		solidPlugin(),
 		tailwindcss(),
 		// Use TypeScript compiler for better const enum support
-		process.env.NODE_ENV === "production"
+		process.env["NODE_ENV"] === "production"
 			? typescript({
 					compilerOptions: {
 						preserveConstEnums: false,
@@ -25,8 +25,8 @@ export default defineConfig({
 		target: "esnext",
 	},
 	esbuild: {
-		// So that we can mangle class properties that start with an underscore
-		mangleProps: /^_/,
+		// // So that we can mangle class properties that start with an underscore
+		// mangleProps: /^_/,
 	},
 	resolve: {
 		alias: {
