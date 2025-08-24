@@ -10,7 +10,7 @@ function PassageDisplay() {
 
 	onMount(() => {
 		GAME_ENGINE.on(":passageChange", ({ detail: { newPassage } }) => {
-			setPassageToDisplay(() => newPassage);
+			if (newPassage) setPassageToDisplay(() => newPassage);
 		});
 	});
 

@@ -1,116 +1,293 @@
-// import { gInGameItems } from "./declarations/game_item_declarations";
-
-import type {
-	SugarBoxCompatibleClassConstructorCheck,
-	SugarBoxCompatibleClassInstance,
-} from "sugarbox";
-import { ClassId } from "~/game/shared/enums";
-import { isEmptyObject } from "~/utils/object";
-import type { Item } from "../class";
+import { signalify } from "classy-solid";
+import { unwrap } from "solid-js/store";
+import type { SugarBoxCompatibleClassInstance } from "sugarbox";
+import { GAME_VARIABLES } from "~/App";
+import type { Inventory } from "~/game/inventory/class";
+import { BodyArea, ClassId } from "~/game/shared/enums";
+import { areNoFlagsSet } from "~/utils/bitfields";
+import { ConsumableItem, EquippableItem } from "../class";
 import { ItemId } from "../enums";
 import { gInGameItems } from "../game-items";
-import type {
-	AnyItemDynamicData,
-	ExtraIdDataType,
-	GenericItemDynamicData,
-	ItemClassMethod,
-} from "../types";
+
+type InventoryItemClassIds =
+	| ClassId.BASE_INVENTORY_ITEM
+	| ClassId.EQUIPPABLE_INVENTORY_ITEM
+	| ClassId.CONSUMABLE_INVENTORY_ITEM
+	| ClassId.CLOTHING_INVENTORY_ITEM;
+
+type SerializedInventoryItem = {
+	itemId: ItemId;
+	inventoryId: string;
+
+	/** This is stored so that I know what class constructor to use to deserialize the data */
+	classId: InventoryItemClassIds;
+};
 
 /** Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()` */
-class InventoryItem
+class BaseInventoryItem
 	implements SugarBoxCompatibleClassInstance<SerializedInventoryItem>
 {
 	/** To know what type of item it is */
-	readonly itemId: ItemId = ItemId.DUMMY;
+	readonly itemId: ItemId;
 
 	/** If present, can be used to find the exact position of an item in the inventory */
-	inventoryId: number | null = null;
+	readonly inventory: Inventory;
 
-	/** To identify a particular stored item in the inventory (in cases where there are multiple items with the same id but this particular item should be used), it should always be unique and is optionally set when an object is stored with `storeItem()` */
-	extraIdData?: ExtraIdDataType;
+	/** Index that this instance resides in */
+	readonly inventoryId: string;
 
-	/** */
-	locationObtained?: string;
+	readonly obtainedOn: Date;
 
-	/** In case an object has dynamicData, just put the required data here and read it as necessary */
-	dynamicData?: AnyItemDynamicData;
+	constructor(inventory: Inventory, inventoryId: string, itemId?: ItemId) {
+		this.itemId = itemId ?? ItemId.DUMMY;
 
-	constructor(initData?: SerializedInventoryItem) {
-		if (initData) Object.assign(this, initData);
+		if (!gInGameItems[this.itemId])
+			throw new Error(`ItemId "${this.itemId}" does not exist`);
+
+		this.inventory = inventory;
+
+		this.inventoryId = inventoryId;
+
+		this.obtainedOn = unwrap(GAME_VARIABLES.gameDateAndTime.date);
+
+		signalify(this);
 	}
 
-	static classId = ClassId.INVENTORY_ITEM;
+	static classId: InventoryItemClassIds = ClassId.BASE_INVENTORY_ITEM;
 
-	static fromJSON(data: SerializedInventoryItem): InventoryItem {
-		const clone = new InventoryItem();
+	/** Add the inventory when deserializing */
+	static fromJSON(
+		inventory: Inventory,
+		data: SerializedInventoryItem,
+	): BaseInventoryItem {
+		const clone = new BaseInventoryItem(inventory, data.inventoryId);
 
 		Object.assign(clone, data);
 
 		return clone;
 	}
 
+	/** Purposely excluded the inventory to prevent circular references */
 	toJSON(): SerializedInventoryItem {
-		return { ...this };
+		return {
+			inventoryId: this.inventoryId,
+			itemId: this.itemId,
+			classId: (this.constructor as typeof BaseInventoryItem).classId,
+		};
 	}
 
-	get itemTags() {
-		return this.staticData.tags;
-	}
-
-	get staticData() {
-		return gInGameItems[this.itemId] ?? (gInGameItems[ItemId.DUMMY] as Item);
-	}
-
-	get usable() {
-		return this.staticData.usable;
-	}
-
-	// By default, it calls the callback/handler of the appropriate item. However, it can also call any method of any item it represents if the appropriate method is passed as an argument. If `classMethodArgs` is passed, they will be used as the arguments for `classMethod`
-	// NOTE - Pass null to any method arguments that are extended from `ItemDynamicData` if you prefer having the data of the item used
-	use<method extends ItemClassMethod>(
-		classMethodInAnyTypeOfItem?: method,
-		...classMethodArgs: Parameters<method>
-	) {
-		const callback = this.staticData.callback;
-		const argData = this.dynamicData ?? ({} as GenericItemDynamicData);
-		let returnedData: AnyItemDynamicData | unknown;
-
-		if (classMethodInAnyTypeOfItem) {
-			const extraArgs = classMethodArgs;
-
-			//@ts-expect-error
-			// Apparently, the typescript version I'm using, v5.5.2, doesn't allow spreading the parameters of generic functions. Or maybe that's not the case? Anyway, this code isn't wrong
-			returnedData = classMethodInAnyTypeOfItem(...extraArgs) || {};
-		} else {
-			// Default to calling the callback while passing the dynamic data as the only argument, then store the returned data
-			returnedData = callback(argData);
-		}
-
-		// If the returned value is just an empty object, {}, there's no use of storing it.
-		if (
-			returnedData &&
-			typeof returnedData === "object" &&
-			!isEmptyObject(returnedData)
-		) {
-			this.dynamicData = returnedData;
-		}
-
-		return returnedData;
+	/** Data from the static Item class */
+	get itemData() {
+		// biome-ignore lint/style/noNonNullAssertion: <Deal with this later>
+		return gInGameItems[this.itemId]!;
 	}
 }
 
-type SerializedInventoryItem = {
-	itemId: ItemId;
-	inventoryId: number | null;
-	extraIdData?: ExtraIdDataType;
-	locationObtained?: string;
-	dynamicData?: AnyItemDynamicData;
+type SerializedConsumableInventoryItem = SerializedInventoryItem & {};
+
+class ConsumableInventoryItem extends BaseInventoryItem {
+	static override classId: InventoryItemClassIds =
+		ClassId.CONSUMABLE_INVENTORY_ITEM;
+
+	/** Applies the effects of the item and deletes itself from the inventory */
+	use(): void {
+		this.itemData.use();
+
+		this.inventory.deleteItem({
+			inventoryId: this.inventoryId,
+			type: "inventoryId",
+		});
+	}
+
+	isUsable(): boolean {
+		const expiresIn = this.itemData.expiresIn;
+
+		if (expiresIn === 0) return true;
+
+		return (
+			GAME_VARIABLES.gameDateAndTime.date.getDate() -
+				this.obtainedOn.getDate() <
+			expiresIn
+		);
+	}
+
+	override toJSON(): SerializedConsumableInventoryItem {
+		return super.toJSON();
+	}
+
+	static override fromJSON(
+		inventory: Inventory,
+		data: SerializedConsumableInventoryItem,
+	): ConsumableInventoryItem {
+		const clone = new ConsumableInventoryItem(inventory, data.inventoryId);
+
+		Object.assign(clone, data);
+
+		return clone;
+	}
+
+	override get itemData(): ConsumableItem {
+		if (!(super.itemData instanceof ConsumableItem))
+			throw new Error(`ItemId "${this.itemId}" is not a consumable item`);
+
+		return super.itemData;
+	}
+}
+
+type SerializedEquippableInventoryItem = SerializedInventoryItem & {
+	isEquipped: boolean;
+	durability: number;
 };
 
-// biome-ignore lint/correctness/noUnusedVariables: <Static prop check>
-type InventoryItemClassCheck = SugarBoxCompatibleClassConstructorCheck<
-	SerializedInventoryItem,
-	typeof InventoryItem
->;
+class EquippableInventoryItem extends BaseInventoryItem {
+	private _isEquipped = false;
 
-export { InventoryItem };
+	private _durability: number;
+
+	static override classId: InventoryItemClassIds =
+		ClassId.EQUIPPABLE_INVENTORY_ITEM;
+
+	constructor(
+		...args: [
+			...ConstructorParameters<typeof BaseInventoryItem>,
+			durability?: number,
+		]
+	) {
+		super(args[0], args[1]);
+
+		this.durability = args[2] ?? this.itemData.maxDurability;
+
+		signalify(this);
+	}
+
+	get isEquipped() {
+		return this._isEquipped;
+	}
+
+	set isEquipped(value: boolean) {
+		if (value === this._isEquipped) return; // No change
+
+		if (value) {
+			// Equipping the item
+			if (!this.canEquip) {
+				throw new Error(
+					`Cannot equip itemId "${this.itemId}". Another item is likely equipped in the same area.`,
+				);
+			}
+		}
+
+		this._isEquipped = value;
+	}
+
+	get durability() {
+		return this._durability;
+	}
+
+	set durability(value: number) {
+		if (value <= 0) {
+			// Durability has been used up, so delete the item from inventory
+
+			this.inventory.deleteItem({
+				inventoryId: this.inventoryId,
+				type: "inventoryId",
+			});
+
+			return;
+		}
+
+		if (value > this.itemData.maxDurability) {
+			value = this.itemData.maxDurability;
+		}
+
+		this._durability = value;
+	}
+
+	override toJSON(): SerializedEquippableInventoryItem {
+		const { durability, isEquipped } = this;
+
+		return {
+			...super.toJSON(),
+			durability,
+			isEquipped,
+		};
+	}
+
+	static override fromJSON(
+		inventory: Inventory,
+		data: SerializedEquippableInventoryItem,
+	): EquippableInventoryItem {
+		const clone = new EquippableInventoryItem(inventory, data.inventoryId);
+
+		Object.assign(clone, data);
+
+		return clone;
+	}
+
+	override get itemData(): EquippableItem {
+		if (!(super.itemData instanceof EquippableItem))
+			throw new Error(`ItemId "${this.itemId}" is not an equippable item`);
+
+		return super.itemData;
+	}
+
+	get canEquip(): boolean {
+		const itemData = this.itemData;
+
+		const allEquippedItems = this.inventory.equippables.filter(
+			(equippable) => equippable._isEquipped,
+		);
+
+		const getOccupiedBodyArea = (type: EquippableItem["type"]) =>
+			allEquippedItems.reduce((acc, data) => {
+				if (data.itemData.type === type) {
+					acc |= data.itemData.bodyArea;
+				}
+
+				return acc;
+			}, BodyArea.NONE);
+
+		switch (itemData.type) {
+			// Only concern ourselves with innerwear
+			case "inner": {
+				const occupiedInnerBodyArea = getOccupiedBodyArea("inner");
+
+				// Perform the comparison after removing the innerwear bitfield so it doesn't interfere
+				const canEquip = areNoFlagsSet(
+					itemData.bodyArea & ~BodyArea.INNER,
+					occupiedInnerBodyArea & ~BodyArea.INNER,
+				);
+
+				return canEquip;
+			}
+
+			// Only concern ourselves with outerwear
+			case "outer": {
+				const occupiedOuterBodyArea = getOccupiedBodyArea("outer");
+
+				const canEquip = areNoFlagsSet(
+					itemData.bodyArea,
+					occupiedOuterBodyArea,
+				);
+
+				return canEquip;
+			}
+
+			case "tattoo": {
+				const occupiedTattooBodyArea = getOccupiedBodyArea("tattoo");
+
+				// Perform the comparison after removing the innerwear bitfield so it doesn't interfere
+				const canEquip = areNoFlagsSet(
+					itemData.bodyArea & ~BodyArea.TATTOO,
+					occupiedTattooBodyArea & ~BodyArea.TATTOO,
+				);
+
+				return canEquip;
+			}
+
+			default:
+				return true;
+		}
+	}
+}
+
+export { BaseInventoryItem, ConsumableInventoryItem, EquippableInventoryItem };

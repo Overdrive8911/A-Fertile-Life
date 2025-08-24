@@ -16,6 +16,7 @@
 		"verbatimModuleSyntax": false,
 		"paths": {
 			"~/*": ["./src/*"]
-		}
+		},
+		"strictNullChecks": true
 	}
 }

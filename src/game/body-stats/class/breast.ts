@@ -81,7 +81,7 @@ class Breasts
 	}
 
 	// NOTE - Use this to also check if a breast exists.
-	getBreastData(location: BreastLocation): SingleBreast {
+	getBreastData(location: BreastLocation) {
 		return this._breasts.get(location);
 	}
 }

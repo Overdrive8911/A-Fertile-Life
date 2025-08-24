@@ -1,28 +1,36 @@
+import { ReactiveMap } from "@solid-primitives/map";
+import { signalify } from "classy-solid";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
-import { either, includesAll } from "~/utils/iterable";
-import { type ItemId, ItemTag } from "../item/enums";
-import { InventoryItem } from "../item/inventory-item/class";
-import type { AnyItemDynamicData, ExtraIdDataType } from "../item/types";
+import { getRandomUUID } from "~/utils/random";
+import type { ItemColor, ItemId, ItemTag } from "../item/enums";
+import {
+	BaseInventoryItem,
+	ConsumableInventoryItem,
+	EquippableInventoryItem,
+} from "../item/inventory-item/class";
 import { ClassId } from "../shared/enums";
 
 type SerializedInventory = {
-	items: Map<number, InventoryItem>;
+	items: Map<string, ReturnType<typeof BaseInventoryItem.prototype.toJSON>>;
 	itemLimit: number;
 };
 
 class Inventory
 	implements SugarBoxCompatibleClassInstance<SerializedInventory>
 {
-	protected items: Map<number, InventoryItem> = new Map();
+	private _items: ReactiveMap<string, BaseInventoryItem> = new ReactiveMap();
 
-	#itemLimit = 256; // TODO - Don't hardcode the item limit
+	private _capacity = 256; // TODO - Don't hardcode the item limit
 
-	constructor() {
-		this.items = new Map();
+	constructor(...items: ReadonlyArray<BaseInventoryItem>) {
+		items.forEach((item) => {
+			this.storeItem(item);
+		});
+
+		signalify(this);
 	}
 
 	static classId = ClassId.INVENTORY;
@@ -30,218 +38,226 @@ class Inventory
 	static fromJSON(data: SerializedInventory): Inventory {
 		const clone = new Inventory();
 
-		clone.#itemLimit = data.itemLimit;
-		clone.items = data.items;
+		clone._capacity = data.itemLimit;
+
+		for (const [inventoryId, serializedItem] of data.items) {
+			const { classId } = serializedItem,
+				classConstructorToUse =
+					classId === ClassId.EQUIPPABLE_INVENTORY_ITEM
+						? EquippableInventoryItem
+						: classId === ClassId.CONSUMABLE_INVENTORY_ITEM
+							? ConsumableInventoryItem
+							: BaseInventoryItem;
+
+			//@ts-expect-error
+			const item = classConstructorToUse.fromJSON(clone, serializedItem);
+
+			clone._items.set(inventoryId, item);
+		}
 
 		return clone;
 	}
 
-	// Return true if successful else false
-	storeItem(
-		itemId: ItemId,
-		amount?: number,
-		locationObtained?: string,
-		extraIdData?: number | string,
-		dynamicData?: AnyItemDynamicData,
-	) {
+	// Return an object denoting the number of items that were successfully stored and could not be stored
+	storeItem(arg: {
+		itemId: ItemId;
+		amount?: number;
+		/** Incase you want to use a child class  */
+		classType?: typeof BaseInventoryItem;
+	}): { success: number; fail: number } {
+		const {
+			amount: originalAmount = 1,
+			classType = BaseInventoryItem,
+			itemId,
+		} = arg;
+
 		// TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
-		if (!amount) amount = 1;
+		const limit = this._capacity;
 
-		const limit = this.#itemLimit;
+		const currSize = this._items.size;
 
-		const currSize = this.items.size;
+		let amount = originalAmount;
 
 		if (currSize === limit) {
-			return false;
+			return { fail: amount, success: 0 };
 		} else if (currSize + amount > limit) {
 			// Only accept enough to fill the inventory
 			// TODO - If this happens, at the end of the function, return an object containing a special code indicating the amount of items that couldn't be stored
 			amount = limit - currSize;
 		}
 
-		while (amount > 0) {
-			// get all the keys in an array
-			const inventoryKeys: number[] = [];
-			this.items.forEach((v, key) => {
-				inventoryKeys.push(key);
-			});
+		for (let i = 0; i < amount; i++) {
+			const inventoryId = getRandomUUID();
 
-			// REVIEW - See whether this can be optimized
-			// Create an array with a length to contain 256 items and spread out its keys into the array we'll actually use, i.e [0,1,2,3,...,255] and filter away keys already used in the inventory
-			const unusedInventoryKeys = [...Array(limit).keys()].filter((value) => {
-				return !inventoryKeys.includes(value);
-			});
-			const newRandStorageId = either(unusedInventoryKeys) as unknown as number;
+			const inventoryItem = new classType(this, inventoryId, itemId);
 
-			const inventoryItem = new InventoryItem({
-				itemId: itemId,
-				locationObtained:
-					locationObtained !== undefined
-						? locationObtained
-						: // : GAME_VARIABLES.player.areaId,
-							"",
-				inventoryId: newRandStorageId,
-			});
-
-			if (extraIdData != null) {
-				inventoryItem.extraIdData = extraIdData;
-			}
-
-			if (dynamicData) {
-				inventoryItem.dynamicData = dynamicData;
-			}
-
-			this.items.set(newRandStorageId, inventoryItem);
-
-			amount--;
+			this._items.set(inventoryId, inventoryItem);
 		}
-		return true;
+
+		return { success: amount, fail: originalAmount - amount };
 	}
 
-	// Returns true if successful else false
-	removeItem(itemId: ItemId, amount?: number): boolean;
-	removeItem(
-		storageId: number,
-		amount?: number,
-		useUniqueStorageId?: true,
-	): boolean;
-	removeItem(
-		itemOrStorageId: ItemId | number,
-		amount?: number,
-		useUniqueStorageId = false,
+	// Returns true if the item previously existed and deletion was successful else false
+	deleteItem(
+		arg:
+			| {
+					type: "itemId";
+					itemId: ItemId;
+					/** If not specified, all reocurrences of the item are deleted */
+					amount?: number;
+			  }
+			| { type: "inventoryId"; inventoryId: string },
 	): boolean {
-		if (!amount) amount = 1;
+		if (arg.type === "inventoryId") {
+			// Specifically remove an item using its unique inventory id
+			return this._items.delete(arg.inventoryId);
+		} else {
+			// Remove using the item id. If amount is not specified, remove all matching items
+			const { itemId, amount = this._capacity } = arg;
 
-		if (useUniqueStorageId && typeof itemOrStorageId === "number") {
-			if (!this.items.has(itemOrStorageId)) return false;
+			let numDeleted = 0;
 
-			this.items.delete(itemOrStorageId);
-			// There can only be one inventory item with a particular storage id so ignore `amount`
+			for (const [inventoryId, item] of this._items) {
+				if (item.itemId === itemId) {
+					this._items.delete(inventoryId);
+
+					numDeleted++;
+				}
+
+				if (numDeleted === amount) break;
+			}
+
 			return true;
 		}
+	}
 
-		const matchingItemKeys: number[] = [];
-		this.items.forEach((value, key) => {
-			if (value.itemId === itemOrStorageId) {
-				matchingItemKeys.push(key);
+	/** Returns a list of inventory items (if any) that match the parameter, otherwise null
+	 *
+	 * @param category Can be an ItemId, ItemColor, ItemTag or the special inventory id from the InventoryItem
+	 */
+	getItem(
+		category:
+			| { type: "itemId"; param: ItemId }
+			| { type: "itemColor"; param: ItemColor }
+			| { type: "itemTag"; param: ItemTag }
+			| { type: "inventoryId"; param: string },
+	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+		const { param, type } = category;
+
+		switch (type) {
+			case "itemId":
+				return this._getItemByItemId(param);
+			case "itemColor":
+				return this._getItemByItemColor(param);
+			case "itemTag":
+				return this._getItemByItemTag(param);
+			case "inventoryId": {
+				const item = this._getItemByInventoryId(param);
+
+				return item ? [item] : null;
 			}
-		});
-		if (matchingItemKeys.length === 0) {
-			return false;
 		}
-
-		matchingItemKeys.forEach((key) => {
-			if (amount && amount > 0) {
-				this.items.delete(key);
-				amount--;
-			}
-		});
-		return true;
 	}
 
-	removeAllMatchingItems(itemId: ItemId) {
-		return this.removeItem(itemId, this.#itemLimit);
-	}
+	private _getItemByItemId(
+		itemId: ItemId,
+	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+		const arr: BaseInventoryItem[] = [];
 
-	// Actually returns the number of items found
-	getItemCount(itemId: ItemId) {
-		let itemCount = 0;
-
-		this.items.forEach((item) => {
-			if (item.itemId === itemId) itemCount++;
+		this._items.forEach((item) => {
+			if (item.itemId === itemId) arr.push(item);
 		});
 
-		return itemCount;
+		return arr.length
+			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
+			: null;
 	}
 
-	get arrOfUniqueItemIds() {
-		const arr: ItemId[] = [];
+	private _getItemByItemColor(
+		color: ItemColor,
+	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+		const arr: BaseInventoryItem[] = [];
 
-		this.items.forEach((value) => {
-			arr.push(value.itemId);
+		this._items.forEach((item) => {
+			if (item.itemData.color === color) arr.push(item);
 		});
 
-		return [...new Set(arr)];
+		return arr.length
+			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
+			: null;
 	}
 
-	get itemLimit() {
-		return this.#itemLimit;
+	private _getItemByItemTag(
+		tag: ItemTag,
+	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+		const arr: BaseInventoryItem[] = [];
+
+		this._items.forEach((item) => {
+			if (item.itemData.tags.has(tag)) arr.push(item);
+		});
+
+		return arr.length
+			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
+			: null;
 	}
 
-	set itemLimit(val: number) {
-		const size = this.items.size;
+	private _getItemByInventoryId(inventoryId: string): BaseInventoryItem | null {
+		const item = this._items.get(inventoryId);
+
+		return item ?? null;
+	}
+
+	/** Utility method that returns a de-duplicated list of al the item ids in the inventory */
+	get uniqueItemIds(): Set<ItemId> {
+		const arr = new Set<ItemId>();
+
+		this._items.forEach((value) => {
+			arr.add(value.itemId);
+		});
+
+		return arr;
+	}
+
+	get capacity() {
+		return this._capacity;
+	}
+
+	set capacity(val: number) {
+		const size = this._items.size;
 
 		// Don't allow the inventory's limit to go lower than the amount of items the user currently has
 		if (val < size) val = size;
 
-		this.#itemLimit = val;
+		this._capacity = val;
 	}
 
 	get remainingCapacity() {
-		return this.#itemLimit - this.items.size;
+		return this._capacity - this._items.size;
 	}
 
-	// Returns any matched item(s) in the inventory. Returns "null" if no matched item is present. If `extraIdData` is provided, it will try to find a SINGLE item with both the specified id and `extraIdData`. DOES NOT DELETE ANYTHING
-	getItem(itemId: ItemId): InventoryItem[] | null;
-	getItem(
-		itemId: ItemId,
-		extraIdData: ExtraIdDataType /* This is solely use to identify an item and nothing more*/,
-	): InventoryItem | null;
-	getItem(
-		inventoryStorageId: number,
-		useUniqueInventoryStorageId: true,
-	): InventoryItem | null;
-	getItem(
-		itemOrStorageId: ItemId | number,
-		extraIdentificationDataOrUseUniqueStorageId?: true | ExtraIdDataType,
-	) {
-		if (typeof extraIdentificationDataOrUseUniqueStorageId === "boolean") {
-			// ANCHOR: The id used to stored the item in the inventory was passed as well as the `useUniqueStorageId` argument as TRUE
-			return this.items.get(itemOrStorageId as ItemId);
-		} else {
-			//
-			const inGameInventoryItemArray: InventoryItem[] = [];
-			const itemId = itemOrStorageId as ItemId;
-
-			for (const [, item] of this.items) {
-				const loopItemId = item.itemId;
-
-				if (loopItemId === itemId) {
-					if (
-						extraIdentificationDataOrUseUniqueStorageId &&
-						item.extraIdData === extraIdentificationDataOrUseUniqueStorageId
-					) {
-						inGameInventoryItemArray.push(item);
-						break; // Gotten the specific item so break
-					}
-
-					inGameInventoryItemArray.push(item);
-				}
-			}
-
-			return inGameInventoryItemArray.length === 0
-				? null
-				: inGameInventoryItemArray;
-		}
+	get equippables(): IteratorObject<EquippableInventoryItem> {
+		return this._items
+			.values()
+			.filter((item) => item instanceof EquippableInventoryItem);
 	}
 
-	// Returns an array of every inventory item that matches the given tag, if any. Ignores the `DUMMY` item
-	getAllItemsByItemTag(itemTag = new Set([ItemTag.ALL])) {
-		let returnedItems = [...this.items.values()];
-
-		if (itemTag) {
-			if (!itemTag.has(ItemTag.ALL)) {
-				returnedItems = returnedItems.filter((item) => {
-					return includesAll(item.itemTags, [...itemTag]);
-				});
-			}
-		}
-
-		return returnedItems;
+	get consumables(): IteratorObject<ConsumableInventoryItem> {
+		return this._items
+			.values()
+			.filter((item) => item instanceof ConsumableInventoryItem);
 	}
 
 	toJSON(): SerializedInventory {
-		return { itemLimit: this.#itemLimit, items: this.items };
+		const serializedItems: Map<
+			string,
+			ReturnType<typeof BaseInventoryItem.prototype.toJSON>
+		> = new Map();
+
+		for (const [inventoryId, item] of this._items) {
+			serializedItems.set(inventoryId, item.toJSON());
+		}
+
+		return { itemLimit: this._capacity, items: serializedItems };
 	}
 }
 

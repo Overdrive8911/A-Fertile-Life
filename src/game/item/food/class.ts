@@ -1,65 +1,115 @@
 import { Womb } from "~/game/pregnancy/classes/womb";
 import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
-import { Item } from "../class";
-import { FoodEffect, ItemTag } from "../enums";
-import type { ItemConstructorArgs } from "../types";
+import { ConsumableItem } from "../class";
+import { ItemTag } from "../enums";
+import type { GenericItemEffect, ItemConstructorArgs } from "../types";
+import { FoodEffect } from "./enums";
 
 export // REVIEW - Types of food that reduce fullness and may give certain buffs or nerf?
-class Food extends Item {
-	/**
-	 * The time in seconds that should pass before the food item expires
-	 */
-	expiresIn: number = 0;
-
+class Food extends ConsumableItem<FoodEffect> {
 	constructor(data?: ItemConstructorArgs<Food>) {
 		super(data);
-		this.usable = true;
-		this.addTags(ItemTag.FOOD);
+
+		this.tags.add(ItemTag.FOOD);
 	}
 
-	override applyEffect(
-		effect: FoodEffect,
+	override _applyEffect(
+		effect: GenericItemEffect<FoodEffect>,
 		user: PlayerV0_0_1,
-		shouldInvert?: boolean,
 	): void {
+		this._applyCustomEffectFromGenericUnion(effect, user);
+
+		const { effect: foodEffect, invert } =
+			typeof effect === "object" ? effect : { effect, invert: false };
+
 		let hpChange = 0,
 			wombHpChange = 0,
 			moodChange = 0,
 			fullnessChange = 0,
 			expChange = 0;
 
-		if (effect & FoodEffect.HEAL_HP_10) hpChange += 10;
-		if (effect & FoodEffect.HEAL_HP_25) hpChange += 25;
-		if (effect & FoodEffect.HEAL_HP_50) hpChange += 50;
-		if (effect & FoodEffect.HEAL_HP_75) hpChange += 75;
-		if (effect & FoodEffect.HEAL_HP_100) hpChange += 100;
+		switch (foodEffect) {
+			case FoodEffect.HEAL_HP_10:
+				hpChange += 10;
+				break;
+			case FoodEffect.HEAL_HP_25:
+				hpChange += 25;
+				break;
+			case FoodEffect.HEAL_HP_50:
+				hpChange += 50;
+				break;
+			case FoodEffect.HEAL_HP_75:
+				hpChange += 75;
+				break;
+			case FoodEffect.HEAL_HP_100:
+				hpChange += 100;
+				break;
+			case FoodEffect.HEAL_WOMB_25:
+				wombHpChange += 25;
+				break;
+			case FoodEffect.HEAL_WOMB_50:
+				wombHpChange += 50;
+				break;
+			case FoodEffect.HEAL_WOMB_75:
+				wombHpChange += 75;
+				break;
+			case FoodEffect.HEAL_WOMB_100:
+				wombHpChange += 100;
+				break;
+			case FoodEffect.HEAL_MOOD_10:
+				moodChange += 10;
+				break;
+			case FoodEffect.HEAL_MOOD_25:
+				moodChange += 25;
+				break;
+			case FoodEffect.HEAL_MOOD_50:
+				moodChange += 50;
+				break;
+			case FoodEffect.HEAL_MOOD_75:
+				moodChange += 75;
+				break;
+			case FoodEffect.HEAL_MOOD_100:
+				moodChange += 100;
+				break;
+			case FoodEffect.HEAL_FULLNESS_10:
+				fullnessChange += 10;
+				break;
+			case FoodEffect.HEAL_FULLNESS_25:
+				fullnessChange += 25;
+				break;
+			case FoodEffect.HEAL_FULLNESS_50:
+				fullnessChange += 50;
+				break;
+			case FoodEffect.HEAL_FULLNESS_75:
+				fullnessChange += 75;
+				break;
+			case FoodEffect.HEAL_FULLNESS_100:
+				fullnessChange += 100;
+				break;
+			case FoodEffect.ADD_EXP_1:
+				expChange += 1;
+				break;
+			case FoodEffect.ADD_EXP_5:
+				expChange += 5;
+				break;
+			case FoodEffect.ADD_EXP_10:
+				expChange += 10;
+				break;
+			case FoodEffect.ADD_EXP_25:
+				expChange += 25;
+				break;
+			case FoodEffect.ADD_EXP_50:
+				expChange += 50;
+				break;
+			case FoodEffect.ADD_EXP_75:
+				expChange += 75;
+				break;
+			case FoodEffect.ADD_EXP_100:
+				expChange += 100;
+				break;
+		}
 
-		if (effect & FoodEffect.HEAL_WOMB_25) wombHpChange += 25;
-		if (effect & FoodEffect.HEAL_WOMB_50) wombHpChange += 50;
-		if (effect & FoodEffect.HEAL_WOMB_75) wombHpChange += 75;
-		if (effect & FoodEffect.HEAL_WOMB_100) wombHpChange += 100;
-
-		if (effect & FoodEffect.HEAL_MOOD_10) moodChange += 10;
-		if (effect & FoodEffect.HEAL_MOOD_25) moodChange += 25;
-		if (effect & FoodEffect.HEAL_MOOD_50) moodChange += 50;
-		if (effect & FoodEffect.HEAL_MOOD_75) moodChange += 75;
-		if (effect & FoodEffect.HEAL_MOOD_100) moodChange += 100;
-
-		if (effect & FoodEffect.HEAL_FULLNESS_10) fullnessChange += 10;
-		if (effect & FoodEffect.HEAL_FULLNESS_25) fullnessChange += 25;
-		if (effect & FoodEffect.HEAL_FULLNESS_50) fullnessChange += 50;
-		if (effect & FoodEffect.HEAL_FULLNESS_75) fullnessChange += 75;
-		if (effect & FoodEffect.HEAL_FULLNESS_100) fullnessChange += 100;
-
-		if (effect & FoodEffect.ADD_EXP_1) expChange += 1;
-		if (effect & FoodEffect.ADD_EXP_5) expChange += 5;
-		if (effect & FoodEffect.ADD_EXP_10) expChange += 10;
-		if (effect & FoodEffect.ADD_EXP_25) expChange += 25;
-		if (effect & FoodEffect.ADD_EXP_50) expChange += 50;
-		if (effect & FoodEffect.ADD_EXP_75) expChange += 75;
-		if (effect & FoodEffect.ADD_EXP_100) expChange += 100;
-
-		if (shouldInvert) {
+		if (invert) {
 			hpChange *= -1;
 			wombHpChange *= -1;
 			moodChange *= -1;
@@ -91,15 +141,3 @@ class Food extends Item {
 		user.womb.exp += Womb.getExpLimit(user.womb.lvl + 1) * expChange;
 	}
 }
-
-// export class Trash extends Item {
-//   constructor(data?: Partial<Item>) {
-//     super(data);
-//   }
-// }
-
-// export class Miscellaneous extends Item {
-//   constructor(data?: Partial<Item>) {
-//     super(data);
-//   }
-// }

@@ -72,9 +72,9 @@ class GameDateAndTime implements SugarBoxCompatibleClassInstance<number> {
 	get data(): DateData {
 		return {
 			date: this.date.getUTCDate(),
-			day: days[this.date.getUTCDay()],
+			day: days[this.date.getUTCDay()] ?? "MON",
 			hours: this.date.getUTCHours(),
-			month: months[this.date.getUTCMonth()],
+			month: months[this.date.getUTCMonth()] ?? "JAN",
 			minutes: this.date.getUTCMinutes(),
 			year: this.date.getUTCFullYear(),
 		};

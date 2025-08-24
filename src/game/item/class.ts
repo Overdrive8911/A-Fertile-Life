@@ -1,102 +1,150 @@
+import type { JSX } from "solid-js/jsx-runtime";
 import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
-import { ItemColor, ItemId, ItemProperties, ItemTag } from "./enums";
-import type { ItemCallback, ItemConstructorArgs } from "./types";
+import { GAME_ENGINE } from "../engine/engine";
+import { BodyArea } from "../shared/enums";
+import { ItemColor, ItemId, ItemTag } from "./enums";
+import {
+	type BaseInventoryItem,
+	ConsumableInventoryItem,
+	EquippableInventoryItem,
+} from "./inventory-item/class";
+import type {
+	GenericInvertedItemEffect,
+	GenericItemEffect,
+	ItemConstructorArgs,
+} from "./types";
 
-/** This class accepts 3 arguments; an object which may have any data of the non-method properties of this class, a function to serve as the handler callback of the item to create, or both in an object described by `allData` which is {data: ..., handler: ...} */
-class Item<ItemEffect extends number = number> {
-	itemId: ItemId = ItemId.DUMMY;
-	name: string = "???";
+abstract class BaseItem<TEffectType extends number = 0> {
+	id = ItemId.DUMMY;
+
+	name = "???";
+
 	/** For the player to obtain it. The selling price is 45% of this value :p */
-	price: number = 0;
+	price = 1;
+
 	/** In grams */
-	weight: number = 0;
-	description: string = "";
+	weight = 1;
+
+	/** The reason it's a JSX element is so we can use styles like `bold` */
+	description: JSX.Element = "???";
+
 	/** The relative url to its image file in relations to the compiled html file */
-	imgUrl: string = "";
+	img = "";
+
 	/** For sorting items */
-	tags = new Set<ItemTag>([ItemTag.DUMMY]);
+	tags = new Set([ItemTag.DUMMY]);
+
 	/** Just for aesthetics */
-	color: ItemColor = ItemColor.NO_COLOR;
+	color = ItemColor.NO_COLOR;
 
-	/**
-	 * This is an array of values where each value is either an `effect` to apply, an object consisting of an `effect` to apply and a flag to do the reverse of what the effect normally does, or a function that takes the player as an argument and does something with it that none of the `effect`s can do
-	 */
-	effect?: (
-		| ItemEffect
-		| { type: ItemEffect; invert: true }
-		| ((user: PlayerV0_0_1) => void)
-	)[];
-
-	/**
-	 * If the item can be used. If not, it's just a collectible
-	 *
-	 * //NOTE: **EVERY ITEM IS UNUSABLE UNLESS EXPLICITLY SET OTHERWISE**
-	 */
-	usable = false;
-
-	// A handler function called when the item is used. Unusable items don't need this. Return data (and parameters) will be an array/iterable/single primitive value and will likely be of the same structure (since the stored data in an inventory item(if any) may be used as arguments). See the getter `callback()`
-	customCallBack?: ItemCallback; // NOTE: Add this when initializing a new item and a special "default callback" is required.
-	/**
-	 *
-	 * // ANCHOR: The `defaultCallback()` is simply the default function that should be called when an item in the inventory is used. Like wearing / removing clothing, consuming food or drugs, etc.
-	 */
-	protected defaultCallback(...args: Parameters<ItemCallback>) {
-		// REVIEW - What should the generic item callback be?
-		// TODO - Fix this typescript error
-		const user = args[0]?.user;
-
-		if (user && this.effect) {
-			this.effect.forEach((effect) => {
-				if (typeof effect === "function") {
-					effect(user);
-				} else if (typeof effect === "object") {
-					if (effect.invert) {
-						// Invert the effect
-						this.applyEffect(effect.type, user, true);
-					} else {
-						this.applyEffect(effect.type, user);
-					}
-				} else {
-					this.applyEffect(effect, user);
-				}
-			});
-		}
-
-		return 0 as ReturnType<ItemCallback>;
-	}
-	/**
-	 * **OVERRIDE ME** on any item that can apply *effects* to the user such as `Food` and `Drug`s
-	 */
-	protected applyEffect(
-		effect: ItemEffect,
-		user: PlayerV0_0_1,
-		shouldInvert = false,
-	) {
-		console.log("Default Effect applied aka NOTHING :3. Override this method");
-	}
-
-	constructor(data?: ItemConstructorArgs<Item>) {
+	constructor(data?: ItemConstructorArgs<BaseItem<TEffectType>>) {
 		const cloneableData = data ? { ...data, tags: new Set(data.tags) } : {};
 
 		Object.assign(this, cloneableData);
 	}
+}
 
-	// SECTION - Methods
-	addTags(...tagsToAdd: ItemTag[]) {
-		tagsToAdd.forEach((tagToAdd) => {
-			if (tagToAdd !== ItemTag.ALL) {
-				this.tags.add(tagToAdd);
-			}
-		});
+abstract class ItemWithEffects<
+	TEffectType extends number = 0,
+> extends BaseItem<TEffectType> {
+	/**
+	 * This is an array of values where each value is either an object consisting of an `effect` to apply and a flag to do the reverse of what the effect normally does, or a custom callback that takes the player as an argument and does something with it that none of the `effect`s can do
+	 */
+	effects: ReadonlyArray<GenericItemEffect<TEffectType>>;
+
+	constructor(data?: ItemConstructorArgs<ItemWithEffects<TEffectType>>) {
+		super(data);
+
+		this.effects = [];
 	}
 
-	// Returns an array of the removed tags
-	removeTags(...tagsToRemove: ItemTag[]): ItemTag[] {
-		return tagsToRemove.map((tag) => {
-			this.tags.delete(tag);
-			return tag;
+	abstract createInventoryItem(
+		...args: ConstructorParameters<typeof BaseInventoryItem>
+	): BaseInventoryItem;
+}
+
+/** Use this explicitly for consumables */
+abstract class ConsumableItem<
+	TEffectType extends number = 0,
+> extends ItemWithEffects<TEffectType> {
+	/**
+	 * The time in seconds that should pass before the consumable expires and can no longer be used.
+	 *
+	 * A value of 0 means it never expires.
+	 */
+	readonly expiresIn: number = 0;
+
+	protected abstract _applyEffect(
+		effect: GenericItemEffect<TEffectType>,
+		user: PlayerV0_0_1,
+	): void;
+
+	override createInventoryItem(
+		...args: ConstructorParameters<typeof ConsumableInventoryItem>
+	): ConsumableInventoryItem {
+		return new ConsumableInventoryItem(...args);
+	}
+
+	/** Since custom effects are, well custom, this is just a utility method to deal with that */
+	protected _applyCustomEffectFromGenericUnion(
+		effect: GenericItemEffect<TEffectType>,
+		user: PlayerV0_0_1,
+	): asserts effect is GenericInvertedItemEffect<TEffectType> | TEffectType {
+		if (typeof effect !== "function") return;
+
+		effect(user);
+	}
+
+	/** Applies the effect(s) of the item to the player */
+	use() {
+		GAME_ENGINE.setVars((state) => {
+			this.effects.forEach((effect) => {
+				this._applyEffect(effect, state.player);
+			});
 		});
 	}
 }
 
-export { Item };
+/** Use this explicitly for equippables.
+ *
+ * PS: Effects aren't handled by the class itself. Equipping an item simply adds the effects to a property on the player, and other classes / callbacks decide what to do with those effects.
+ */
+abstract class EquippableItem<
+	TEffectType extends number = 0,
+> extends ItemWithEffects<TEffectType> {
+	readonly maxDurability: number = 100;
+
+	readonly bodyArea: BodyArea = BodyArea.NONE;
+
+	/** Effects for this type of item typically apply temporary percentage or chunk bonuses like a 10% boost to all earned exp, a +50 boost to charisma, a 25% reduced energy drain, etc.
+	 *
+	 * The most important fact is that the effect can be revoked at any time.
+	 *
+	 * Also PS: Durability itself is not an effect.
+	 */
+	override effects: ReadonlyArray<
+		TEffectType | GenericInvertedItemEffect<TEffectType>
+	> = [];
+
+	override createInventoryItem(
+		...args: ConstructorParameters<typeof EquippableInventoryItem>
+	): EquippableInventoryItem {
+		return new EquippableInventoryItem(...args);
+	}
+
+	coversBodyPart(bodyPart: BodyArea): boolean {
+		return this.bodyArea !== BodyArea.NONE
+			? bodyPart === (this.bodyArea & bodyPart)
+			: false;
+	}
+
+	get type(): "inner" | "outer" | "tattoo" {
+		if (this.bodyArea & BodyArea.INNER) return "inner";
+
+		if (this.bodyArea & BodyArea.TATTOO) return "tattoo";
+
+		return "outer";
+	}
+}
+
+export { BaseItem, ConsumableItem, EquippableItem };
