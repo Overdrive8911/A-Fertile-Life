@@ -1,15 +1,12 @@
-import {
-	BackpackIcon,
-	BellIcon,
-	RotateCcwIcon,
-	SaveIcon,
-	SettingsIcon,
-	ZoomInIcon,
-	ZoomOutIcon,
-} from "lucide-solid";
+import BackpackIcon from "lucide-solid/icons/backpack";
+import BellIcon from "lucide-solid/icons/bell";
+import RotateCcwIcon from "lucide-solid/icons/rotate-ccw";
+import SaveIcon from "lucide-solid/icons/save";
+import SettingsIcon from "lucide-solid/icons/settings";
+import ZoomInIcon from "lucide-solid/icons/zoom-in";
+import ZoomOutIcon from "lucide-solid/icons/zoom-out";
 import { For, type JSX } from "solid-js";
 import { GAME_VARIABLES } from "~/App";
-import { GAME_ENGINE } from "~/game/engine/engine";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
