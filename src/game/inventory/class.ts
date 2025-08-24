@@ -4,6 +4,7 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
+import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
 import type { ItemColor, ItemId, ItemTag } from "../item/enums";
 import {
@@ -14,14 +15,14 @@ import {
 import { ClassId } from "../shared/enums";
 
 type SerializedInventory = {
-	items: Map<string, ReturnType<typeof BaseInventoryItem.prototype.toJSON>>;
+	items: Map<UUID, ReturnType<typeof BaseInventoryItem.prototype.toJSON>>;
 	itemLimit: number;
 };
 
 class Inventory
 	implements SugarBoxCompatibleClassInstance<SerializedInventory>
 {
-	private _items: ReactiveMap<string, BaseInventoryItem> = new ReactiveMap();
+	private _items: ReactiveMap<UUID, BaseInventoryItem> = new ReactiveMap();
 
 	private _capacity = 256; // TODO - Don't hardcode the item limit
 
@@ -106,7 +107,7 @@ class Inventory
 					/** If not specified, all reocurrences of the item are deleted */
 					amount?: number;
 			  }
-			| { type: "inventoryId"; inventoryId: string },
+			| { type: "inventoryId"; inventoryId: UUID },
 	): boolean {
 		if (arg.type === "inventoryId") {
 			// Specifically remove an item using its unique inventory id
@@ -140,7 +141,7 @@ class Inventory
 			| { type: "itemId"; param: ItemId }
 			| { type: "itemColor"; param: ItemColor }
 			| { type: "itemTag"; param: ItemTag }
-			| { type: "inventoryId"; param: string },
+			| { type: "inventoryId"; param: UUID },
 	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
 		const { param, type } = category;
 
@@ -201,7 +202,7 @@ class Inventory
 			: null;
 	}
 
-	private _getItemByInventoryId(inventoryId: string): BaseInventoryItem | null {
+	private _getItemByInventoryId(inventoryId: UUID): BaseInventoryItem | null {
 		const item = this._items.get(inventoryId);
 
 		return item ?? null;
@@ -249,7 +250,7 @@ class Inventory
 
 	toJSON(): SerializedInventory {
 		const serializedItems: Map<
-			string,
+			UUID,
 			ReturnType<typeof BaseInventoryItem.prototype.toJSON>
 		> = new Map();
 

@@ -4,6 +4,7 @@ import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import { GAME_VARIABLES } from "~/App";
 import type { Inventory } from "~/game/inventory/class";
 import { BodyArea, ClassId } from "~/game/shared/enums";
+import type { UUID } from "~/types/uuid";
 import { areNoFlagsSet } from "~/utils/bitfields";
 import { ConsumableItem, EquippableItem } from "../class";
 import { ItemId } from "../enums";
@@ -17,7 +18,7 @@ type InventoryItemClassIds =
 
 type SerializedInventoryItem = {
 	itemId: ItemId;
-	inventoryId: string;
+	inventoryId: UUID;
 
 	/** This is stored so that I know what class constructor to use to deserialize the data */
 	classId: InventoryItemClassIds;
@@ -34,11 +35,11 @@ class BaseInventoryItem
 	readonly inventory: Inventory;
 
 	/** Index that this instance resides in */
-	readonly inventoryId: string;
+	readonly inventoryId: UUID;
 
 	readonly obtainedOn: Date;
 
-	constructor(inventory: Inventory, inventoryId: string, itemId?: ItemId) {
+	constructor(inventory: Inventory, inventoryId: UUID, itemId?: ItemId) {
 		this.itemId = itemId ?? ItemId.DUMMY;
 
 		if (!gInGameItems[this.itemId])
@@ -142,7 +143,7 @@ type SerializedEquippableInventoryItem = SerializedInventoryItem & {
 class EquippableInventoryItem extends BaseInventoryItem {
 	private _isEquipped = false;
 
-	private _durability: number;
+	private _durability = 100;
 
 	static override classId: InventoryItemClassIds =
 		ClassId.EQUIPPABLE_INVENTORY_ITEM;
