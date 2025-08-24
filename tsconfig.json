@@ -9,14 +9,26 @@
 		"jsxImportSource": "solid-js",
 		"types": ["vite/client", "@types/node"],
 		"noEmit": true,
+
+		// Strict Type Checking
+		"strict": true,
 		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noPropertyAccessFromIndexSignature": true,
+
+		// Additional Strict Checks
 		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		// Module Resolution
 		"preserveConstEnums": false,
 		"importsNotUsedAsValues": "remove",
 		"verbatimModuleSyntax": false,
 		"paths": {
 			"~/*": ["./src/*"]
-		},
-		"strictNullChecks": true
+		}
 	}
 }
