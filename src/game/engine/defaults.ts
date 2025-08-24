@@ -4,7 +4,7 @@ import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
 import { Womb } from "../pregnancy/classes/womb";
 import { FertilityLevel } from "../pregnancy/enums";
-import { BellyState } from "../pregnancy/variables";
+import { BellySize } from "../pregnancy/variables";
 
 const DEFAULT_VARIABLES: SaveDataV0_0_1 = {
 	gameDateAndTime: new GameDateAndTime(Date.UTC(2021, 1, 3, 20)),
@@ -100,9 +100,9 @@ const DEFAULT_VARIABLES: SaveDataV0_0_1 = {
 		/* Capacity is in cubic centimetres(CCs) */
 		womb: new Womb({
 			fertility: FertilityLevel.EXTREME_FERTILITY,
-			comfortCapacity: BellyState.FULL_TERM + BellyState.EARLY_PREGNANCY,
-			maxCapacity: BellyState.FULL_TERM_TWINS,
-			naturalGrowthMod: 10,
+			comfortCapacity: BellySize.FULL_TERM + BellySize.EARLY_PREGNANCY,
+			maxCapacity: BellySize.FULL_TERM_TWINS,
+			growthMod: 10,
 		}),
 
 		breasts: new Breasts({ type: "shared" }),

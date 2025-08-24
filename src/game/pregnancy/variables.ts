@@ -1,349 +1,299 @@
 import { GestationalWeek } from "./enums";
-
-export const gGestatorPerkMaxSpeedBoost = 3; // +300% speed
-export const gElasticityPerkMaxExpBoost = 0.5; // +50% increase
-export const gElasticityPerkCapacityMaxBoost = 0.2; // +20% increase to both `comfortCapacity` and `maxCapacity`
-export const gImmunityPerkMaxBoostPerFetus = 3; // 3 extra immunity points for every 1% increase in development per fetus
-export const gHealthyWombPerkMaxHPIncrementBuff = 0.75; // +75% to all sources of positive hp
-export const gHealthyWombPerkMaxHPDecrementNerf = 0.25; // -25% to all sources of negative hp
-export const gFortifiedWombPerkMaxCapacityBoost = 0.5; // +50% increase to `maxCapacity`
-export const gFortifiedWombPerkMaxNaturalBirthDelay = 0.25; // +25% more time after becoming due before birth may occur
-export const gFortifiedWombPerkMaxPassiveHPDrainNerf = 0.25; // -25% to passive hp drain
-export const gPolyhydramniosPerkMaxFluidProductionBoost = 0.5; // +50% more amniotic fluid per fetus
+import type { FetalGrowthStats } from "./types";
+import { getWombVolumeFromFetusStats } from "./utils";
 
 export type DevelopmentRatio = number;
-export type Gender = "M" | "F" | "I"; // male, female, intersex
-
-// This will serve as the format for a lookup table used to determine a fetus's stats
-export interface FetalGrowthStats {
-  height: number; // in cm
-  weight: number; // in grams
-  amnioticFluidVolume: number; // in ml
-}
-
-export const gHoursBetweenPregUpdate = 4; // How many hours it takes till the function to update the stats of pregnancy occurs
-
-export const gMinimumVolumeOfAmnioticFluid = 375; // 375 ml
-
 // The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
 export const gChanceOfNaturalOvaSplit = [
-  // 0.25, 0.2, 0.2, 0.15, 0.15, 0.1, 0.1, 0.05, 0.01,
-  0.25, 0.2, 0.2, 0.15, 0.1, 0.05, 0.03, 0.01, 0.005,
-];
+	// 0.25, 0.2, 0.2, 0.15, 0.15, 0.1, 0.1, 0.05, 0.01,
+	0.25, 0.2, 0.2, 0.15, 0.1, 0.05, 0.03, 0.01, 0.005,
+] as const;
 
 // The chance that more than one sperm will find and successfully fertilize more than one egg
-export const gChanceOfNaturalMultipleOvaFertilization = [0.1, 0.05, 0.03];
-
-// These 2 determine the lower and upper bounds of the `developmentRatio` of a fetus
-export const gMinDevelopmentState = 0; // 0 Percent
-export const gMaxDevelopmentState = 100; // 100 Percent
-
-// In most cases, birth is considered "full-term" from this week onwards. Week 37
-export const gMinNormalBirthThreshold = 92.5; // 37 weeks
-export const gPreemieBirthThreshold = 82.5; // 33 weeks
-export const gVeryPreemieBirthThreshold = 70; // 28 weeks. For simplicity, assume that this is the vey minimum threshold for birth to occur.
-
-export const gNumOfGestationalWeeks = 40; // IGNORE THIS COMMENT. Birth can start 100% safely from the 36th week, before then (32 - 36), it's an early birth
-export const gDefaultPregnancyLength = 26280028.8; // 10 months. 40 weeks. 26280028.8 seconds. For the player, this is 4
-
-export const gPostpartumPeriod = 4320000; // Time in seconds when the user can't be impregnated. Irl, it takes 6 ~ 8 weeks so I'll just go with a weighted average closer to 8 which is `getWeightedAverage(6, 8) * 7 * 24 * 60 * 60`
-
-// The higher this number, the higher the rate at which height/weight/amnioticFluid increase and decrease.
-// Best leave it at small ratios and below 1
-export const gOverdueStatMultiplier = 0.34;
-
-export const gDefaultMaxWombHP = 100;
-export const gNumOfPossibleFetusIds = 65536;
+export const gChanceOfNaturalMultipleOvaFertilization = [
+	0.1, 0.05, 0.03,
+] as const;
 
 // This is mainly for singleton pregnancies
-export const gFetalGrowthOverGestationalWeeks: {
-  [key in GestationalWeek]: FetalGrowthStats;
-} = {
-  // I'll just hallucinate some values
-  [GestationalWeek.One]: {
-    height: 0.005,
-    weight: 0.005,
-    amnioticFluidVolume: 0.5,
-  },
-  [GestationalWeek.Two]: { height: 0.02, weight: 1, amnioticFluidVolume: 1 },
-  [GestationalWeek.Three]: {
-    height: 0.035,
-    weight: 3,
-    amnioticFluidVolume: 2,
-  },
-  [GestationalWeek.Four]: {
-    height: 0.065,
-    weight: 5,
-    amnioticFluidVolume: 3.5,
-  },
-  [GestationalWeek.Five]: { height: 0.1, weight: 7, amnioticFluidVolume: 5 },
-  [GestationalWeek.Six]: { height: 0.6, weight: 10, amnioticFluidVolume: 7 },
-  [GestationalWeek.Seven]: {
-    height: 1.1,
-    weight: 14,
-    amnioticFluidVolume: 10,
-  },
-  // From here, it's more accurate
-  [GestationalWeek.Eight]: {
-    height: 1.57,
-    weight: 20,
-    amnioticFluidVolume: 13,
-  },
-  [GestationalWeek.Nine]: {
-    height: 2.3,
-    weight: 27,
-    amnioticFluidVolume: 27.5,
-  },
-  [GestationalWeek.Ten]: { height: 3.1, weight: 35, amnioticFluidVolume: 50 },
-  [GestationalWeek.Eleven]: {
-    height: 4.1,
-    weight: 45,
-    amnioticFluidVolume: 57.5,
-  },
-  [GestationalWeek.Twelve]: {
-    height: 5.4,
-    weight: 58,
-    amnioticFluidVolume: 75,
-  },
-  [GestationalWeek.Thirteen]: {
-    height: 7.4,
-    weight: 76,
-    amnioticFluidVolume: 95,
-  },
-  [GestationalWeek.Fourteen]: {
-    height: 8.7,
-    weight: 93,
-    amnioticFluidVolume: 125,
-  },
-  [GestationalWeek.Fifteen]: {
-    height: 10.1,
-    weight: 117,
-    amnioticFluidVolume: 155,
-  },
-  [GestationalWeek.Sixteen]: {
-    height: 11.6,
-    weight: 146,
-    amnioticFluidVolume: 175,
-  },
-  [GestationalWeek.Seventeen]: {
-    height: 13,
-    weight: 181,
-    amnioticFluidVolume: 225,
-  },
-  [GestationalWeek.Eighteen]: {
-    height: 14.2,
-    weight: 223,
-    amnioticFluidVolume: 260,
-  },
-  [GestationalWeek.Nineteen]: {
-    height: 15.3,
-    weight: 273,
-    amnioticFluidVolume: 300,
-  },
-  [GestationalWeek.Twenty]: {
-    height: 16.4,
-    weight: 331,
-    amnioticFluidVolume: 350,
-  },
-  [GestationalWeek.TwentyOne]: {
-    height: 26.7,
-    weight: 399,
-    amnioticFluidVolume: 375,
-  },
-  [GestationalWeek.TwentyTwo]: {
-    height: 27.8,
-    weight: 478,
-    amnioticFluidVolume: 425,
-  },
-  [GestationalWeek.TwentyThree]: {
-    height: 28.9,
-    weight: 568,
-    amnioticFluidVolume: 475,
-  },
-  [GestationalWeek.TwentyFour]: {
-    height: 30,
-    weight: 670,
-    amnioticFluidVolume: 525,
-  },
-  [GestationalWeek.TwentyFive]: {
-    height: 34.6,
-    weight: 785,
-    amnioticFluidVolume: 600,
-  },
-  [GestationalWeek.TwentySix]: {
-    height: 35.6,
-    weight: 913,
-    amnioticFluidVolume: 675,
-  },
-  [GestationalWeek.TwentySeven]: {
-    height: 36.6,
-    weight: 1055,
-    amnioticFluidVolume: 750,
-  },
-  [GestationalWeek.TwentyEight]: {
-    height: 37.6,
-    weight: 1210,
-    amnioticFluidVolume: 825,
-  },
-  [GestationalWeek.TwentyNine]: {
-    height: 38.6,
-    weight: 1379,
-    amnioticFluidVolume: 900,
-  },
-  [GestationalWeek.Thirty]: {
-    height: 39.9,
-    weight: 1559,
-    amnioticFluidVolume: 975,
-  },
-  [GestationalWeek.ThirtyOne]: {
-    height: 41.1,
-    weight: 1751,
-    amnioticFluidVolume: 1050,
-  },
-  [GestationalWeek.ThirtyTwo]: {
-    height: 42.4,
-    weight: 1953,
-    amnioticFluidVolume: 1125,
-  },
-  [GestationalWeek.ThirtyThree]: {
-    height: 43.7,
-    weight: 2162,
-    amnioticFluidVolume: 1200,
-  },
-  [GestationalWeek.ThirtyFour]: {
-    height: 45,
-    weight: 2377,
-    amnioticFluidVolume: 1275,
-  },
-  [GestationalWeek.ThirtyFive]: {
-    height: 46.2,
-    weight: 2595,
-    amnioticFluidVolume: 1350,
-  },
-  [GestationalWeek.ThirtySix]: {
-    height: 47.4,
-    weight: 2813,
-    amnioticFluidVolume: 1375,
-  },
-  [GestationalWeek.ThirtySeven]: {
-    height: 48.6,
-    weight: 3028,
-    amnioticFluidVolume: 1400, // Amniotic fluid maxes around the 37/38th week
-  },
-  [GestationalWeek.ThirtyEight]: {
-    height: 49.8,
-    weight: 3236,
-    amnioticFluidVolume: 1200,
-  },
-  [GestationalWeek.ThirtyNine]: {
-    height: 50.7,
-    weight: 3435,
-    // amnioticFluidVolume: 1000,
-    amnioticFluidVolume: 1100,
-  },
-  [GestationalWeek.Forty]: {
-    height: 51.2,
-    weight: 3619,
-    // amnioticFluidVolume: 800,
-    amnioticFluidVolume: 950,
-  },
-  // NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
-};
+export const gFetalGrowthOverGestationalWeeks = {
+	// I'll just hallucinate some values
+	[GestationalWeek.One]: {
+		height: 0.005,
+		weight: 0.005,
+		fluid: 0.5,
+	},
+	[GestationalWeek.Two]: { height: 0.02, weight: 1, fluid: 1 },
+	[GestationalWeek.Three]: {
+		height: 0.035,
+		weight: 3,
+		fluid: 2,
+	},
+	[GestationalWeek.Four]: {
+		height: 0.065,
+		weight: 5,
+		fluid: 3.5,
+	},
+	[GestationalWeek.Five]: { height: 0.1, weight: 7, fluid: 5 },
+	[GestationalWeek.Six]: { height: 0.6, weight: 10, fluid: 7 },
+	[GestationalWeek.Seven]: {
+		height: 1.1,
+		weight: 14,
+		fluid: 10,
+	},
+	// From here, it's more accurate
+	[GestationalWeek.Eight]: {
+		height: 1.57,
+		weight: 20,
+		fluid: 13,
+	},
+	[GestationalWeek.Nine]: {
+		height: 2.3,
+		weight: 27,
+		fluid: 27.5,
+	},
+	[GestationalWeek.Ten]: { height: 3.1, weight: 35, fluid: 50 },
+	[GestationalWeek.Eleven]: {
+		height: 4.1,
+		weight: 45,
+		fluid: 57.5,
+	},
+	[GestationalWeek.Twelve]: {
+		height: 5.4,
+		weight: 58,
+		fluid: 75,
+	},
+	[GestationalWeek.Thirteen]: {
+		height: 7.4,
+		weight: 76,
+		fluid: 95,
+	},
+	[GestationalWeek.Fourteen]: {
+		height: 8.7,
+		weight: 93,
+		fluid: 125,
+	},
+	[GestationalWeek.Fifteen]: {
+		height: 10.1,
+		weight: 117,
+		fluid: 155,
+	},
+	[GestationalWeek.Sixteen]: {
+		height: 11.6,
+		weight: 146,
+		fluid: 175,
+	},
+	[GestationalWeek.Seventeen]: {
+		height: 13,
+		weight: 181,
+		fluid: 225,
+	},
+	[GestationalWeek.Eighteen]: {
+		height: 14.2,
+		weight: 223,
+		fluid: 260,
+	},
+	[GestationalWeek.Nineteen]: {
+		height: 15.3,
+		weight: 273,
+		fluid: 300,
+	},
+	[GestationalWeek.Twenty]: {
+		height: 16.4,
+		weight: 331,
+		fluid: 350,
+	},
+	[GestationalWeek.TwentyOne]: {
+		height: 26.7,
+		weight: 399,
+		fluid: 375,
+	},
+	[GestationalWeek.TwentyTwo]: {
+		height: 27.8,
+		weight: 478,
+		fluid: 425,
+	},
+	[GestationalWeek.TwentyThree]: {
+		height: 28.9,
+		weight: 568,
+		fluid: 475,
+	},
+	[GestationalWeek.TwentyFour]: {
+		height: 30,
+		weight: 670,
+		fluid: 525,
+	},
+	[GestationalWeek.TwentyFive]: {
+		height: 34.6,
+		weight: 785,
+		fluid: 600,
+	},
+	[GestationalWeek.TwentySix]: {
+		height: 35.6,
+		weight: 913,
+		fluid: 675,
+	},
+	[GestationalWeek.TwentySeven]: {
+		height: 36.6,
+		weight: 1055,
+		fluid: 750,
+	},
+	[GestationalWeek.TwentyEight]: {
+		height: 37.6,
+		weight: 1210,
+		fluid: 825,
+	},
+	[GestationalWeek.TwentyNine]: {
+		height: 38.6,
+		weight: 1379,
+		fluid: 900,
+	},
+	[GestationalWeek.Thirty]: {
+		height: 39.9,
+		weight: 1559,
+		fluid: 975,
+	},
+	[GestationalWeek.ThirtyOne]: {
+		height: 41.1,
+		weight: 1751,
+		fluid: 1050,
+	},
+	[GestationalWeek.ThirtyTwo]: {
+		height: 42.4,
+		weight: 1953,
+		fluid: 1125,
+	},
+	[GestationalWeek.ThirtyThree]: {
+		height: 43.7,
+		weight: 2162,
+		fluid: 1200,
+	},
+	[GestationalWeek.ThirtyFour]: {
+		height: 45,
+		weight: 2377,
+		fluid: 1275,
+	},
+	[GestationalWeek.ThirtyFive]: {
+		height: 46.2,
+		weight: 2595,
+		fluid: 1350,
+	},
+	[GestationalWeek.ThirtySix]: {
+		height: 47.4,
+		weight: 2813,
+		fluid: 1375,
+	},
+	[GestationalWeek.ThirtySeven]: {
+		height: 48.6,
+		weight: 3028,
+		fluid: 1400, // Amniotic fluid maxes around the 37/38th week
+	},
+	[GestationalWeek.ThirtyEight]: {
+		height: 49.8,
+		weight: 3236,
+		fluid: 1200,
+	},
+	[GestationalWeek.ThirtyNine]: {
+		height: 50.7,
+		weight: 3435,
+		// fluid: 1000,
+		fluid: 1100,
+	},
+	[GestationalWeek.Forty]: {
+		height: 51.2,
+		weight: 3619,
+		// fluid: 800,
+		fluid: 950,
+	},
+	// NOTE - An idea: The weight averages at around +150g per week while height ranges from +0.2cm to +0.5cm. Amniotic fluid reduces at a rate of 100~125 ml/week till around 250 ml (at week 43) where it stops reducing
+} as const satisfies Record<GestationalWeek, FetalGrowthStats>;
 
-// Contains the thresholds for different belly sizes.
-// NOTE - This may also be used for stuffing content too
-export const BellyState = {
-  SAG: -1,
-  FLAT: 0,
-  PREG_MIN: 0,
-  // BLOATED = 100,
-  // STUFFED = 500,
+/** Contains the thresholds for different belly sizes.
+ *
+ * NOTE - The order of this is important.
+ *
+ * NOTE - This may also be used for stuffing content too
+ */
+export const BellySize = {
+	SAG: -1,
+	FLAT: 0,
+	PREG_MIN: 0,
+	// BLOATED = 100,
+	// STUFFED = 500,
 
-  EARLY_PREGNANCY: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.One].amnioticFluidVolume
-  ), // 12 weeks or less
-  EARLY_PREGNANCY_2: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen]
-      .amnioticFluidVolume
-  ), // Week 13 till Week 19
-  VISIBLE_PREGNANCY: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].amnioticFluidVolume
-  ), // Week 20 till Week 27
-  LATE_PREGNANCY: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight]
-      .amnioticFluidVolume
-  ), // Week 28 till Week 35
-  LATE_PREGNANCY_2: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix]
-      .amnioticFluidVolume
-  ), // Week 36 till Week 40
-  FULL_TERM: getWombVolumeFromFetusStats(
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height,
-    gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].amnioticFluidVolume
-  ), // Week 40. Should be around 10000
+	EARLY_PREGNANCY: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.One].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.One].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.One].fluid,
+	), // 12 weeks or less
+	EARLY_PREGNANCY_2: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Thirteen].fluid,
+	), // Week 13 till Week 19
+	VISIBLE_PREGNANCY: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.Twenty].fluid,
+	), // Week 20 till Week 27
+	LATE_PREGNANCY: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.TwentyEight].fluid,
+	), // Week 28 till Week 35
+	LATE_PREGNANCY_2: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.ThirtySix].fluid,
+	), // Week 36 till Week 40
+	FULL_TERM: getWombVolumeFromFetusStats(
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].weight,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].height,
+		gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX].fluid,
+	), // Week 40. Should be around 10000
 
-  get FULL_TERM_TWINS() {
-    return this.FULL_TERM * 2;
-  },
-  get FULL_TERM_TRIPLETS() {
-    return this.FULL_TERM * 3;
-  },
-  get FULL_TERM_QUADS() {
-    return this.FULL_TERM * 4;
-  },
-  get FULL_TERM_QUINTS() {
-    return this.FULL_TERM * 5;
-  },
-  get FULL_TERM_SEXTUPLETS() {
-    return this.FULL_TERM * 6;
-  },
-  get FULL_TERM_SEPTUPLETS() {
-    return this.FULL_TERM * 7;
-  },
-  get FULL_TERM_OCTUPLETS() {
-    return this.FULL_TERM * 8;
-  },
-  get FULL_TERM_NONUPLETS() {
-    return this.FULL_TERM * 9;
-  },
-  get FULL_TERM_DECUPLETS() {
-    return this.FULL_TERM * 10;
-  },
+	get FULL_TERM_TWINS() {
+		return this.FULL_TERM * 2;
+	},
+	get FULL_TERM_TRIPLETS() {
+		return this.FULL_TERM * 3;
+	},
+	get FULL_TERM_QUADS() {
+		return this.FULL_TERM * 4;
+	},
+	get FULL_TERM_QUINTS() {
+		return this.FULL_TERM * 5;
+	},
+	get FULL_TERM_SEXTUPLETS() {
+		return this.FULL_TERM * 6;
+	},
+	get FULL_TERM_SEPTUPLETS() {
+		return this.FULL_TERM * 7;
+	},
+	get FULL_TERM_OCTUPLETS() {
+		return this.FULL_TERM * 8;
+	},
+	get FULL_TERM_NONUPLETS() {
+		return this.FULL_TERM * 9;
+	},
+	get FULL_TERM_DECUPLETS() {
+		return this.FULL_TERM * 10;
+	},
 
-  get PREG_MAX() {
-    return this.FULL_TERM_DECUPLETS;
-  },
+	get PREG_MAX(): number {
+		return this.FULL_TERM_DECUPLETS;
+	},
 } as const;
 
-// This is only here because I'm using it in the enum above
-function getWombVolumeFromFetusStats(
-  height: number,
-  weight: number,
-  fluidVolume: number
-) {
-  // Make sure that, using the stats of a full term fetus, the result is close to 10000ml~11000ml. Preferably the former
-  return (weight + height + fluidVolume * 0.4) * (10 / 4);
-}
+export type BellySize = (typeof BellySize)[keyof typeof BellySize];
 
 const calcWombExpReq = (previousLvl: number): number => {
-  return ((2 * previousLvl + Math.floor(previousLvl / 2)) *
-    BellyState.FULL_TERM) /
-    10 +
-    previousLvl >
-    1
-    ? calcWombExpReq(previousLvl - 1)
-    : 0;
+	return ((2 * previousLvl + Math.floor(previousLvl / 2)) *
+		BellySize.FULL_TERM) /
+		10 +
+		previousLvl >
+		1
+		? calcWombExpReq(previousLvl - 1)
+		: 0;
 };
 
 /**
@@ -351,29 +301,21 @@ const calcWombExpReq = (previousLvl: number): number => {
  *
  * NOTE: These are the limits for each lvl (i.e It takes 0 exp to reach LVL_1 and roughly 2000 exp to reach LVL_2)
  */
-// Just follow the pattern if its confusing  >~<.
 export const WombExpLimit = {
-  1: 0,
-  2: calcWombExpReq(1), // Roughly 2000
-  3: calcWombExpReq(2), // Roughly 7000
-  4: calcWombExpReq(3), // Roughly 14000
-  5: calcWombExpReq(4),
-  6: calcWombExpReq(5),
-  7: calcWombExpReq(6),
-  8: calcWombExpReq(7),
-  9: calcWombExpReq(8),
-  10: calcWombExpReq(9),
-  11: calcWombExpReq(10),
-  12: calcWombExpReq(11),
-  13: calcWombExpReq(12),
-  14: calcWombExpReq(13),
-  15: calcWombExpReq(14),
+	// Just follow the pattern if its confusing  >~<.
+	1: 0,
+	2: calcWombExpReq(1), // Roughly 2000
+	3: calcWombExpReq(2), // Roughly 7000
+	4: calcWombExpReq(3), // Roughly 14000
+	5: calcWombExpReq(4),
+	6: calcWombExpReq(5),
+	7: calcWombExpReq(6),
+	8: calcWombExpReq(7),
+	9: calcWombExpReq(8),
+	10: calcWombExpReq(9),
+	11: calcWombExpReq(10),
+	12: calcWombExpReq(11),
+	13: calcWombExpReq(12),
+	14: calcWombExpReq(13),
+	15: calcWombExpReq(14),
 } as const;
-
-export const gMinWombLevel = 1;
-export const gMaxWombLevel = 15;
-
-export const gExpPerSinglePregnancy = 1000; // Singleton, non-overdue, full-term pregnancies award this in total. However, 40% of it is only given during birth.
-export const gExpPerSingleBirth = gExpPerSinglePregnancy * 0.4;
-export const gExpPerSingleFetusGestation =
-  gExpPerSinglePregnancy - gExpPerSingleBirth;

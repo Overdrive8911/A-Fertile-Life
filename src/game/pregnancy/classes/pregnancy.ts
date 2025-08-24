@@ -1,7 +1,6 @@
-import type {
-	SugarBoxCompatibleClassConstructorCheck,
-	SugarBoxCompatibleClassInstance,
-} from "sugarbox";
+import { ReactiveMap } from "@solid-primitives/map";
+import { signalify } from "classy-solid";
+import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import { GAME_VARIABLES } from "~/App";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
 import { ClassId } from "~/game/shared/enums";
@@ -10,187 +9,149 @@ import {
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
 import type { NumberKeys } from "~/types/generics";
-import { FetalGrowthStatsEnum, GestationalWeek, WombHealth } from "../enums";
-import type {
-	PregSideEffectDynamicData,
-	PregSideEffectsObject,
-} from "../types";
+import type { UUID } from "~/types/uuid";
+import { getRandomUUID } from "~/utils/random";
 import {
-	gGestatorPerkMaxSpeedBoost,
-	gImmunityPerkMaxBoostPerFetus,
-	gMaxDevelopmentState,
-	gMinimumVolumeOfAmnioticFluid,
-	gMinNormalBirthThreshold,
-	gPolyhydramniosPerkMaxFluidProductionBoost,
-	gPreemieBirthThreshold,
-	gVeryPreemieBirthThreshold,
-} from "../variables";
+	FetalGrowthStatsEnum,
+	GestationalWeek,
+	PregConstants,
+	WombHealth,
+} from "../enums";
 import { Fetus } from "./fetus";
 import { Womb } from "./womb";
 
 type SerializedPregnancy = {
-	id: number;
-	fetuses: Map<number, Fetus>;
+	id: UUID;
+	fetuses: Map<number, ReturnType<typeof Fetus.prototype.toJSON>>;
 	dateConceived: GameDateAndTime;
 };
 
 type FetusProps = Exclude<NumberKeys<Fetus>, undefined | "id" | "species">;
 /**
  * A Pregnancy is simply a collection of fetuses conceived at the same time and allows be to apply effects equally to related fetuses.
+ *
+ * A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions.
+ *
+ * A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has.
+ *
+ * The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has.
  */
 export class Pregnancy
 	implements SugarBoxCompatibleClassInstance<SerializedPregnancy>
 {
-	id!: number;
-	fetuses: Map<number /* fetusId */, Fetus> = new Map();
+	id: UUID;
+	womb: Womb;
+	fetuses: ReactiveMap<number, Fetus> = new ReactiveMap();
 	dateConceived = GAME_VARIABLES.gameDateAndTime;
-
-	// static readonly #numOfPossibleFetusIds = 256
 
 	static classId = ClassId.PREGNANCY;
 
-	static fromJSON(data: SerializedPregnancy): Pregnancy {
-		return Object.assign(new Pregnancy(), data);
-	}
-
-	static init(womb: Womb, numOfFetuses = 1): Pregnancy {
-		const pregnancy = new Pregnancy();
-
+	constructor(womb: Womb, numOfFetuses = 1) {
 		for (let i = 0; i < numOfFetuses; i++) {
-			pregnancy.fetuses.set(pregnancy.size, pregnancy.#generateFetus(womb));
+			new Fetus(this);
 		}
 
 		// Connect this pregnancy to the womb
-		const wombPregnancies = womb.pregnancies;
-		const pregId = Pregnancy.#generateId(wombPregnancies);
-		pregnancy.id = pregId;
-		wombPregnancies.set(pregId, pregnancy);
+		const pregnancyId = getRandomUUID();
+		this.womb = womb;
+		this.id = pregnancyId;
+		womb.pregnancies.set(pregnancyId, this);
+
+		signalify(this);
+	}
+
+	static fromJSON(womb: Womb, data: SerializedPregnancy): Pregnancy {
+		const pregnancy = new Pregnancy(womb),
+			{ dateConceived, fetuses, id } = data;
+
+		pregnancy.dateConceived = dateConceived;
+		pregnancy.id = id;
+		pregnancy.fetuses = new ReactiveMap(
+			fetuses
+				.entries()
+				.map(([fetusId, serializedFetus]) => [
+					fetusId,
+					Fetus.fromJSON(pregnancy, serializedFetus),
+				]),
+		);
 
 		return pregnancy;
 	}
 
 	toJSON(): SerializedPregnancy {
-		return { ...this };
+		return {
+			dateConceived: this.dateConceived,
+			fetuses: new Map(
+				this.fetuses
+					.entries()
+					.map(([fetusId, fetus]) => [fetusId, fetus.toJSON()]),
+			),
+			id: this.id,
+		};
 	}
 
 	get size() {
 		return this.fetuses.size;
 	}
 
-	/**
-	 * A simple way of getting a unique id instead of just using the map's size
-	 */
-	static #generateId(
-		map: typeof Womb.prototype.pregnancies | typeof this.prototype.fetuses,
-	) {
-		// Convert the map to an array and get it's last element, if any
-		const arr = [...map.values()] as (Fetus | Pregnancy | undefined)[];
-		const lastElement = arr[arr.length - 1];
-
-		return lastElement ? lastElement.id + 1 : 0;
-	}
-
-	/**
-	 * Gets the sum of all stats of a specific fetus.
-	 *
-	 * Please be reasonable while using this
-	 */
-	#combinedStat(prop: FetusProps) {
-		let sum = 0;
+	/** Returns the averages of the numeric props of fetuses in the pregnancy */
+	get averageStats(): Record<FetusProps, number> {
+		let {
+			devRatio,
+			fluid,
+			gestationalWeek,
+			gestationDuration,
+			growthMod,
+			growthRate,
+			height,
+			hp,
+			lastDevRatio,
+			volume,
+			weight,
+		}: Record<FetusProps, number> = {
+			devRatio: 0,
+			fluid: 0,
+			gestationalWeek: 0,
+			gestationDuration: 0,
+			growthMod: 0,
+			growthRate: 0,
+			height: 0,
+			hp: 0,
+			lastDevRatio: 0,
+			volume: 0,
+			weight: 0,
+		};
 
 		this.fetuses.forEach((fetus) => {
-			sum += fetus[prop];
+			devRatio += fetus.devRatio;
+			fluid += fetus.fluid;
+			gestationalWeek += fetus.gestationalWeek;
+			gestationDuration += fetus.gestationDuration;
+			growthMod += fetus.growthMod;
+			growthRate += fetus.growthRate;
+			height += fetus.height;
+			hp += fetus.hp;
+			lastDevRatio += fetus.lastDevRatio;
+			volume += fetus.volume;
+			weight += fetus.weight;
 		});
 
-		return sum;
-	}
-
-	#averageStat(prop: FetusProps) {
+		// Calculate the average
 		const size = this.size;
-		if (!size) return 0;
 
-		return this.#combinedStat(prop) / size;
-	}
-
-	/**
-	 * Average development percentage of all fetuses in this pregnancy.
-	 */
-	get devRatio() {
-		return this.#averageStat("developmentRatio");
-	}
-
-	/**
-	 * Average development percentage of all fetuses in this pregnancy. Note that this represents the development level before any updates from the pregnancy's growth
-	 */
-	get lastDevRatio() {
-		return this.#averageStat("devRatioAtLastUpdate");
-	}
-
-	/**
-	 * Total volume (in ml) that the fetuses take up
-	 */
-	get volume() {
-		return this.#combinedStat("wombVolumeFromFetusStats");
-	}
-
-	/**
-	 * Average gestation duration for all fetuses
-	 */
-	gestDuration(womb: Womb) {
-		let combinedGestationDuration = 0;
-		this.fetuses.forEach((fetus) => {
-			combinedGestationDuration += fetus.getTotalGestationDuration(womb);
-		});
-		return combinedGestationDuration / this.size;
-	}
-
-	#generateFetus(womb?: Womb) {
-		const fetus = new Fetus(Pregnancy.#generateId(this.fetuses));
-
-		// TODO: Use the womb to set specific stuff
-
-		return fetus;
-	}
-
-	// get #generateUnusedFetusId() {
-	//     // Check all fetuses in the womb (if any) and generate a random 16-bit number that isn't shared with any other existing fetus
-	//     let newFetusId = random(0, Pregnancy.#numOfPossibleFetusIds - 1);
-
-	//     this.fetuses.forEach((fetus) => {
-	//       const existingFetusId = fetus.id;
-
-	//       if (newFetusId == existingFetusId) {
-	//         // Restart the function
-	//         this.#generateUnusedFetusId;
-	//       }
-	//     });
-
-	//     return newFetusId;
-	// }
-
-	// addFetus(fetus: Fetus, index?: number) {
-	//   if (index == null) index = this.fetuses.size;
-
-	//   this.fetuses.set(index, fetus);
-	// }
-	// // If `fetus` is given, find a matching copy with the same id, else if an `index` is given instead, use it. If none are given, default to the first fetus
-	// removeFetus(fetus?: Fetus, index?: number | undefined) {
-	//   if (fetus) {
-	//     index = [...this.fetuses.values()].find((data) => {
-	//       return data.id == fetus.id;
-	//     })?.id;
-	//   }
-
-	//   if (index == undefined) index = [...this.fetuses.keys()][0]; // Use the first fetus if no fetus data is explicitly given
-
-	//   if (index == undefined) return false;
-
-	//   this.fetuses.delete(index);
-	//   return true;
-	// }
-
-	totalStats(stat: FetalGrowthStatsEnum) {
-		return this.#combinedStat(stat);
+		return {
+			devRatio: devRatio / size,
+			fluid: fluid / size,
+			gestationalWeek: gestationalWeek / size,
+			gestationDuration: gestationDuration / size,
+			growthMod: growthMod / size,
+			growthRate: growthRate / size,
+			height: height / size,
+			hp: hp / size,
+			lastDevRatio: lastDevRatio / size,
+			volume: volume / size,
+			weight: weight / size,
+		};
 	}
 
 	// SECTION - Pregnancy update code
@@ -206,74 +167,69 @@ export class Pregnancy
 	 * @param inputUser
 	 * @returns
 	 */
-	updateGrowth(
-		womb: Womb,
-		elapsedTime: number,
-		inputUser = GAME_VARIABLES.player,
-	) {
+	updateGrowth(elapsedTime: number, inputUser = GAME_VARIABLES.player) {
+		const womb = this.womb;
+
 		this.fetuses.forEach((targetFetus) => {
 			// Determine how much to progress the fetus since the last update
 			// Also get useful data
 
 			// Get the total gestation time for the fetus
-			const gestationPeriod = targetFetus.getTotalGestationDuration(womb);
+			const gestationPeriod = targetFetus.gestationDuration;
 
 			// If, for some reason, time moves backwards, just exit the function (for now at least)
 			// TODO - Add a way to reverse growth. I feel like letting it receive negative values would be exactly what I need but eh, feels like something else would break and I'm not in the mood for it yet.
 			if (elapsedTime < 0) return;
 
 			// Reduce the duration of sideEffects
-			for (const key in womb.sideEffects) {
-				if (Object.hasOwn(womb.sideEffects, key)) {
-					const data =
-						womb.sideEffects[
-							key as keyof PregSideEffectsObject<PregSideEffectDynamicData>
-						];
+			const sideEffects = womb.sideEffects;
 
-					if (data) data.currDuration -= elapsedTime;
-				}
+			let key: keyof typeof sideEffects;
+
+			for (key in sideEffects) {
+				const data = sideEffects[key];
+
+				if (data) data.currDuration -= elapsedTime;
 			}
 
 			// SECTION - Determine how much to increase the `developmentRatio` of the fetus
 			let additionalDevelopmentProgress =
-				(elapsedTime / gestationPeriod) * gMaxDevelopmentState; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
+				(elapsedTime / gestationPeriod) * PregConstants.MAX_DEVELOPMENT_STATE; // NOTE - Just think of this to be like a percentage cus it'll be added to the `developmentRatio` which is also a percentage/ratio
 
 			// SECTION - Apply the effects of relevant perks during pregnancy
 
 			// ANCHOR - GESTATOR PERK
-			const perks = womb.perks || {};
+			const perks = womb.perks;
 			const gestatorPerk = perks.gestator;
 			// Apply the gestator perk boost, if any
-			const gestatorPerkSpeedBoost =
-				perks && gestatorPerk
-					? (gestatorPerk.currLevel / Womb.perks.gestator.maxLevel) *
-						gGestatorPerkMaxSpeedBoost
-					: 0;
+			const gestatorPerkSpeedBoost = gestatorPerk
+				? (gestatorPerk.currLevel / Womb.perks.gestator.maxLevel) *
+					PregConstants.GESTATOR_PERK_MAX_SPEED_BOOST
+				: 0;
 
 			additionalDevelopmentProgress +=
 				additionalDevelopmentProgress * gestatorPerkSpeedBoost;
 
 			// ANCHOR - IMMUNITY PERK
 			const immunityPerk = perks.immunityBoost;
-			inputUser.immunity +=
-				perks && immunityPerk
-					? (immunityPerk.currLevel / Womb.perks.immunityBoost.maxLevel) *
-						gImmunityPerkMaxBoostPerFetus *
-						additionalDevelopmentProgress
-					: 0;
+			inputUser.immunity += immunityPerk
+				? (immunityPerk.currLevel / Womb.perks.immunityBoost.maxLevel) *
+					PregConstants.IMMUNITY_PERK_MAX_BOOST_PER_FETUS *
+					additionalDevelopmentProgress
+				: 0;
 			// !SECTION
 
 			// Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
 			const newDevelopmentRatio =
-				targetFetus.developmentRatio + additionalDevelopmentProgress;
+				targetFetus.devRatio + additionalDevelopmentProgress;
 			// Save the current development ratio for use later
-			const oldDevelopmentRatio = targetFetus.developmentRatio;
+			const oldDevelopmentRatio = targetFetus.devRatio;
 
 			// Update the data
-			targetFetus.developmentRatio =
-				targetFetus.developmentRatio < newDevelopmentRatio
+			targetFetus.devRatio =
+				targetFetus.devRatio < newDevelopmentRatio
 					? newDevelopmentRatio
-					: targetFetus.developmentRatio;
+					: targetFetus.devRatio;
 			// !SECTION
 
 			// SECTION - Determine the newHeight, newWeight, and newFluidVolume (and also the belly size) using newDevelopmentRatio
@@ -286,7 +242,7 @@ export class Pregnancy
 
 			let newWeight = targetFetus.weight;
 			let newHeight = targetFetus.height;
-			let newFluidVolume = targetFetus.amnioticFluidVolume;
+			let newFluidVolume = targetFetus.fluid;
 
 			let weightDiff: number = 0;
 			let heightDiff: number = 0;
@@ -312,7 +268,7 @@ export class Pregnancy
 				fluidDiff +=
 					(perks.polyhydramnios.currLevel /
 						Womb.perks.polyhydramnios.maxLevel) *
-					gPolyhydramniosPerkMaxFluidProductionBoost *
+					PregConstants.POLYHYDRAMNIOS_PERK_MAX_FLUID_PRODUCTION_BOOST *
 					fluidDiff;
 			}
 
@@ -374,12 +330,12 @@ export class Pregnancy
 			// Amniotic fluid volume is the only one (out of the 3) that can reduce
 			if (newFetalGestationalWeek > GestationalWeek.MAX) {
 				// Amniotic volume begins to reduce close to the end of the gestational weeks so clamp it somewhere to prevent "absurd" values
-				targetFetus.amnioticFluidVolume =
-					newFluidVolume < gMinimumVolumeOfAmnioticFluid
-						? gMinimumVolumeOfAmnioticFluid
+				targetFetus.fluid =
+					newFluidVolume < PregConstants.MINIMUM_VOLUME_OF_AMNIOTIC_FLUID
+						? PregConstants.MINIMUM_VOLUME_OF_AMNIOTIC_FLUID
 						: newFluidVolume;
 			} else {
-				targetFetus.amnioticFluidVolume = newFluidVolume;
+				targetFetus.fluid = newFluidVolume;
 			}
 
 			// Adjust fetal hp
@@ -409,7 +365,7 @@ export class Pregnancy
 
 		// Update the dev ratio record for all fetuses
 		this.fetuses.forEach((fetus) => {
-			fetus.devRatioAtLastUpdate = fetus.developmentRatio; // Update it
+			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
 
 		return true;
@@ -422,30 +378,28 @@ export class Pregnancy
 	get canBirth() {
 		if (this.isOverdue) return true;
 
-		const devRatio = this.devRatio;
-		const sanitizedId = this.id || 1;
+		const devRatio = this.averageStats.devRatio;
+
 		const chance =
-			((((GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000) * sanitizedId) %
+			((((GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000) *
+				this.id.charCodeAt(0)) %
 				devRatio) /
 				devRatio) *
 			100;
 
-		return devRatio >= gMaxDevelopmentState
+		return devRatio >= PregConstants.MAX_DEVELOPMENT_STATE
 			? true
-			: devRatio >= gMinNormalBirthThreshold && chance % 100 <= 25
+			: devRatio >= PregConstants.MIN_NORMAL_BIRTH_THRESHOLD &&
+					chance % 100 <= 25
 				? true
-				: devRatio >= gPreemieBirthThreshold && chance % 100 <= 10
+				: devRatio >= PregConstants.PREEMIE_BIRTH_THRESHOLD &&
+						chance % 100 <= 10
 					? true
-					: devRatio >= gVeryPreemieBirthThreshold && chance % 100 <= 10;
+					: devRatio >= PregConstants.VERY_PREEMIE_BIRTH_THRESHOLD &&
+						chance % 100 <= 10;
 	}
 
 	get isOverdue() {
-		return this.devRatio > gMaxDevelopmentState;
+		return this.averageStats.devRatio > PregConstants.MAX_DEVELOPMENT_STATE;
 	}
 }
-
-// biome-ignore lint/correctness/noUnusedVariables: <Static prop check>
-type ClassCheck = SugarBoxCompatibleClassConstructorCheck<
-	SerializedPregnancy,
-	typeof Pregnancy
->;

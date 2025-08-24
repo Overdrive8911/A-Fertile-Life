@@ -1,6 +1,6 @@
 import { GAME_VARIABLES } from "~/App";
 import { BirthRecordThreshold } from "./enums";
-import { BellyState } from "./variables";
+import { BellySize } from "./variables";
 
 // NOTE - This function assumes the player is pregnant
 function getPlayerPregDescription() {
@@ -17,7 +17,7 @@ function getPlayerPregDescription() {
 
 	// TODO - Replace the placeholder text and account for overdue/multiple pregnancies
 	switch (approxBellySize) {
-		case BellyState.PREG_MIN:
+		case BellySize.PREG_MIN:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(
@@ -52,7 +52,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.EARLY_PREGNANCY:
+		case BellySize.EARLY_PREGNANCY:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);
@@ -75,7 +75,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.EARLY_PREGNANCY_2:
+		case BellySize.EARLY_PREGNANCY_2:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);
@@ -98,7 +98,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.VISIBLE_PREGNANCY:
+		case BellySize.VISIBLE_PREGNANCY:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);
@@ -121,7 +121,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.LATE_PREGNANCY:
+		case BellySize.LATE_PREGNANCY:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);
@@ -144,7 +144,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.LATE_PREGNANCY_2:
+		case BellySize.LATE_PREGNANCY_2:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);
@@ -167,7 +167,7 @@ function getPlayerPregDescription() {
 					break;
 			}
 			break;
-		case BellyState.FULL_TERM:
+		case BellySize.FULL_TERM:
 			switch (womb.birthRecord) {
 				case BirthRecordThreshold.NEWB:
 					a(`TEST1`);

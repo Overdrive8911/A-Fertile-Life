@@ -11,8 +11,6 @@ import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
 import { NextPassage } from "../passages/next-passage";
 import { StartPassage } from "../passages/start-passage";
-import { Fetus } from "../pregnancy/classes/fetus";
-import { Pregnancy } from "../pregnancy/classes/pregnancy";
 import { Womb } from "../pregnancy/classes/womb";
 import { DEFAULT_VARIABLES } from "./defaults";
 
@@ -53,7 +51,7 @@ const GAME_ENGINE = await SugarboxEngine.init<
 		regenSeed: "passage",
 		saveVersion: `0.0.1`,
 	},
-	classes: [GameDateAndTime, Inventory, Pregnancy, Fetus, Womb],
+	classes: [GameDateAndTime, Inventory, Womb],
 });
 
 export { GAME_ENGINE };

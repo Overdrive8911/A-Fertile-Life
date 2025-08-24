@@ -1,70 +1,69 @@
-import type { BellyState } from "./variables";
-
 export interface PregPerkDynamicData {
-  // Only `currLevel` gets stored in the save file
-  currLevel: number;
-
-  // price?: never;
-  // maxLevel?: never;
+	currLevel: number;
 }
 export interface PregPerkStaticData {
-  // Is stored as a global static variable
-  price: number;
-  maxLevel: number;
-
-  // currLevel?: never;
+	price: number;
+	maxLevel: number;
 }
 
 export interface PregSideEffectDynamicData {
-  // Only `currDuration` gets stored in the save file
-  currDuration: number;
-
-  // maxDuration?: never;
+	/** Remaining duration (in seconds) that the side effect will last before leaving on its own.
+	 */
+	currDuration: number;
 }
 export interface PregSideEffectStaticData {
-  // Is stored as a global static variable
-  maxDuration: number[];
-
-  // currDuration?: never;
+	/** How long (in days) that the side effect will last when it is applied to the womb.
+	 *
+	 * If multiple values are provided, one is selected randomly
+	 */
+	maxDuration: [number, ...number[]];
 }
+
 // !SECTION
 export type PregPerk = PregPerkDynamicData | PregPerkStaticData;
 
 export type PregPerksObject<T extends PregPerk> = Partial<
-  Record<
-    | "gestator"
-    | "hyperFertility"
-    | "superFet"
-    | "elasticity"
-    | "immunityBoost"
-    | "motherlyHips"
-    | "motherlyBoobs"
-    | "ironSpine"
-    | "sensitiveWomb"
-    | "healthyWomb"
-    | "fortifiedWomb"
-    | "noPostpartum"
-    | "polyhydramnios",
-    T
-  >
+	Record<
+		| "gestator"
+		| "hyperFertility"
+		| "superFet"
+		| "elasticity"
+		| "immunityBoost"
+		| "motherlyHips"
+		| "motherlyBoobs"
+		| "ironSpine"
+		| "sensitiveWomb"
+		| "healthyWomb"
+		| "fortifiedWomb"
+		| "noPostpartum"
+		| "polyhydramnios",
+		T
+	>
 >;
 
 export type PregSideEffect =
-  | PregSideEffectDynamicData
-  | PregSideEffectStaticData;
+	| PregSideEffectDynamicData
+	| PregSideEffectStaticData;
 
 export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
-  Record<
-    | "cravingCrisis"
-    | "motherHunger"
-    | "restlessBrood"
-    | "heavyWomb"
-    | "contractions"
-    | "labour"
-    | "sexCraving"
-    | "growthSpurt",
-    T
-  >
+	Record<
+		| "cravingCrisis"
+		| "motherHunger"
+		| "restlessBrood"
+		| "heavyWomb"
+		| "contractions"
+		| "labour"
+		| "sexCraving"
+		| "growthSpurt",
+		T
+	>
 >;
 
-export type BellyStateType = (typeof BellyState)[keyof typeof BellyState];
+export type Gender = "M" | "F" | "I"; // male, female, intersex
+
+// This will serve as the format for a lookup table used to determine a fetus's stats
+export interface FetalGrowthStats {
+	height: number; // in cm
+	weight: number; // in grams
+	fluid: number; // in ml
+}
