@@ -3,15 +3,10 @@ import {
 	PassagePrologueHomeEvent,
 	PassagePrologueHomeEventBathroom,
 } from "./1-home-event";
-import { PassagePrologueName } from "./enums";
+import { PassagePrologueDressedAndEnteringBus } from "./2-bus-event";
 
 export const PassagePrologueCollection = [
-	{
-		name: PassagePrologueName.PROLOGUE_BEGINNING,
-		passage: PassagePrologueHomeEvent,
-	},
-	{
-		name: PassagePrologueName.PROLOGUE_WAKE_UP_AND_BRUSH_TEETH,
-		passage: PassagePrologueHomeEventBathroom,
-	},
+	PassagePrologueHomeEvent,
+	PassagePrologueHomeEventBathroom,
+	PassagePrologueDressedAndEnteringBus,
 ] as const satisfies { name: string; passage: () => JSX.Element }[];
