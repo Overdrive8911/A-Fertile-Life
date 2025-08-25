@@ -35,7 +35,7 @@
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",
 		"solid-js": "^1.9.5",
-		"sugarbox": "^0.4.0"
+		"sugarbox": "^0.5.1"
 	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide"
