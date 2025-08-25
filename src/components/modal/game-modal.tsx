@@ -15,7 +15,7 @@ export default function GameModal(prop: {
 
 			<hr class="my-2 h-px border-none bg-gradient-to-r from-transparent via-primary to-transparent" />
 
-			{prop.children}
+			<div class="prose text-base-content">{prop.children}</div>
 		</GenericModal>
 	);
 }

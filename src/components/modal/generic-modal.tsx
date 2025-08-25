@@ -11,7 +11,7 @@ function GenericModal(prop: {
 	return (
 		<Portal>
 			<dialog closedby="any" id={prop.modalId} class="modal">
-				<div class={`modal-box ${prop.class}`}>
+				<div class={`modal-box max-h-[85vh] ${prop.class}`}>
 					<form method="dialog">
 						<button
 							type="submit"
