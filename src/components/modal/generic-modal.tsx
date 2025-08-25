@@ -33,8 +33,8 @@ function GenericModal(prop: {
 
 function getDialogElementFromId(id: string): HTMLDialogElement | null {
 	const dialog = document.getElementById(id);
-	if (dialog && dialog instanceof HTMLDialogElement) return dialog;
-	else return null;
+
+	return dialog instanceof HTMLDialogElement ? dialog : null;
 }
 
 function showModal(modalId: string) {
