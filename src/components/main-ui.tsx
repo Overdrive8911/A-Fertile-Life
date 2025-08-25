@@ -5,8 +5,9 @@ import SaveIcon from "lucide-solid/icons/save";
 import SettingsIcon from "lucide-solid/icons/settings";
 import ZoomInIcon from "lucide-solid/icons/zoom-in";
 import ZoomOutIcon from "lucide-solid/icons/zoom-out";
-import { For, type JSX } from "solid-js";
+import { For, type JSX, onMount } from "solid-js";
 import { GAME_VARIABLES } from "~/App";
+import { GAME_ENGINE } from "~/game/engine/engine";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
@@ -197,12 +198,24 @@ function LeftPanel() {
 }
 
 function CenterPanel() {
+	let passageContainer: HTMLDivElement | undefined;
+
+	onMount(() => {
+		GAME_ENGINE.on(":passageChange", () => {
+			// Scroll to the top on every passage navigation
+			passageContainer?.scrollTo({ top: 0 });
+		});
+	});
+
 	return (
 		<div
 			class={`grid grid-rows-[3.5fr_1fr] gap-6 px-1 *:border *:border-primary *:rounded-2xl *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
 		>
 			{/* Main passage display*/}
-			<main class="prose max-w-full text-base-content overflow-auto contain-strict">
+			<main
+				class="prose max-w-full text-base-content overflow-auto contain-strict"
+				ref={passageContainer}
+			>
 				<PassageDisplay />
 			</main>
 
