@@ -7,10 +7,11 @@ import {
 	SugarboxEngine,
 } from "sugarbox";
 import type { SaveDataV0_0_1 } from "~/game/types/story-variables/save-data";
+import { Breasts } from "../body-stats/class/breast";
 import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
 import { NextPassage } from "../passages/next-passage";
-import { StartPassage } from "../passages/start-passage";
+import { PassagePrologueCollection } from "../passages/story/prologue/aggregate";
 import { Womb } from "../pregnancy/classes/womb";
 import { DEFAULT_VARIABLES } from "./defaults";
 
@@ -41,17 +42,22 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	SaveDataV0_0_1
 >({
 	name: "A Fertile Life",
-	otherPassages: [{ name: "Next", passage: NextPassage }],
-	startPassage: { name: "Start", passage: StartPassage },
+	otherPassages: [
+		...PassagePrologueCollection,
+		{ name: "Next", passage: NextPassage },
+	],
+	startPassage: PassagePrologueCollection[0],
 	variables: DEFAULT_VARIABLES,
 	config: {
-		autoSave: "passage",
+		autoSave: false,
 		cache: cacheAdapter,
 		persistence: persistenceAdapter,
 		regenSeed: "passage",
 		saveVersion: `0.0.1`,
 	},
-	classes: [GameDateAndTime, Inventory, Womb],
+	classes: [Breasts, GameDateAndTime, Inventory, Womb],
 });
+
+console.log(DEFAULT_VARIABLES, GAME_ENGINE.vars);
 
 export { GAME_ENGINE };

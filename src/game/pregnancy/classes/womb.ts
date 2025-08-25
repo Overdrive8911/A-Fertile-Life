@@ -242,7 +242,30 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	constructor(wombData?: Partial<Womb>) {
-		Object.assign(this, wombData ?? {});
+		if (wombData) {
+			let key: keyof typeof wombData;
+			for (key in wombData) {
+				const value = wombData[key];
+
+				if (value != null) {
+					switch (key) {
+						case "comfortCapacity":
+							this._comfortCapacity = value as BellySize;
+							break;
+
+						case "maxCapacity":
+							this._maxCapacity = value as BellySize;
+							break;
+
+						default:
+							//@ts-expect-error :(
+							this[key] = value;
+					}
+				}
+			}
+
+			signalify(this);
+		}
 
 		signalify(this);
 	}

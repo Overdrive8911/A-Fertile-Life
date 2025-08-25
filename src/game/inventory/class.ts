@@ -16,7 +16,7 @@ import { ClassId } from "../shared/enums";
 
 type SerializedInventory = {
 	items: Map<UUID, ReturnType<typeof BaseInventoryItem.prototype.toJSON>>;
-	itemLimit: number;
+	capacity: number;
 };
 
 class Inventory
@@ -39,22 +39,24 @@ class Inventory
 	static fromJSON(data: SerializedInventory): Inventory {
 		const clone = new Inventory();
 
-		clone._capacity = data.itemLimit;
+		clone._capacity = data.capacity;
 
-		for (const [inventoryId, serializedItem] of data.items) {
-			const { classId } = serializedItem,
-				classConstructorToUse =
-					classId === ClassId.EQUIPPABLE_INVENTORY_ITEM
-						? EquippableInventoryItem
-						: classId === ClassId.CONSUMABLE_INVENTORY_ITEM
-							? ConsumableInventoryItem
-							: BaseInventoryItem;
+		clone._items = new ReactiveMap(
+			data.items.entries().map(([inventoryId, serializedItem]) => {
+				const { classId } = serializedItem,
+					classConstructorToUse =
+						classId === ClassId.EQUIPPABLE_INVENTORY_ITEM
+							? EquippableInventoryItem
+							: classId === ClassId.CONSUMABLE_INVENTORY_ITEM
+								? ConsumableInventoryItem
+								: BaseInventoryItem;
 
-			//@ts-expect-error
-			const item = classConstructorToUse.fromJSON(clone, serializedItem);
+				//@ts-expect-error
+				const item = classConstructorToUse.fromJSON(clone, serializedItem);
 
-			clone._items.set(inventoryId, item);
-		}
+				return [inventoryId, item];
+			}),
+		);
 
 		return clone;
 	}
@@ -249,16 +251,12 @@ class Inventory
 	}
 
 	toJSON(): SerializedInventory {
-		const serializedItems: Map<
-			UUID,
-			ReturnType<typeof BaseInventoryItem.prototype.toJSON>
-		> = new Map();
-
-		for (const [inventoryId, item] of this._items) {
-			serializedItems.set(inventoryId, item.toJSON());
-		}
-
-		return { itemLimit: this._capacity, items: serializedItems };
+		return {
+			capacity: this._capacity,
+			items: new Map(
+				this._items.entries().map(([id, item]) => [id, item.toJSON()]),
+			),
+		};
 	}
 }
 

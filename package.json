@@ -15,6 +15,7 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@tailwindcss/typography": "^0.5.16",
 		"@tailwindcss/vite": "^4.0.7",
 		"@types/node": "^24.2.1",
 		"daisyui": "^5.0.50",
@@ -34,7 +35,7 @@
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",
 		"solid-js": "^1.9.5",
-		"sugarbox": "^0.3.3"
+		"sugarbox": "^0.3.4"
 	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide"

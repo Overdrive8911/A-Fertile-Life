@@ -1,9 +1,9 @@
+import { signalify } from "classy-solid";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
 import { ClassId } from "~/game/shared/enums";
-import { getRandomIntegerInRange } from "~/game/shared/utils";
 import {
 	AreolaDescription,
 	BreastLocation,
@@ -43,8 +43,8 @@ class Breasts
 		if (args.type === "shared") {
 			const {
 				data = {
-					size: CupSize.C - getRandomIntegerInRange(0, 25),
-					milkCapacity: MilkCapacity.AVERAGE - getRandomIntegerInRange(0, 15),
+					size: CupSize.C,
+					milkCapacity: MilkCapacity.AVERAGE,
 					isLactating: false,
 					nipple: NippleDescription.PROTRUDING,
 					areola: AreolaDescription.DEFAULT,
@@ -62,6 +62,8 @@ class Breasts
 				this._breasts.set(breastData.area, breastData.data);
 			});
 		}
+
+		signalify(this);
 	}
 
 	static classId = ClassId.BREASTS;

@@ -199,10 +199,10 @@ function LeftPanel() {
 function CenterPanel() {
 	return (
 		<div
-			class={`grid grid-rows-[3.5fr_1fr] gap-6 px-1 *:border *:border-primary *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
+			class={`grid grid-rows-[3.5fr_1fr] gap-6 px-1 *:border *:border-primary *:rounded-2xl *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
 		>
 			{/* Main passage display*/}
-			<main class="[line-height:1.6rem] overflow-auto contain-strict">
+			<main class="prose max-w-full text-neutral-content overflow-auto contain-strict">
 				<PassageDisplay />
 			</main>
 
