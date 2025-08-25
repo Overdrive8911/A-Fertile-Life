@@ -130,71 +130,77 @@ export const PassagePrologueHomeEvent = {
 				</Show>
 
 				<GameModal title="LETTER" modalId={letterModalId}>
-					<p>
-						Good day, Miss, I would like to first apologize for all that is
-						happening to you now. Ever since the <em>incident</em>, your life
-						has been unexpectedly—well, expectedly—more inconvenient to put it
-						lightly.
-					</p>
+					<div class="mockup-window bg-base-300 max-w-2xl mx-auto">
+						<div class="bg-base-200 px-4 md:px-8 py-3 md:py-6">
+							<p>
+								Good day, Miss, I would like to first apologize for all that is
+								happening to you now. Ever since the <em>incident</em>, your
+								life has been unexpectedly—well, expectedly—more inconvenient to
+								put it lightly.
+							</p>
 
-					<p>
-						Your job security is compromised at this point, but I'm sure you
-						already know this. You are likely scared and worried now; getting
-						another job is not going to be easy, especially since your papers
-						are not in order.
-					</p>
+							<p>
+								Your job security is compromised at this point, but I'm sure you
+								already know this. You are likely scared and worried now;
+								getting another job is not going to be easy, especially since
+								your papers are not in order.
+							</p>
 
-					<p>
-						By now, you should also have noticed some strange things about your
-						body. They are light symptoms from your exposure and will likely
-						intensify with the passing days. The most obvious of these will be
-						an unusual feeling around your pelvic region.
-					</p>
+							<p>
+								By now, you should also have noticed some strange things about
+								your body. They are light symptoms from your exposure and will
+								likely intensify with the passing days. The most obvious of
+								these will be an unusual feeling around your pelvic region.
+							</p>
 
-					<p>
-						You also need to know that if you have seen some suspicious people
-						dressed in similar attire around places you frequent, your home is
-						not as safe as you think.
-					</p>
+							<p>
+								You also need to know that if you have seen some suspicious
+								people dressed in similar attire around places you frequent,
+								your home is not as safe as you think.
+							</p>
 
-					<p>
-						Now, do not fret yet. I have better news that could resolve most, if
-						not all, your problems. I own a hospital about a hundred or so miles
-						up north from your house, Fertilo Inc, might ring a few bells. To be
-						frank, it's the only place you can have your condition treated
-						without resorting to the government and you <strong>do not</strong>{" "}
-						want to be their lab rat, trust me. I can also provide you with
-						living accommodations and a well-paying job, as well as a new alias
-						you can go by, during your treatment.
-					</p>
+							<p>
+								Now, do not fret yet. I have better news that could resolve
+								most, if not all, your problems. I own a hospital about a
+								hundred or so miles up north from your house, Fertilo Inc, might
+								ring a few bells. To be frank, it's the only place you can have
+								your condition treated without resorting to the government and
+								you <strong>do not</strong> want to be their lab rat, trust me.
+								I can also provide you with living accommodations and a
+								well-paying job, as well as a new alias you can go by, during
+								your treatment.
+							</p>
 
-					<p>
-						You might be wondering why I sent you this letter or whether this is
-						a scam. For the former, I also benefit here. Your medical condition
-						is a one-in-a-million modern marvel, and the second I have seen in
-						my entire lifetime. This will be the perfect chance for me to study
-						it extensively; I believe that there is something special about it
-						that will be of great benefit to humanity.
-					</p>
+							<p>
+								You might be wondering why I sent you this letter or whether
+								this is a scam. For the former, I also benefit here. Your
+								medical condition is a one-in-a-million modern marvel, and the
+								second I have seen in my entire lifetime. This will be the
+								perfect chance for me to study it extensively; I believe that
+								there is something special about it that will be of great
+								benefit to humanity.
+							</p>
 
-					<p>
-						For the latter, you do not have much of a choice, honestly. None of
-						your living family members live in the country; and I doubt you'd be
-						willing to go back. Your house will probably be jumped by 'agents'
-						next week too.
-					</p>
+							<p>
+								For the latter, you do not have much of a choice, honestly. None
+								of your living family members live in the country; and I doubt
+								you'd be willing to go back. Your house will probably be jumped
+								by 'agents' next week too.
+							</p>
 
-					<p>
-						I am not trying to threaten you; just letting you know your options.
-						If you're interested about how I got this information, feel free to
-						come, but please think about your situation properly. I'll be
-						awaiting your response.
-					</p>
+							<p>
+								I am not trying to threaten you; just letting you know your
+								options. If you're interested about how I got this information,
+								feel free to come, but please think about your situation
+								properly. I'll be awaiting your response.
+							</p>
 
-					<p>
-						<strong>PS:</strong> The directions are on the inner side of the
-						envelope."
-					</p>
+							<p>
+								<strong>PS:</strong> The directions are on the inner side of the
+								envelope."
+							</p>
+						</div>
+					</div>
 				</GameModal>
 			</>
 		);
