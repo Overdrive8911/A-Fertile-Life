@@ -78,10 +78,10 @@ function Meter(prop: {
 	containerClass?: string;
 	/** Classes to apply to the actual coloured bar */
 	barClass?: string;
-	lowColor?: string;
-	midColor?: string;
-	highColor?: string;
-	emptyColor?: string;
+	lowColor?: string | undefined;
+	midColor?: string | undefined;
+	highColor?: string | undefined;
+	emptyColor?: string | undefined;
 	/** Optional title for the meter */
 	title?: string;
 
