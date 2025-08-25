@@ -7,6 +7,7 @@ import ZoomInIcon from "lucide-solid/icons/zoom-in";
 import ZoomOutIcon from "lucide-solid/icons/zoom-out";
 import { For, type JSX, onMount } from "solid-js";
 import { GAME_VARIABLES } from "~/App";
+import { DEFAULT_VARIABLES } from "~/game/engine/defaults";
 import { GAME_ENGINE } from "~/game/engine/engine";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
@@ -20,7 +21,7 @@ import uterusExpIcon from "./../media/img/icons/stats/uterus-exp.webp";
 import uterusHpIcon from "./../media/img/icons/stats/uterus-hp.webp";
 import { StatMeter } from "./meter";
 import GameModal from "./modal/game-modal";
-import { showModal } from "./modal/generic-modal";
+import { closeModal, showModal } from "./modal/generic-modal";
 
 const RIGHT_AND_LEFT_PANEL_DIMENSION =
 	"h-[97.5%] w-[85%] lg:w-[75%] contain-strict p-2 lg:p-4";
@@ -338,9 +339,38 @@ function InventoryModal(prop: { modalId: string }) {
 }
 
 function RestartModal(prop: { modalId: string }) {
+	function closeModalWithId(e: MouseEvent) {
+		e.stopPropagation();
+
+		return closeModal(prop.modalId);
+	}
+
 	return (
 		<GameModal modalId={prop.modalId} title="RESTART">
-			Gorb You :3
+			<div class="text-warning text-center mb-4">
+				This will reset all unsaved progress!
+			</div>
+
+			<div class="flex justify-center gap-4">
+				<button
+					type="button"
+					class="btn btn-primary"
+					onClick={closeModalWithId}
+				>
+					Changed my mind...
+				</button>
+
+				<button
+					type="button"
+					class="btn btn-warning"
+					onClick={(e) => {
+						GAME_ENGINE.reset();
+						closeModalWithId(e);
+					}}
+				>
+					Restart
+				</button>
+			</div>
 		</GameModal>
 	);
 }

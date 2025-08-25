@@ -20,8 +20,9 @@ function GenericModal(prop: {
 						>
 							✕
 						</button>
+
+						<div>{prop.children}</div>
 					</form>
-					<div>{prop.children}</div>
 				</div>
 				<form method="dialog" class="modal-backdrop">
 					<button type="submit">close</button>
