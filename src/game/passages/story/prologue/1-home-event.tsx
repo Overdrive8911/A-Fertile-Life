@@ -1,4 +1,15 @@
+import { createSignal, Show } from "solid-js";
+import { GenericLink, PassageLink } from "~/components/link";
+import GameModal from "~/components/modal/game-modal";
+import { showModal } from "~/components/modal/generic-modal";
+import { getRandomUUID } from "~/utils/random";
+import { PassagePrologueName } from "./enums";
+
 export function PassagePrologueHomeEvent() {
+	const letterModalId = getRandomUUID();
+
+	const [hasOpenedLetter, setHasOpenedLetter] = createSignal(false);
+
 	return (
 		<>
 			<p>
@@ -58,9 +69,162 @@ export function PassagePrologueHomeEvent() {
 				and pull out the letter.
 			</p>
 
-			<button type="button" class="link link-primary">
+			<GenericLink
+				onClick={(_) => {
+					showModal(letterModalId);
+					setHasOpenedLetter(true);
+				}}
+			>
 				Read the Letter
-			</button>
+			</GenericLink>
+
+			<Show when={hasOpenedLetter()}>
+				<p>
+					The paper falls from your hand in shock.{" "}
+					<span class="text-secondary">
+						<em>
+							"What the FUCK?! How did this guy know this? How could anyone know
+							this much about me? Are they spying on me now?"
+						</em>
+					</span>{" "}
+					you think. Your eyes scan the surrounding room. There aren't any
+					visible cameras or anything similar in sight, but its not like you
+					expected to see them in plain sight.
+				</p>
+
+				<p>
+					<em class="text-secondary">
+						"…I hate to admit it, but they're right, I don't really have much of
+						a choice now. I honestly didn't have a solid plan before… If I go
+						there tomorrow, even if it's a scam, I'll have a shot at finding out
+						how they got to know this much… God, I hope I'll be able to make
+						sense of this mess."
+					</em>{" "}
+					{/* You've been feeling a dull but constant ache just above your pelvic region for a while now, alongside headaches and a fever. Not to talk of the semi-recent weird feeling of emptiness and occasional 'heat' that's uncomfortable to deal with. */}
+					You understandably still have your doubts, and hope none of this is
+					true—especially the symptoms part—but that's diminishing by the
+					minute.
+				</p>
+
+				<p>
+					You make a mental note to go to the hospital tomorrow.{" "}
+					<em class="text-secondary">"Better than nothing, I guess."</em> For
+					now, you'll try to get some{" "}
+					<PassageLink
+						passage={PassagePrologueName.PROLOGUE_WAKE_UP_AND_BRUSH_TEETH}
+					>
+						sleep.
+					</PassageLink>
+				</p>
+			</Show>
+
+			<GameModal title="LETTER" modalId={letterModalId}>
+				<p>
+					Good day, Miss, I would like to first apologize for all that is
+					happening to you now. Ever since the <em>incident</em>, your life has
+					been unexpectedly—well, expectedly—more inconvenient to put it
+					lightly.
+				</p>
+
+				<p>
+					Your job security is compromised at this point, but I'm sure you
+					already know this. You are likely scared and worried now; getting
+					another job is not going to be easy, especially since your papers are
+					not in order.
+				</p>
+
+				<p>
+					By now, you should also have noticed some strange things about your
+					body. They are light symptoms from your exposure and will likely
+					intensify with the passing days. The most obvious of these will be an
+					unusual feeling around your pelvic region.
+				</p>
+
+				<p>
+					You also need to know that if you have seen some suspicious people
+					dressed in similar attire around places you frequent, your home is not
+					as safe as you think.
+				</p>
+
+				<p>
+					Now, do not fret yet. I have better news that could resolve most, if
+					not all, your problems. I own a hospital about a hundred or so miles
+					up north from your house, Fertilo Inc, might ring a few bells. To be
+					frank, it's the only place you can have your condition treated without
+					resorting to the government and you <strong>do not</strong> want to be
+					their lab rat, trust me. I can also provide you with living
+					accommodations and a well-paying job, as well as a new alias you can
+					go by, during your treatment.
+				</p>
+
+				<p>
+					You might be wondering why I sent you this letter or whether this is a
+					scam. For the former, I also benefit here. Your medical condition is a
+					one-in-a-million modern marvel, and the second I have seen in my
+					entire lifetime. This will be the perfect chance for me to study it
+					extensively; I believe that there is something special about it that
+					will be of great benefit to humanity.
+				</p>
+
+				<p>
+					For the latter, you do not have much of a choice, honestly. None of
+					your living family members live in the country; and I doubt you'd be
+					willing to go back. Your house will probably be jumped by 'agents'
+					next week too.
+				</p>
+
+				<p>
+					I am not trying to threaten you; just letting you know your options.
+					If you're interested about how I got this information, feel free to
+					come, but please think about your situation properly. I'll be awaiting
+					your response.
+				</p>
+
+				<p>
+					<strong>PS:</strong> The directions are on the inner side of the
+					envelope."
+				</p>
+			</GameModal>
+		</>
+	);
+}
+
+export function PassagePrologueHomeEventBathroom() {
+	return (
+		<>
+			<p>
+				The digital alarm clock rings out loudly, waking you up. It is 7:00 AM.
+			</p>
+			{/*TODO - The PC will be able to choose their mood once they wake up and this will decide their default personality; enthusiastic, apathy, or disapproval */}
+			{/*TODO - Also the PC will have morning sickness and strange cravings */}
+			<p>
+				Hitting it instinctively, you silence the alarm. You drudgingly pull
+				yourself out of your bed to get to the toilet. You didn't get much
+				sleep; the entire night was spent rolling about on your bed
+				contemplating about the letter and your choice. Although, for some
+				reason, you feel even more lethargic than you expected.{" "}
+				<em class="text-secondary">
+					"Ugh, please tell me this isn't one of the symptoms the letter hinted
+					at…"
+				</em>
+			</p>
+			<p>
+				In your bathroom, you stand in front of the mirror situated right above
+				the sink and see a pair of baggy eyes staring back. You're still wearing
+				your clothes from yesterday; a well-worn plain baggy black shirt with a
+				pair of comfy shorts, but you never cared much about clothing as long as
+				it's comfortable.
+			</p>
+			<p>
+				You absent-mindedly pick up a toothbrush and slather some paste on it,
+				still thinking of the letter yesterday.{" "}
+				<em class="text-secondary">
+					"What am I going to say when I get there? It's not like I can just
+					say, "Oh hi there, why the FUCK were you spying on me?""
+				</em>{" "}
+				You sigh and spit into the sink.{" "}
+				<em class="text-secondary">I'll just figure it out, later</em>
+			</p>
 		</>
 	);
 }
