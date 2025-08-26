@@ -1,6 +1,9 @@
+import { readClipboard, writeClipboard } from "@solid-primitives/clipboard";
 import { createAsync } from "@solidjs/router";
 import BackpackIcon from "lucide-solid/icons/backpack";
 import BellIcon from "lucide-solid/icons/bell";
+import CopyIcon from "lucide-solid/icons/clipboard-copy";
+import PasteIcon from "lucide-solid/icons/clipboard-paste";
 import LoadIcon from "lucide-solid/icons/play";
 import RotateCcwIcon from "lucide-solid/icons/rotate-ccw";
 import SaveIcon from "lucide-solid/icons/save";
@@ -578,17 +581,50 @@ function SaveGameModal(prop: { modalId: string }) {
 				<div class="flex gap-4 max-w-full overflow-x-auto sm:overflow-x-visible">
 					<BaseButton class="btn-primary" tooltip="Save to Disk">
 						<SaveIcon />
-						Save...
+						Export
 					</BaseButton>
 
-					<BaseButton class="btn-accent" tooltip="Load from Disk">
+					<BaseButton
+						class="btn-accent"
+						tooltip="Load from Disk"
+						onClick={async (_) => {}}
+					>
 						<LoadIcon />
-						Load...
+						Import
 					</BaseButton>
 
-					<BaseButton class="btn-primary" tooltip="Save to Clipboard">
-						<SaveIcon />
-						Save to Clipboard
+					<BaseButton
+						class="btn-primary"
+						tooltip="Copy to Clipboard"
+						onClick={async (_) => {
+							await writeClipboard(await GAME_ENGINE.saveToExport());
+						}}
+					>
+						<CopyIcon />
+						Copy
+					</BaseButton>
+
+					<BaseButton
+						class="btn-accent"
+						tooltip="Paste from Clipboard"
+						onClick={async (_) => {
+							const clipboard = await readClipboard();
+
+							const possibleSaveString = await (
+								(await clipboard[0]?.getType("text/plain")) ?? new Blob([""])
+							).text();
+
+							try {
+								await GAME_ENGINE.loadFromExport(possibleSaveString);
+
+								closeSaveGameModal();
+							} catch {
+								throw new Error("Error loading save.");
+							}
+						}}
+					>
+						<PasteIcon />
+						Paste
 					</BaseButton>
 				</div>
 

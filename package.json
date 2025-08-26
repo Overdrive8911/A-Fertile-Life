@@ -28,6 +28,7 @@
 		"vite-plugin-typescript": "^1.0.4"
 	},
 	"dependencies": {
+		"@solid-primitives/clipboard": "^1.6.2",
 		"@solid-primitives/map": "^0.7.2",
 		"@solid-primitives/set": "^0.7.2",
 		"@solidjs/router": "^0.15.3",
