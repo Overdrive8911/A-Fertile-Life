@@ -17,3 +17,9 @@ type PublicDataProperties<T> = {
 }[keyof T];
 
 export type ExtractDataProperties<T> = Pick<T, PublicDataProperties<T>>;
+
+export type ExtractTypeFromAsyncGenerator<
+	TAsyncGenerator extends AsyncGenerator,
+> = TAsyncGenerator extends AsyncGenerator<infer TData, unknown, unknown>
+	? TData
+	: never;

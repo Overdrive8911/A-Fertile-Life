@@ -30,12 +30,13 @@
 	"dependencies": {
 		"@solid-primitives/map": "^0.7.2",
 		"@solid-primitives/set": "^0.7.2",
+		"@solidjs/router": "^0.15.3",
 		"classy-solid": "^0.4.3",
 		"idb-keyval": "^6.2.2",
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",
 		"solid-js": "^1.9.5",
-		"sugarbox": "^0.5.1"
+		"sugarbox": "^0.6.0"
 	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide"

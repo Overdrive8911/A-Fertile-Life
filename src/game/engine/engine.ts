@@ -14,6 +14,7 @@ import { NextPassage } from "../passages/next-passage";
 import { PassagePrologueCollection } from "../passages/story/prologue/aggregate";
 import { Womb } from "../pregnancy/classes/womb";
 import { DEFAULT_VARIABLES } from "./defaults";
+import { EngineDefaults } from "./enum";
 
 const cacheAdapter: SugarBoxCacheAdapter<SaveDataV0_0_1> = new QuickLRU({
 	maxSize: 10,
@@ -49,11 +50,13 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	startPassage: PassagePrologueCollection[0],
 	variables: DEFAULT_VARIABLES,
 	config: {
-		autoSave: false,
+		autoSave: "passage",
 		cache: cacheAdapter,
 		persistence: persistenceAdapter,
 		regenSeed: "passage",
 		saveVersion: `0.0.1`,
+		saveSlots: EngineDefaults.SAVE_SLOTS,
+		compressSave: false,
 	},
 	classes: [Breasts, GameDateAndTime, Inventory, Womb],
 });

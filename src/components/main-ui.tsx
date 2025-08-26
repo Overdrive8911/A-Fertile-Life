@@ -1,14 +1,28 @@
+import { createAsync } from "@solidjs/router";
 import BackpackIcon from "lucide-solid/icons/backpack";
 import BellIcon from "lucide-solid/icons/bell";
+import LoadIcon from "lucide-solid/icons/play";
 import RotateCcwIcon from "lucide-solid/icons/rotate-ccw";
 import SaveIcon from "lucide-solid/icons/save";
 import SettingsIcon from "lucide-solid/icons/settings";
+import DeleteIcon from "lucide-solid/icons/trash-2";
 import ZoomInIcon from "lucide-solid/icons/zoom-in";
 import ZoomOutIcon from "lucide-solid/icons/zoom-out";
-import { For, type JSX, onMount } from "solid-js";
+import {
+	createMemo,
+	createSignal,
+	For,
+	type JSX,
+	onCleanup,
+	onMount,
+	Show,
+	Suspense,
+} from "solid-js";
 import { GAME_VARIABLES } from "~/App";
 import { DEFAULT_VARIABLES } from "~/game/engine/defaults";
 import { GAME_ENGINE } from "~/game/engine/engine";
+import { EngineDefaults } from "~/game/engine/enum";
+import type { ExtractTypeFromAsyncGenerator } from "~/types/generics";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
@@ -19,6 +33,7 @@ import reputationIcon from "./../media/img/icons/stats/reputation.webp";
 import stomachIcon from "./../media/img/icons/stats/stomach.webp";
 import uterusExpIcon from "./../media/img/icons/stats/uterus-exp.webp";
 import uterusHpIcon from "./../media/img/icons/stats/uterus-hp.webp";
+import { CircleButton } from "./button";
 import { StatMeter } from "./meter";
 import GameModal from "./modal/game-modal";
 import { closeModal, showModal } from "./modal/generic-modal";
@@ -315,9 +330,216 @@ function Block(prop: { title: JSX.Element; children: JSX.Element }) {
 }
 
 function SaveGameModal(prop: { modalId: string }) {
+	const [existingSavesPromise, setExistingSavesPromise] = createSignal(() =>
+		GAME_ENGINE.getSaves(),
+	);
+
+	type ExistingSaveType = ExtractTypeFromAsyncGenerator<
+		ReturnType<ReturnType<typeof existingSavesPromise>>
+	>;
+
+	const existingSaves = createAsync<Map<"autosave" | number, ExistingSaveType>>(
+		async () => {
+			const saves = new Map<"autosave" | number, ExistingSaveType>();
+
+			for await (const save of existingSavesPromise()()) {
+				if (save.type === "autosave") {
+					saves.set("autosave", save);
+				} else {
+					saves.set(save.slot, save);
+				}
+			}
+
+			return saves;
+		},
+	);
+
+	const autoSaveData = createMemo(() => {
+		const data = existingSaves.latest?.get("autosave");
+
+		if (data?.type === "autosave") return data;
+
+		return null;
+	});
+
+	const saveSlotData = (slotNumber: number) => {
+		const data = existingSaves.latest?.get(slotNumber);
+
+		if (data?.type !== "autosave") return data;
+
+		return null;
+	};
+
+	onMount(() => {
+		const saveEndListener = GAME_ENGINE.on(":saveEnd", (_) => {
+			setExistingSavesPromise(() => {
+				return () => GAME_ENGINE.getSaves();
+			});
+		});
+
+		const deleteEndListener = GAME_ENGINE.on(":deleteEnd", (_) => {
+			setExistingSavesPromise(() => {
+				return () => GAME_ENGINE.getSaves();
+			});
+		});
+
+		onCleanup(() => {
+			saveEndListener();
+			deleteEndListener();
+		});
+	});
+
+	function closeSaveGameModal() {
+		closeModal(prop.modalId);
+	}
+
 	return (
-		<GameModal modalId={prop.modalId} title="SAVE">
-			Gorb You :3
+		<GameModal modalId={prop.modalId} title="SAVE" useProse={false}>
+			<p class="text-warning">
+				If your browser cache is cleared, saves here will be lost! Consider
+				saving to file every so often!
+			</p>
+
+			<div class="mt-4 overflow-x-auto">
+				<table class="table table-zebra table-pin-rows table-sm sm:table-md **:text-center">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Save/Load</th>
+							<th>Seed</th>
+							<th>Details</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* Autosave slot */}
+						<tr>
+							<th>A</th>
+
+							<td>
+								<div class="flex justify-center">
+									<CircleButton
+										class="btn-accent btn-outline"
+										onClick={async (_) => {
+											await GAME_ENGINE.loadFromSaveSlot();
+
+											closeSaveGameModal();
+										}}
+									>
+										<LoadIcon />
+									</CircleButton>
+								</div>
+							</td>
+
+							<td class="text-info">
+								<Suspense>{autoSaveData()?.data.intialState.__seed}</Suspense>
+							</td>
+
+							<td>
+								<div class="flex flex-col justify-center items-center">
+									<Suspense>
+										<Show when={autoSaveData()?.data}>
+											{(data) => (
+												<>
+													<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
+														{data().lastPassageId}
+													</h3>
+													<div class="text-info">
+														{data().savedOn.toLocaleString()}
+													</div>
+												</>
+											)}
+										</Show>
+									</Suspense>
+								</div>
+							</td>
+
+							<td>
+								<CircleButton
+									class="btn-error btn-outline"
+									onClick={async (_) => {
+										await GAME_ENGINE.deleteSaveSlot();
+									}}
+								>
+									<DeleteIcon />
+								</CircleButton>
+							</td>
+						</tr>
+
+						<For each={Array(EngineDefaults.SAVE_SLOTS)}>
+							{(_, index) => {
+								return (
+									<tr>
+										<th>{index() + 1}</th>
+
+										<td>
+											<div class="flex justify-center gap-2">
+												<CircleButton
+													class="btn-primary btn-outline"
+													onClick={async (_) => {
+														await GAME_ENGINE.saveToSaveSlot(index());
+
+														closeSaveGameModal();
+													}}
+												>
+													<SaveIcon />
+												</CircleButton>
+
+												<CircleButton
+													class="btn-accent btn-outline"
+													onClick={async (_) => {
+														await GAME_ENGINE.loadFromSaveSlot(index());
+
+														closeSaveGameModal();
+													}}
+												>
+													<LoadIcon />
+												</CircleButton>
+											</div>
+										</td>
+
+										<td class="text-info">
+											<Suspense>
+												{saveSlotData(index())?.data.intialState.__seed}
+											</Suspense>
+										</td>
+
+										<td>
+											<div class="flex flex-col justify-center items-center">
+												<Suspense>
+													<Show when={saveSlotData(index())?.data}>
+														{(data) => (
+															<>
+																<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
+																	{data().lastPassageId}
+																</h3>
+																<div class="text-info">
+																	{data().savedOn.toLocaleString()}
+																</div>
+															</>
+														)}
+													</Show>
+												</Suspense>
+											</div>
+										</td>
+
+										<td>
+											<CircleButton
+												class="btn-error btn-outline"
+												onClick={async (_) => {
+													await GAME_ENGINE.deleteSaveSlot(index());
+												}}
+											>
+												<DeleteIcon />
+											</CircleButton>
+										</td>
+									</tr>
+								);
+							}}
+						</For>
+					</tbody>
+				</table>
+			</div>
 		</GameModal>
 	);
 }
@@ -346,7 +568,7 @@ function RestartModal(prop: { modalId: string }) {
 	}
 
 	return (
-		<GameModal modalId={prop.modalId} title="RESTART">
+		<GameModal modalId={prop.modalId} title="RESTART" class="max-w-[40vw]">
 			<div class="text-warning text-center mb-4">
 				This will reset all unsaved progress!
 			</div>
@@ -362,7 +584,7 @@ function RestartModal(prop: { modalId: string }) {
 
 				<button
 					type="button"
-					class="btn btn-warning"
+					class="btn btn-error"
 					onClick={(e) => {
 						GAME_ENGINE.reset();
 						closeModalWithId(e);

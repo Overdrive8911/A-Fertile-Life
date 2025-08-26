@@ -6,12 +6,13 @@
       "dependencies": {
         "@solid-primitives/map": "^0.7.2",
         "@solid-primitives/set": "^0.7.2",
+        "@solidjs/router": "^0.15.3",
         "classy-solid": "^0.4.3",
         "idb-keyval": "^6.2.2",
         "lucide-solid": "^0.539.0",
         "quick-lru": "^7.0.1",
         "solid-js": "^1.9.5",
-        "sugarbox": "^0.5.1",
+        "sugarbox": "^0.6.0",
       },
       "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
@@ -187,6 +188,8 @@
     "@solid-primitives/trigger": ["@solid-primitives/trigger@1.2.2", "", { "dependencies": { "@solid-primitives/utils": "^6.3.2" }, "peerDependencies": { "solid-js": "^1.6.12" } }, "sha512-IWoptVc0SWYgmpBPpCMehS5b07+tpFcvw15tOQ3QbXedSYn6KP8zCjPkHNzMxcOvOicTneleeZDP7lqmz+PQ6g=="],
 
     "@solid-primitives/utils": ["@solid-primitives/utils@6.3.2", "", { "peerDependencies": { "solid-js": "^1.6.12" } }, "sha512-hZ/M/qr25QOCcwDPOHtGjxTD8w2mNyVAYvcfgwzBHq2RwNqHNdDNsMZYap20+ruRwW4A3Cdkczyoz0TSxLCAPQ=="],
+
+    "@solidjs/router": ["@solidjs/router@0.15.3", "", { "peerDependencies": { "solid-js": "^1.8.6" } }, "sha512-iEbW8UKok2Oio7o6Y4VTzLj+KFCmQPGEpm1fS3xixwFBdclFVBvaQVeibl1jys4cujfAK5Kn6+uG2uBm3lxOMw=="],
 
     "@tailwindcss/node": ["@tailwindcss/node@4.1.11", "", { "dependencies": { "@ampproject/remapping": "^2.3.0", "enhanced-resolve": "^5.18.1", "jiti": "^2.4.2", "lightningcss": "1.30.1", "magic-string": "^0.30.17", "source-map-js": "^1.2.1", "tailwindcss": "4.1.11" } }, "sha512-yzhzuGRmv5QyU9qLNg4GTlYI6STedBWRE7NjxP45CsFYYq9taI0zJXZBMqIC/c8fViNLhmrbpSFS57EoxUmD6Q=="],
 
@@ -388,7 +391,7 @@
 
     "source-map-support": ["source-map-support@0.5.21", "", { "dependencies": { "buffer-from": "^1.0.0", "source-map": "^0.6.0" } }, "sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w=="],
 
-    "sugarbox": ["sugarbox@0.5.1", "", { "dependencies": { "@iceman8911/tiny-prng": "^0.1.2", "@zalari/string-compression-utils": "^0.1.1" }, "peerDependencies": { "typescript": ">=4.5.0" }, "optionalPeers": ["typescript"] }, "sha512-fb/W3sQT6CTJtFb9lGMeShNTUumv9EeVXZaqYnoSgHs0IRaiJ2c0KufzVX75OGkxhK5Fmtb2QYoWUtpQsSuJ4A=="],
+    "sugarbox": ["sugarbox@0.6.0", "", { "dependencies": { "@iceman8911/tiny-prng": "^0.1.2", "@zalari/string-compression-utils": "^0.1.1" }, "peerDependencies": { "typescript": ">=4.5.0" }, "optionalPeers": ["typescript"] }, "sha512-vpFACU8DeBt3DzxFJAlAmCkSB4vqIg1YgldtZJQwm88NQTCust4MBvDwXGguNZ9LHog6e46/0lEAOHWJw4HRvw=="],
 
     "supports-preserve-symlinks-flag": ["supports-preserve-symlinks-flag@1.0.0", "", {}, "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w=="],
 
