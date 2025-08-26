@@ -12,6 +12,7 @@ import {
 	createMemo,
 	createSignal,
 	For,
+	Index,
 	type JSX,
 	onCleanup,
 	onMount,
@@ -33,7 +34,7 @@ import reputationIcon from "./../media/img/icons/stats/reputation.webp";
 import stomachIcon from "./../media/img/icons/stats/stomach.webp";
 import uterusExpIcon from "./../media/img/icons/stats/uterus-exp.webp";
 import uterusHpIcon from "./../media/img/icons/stats/uterus-hp.webp";
-import { CircleButton } from "./button";
+import { BaseButton, CircleButton, SquareButton } from "./button";
 import { StatMeter } from "./meter";
 import GameModal from "./modal/game-modal";
 import { closeModal, showModal } from "./modal/generic-modal";
@@ -370,6 +371,23 @@ function SaveGameModal(prop: { modalId: string }) {
 		return null;
 	};
 
+	const NUMBER_OF_ROWS_PER_PAGE = 5,
+		NUMBER_OF_PAGES = Math.ceil(
+			EngineDefaults.SAVE_SLOTS / NUMBER_OF_ROWS_PER_PAGE,
+		),
+		ARRAY_OF_SAVE_SLOT_INDEXES: ReadonlyArray<number> & {
+			length: EngineDefaults.SAVE_SLOTS;
+		} = Array.from({ length: EngineDefaults.SAVE_SLOTS }, (_, index) => index);
+
+	const [currentPage, setCurrentPage] = createSignal(0);
+
+	const arrayOfSaveSlotsToDisplay = createMemo(() => {
+		return ARRAY_OF_SAVE_SLOT_INDEXES.slice(
+			currentPage() * NUMBER_OF_ROWS_PER_PAGE,
+			currentPage() * NUMBER_OF_ROWS_PER_PAGE + NUMBER_OF_ROWS_PER_PAGE,
+		);
+	});
+
 	onMount(() => {
 		const saveEndListener = GAME_ENGINE.on(":saveEnd", (_) => {
 			setExistingSavesPromise(() => {
@@ -394,13 +412,18 @@ function SaveGameModal(prop: { modalId: string }) {
 	}
 
 	return (
-		<GameModal modalId={prop.modalId} title="SAVE" useProse={false}>
-			<p class="text-warning">
+		<GameModal
+			modalId={prop.modalId}
+			title="SAVE"
+			useProse={false}
+			class="max-h-[90vh]"
+		>
+			<p class="text-warning mb-4">
 				If your browser cache is cleared, saves here will be lost! Consider
 				saving to file every so often!
 			</p>
 
-			<div class="mt-4 overflow-x-auto">
+			<div class="mt-4 mb-4 overflow-x-auto">
 				<table class="table table-zebra table-pin-rows table-sm sm:table-md **:text-center">
 					<thead>
 						<tr>
@@ -425,6 +448,7 @@ function SaveGameModal(prop: { modalId: string }) {
 
 											closeSaveGameModal();
 										}}
+										tooltip="Load Autosave"
 									>
 										<LoadIcon />
 									</CircleButton>
@@ -460,27 +484,32 @@ function SaveGameModal(prop: { modalId: string }) {
 									onClick={async (_) => {
 										await GAME_ENGINE.deleteSaveSlot();
 									}}
+									tooltip="Delete Autosave"
+									tooltipDir="left"
 								>
 									<DeleteIcon />
 								</CircleButton>
 							</td>
 						</tr>
 
-						<For each={Array(EngineDefaults.SAVE_SLOTS)}>
-							{(_, index) => {
+						<Index each={arrayOfSaveSlotsToDisplay()}>
+							{(slotNumber) => {
+								const slotNumberToShow = () => slotNumber() + 1;
+
 								return (
 									<tr>
-										<th>{index() + 1}</th>
+										<th>{slotNumberToShow()}</th>
 
 										<td>
 											<div class="flex justify-center gap-2">
 												<CircleButton
 													class="btn-primary btn-outline"
 													onClick={async (_) => {
-														await GAME_ENGINE.saveToSaveSlot(index());
+														await GAME_ENGINE.saveToSaveSlot(slotNumber());
 
 														closeSaveGameModal();
 													}}
+													tooltip={`Save to Slot ${slotNumberToShow()}`}
 												>
 													<SaveIcon />
 												</CircleButton>
@@ -488,10 +517,11 @@ function SaveGameModal(prop: { modalId: string }) {
 												<CircleButton
 													class="btn-accent btn-outline"
 													onClick={async (_) => {
-														await GAME_ENGINE.loadFromSaveSlot(index());
+														await GAME_ENGINE.loadFromSaveSlot(slotNumber());
 
 														closeSaveGameModal();
 													}}
+													tooltip={`Load from Slot ${slotNumberToShow()}`}
 												>
 													<LoadIcon />
 												</CircleButton>
@@ -500,14 +530,14 @@ function SaveGameModal(prop: { modalId: string }) {
 
 										<td class="text-info">
 											<Suspense>
-												{saveSlotData(index())?.data.intialState.__seed}
+												{saveSlotData(slotNumber())?.data.intialState.__seed}
 											</Suspense>
 										</td>
 
 										<td>
 											<div class="flex flex-col justify-center items-center">
 												<Suspense>
-													<Show when={saveSlotData(index())?.data}>
+													<Show when={saveSlotData(slotNumber())?.data}>
 														{(data) => (
 															<>
 																<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
@@ -527,8 +557,10 @@ function SaveGameModal(prop: { modalId: string }) {
 											<CircleButton
 												class="btn-error btn-outline"
 												onClick={async (_) => {
-													await GAME_ENGINE.deleteSaveSlot(index());
+													await GAME_ENGINE.deleteSaveSlot(slotNumber());
 												}}
+												tooltip={`Delete Slot ${slotNumberToShow()}`}
+												tooltipDir="left"
 											>
 												<DeleteIcon />
 											</CircleButton>
@@ -536,9 +568,61 @@ function SaveGameModal(prop: { modalId: string }) {
 									</tr>
 								);
 							}}
-						</For>
+						</Index>
 					</tbody>
 				</table>
+			</div>
+
+			{/* Export btns */}
+			<div class="flex gap-4 justify-between mb-4 [&_button]:btn-outline">
+				<div class="flex gap-4 max-w-full overflow-x-auto sm:overflow-x-visible">
+					<BaseButton class="btn-primary" tooltip="Save to Disk">
+						<SaveIcon />
+						Save...
+					</BaseButton>
+
+					<BaseButton class="btn-accent" tooltip="Load from Disk">
+						<LoadIcon />
+						Load...
+					</BaseButton>
+
+					<BaseButton class="btn-primary" tooltip="Save to Clipboard">
+						<SaveIcon />
+						Save to Clipboard
+					</BaseButton>
+				</div>
+
+				<BaseButton
+					class="btn-error"
+					tooltip="Clear All Browser Saves"
+					tooltipDir="left"
+				>
+					<DeleteIcon />
+					Clear
+				</BaseButton>
+			</div>
+
+			{/* Pagination */}
+			<div class="flex justify-center">
+				<div class="join *:join-item *:btn *:btn-primary *:btn-outline">
+					<button
+						type="button"
+						onClick={() => setCurrentPage(Math.max(0, currentPage() - 1))}
+					>
+						«
+					</button>
+					<button type="button" class="btn-primary btn-outline">
+						Page {currentPage() + 1} of {NUMBER_OF_PAGES}
+					</button>
+					<button
+						type="button"
+						onClick={() =>
+							setCurrentPage(Math.min(NUMBER_OF_PAGES - 1, currentPage() + 1))
+						}
+					>
+						»
+					</button>
+				</div>
 			</div>
 		</GameModal>
 	);
