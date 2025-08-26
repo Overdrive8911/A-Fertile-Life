@@ -37,6 +37,7 @@
 		"lucide-solid": "^0.539.0",
 		"quick-lru": "^7.0.1",
 		"solid-js": "^1.9.5",
+		"solidjs-use": "^2.3.0",
 		"sugarbox": "^0.6.0"
 	},
 	"trustedDependencies": [

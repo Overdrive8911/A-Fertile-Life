@@ -22,11 +22,13 @@ import {
 	Show,
 	Suspense,
 } from "solid-js";
+import { useFileDialog } from "solidjs-use";
 import { GAME_VARIABLES } from "~/App";
 import { DEFAULT_VARIABLES } from "~/game/engine/defaults";
 import { GAME_ENGINE } from "~/game/engine/engine";
 import { EngineDefaults } from "~/game/engine/enum";
 import type { ExtractTypeFromAsyncGenerator } from "~/types/generics";
+import { downloadData } from "~/utils/download";
 import { getRandomUUID } from "~/utils/random";
 import { PassageDisplay } from "./../game/passages/passage-display";
 import energyIcon from "./../media/img/icons/stats/energy.webp";
@@ -391,6 +393,12 @@ function SaveGameModal(prop: { modalId: string }) {
 		);
 	});
 
+	const {
+		onChange: onFileDialogChange,
+		open: openFileDialog,
+		reset: resetFileDialog,
+	} = useFileDialog({});
+
 	onMount(() => {
 		const saveEndListener = GAME_ENGINE.on(":saveEnd", (_) => {
 			setExistingSavesPromise(() => {
@@ -579,7 +587,16 @@ function SaveGameModal(prop: { modalId: string }) {
 			{/* Export btns */}
 			<div class="flex gap-4 justify-between mb-4 [&_button]:btn-outline">
 				<div class="flex gap-4 max-w-full overflow-x-auto sm:overflow-x-visible">
-					<BaseButton class="btn-primary" tooltip="Save to Disk">
+					<BaseButton
+						class="btn-primary"
+						tooltip="Save to Disk"
+						onClick={async (_) => {
+							downloadData(
+								await GAME_ENGINE.saveToExport(),
+								`Save - ${GAME_ENGINE.name} - ${Date.now()}.save`,
+							);
+						}}
+					>
 						<SaveIcon />
 						Export
 					</BaseButton>
@@ -587,8 +604,33 @@ function SaveGameModal(prop: { modalId: string }) {
 					<BaseButton
 						class="btn-accent"
 						tooltip="Load from Disk"
-						onClick={async (_) => {}}
+						onClick={async (_) => {
+							openFileDialog();
+
+							const { off: disableHandler } = onFileDialogChange(
+								async (files) => {
+									const possibleSaveFile = files?.[0];
+
+									if (possibleSaveFile) {
+										try {
+											await GAME_ENGINE.loadFromExport(
+												await possibleSaveFile.text(),
+											);
+
+											closeSaveGameModal();
+										} catch {
+											throw new Error("Error trying to load save");
+										} finally {
+											resetFileDialog();
+										}
+									}
+
+									disableHandler();
+								},
+							);
+						}}
 					>
+						<input class="hidden" type="file"></input>
 						<LoadIcon />
 						Import
 					</BaseButton>
