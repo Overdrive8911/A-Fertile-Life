@@ -374,6 +374,9 @@ export function SaveGameModal(prop: { modalId: string }) {
 					class="btn-error"
 					tooltip="Clear All Browser Saves"
 					tooltipDir="left"
+					onClick={async (_) => {
+						await GAME_ENGINE.deleteAllSaveSlots();
+					}}
 				>
 					<DeleteIcon />
 					Clear
