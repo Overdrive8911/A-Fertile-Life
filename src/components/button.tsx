@@ -13,13 +13,19 @@ export function BaseButton(prop: {
 	onClick?: (e: MouseEvent) => void;
 	tooltip?: string;
 	tooltipDir?: "right" | "left" | "top" | "bottom";
+	disabled?: boolean;
 }) {
 	return (
 		<div
 			class={`tooltip ${prop.tooltipDir ? tooltipDirections[prop.tooltipDir] : ""}`}
 			data-tip={prop.tooltip ?? ""}
 		>
-			<button type="button" class={`btn ${prop.class}`} onClick={prop.onClick}>
+			<button
+				type="button"
+				class={`btn ${prop.class}`}
+				onClick={prop.onClick}
+				disabled={prop.disabled}
+			>
 				{prop.children}
 			</button>
 		</div>
@@ -32,6 +38,7 @@ export function CircleButton(prop: {
 	onClick?: (e: MouseEvent) => void;
 	tooltip?: string;
 	tooltipDir?: "right" | "left" | "top" | "bottom";
+	disabled?: boolean;
 }) {
 	return <BaseButton {...prop} class={`btn-circle ${prop.class}`} />;
 }
@@ -42,6 +49,7 @@ export function SquareButton(prop: {
 	onClick?: (e: MouseEvent) => void;
 	tooltip?: string;
 	tooltipDir?: "right" | "left" | "top" | "bottom";
+	disabled?: boolean;
 }) {
 	return <BaseButton {...prop} class={`btn-square ${prop.class}`} />;
 }

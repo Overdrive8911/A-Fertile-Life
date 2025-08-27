@@ -49,7 +49,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 		},
 	);
 
-	const autoSaveData = createMemo(() => {
+	const getAutoSaveSlotData = createMemo(() => {
 		const data = existingSaves.latest?.get("autosave");
 
 		if (data?.type === "autosave") return data;
@@ -57,7 +57,9 @@ export function SaveGameModal(prop: { modalId: string }) {
 		return null;
 	});
 
-	const saveSlotData = (slotNumber: number) => {
+	const autoSaveData = () => getAutoSaveSlotData()?.data;
+
+	const getSaveSlotData = (slotNumber: number) => {
 		const data = existingSaves.latest?.get(slotNumber);
 
 		if (data?.type !== "autosave") return data;
@@ -150,6 +152,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 								<div class="flex justify-center">
 									<CircleButton
 										class="btn-accent btn-outline"
+										disabled={!autoSaveData()}
 										onClick={async (_) => {
 											await GAME_ENGINE.loadFromSaveSlot();
 
@@ -163,13 +166,15 @@ export function SaveGameModal(prop: { modalId: string }) {
 							</td>
 
 							<td class="text-info">
-								<Suspense>{autoSaveData()?.data.intialState.__seed}</Suspense>
+								<Suspense>
+									{getAutoSaveSlotData()?.data.intialState.__seed}
+								</Suspense>
 							</td>
 
 							<td>
 								<div class="flex flex-col justify-center items-center">
 									<Suspense>
-										<Show when={autoSaveData()?.data}>
+										<Show when={getAutoSaveSlotData()?.data}>
 											{(data) => (
 												<>
 													<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
@@ -188,6 +193,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 							<td>
 								<CircleButton
 									class="btn-error btn-outline"
+									disabled={!autoSaveData()}
 									onClick={async (_) => {
 										await GAME_ENGINE.deleteSaveSlot();
 									}}
@@ -202,6 +208,8 @@ export function SaveGameModal(prop: { modalId: string }) {
 						<Index each={arrayOfSaveSlotsToDisplay()}>
 							{(slotNumber) => {
 								const slotNumberToShow = () => slotNumber() + 1;
+
+								const saveData = () => getSaveSlotData(slotNumber())?.data;
 
 								return (
 									<tr>
@@ -223,6 +231,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 
 												<CircleButton
 													class="btn-accent btn-outline"
+													disabled={!saveData()}
 													onClick={async (_) => {
 														try {
 															await GAME_ENGINE.loadFromSaveSlot(slotNumber());
@@ -240,15 +249,13 @@ export function SaveGameModal(prop: { modalId: string }) {
 										</td>
 
 										<td class="text-info">
-											<Suspense>
-												{saveSlotData(slotNumber())?.data.intialState.__seed}
-											</Suspense>
+											<Suspense>{saveData()?.intialState.__seed}</Suspense>
 										</td>
 
 										<td>
 											<div class="flex flex-col justify-center items-center">
 												<Suspense>
-													<Show when={saveSlotData(slotNumber())?.data}>
+													<Show when={saveData()}>
 														{(data) => (
 															<>
 																<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
@@ -267,6 +274,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 										<td>
 											<CircleButton
 												class="btn-error btn-outline"
+												disabled={!saveData()}
 												onClick={async (_) => {
 													await GAME_ENGINE.deleteSaveSlot(slotNumber());
 												}}
