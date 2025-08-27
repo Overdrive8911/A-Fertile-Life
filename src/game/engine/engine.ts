@@ -44,7 +44,7 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	() => JSX.Element,
 	SaveDataV0_0_1
 >({
-	name: "A Fertile Life",
+	name: "Surrograce",
 	otherPassages: [
 		...PassagePrologueCollection,
 		{ name: PassagePrologueName.DEBUG_SANDBOX, passage: NextPassage },
