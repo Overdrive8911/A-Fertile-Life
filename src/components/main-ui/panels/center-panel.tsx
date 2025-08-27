@@ -15,7 +15,7 @@ export function CenterPanel() {
 
 	return (
 		<div
-			class={`grid grid-rows-[3.5fr_1fr] gap-6 px-1 *:border *:border-primary *:rounded-2xl *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
+			class={`grid grid-rows-1 px-1 *:border *:border-primary *:rounded-2xl *:${ROUNDED_BORDER} *:p-4 *:bg-base-200`}
 		>
 			{/* Main passage display*/}
 			<main
@@ -24,32 +24,6 @@ export function CenterPanel() {
 			>
 				<PassageDisplay />
 			</main>
-
-			{/* Buttons for interacting with the passage*/}
-			<div class="grid grid-cols-3 lg:grid-cols-4 gap-4 contain-strict overflow-auto">
-				<For
-					each={[
-						"Option 1",
-						"Option 2",
-						"Option 3",
-						"Lorem Ipusm Dolomet",
-						"Option 5",
-						"Option 6",
-						"Pretty long text in box that should likely expand it, right?",
-						"Option 8",
-						"Option 9",
-						"Option 10",
-						"Option 11",
-						"Option 12",
-					]}
-				>
-					{(val) => (
-						<button type="button" class="btn btn-primary btn-soft min-h-fit">
-							{val}
-						</button>
-					)}
-				</For>
-			</div>
 		</div>
 	);
 }
