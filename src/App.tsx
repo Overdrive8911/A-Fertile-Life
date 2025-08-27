@@ -1,5 +1,6 @@
 import { type Component, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
+import { AlertWrapper } from "./components/alert";
 import { MainUI } from "./components/main-ui";
 import { GAME_ENGINE } from "./game/engine/engine";
 
@@ -14,9 +15,13 @@ const App: Component = () => {
 	});
 
 	return (
-		<div class="h-[100vh] w-[100vw] overflow-y-clip">
-			<MainUI />
-		</div>
+		<>
+			<div class="h-[100vh] w-[100vw] overflow-y-clip">
+				<MainUI />
+			</div>
+
+			<AlertWrapper />
+		</>
 	);
 };
 

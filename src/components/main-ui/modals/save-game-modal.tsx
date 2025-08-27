@@ -15,6 +15,7 @@ import {
 	Suspense,
 } from "solid-js";
 import { useFileDialog } from "solidjs-use";
+import { createAlert } from "~/components/alert";
 import { GAME_ENGINE } from "~/game/engine/engine";
 import { EngineDefaults } from "~/game/engine/enum";
 import type { ExtractTypeFromAsyncGenerator } from "~/types/generics";
@@ -108,6 +109,13 @@ export function SaveGameModal(prop: { modalId: string }) {
 
 	function closeSaveGameModal() {
 		closeModal(prop.modalId);
+	}
+
+	function createSaveLoadErrorAlert() {
+		createAlert({
+			children: "Error loading save data.",
+			type: "error",
+		});
 	}
 
 	return (
@@ -216,9 +224,13 @@ export function SaveGameModal(prop: { modalId: string }) {
 												<CircleButton
 													class="btn-accent btn-outline"
 													onClick={async (_) => {
-														await GAME_ENGINE.loadFromSaveSlot(slotNumber());
+														try {
+															await GAME_ENGINE.loadFromSaveSlot(slotNumber());
 
-														closeSaveGameModal();
+															closeSaveGameModal();
+														} catch {
+															createSaveLoadErrorAlert();
+														}
 													}}
 													tooltip={`Load from Slot ${slotNumberToShow()}`}
 												>
@@ -307,7 +319,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 
 											closeSaveGameModal();
 										} catch {
-											throw new Error("Error trying to load save");
+											createSaveLoadErrorAlert();
 										} finally {
 											resetFileDialog();
 										}
@@ -349,7 +361,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 
 								closeSaveGameModal();
 							} catch {
-								throw new Error("Error loading save.");
+								createSaveLoadErrorAlert();
 							}
 						}}
 					>

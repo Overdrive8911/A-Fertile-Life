@@ -10,7 +10,7 @@ function GenericModal(prop: {
 }) {
 	return (
 		<Portal>
-			<dialog closedby="any" id={prop.modalId} class="modal">
+			<dialog closedby="closerequest" id={prop.modalId} class="modal">
 				<div class={`modal-box max-h-[85vh] ${prop.class}`}>
 					<form method="dialog">
 						<button
@@ -39,7 +39,7 @@ function getDialogElementFromId(id: string): HTMLDialogElement | null {
 }
 
 function showModal(modalId: string) {
-	getDialogElementFromId(modalId)?.showModal();
+	getDialogElementFromId(modalId)?.show();
 }
 
 function closeModal(modalId: string) {
