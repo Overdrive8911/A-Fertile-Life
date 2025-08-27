@@ -33,16 +33,42 @@ export function SaveGameModal(prop: { modalId: string }) {
 		ReturnType<ReturnType<typeof existingSavesPromise>>
 	>;
 
-	const existingSaves = createAsync<Map<"autosave" | number, ExistingSaveType>>(
+	/** Since there's no use to lug around the rest of the save data and allow it to be GC'd */
+	type SaveMetadata = {
+		seed: number;
+		/** Date string */
+		savedOn: string;
+		/** Passage Id */
+		id: string;
+	};
+
+	const existingSaves = createAsync<Map<"autosave" | number, SaveMetadata>>(
 		async () => {
-			const saves = new Map<"autosave" | number, ExistingSaveType>();
+			const saves = new Map<"autosave" | number, SaveMetadata>();
+
+			const extractSaveMetadataFromSaveData = (
+				saveData: ExistingSaveType,
+			): SaveMetadata => {
+				const {
+					data: {
+						savedOn,
+						lastPassageId,
+						intialState: { __seed },
+					},
+				} = saveData;
+
+				return {
+					id: lastPassageId,
+					savedOn: savedOn.toLocaleString(),
+					seed: __seed,
+				};
+			};
 
 			for await (const save of existingSavesPromise()()) {
-				if (save.type === "autosave") {
-					saves.set("autosave", save);
-				} else {
-					saves.set(save.slot, save);
-				}
+				saves.set(
+					save.type === "autosave" ? "autosave" : save.slot,
+					extractSaveMetadataFromSaveData(save),
+				);
 			}
 
 			return saves;
@@ -50,21 +76,13 @@ export function SaveGameModal(prop: { modalId: string }) {
 	);
 
 	const getAutoSaveSlotData = createMemo(() => {
-		const data = existingSaves.latest?.get("autosave");
-
-		if (data?.type === "autosave") return data;
-
-		return null;
+		return existingSaves.latest?.get("autosave");
 	});
 
-	const autoSaveData = () => getAutoSaveSlotData()?.data;
+	const autoSaveData = () => getAutoSaveSlotData();
 
 	const getSaveSlotData = (slotNumber: number) => {
-		const data = existingSaves.latest?.get(slotNumber);
-
-		if (data?.type !== "autosave") return data;
-
-		return null;
+		return existingSaves.latest?.get(slotNumber);
 	};
 
 	const NUMBER_OF_ROWS_PER_PAGE = 5,
@@ -166,23 +184,19 @@ export function SaveGameModal(prop: { modalId: string }) {
 							</td>
 
 							<td class="text-info">
-								<Suspense>
-									{getAutoSaveSlotData()?.data.intialState.__seed}
-								</Suspense>
+								<Suspense>{autoSaveData()?.seed}</Suspense>
 							</td>
 
 							<td>
 								<div class="flex flex-col justify-center items-center">
 									<Suspense>
-										<Show when={getAutoSaveSlotData()?.data}>
+										<Show when={autoSaveData()}>
 											{(data) => (
 												<>
 													<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
-														{data().lastPassageId}
+														{data().id}
 													</h3>
-													<div class="text-info">
-														{data().savedOn.toLocaleString()}
-													</div>
+													<div class="text-info">{data().savedOn}</div>
 												</>
 											)}
 										</Show>
@@ -209,7 +223,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 							{(slotNumber) => {
 								const slotNumberToShow = () => slotNumber() + 1;
 
-								const saveData = () => getSaveSlotData(slotNumber())?.data;
+								const saveData = () => getSaveSlotData(slotNumber());
 
 								return (
 									<tr>
@@ -249,7 +263,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 										</td>
 
 										<td class="text-info">
-											<Suspense>{saveData()?.intialState.__seed}</Suspense>
+											<Suspense>{saveData()?.seed}</Suspense>
 										</td>
 
 										<td>
@@ -259,11 +273,9 @@ export function SaveGameModal(prop: { modalId: string }) {
 														{(data) => (
 															<>
 																<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
-																	{data().lastPassageId}
+																	{data().id}
 																</h3>
-																<div class="text-info">
-																	{data().savedOn.toLocaleString()}
-																</div>
+																<div class="text-info">{data().savedOn}</div>
 															</>
 														)}
 													</Show>
