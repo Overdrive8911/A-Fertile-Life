@@ -10,7 +10,7 @@ export function RestartModal(prop: { modalId: string }) {
 	}
 
 	return (
-		<GameModal modalId={prop.modalId} title="RESTART" class="max-w-[40vw]">
+		<GameModal modalId={prop.modalId} title="RESTART" medium={true}>
 			<div class="text-warning text-center mb-4">
 				This will reset all unsaved progress!
 			</div>
