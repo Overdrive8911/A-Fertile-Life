@@ -10,8 +10,10 @@ import type { SaveDataV0_0_1 } from "~/game/types/story-variables/save-data";
 import { Breasts } from "../body-stats/class/breast";
 import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
-import { NextPassage } from "../passages/next-passage";
+import { NextPassage } from "../passages/debug-passage";
+import { StartPassage } from "../passages/start-passage";
 import { PassagePrologueCollection } from "../passages/story/prologue/aggregate";
+import { PassagePrologueName } from "../passages/story/prologue/enums";
 import { Womb } from "../pregnancy/classes/womb";
 import { DEFAULT_VARIABLES } from "./defaults";
 import { EngineDefaults } from "./enum";
@@ -45,9 +47,9 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	name: "A Fertile Life",
 	otherPassages: [
 		...PassagePrologueCollection,
-		{ name: "Next", passage: NextPassage },
+		{ name: PassagePrologueName.DEBUG_SANDBOX, passage: NextPassage },
 	],
-	startPassage: PassagePrologueCollection[0],
+	startPassage: { name: PassagePrologueName.GAME_START, passage: StartPassage },
 	variables: DEFAULT_VARIABLES,
 	config: {
 		autoSave: "passage",
