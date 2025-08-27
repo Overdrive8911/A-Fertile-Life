@@ -16,6 +16,7 @@ import {
 } from "solid-js";
 import { useFileDialog } from "solidjs-use";
 import { createAlert } from "~/components/alert";
+import { triggerConfirmationModal } from "~/components/modal/confirmation-modal";
 import { GAME_ENGINE } from "~/game/engine/engine";
 import { EngineDefaults } from "~/game/engine/enum";
 import type { ExtractTypeFromAsyncGenerator } from "~/types/generics";
@@ -208,8 +209,11 @@ export function SaveGameModal(prop: { modalId: string }) {
 								<CircleButton
 									class="btn-error btn-outline"
 									disabled={!autoSaveData()}
-									onClick={async (_) => {
-										await GAME_ENGINE.deleteSaveSlot();
+									onClick={(_) => {
+										triggerConfirmationModal(
+											() => GAME_ENGINE.deleteSaveSlot(),
+											"Do you wish to delete the autosave?",
+										);
 									}}
 									tooltip="Delete Autosave"
 									tooltipDir="left"
@@ -287,8 +291,11 @@ export function SaveGameModal(prop: { modalId: string }) {
 											<CircleButton
 												class="btn-error btn-outline"
 												disabled={!saveData()}
-												onClick={async (_) => {
-													await GAME_ENGINE.deleteSaveSlot(slotNumber());
+												onClick={(_) => {
+													triggerConfirmationModal(
+														() => GAME_ENGINE.deleteSaveSlot(slotNumber()),
+														`Do you wish to delete the save at slot ${slotNumberToShow()}?`,
+													);
 												}}
 												tooltip={`Delete Slot ${slotNumberToShow()}`}
 												tooltipDir="left"
@@ -394,8 +401,14 @@ export function SaveGameModal(prop: { modalId: string }) {
 					class="btn-error"
 					tooltip="Clear All Browser Saves"
 					tooltipDir="left"
-					onClick={async (_) => {
-						await GAME_ENGINE.deleteAllSaveSlots();
+					onClick={(_) => {
+						triggerConfirmationModal(
+							() => GAME_ENGINE.deleteAllSaveSlots(),
+							<div>
+								This will <strong>irreversibly</strong> delete all the saves in
+								the browser.
+							</div>,
+						);
 					}}
 				>
 					<DeleteIcon />

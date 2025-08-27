@@ -2,6 +2,7 @@ import { type Component, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import { AlertWrapper } from "./components/alert";
 import { MainUI } from "./components/main-ui";
+import { ConfirmationModal } from "./components/modal/confirmation-modal";
 import { GAME_ENGINE } from "./game/engine/engine";
 
 const [gameVariables, setGameVariables] = createStore(GAME_ENGINE.vars);
@@ -21,6 +22,7 @@ const App: Component = () => {
 			</div>
 
 			<AlertWrapper />
+			<ConfirmationModal />
 		</>
 	);
 };
