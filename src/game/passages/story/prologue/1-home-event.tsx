@@ -1,5 +1,5 @@
 import { createSignal, Show } from "solid-js";
-import { GenericLink, PassageLink } from "~/components/link";
+import { GenericButtonLink, PassageLink } from "~/components/link";
 import GameModal from "~/components/modal/game-modal";
 import { showModal } from "~/components/modal/generic-modal";
 import { GAME_ENGINE } from "~/game/engine/engine";
@@ -75,14 +75,14 @@ export const PassagePrologueHomeEvent = {
 					envelope and pull out the letter.
 				</p>
 
-				<GenericLink
+				<GenericButtonLink
 					onClick={(_) => {
 						showModal(letterModalId);
 						setHasOpenedLetter(true);
 					}}
 				>
 					Read the Letter
-				</GenericLink>
+				</GenericButtonLink>
 
 				<Show when={hasOpenedLetter()}>
 					<p>

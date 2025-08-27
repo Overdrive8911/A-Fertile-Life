@@ -1,7 +1,7 @@
 import type { JSX } from "solid-js/jsx-runtime";
 import { GAME_ENGINE } from "~/game/engine/engine";
 
-export function GenericLink(prop: {
+export function GenericButtonLink(prop: {
 	children: JSX.Element;
 	onClick?: (e: MouseEvent) => void;
 }) {
@@ -19,7 +19,7 @@ export function PassageLink(prop: {
 	passage: string;
 }) {
 	return (
-		<GenericLink
+		<GenericButtonLink
 			onClick={(e) => {
 				prop.onClick?.(e);
 
@@ -27,6 +27,6 @@ export function PassageLink(prop: {
 			}}
 		>
 			{prop.children}
-		</GenericLink>
+		</GenericButtonLink>
 	);
 }
