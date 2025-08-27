@@ -7,7 +7,7 @@ import InfoIcon from "lucide-solid/icons/info";
 import WarningIcon from "lucide-solid/icons/triangle-alert";
 import { Index, onCleanup, onMount, Show } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { Dynamic, For, Portal } from "solid-js/web";
+import { Dynamic, Portal } from "solid-js/web";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
 
