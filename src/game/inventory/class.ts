@@ -6,6 +6,7 @@ import type {
 } from "sugarbox";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
+import { BaseItem, ConsumableItem, EquippableItem } from "../item/class";
 import type { ItemColor, ItemId, ItemTag } from "../item/enums";
 import {
 	BaseInventoryItem,
@@ -61,19 +62,29 @@ class Inventory
 		return clone;
 	}
 
-	// Return an object denoting the number of items that were successfully stored and could not be stored
-	storeItem(arg: {
-		itemId: ItemId;
-		amount?: number;
+	/**
+	 *
+	 * @returns an object denoting the number of items that were successfully stored and could not be stored */
+	storeItem(
+		item: BaseItem,
+		originalAmount?: number,
+	): { success: number; fail: number };
+	storeItem(
+		item: BaseInventoryItem,
+		originalAmount?: number,
+	): { success: number; fail: number };
+	storeItem(
+		itemId: ItemId,
+		originalAmount?: number,
+		classType?: typeof BaseInventoryItem,
+	): { success: number; fail: number };
+	storeItem(
+		itemOrItemId: ItemId | BaseItem | BaseInventoryItem,
+		/** Amount of items to store */
+		originalAmount = 1,
 		/** Incase you want to use a child class  */
-		classType?: typeof BaseInventoryItem;
-	}): { success: number; fail: number } {
-		const {
-			amount: originalAmount = 1,
-			classType = BaseInventoryItem,
-			itemId,
-		} = arg;
-
+		classType: typeof BaseInventoryItem = BaseInventoryItem,
+	): { success: number; fail: number } {
 		// TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
 		const limit = this._capacity;
 
@@ -92,7 +103,20 @@ class Inventory
 		for (let i = 0; i < amount; i++) {
 			const inventoryId = getRandomUUID();
 
-			const inventoryItem = new classType(this, inventoryId, itemId);
+			const inventoryItem =
+				itemOrItemId instanceof BaseInventoryItem
+					? itemOrItemId
+					: itemOrItemId instanceof BaseItem
+						? itemOrItemId instanceof ConsumableItem
+							? new ConsumableInventoryItem(this, inventoryId, itemOrItemId.id)
+							: itemOrItemId instanceof EquippableItem
+								? new EquippableInventoryItem(
+										this,
+										inventoryId,
+										itemOrItemId.id,
+									)
+								: new BaseInventoryItem(this, inventoryId, itemOrItemId.id)
+						: new classType(this, inventoryId, itemOrItemId);
 
 			this._items.set(inventoryId, inventoryItem);
 		}

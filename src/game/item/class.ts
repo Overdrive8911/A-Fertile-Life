@@ -42,6 +42,16 @@ abstract class BaseItem<TEffectType extends number = 0> {
 
 		Object.assign(this, cloneableData);
 	}
+
+	/** Utility method for checking if the static item class is consumable */
+	isConsumable(): this is ConsumableItem {
+		return this instanceof ConsumableItem;
+	}
+
+	/** Utility method for checking if the static item class is equippable */
+	isEquippable(): this is ConsumableItem {
+		return this instanceof ConsumableItem;
+	}
 }
 
 abstract class ItemWithEffects<
@@ -57,10 +67,6 @@ abstract class ItemWithEffects<
 
 		this.effects = [];
 	}
-
-	abstract createInventoryItem(
-		...args: ConstructorParameters<typeof BaseInventoryItem>
-	): BaseInventoryItem;
 }
 
 /** Use this explicitly for consumables */
@@ -78,12 +84,6 @@ abstract class ConsumableItem<
 		effect: GenericItemEffect<TEffectType>,
 		user: PlayerV0_0_1,
 	): void;
-
-	override createInventoryItem(
-		...args: ConstructorParameters<typeof ConsumableInventoryItem>
-	): ConsumableInventoryItem {
-		return new ConsumableInventoryItem(...args);
-	}
 
 	/** Since custom effects are, well custom, this is just a utility method to deal with that */
 	protected _applyCustomEffectFromGenericUnion(
@@ -125,12 +125,6 @@ abstract class EquippableItem<
 	override effects: ReadonlyArray<
 		TEffectType | GenericInvertedItemEffect<TEffectType>
 	> = [];
-
-	override createInventoryItem(
-		...args: ConstructorParameters<typeof EquippableInventoryItem>
-	): EquippableInventoryItem {
-		return new EquippableInventoryItem(...args);
-	}
 
 	coversBodyPart(bodyPart: BodyArea): boolean {
 		return this.bodyArea !== BodyArea.NONE

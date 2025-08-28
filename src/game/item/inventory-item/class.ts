@@ -39,8 +39,8 @@ class BaseInventoryItem
 
 	readonly obtainedOn: Date;
 
-	constructor(inventory: Inventory, inventoryId: UUID, itemId?: ItemId) {
-		this.itemId = itemId ?? ItemId.DUMMY;
+	constructor(inventory: Inventory, inventoryId: UUID, itemId = ItemId.DUMMY) {
+		this.itemId = itemId;
 
 		if (!gInGameItems[this.itemId])
 			throw new Error(`ItemId "${this.itemId}" does not exist`);
@@ -127,7 +127,7 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 		return clone;
 	}
 
-	override get itemData(): ConsumableItem {
+	override get itemData() {
 		if (!(super.itemData instanceof ConsumableItem))
 			throw new Error(`ItemId "${this.itemId}" is not a consumable item`);
 
@@ -156,7 +156,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	) {
 		super(args[0], args[1]);
 
-		this.durability = args[2] ?? this.itemData.maxDurability;
+		this._durability = args[2] ?? this.itemData.maxDurability;
 
 		signalify(this);
 	}
@@ -224,7 +224,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		return clone;
 	}
 
-	override get itemData(): EquippableItem {
+	override get itemData() {
 		if (!(super.itemData instanceof EquippableItem))
 			throw new Error(`ItemId "${this.itemId}" is not an equippable item`);
 

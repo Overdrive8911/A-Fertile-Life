@@ -7,7 +7,7 @@ import { FoodEffect } from "./food/enums";
 import { KeyItem } from "./key-item/class";
 
 /** This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC */
-const gInGameItems: Partial<Record<ItemId, BaseItem<FoodEffect | 0>>> = {
+const gInGameItems = {
 	[ItemId.DUMMY]: new KeyItem(),
 
 	[ItemId.CHEESE]: new Food({
@@ -99,6 +99,7 @@ const gInGameItems: Partial<Record<ItemId, BaseItem<FoodEffect | 0>>> = {
 		description: "A nice and plain hat to protect you from the sun.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_HAT,
+		name: "Simple Hat",
 		price: 350,
 		weight: 110,
 	}),
@@ -109,6 +110,7 @@ const gInGameItems: Partial<Record<ItemId, BaseItem<FoodEffect | 0>>> = {
 		description: "A nice and plain shirt that isn't too tight.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_SHIRT,
+		name: "Simple Shirt",
 		price: 850,
 		weight: 330,
 	}),
@@ -119,6 +121,7 @@ const gInGameItems: Partial<Record<ItemId, BaseItem<FoodEffect | 0>>> = {
 		description: "A nice and plain skirt that's just right.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_SKIRT,
+		name: "Simple Skirt",
 		price: 700,
 		weight: 300,
 	}),
@@ -129,9 +132,10 @@ const gInGameItems: Partial<Record<ItemId, BaseItem<FoodEffect | 0>>> = {
 		description: "A nice and plain pair of boots that's pretty snug.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_BOOTS,
+		name: "Simple Boots",
 		price: 500,
 		weight: 500,
 	}),
-};
+} as const satisfies Record<ItemId, BaseItem<FoodEffect | 0>>;
 
 export { gInGameItems };
