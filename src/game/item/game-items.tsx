@@ -1,3 +1,14 @@
+import CheeseImg from "../../media/img/items/cheese.webp";
+import KeycardLvl1Img from "../../media/img/items/keycard_lvl_1.webp";
+import KeycardLvl2Img from "../../media/img/items/keycard_lvl_2.webp";
+import KeycardLvl3Img from "../../media/img/items/keycard_lvl_3.webp";
+import KeycardLvl4Img from "../../media/img/items/keycard_lvl_4.webp";
+import KeycardLvl5Img from "../../media/img/items/keycard_lvl_5.webp";
+import MouldyCheeseImg from "../../media/img/items/mouldy_cheese.webp";
+import SimpleBootsImg from "../../media/img/items/simple_boots.webp";
+import SimpleHatImg from "../../media/img/items/simple_hat.webp";
+import SimpleShirtImg from "../../media/img/items/simple_shirt.webp";
+import SimpleSkirtImg from "../../media/img/items/simple_skirt.webp";
 import { BodyArea, PositiveStatusEffect } from "../shared/enums";
 import type { BaseItem } from "./class";
 import { Clothing } from "./clothing/class";
@@ -12,11 +23,10 @@ const gInGameItems = {
 		description: "A piece of soft yellow divine goodness from heaven itself.",
 		effects: [FoodEffect.HEAL_HP_10, FoodEffect.ADD_EXP_10],
 		id: ItemId.CHEESE,
+		img: CheeseImg,
 		name: "Cheese",
 		price: 100,
-		// tags: [ItemTag.FOOD],
 		weight: 300,
-		// imageUrl: "media/img/items/cheese.webp",
 	}),
 
 	[ItemId.MOULDY_CHEESE]: new Food({
@@ -24,18 +34,17 @@ const gInGameItems = {
 			'An antiquated piece of "food" that should\'ve been discarded long ago.',
 		effects: [{ effect: FoodEffect.HEAL_HP_10, invert: true }],
 		id: ItemId.MOULDY_CHEESE,
+		img: MouldyCheeseImg,
 		name: "Mouldy Cheese",
 		price: 10000,
-		// tags: [ItemTag.FOOD],
 		weight: 350,
-		// imageUrl: "media/img/items/mouldy_cheese.webp",
 	}),
 
 	[ItemId.KEYCARD_LVL_1]: new KeyItem({
 		description:
 			"It looks like lowest level out of its set. It probably has no use beyond accessing closets…",
 		id: ItemId.KEYCARD_LVL_1,
-		// imageUrl: "media/img/items/keycard_lvl_1.webp",
+		img: KeycardLvl1Img,
 		name: "Key Card",
 		tags: [ItemTag.KEY_ITEM],
 		weight: 20,
@@ -45,7 +54,7 @@ const gInGameItems = {
 		description:
 			"The defacto card for employees. You have access to everything your co-workers have. Looks like you're fitting in just nicely.",
 		id: ItemId.KEYCARD_LVL_2,
-		// imageUrl: "media/img/items/keycard_lvl_2.webp",
+		img: KeycardLvl2Img,
 		name: "Key Card",
 		tags: [ItemTag.KEY_ITEM],
 		weight: 20,
@@ -60,7 +69,7 @@ const gInGameItems = {
 			</span>
 		),
 		id: ItemId.KEYCARD_LVL_3,
-		// imageUrl: "media/img/items/keycard_lvl_3.webp",
+		img: KeycardLvl3Img,
 		name: "Key Card",
 		tags: [ItemTag.KEY_ITEM],
 		weight: 20,
@@ -75,7 +84,7 @@ const gInGameItems = {
 			</span>
 		),
 		id: ItemId.KEYCARD_LVL_4,
-		// imageUrl: "media/img/items/keycard_lvl_4.webp",
+		img: KeycardLvl4Img,
 		name: "Key Card",
 		tags: [ItemTag.KEY_ITEM],
 		weight: 20,
@@ -85,7 +94,7 @@ const gInGameItems = {
 		description:
 			"You really shouldn't have this. I don't know what to do with this item :p",
 		id: ItemId.KEYCARD_LVL_5,
-		// imageUrl: "media/img/items/keycard_lvl_5.webp",
+		img: KeycardLvl5Img,
 		name: "Key Card",
 		tags: [ItemTag.KEY_ITEM],
 		weight: 20,
@@ -97,6 +106,7 @@ const gInGameItems = {
 		description: "A nice and plain hat to protect you from the sun.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_HAT,
+		img: SimpleHatImg,
 		name: "Simple Hat",
 		price: 350,
 		weight: 110,
@@ -108,6 +118,7 @@ const gInGameItems = {
 		description: "A nice and plain shirt that isn't too tight.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_SHIRT,
+		img: SimpleShirtImg,
 		name: "Simple Shirt",
 		price: 850,
 		weight: 330,
@@ -119,6 +130,7 @@ const gInGameItems = {
 		description: "A nice and plain skirt that's just right.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_SKIRT,
+		img: SimpleSkirtImg,
 		name: "Simple Skirt",
 		price: 700,
 		weight: 300,
@@ -130,6 +142,7 @@ const gInGameItems = {
 		description: "A nice and plain pair of boots that's pretty snug.",
 		effects: [PositiveStatusEffect.EXP_GAIN_5_PERCENT],
 		id: ItemId.SIMPLE_BOOTS,
+		img: SimpleBootsImg,
 		name: "Simple Boots",
 		price: 500,
 		weight: 500,
