@@ -40,11 +40,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	hp: number = PregConstants.DEFAULT_MAX_WOMB_HP;
 	maxHp: number = PregConstants.DEFAULT_MAX_WOMB_HP;
 
-	fertility = either(
-		FertilityLevel.POOR_FERTILITY,
-		FertilityLevel.AVERAGE_FERTILITY,
-		FertilityLevel.HIGH_FERTILITY,
-	);
+	fertility = FertilityLevel.AVERAGE_FERTILITY;
 
 	// These capacity variables also refer to the "size too"
 	// NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here when trying to READ. Since the variables here are write-only.
