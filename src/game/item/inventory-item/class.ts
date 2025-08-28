@@ -54,6 +54,16 @@ class BaseInventoryItem
 		signalify(this);
 	}
 
+	/** For type checking */
+	isEquippable(): this is EquippableInventoryItem {
+		return this instanceof EquippableInventoryItem;
+	}
+
+	/** For type checking */
+	isConsumable(): this is ConsumableInventoryItem {
+		return this instanceof ConsumableInventoryItem;
+	}
+
 	static classId: InventoryItemClassIds = ClassId.BASE_INVENTORY_ITEM;
 
 	/** Add the inventory when deserializing */
@@ -78,7 +88,7 @@ class BaseInventoryItem
 	}
 
 	/** Data from the static Item class */
-	get itemData() {
+	get data() {
 		// biome-ignore lint/style/noNonNullAssertion: <Deal with this later>
 		return gInGameItems[this.itemId]!;
 	}
@@ -92,7 +102,7 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 
 	/** Applies the effects of the item and deletes itself from the inventory */
 	use(): void {
-		this.itemData.use();
+		this.data.use();
 
 		this.inventory.deleteItem({
 			inventoryId: this.inventoryId,
@@ -101,7 +111,7 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 	}
 
 	isUsable(): boolean {
-		const expiresIn = this.itemData.expiresIn;
+		const expiresIn = this.data.expiresIn;
 
 		if (expiresIn === 0) return true;
 
@@ -127,11 +137,11 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 		return clone;
 	}
 
-	override get itemData() {
-		if (!(super.itemData instanceof ConsumableItem))
+	override get data() {
+		if (!(super.data instanceof ConsumableItem))
 			throw new Error(`ItemId "${this.itemId}" is not a consumable item`);
 
-		return super.itemData;
+		return super.data;
 	}
 }
 
@@ -156,7 +166,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	) {
 		super(args[0], args[1]);
 
-		this._durability = args[2] ?? this.itemData.maxDurability;
+		this._durability = args[2] ?? this.data.maxDurability;
 
 		signalify(this);
 	}
@@ -196,8 +206,8 @@ class EquippableInventoryItem extends BaseInventoryItem {
 			return;
 		}
 
-		if (value > this.itemData.maxDurability) {
-			value = this.itemData.maxDurability;
+		if (value > this.data.maxDurability) {
+			value = this.data.maxDurability;
 		}
 
 		this._durability = value;
@@ -224,15 +234,15 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		return clone;
 	}
 
-	override get itemData() {
-		if (!(super.itemData instanceof EquippableItem))
+	override get data() {
+		if (!(super.data instanceof EquippableItem))
 			throw new Error(`ItemId "${this.itemId}" is not an equippable item`);
 
-		return super.itemData;
+		return super.data;
 	}
 
 	get canEquip(): boolean {
-		const itemData = this.itemData;
+		const itemData = this.data;
 
 		const allEquippedItems = this.inventory.equippables.filter(
 			(equippable) => equippable._isEquipped,
@@ -240,8 +250,8 @@ class EquippableInventoryItem extends BaseInventoryItem {
 
 		const getOccupiedBodyArea = (type: EquippableItem["type"]) =>
 			allEquippedItems.reduce((acc, data) => {
-				if (data.itemData.type === type) {
-					acc |= data.itemData.bodyArea;
+				if (data.data.type === type) {
+					acc |= data.data.bodyArea;
 				}
 
 				return acc;

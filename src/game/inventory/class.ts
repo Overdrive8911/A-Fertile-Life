@@ -200,7 +200,7 @@ class Inventory
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
-			if (item.itemData.color === color) arr.push(item);
+			if (item.data.color === color) arr.push(item);
 		});
 
 		return arr;
@@ -210,7 +210,7 @@ class Inventory
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
-			if (tag === ItemTag.ALL || item.itemData.tags.has(tag)) {
+			if (tag === ItemTag.ALL || item.data.tags.has(tag)) {
 				arr.push(item);
 			}
 		});
