@@ -8,8 +8,6 @@ import { KeyItem } from "./key-item/class";
 
 /** This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC */
 const gInGameItems = {
-	[ItemId.DUMMY]: new KeyItem(),
-
 	[ItemId.CHEESE]: new Food({
 		description: "A piece of soft yellow divine goodness from heaven itself.",
 		effects: [FoodEffect.HEAL_HP_10, FoodEffect.ADD_EXP_10],

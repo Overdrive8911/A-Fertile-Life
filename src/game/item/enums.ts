@@ -1,9 +1,7 @@
 /** biome-ignore-all lint/suspicious/noConstEnum: <:3> */
 const enum ItemId {
-	DUMMY,
-
 	// Food
-	CHEESE,
+	CHEESE = 1,
 	MOULDY_CHEESE,
 
 	// Key Cards
@@ -36,7 +34,6 @@ const enum ItemId {
 
 // TODO - Turn this into a const string enum or maybe use a switch case and raw strings as substitutes in the places that require them and then just make this const.
 const enum ItemTag {
-	DUMMY,
 	ALL, // Don't give this tag to anything. It applies to every item already
 	KEY_ITEM,
 	FOOD,

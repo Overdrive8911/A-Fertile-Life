@@ -2,12 +2,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import { GAME_ENGINE } from "../engine/engine";
 import { BodyArea } from "../shared/enums";
-import { ItemColor, ItemId, ItemTag } from "./enums";
-import {
-	type BaseInventoryItem,
-	ConsumableInventoryItem,
-	EquippableInventoryItem,
-} from "./inventory-item/class";
+import { ItemColor, type ItemId, type ItemTag } from "./enums";
 import type {
 	GenericInvertedItemEffect,
 	GenericItemEffect,
@@ -15,7 +10,7 @@ import type {
 } from "./types";
 
 abstract class BaseItem<TEffectType extends number = 0> {
-	id = ItemId.DUMMY;
+	id!: ItemId;
 
 	name = "???";
 
@@ -32,13 +27,13 @@ abstract class BaseItem<TEffectType extends number = 0> {
 	img = "";
 
 	/** For sorting items */
-	tags = new Set([ItemTag.DUMMY]);
+	tags = new Set<ItemTag>();
 
 	/** Just for aesthetics */
 	color = ItemColor.NO_COLOR;
 
-	constructor(data?: ItemConstructorArgs<BaseItem<TEffectType>>) {
-		const cloneableData = data ? { ...data, tags: new Set(data.tags) } : {};
+	constructor(data: ItemConstructorArgs<BaseItem<TEffectType>>) {
+		const cloneableData = { ...data, tags: new Set(data.tags) };
 
 		Object.assign(this, cloneableData);
 	}
@@ -62,7 +57,7 @@ abstract class ItemWithEffects<
 	 */
 	effects: ReadonlyArray<GenericItemEffect<TEffectType>>;
 
-	constructor(data?: ItemConstructorArgs<ItemWithEffects<TEffectType>>) {
+	constructor(data: ItemConstructorArgs<ItemWithEffects<TEffectType>>) {
 		super(data);
 
 		this.effects = [];

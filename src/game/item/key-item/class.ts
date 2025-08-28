@@ -3,7 +3,7 @@ import { ItemTag } from "../enums";
 import type { ItemConstructorArgs } from "../types";
 
 class KeyItem extends BaseItem {
-	constructor(arg?: ItemConstructorArgs<KeyItem>) {
+	constructor(arg: ItemConstructorArgs<KeyItem>) {
 		super(arg);
 
 		this.tags.add(ItemTag.KEY_ITEM);

@@ -7,7 +7,7 @@ import { BodyArea, ClassId } from "~/game/shared/enums";
 import type { UUID } from "~/types/uuid";
 import { areNoFlagsSet } from "~/utils/bitfields";
 import { ConsumableItem, EquippableItem } from "../class";
-import { ItemId } from "../enums";
+import type { ItemId } from "../enums";
 import { gInGameItems } from "../game-items";
 
 type InventoryItemClassIds =
@@ -39,7 +39,7 @@ class BaseInventoryItem
 
 	readonly obtainedOn: Date;
 
-	constructor(inventory: Inventory, inventoryId: UUID, itemId = ItemId.DUMMY) {
+	constructor(inventory: Inventory, inventoryId: UUID, itemId: ItemId) {
 		this.itemId = itemId;
 
 		if (!gInGameItems[this.itemId])
@@ -71,7 +71,11 @@ class BaseInventoryItem
 		inventory: Inventory,
 		data: SerializedInventoryItem,
 	): BaseInventoryItem {
-		const clone = new BaseInventoryItem(inventory, data.inventoryId);
+		const clone = new BaseInventoryItem(
+			inventory,
+			data.inventoryId,
+			data.itemId,
+		);
 
 		Object.assign(clone, data);
 
@@ -130,7 +134,11 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 		inventory: Inventory,
 		data: SerializedConsumableInventoryItem,
 	): ConsumableInventoryItem {
-		const clone = new ConsumableInventoryItem(inventory, data.inventoryId);
+		const clone = new ConsumableInventoryItem(
+			inventory,
+			data.inventoryId,
+			data.itemId,
+		);
 
 		Object.assign(clone, data);
 
@@ -164,9 +172,11 @@ class EquippableInventoryItem extends BaseInventoryItem {
 			durability?: number,
 		]
 	) {
-		super(args[0], args[1]);
+		const [inventory, inventoryId, itemId, durability] = args;
 
-		this._durability = args[2] ?? this.data.maxDurability;
+		super(inventory, inventoryId, itemId);
+
+		this._durability = durability ?? this.data.maxDurability;
 
 		signalify(this);
 	}
@@ -227,7 +237,11 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		inventory: Inventory,
 		data: SerializedEquippableInventoryItem,
 	): EquippableInventoryItem {
-		const clone = new EquippableInventoryItem(inventory, data.inventoryId);
+		const clone = new EquippableInventoryItem(
+			inventory,
+			data.inventoryId,
+			data.itemId,
+		);
 
 		Object.assign(clone, data);
 

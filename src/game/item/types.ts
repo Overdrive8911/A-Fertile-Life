@@ -3,11 +3,11 @@
 import type { ExtractDataProperties } from "~/types/generics";
 import type { PlayerV0_0_1 } from "../types/story-variables/player";
 import type { BaseItem } from "./class";
-import type { ItemTag } from "./enums";
+import type { ItemId, ItemTag } from "./enums";
 
 type ItemConstructorArgs<TItem extends BaseItem> = Partial<
 	Omit<ExtractDataProperties<TItem>, "tags"> & { tags: ItemTag[] }
->;
+> & { id: ItemId };
 
 type InvertedEffect<TEffectType extends number> = {
 	effect: TEffectType;
