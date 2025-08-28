@@ -7,7 +7,7 @@ import type {
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
 import { BaseItem, ConsumableItem, EquippableItem } from "../item/class";
-import type { ItemColor, ItemId, ItemTag } from "../item/enums";
+import { type ItemColor, type ItemId, ItemTag } from "../item/enums";
 import {
 	BaseInventoryItem,
 	ConsumableInventoryItem,
@@ -210,7 +210,9 @@ class Inventory
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
-			if (item.itemData.tags.has(tag)) arr.push(item);
+			if (tag === ItemTag.ALL || item.itemData.tags.has(tag)) {
+				arr.push(item);
+			}
 		});
 
 		return arr;
