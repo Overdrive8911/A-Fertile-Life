@@ -168,7 +168,7 @@ class Inventory
 			| { type: "itemColor"; param: ItemColor }
 			| { type: "itemTag"; param: ItemTag }
 			| { type: "inventoryId"; param: UUID },
-	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+	): BaseInventoryItem[] {
 		const { param, type } = category;
 
 		switch (type) {
@@ -181,51 +181,39 @@ class Inventory
 			case "inventoryId": {
 				const item = this._getItemByInventoryId(param);
 
-				return item ? [item] : null;
+				return item ? [item] : [];
 			}
 		}
 	}
 
-	private _getItemByItemId(
-		itemId: ItemId,
-	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+	private _getItemByItemId(itemId: ItemId): BaseInventoryItem[] {
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
 			if (item.itemId === itemId) arr.push(item);
 		});
 
-		return arr.length
-			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
-			: null;
+		return arr;
 	}
 
-	private _getItemByItemColor(
-		color: ItemColor,
-	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+	private _getItemByItemColor(color: ItemColor): BaseInventoryItem[] {
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
 			if (item.itemData.color === color) arr.push(item);
 		});
 
-		return arr.length
-			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
-			: null;
+		return arr;
 	}
 
-	private _getItemByItemTag(
-		tag: ItemTag,
-	): [BaseInventoryItem, ...BaseInventoryItem[]] | null {
+	private _getItemByItemTag(tag: ItemTag): BaseInventoryItem[] {
 		const arr: BaseInventoryItem[] = [];
 
 		this._items.forEach((item) => {
 			if (item.itemData.tags.has(tag)) arr.push(item);
 		});
 
-		return arr.length
-			? (arr as [BaseInventoryItem, ...BaseInventoryItem[]])
-			: null;
+		return arr;
 	}
 
 	private _getItemByInventoryId(inventoryId: UUID): BaseInventoryItem | null {
