@@ -248,8 +248,19 @@ class Inventory
 		this._capacity = val;
 	}
 
-	get remainingCapacity() {
-		return this._capacity - this._items.size;
+	get usedCapacity() {
+		return this._items.size;
+	}
+
+	/** Rough gauge on how full the inventory is */
+	get usage(): "low" | "medium" | "high" {
+		const ratio = this._items.size / this._capacity;
+
+		if (ratio >= 0.75) return "high";
+
+		if (ratio >= 0.35) return "medium";
+
+		return "low";
 	}
 
 	get equippables(): IteratorObject<EquippableInventoryItem> {
