@@ -23,3 +23,11 @@ export type ExtractTypeFromAsyncGenerator<
 > = TAsyncGenerator extends AsyncGenerator<infer TData, unknown, unknown>
 	? TData
 	: never;
+
+/** In cases where you want an array of all the values from the enum */
+export type EnumToArray<TEnum extends string | number | symbol> = readonly [
+	TEnum,
+	...TEnum[],
+] & {
+	[K in TEnum]: TEnum;
+};
