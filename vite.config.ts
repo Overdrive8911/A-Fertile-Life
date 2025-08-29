@@ -21,7 +21,8 @@ export default defineConfig({
 		viteSingleFile(),
 	],
 	server: {
-		port: 3000,
+		port: 3003,
+		hmr: { port: 3003 },
 	},
 	build: {
 		target: "esnext",

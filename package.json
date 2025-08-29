@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "vite",
-		"dev": "vite --port=3003",
+		"dev": "vite",
 		"build": "vite build",
 		"serve": "vite preview",
 		"bun-start": "bun --bun run start",
@@ -30,7 +30,6 @@
 	"dependencies": {
 		"@solid-primitives/clipboard": "^1.6.2",
 		"@solid-primitives/map": "^0.7.2",
-		"@solid-primitives/set": "^0.7.2",
 		"@solidjs/router": "^0.15.3",
 		"classy-solid": "^0.4.3",
 		"idb-keyval": "^6.2.2",
