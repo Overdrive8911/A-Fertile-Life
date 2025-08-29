@@ -17,7 +17,7 @@ const App: Component = () => {
 
 	return (
 		<>
-			<div class="h-[100vh] w-[100vw] overflow-y-clip">
+			<div class="h-screen w-screen overflow-y-clip">
 				<MainUI />
 			</div>
 
