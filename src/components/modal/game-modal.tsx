@@ -3,7 +3,7 @@ import { GenericModal } from "./generic-modal";
 
 export default function GameModal(prop: {
 	modalId: string;
-	title: string;
+	title: JSX.Element;
 	children: JSX.Element;
 	class?: string;
 	/** Defaults to true */
