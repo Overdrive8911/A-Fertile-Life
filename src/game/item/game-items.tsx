@@ -32,7 +32,7 @@ const gInGameItems = {
 	[ItemId.MOULDY_CHEESE]: new Food({
 		description:
 			'An antiquated piece of "food" that should\'ve been discarded long ago.',
-		effects: [{ effect: FoodEffect.HEAL_HP_10, invert: true }],
+		effects: [FoodEffect.DRAIN_HP_10, FoodEffect.ADD_EXP_25],
 		id: ItemId.MOULDY_CHEESE,
 		img: MouldyCheeseImg,
 		name: "Mouldy Cheese",
