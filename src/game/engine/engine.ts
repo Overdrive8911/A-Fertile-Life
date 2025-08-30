@@ -60,10 +60,11 @@ const GAME_ENGINE = await SugarboxEngine.init<
 		saveSlots: EngineDefaults.SAVE_SLOTS,
 		loadOnStart: true,
 		eventOptimization: "performance",
+		compressSave: false,
 	},
 	classes: [Breasts, GameDateAndTime, Inventory, Womb],
 });
 
-console.log(DEFAULT_VARIABLES, GAME_ENGINE.vars);
+window.game = GAME_ENGINE;
 
 export { GAME_ENGINE };

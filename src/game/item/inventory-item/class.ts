@@ -324,6 +324,11 @@ class EquippableInventoryItem extends BaseInventoryItem {
 				return true;
 		}
 	}
+
+	/** Trys to equip the item. Returns true if succesful, and false otherwise */
+	equip(): boolean {
+		return true;
+	}
 }
 
 export { BaseInventoryItem, ConsumableInventoryItem, EquippableInventoryItem };
