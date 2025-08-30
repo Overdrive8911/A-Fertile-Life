@@ -2,13 +2,18 @@
 
 const enum FoodEffect {
 	// SECTION - Healing Effects. These also heal the womb by 30%
-	HEAL_HP_10 = 1,
+	HEAL_HP_1 = 1,
+	HEAL_HP_5,
+	HEAL_HP_10,
 	HEAL_HP_25,
 	HEAL_HP_50,
 	HEAL_HP_75,
 	HEAL_HP_100,
 
 	// ANCHOR - These heal the womb primarily, but also heal the player by 30%
+	HEAL_WOMB_1,
+	HEAL_WOMB_5,
+	HEAL_WOMB_10,
 	HEAL_WOMB_25,
 	HEAL_WOMB_50,
 	HEAL_WOMB_75,
@@ -16,6 +21,8 @@ const enum FoodEffect {
 	// !SECTION
 
 	// SECTION - Draining Effects. These also drain the womb by 30%
+	DRAIN_HP_1,
+	DRAIN_HP_5,
 	DRAIN_HP_10,
 	DRAIN_HP_25,
 	DRAIN_HP_50,
@@ -23,6 +30,9 @@ const enum FoodEffect {
 	DRAIN_HP_100,
 
 	// ANCHOR - These drain the womb primarily, but also drain the player by 30%
+	DRAIN_WOMB_1,
+	DRAIN_WOMB_5,
+	DRAIN_WOMB_10,
 	DRAIN_WOMB_25,
 	DRAIN_WOMB_50,
 	DRAIN_WOMB_75,
@@ -30,6 +40,8 @@ const enum FoodEffect {
 	// !SECTION
 
 	// SECTION - Mood Effects
+	HEAL_MOOD_1,
+	HEAL_MOOD_5,
 	HEAL_MOOD_10,
 	HEAL_MOOD_25,
 	HEAL_MOOD_50,
@@ -38,26 +50,17 @@ const enum FoodEffect {
 	// !SECTION
 
 	// SECTION - Mood Draining Effects
+	DRAIN_MOOD_1,
+	DRAIN_MOOD_5,
 	DRAIN_MOOD_10,
 	DRAIN_MOOD_25,
 	DRAIN_MOOD_50,
 	DRAIN_MOOD_75,
 	DRAIN_MOOD_100,
-	// !SECTION
-
-	HEAL_HP_AND_MOOD_10,
-	HEAL_HP_AND_MOOD_25,
-	HEAL_HP_AND_MOOD_50,
-	HEAL_HP_AND_MOOD_75,
-	HEAL_HP_AND_MOOD_100,
-
-	DRAIN_HP_AND_MOOD_10,
-	DRAIN_HP_AND_MOOD_25,
-	DRAIN_HP_AND_MOOD_50,
-	DRAIN_HP_AND_MOOD_75,
-	DRAIN_HP_AND_MOOD_100,
 
 	// SECTION - Hunger Effects. If not explicitly provided, the food item will heal fullness by 10%
+	HEAL_FULLNESS_1,
+	HEAL_FULLNESS_5,
 	HEAL_FULLNESS_10,
 	HEAL_FULLNESS_25,
 	HEAL_FULLNESS_50,
@@ -66,6 +69,8 @@ const enum FoodEffect {
 	// !SECTION
 
 	// SECTION - Hunger Draining Effects
+	DRAIN_FULLNESS_1,
+	DRAIN_FULLNESS_5,
 	DRAIN_FULLNESS_10,
 	DRAIN_FULLNESS_25,
 	DRAIN_FULLNESS_50,

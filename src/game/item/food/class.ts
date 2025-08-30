@@ -21,6 +21,12 @@ class Food extends ConsumableItem<FoodEffect> {
 			expChange = 0;
 
 		switch (foodEffect) {
+			case FoodEffect.HEAL_HP_1:
+				hpChange += 1;
+				break;
+			case FoodEffect.HEAL_HP_5:
+				hpChange += 5;
+				break;
 			case FoodEffect.HEAL_HP_10:
 				hpChange += 10;
 				break;
@@ -36,6 +42,15 @@ class Food extends ConsumableItem<FoodEffect> {
 			case FoodEffect.HEAL_HP_100:
 				hpChange += 100;
 				break;
+			case FoodEffect.HEAL_WOMB_1:
+				wombHpChange += 1;
+				break;
+			case FoodEffect.HEAL_WOMB_5:
+				wombHpChange += 5;
+				break;
+			case FoodEffect.HEAL_WOMB_10:
+				wombHpChange += 10;
+				break;
 			case FoodEffect.HEAL_WOMB_25:
 				wombHpChange += 25;
 				break;
@@ -47,6 +62,12 @@ class Food extends ConsumableItem<FoodEffect> {
 				break;
 			case FoodEffect.HEAL_WOMB_100:
 				wombHpChange += 100;
+				break;
+			case FoodEffect.DRAIN_HP_1:
+				hpChange -= 1;
+				break;
+			case FoodEffect.DRAIN_HP_5:
+				hpChange -= 5;
 				break;
 			case FoodEffect.DRAIN_HP_10:
 				hpChange -= 10;
@@ -63,6 +84,15 @@ class Food extends ConsumableItem<FoodEffect> {
 			case FoodEffect.DRAIN_HP_100:
 				hpChange -= 100;
 				break;
+			case FoodEffect.DRAIN_WOMB_1:
+				wombHpChange -= 1;
+				break;
+			case FoodEffect.DRAIN_WOMB_5:
+				wombHpChange -= 5;
+				break;
+			case FoodEffect.DRAIN_WOMB_10:
+				wombHpChange -= 10;
+				break;
 			case FoodEffect.DRAIN_WOMB_25:
 				wombHpChange -= 25;
 				break;
@@ -74,6 +104,12 @@ class Food extends ConsumableItem<FoodEffect> {
 				break;
 			case FoodEffect.DRAIN_WOMB_100:
 				wombHpChange -= 100;
+				break;
+			case FoodEffect.HEAL_MOOD_1:
+				moodChange += 1;
+				break;
+			case FoodEffect.HEAL_MOOD_5:
+				moodChange += 5;
 				break;
 			case FoodEffect.HEAL_MOOD_10:
 				moodChange += 10;
@@ -90,6 +126,12 @@ class Food extends ConsumableItem<FoodEffect> {
 			case FoodEffect.HEAL_MOOD_100:
 				moodChange += 100;
 				break;
+			case FoodEffect.DRAIN_MOOD_1:
+				moodChange -= 1;
+				break;
+			case FoodEffect.DRAIN_MOOD_5:
+				moodChange -= 5;
+				break;
 			case FoodEffect.DRAIN_MOOD_10:
 				moodChange -= 10;
 				break;
@@ -105,45 +147,11 @@ class Food extends ConsumableItem<FoodEffect> {
 			case FoodEffect.DRAIN_MOOD_100:
 				moodChange -= 100;
 				break;
-			case FoodEffect.HEAL_HP_AND_MOOD_10:
-				hpChange += 10;
-				moodChange += 10;
+			case FoodEffect.HEAL_FULLNESS_1:
+				fullnessChange += 1;
 				break;
-			case FoodEffect.HEAL_HP_AND_MOOD_25:
-				hpChange += 25;
-				moodChange += 25;
-				break;
-			case FoodEffect.HEAL_HP_AND_MOOD_50:
-				hpChange += 50;
-				moodChange += 50;
-				break;
-			case FoodEffect.HEAL_HP_AND_MOOD_75:
-				hpChange += 75;
-				moodChange += 75;
-				break;
-			case FoodEffect.HEAL_HP_AND_MOOD_100:
-				hpChange += 100;
-				moodChange += 100;
-				break;
-			case FoodEffect.DRAIN_HP_AND_MOOD_10:
-				hpChange -= 10;
-				moodChange -= 10;
-				break;
-			case FoodEffect.DRAIN_HP_AND_MOOD_25:
-				hpChange -= 25;
-				moodChange -= 25;
-				break;
-			case FoodEffect.DRAIN_HP_AND_MOOD_50:
-				hpChange -= 50;
-				moodChange -= 50;
-				break;
-			case FoodEffect.DRAIN_HP_AND_MOOD_75:
-				hpChange -= 75;
-				moodChange -= 75;
-				break;
-			case FoodEffect.DRAIN_HP_AND_MOOD_100:
-				hpChange -= 100;
-				moodChange -= 100;
+			case FoodEffect.HEAL_FULLNESS_5:
+				fullnessChange += 5;
 				break;
 			case FoodEffect.HEAL_FULLNESS_10:
 				fullnessChange += 10;
@@ -159,6 +167,12 @@ class Food extends ConsumableItem<FoodEffect> {
 				break;
 			case FoodEffect.HEAL_FULLNESS_100:
 				fullnessChange += 100;
+				break;
+			case FoodEffect.DRAIN_FULLNESS_1:
+				fullnessChange -= 1;
+				break;
+			case FoodEffect.DRAIN_FULLNESS_5:
+				fullnessChange -= 5;
 				break;
 			case FoodEffect.DRAIN_FULLNESS_10:
 				fullnessChange -= 10;
