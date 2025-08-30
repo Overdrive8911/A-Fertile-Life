@@ -21,7 +21,12 @@ export function ConfirmationModal() {
 	}
 
 	return (
-		<GameModal modalId={prop.modalId} title="CONFIRMATION" medium={true}>
+		<GameModal
+			modalId={prop.modalId}
+			title="CONFIRMATION"
+			medium={true}
+			z-index={1000}
+		>
 			<div class="mb-4 text-center">
 				{prop.children || (
 					<div class="text-warning">

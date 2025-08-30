@@ -7,11 +7,18 @@ function GenericModal(prop: {
 	modalId: string;
 	children: JSX.Element;
 	class?: string;
+	/** Normally, modal's have a z-index of 999 */
+	"z-index"?: number | undefined;
 }) {
 	return (
 		<Portal>
-			<dialog closedby="closerequest" id={prop.modalId} class="modal">
-				<div class={`modal-box max-h-[85vh] ${prop.class}`}>
+			<dialog
+				closedby="closerequest"
+				id={prop.modalId}
+				class="modal"
+				style={{ "z-index": prop["z-index"] ?? 999 }}
+			>
+				<div class={`modal-box max-h-[90vh] sm:max-h-[85vh] ${prop.class}`}>
 					<form method="dialog">
 						<button
 							type="submit"

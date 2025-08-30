@@ -12,16 +12,25 @@ import {
 	createSignal,
 	For,
 	Index,
+	Match,
 	Show,
+	Switch,
 } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 import { onClickOutside, useMediaQuery } from "solidjs-use";
 import { GAME_VARIABLES } from "~/App";
+import { BaseButton } from "~/components/button";
+import { triggerConfirmationModal } from "~/components/modal/confirmation-modal";
 import { closeModal, showModal } from "~/components/modal/generic-modal";
+import { GAME_ENGINE } from "~/game/engine/engine";
 import { type ItemId, ItemTag } from "~/game/item/enums";
 import { gInGameItems } from "~/game/item/game-items";
-import type { BaseInventoryItem } from "~/game/item/inventory-item/class";
+import type {
+	BaseInventoryItem,
+	ConsumableInventoryItem,
+	EquippableInventoryItem,
+} from "~/game/item/inventory-item/class";
 import { getNameOfItemTag } from "~/game/item/utils";
 import type { EnumToArray } from "~/types/generics";
 import { getRandomUUID } from "~/utils/random";
@@ -165,16 +174,18 @@ export function InventoryModal(prop: { modalId: string }) {
 												class="btn btn-primary btn-outline h-auto aspect-square relative flex flex-col"
 												onClick={(_) => showModal(itemStackModal)}
 											>
-												<img
+												<Image
 													src={itemData().img}
 													alt={`${itemName()} icon`}
-													class="[image-rendering:pixelated] w-[90%] aspect-square"
+													class="w-[90%]"
 												/>
+
 												<div class="tooltip w-full" data-tip={itemName()}>
 													<div class="overflow-clip whitespace-nowrap text-ellipsis">
 														{itemName()}
 													</div>
 												</div>
+
 												<div class="badge badge-soft badge-accent badge-sm absolute -top-2 -right-2">
 													x{itemStackAmount()}
 												</div>
@@ -204,30 +215,49 @@ interface ItemStackModalProps {
 }
 
 export function ItemStackModal(props: ItemStackModalProps) {
+	// Helper component for consistent info display
+	function InfoRow(props: { label: string; value: string }) {
+		return (
+			<div class="flex justify-between items-center py-1 text-sm">
+				<span class="opacity-70">{props.label}:</span>
+				<span class="text-info">{props.value}</span>
+			</div>
+		);
+	}
+
 	const itemData = () => gInGameItems[props.itemId];
 	const itemName = () => itemData().name;
+
+	const [selectedInventoryItem, setSelectedInventoryItem] =
+		createSignal<BaseInventoryItem | null>(null);
+	const isInventoryItemSelected = createSelector(selectedInventoryItem);
 
 	return (
 		<GameModal
 			modalId={props.modalId}
 			title={`${itemName()} Stack (${props.instances.length})`}
-			class="max-w-2xl"
+			// class="max-w-2xl"
 			useProse={false}
 		>
-			{/* Grid of individual items with more space and better layout */}
-			<div class="grid grid-cols-4 md:grid-cols-6 gap-4 p-4 max-h-96 overflow-y-auto">
-				<For each={props.instances}>
-					{(inventoryItem, index) => (
-						<div class="relative">
+			{/* Left / Top grid cell contains a list of the inventory items in the stack, while the right / bottom grid cell contains the info "display" of the aforementioned item */}
+			<div class="grid grid-rows-[1fr_1.25fr] sm:grid-cols-2 sm:grid-rows-1 *:m-2">
+				{/* Grid of individual invenotry items within a stack */}
+				<div class="self-center [--cell-size:4rem] sm:[--cell-size:5rem] grid grid-cols-[repeat(auto-fit,var(--cell-size)))] auto-rows-max gap-4 justify-center pt-2 overflow-y-auto overflow-x-clip h-48 sm:h-64">
+					<For each={props.instances}>
+						{(inventoryItem, index) => (
 							<button
 								type="button"
-								class="btn btn-primary btn-outline h-auto aspect-square flex flex-col p-2 group hover:btn-primary"
-								// onClick={() => handleItemAction(inventoryItem)}
+								class={`relative btn btn-primary btn-outline w-full h-auto aspect-square flex flex-col p-2 group hover:btn-primary ${isInventoryItemSelected(inventoryItem) && "btn-active"}`}
+								onClick={() => setSelectedInventoryItem(inventoryItem)}
 							>
-								<img
+								<div class="badge badge-soft badge-accent badge-sm absolute -top-2 -right-2">
+									#{index() + 1}
+								</div>
+
+								<Image
 									src={itemData().img}
-									alt={`${itemName()} ${index() + 1}`}
-									class="[image-rendering:pixelated] w-full aspect-square"
+									alt={`${itemName()} Id: ${inventoryItem.inventoryId}`}
+									class="w-full"
 								/>
 
 								<Show when={inventoryItem.isEquippable() && inventoryItem}>
@@ -269,18 +299,162 @@ export function ItemStackModal(props: ItemStackModalProps) {
 											<div
 												class="tooltip tooltip-bottom"
 												data-tip={`
-									${itemName()} #${index() + 1}
-									${equippableInventoryItem().durability ? `Durability: ${equippableInventoryItem().durability}%` : ""}
-									${equippableInventoryItem().obtainedOn ? `Obtained: ${equippableInventoryItem().obtainedOn.toLocaleDateString()}` : ""}
-								`}
+							${itemName()} #${index() + 1}
+							${equippableInventoryItem().durability ? `Durability: ${equippableInventoryItem().durability}%` : ""}
+							${equippableInventoryItem().obtainedOn ? `Obtained: ${equippableInventoryItem().obtainedOn.date.toLocaleDateString()}` : ""}
+						`}
 											></div>
 										</>
 									)}
 								</Show>
 							</button>
-						</div>
-					)}
-				</For>
+						)}
+					</For>
+				</div>
+
+				{/* Proper Item view */}
+				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-2 justify-center items-center [&_p]:text-sm [&_p]:sm:text-base">
+					<Show when={selectedInventoryItem()}>
+						{(inventoryItem) => {
+							const obtainedOn = () => inventoryItem().obtainedOn;
+							const obtainedOnUtilityData = () => obtainedOn().data;
+
+							return (
+								<>
+									{/* Detailed information */}
+									<div>
+										<InfoRow
+											label="Found on"
+											value={`${obtainedOn().date.toLocaleDateString()}, ${obtainedOnUtilityData().hours}:${`${obtainedOnUtilityData().minutes}`.padStart(2, "0")}`}
+										/>
+										<InfoRow label="Found at" value="TODO" />
+
+										<Switch>
+											{/* Equipment-specific info */}
+											<Match
+												when={
+													inventoryItem().isEquippable() &&
+													(inventoryItem() as EquippableInventoryItem)
+												}
+											>
+												{(equippable) => (
+													<>
+														<InfoRow
+															label="Durability"
+															value={`${equippable().durabilityRatio * 100}%`}
+														/>
+
+														<InfoRow
+															label="Status"
+															value={
+																equippable().isEquipped
+																	? "Equipped"
+																	: "Not Equipped"
+															}
+														/>
+													</>
+												)}
+											</Match>
+
+											{/* Consumable-specific info */}
+											{/*<Match
+												when={
+													inventoryItem().isConsumable() &&
+													(inventoryItem() as ConsumableInventoryItem)
+												}
+											>
+												{(consumable) => (
+													<InfoRow
+														label="Usable"
+														value={consumable().isUsable() ? "Yes" : "No"}
+													/>
+												)}
+											</Match>*/}
+										</Switch>
+
+										{/* Item description if available */}
+										<Show when={itemData().description}>
+											{(description) => (
+												<div class="pt-2 border-t border-base-300">
+													<p class="text-xs opacity-80">{description()}</p>
+												</div>
+											)}
+										</Show>
+									</div>
+
+									<div class="flex gap-2">
+										<BaseButton
+											class="btn-error btn-sm sm:btn-md"
+											onClick={(_) => {
+												triggerConfirmationModal(async () => {
+													GAME_ENGINE.setVars((state) => {
+														inventoryItem().delete(state.player.inventory);
+														setSelectedInventoryItem(null);
+													});
+												}, `This will permanently discard ${itemData().name}`);
+											}}
+										>
+											<TrashIcon /> Trash
+										</BaseButton>
+
+										<Switch>
+											<Match
+												when={
+													inventoryItem().isConsumable() &&
+													(inventoryItem() as ConsumableInventoryItem)
+												}
+											>
+												{(consumable) => (
+													<button
+														type="button"
+														disabled={!consumable().isUsable()}
+														class="btn btn-primary btn-sm sm:btn-md"
+														onClick={(_) => {
+															consumable().use();
+
+															setSelectedInventoryItem(null);
+														}}
+													>
+														Use
+													</button>
+												)}
+											</Match>
+
+											<Match
+												when={
+													inventoryItem().isEquippable() &&
+													(inventoryItem() as EquippableInventoryItem)
+												}
+											>
+												{(equippable) => {
+													const isEquipped = () => equippable().isEquipped;
+
+													const canEquip = () =>
+														!isEquipped() && equippable().canEquip;
+
+													return (
+														<button
+															type="button"
+															disabled={!canEquip()}
+															class="btn btn-primary btn-sm sm:btn-md"
+															// onClick={_ => equippable().use()}
+														>
+															{isEquipped()
+																? "Unequip"
+																: canEquip()
+																	? "Equip"
+																	: "Can't Equip"}
+														</button>
+													);
+												}}
+											</Match>
+										</Switch>
+									</div>
+								</>
+							);
+						}}
+					</Show>
+				</div>
 			</div>
 
 			{/* Action buttons at the bottom */}
@@ -296,11 +470,31 @@ export function ItemStackModal(props: ItemStackModalProps) {
 				<button
 					type="button"
 					class="btn btn-error"
-					// onClick={() => handleBulkAction('trash')}
+					onClick={(_) => {
+						triggerConfirmationModal(async () => {
+							GAME_ENGINE.setVars((state) => {
+								props.instances.forEach((inventoryItem) => {
+									inventoryItem.delete(state.player.inventory);
+									setSelectedInventoryItem(null);
+								});
+							});
+						}, `This will permanently discard ${props.instances.length} ${itemData().name} items.`);
+					}}
 				>
+					<TrashIcon />
 					Trash All
 				</button>
 			</div>
 		</GameModal>
+	);
+}
+
+function Image(prop: { class: string; src: string; alt: string }) {
+	return (
+		<img
+			src={prop.src}
+			alt={prop.alt}
+			class={`[image-rendering:pixelated] aspect-square ${prop.class}`}
+		/>
 	);
 }

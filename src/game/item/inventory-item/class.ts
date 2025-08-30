@@ -97,6 +97,14 @@ class BaseInventoryItem
 		// biome-ignore lint/style/noNonNullAssertion: <Deal with this later>
 		return gInGameItems[this.itemId]!;
 	}
+
+	/** Deletes this instance from its inventory */
+	delete(inventory = this.inventory) {
+		inventory.deleteItem({
+			inventoryId: this.inventoryId,
+			type: "inventoryId",
+		});
+	}
 }
 
 type SerializedConsumableInventoryItem = SerializedInventoryItem & {};
@@ -109,10 +117,7 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 	use(): void {
 		this.data.use();
 
-		this.inventory.deleteItem({
-			inventoryId: this.inventoryId,
-			type: "inventoryId",
-		});
+		this.delete();
 	}
 
 	isUsable(): boolean {
@@ -222,6 +227,11 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		}
 
 		this._durability = value;
+	}
+
+	/** Returns a ratio of the item's durability in comparison to it's max durability as a float between 0 and 1 inclusively */
+	get durabilityRatio() {
+		return this._durability / this.data.maxDurability;
 	}
 
 	override toJSON(): SerializedEquippableInventoryItem {
