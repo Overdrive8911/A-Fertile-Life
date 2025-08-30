@@ -3,11 +3,7 @@ import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import { GAME_ENGINE } from "../engine/engine";
 import { BodyArea } from "../shared/enums";
 import { ItemColor, type ItemId, type ItemTag } from "./enums";
-import type {
-	GenericInvertedItemEffect,
-	GenericItemEffect,
-	ItemConstructorArgs,
-} from "./types";
+import type { ItemConstructorArgs } from "./types";
 
 abstract class BaseItem<TEffectType extends number = 0> {
 	id!: ItemId;
@@ -55,7 +51,7 @@ abstract class ItemWithEffects<
 	/**
 	 * This is an array of values where each value is either an object consisting of an `effect` to apply and a flag to do the reverse of what the effect normally does, or a custom callback that takes the player as an argument and does something with it that none of the `effect`s can do
 	 */
-	effects: ReadonlyArray<GenericItemEffect<TEffectType>>;
+	effects: ReadonlyArray<TEffectType>;
 
 	constructor(data: ItemConstructorArgs<ItemWithEffects<TEffectType>>) {
 		super(data);
@@ -76,19 +72,9 @@ abstract class ConsumableItem<
 	readonly expiresIn: number = 0;
 
 	protected abstract _applyEffect(
-		effect: GenericItemEffect<TEffectType>,
+		effect: TEffectType,
 		user: PlayerV0_0_1,
 	): void;
-
-	/** Since custom effects are, well custom, this is just a utility method to deal with that */
-	protected _applyCustomEffectFromGenericUnion(
-		effect: GenericItemEffect<TEffectType>,
-		user: PlayerV0_0_1,
-	): asserts effect is GenericInvertedItemEffect<TEffectType> | TEffectType {
-		if (typeof effect !== "function") return;
-
-		effect(user);
-	}
 
 	/** Applies the effect(s) of the item to the player */
 	use() {
@@ -117,9 +103,7 @@ abstract class EquippableItem<
 	 *
 	 * Also PS: Durability itself is not an effect.
 	 */
-	override effects: ReadonlyArray<
-		TEffectType | GenericInvertedItemEffect<TEffectType>
-	> = [];
+	override effects: ReadonlyArray<TEffectType> = [];
 
 	coversBodyPart(bodyPart: BodyArea): boolean {
 		return this.bodyArea !== BodyArea.NONE
