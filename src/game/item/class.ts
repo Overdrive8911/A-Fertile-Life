@@ -60,7 +60,7 @@ abstract class ItemWithEffects<
 	constructor(data: ItemConstructorArgs<ItemWithEffects<TEffectType>>) {
 		super(data);
 
-		this.effects = [];
+		this.effects = data.effects ?? [];
 	}
 }
 
