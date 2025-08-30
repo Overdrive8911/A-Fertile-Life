@@ -1,5 +1,5 @@
 import { type Component, onMount } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, reconcile } from "solid-js/store";
 import { AlertWrapper } from "./components/alert";
 import { MainUI } from "./components/main-ui";
 import { ConfirmationModal } from "./components/modal/confirmation-modal";
@@ -10,8 +10,8 @@ const [gameVariables, setGameVariables] = createStore(GAME_ENGINE.vars);
 const App: Component = () => {
 	onMount(() => {
 		// Add an event handler to catch when the game variables change
-		GAME_ENGINE.on(":stateChange", ({ detail: { newState } }) => {
-			setGameVariables(newState);
+		GAME_ENGINE.on(":stateChange", (_) => {
+			setGameVariables(reconcile(GAME_ENGINE.vars));
 		});
 	});
 
