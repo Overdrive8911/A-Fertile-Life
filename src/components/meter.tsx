@@ -1,3 +1,4 @@
+import QuickLRU from "quick-lru";
 import { createSignal, onMount } from "solid-js";
 
 // Defaults
@@ -15,28 +16,41 @@ type Rgba = {
 
 type RgbaString = `rgba(${number}, ${number}, ${number}, ${number})`;
 
+const parsedColorCache = new QuickLRU<string, Rgba>({ maxSize: 100 });
 /**
  * Parse a color string into an RGB object with an alpha channel.
  */
 function parseColor(colorName: string): Rgba {
-	const temp = document.createElement("div");
-	temp.style.color = colorName;
-	document.body.appendChild(temp);
+	const cachedResult = parsedColorCache.get(colorName);
 
-	// Read the computed style back
-	const rgbString = getComputedStyle(temp).color as
-		| `rgb(${number}, ${number}, ${number})`
-		| RgbaString;
-	document.body.removeChild(temp);
+	if (cachedResult) return cachedResult;
 
-	const [r, g, b, a] = rgbString.match(/\d+(\.\d+)?/g) ?? ["0", "0", "0"];
+	const canvas = document.createElement("canvas");
+	canvas.width = 1;
+	canvas.height = 1;
+	const ctx = canvas.getContext("2d");
 
-	return {
-		r: Number(r),
-		g: Number(g),
-		b: Number(b),
-		a: a ? Number(a) : 255,
-	};
+	if (!ctx) {
+		throw new Error("Canvas ain't working");
+	}
+
+	// Set the fill style and extract the color
+	ctx.fillStyle = colorName;
+	ctx.fillRect(0, 0, 1, 1);
+
+	// Get the pixel data (RGBA)
+	const [r = 255, g = 255, b = 255, a = 255] = ctx.getImageData(
+		0,
+		0,
+		1,
+		1,
+	).data;
+
+	const result = { r, g, b, a };
+
+	parsedColorCache.set(colorName, result);
+
+	return result;
 }
 
 function convertRgbaObjectToColorString(rgba: Rgba): RgbaString {
@@ -68,6 +82,26 @@ function getMeterColor(
 	const a = lerp(startColor.a, endColor.a, t);
 
 	return `rgba(${r}, ${g}, ${b}, ${Number(a.toFixed(2))})`;
+}
+
+type MeterColorKey = `${string}-${string}-${string}-${string}`;
+
+const colorCache = new QuickLRU<MeterColorKey, RgbaString>({ maxSize: 100 });
+
+function getCachedMeterColor(
+	...args: Parameters<typeof getMeterColor>
+): RgbaString {
+	const meterColorKey = args.join("-") as MeterColorKey;
+
+	const possibleCachedResult = colorCache.get(meterColorKey);
+
+	if (possibleCachedResult) return possibleCachedResult;
+
+	const computedResult = getMeterColor(...args);
+
+	colorCache.set(meterColorKey, computedResult);
+
+	return computedResult;
 }
 
 /** General purpose meter */
@@ -110,7 +144,7 @@ function Meter(prop: {
 				class={`h-full ${prop.barClass}`}
 				style={{
 					width: percentageVal(),
-					"background-color": getMeterColor(
+					"background-color": getCachedMeterColor(
 						prop.val,
 						lowColor(),
 						midColor(),
