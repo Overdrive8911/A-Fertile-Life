@@ -2,6 +2,7 @@ import { signalify } from "classy-solid";
 import { unwrap } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import { GAME_VARIABLES } from "~/App";
+import type { GameDateAndTime } from "~/game/date-and-time/class";
 import type { Inventory } from "~/game/inventory/class";
 import { BodyArea, ClassId } from "~/game/shared/enums";
 import type { UUID } from "~/types/uuid";
@@ -37,7 +38,7 @@ class BaseInventoryItem
 	/** Index that this instance resides in */
 	readonly inventoryId: UUID;
 
-	readonly obtainedOn: Date;
+	readonly obtainedOn: GameDateAndTime;
 
 	constructor(inventory: Inventory, inventoryId: UUID, itemId: ItemId) {
 		this.itemId = itemId;
@@ -49,7 +50,7 @@ class BaseInventoryItem
 
 		this.inventoryId = inventoryId;
 
-		this.obtainedOn = unwrap(GAME_VARIABLES.gameDateAndTime.date);
+		this.obtainedOn = unwrap(GAME_VARIABLES.gameDateAndTime);
 
 		signalify(this);
 	}
@@ -121,7 +122,7 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 
 		return (
 			GAME_VARIABLES.gameDateAndTime.date.getDate() -
-				this.obtainedOn.getDate() <
+				this.obtainedOn.date.getDate() <
 			expiresIn
 		);
 	}
