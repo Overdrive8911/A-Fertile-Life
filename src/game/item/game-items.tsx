@@ -21,7 +21,11 @@ import { KeyItem } from "./key-item/class";
 const gInGameItems = {
 	[ItemId.CHEESE]: new Food({
 		description: "A piece of soft yellow divine goodness from heaven itself.",
-		effects: [FoodEffect.HEAL_HP_10, FoodEffect.ADD_EXP_10],
+		effects: [
+			FoodEffect.HEAL_HP_10,
+			FoodEffect.HEAL_FULLNESS_10,
+			FoodEffect.ADD_EXP_10,
+		],
 		id: ItemId.CHEESE,
 		img: CheeseImg,
 		name: "Cheese",
@@ -32,7 +36,11 @@ const gInGameItems = {
 	[ItemId.MOULDY_CHEESE]: new Food({
 		description:
 			'An antiquated piece of "food" that should\'ve been discarded long ago.',
-		effects: [FoodEffect.DRAIN_HP_10, FoodEffect.ADD_EXP_25],
+		effects: [
+			FoodEffect.DRAIN_HP_10,
+			FoodEffect.DRAIN_FULLNESS_10,
+			FoodEffect.ADD_EXP_25,
+		],
 		id: ItemId.MOULDY_CHEESE,
 		img: MouldyCheeseImg,
 		name: "Mouldy Cheese",

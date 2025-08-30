@@ -235,7 +235,7 @@ class Food extends ConsumableItem<FoodEffect> {
 		user.mental.mood += moodChange;
 
 		// TODO, turn the player into a character class and add setters for these stuff
-		user.fullness += Math.min(100, 100 * (fullnessChange || 0.1));
+		user.fullness = Math.min(100, user.fullness + 100 * fullnessChange);
 
 		user.womb.exp += Womb.getExpLimit(user.womb.lvl + 1) * expChange;
 	}
