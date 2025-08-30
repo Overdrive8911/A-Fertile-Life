@@ -32,7 +32,7 @@ export function ConfirmationModal() {
 				)}
 			</div>
 
-			<div class="flex gap-4 justify-center">
+			<div class="modal-action">
 				<BaseButton class="btn-primary" onClick={closeConfirmationModal}>
 					Changed my mind...
 				</BaseButton>

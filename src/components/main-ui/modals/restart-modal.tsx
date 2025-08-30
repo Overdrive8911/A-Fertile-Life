@@ -15,7 +15,7 @@ export function RestartModal(prop: { modalId: string }) {
 				This will reset all unsaved progress!
 			</div>
 
-			<div class="flex justify-center gap-4">
+			<div class="modal-action">
 				<button
 					type="button"
 					class="btn btn-primary"
