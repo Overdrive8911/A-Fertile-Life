@@ -287,13 +287,13 @@ export const BellySize = {
 export type BellySize = (typeof BellySize)[keyof typeof BellySize];
 
 const calcWombExpReq = (previousLvl: number): number => {
-	return ((2 * previousLvl + Math.floor(previousLvl / 2)) *
-		BellySize.FULL_TERM) /
-		10 +
-		previousLvl >
-		1
-		? calcWombExpReq(previousLvl - 1)
-		: 0;
+	const currentLevelExp =
+		((2 * previousLvl + Math.floor(previousLvl / 2)) * BellySize.FULL_TERM) /
+		10;
+
+	return (
+		currentLevelExp + (previousLvl > 1 ? calcWombExpReq(previousLvl - 1) : 0)
+	);
 };
 
 /**

@@ -717,7 +717,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		const womb = this as Womb;
 		// Fill up an intermediary array with all the levels in WombExpLimit, while ignoring any member with a negative value
 		const wombExpLimitArray = Object.values(WombExpLimit);
-		console.log(WombExpLimit);
 
 		// // Remove duplicates by converting to a Set and then back to an array
 		// wombExpLimitArray = [...new Set(wombExpLimitArray)];
