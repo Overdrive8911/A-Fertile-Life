@@ -3,7 +3,9 @@ import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import { ConsumableItem } from "../class";
 import { ItemTag } from "../enums";
 import type { ItemConstructorArgs } from "../types";
-import { FoodEffect } from "./enums";
+import { FoodEffectType } from "./enums";
+import type { FoodEffect } from "./types";
+import { parseFoodEffect } from "./util";
 
 export // REVIEW - Types of food that reduce fullness and may give certain buffs or nerf?
 class Food extends ConsumableItem<FoodEffect> {
@@ -20,216 +22,47 @@ class Food extends ConsumableItem<FoodEffect> {
 			fullnessChange = 0,
 			expChange = 0;
 
-		switch (foodEffect) {
-			case FoodEffect.HEAL_HP_1:
-				hpChange += 1;
-				break;
-			case FoodEffect.HEAL_HP_5:
-				hpChange += 5;
-				break;
-			case FoodEffect.HEAL_HP_10:
-				hpChange += 10;
-				break;
-			case FoodEffect.HEAL_HP_25:
-				hpChange += 25;
-				break;
-			case FoodEffect.HEAL_HP_50:
-				hpChange += 50;
-				break;
-			case FoodEffect.HEAL_HP_75:
-				hpChange += 75;
-				break;
-			case FoodEffect.HEAL_HP_100:
-				hpChange += 100;
-				break;
-			case FoodEffect.HEAL_WOMB_1:
-				wombHpChange += 1;
-				break;
-			case FoodEffect.HEAL_WOMB_5:
-				wombHpChange += 5;
-				break;
-			case FoodEffect.HEAL_WOMB_10:
-				wombHpChange += 10;
-				break;
-			case FoodEffect.HEAL_WOMB_25:
-				wombHpChange += 25;
-				break;
-			case FoodEffect.HEAL_WOMB_50:
-				wombHpChange += 50;
-				break;
-			case FoodEffect.HEAL_WOMB_75:
-				wombHpChange += 75;
-				break;
-			case FoodEffect.HEAL_WOMB_100:
-				wombHpChange += 100;
-				break;
-			case FoodEffect.DRAIN_HP_1:
-				hpChange -= 1;
-				break;
-			case FoodEffect.DRAIN_HP_5:
-				hpChange -= 5;
-				break;
-			case FoodEffect.DRAIN_HP_10:
-				hpChange -= 10;
-				break;
-			case FoodEffect.DRAIN_HP_25:
-				hpChange -= 25;
-				break;
-			case FoodEffect.DRAIN_HP_50:
-				hpChange -= 50;
-				break;
-			case FoodEffect.DRAIN_HP_75:
-				hpChange -= 75;
-				break;
-			case FoodEffect.DRAIN_HP_100:
-				hpChange -= 100;
-				break;
-			case FoodEffect.DRAIN_WOMB_1:
-				wombHpChange -= 1;
-				break;
-			case FoodEffect.DRAIN_WOMB_5:
-				wombHpChange -= 5;
-				break;
-			case FoodEffect.DRAIN_WOMB_10:
-				wombHpChange -= 10;
-				break;
-			case FoodEffect.DRAIN_WOMB_25:
-				wombHpChange -= 25;
-				break;
-			case FoodEffect.DRAIN_WOMB_50:
-				wombHpChange -= 50;
-				break;
-			case FoodEffect.DRAIN_WOMB_75:
-				wombHpChange -= 75;
-				break;
-			case FoodEffect.DRAIN_WOMB_100:
-				wombHpChange -= 100;
-				break;
-			case FoodEffect.HEAL_MOOD_1:
-				moodChange += 1;
-				break;
-			case FoodEffect.HEAL_MOOD_5:
-				moodChange += 5;
-				break;
-			case FoodEffect.HEAL_MOOD_10:
-				moodChange += 10;
-				break;
-			case FoodEffect.HEAL_MOOD_25:
-				moodChange += 25;
-				break;
-			case FoodEffect.HEAL_MOOD_50:
-				moodChange += 50;
-				break;
-			case FoodEffect.HEAL_MOOD_75:
-				moodChange += 75;
-				break;
-			case FoodEffect.HEAL_MOOD_100:
-				moodChange += 100;
-				break;
-			case FoodEffect.DRAIN_MOOD_1:
-				moodChange -= 1;
-				break;
-			case FoodEffect.DRAIN_MOOD_5:
-				moodChange -= 5;
-				break;
-			case FoodEffect.DRAIN_MOOD_10:
-				moodChange -= 10;
-				break;
-			case FoodEffect.DRAIN_MOOD_25:
-				moodChange -= 25;
-				break;
-			case FoodEffect.DRAIN_MOOD_50:
-				moodChange -= 50;
-				break;
-			case FoodEffect.DRAIN_MOOD_75:
-				moodChange -= 75;
-				break;
-			case FoodEffect.DRAIN_MOOD_100:
-				moodChange -= 100;
-				break;
-			case FoodEffect.HEAL_FULLNESS_1:
-				fullnessChange += 1;
-				break;
-			case FoodEffect.HEAL_FULLNESS_5:
-				fullnessChange += 5;
-				break;
-			case FoodEffect.HEAL_FULLNESS_10:
-				fullnessChange += 10;
-				break;
-			case FoodEffect.HEAL_FULLNESS_25:
-				fullnessChange += 25;
-				break;
-			case FoodEffect.HEAL_FULLNESS_50:
-				fullnessChange += 50;
-				break;
-			case FoodEffect.HEAL_FULLNESS_75:
-				fullnessChange += 75;
-				break;
-			case FoodEffect.HEAL_FULLNESS_100:
-				fullnessChange += 100;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_1:
-				fullnessChange -= 1;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_5:
-				fullnessChange -= 5;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_10:
-				fullnessChange -= 10;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_25:
-				fullnessChange -= 25;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_50:
-				fullnessChange -= 50;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_75:
-				fullnessChange -= 75;
-				break;
-			case FoodEffect.DRAIN_FULLNESS_100:
-				fullnessChange -= 100;
-				break;
-			case FoodEffect.ADD_EXP_1:
-				expChange += 1;
-				break;
-			case FoodEffect.ADD_EXP_5:
-				expChange += 5;
-				break;
-			case FoodEffect.ADD_EXP_10:
-				expChange += 10;
-				break;
-			case FoodEffect.ADD_EXP_25:
-				expChange += 25;
-				break;
-			case FoodEffect.ADD_EXP_50:
-				expChange += 50;
-				break;
-			case FoodEffect.ADD_EXP_75:
-				expChange += 75;
-				break;
-			case FoodEffect.ADD_EXP_100:
-				expChange += 100;
-				break;
-			case FoodEffect.DRAIN_EXP_1:
-				expChange -= 1;
-				break;
-			case FoodEffect.DRAIN_EXP_5:
-				expChange -= 5;
-				break;
-			case FoodEffect.DRAIN_EXP_10:
-				expChange -= 10;
-				break;
-			case FoodEffect.DRAIN_EXP_25:
-				expChange -= 25;
-				break;
-			case FoodEffect.DRAIN_EXP_50:
-				expChange -= 50;
-				break;
-			case FoodEffect.DRAIN_EXP_75:
-				expChange -= 75;
-				break;
-			case FoodEffect.DRAIN_EXP_100:
-				expChange -= 100;
+		const { percentage, type } = parseFoodEffect(foodEffect);
+
+		switch (type) {
+			case FoodEffectType.HEAL_HP:
+				hpChange += percentage;
+				break;
+
+			case FoodEffectType.HEAL_WOMB:
+				wombHpChange += percentage;
+				break;
+
+			case FoodEffectType.DRAIN_HP:
+				hpChange -= percentage;
+				break;
+
+			case FoodEffectType.DRAIN_WOMB:
+				wombHpChange -= percentage;
+				break;
+
+			case FoodEffectType.HEAL_MOOD:
+				moodChange += percentage;
+				break;
+
+			case FoodEffectType.DRAIN_MOOD:
+				moodChange -= percentage;
+				break;
+
+			case FoodEffectType.HEAL_FULLNESS:
+				fullnessChange += percentage;
+				break;
+
+			case FoodEffectType.DRAIN_FULLNESS:
+				fullnessChange -= percentage;
+				break;
+
+			case FoodEffectType.ADD_EXP:
+				expChange += percentage;
+				break;
+
+			case FoodEffectType.DRAIN_EXP:
+				expChange -= percentage;
 				break;
 		}
 

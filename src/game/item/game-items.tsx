@@ -14,7 +14,8 @@ import type { BaseItem } from "./class";
 import { Clothing } from "./clothing/class";
 import { ItemColor, ItemId, ItemTag } from "./enums";
 import { Food } from "./food/class";
-import { FoodEffect } from "./food/enums";
+import { FoodEffectType } from "./food/enums";
+import { createFoodEffect } from "./food/util";
 import { KeyItem } from "./key-item/class";
 
 /** This will store ALL the available info for every item. All the PC will keep in their inventory is the ID of the item so the required data can be linked back here. If an item has dynamic data, then that would be stored with the PC */
@@ -22,9 +23,9 @@ const gInGameItems = {
 	[ItemId.CHEESE]: new Food({
 		description: "A piece of soft yellow divine goodness from heaven itself.",
 		effects: [
-			FoodEffect.HEAL_HP_10,
-			FoodEffect.HEAL_FULLNESS_10,
-			FoodEffect.ADD_EXP_10,
+			createFoodEffect(FoodEffectType.HEAL_HP, 10),
+			createFoodEffect(FoodEffectType.HEAL_FULLNESS, 5),
+			createFoodEffect(FoodEffectType.ADD_EXP, 10),
 		],
 		id: ItemId.CHEESE,
 		img: CheeseImg,
@@ -37,9 +38,9 @@ const gInGameItems = {
 		description:
 			'An antiquated piece of "food" that should\'ve been discarded long ago.',
 		effects: [
-			FoodEffect.DRAIN_HP_10,
-			FoodEffect.DRAIN_FULLNESS_10,
-			FoodEffect.ADD_EXP_25,
+			createFoodEffect(FoodEffectType.DRAIN_HP, 10),
+			createFoodEffect(FoodEffectType.DRAIN_FULLNESS, 10),
+			createFoodEffect(FoodEffectType.ADD_EXP, 15),
 		],
 		id: ItemId.MOULDY_CHEESE,
 		img: MouldyCheeseImg,
@@ -155,6 +156,6 @@ const gInGameItems = {
 		price: 500,
 		weight: 500,
 	}),
-} as const satisfies Record<ItemId, BaseItem<FoodEffect | 0>>;
+} as const satisfies Record<ItemId, BaseItem<0>>;
 
 export { gInGameItems };

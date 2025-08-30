@@ -31,3 +31,6 @@ export type EnumToArray<TEnum extends string | number | symbol> = readonly [
 ] & {
 	[K in TEnum]: TEnum;
 };
+
+/** Brand type for creating nominal types */
+export type Brand<T, TBrand> = T & { readonly __brand: TBrand };
