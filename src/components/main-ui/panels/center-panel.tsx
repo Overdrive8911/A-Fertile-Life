@@ -4,12 +4,12 @@ import { PassageDisplay } from "../../../game/passages/passage-display";
 import { ROUNDED_BORDER } from "../shared/constants";
 
 export function CenterPanel() {
-	let passageContainer: HTMLDivElement | undefined;
+	let passageContainer!: HTMLDivElement;
 
 	onMount(() => {
 		GAME_ENGINE.on(":passageChange", () => {
 			// Scroll to the top on every passage navigation
-			passageContainer?.scrollTo({ top: 0 });
+			passageContainer.scroll(0, 0);
 		});
 	});
 
