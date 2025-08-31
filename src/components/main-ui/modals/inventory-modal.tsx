@@ -1,5 +1,7 @@
 import type { LucideProps } from "lucide-solid";
 import FoodIcon from "lucide-solid/icons/apple";
+import AscendingOrderIcon from "lucide-solid/icons/arrow-down-a-z";
+import DescendingOrderIcon from "lucide-solid/icons/arrow-down-z-a";
 import AllItemsIcon from "lucide-solid/icons/layout-grid";
 import MiscellaneousIcon from "lucide-solid/icons/package";
 import DrugIcon from "lucide-solid/icons/pill";
@@ -17,6 +19,7 @@ import {
 	Switch,
 } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
+import { createStore, produce } from "solid-js/store";
 import { Dynamic } from "solid-js/web";
 import { useMediaQuery } from "solidjs-use";
 import { BaseButton } from "~/components/button";
@@ -60,6 +63,16 @@ export function InventoryModal(prop: { modalId: string }) {
 	const [selectedTag, setSelectedTag] = createSignal(ItemTag.ALL);
 	const isTagSelected = createSelector(selectedTag);
 
+	type SortingParam = {
+		param: "a-z" | "price" | "weight" | "quantity" | "recency";
+		dir: "asc" | "desc";
+	};
+	const [sortingParam, setSortingParam] = createStore<SortingParam>({
+		dir: "asc",
+		param: "a-z",
+	});
+	const isSortingParam = createSelector(() => sortingParam.param);
+
 	const isMobileScreenInPortraitOrLandscape =
 		useMediaQuery("(max-width: 64rem)");
 
@@ -87,37 +100,152 @@ export function InventoryModal(prop: { modalId: string }) {
 			useProse={false}
 		>
 			{/* The inventory will display all the items uniquely, i.e multiple items of the same id will not be shown repeatedly, instead, each shown item will trigger a modal when clicked that will alllow proper inspection. */}
-			{/* Item grid with button tab for switching between categories / tags */}
+			{/* Item grid with button tab for switching between categories / tags as well as sorting and searching */}
 			<section class="flex flex-col gap-4 contain-inline-size h-[70vh]">
-				{/* Button tab list for the item tags */}
-				<div
-					class="join flex-wrap justify-center"
-					role="tablist"
-					aria-label="Item Categories"
-				>
-					<For each={itemTags}>
-						{(tag) => {
-							const tagName = getNameOfItemTag(tag);
-							const tagPanelName = `${tagName} Panel` as const;
-							const isSelected = () => isTagSelected(tag);
+				<div class="flex gap-4 justify-between items-center">
+					{/* Button tab list for the item tags */}
+					<div
+						class="join flex-wrap justify-center"
+						role="tablist"
+						aria-label="Item Categories"
+					>
+						<For each={itemTags}>
+							{(tag) => {
+								const tagName = getNameOfItemTag(tag);
+								const tagPanelName = `${tagName} Panel` as const;
+								const isSelected = () => isTagSelected(tag);
 
-							return (
-								<div class="tooltip" data-tip={tagPanelName}>
-									<button
-										class={`btn btn-primary btn-sm md:btn-md whitespace-nowrap ${isSelected() ? "" : "btn-outline"}`}
-										type="button"
-										role="tab"
-										aria-selected={isSelected()}
-										aria-controls={tagPanelName}
-										onClick={(_) => setSelectedTag(tag)}
+								return (
+									<div class="tooltip" data-tip={tagPanelName}>
+										<button
+											class={`btn btn-primary btn-sm md:btn-md whitespace-nowrap ${isSelected() ? "" : "btn-outline"}`}
+											type="button"
+											role="tab"
+											aria-selected={isSelected()}
+											aria-controls={tagPanelName}
+											onClick={(_) => setSelectedTag(tag)}
+										>
+											<Dynamic component={icons[tag]} />
+											{isMobileScreenInPortraitOrLandscape() ? "" : tagName}
+										</button>
+									</div>
+								);
+							}}
+						</For>
+					</div>
+
+					{/* Simple wrapper */}
+					<div class="flex gap-4 justify-around items-center">
+						{/* Container for sorting */}
+						<div class="flex justify-center items-center gap-2 flex-wrap sm:flex-nowrap sm:whitespace-nowrap">
+							Sort By:
+							{/* Select for the parameter used for sorting */}
+							{(() => {
+								const alphabeticParam = "a-z" satisfies SortingParam["param"],
+									priceParam = "price" satisfies SortingParam["param"],
+									recencyParam = "recency" satisfies SortingParam["param"],
+									quantityParam = "quantity" satisfies SortingParam["param"],
+									weightParam = "weight" satisfies SortingParam["param"];
+
+								return (
+									<select
+										class="select select-primary w-fit"
+										onInput={({ target: { value } }) => {
+											if (
+												value !== alphabeticParam &&
+												value !== priceParam &&
+												value !== quantityParam &&
+												value !== weightParam &&
+												value !== recencyParam
+											)
+												throw new Error("Invalid option");
+
+											setSortingParam(
+												produce((state) => {
+													state.param = value;
+												}),
+											);
+										}}
 									>
-										<Dynamic component={icons[tag]} />
-										{isMobileScreenInPortraitOrLandscape() ? "" : tagName}
-									</button>
-								</div>
-							);
-						}}
-					</For>
+										<option
+											selected={isSortingParam(alphabeticParam)}
+											value={alphabeticParam}
+										>
+											A-Z
+										</option>
+										<option
+											selected={isSortingParam(priceParam)}
+											value={priceParam}
+										>
+											Price
+										</option>
+										<option
+											selected={isSortingParam(recencyParam)}
+											value={recencyParam}
+										>
+											Recency
+										</option>
+										<option
+											selected={isSortingParam(quantityParam)}
+											value={quantityParam}
+										>
+											Quantity
+										</option>
+										<option
+											selected={isSortingParam(weightParam)}
+											value={weightParam}
+										>
+											Weight
+										</option>
+									</select>
+								);
+							})()}
+							{/* Ascending or descending order */}
+							{(() => {
+								const btnClass = "btn btn-primary btn-outline px-1";
+
+								return (
+									<Show
+										when={sortingParam.dir === "asc"}
+										fallback={
+											<BaseButton
+												class={btnClass}
+												onClick={(_) =>
+													setSortingParam(
+														produce((state) => {
+															state.dir = "asc";
+														}),
+													)
+												}
+												tooltip="Descending Order"
+												tooltipDir="left"
+											>
+												<DescendingOrderIcon />
+											</BaseButton>
+										}
+									>
+										<BaseButton
+											class={btnClass}
+											onClick={(_) =>
+												setSortingParam(
+													produce((state) => {
+														state.dir = "desc";
+													}),
+												)
+											}
+											tooltip="Ascending Order"
+											tooltipDir="left"
+										>
+											<AscendingOrderIcon />
+										</BaseButton>
+									</Show>
+								);
+							})()}
+						</div>
+
+						{/* Container for searching */}
+						<div></div>
+					</div>
 				</div>
 
 				{/* The actual grid that displays the inventory's items */}
@@ -142,24 +270,76 @@ export function InventoryModal(prop: { modalId: string }) {
 								...stacks.entries().map(([itemId, instances]) => ({
 									itemId,
 									instances,
-									// count: instances.length,
-									// // Sowt by obtainedOn to show oldest/newest fiwst
-									// sortedInstances: instances.sort((a, b) =>
-									//   a.obtainedOn.getTime() - b.obtainedOn.getTime()
-									// ),
-									// // Fow stackable items, show combined info
-									// hasMultiple: instances.length > 1,
-									// // Check if any have speciaw pwopewties (equipped, expiwing, etc)
-									// hasSpecialStates: instances.some(i =>
-									//   (i.isEquippable() && i.isEquipped) ||
-									//   (i.isConsumable() && !i.isUsable())
-									// )
 								})),
 							];
 						});
 
+						const sortedItemStacks = createMemo(() => {
+							const applySortingDir = (val: -1 | 0 | 1) =>
+								(sortingParam.dir === "asc" ? 1 : -1) * val;
+
+							const getMostRecentInventoryItemDate = (
+								inventoryItems: BaseInventoryItem[],
+							) =>
+								inventoryItems.reduce<Date>((acc, val) => {
+									const valDate = val.obtainedOn.date;
+
+									if (valDate > acc) acc = valDate;
+
+									return acc;
+								}, new Date(0));
+
+							return itemStacks().toSorted((a, b) => {
+								const { instances: aInstances, itemId: aItemId } = a,
+									{ instances: bInstances, itemId: bItemId } = b,
+									aItemData = gInGameItems[aItemId],
+									bItemData = gInGameItems[bItemId];
+
+								// By default, assume ascending order
+								switch (sortingParam.param) {
+									case "a-z": {
+										return applySortingDir(
+											aItemData.name > bItemData.name ? 1 : -1,
+										);
+									}
+
+									case "price": {
+										return applySortingDir(
+											aItemData.price > bItemData.price ? 1 : -1,
+										);
+									}
+
+									case "recency": {
+										const aMostRecentItemDate =
+												getMostRecentInventoryItemDate(aInstances),
+											bMostRecentItemDate =
+												getMostRecentInventoryItemDate(bInstances);
+
+										return applySortingDir(
+											aMostRecentItemDate > bMostRecentItemDate ? 1 : -1,
+										);
+									}
+
+									case "quantity": {
+										return applySortingDir(
+											aInstances.length > bInstances.length ? 1 : -1,
+										);
+									}
+
+									case "weight": {
+										return applySortingDir(
+											aItemData.weight > bItemData.weight ? 1 : -1,
+										);
+									}
+
+									default:
+										return 0;
+								}
+							});
+						});
+
 						return (
-							<Index each={itemStacks()}>
+							<Index each={sortedItemStacks()}>
 								{(item) => {
 									const itemData = () => gInGameItems[item().itemId];
 									const itemName = () => itemData().name;
