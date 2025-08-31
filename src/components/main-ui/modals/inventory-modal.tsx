@@ -287,7 +287,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 				</div>
 
 				{/* Proper Item view */}
-				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-2 justify-center items-center [&_p]:text-sm [&_p]:md:text-base">
+				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-4 items-center overflow-y-auto [&_p]:text-sm [&_p]:md:text-base">
 					<Show when={selectedInventoryItem()}>
 						{(inventoryItem) => {
 							const obtainedOn = () => inventoryItem().obtainedOn;
@@ -349,7 +349,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 										{/* Item description if available */}
 										<Show when={itemData().description}>
 											{(description) => (
-												<div class="pt-2 border-t border-base-300">
+												<div class="pt-3 border-t border-base-300">
 													<p class="opacity-80">{description()}</p>
 												</div>
 											)}
