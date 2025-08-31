@@ -102,7 +102,7 @@ export function InventoryModal(prop: { modalId: string }) {
 			{/* The inventory will display all the items uniquely, i.e multiple items of the same id will not be shown repeatedly, instead, each shown item will trigger a modal when clicked that will alllow proper inspection. */}
 			{/* Item grid with button tab for switching between categories / tags as well as sorting and searching */}
 			<section class="flex flex-col gap-4 contain-inline-size h-[70vh]">
-				<div class="flex gap-4 justify-between items-center">
+				<div class="flex gap-4 justify-center items-center flex-wrap">
 					{/* Button tab list for the item tags */}
 					<div
 						class="join flex-wrap justify-center"
@@ -137,7 +137,7 @@ export function InventoryModal(prop: { modalId: string }) {
 					{/* Simple wrapper */}
 					<div class="flex gap-4 justify-around items-center">
 						{/* Container for sorting */}
-						<div class="flex justify-center items-center gap-2 flex-wrap sm:flex-nowrap sm:whitespace-nowrap">
+						<div class="flex justify-center items-center gap-2 flex-nowrap whitespace-nowrap">
 							Sort By:
 							{/* Select for the parameter used for sorting */}
 							{(() => {
