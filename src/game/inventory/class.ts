@@ -9,11 +9,13 @@ import { getRandomUUID } from "~/utils/random";
 import { GAME_VARIABLES } from "../engine/engine";
 import { BaseItem, ConsumableItem, EquippableItem } from "../item/class";
 import { type ItemColor, type ItemId, ItemTag } from "../item/enums";
+import { gInGameItems } from "../item/game-items";
 import {
 	BaseInventoryItem,
 	ConsumableInventoryItem,
 	EquippableInventoryItem,
 } from "../item/inventory-item/class";
+import { KeyItem } from "../item/key-item/class";
 import { ClassId } from "../shared/enums";
 
 type SerializedInventory = {
@@ -86,7 +88,13 @@ class Inventory
 		/** Incase you want to use a child class  */
 		classType: typeof BaseInventoryItem = BaseInventoryItem,
 	): { success: number; fail: number } {
-		// TODO - Using the ids, decide if this item has any dynamic data and handle it properly else just copy over the ID
+		const itemData =
+			itemOrItemId instanceof BaseItem
+				? itemOrItemId
+				: itemOrItemId instanceof BaseInventoryItem
+					? itemOrItemId.data
+					: gInGameItems[itemOrItemId];
+
 		const limit = this._capacity;
 
 		const currSize = this._items.size;
@@ -102,6 +110,13 @@ class Inventory
 		}
 
 		for (let i = 0; i < amount; i++) {
+			// Don't allow more than a single key item
+			if (
+				itemData instanceof KeyItem &&
+				this.getItem({ param: itemData.id, type: "itemId" }).length
+			)
+				return { fail: originalAmount, success: 0 };
+
 			const inventoryId = getRandomUUID();
 			const gameDateAndTime = GAME_VARIABLES.gameDateAndTime;
 
