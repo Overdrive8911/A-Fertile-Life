@@ -312,7 +312,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 				</div>
 
 				{/* Proper Item view */}
-				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-2 justify-center items-center [&_p]:text-sm [&_p]:sm:text-base">
+				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-2 justify-center items-center [&_p]:text-sm [&_p]:md:text-base">
 					<Show when={selectedInventoryItem()}>
 						{(inventoryItem) => {
 							const obtainedOn = () => inventoryItem().obtainedOn;
@@ -375,7 +375,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 										<Show when={itemData().description}>
 											{(description) => (
 												<div class="pt-2 border-t border-base-300">
-													<p class="text-xs opacity-80">{description()}</p>
+													<p class="opacity-80">{description()}</p>
 												</div>
 											)}
 										</Show>
@@ -383,7 +383,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 
 									<div class="flex gap-2">
 										<BaseButton
-											class="btn-error btn-sm sm:btn-md"
+											class="btn-error btn-sm md:btn-md"
 											onClick={(_) => {
 												triggerConfirmationModal(async () => {
 													GAME_ENGINE.setVars((state) => {
@@ -407,7 +407,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 													<button
 														type="button"
 														disabled={!consumable().isUsable()}
-														class="btn btn-primary btn-sm sm:btn-md"
+														class="btn btn-primary btn-sm md:btn-md"
 														onClick={(_) => {
 															consumable().use();
 
@@ -435,7 +435,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 														<button
 															type="button"
 															disabled={!canEquip()}
-															class="btn btn-primary btn-sm sm:btn-md"
+															class="btn btn-primary btn-sm md:btn-md"
 															// onClick={_ => equippable().use()}
 														>
 															{isEquipped()
@@ -457,7 +457,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 			</div>
 
 			{/* Action buttons at the bottom */}
-			<div class="modal-action">
+			<div class="modal-action *:btn-sm md:*:btn-md">
 				<button
 					type="button"
 					class="btn btn-ghost"
