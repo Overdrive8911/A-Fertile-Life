@@ -287,7 +287,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 				</div>
 
 				{/* Proper Item view */}
-				<div class="h-64 sm:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-4 items-center overflow-y-auto [&_p]:text-sm [&_p]:md:text-base">
+				<div class="h-64 md:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-4 items-center overflow-y-auto [&_p]:text-sm [&_p]:md:text-base">
 					<Show when={selectedInventoryItem()}>
 						{(inventoryItem) => {
 							const obtainedOn = () => inventoryItem().obtainedOn;
