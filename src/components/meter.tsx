@@ -1,4 +1,3 @@
-import QuickLRU from "quick-lru";
 import { createSignal, onMount } from "solid-js";
 
 // Defaults
@@ -7,101 +6,38 @@ const MID_COLOR = "yellow";
 const HIGH_COLOR = "green";
 const EMPTY_COLOR = "transparent";
 
-type Rgba = {
-	r: number;
-	g: number;
-	b: number;
-	a: number;
-};
-
-type RgbaString = `rgba(${number}, ${number}, ${number}, ${number})`;
-
-const parsedColorCache = new QuickLRU<string, Rgba>({ maxSize: 100 });
 /**
- * Parse a color string into an RGB object with an alpha channel.
+ * Simple color interpolation using CSS color-mix (fallback to hsl interpolation)
  */
-function parseColor(colorName: string): Rgba {
-	const cachedResult = parsedColorCache.get(colorName);
-
-	if (cachedResult) return cachedResult;
-
-	const canvas = document.createElement("canvas");
-	canvas.width = 1;
-	canvas.height = 1;
-	const ctx = canvas.getContext("2d");
-
-	if (!ctx) {
-		throw new Error("Canvas ain't working");
-	}
-
-	// Set the fill style and extract the color
-	ctx.fillStyle = colorName;
-	ctx.fillRect(0, 0, 1, 1);
-
-	// Get the pixel data (RGBA)
-	const [r = 255, g = 255, b = 255, a = 255] = ctx.getImageData(
-		0,
-		0,
-		1,
-		1,
-	).data;
-
-	const result = { r, g, b, a };
-
-	parsedColorCache.set(colorName, result);
-
-	return result;
-}
-
-function convertRgbaObjectToColorString(rgba: Rgba): RgbaString {
-	return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
-}
-
-function getMeterColor(
-	meterVal: number,
+function interpolateColor(
+	/** Must be a decimal between 0 and 1 inclusively */
+	val: number,
 	lowColor: string,
 	midColor: string,
 	highColor: string,
-): RgbaString {
-	// Linear interpolation function
-	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+): string {
+	let t = 0;
 
-	// Choose the interpolation range based on the val.
-	const [startColor, endColor] =
-		meterVal <= 0.5
-			? [parseColor(lowColor), parseColor(midColor)]
-			: [parseColor(midColor), parseColor(highColor)];
+	if (val <= 0.5) {
+		// Interpolate between low and mid color
+		t = val * 2; // Normalize to 0-1 for this half
 
-	// Normalize t within the current half segment
-	const t = meterVal <= 0.5 ? meterVal * 2 : (meterVal - 0.5) * 2;
+		// Use CSS color-mix if available, fallback to direct colors at boundaries
+		if (t === 0) return lowColor;
+		if (t === 1) return midColor;
 
-	// Interpolate each color channel.
-	const r = Math.round(lerp(startColor.r, endColor.r, t));
-	const g = Math.round(lerp(startColor.g, endColor.g, t));
-	const b = Math.round(lerp(startColor.b, endColor.b, t));
-	const a = lerp(startColor.a, endColor.a, t);
+		const percentage = Math.round(t * 100);
+		return `color-mix(in srgb, ${midColor} ${percentage}%, ${lowColor})`;
+	} else {
+		// Interpolate between mid and high color
+		t = (val - 0.5) * 2; // Normalize to 0-1 for this half
 
-	return `rgba(${r}, ${g}, ${b}, ${Number(a.toFixed(2))})`;
-}
+		if (t === 0) return midColor;
+		if (t === 1) return highColor;
 
-type MeterColorKey = `${string}-${string}-${string}-${string}`;
-
-const colorCache = new QuickLRU<MeterColorKey, RgbaString>({ maxSize: 100 });
-
-function getCachedMeterColor(
-	...args: Parameters<typeof getMeterColor>
-): RgbaString {
-	const meterColorKey = args.join("-") as MeterColorKey;
-
-	const possibleCachedResult = colorCache.get(meterColorKey);
-
-	if (possibleCachedResult) return possibleCachedResult;
-
-	const computedResult = getMeterColor(...args);
-
-	colorCache.set(meterColorKey, computedResult);
-
-	return computedResult;
+		const percentage = Math.round(t * 100);
+		return `color-mix(in srgb, ${highColor} ${percentage}%, ${midColor})`;
+	}
 }
 
 /** General purpose meter */
@@ -129,13 +65,14 @@ function Meter(prop: {
 
 	const percentageVal = () => `${prop.val * 100}%`;
 
+	const meterColor = () =>
+		interpolateColor(prop.val, lowColor(), midColor(), highColor());
+
 	return (
 		<div
 			class={`w-full h-4 border ${prop.containerClass}`}
 			style={{
-				"background-color": convertRgbaObjectToColorString(
-					parseColor(emptyColor()),
-				),
+				"background-color": emptyColor(),
 			}}
 			title={prop.title ?? percentageVal()}
 			ref={prop.ref}
@@ -144,12 +81,7 @@ function Meter(prop: {
 				class={`h-full ${prop.barClass}`}
 				style={{
 					width: percentageVal(),
-					"background-color": getCachedMeterColor(
-						prop.val,
-						lowColor(),
-						midColor(),
-						highColor(),
-					),
+					"background-color": meterColor(),
 				}}
 			></div>
 		</div>
