@@ -44,6 +44,8 @@ function interpolateColor(
 function Meter(prop: {
 	/** Must be a decimal between 0 and 1 inclusively */
 	val: number;
+	/** Any valid css height value */
+	height?: string;
 	/** Classes to apply to the outer container */
 	containerClass?: string;
 	/** Classes to apply to the actual coloured bar */
@@ -73,6 +75,7 @@ function Meter(prop: {
 			class={`w-full h-4 border ${prop.containerClass}`}
 			style={{
 				"background-color": emptyColor(),
+				height: prop.height,
 			}}
 			title={prop.title ?? percentageVal()}
 			ref={prop.ref}

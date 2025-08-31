@@ -20,6 +20,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
 import { useMediaQuery } from "solidjs-use";
 import { BaseButton } from "~/components/button";
+import { Meter } from "~/components/meter";
 import { triggerConfirmationModal } from "~/components/modal/confirmation-modal";
 import { closeModal, showModal } from "~/components/modal/generic-modal";
 import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
@@ -272,37 +273,11 @@ export function ItemStackModal(props: ItemStackModalProps) {
 											</Show>
 
 											{/* Durability indicator for damaged items */}
-											<Show
-												when={
-													equippableInventoryItem().durability < 100 &&
-													equippableInventoryItem().durability
-												}
-											>
-												{(durability) => (
-													<div class="w-full bg-base-300 rounded-full h-1 mt-1">
-														<div
-															class={`h-1 rounded-full ${
-																durability() > 50
-																	? "bg-success"
-																	: durability() > 25
-																		? "bg-warning"
-																		: "bg-error"
-															}`}
-															style={`width: ${durability()}%`}
-														/>
-													</div>
-												)}
-											</Show>
-
-											{/* Tooltip with more details */}
-											<div
-												class="tooltip tooltip-bottom"
-												data-tip={`
-							${itemName()} #${index() + 1}
-							${equippableInventoryItem().durability ? `Durability: ${equippableInventoryItem().durability}%` : ""}
-							${equippableInventoryItem().obtainedOn ? `Obtained: ${equippableInventoryItem().obtainedOn.date.toLocaleDateString()}` : ""}
-						`}
-											></div>
+											<Meter
+												val={equippableInventoryItem().durabilityRatio}
+												containerClass="rounded-field"
+												height="0.5rem"
+											/>
 										</>
 									)}
 								</Show>
