@@ -72,12 +72,11 @@ function Meter(prop: {
 
 	return (
 		<div
-			class={`w-full h-4 border ${prop.containerClass}`}
+			class={`w-full h-4 border tooltip ${prop.containerClass}`}
 			style={{
 				"background-color": emptyColor(),
 				height: prop.height,
 			}}
-			title={prop.title ?? percentageVal()}
 			ref={prop.ref}
 		>
 			<div
@@ -86,6 +85,12 @@ function Meter(prop: {
 					width: percentageVal(),
 					"background-color": meterColor(),
 				}}
+			></div>
+
+			{/*Tooltip*/}
+			<div
+				class="tooltip absolute top-0 left-0 size-full"
+				data-tip={prop.title ?? percentageVal()}
 			></div>
 		</div>
 	);
@@ -130,7 +135,7 @@ function StatMeter(prop: {
 			<img
 				src={prop.icon}
 				alt={prop.stat}
-				class={`h-full aspect-square absolute -left-0.75 border-3 border-primary bg-neutral rounded-full ${prop.iconClass}`}
+				class={`z-10 h-full aspect-square absolute -left-0.75 border-3 border-primary bg-neutral rounded-full ${prop.iconClass}`}
 				title={meterTitle()}
 			></img>
 
