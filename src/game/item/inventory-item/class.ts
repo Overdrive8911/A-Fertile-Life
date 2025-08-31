@@ -9,6 +9,7 @@ import { areNoFlagsSet } from "~/utils/bitfields";
 import { ConsumableItem, EquippableItem } from "../class";
 import type { ItemId } from "../enums";
 import { gInGameItems } from "../game-items";
+import { KeyItem } from "../key-item/class";
 
 type InventoryItemClassIds =
 	| ClassId.BASE_INVENTORY_ITEM
@@ -103,6 +104,13 @@ class BaseInventoryItem
 	get data() {
 		// biome-ignore lint/style/noNonNullAssertion: <Deal with this later>
 		return gInGameItems[this.itemId]!;
+	}
+
+	get isDeletable(){
+	// Key items can't be deleted from the player's end so I won't include this check in the delete methods
+	if (this.data instanceof KeyItem) return false
+
+	return true
 	}
 
 	/** Deletes this instance from its inventory */

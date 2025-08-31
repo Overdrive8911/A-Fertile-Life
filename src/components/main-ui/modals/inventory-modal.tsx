@@ -357,19 +357,21 @@ export function ItemStackModal(props: ItemStackModalProps) {
 									</div>
 
 									<div class="flex gap-2">
-										<BaseButton
-											class="btn-error btn-sm md:btn-md"
-											onClick={(_) => {
-												triggerConfirmationModal(async () => {
-													GAME_ENGINE.setVars((state) => {
-														inventoryItem().delete(state.player.inventory);
-														setSelectedInventoryItem(null);
-													});
-												}, `This will permanently discard ${itemData().name}`);
-											}}
-										>
-											<TrashIcon /> Trash
-										</BaseButton>
+										<Show when={inventoryItem().isDeletable}>
+											<BaseButton
+												class="btn-error btn-sm md:btn-md"
+												onClick={(_) => {
+													triggerConfirmationModal(async () => {
+														GAME_ENGINE.setVars((state) => {
+															inventoryItem().delete(state.player.inventory);
+															setSelectedInventoryItem(null);
+														});
+													}, `This will permanently discard ${itemData().name}`);
+												}}
+											>
+												<TrashIcon /> Trash
+											</BaseButton>
+										</Show>
 
 										<Switch>
 											<Match
@@ -441,23 +443,25 @@ export function ItemStackModal(props: ItemStackModalProps) {
 					Close
 				</button>
 
-				<button
-					type="button"
-					class="btn btn-error"
-					onClick={(_) => {
-						triggerConfirmationModal(async () => {
-							GAME_ENGINE.setVars((state) => {
-								props.instances.forEach((inventoryItem) => {
-									inventoryItem.delete(state.player.inventory);
-									setSelectedInventoryItem(null);
+				<Show when={props.instances[0]?.isDeletable}>
+					<button
+						type="button"
+						class="btn btn-error"
+						onClick={(_) => {
+							triggerConfirmationModal(async () => {
+								GAME_ENGINE.setVars((state) => {
+									props.instances.forEach((inventoryItem) => {
+										inventoryItem.delete(state.player.inventory);
+										setSelectedInventoryItem(null);
+									});
 								});
-							});
-						}, `This will permanently discard ${props.instances.length} ${itemData().name} items.`);
-					}}
-				>
-					<TrashIcon />
-					Trash All
-				</button>
+							}, `This will permanently discard ${props.instances.length} ${itemData().name} items.`);
+						}}
+					>
+						<TrashIcon />
+						Trash All
+					</button>
+				</Show>
 			</div>
 		</GameModal>
 	);
