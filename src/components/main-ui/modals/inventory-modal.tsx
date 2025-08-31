@@ -218,7 +218,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 	// Helper component for consistent info display
 	function InfoRow(props: { label: string; value: string }) {
 		return (
-			<div class="flex justify-between items-center py-1 text-sm">
+			<div class="flex justify-between items-center py-1 text-sm md:text-base">
 				<span class="opacity-70">{props.label}:</span>
 				<span class="text-info">{props.value}</span>
 			</div>
