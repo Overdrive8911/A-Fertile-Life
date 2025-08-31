@@ -4,6 +4,7 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
+import { GAME_VARIABLES } from "~/App";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
 import { BaseItem, ConsumableItem, EquippableItem } from "../item/class";
@@ -102,21 +103,33 @@ class Inventory
 
 		for (let i = 0; i < amount; i++) {
 			const inventoryId = getRandomUUID();
+			const gameDateAndTime = GAME_VARIABLES.gameDateAndTime;
 
 			const inventoryItem =
 				itemOrItemId instanceof BaseInventoryItem
 					? itemOrItemId
 					: itemOrItemId instanceof BaseItem
 						? itemOrItemId instanceof ConsumableItem
-							? new ConsumableInventoryItem(this, inventoryId, itemOrItemId.id)
+							? new ConsumableInventoryItem(
+									this,
+									inventoryId,
+									itemOrItemId.id,
+									gameDateAndTime,
+								)
 							: itemOrItemId instanceof EquippableItem
 								? new EquippableInventoryItem(
 										this,
 										inventoryId,
 										itemOrItemId.id,
+										gameDateAndTime,
 									)
-								: new BaseInventoryItem(this, inventoryId, itemOrItemId.id)
-						: new classType(this, inventoryId, itemOrItemId);
+								: new BaseInventoryItem(
+										this,
+										inventoryId,
+										itemOrItemId.id,
+										gameDateAndTime,
+									)
+						: new classType(this, inventoryId, itemOrItemId, gameDateAndTime);
 
 			this._items.set(inventoryId, inventoryItem);
 		}

@@ -23,6 +23,8 @@ type SerializedInventoryItem = {
 
 	/** This is stored so that I know what class constructor to use to deserialize the data */
 	classId: InventoryItemClassIds;
+
+	obtainedOn: GameDateAndTime;
 };
 
 /** Only the ID and location obtained is needed for static data since the required info can be fetched from `gInGameItems`. A regular `Item` is converted to this in `storeItem()` */
@@ -40,7 +42,12 @@ class BaseInventoryItem
 
 	readonly obtainedOn: GameDateAndTime;
 
-	constructor(inventory: Inventory, inventoryId: UUID, itemId: ItemId) {
+	constructor(
+		inventory: Inventory,
+		inventoryId: UUID,
+		itemId: ItemId,
+		obtainedOn: GameDateAndTime,
+	) {
 		this.itemId = itemId;
 
 		if (!gInGameItems[this.itemId])
@@ -50,7 +57,7 @@ class BaseInventoryItem
 
 		this.inventoryId = inventoryId;
 
-		this.obtainedOn = unwrap(GAME_VARIABLES.gameDateAndTime);
+		this.obtainedOn = obtainedOn;
 
 		signalify(this);
 	}
@@ -72,13 +79,13 @@ class BaseInventoryItem
 		inventory: Inventory,
 		data: SerializedInventoryItem,
 	): BaseInventoryItem {
+		const { inventoryId, itemId, obtainedOn } = data;
 		const clone = new BaseInventoryItem(
 			inventory,
-			data.inventoryId,
-			data.itemId,
+			inventoryId,
+			itemId,
+			obtainedOn,
 		);
-
-		Object.assign(clone, data);
 
 		return clone;
 	}
@@ -89,6 +96,7 @@ class BaseInventoryItem
 			inventoryId: this.inventoryId,
 			itemId: this.itemId,
 			classId: (this.constructor as typeof BaseInventoryItem).classId,
+			obtainedOn: this.obtainedOn,
 		};
 	}
 
@@ -140,13 +148,14 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 		inventory: Inventory,
 		data: SerializedConsumableInventoryItem,
 	): ConsumableInventoryItem {
+		const { inventoryId, itemId, obtainedOn } = data;
+
 		const clone = new ConsumableInventoryItem(
 			inventory,
-			data.inventoryId,
-			data.itemId,
+			inventoryId,
+			itemId,
+			obtainedOn,
 		);
-
-		Object.assign(clone, data);
 
 		return clone;
 	}
@@ -165,9 +174,9 @@ type SerializedEquippableInventoryItem = SerializedInventoryItem & {
 };
 
 class EquippableInventoryItem extends BaseInventoryItem {
-	private _isEquipped = false;
+	private _isEquipped;
 
-	private _durability = 100;
+	private _durability;
 
 	static override classId: InventoryItemClassIds =
 		ClassId.EQUIPPABLE_INVENTORY_ITEM;
@@ -176,13 +185,16 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		...args: [
 			...ConstructorParameters<typeof BaseInventoryItem>,
 			durability?: number,
+			isEquipped?: boolean,
 		]
 	) {
-		const [inventory, inventoryId, itemId, durability] = args;
+		const [inventory, inventoryId, itemId, gameDateAndTime, durability] = args;
 
-		super(inventory, inventoryId, itemId);
+		super(inventory, inventoryId, itemId, gameDateAndTime);
 
 		this._durability = durability ?? this.data.maxDurability;
+
+		this._isEquipped = this.isEquipped ?? false;
 
 		signalify(this);
 	}
@@ -248,13 +260,15 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		inventory: Inventory,
 		data: SerializedEquippableInventoryItem,
 	): EquippableInventoryItem {
+		const { inventoryId, itemId, obtainedOn, durability, isEquipped } = data;
 		const clone = new EquippableInventoryItem(
 			inventory,
-			data.inventoryId,
-			data.itemId,
+			inventoryId,
+			itemId,
+			obtainedOn,
+			durability,
+			isEquipped,
 		);
-
-		Object.assign(clone, data);
 
 		return clone;
 	}
