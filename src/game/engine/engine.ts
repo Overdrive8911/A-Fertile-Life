@@ -54,13 +54,13 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	config: {
 		autoSave: "passage",
 		cache: cacheAdapter,
+		compressSave: false,
+		eventOptimization: "performance",
+		loadOnStart: true,
 		persistence: persistenceAdapter,
 		regenSeed: "passage",
-		saveVersion: `0.0.1`,
 		saveSlots: EngineDefaults.SAVE_SLOTS,
-		loadOnStart: true,
-		eventOptimization: "performance",
-		compressSave: false,
+		saveVersion: `0.0.1`,
 	},
 	classes: [Breasts, GameDateAndTime, Inventory, Womb],
 });
