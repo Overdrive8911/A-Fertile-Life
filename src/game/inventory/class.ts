@@ -4,9 +4,9 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
+import { GAME_VARIABLES } from "../engine/engine";
 import { BaseItem, ConsumableItem, EquippableItem } from "../item/class";
 import { type ItemColor, type ItemId, ItemTag } from "../item/enums";
 import {

@@ -1,4 +1,4 @@
-import { GAME_VARIABLES } from "~/App";
+import { GAME_VARIABLES } from "../engine/engine";
 import { BirthRecordThreshold } from "./enums";
 import { BellySize } from "./variables";
 

@@ -1,8 +1,7 @@
 import { signalify } from "classy-solid";
-import { unwrap } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import type { Inventory } from "~/game/inventory/class";
 import { BodyArea, ClassId } from "~/game/shared/enums";
 import type { UUID } from "~/types/uuid";

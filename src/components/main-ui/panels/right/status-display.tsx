@@ -1,4 +1,4 @@
-import { GAME_VARIABLES } from "~/App";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import { Womb } from "~/game/pregnancy/classes/womb";
 import energyIcon from "~/media/img/icons/stats/energy.webp";
 import healthIcon from "~/media/img/icons/stats/heart.webp";

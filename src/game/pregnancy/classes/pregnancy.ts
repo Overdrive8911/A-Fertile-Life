@@ -1,8 +1,8 @@
 import { ReactiveMap } from "@solid-primitives/map";
 import { signalify } from "classy-solid";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,

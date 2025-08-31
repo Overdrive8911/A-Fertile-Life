@@ -18,12 +18,11 @@ import {
 } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { Dynamic } from "solid-js/web";
-import { onClickOutside, useMediaQuery } from "solidjs-use";
-import { GAME_VARIABLES } from "~/App";
+import { useMediaQuery } from "solidjs-use";
 import { BaseButton } from "~/components/button";
 import { triggerConfirmationModal } from "~/components/modal/confirmation-modal";
 import { closeModal, showModal } from "~/components/modal/generic-modal";
-import { GAME_ENGINE } from "~/game/engine/engine";
+import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { type ItemId, ItemTag } from "~/game/item/enums";
 import { gInGameItems } from "~/game/item/game-items";
 import type {

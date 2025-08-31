@@ -7,6 +7,7 @@ import {
 	SugarboxEngine,
 } from "sugarbox";
 import type { SaveDataV0_0_1 } from "~/game/types/story-variables/save-data";
+import { useSugarboxEngine } from "~/utils/reactivity";
 import { Breasts } from "../body-stats/class/breast";
 import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
@@ -65,6 +66,16 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	classes: [Breasts, GameDateAndTime, Inventory, Womb],
 });
 
+const {
+	achievements,
+	passage: GAME_PASSAGE,
+	setAchievements,
+	setSettings,
+	settings,
+	vars: GAME_VARIABLES,
+} = useSugarboxEngine(GAME_ENGINE);
+
+//@ts-expect-error Just for debugging
 window.game = GAME_ENGINE;
 
-export { GAME_ENGINE };
+export { GAME_ENGINE, GAME_PASSAGE, GAME_VARIABLES };

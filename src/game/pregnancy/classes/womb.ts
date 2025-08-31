@@ -4,7 +4,7 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,

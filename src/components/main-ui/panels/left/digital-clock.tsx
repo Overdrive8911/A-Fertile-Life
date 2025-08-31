@@ -1,4 +1,4 @@
-import { GAME_VARIABLES } from "~/App";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ROUNDED_BORDER } from "../../shared/constants";
 
 export function DigitalClock() {

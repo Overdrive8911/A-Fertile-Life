@@ -1,7 +1,6 @@
 import { signalify } from "classy-solid";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import { GAME_VARIABLES } from "~/App";
-import { GAME_ENGINE } from "~/game/engine/engine";
+import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import { getRandomIntegerInRange } from "~/game/shared/utils";
 import { clamp } from "~/utils/math";
