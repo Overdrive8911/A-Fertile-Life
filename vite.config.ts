@@ -19,10 +19,17 @@ export default defineConfig({
 				})
 			: null,
 		viteSingleFile(),
+
+		{
+			name: "force-full-reload-on-change",
+			handleHotUpdate({ server }) {
+				server.ws.send({ type: "full-reload" });
+				return [];
+			},
+		},
 	],
 	server: {
 		port: 3003,
-		hmr: { port: 3003 },
 	},
 	build: {
 		target: "esnext",
