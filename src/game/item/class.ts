@@ -1,5 +1,6 @@
 import type { JSX } from "solid-js/jsx-runtime";
 import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
+import DummyImg from "~/media/img/items/dummy.webp";
 import { GAME_ENGINE } from "../engine/engine";
 import { BodyArea } from "../shared/enums";
 import { ItemColor, type ItemId, type ItemTag } from "./enums";
@@ -20,7 +21,7 @@ abstract class BaseItem<TEffectType extends number = 0> {
 	description: JSX.Element = "???";
 
 	/** The relative url to its image file in relations to the compiled html file */
-	img = "";
+	img = DummyImg;
 
 	/** For sorting items */
 	tags = new Set<ItemTag>();
