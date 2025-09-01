@@ -458,7 +458,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 											{/* Show item condition, equipped status, etc */}
 											<Show when={equippableInventoryItem().isEquipped}>
 												{(_) => (
-													<div class="badge badge-primary badge-xs absolute -top-1 -right-1">
+													<div class="badge badge-info badge-soft badge-sm rounded-full absolute -top-2 -left-2">
 														E
 													</div>
 												)}
