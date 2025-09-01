@@ -401,7 +401,9 @@ export function ItemStackModal(props: ItemStackModalProps) {
 		return (
 			<div class="flex justify-between items-center py-1 text-sm md:text-base">
 				<span class="opacity-70">{props.label}:</span>
-				<span class="text-info">{props.value}</span>
+				<span class="text-info max-w-1/2 whitespace-nowrap text-ellipsis overflow-clip">
+					{props.value}
+				</span>
 			</div>
 		);
 	}
@@ -478,7 +480,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 							return (
 								<>
 									{/* Detailed information */}
-									<div>
+									<div class="max-w-full">
 										<InfoRow
 											label="Found on"
 											value={`${obtainedOn().date.toLocaleDateString()}, ${obtainedOnUtilityData().hours}:${`${obtainedOnUtilityData().minutes}`.padStart(2, "0")}`}
