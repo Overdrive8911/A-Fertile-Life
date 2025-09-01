@@ -481,6 +481,8 @@ export function ItemStackModal(props: ItemStackModalProps) {
 								<>
 									{/* Detailed information */}
 									<div class="max-w-full">
+										<InfoRow label="ID" value={inventoryItem().inventoryId} />
+
 										<InfoRow
 											label="Found on"
 											value={`${obtainedOn().date.toLocaleDateString()}, ${obtainedOnUtilityData().hours}:${`${obtainedOnUtilityData().minutes}`.padStart(2, "0")}`}
