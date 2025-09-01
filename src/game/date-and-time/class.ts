@@ -1,4 +1,4 @@
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
@@ -55,7 +55,8 @@ class GameDateAndTime implements SugarBoxCompatibleClassInstance<number> {
 	constructor(...args: Parameters<typeof Date>) {
 		this.date = new Date(...args);
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	static classId = ClassId.DATE_AND_TIME;

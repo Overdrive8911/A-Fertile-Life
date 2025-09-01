@@ -1,4 +1,4 @@
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
 import { GAME_VARIABLES } from "~/game/engine/engine";
@@ -59,7 +59,8 @@ class BaseInventoryItem
 
 		this.obtainedOn = obtainedOn;
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	/** For type checking */
@@ -106,11 +107,11 @@ class BaseInventoryItem
 		return gInGameItems[this.itemId]!;
 	}
 
-	get isDeletable(){
-	// Key items can't be deleted from the player's end so I won't include this check in the delete methods
-	if (this.data instanceof KeyItem) return false
+	get isDeletable() {
+		// Key items can't be deleted from the player's end so I won't include this check in the delete methods
+		if (this.data instanceof KeyItem) return false;
 
-	return true
+		return true;
 	}
 
 	/** Deletes this instance from its inventory */
@@ -203,7 +204,8 @@ class EquippableInventoryItem extends BaseInventoryItem {
 
 		this._isEquipped = this.isEquipped ?? false;
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	get isEquipped() {

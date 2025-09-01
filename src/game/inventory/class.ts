@@ -1,5 +1,5 @@
 import { ReactiveMap } from "@solid-primitives/map";
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
@@ -35,7 +35,8 @@ class Inventory
 			this.storeItem(item);
 		});
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	static classId = ClassId.INVENTORY;

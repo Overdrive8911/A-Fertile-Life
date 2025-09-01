@@ -1,4 +1,4 @@
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
@@ -107,7 +107,8 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		this.fluid = val;
 		this.dateOfConception = GAME_VARIABLES.gameDateAndTime.date;
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	toJSON(): SerializedFetus {

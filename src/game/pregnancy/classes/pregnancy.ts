@@ -1,5 +1,5 @@
 import { ReactiveMap } from "@solid-primitives/map";
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
 import { GAME_VARIABLES } from "~/game/engine/engine";
@@ -57,7 +57,8 @@ export class Pregnancy
 		this.id = pregnancyId;
 		womb.pregnancies.set(pregnancyId, this);
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	static fromJSON(womb: Womb, data: SerializedPregnancy): Pregnancy {

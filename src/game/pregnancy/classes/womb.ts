@@ -1,5 +1,5 @@
 import { ReactiveMap } from "@solid-primitives/map";
-import { signalify } from "classy-solid";
+import { createMutable } from "solid-js/store";
 import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
@@ -260,10 +260,12 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 				}
 			}
 
-			signalify(this);
+			// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+			return createMutable(this);
 		}
 
-		signalify(this);
+		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
+		return createMutable(this);
 	}
 
 	toJSON(): SerializedWomb {
