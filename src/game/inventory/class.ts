@@ -292,12 +292,18 @@ class Inventory
 		return "low";
 	}
 
+	/** All items that can technically be equipped */
 	get equippables(): IteratorObject<EquippableInventoryItem> {
 		return this._items
 			.values()
 			.filter((item) => item instanceof EquippableInventoryItem);
 	}
 
+	get equippedItems(): IteratorObject<EquippableInventoryItem> {
+		return this.equippables.filter((equippable) => equippable.isEquipped);
+	}
+
+	/** All items than can be used / consumed */
 	get consumables(): IteratorObject<ConsumableInventoryItem> {
 		return this._items
 			.values()

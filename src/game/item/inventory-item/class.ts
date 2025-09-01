@@ -292,9 +292,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	get canEquip(): boolean {
 		const itemData = this.data;
 
-		const allEquippedItems = this.inventory.equippables.filter(
-			(equippable) => equippable._isEquipped,
-		);
+		const allEquippedItems = this.inventory.equippedItems;
 
 		const getOccupiedBodyArea = (type: EquippableItem["type"]) =>
 			allEquippedItems.reduce((acc, data) => {
