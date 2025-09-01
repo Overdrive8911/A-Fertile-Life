@@ -35,6 +35,7 @@ import type {
 	EquippableInventoryItem,
 } from "~/game/item/inventory-item/class";
 import { getNameOfItemTag } from "~/game/item/utils";
+import { presentNumberAsMoney } from "~/game/shared/utils";
 import type { EnumToArray } from "~/types/generics";
 import { getRandomUUID } from "~/utils/random";
 import GameModal from "../../modal/game-modal";
@@ -470,6 +471,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 				<div class="h-64 md:h-80 sm:min-h-fit justify-self-center p-2 border border-primary rounded-box bg-base-200 aspect-square flex flex-col gap-4 items-center overflow-y-auto [&_p]:text-sm [&_p]:md:text-base">
 					<Show when={selectedInventoryItem()}>
 						{(inventoryItem) => {
+							const itemData = () => inventoryItem().data;
 							const obtainedOn = () => inventoryItem().obtainedOn;
 							const obtainedOnUtilityData = () => obtainedOn().data;
 
@@ -481,7 +483,15 @@ export function ItemStackModal(props: ItemStackModalProps) {
 											label="Found on"
 											value={`${obtainedOn().date.toLocaleDateString()}, ${obtainedOnUtilityData().hours}:${`${obtainedOnUtilityData().minutes}`.padStart(2, "0")}`}
 										/>
+
 										<InfoRow label="Found at" value="TODO" />
+
+										<InfoRow
+											label="Price"
+											value={presentNumberAsMoney(itemData().price)}
+										/>
+
+										<InfoRow label="Weight" value={`${itemData().weight}g`} />
 
 										<Switch>
 											{/* Equipment-specific info */}

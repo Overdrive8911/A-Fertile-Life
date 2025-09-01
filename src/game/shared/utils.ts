@@ -57,9 +57,15 @@ function getWeightedAverage(...input: number[]) {
 	return sumOfWeightedValues / 100;
 }
 
+/** Utility method so I won't repeat myself when having to render money :3 */
+function presentNumberAsMoney(number: number) {
+	return `¤${number}` as const;
+}
+
 export {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 	cloneClass,
 	getWeightedAverage,
+	presentNumberAsMoney,
 };
