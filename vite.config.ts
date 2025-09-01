@@ -11,12 +11,7 @@ export default defineConfig({
 		tailwindcss(),
 		// Use TypeScript compiler for better const enum support
 		process.env["NODE_ENV"] === "production"
-			? typescript({
-					compilerOptions: {
-						preserveConstEnums: false,
-						importsNotUsedAsValues: "remove",
-					},
-				})
+			? typescript()
 			: null,
 		viteSingleFile(),
 
@@ -32,7 +27,7 @@ export default defineConfig({
 		port: 3003,
 	},
 	build: {
-		target: "esnext",
+		target: "esnext",minify:"terser"
 	},
 	esbuild: {
 		// // So that we can mangle class properties that start with an underscore
