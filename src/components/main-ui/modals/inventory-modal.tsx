@@ -526,7 +526,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 															value={
 																equippable().isEquipped
 																	? "Equipped"
-																	: "Not Equipped"
+																	: "Unequipped"
 															}
 														/>
 													</>
