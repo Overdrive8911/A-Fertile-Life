@@ -9,12 +9,14 @@ import ClothingIcon from "lucide-solid/icons/shirt";
 import KeyItemIcon from "lucide-solid/icons/star";
 import TrashIcon from "lucide-solid/icons/trash-2";
 import {
+	createEffect,
 	createMemo,
 	createSelector,
 	createSignal,
 	For,
 	Index,
 	Match,
+	on,
 	Show,
 	Switch,
 } from "solid-js";
@@ -414,6 +416,13 @@ export function ItemStackModal(props: ItemStackModalProps) {
 	const [selectedInventoryItem, setSelectedInventoryItem] =
 		createSignal<BaseInventoryItem | null>(null);
 	const isInventoryItemSelected = createSelector(selectedInventoryItem);
+
+	// To prevent ui inconsistencies when sorting by reseting the selected invenotyr item to view the details of
+	createEffect(
+		on([() => props.instances], () => {
+			setSelectedInventoryItem(null);
+		}),
+	);
 
 	return (
 		<GameModal
