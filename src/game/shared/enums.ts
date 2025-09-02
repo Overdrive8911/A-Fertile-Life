@@ -4,11 +4,14 @@
 const enum BodyArea {
 	NONE = 0,
 
-	INNER = 1 << 27, // Any clothing item with this flag is for the inner body
-	TATTOO = 1 << 28, // Represents a tattoo on any part of the body. And as such is considered  and ignores `INNER` by default
+	/** Any clothing item with this flag is for the inner body */
+	INNER = 1 << 27,
+	/** Represents a tattoo on any part of the body. And as such is considered  and ignores `INNER` by default */
+	TATTOO = 1 << 28,
 
 	TOP_OF_HEAD = 1 << 0,
-	FACE = 1 << 1, // Technically, this will represent stuff like Glasses and makeup :p
+	/** Technically, this will represent stuff like Glasses and makeup :p */
+	FACE = 1 << 1,
 	LEFT_EAR = 1 << 2,
 	RIGHT_EAR = 1 << 3,
 	// LEFT_CHEEK = 1 << 4,
@@ -32,14 +35,21 @@ const enum BodyArea {
 
 	WAIST = 1 << 18,
 
-	LEFT_THIGH = 1 << 19, // Also includes the knees
-	LEFT_CALF = 1 << 20, // May also include ankles
+	/** Also includes the knees */
+	LEFT_THIGH = 1 << 19,
+	/** May also include ankles */
+	LEFT_CALF = 1 << 20,
 	LEFT_ANKLE = 1 << 21,
 	LEFT_FOOT = 1 << 22,
-	RIGHT_THIGH = 1 << 23, // Also includes the knees
-	RIGHT_CALF = 1 << 24, // May also include ankles
+	/** Also includes the knees */
+	RIGHT_THIGH = 1 << 23,
+	/** May also include ankles */
+	RIGHT_CALF = 1 << 24,
 	RIGHT_ANKLE = 1 << 25,
 	RIGHT_FOOT = 1 << 26,
+
+	// 	UPPER_BACK = 1 << 27,
+	// LOWER_BACK = 1 << 28,
 
 	// ANCHOR - Area combinations
 	EARS = LEFT_EAR | RIGHT_EAR,
