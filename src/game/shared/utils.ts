@@ -1,5 +1,7 @@
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
+import { isSingleFlagSet } from "~/utils/bitfields";
 import { GAME_ENGINE } from "../engine/engine";
+import { BodyArea } from "./enums";
 
 /** Returns a random floating number within the specified range */
 function getRandomFloatInRange(lowerBound: number, upperBound: number): number {
@@ -62,10 +64,25 @@ function presentNumberAsMoney(number: number) {
 	return `¤${number}` as const;
 }
 
+function isBodyAreaInner(bodyArea: BodyArea) {
+	return isSingleFlagSet(BodyArea.INNER, bodyArea);
+}
+
+function isBodyAreaTattoo(bodyArea: BodyArea) {
+	return isSingleFlagSet(BodyArea.TATTOO, bodyArea);
+}
+
+function isBodyAreaOuter(bodyArea: BodyArea) {
+	return !isBodyAreaInner(bodyArea) && !isBodyAreaTattoo(bodyArea);
+}
+
 export {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 	cloneClass,
 	getWeightedAverage,
 	presentNumberAsMoney,
+	isBodyAreaInner,
+	isBodyAreaOuter,
+	isBodyAreaTattoo,
 };

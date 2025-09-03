@@ -1,8 +1,10 @@
 import type { JSX } from "solid-js/jsx-runtime";
 import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import DummyImg from "~/media/img/items/dummy.webp";
+import { areAllFlagsSet } from "~/utils/bitfields";
 import { GAME_ENGINE } from "../engine/engine";
 import { BodyArea } from "../shared/enums";
+import { isBodyAreaInner, isBodyAreaTattoo } from "../shared/utils";
 import { ItemColor, type ItemId, type ItemTag } from "./enums";
 import type { ItemConstructorArgs } from "./types";
 
@@ -94,9 +96,9 @@ abstract class ConsumableItem<
 abstract class EquippableItem<
 	TEffectType extends number = 0,
 > extends ItemWithEffects<TEffectType> {
-	readonly maxDurability: number = 100;
+	readonly maxDurability: number;
 
-	readonly bodyArea: BodyArea = BodyArea.NONE;
+	readonly bodyArea: BodyArea;
 
 	/** Effects for this type of item typically apply temporary percentage or chunk bonuses like a 10% boost to all earned exp, a +50 boost to charisma, a 25% reduced energy drain, etc.
 	 *
@@ -106,19 +108,32 @@ abstract class EquippableItem<
 	 */
 	override effects: ReadonlyArray<TEffectType> = [];
 
-	coversBodyPart(bodyPart: BodyArea): boolean {
-		return this.bodyArea !== BodyArea.NONE
-			? bodyPart === (this.bodyArea & bodyPart)
-			: false;
+	constructor(arg: ItemConstructorArgs<EquippableItem<TEffectType>>) {
+		super(arg);
+
+		this.maxDurability = arg.maxDurability ?? 100;
+		this.bodyArea = arg.bodyArea ?? BodyArea.NONE;
+	}
+
+	/** Checks whether a given clothing covers a specific area */
+	covers(bodyPart: BodyArea): boolean {
+		// Can't wear underwear as regular outerwear :p
+		if (this.type !== getTypeOfBodyArea(bodyPart)) return false;
+
+		return areAllFlagsSet(this.bodyArea, bodyPart);
 	}
 
 	get type(): "inner" | "outer" | "tattoo" {
-		if (this.bodyArea & BodyArea.INNER) return "inner";
-
-		if (this.bodyArea & BodyArea.TATTOO) return "tattoo";
-
-		return "outer";
+		return getTypeOfBodyArea(this.bodyArea);
 	}
+}
+
+function getTypeOfBodyArea(bodyArea: BodyArea): "inner" | "outer" | "tattoo" {
+	if (isBodyAreaInner(bodyArea)) return "inner";
+
+	if (isBodyAreaTattoo(bodyArea)) return "tattoo";
+
+	return "outer";
 }
 
 export { BaseItem, ConsumableItem, EquippableItem };

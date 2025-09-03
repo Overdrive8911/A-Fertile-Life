@@ -456,7 +456,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 									{(equippableInventoryItem) => (
 										<>
 											{/* Show item condition, equipped status, etc */}
-											<Show when={equippableInventoryItem().isEquipped}>
+											<Show when={equippableInventoryItem().equipped}>
 												{(_) => (
 													<div class="badge badge-info badge-soft badge-sm rounded-full absolute -top-2 -left-2">
 														E
@@ -524,7 +524,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 														<InfoRow
 															label="Status"
 															value={
-																equippable().isEquipped
+																equippable().equipped
 																	? "Equipped"
 																	: "Unequipped"
 															}
@@ -606,24 +606,44 @@ export function ItemStackModal(props: ItemStackModalProps) {
 												}
 											>
 												{(equippable) => {
-													const isEquipped = () => equippable().isEquipped;
+													const isEquipped = () => equippable().equipped;
 
-													const canEquip = () =>
-														!isEquipped() && equippable().canEquip;
+													const canEquip = createMemo(
+														() => equippable().canEquip,
+													);
 
 													return (
-														<button
-															type="button"
-															disabled={!canEquip()}
-															class="btn btn-primary btn-sm md:btn-md"
-															// onClick={_ => equippable().use()}
+														<Show
+															when={!isEquipped() && !canEquip()}
+															fallback={
+																<BaseButton
+																	class="btn-primary btn-sm md:btn-md"
+																	onClick={(_) =>
+																		!isEquipped()
+																			? equippable().equip()
+																			: equippable().unequip()
+																	}
+																>
+																	{isEquipped()
+																		? "Unequip"
+																		: canEquip()
+																			? "Equip"
+																			: "Can't Equip"}
+																</BaseButton>
+															}
 														>
-															{isEquipped()
-																? "Unequip"
-																: canEquip()
-																	? "Equip"
-																	: "Can't Equip"}
-														</button>
+															<BaseButton
+																class="btn-warning btn-sm md:btn-md"
+																onClick={(_) =>
+																	triggerConfirmationModal(
+																		async () => equippable().equip(true),
+																		`This will forcefully unequip any items equipped in the same area.`,
+																	)
+																}
+															>
+																Force Equip
+															</BaseButton>
+														</Show>
 													);
 												}}
 											</Match>

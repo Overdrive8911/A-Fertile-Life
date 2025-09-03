@@ -300,7 +300,7 @@ class Inventory
 	}
 
 	get equippedItems(): IteratorObject<EquippableInventoryItem> {
-		return this.equippables.filter((equippable) => equippable.isEquipped);
+		return this.equippables.filter((equippable) => equippable.equipped);
 	}
 
 	/** All items than can be used / consumed */

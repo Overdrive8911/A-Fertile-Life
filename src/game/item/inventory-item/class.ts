@@ -11,6 +11,11 @@ import type { ItemId } from "../enums";
 import { gInGameItems } from "../game-items";
 import { KeyItem } from "../key-item/class";
 
+// biome-ignore lint/suspicious/noConstEnum: <It'll be inlined>
+const enum InventoryItemData {
+	MIN_DURABILITY = 0,
+}
+
 type InventoryItemClassIds =
 	| ClassId.BASE_INVENTORY_ITEM
 	| ClassId.EQUIPPABLE_INVENTORY_ITEM
@@ -177,12 +182,12 @@ class ConsumableInventoryItem extends BaseInventoryItem {
 }
 
 type SerializedEquippableInventoryItem = SerializedInventoryItem & {
-	isEquipped: boolean;
+	equipped: boolean;
 	durability: number;
 };
 
 class EquippableInventoryItem extends BaseInventoryItem {
-	private _isEquipped;
+	private _equipped: boolean;
 
 	private _durability;
 
@@ -193,38 +198,30 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		...args: [
 			...ConstructorParameters<typeof BaseInventoryItem>,
 			durability?: number,
-			isEquipped?: boolean,
+			equipped?: boolean,
 		]
 	) {
-		const [inventory, inventoryId, itemId, gameDateAndTime, durability] = args;
+		const [
+			inventory,
+			inventoryId,
+			itemId,
+			gameDateAndTime,
+			durability,
+			equipped,
+		] = args;
 
 		super(inventory, inventoryId, itemId, gameDateAndTime);
 
 		this._durability = durability ?? this.data.maxDurability;
 
-		this._isEquipped = this.isEquipped ?? false;
+		this._equipped = equipped ?? false;
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
 		return createMutable(this);
 	}
 
-	get isEquipped() {
-		return this._isEquipped;
-	}
-
-	set isEquipped(value: boolean) {
-		if (value === this._isEquipped) return; // No change
-
-		if (value) {
-			// Equipping the item
-			if (!this.canEquip) {
-				throw new Error(
-					`Cannot equip itemId "${this.itemId}". Another item is likely equipped in the same area.`,
-				);
-			}
-		}
-
-		this._isEquipped = value;
+	get equipped() {
+		return this._equipped;
 	}
 
 	get durability() {
@@ -232,7 +229,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	}
 
 	set durability(value: number) {
-		if (value <= 0) {
+		if (value <= InventoryItemData.MIN_DURABILITY) {
 			// Durability has been used up, so delete the item from inventory
 
 			this.inventory.deleteItem({
@@ -256,12 +253,12 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	}
 
 	override toJSON(): SerializedEquippableInventoryItem {
-		const { durability, isEquipped } = this;
+		const { durability, equipped } = this;
 
 		return {
 			...super.toJSON(),
 			durability,
-			isEquipped,
+			equipped,
 		};
 	}
 
@@ -269,14 +266,14 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		inventory: Inventory,
 		data: SerializedEquippableInventoryItem,
 	): EquippableInventoryItem {
-		const { inventoryId, itemId, obtainedOn, durability, isEquipped } = data;
+		const { inventoryId, itemId, obtainedOn, durability, equipped } = data;
 		const clone = new EquippableInventoryItem(
 			inventory,
 			inventoryId,
 			itemId,
 			obtainedOn,
 			durability,
-			isEquipped,
+			equipped,
 		);
 
 		return clone;
@@ -289,7 +286,15 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		return super.data;
 	}
 
+	/** Item is too damaged to be used at < 20% durability */
+	private get _isDurableEnoughToEquip() {
+		return this.durability / this.data.maxDurability > 0.2;
+	}
+
+	/** Returns true if the body area the item will cover is free, otherwise false */
 	get canEquip(): boolean {
+		if (!this._isDurableEnoughToEquip) return false;
+
 		const itemData = this.data;
 
 		const allEquippedItems = this.inventory.equippedItems;
@@ -346,8 +351,72 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		}
 	}
 
-	/** Trys to equip the item. Returns true if succesful, and false otherwise */
-	equip(): boolean {
+	private get _conflictingItems() {
+		return this.inventory.equippedItems.filter((equippedItem) =>
+			equippedItem.data.covers(this.data.bodyArea),
+		);
+	}
+
+	/** Search for equipped items taking the area and unequip them. If any unequipping fails, reverse what has been done
+	 *
+	 * @returns `true` if conflicting were succesfully unequipped, and `false` otherwise
+	 */
+	private _unequipConflictingItems(): boolean {
+		const unequippedItems: EquippableInventoryItem[] = [];
+
+		for (const item of this._conflictingItems) {
+			if (!item.unequip()) {
+				unequippedItems.forEach((item) => {
+					item._equipped = true;
+				});
+
+				return false;
+			}
+
+			unequippedItems.push(item);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Tries to equip the item
+	 *
+	 * @param force - if true, forcefully unequips conflicting items; if false, fails when area isn't free
+	 * @returns true if item ends up equipped (regardless of initial state), false if equipping failed
+	 *
+	 * @example
+	 * // Basic equip attempt
+	 * const success = item.equip(); // fails if area occupied
+	 *
+	 * // Force equip, unequipping conflicts
+	 * const success = item.equip(true); // unequips conflicting items
+	 */
+	equip(force = false): boolean {
+		// Item is already equipped
+		if (this.equipped) return true;
+
+		if (!this._isDurableEnoughToEquip) return false;
+
+		if (this.canEquip) {
+			this._equipped = true;
+
+			return true;
+		} else if (force) {
+			if (!this._unequipConflictingItems()) return false;
+
+			this._equipped = true;
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/** Try to unequip the item. Returns true if the item is unequipped at the end (regardless of it it was unequipped before hand), and false otherwise. (Although, I'm not yet sure if it'd ever return false) */
+	unequip(): boolean {
+		this._equipped = false;
+
 		return true;
 	}
 }
