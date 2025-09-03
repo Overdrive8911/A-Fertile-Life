@@ -524,21 +524,10 @@ export function ItemStackModal(props: ItemStackModalProps) {
 															value={`${equippable().durabilityRatio * 100}%`}
 														/>
 
-														{(() => {
-															const type = () =>
-																capitalizeString(equippable().data.type);
-
-															return (
-																<InfoRow
-																	label="Type"
-																	value={
-																		type() === "Tattoo"
-																			? type()
-																			: `${type()}wear`
-																	}
-																/>
-															);
-														})()}
+														<InfoRow
+															label="Type"
+															value={`${capitalizeString(equippable().data.type)}wear`}
+														/>
 
 														<InfoRow
 															label="Status"

@@ -334,17 +334,17 @@ class EquippableInventoryItem extends BaseInventoryItem {
 				return canEquip;
 			}
 
-			case "tattoo": {
-				const occupiedTattooBodyArea = getOccupiedBodyArea("tattoo");
+			// case "tattoo": {
+			// 	const occupiedTattooBodyArea = getOccupiedBodyArea("tattoo");
 
-				// Perform the comparison after removing the innerwear bitfield so it doesn't interfere
-				const canEquip = areNoFlagsSet(
-					itemData.bodyArea & ~BodyArea.TATTOO,
-					occupiedTattooBodyArea & ~BodyArea.TATTOO,
-				);
+			// 	// Perform the comparison after removing the innerwear bitfield so it doesn't interfere
+			// 	const canEquip = areNoFlagsSet(
+			// 		itemData.bodyArea & ~BodyArea.TATTOO,
+			// 		occupiedTattooBodyArea & ~BodyArea.TATTOO,
+			// 	);
 
-				return canEquip;
-			}
+			// 	return canEquip;
+			// }
 
 			default:
 				return true;

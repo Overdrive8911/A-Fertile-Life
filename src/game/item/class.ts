@@ -123,7 +123,7 @@ abstract class EquippableItem<
 		return areAllFlagsSet(this.bodyArea, bodyPart);
 	}
 
-	get type(): "inner" | "outer" | "tattoo" {
+	get type(): "inner" | "outer" {
 		return getTypeOfBodyArea(this.bodyArea);
 	}
 
@@ -131,10 +131,11 @@ abstract class EquippableItem<
 	get bodyAreaText() {}
 }
 
-function getTypeOfBodyArea(bodyArea: BodyArea): "inner" | "outer" | "tattoo" {
+function getTypeOfBodyArea(bodyArea: BodyArea): "inner" | "outer" {
 	if (isBodyAreaInner(bodyArea)) return "inner";
 
-	if (isBodyAreaTattoo(bodyArea)) return "tattoo";
+	// Item's can't be tattoos
+	// if (isBodyAreaTattoo(bodyArea)) return "tattoo";
 
 	return "outer";
 }
