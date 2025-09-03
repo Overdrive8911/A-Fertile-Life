@@ -126,6 +126,9 @@ abstract class EquippableItem<
 	get type(): "inner" | "outer" | "tattoo" {
 		return getTypeOfBodyArea(this.bodyArea);
 	}
+
+	/** Human-readable string array for all the parts of the body that the item covers */
+	get bodyAreaText() {}
 }
 
 function getTypeOfBodyArea(bodyArea: BodyArea): "inner" | "outer" | "tattoo" {

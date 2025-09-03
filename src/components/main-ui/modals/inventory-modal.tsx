@@ -42,6 +42,7 @@ import { getNameOfItemTag } from "~/game/item/utils";
 import { presentNumberAsMoney } from "~/game/shared/utils";
 import type { EnumToArray } from "~/types/generics";
 import { getRandomUUID } from "~/utils/random";
+import { capitalizeString } from "~/utils/string";
 import GameModal from "../../modal/game-modal";
 
 export function InventoryModal(prop: { modalId: string }) {
@@ -522,6 +523,22 @@ export function ItemStackModal(props: ItemStackModalProps) {
 															label="Durability"
 															value={`${equippable().durabilityRatio * 100}%`}
 														/>
+
+														{(() => {
+															const type = () =>
+																capitalizeString(equippable().data.type);
+
+															return (
+																<InfoRow
+																	label="Type"
+																	value={
+																		type() === "Tattoo"
+																			? type()
+																			: `${type()}wear`
+																	}
+																/>
+															);
+														})()}
 
 														<InfoRow
 															label="Status"
