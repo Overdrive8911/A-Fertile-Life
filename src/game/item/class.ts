@@ -43,8 +43,8 @@ abstract class BaseItem<TEffectType extends number = 0> {
 	}
 
 	/** Utility method for checking if the static item class is equippable */
-	isEquippable(): this is ConsumableItem {
-		return this instanceof ConsumableItem;
+	isEquippable(): this is EquippableItem {
+		return this instanceof EquippableItem;
 	}
 }
 
