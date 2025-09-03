@@ -89,6 +89,36 @@ abstract class ConsumableItem<
 	}
 }
 
+const BODY_AREA_MAP = [
+	[BodyArea.TOP_OF_HEAD, "Top of Head"],
+	[BodyArea.FACE, "Face"],
+	[BodyArea.LEFT_EAR, "Left Ear"],
+	[BodyArea.RIGHT_EAR, "Right Ear"],
+	[BodyArea.NECK, "Neck"],
+	[BodyArea.TONGUE, "Tongue"],
+	[BodyArea.LEFT_SHOULDER, "Left Shoulder"],
+	[BodyArea.RIGHT_SHOULDER, "Right Shoulder"],
+	[BodyArea.CHEST, "Chest"],
+	[BodyArea.ABDOMEN, "Abdomen"],
+	[BodyArea.LEFT_UPPER_ARM, "Left Upper Arm"],
+	[BodyArea.LEFT_FORE_ARM, "Left Forearm"],
+	[BodyArea.LEFT_WRIST, "Left Wrist"],
+	[BodyArea.LEFT_HAND, "Left Hand"],
+	[BodyArea.RIGHT_UPPER_ARM, "Right Upper Arm"],
+	[BodyArea.RIGHT_FORE_ARM, "Right Forearm"],
+	[BodyArea.RIGHT_WRIST, "Right Wrist"],
+	[BodyArea.RIGHT_HAND, "Right Hand"],
+	[BodyArea.WAIST, "Waist"],
+	[BodyArea.LEFT_THIGH, "Left Thigh"],
+	[BodyArea.LEFT_CALF, "Left Calf"],
+	[BodyArea.LEFT_ANKLE, "Left Ankle"],
+	[BodyArea.LEFT_FOOT, "Left Foot"],
+	[BodyArea.RIGHT_THIGH, "Right Thigh"],
+	[BodyArea.RIGHT_CALF, "Right Calf"],
+	[BodyArea.RIGHT_ANKLE, "Right Ankle"],
+	[BodyArea.RIGHT_FOOT, "Right Foot"],
+] as const satisfies Array<[BodyArea, string]>;
+
 /** Use this explicitly for equippables.
  *
  * PS: Effects aren't handled by the class itself. Equipping an item simply adds the effects to a property on the player, and other classes / callbacks decide what to do with those effects.
@@ -128,7 +158,14 @@ abstract class EquippableItem<
 	}
 
 	/** Human-readable string array for all the parts of the body that the item covers */
-	get bodyAreaText() {}
+	get bodyAreaText() {
+		return BODY_AREA_MAP.reduce((acc: (typeof name)[], [area, name]) => {
+			if (areAllFlagsSet(area, this.bodyArea)) {
+				acc.push(name);
+			}
+			return acc;
+		}, []);
+	}
 }
 
 function getTypeOfBodyArea(bodyArea: BodyArea): "inner" | "outer" {

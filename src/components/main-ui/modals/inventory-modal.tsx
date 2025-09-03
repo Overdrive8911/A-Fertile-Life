@@ -530,6 +530,11 @@ export function ItemStackModal(props: ItemStackModalProps) {
 														/>
 
 														<InfoRow
+															label="Covers"
+															value={equippable().data.bodyAreaText.join(", ")}
+														/>
+
+														<InfoRow
 															label="Status"
 															value={
 																equippable().equipped
