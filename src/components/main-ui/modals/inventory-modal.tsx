@@ -406,9 +406,19 @@ export function ItemStackModal(props: ItemStackModalProps) {
 		return (
 			<div class="flex justify-between items-center py-1 text-sm md:text-base">
 				<span class="opacity-70">{props.label}:</span>
-				<span class="text-info max-w-1/2 whitespace-nowrap text-ellipsis overflow-clip">
-					{props.value}
-				</span>
+
+				<div class="tooltip tooltip-left max-w-1/2 cursor-pointer">
+					{/* Meh */}
+					<Show when={props.label.toLowerCase() !== "id"}>
+						<div class="tooltip-content">
+							<div class="max-w-22">{props.value}</div>
+						</div>
+					</Show>
+
+					<div class="text-info whitespace-nowrap text-ellipsis overflow-clip">
+						{props.value}
+					</div>
+				</div>
 			</div>
 		);
 	}
