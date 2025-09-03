@@ -3,8 +3,10 @@ import FoodIcon from "lucide-solid/icons/apple";
 import AscendingOrderIcon from "lucide-solid/icons/arrow-down-a-z";
 import DescendingOrderIcon from "lucide-solid/icons/arrow-down-z-a";
 import AllItemsIcon from "lucide-solid/icons/layout-grid";
+import UnequipIcon from "lucide-solid/icons/minus";
 import MiscellaneousIcon from "lucide-solid/icons/package";
 import DrugIcon from "lucide-solid/icons/pill";
+import EquipIcon from "lucide-solid/icons/plus";
 import ClothingIcon from "lucide-solid/icons/shirt";
 import KeyItemIcon from "lucide-solid/icons/star";
 import TrashIcon from "lucide-solid/icons/trash-2";
@@ -624,11 +626,15 @@ export function ItemStackModal(props: ItemStackModalProps) {
 																			: equippable().unequip()
 																	}
 																>
-																	{isEquipped()
-																		? "Unequip"
-																		: canEquip()
-																			? "Equip"
-																			: "Can't Equip"}
+																	<Switch fallback="Can't Equip">
+																		<Match when={isEquipped()}>
+																			<UnequipIcon /> Unequip
+																		</Match>
+
+																		<Match when={canEquip()}>
+																			<EquipIcon /> Equip
+																		</Match>
+																	</Switch>
 																</BaseButton>
 															}
 														>
@@ -641,7 +647,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 																	)
 																}
 															>
-																Force Equip
+																<EquipIcon /> Force Equip
 															</BaseButton>
 														</Show>
 													);
