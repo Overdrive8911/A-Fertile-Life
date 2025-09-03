@@ -30,6 +30,7 @@ import { BaseButton } from "~/components/button";
 import { Meter } from "~/components/meter";
 import { triggerConfirmationModal } from "~/components/modal/confirmation-modal";
 import { closeModal, showModal } from "~/components/modal/generic-modal";
+import { Tooltip } from "~/components/tooltip";
 import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { type ItemId, ItemTag } from "~/game/item/enums";
 import { gInGameItems } from "~/game/item/game-items";
@@ -122,7 +123,7 @@ export function InventoryModal(prop: { modalId: string }) {
 								const isSelected = () => isTagSelected(tag);
 
 								return (
-									<div class="tooltip" data-tip={tagPanelName}>
+									<Tooltip text={tagPanelName}>
 										<button
 											class={`btn btn-primary btn-sm md:btn-md whitespace-nowrap ${isSelected() ? "" : "btn-outline"}`}
 											type="button"
@@ -134,7 +135,7 @@ export function InventoryModal(prop: { modalId: string }) {
 											<Dynamic component={icons[tag]} />
 											{isMobileScreenInPortraitOrLandscape() ? "" : tagName}
 										</button>
-									</div>
+									</Tooltip>
 								);
 							}}
 						</For>
@@ -366,11 +367,11 @@ export function InventoryModal(prop: { modalId: string }) {
 													class="w-[90%]"
 												/>
 
-												<div class="tooltip w-full" data-tip={itemName()}>
+												<Tooltip class="w-full" text={itemName()}>
 													<div class="overflow-clip whitespace-nowrap text-ellipsis">
 														{itemName()}
 													</div>
-												</div>
+												</Tooltip>
 
 												<div class="badge badge-soft badge-accent badge-sm absolute -top-2 -right-2">
 													x{itemStackAmount()}
@@ -407,18 +408,20 @@ export function ItemStackModal(props: ItemStackModalProps) {
 			<div class="flex justify-between items-center py-1 text-sm md:text-base">
 				<span class="opacity-70">{props.label}:</span>
 
-				<div class="tooltip tooltip-left max-w-1/2 cursor-pointer">
-					{/* Meh */}
-					<Show when={props.label.toLowerCase() !== "id"}>
-						<div class="tooltip-content">
+				<Tooltip
+					class="max-w-1/2 cursor-pointer"
+					position="left"
+					text={
+						// Meh
+						<Show when={props.label.toLowerCase() !== "id"}>
 							<div class="max-w-22">{props.value}</div>
-						</div>
-					</Show>
-
+						</Show>
+					}
+				>
 					<div class="text-info whitespace-nowrap text-ellipsis overflow-clip">
 						{props.value}
 					</div>
-				</div>
+				</Tooltip>
 			</div>
 		);
 	}

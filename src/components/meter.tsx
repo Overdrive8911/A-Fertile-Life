@@ -1,4 +1,5 @@
 import { createSignal, onMount } from "solid-js";
+import { Tooltip } from "./tooltip";
 
 // Defaults
 const LOW_COLOR = "red";
@@ -88,10 +89,12 @@ function Meter(prop: {
 			></div>
 
 			{/*Tooltip*/}
-			<div
-				class="tooltip absolute top-0 left-0 size-full"
-				data-tip={prop.title ?? percentageVal()}
-			></div>
+			<Tooltip
+				class="absolute top-0 left-0 size-full"
+				text={prop.title ?? percentageVal()}
+			>
+				{""}
+			</Tooltip>
 		</div>
 	);
 }

@@ -1,11 +1,5 @@
 import type { JSX } from "solid-js/jsx-runtime";
-
-const tooltipDirections = {
-	bottom: "tooltip-bottom",
-	top: "tooltip-top",
-	left: "tooltip-left",
-	right: "tooltip-right",
-} as const;
+import { Tooltip } from "./tooltip";
 
 export function BaseButton(prop: {
 	class?: string;
@@ -16,10 +10,7 @@ export function BaseButton(prop: {
 	disabled?: boolean;
 }) {
 	return (
-		<div
-			class={`tooltip ${prop.tooltipDir ? tooltipDirections[prop.tooltipDir] : ""}`}
-			data-tip={prop.tooltip ?? ""}
-		>
+		<Tooltip text={prop.tooltip ?? ""} position={prop.tooltipDir ?? "top"}>
 			<button
 				type="button"
 				class={`btn ${prop.class}`}
@@ -28,7 +19,7 @@ export function BaseButton(prop: {
 			>
 				{prop.children}
 			</button>
-		</div>
+		</Tooltip>
 	);
 }
 
