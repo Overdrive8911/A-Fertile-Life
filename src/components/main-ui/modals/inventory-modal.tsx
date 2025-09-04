@@ -664,12 +664,19 @@ export function ItemStackModal(props: ItemStackModalProps) {
 											<BaseButton
 												class="btn-error btn-sm md:btn-md"
 												onClick={(_) => {
-													triggerConfirmationModal(async () => {
-														GAME_ENGINE.setVars((state) => {
-															inventoryItem().delete(state.player.inventory);
-															setSelectedInventoryItem(null);
-														});
-													}, `This will permanently discard ${itemData().name}`);
+													const itemName = itemData().name;
+
+													triggerConfirmationModal(
+														async () => {
+															GAME_ENGINE.setVars((state) => {
+																inventoryItem().delete(state.player.inventory);
+																setSelectedInventoryItem(null);
+															});
+														},
+														<>
+															This will permanently discard <b>{itemName}</b>
+														</>,
+													);
 												}}
 											>
 												<TrashIcon /> Trash
@@ -753,10 +760,10 @@ export function ItemStackModal(props: ItemStackModalProps) {
 
 																	triggerConfirmationModal(
 																		async () => equippable().equip(true),
-																		<div>
+																		<>
 																			This will forcefully unequip{" "}
 																			<b>{conflictNames}</b>.
-																		</div>,
+																		</>,
 																	);
 																}}
 															>
@@ -790,14 +797,24 @@ export function ItemStackModal(props: ItemStackModalProps) {
 						type="button"
 						class="btn btn-error"
 						onClick={(_) => {
-							triggerConfirmationModal(async () => {
-								GAME_ENGINE.setVars((state) => {
-									props.instances.forEach((inventoryItem) => {
-										inventoryItem.delete(state.player.inventory);
-										setSelectedInventoryItem(null);
+							const itemName = itemData().name;
+							const instanceLength = props.instances.length;
+							const itemOrItems = instanceLength > 1 ? "items" : "item";
+
+							triggerConfirmationModal(
+								async () => {
+									GAME_ENGINE.setVars((state) => {
+										props.instances.forEach((inventoryItem) => {
+											inventoryItem.delete(state.player.inventory);
+											setSelectedInventoryItem(null);
+										});
 									});
-								});
-							}, `This will permanently discard ${props.instances.length} ${itemData().name} items.`);
+								},
+								<>
+									This will permanently discard {instanceLength}{" "}
+									<b>{itemName}</b> {itemOrItems}.
+								</>,
+							);
 						}}
 					>
 						<TrashIcon />
