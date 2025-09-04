@@ -1,3 +1,4 @@
+import Fuse from "fuse.js/min-basic";
 import type { LucideProps } from "lucide-solid";
 import FoodIcon from "lucide-solid/icons/apple";
 import AscendingOrderIcon from "lucide-solid/icons/arrow-down-a-z";
@@ -33,6 +34,7 @@ import { triggerConfirmationModal } from "~/components/modal/confirmation-modal"
 import { closeModal, showModal } from "~/components/modal/generic-modal";
 import { Tooltip } from "~/components/tooltip";
 import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
+import { EquippableItem } from "~/game/item/class";
 import { type ItemId, ItemTag } from "~/game/item/enums";
 import { gInGameItems } from "~/game/item/game-items";
 import type {
@@ -292,13 +294,65 @@ export function InventoryModal(prop: { modalId: string }) {
 						});
 
 						const searchedItemStacks = createMemo(() => {
-							return itemStacks().filter(({ itemId }) => {
-								const item = gInGameItems[itemId];
+							const query = searchQuery().trim();
 
-								return item.name
-									.toLocaleLowerCase()
-									.includes(searchQuery().trim().toLocaleLowerCase());
+							// If no search query, return all items
+							if (!query) {
+								return itemStacks();
+							}
+
+							const fuse = new Fuse(itemStacks(), {
+								keys: [
+									{
+										name: "name",
+										getFn({ itemId }) {
+											return gInGameItems[itemId].name;
+										},
+										weight: 2, // Name matches are more important
+									},
+									{
+										name: "description",
+										getFn({ itemId }) {
+											return (gInGameItems[itemId].description as HTMLElement)
+												.innerText;
+										},
+										weight: 1,
+									},
+									{
+										name: "tags",
+										getFn({ itemId }) {
+											return [...gInGameItems[itemId].tags]
+												.map((tag) => getNameOfItemTag(tag))
+												.join(" ");
+										},
+										weight: 1.5,
+									},
+									{
+										name: "bodyArea",
+										getFn({ itemId }) {
+											const possibleEquippableItem = gInGameItems[itemId];
+
+											if (!(possibleEquippableItem instanceof EquippableItem))
+												return "";
+
+											return possibleEquippableItem.bodyAreaText;
+										},
+										weight: 0.9,
+									},
+								],
+								threshold: 0.4, // Lower = more strict matching (0.0 = perfect match, 1.0 = match anything)
+								minMatchCharLength: 1, // Minimum character length for a match
+								includeScore: true, // Include match score for debugging
+								ignoreLocation: true, // Don't care where in the string the match occurs
 							});
+
+							return fuse
+								.search(query)
+								.reduce((acc: Array<typeof item>, { item, score = 1 }) => {
+									if (score < 0.2) acc.push(item);
+
+									return acc;
+								}, []);
 						});
 
 						const sortedItemStacks = createMemo(() => {
