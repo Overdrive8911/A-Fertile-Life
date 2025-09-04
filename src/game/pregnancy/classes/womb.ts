@@ -47,15 +47,15 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/**
 	 * Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'
 	 */
-	curCapacity: BellySize = BellySize.FLAT;
+	curCap: BellySize = BellySize.FLAT;
 	/**
 	 * How big she can get without losing any comfort. Slowly increases as womb.exp increases
 	 */
-	private _comfortCapacity: BellySize = BellySize.FULL_TERM;
+	private _comfortCap: BellySize = BellySize.FULL_TERM;
 	/**
 	 * How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks
 	 */
-	private _maxCapacity = BellySize.FULL_TERM + BellySize.LATE_PREGNANCY;
+	private _maxCap = BellySize.FULL_TERM + BellySize.LATE_PREGNANCY;
 
 	/**
    * Increases when pregnant; the amount depends on size and number of fetuses, `womb.curCapacity`, `womb.comfortCapacity` and `womb.maxCapacity`. Increases faster once `womb.curCapacity` nears womb.comfortCapacity and even faster when it goes beyond it; basically the ratio of `womb.curCapacity`/`womb.comfortCapacity` (and `womb.curCapacity`/`womb.maxCapacity` when the former is high enough) decides how fast exp increases. Once it surpasses the limit for `womb.lvl`, levels up her womb. Some types of food, drugs, treatments and perks increase its rate of gain. Slowly decreases when not pregnant.
@@ -245,12 +245,12 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 				if (value != null) {
 					switch (key) {
-						case "comfortCapacity":
-							this._comfortCapacity = value as BellySize;
+						case "comfortCap":
+							this._comfortCap = value as BellySize;
 							break;
 
-						case "maxCapacity":
-							this._maxCapacity = value as BellySize;
+						case "maxCap":
+							this._maxCap = value as BellySize;
 							break;
 
 						default:
@@ -460,7 +460,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 			// NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
 			const maxFetusNumber = getMinimumNumOfFullTermFetusesAtBellyState(
-				this.maxCapacity,
+				this.maxCap,
 			);
 			if (numOfFoetusToSpawn > 0) {
 				numOfFoetusToSpawn =
@@ -580,12 +580,12 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		this.pregnancies.forEach((pregnancy) => {
 			combinedWombVolume += pregnancy.averageStats.volume;
 		});
-		this.curCapacity = combinedWombVolume;
+		this.curCap = combinedWombVolume;
 	}
 
 	/** Returns the an index in `BellySize` to get a rough idea of the size range the character's belly is in */
 	get lowerBellySizeThreshold(): BellySize {
-		const currBellySize = this.curCapacity;
+		const currBellySize = this.curCap;
 
 		let bellySizeObjKey: keyof typeof BellySize | undefined,
 			previousBellySizeIterationValue: BellySize = BellySize.FLAT;
@@ -639,11 +639,11 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		}
 
 		if (upperRange === undefined) {
-			if (value1 <= this.curCapacity) return true;
+			if (value1 <= this.curCap) return true;
 		} else if (
 			value2 !== undefined &&
-			value1 <= this.curCapacity &&
-			this.curCapacity <= value2
+			value1 <= this.curCap &&
+			this.curCap <= value2
 		)
 			return true;
 
@@ -834,7 +834,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		let chanceOfBirth = 0;
 
 		// If the womb's current capacity is within 90% of the max capacity, force birth ASAP else check other conditions
-		if (this.curCapacity >= this.maxCapacity * 0.9) return true;
+		if (this.curCap >= this.maxCap * 0.9) return true;
 		else {
 			// Check whether if all the pregnancies are in the development range for birthing. If false, prevent birth so long as the womb's max capacity has not been exceeded/near. If true, create a random choice that decides whether it's time to birth. Increase the chance as gestational weeks progress
 			let eligiblePregnancyDevRatio: number[] = [];
@@ -991,19 +991,19 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/**
 	 * How big she can get without losing any comfort. Slowly increases as womb.exp increases
 	 */
-	get comfortCapacity() {
+	get comfortCap() {
 		let mod = 1;
 
 		// Consider if the elasticity perk is active
 		mod *= this.elasticityPerkCapacityBoost;
 
-		return this._comfortCapacity * mod;
+		return this._comfortCap * mod;
 	}
 
 	/**
 	 * How big she can get without bursting. A hard limit that only changes with womb.lvl or some perks
 	 */
-	get maxCapacity() {
+	get maxCap() {
 		let mod = 1;
 
 		// Consider if the elasticity perk is active
@@ -1012,7 +1012,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		// Consider if the fortified womb perk is active
 		mod *= this.fortifiedWombPerkCapacityBoost;
 
-		return this._maxCapacity * mod;
+		return this._maxCap * mod;
 	}
 }
 
@@ -1027,9 +1027,9 @@ type SerializedWomb = {
 	hp: number;
 	maxHp: number;
 	fertility: FertilityLevel;
-	curCapacity: BellySize;
-	comfortCapacity: BellySize;
-	maxCapacity: BellySize;
+	curCap: BellySize;
+	comfortCap: BellySize;
+	maxCap: BellySize;
 	exp: number;
 	postpartumCounter: number;
 	onContraceptives: boolean;

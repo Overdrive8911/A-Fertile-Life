@@ -100,8 +100,8 @@ const DEFAULT_VARIABLES: SaveDataV0_0_1 = {
 		/* Capacity is in cubic centimetres(CCs) */
 		womb: new Womb({
 			fertility: FertilityLevel.EXTREME_FERTILITY,
-			comfortCapacity: BellySize.FULL_TERM + BellySize.EARLY_PREGNANCY,
-			maxCapacity: BellySize.FULL_TERM_TWINS,
+			comfortCap: BellySize.FULL_TERM + BellySize.EARLY_PREGNANCY,
+			maxCap: BellySize.FULL_TERM_TWINS,
 			growthMod: 10,
 		}),
 
