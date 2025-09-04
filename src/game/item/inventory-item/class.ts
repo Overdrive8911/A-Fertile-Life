@@ -351,7 +351,8 @@ class EquippableInventoryItem extends BaseInventoryItem {
 		}
 	}
 
-	private get _conflictingItems() {
+	/** Any equipped items that prevent this item from being equipped */
+	get conflicts() {
 		return this.inventory.equippedItems.filter((equippedItem) =>
 			equippedItem.data.covers(this.data.bodyArea),
 		);
@@ -361,10 +362,10 @@ class EquippableInventoryItem extends BaseInventoryItem {
 	 *
 	 * @returns `true` if conflicting were succesfully unequipped, and `false` otherwise
 	 */
-	private _unequipConflictingItems(): boolean {
+	private _unequipConflicts(): boolean {
 		const unequippedItems: EquippableInventoryItem[] = [];
 
-		for (const item of this._conflictingItems) {
+		for (const item of this.conflicts) {
 			if (!item.unequip()) {
 				unequippedItems.forEach((item) => {
 					item._equipped = true;
@@ -403,7 +404,7 @@ class EquippableInventoryItem extends BaseInventoryItem {
 
 			return true;
 		} else if (force) {
-			if (!this._unequipConflictingItems()) return false;
+			if (!this._unequipConflicts()) return false;
 
 			this._equipped = true;
 

@@ -738,12 +738,27 @@ export function ItemStackModal(props: ItemStackModalProps) {
 														>
 															<BaseButton
 																class="btn-warning btn-sm md:btn-md"
-																onClick={(_) =>
+																onClick={(_) => {
+																	// Capture the conflicts before creating the JSX
+																	const conflictNames = equippable()
+																		.conflicts.reduce(
+																			(acc: string[], { itemId }) => {
+																				acc.push(gInGameItems[itemId].name);
+
+																				return acc;
+																			},
+																			[],
+																		)
+																		.join(", ");
+
 																	triggerConfirmationModal(
 																		async () => equippable().equip(true),
-																		`This will forcefully unequip any items equipped in the same area.`,
-																	)
-																}
+																		<div>
+																			This will forcefully unequip{" "}
+																			<b>{conflictNames}</b>.
+																		</div>,
+																	);
+																}}
 															>
 																<EquipIcon /> Force Equip
 															</BaseButton>
