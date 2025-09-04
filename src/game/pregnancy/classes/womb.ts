@@ -67,9 +67,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/**
 	 * 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children
 	 */
-	postpartumCounter = 0;
+	postpartum = 0;
 
-	onContraceptives = false;
+	birthControl = false;
 
 	/**
 	 * Number of times the user has given birth
@@ -237,9 +237,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			lastFertilized,
 			maxCap,
 			maxHp,
-			onContraceptives,
+			birthControl,
 			perks,
-			postpartumCounter,
+			postpartum,
 			pregnancies,
 			sideEffects,
 		} = data;
@@ -255,9 +255,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		womb.lastBirth = lastBirth;
 		womb.lastFertilized = lastFertilized;
 		womb.maxHp = maxHp;
-		womb.onContraceptives = onContraceptives;
+		womb.birthControl = birthControl;
 		womb.perks = perks;
-		womb.postpartumCounter = postpartumCounter;
+		womb.postpartum = postpartum;
 		womb.pregnancies = new ReactiveMap(
 			pregnancies
 				.entries()
@@ -320,7 +320,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	get isPostPartum(): boolean {
-		return !!this.postpartumCounter;
+		return !!this.postpartum;
 	}
 
 	// Just a check to see if pregnancy can be started
@@ -388,7 +388,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			(this.#tryToImpregnate(
 				virility,
 				this.fertility,
-				this.onContraceptives,
+				this.birthControl,
 				virilityBonus,
 				fertilityBonus,
 			) &&
@@ -842,14 +842,14 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		this.updateBellySize();
 		this.sideEffects = {}; // Remove all side effects
 		this.birthRecord++;
-		this.postpartumCounter = PregConstants.POSTPARTUM_PERIOD / this.growthMod;
+		this.postpartum = PregConstants.POSTPARTUM_PERIOD / this.growthMod;
 
 		// Reduce postpartum duration if the appropriate perk is active
 		const perks = this.perks;
 		const noPostpartumPerk = perks.noPostpartum;
 		if (noPostpartumPerk) {
-			this.postpartumCounter -=
-				this.postpartumCounter *
+			this.postpartum -=
+				this.postpartum *
 				(noPostpartumPerk.currLevel / Womb.perks.noPostpartum.maxLevel);
 		}
 		this.lastBirth = GAME_VARIABLES.gameDateAndTime.date;
@@ -1065,8 +1065,8 @@ type SerializedWomb = {
 	comfortCap: BellySize;
 	maxCap: BellySize;
 	exp: number;
-	postpartumCounter: number;
-	onContraceptives: boolean;
+	postpartum: number;
+	birthControl: boolean;
 	birthRecord: number;
 	lastFertilized: Date | null;
 	lastBirth: Date | null;
