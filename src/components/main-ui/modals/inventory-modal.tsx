@@ -7,6 +7,7 @@ import UnequipIcon from "lucide-solid/icons/minus";
 import MiscellaneousIcon from "lucide-solid/icons/package";
 import DrugIcon from "lucide-solid/icons/pill";
 import EquipIcon from "lucide-solid/icons/plus";
+import SearchIcon from "lucide-solid/icons/search";
 import ClothingIcon from "lucide-solid/icons/shirt";
 import KeyItemIcon from "lucide-solid/icons/star";
 import TrashIcon from "lucide-solid/icons/trash-2";
@@ -80,6 +81,8 @@ export function InventoryModal(prop: { modalId: string }) {
 	});
 	const isSortingParam = createSelector(() => sortingParam.param);
 
+	const [searchQuery, setSearchQuery] = createSignal("");
+
 	const isMobileScreenInPortraitOrLandscape =
 		useMediaQuery("(max-width: 64rem)");
 
@@ -142,7 +145,7 @@ export function InventoryModal(prop: { modalId: string }) {
 					</div>
 
 					{/* Simple wrapper */}
-					<div class="flex gap-4 justify-around items-center">
+					<div class="flex gap-4 flex-wrap justify-around items-center">
 						{/* Container for sorting */}
 						<div class="flex justify-center items-center gap-2 flex-nowrap whitespace-nowrap">
 							Sort By:
@@ -251,7 +254,14 @@ export function InventoryModal(prop: { modalId: string }) {
 						</div>
 
 						{/* Container for searching */}
-						<div></div>
+						<label class="input input-primary w-48">
+							<SearchIcon class="text-primary" />
+							<input
+								type="search"
+								placeholder="Search..."
+								onInput={({ target: { value } }) => setSearchQuery(value)}
+							/>
+						</label>
 					</div>
 				</div>
 
@@ -281,6 +291,16 @@ export function InventoryModal(prop: { modalId: string }) {
 							];
 						});
 
+						const searchedItemStacks = createMemo(() => {
+							return itemStacks().filter(({ itemId }) => {
+								const item = gInGameItems[itemId];
+
+								return item.name
+									.toLocaleLowerCase()
+									.includes(searchQuery().trim().toLocaleLowerCase());
+							});
+						});
+
 						const sortedItemStacks = createMemo(() => {
 							const applySortingDir = (val: -1 | 0 | 1) =>
 								(sortingParam.dir === "asc" ? 1 : -1) * val;
@@ -296,7 +316,7 @@ export function InventoryModal(prop: { modalId: string }) {
 									return acc;
 								}, new Date(0));
 
-							return itemStacks().toSorted((a, b) => {
+							return searchedItemStacks().toSorted((a, b) => {
 								const { instances: aInstances, itemId: aItemId } = a,
 									{ instances: bInstances, itemId: bItemId } = b,
 									aItemData = gInGameItems[aItemId],
