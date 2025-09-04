@@ -1,3 +1,4 @@
+import { createSignal } from "solid-js";
 import { GenericButtonLink } from "~/components/link";
 import { GAME_ENGINE } from "../engine/engine";
 import { gInGameItems } from "../item/game-items";
@@ -34,6 +35,36 @@ function NextPassage() {
 				>
 					Add All Inventory Items
 				</GenericButtonLink>
+			</p>
+
+			<p>
+				{(() => {
+					const [timeInMinutes, setTimeInMinutes] = createSignal(30);
+
+					const updateTime = () =>
+						GAME_ENGINE.setVars((s) =>
+							s.gameDateAndTime.update(timeInMinutes() * 60 * 1000),
+						);
+
+					return (
+						<>
+							<input
+								class="input input-primary w-30 mr-2"
+								type="number"
+								value={timeInMinutes()}
+								onInput={({ target: { value } }) =>
+									setTimeInMinutes(Number(value))
+								}
+								onKeyUp={({ key }) => key === "Enter" && updateTime()}
+							/>{" "}
+							<GenericButtonLink onClick={updateTime}>
+								{" "}
+								Move {Math.abs(timeInMinutes())} minutes{" "}
+								{timeInMinutes() > 0 ? "forwards" : "backwards"}.{" "}
+							</GenericButtonLink>
+						</>
+					);
+				})()}
 			</p>
 		</>
 	);
