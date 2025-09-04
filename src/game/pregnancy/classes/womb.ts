@@ -223,16 +223,50 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	>;
 
 	static fromJSON(data: SerializedWomb): Womb {
-		const womb = new Womb({ ...data, pregnancies: new ReactiveMap() });
+		const womb = new Womb();
 
+		const {
+			birthRecord,
+			comfortCap,
+			curCap,
+			exp,
+			fertility,
+			growthMod,
+			hp,
+			lastBirth,
+			lastFertilized,
+			maxCap,
+			maxHp,
+			onContraceptives,
+			perks,
+			postpartumCounter,
+			pregnancies,
+			sideEffects,
+		} = data;
+
+		womb._comfortCap = comfortCap;
+		womb._maxCap = maxCap;
+		womb.birthRecord = birthRecord;
+		womb.curCap = curCap;
+		womb.exp = exp;
+		womb.fertility = fertility;
+		womb.growthMod = growthMod;
+		womb.hp = hp;
+		womb.lastBirth = lastBirth;
+		womb.lastFertilized = lastFertilized;
+		womb.maxHp = maxHp;
+		womb.onContraceptives = onContraceptives;
+		womb.perks = perks;
+		womb.postpartumCounter = postpartumCounter;
 		womb.pregnancies = new ReactiveMap(
-			data.pregnancies
+			pregnancies
 				.entries()
 				.map(([pregId, serializedPreg]) => [
 					pregId,
 					Pregnancy.fromJSON(womb, serializedPreg),
 				]),
 		);
+		womb.sideEffects = sideEffects;
 
 		return womb;
 	}
