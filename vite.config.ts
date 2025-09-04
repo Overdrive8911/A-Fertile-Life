@@ -10,9 +10,7 @@ export default defineConfig({
 		solidPlugin(),
 		tailwindcss(),
 		// Use TypeScript compiler for better const enum support
-		process.env["NODE_ENV"] === "production"
-			? typescript()
-			: null,
+		process.env["NODE_ENV"] === "production" ? typescript() : null,
 		viteSingleFile(),
 
 		{
@@ -27,12 +25,14 @@ export default defineConfig({
 		port: 3003,
 	},
 	build: {
-		target: "esnext",minify:"terser"
+		target: "esnext",
+		minify: "terser",
+		terserOptions: { mangle: { properties: { regex: /^_/ } } },
 	},
-	esbuild: {
-		// // So that we can mangle class properties that start with an underscore
-		// mangleProps: /^_/,
-	},
+	// esbuild: {
+	// 	// So that we can mangle class properties that start with an underscore
+	// 	mangleProps: /^_/,
+	// },
 	resolve: {
 		alias: {
 			"~": path.resolve(__dirname, "src"),
