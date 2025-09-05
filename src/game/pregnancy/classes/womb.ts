@@ -43,7 +43,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	fertility = FertilityLevel.AVERAGE_FERTILITY;
 
 	// These capacity variables also refer to the "size too"
-	// NOTE - Use `effectiveComfortCapacity` and `effectiveMaxCapacity` over the private values here when trying to READ. Since the variables here are write-only.
 	/**
 	 * Determines the size of her pregnancy, going too far beyond womb.maxCapacity can cause the babies to be 'skin-wrapped'
 	 */
@@ -222,80 +221,64 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		PregSideEffectsObject<PregSideEffectStaticData>
 	>;
 
+	private _setDataFromSerializedWomb(data: Partial<SerializedWomb>) {
+		const {
+			birthRecord = this.birthRecord,
+			comfortCap = this._comfortCap,
+			curCap = this.curCap,
+			exp = this.exp,
+			fertility = this.fertility,
+			growthMod = this.growthMod,
+			hp = this.hp,
+			lastBirth = this.lastBirth,
+			lastFertilized = this.lastFertilized,
+			maxCap = this._maxCap,
+			maxHp = this.maxHp,
+			birthControl = this.birthControl,
+			perks = this.perks,
+			postpartum = this.postpartum,
+			pregnancies,
+			sideEffects = this.sideEffects,
+		} = data;
+
+		this._comfortCap = comfortCap;
+		this._maxCap = maxCap;
+		this.birthRecord = birthRecord;
+		this.curCap = curCap;
+		this.exp = exp;
+		this.fertility = fertility;
+		this.growthMod = growthMod;
+		this.hp = hp;
+		this.lastBirth = lastBirth;
+		this.lastFertilized = lastFertilized;
+		this.maxHp = maxHp;
+		this.birthControl = birthControl;
+		this.perks = perks;
+		this.postpartum = postpartum;
+
+		if (pregnancies)
+			this.pregnancies = new ReactiveMap(
+				pregnancies
+					.entries()
+					.map(([pregId, serializedPreg]) => [
+						pregId,
+						Pregnancy.fromJSON(this, serializedPreg),
+					]),
+			);
+		this.sideEffects = sideEffects;
+	}
+
 	static fromJSON(data: SerializedWomb): Womb {
 		const womb = new Womb();
 
-		const {
-			birthRecord,
-			comfortCap,
-			curCap,
-			exp,
-			fertility,
-			growthMod,
-			hp,
-			lastBirth,
-			lastFertilized,
-			maxCap,
-			maxHp,
-			birthControl,
-			perks,
-			postpartum,
-			pregnancies,
-			sideEffects,
-		} = data;
-
-		womb._comfortCap = comfortCap;
-		womb._maxCap = maxCap;
-		womb.birthRecord = birthRecord;
-		womb.curCap = curCap;
-		womb.exp = exp;
-		womb.fertility = fertility;
-		womb.growthMod = growthMod;
-		womb.hp = hp;
-		womb.lastBirth = lastBirth;
-		womb.lastFertilized = lastFertilized;
-		womb.maxHp = maxHp;
-		womb.birthControl = birthControl;
-		womb.perks = perks;
-		womb.postpartum = postpartum;
-		womb.pregnancies = new ReactiveMap(
-			pregnancies
-				.entries()
-				.map(([pregId, serializedPreg]) => [
-					pregId,
-					Pregnancy.fromJSON(womb, serializedPreg),
-				]),
-		);
-		womb.sideEffects = sideEffects;
+		womb._setDataFromSerializedWomb(data);
 
 		return womb;
 	}
 
 	constructor(wombData?: Partial<Womb>) {
 		if (wombData) {
-			let key: keyof typeof wombData;
-			for (key in wombData) {
-				const value = wombData[key];
-
-				if (value != null) {
-					switch (key) {
-						case "comfortCap":
-							this._comfortCap = value as BellySize;
-							break;
-
-						case "maxCap":
-							this._maxCap = value as BellySize;
-							break;
-
-						default:
-							//@ts-expect-error :(
-							this[key] = value;
-					}
-				}
-			}
-
-			// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
-			return createMutable(this);
+			this._setDataFromSerializedWomb(wombData);
 		}
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
