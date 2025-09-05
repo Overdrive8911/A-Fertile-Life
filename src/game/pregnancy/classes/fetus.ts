@@ -211,7 +211,7 @@ function getFetusStatsAtSpecificGestationalWeek(
 	gestationalWeek: number,
 ): FetalGrowthStats {
 	if (isFloat(gestationalWeek))
-		throw Error(`Gestatinal week ${gestationalWeek} is not a float`);
+		throw Error(`Gestatinal week ${gestationalWeek} is not an integer`);
 
 	if (withinBounds(gestationalWeek, GestationalWeek.MIN, GestationalWeek.MAX)) {
 		return gFetalGrowthOverGestationalWeeks[gestationalWeek as GestationalWeek];
