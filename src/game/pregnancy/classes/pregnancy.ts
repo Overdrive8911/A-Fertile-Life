@@ -1,7 +1,6 @@
 import { ReactiveMap } from "@solid-primitives/map";
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import type { GameDateAndTime } from "~/game/date-and-time/class";
 import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
@@ -11,12 +10,7 @@ import {
 import type { NumberKeys } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
-import {
-	FetalGrowthStatsEnum,
-	GestationalWeek,
-	PregConstants,
-	WombHealth,
-} from "../enums";
+import { GestationalWeek, PregConstants, WombHealth } from "../enums";
 import {
 	type BirthReadinessContext,
 	BirthReadinessStateMachine,
@@ -268,24 +262,13 @@ export class Pregnancy
 			let newHeight = targetFetus.height;
 			let newFluidVolume = targetFetus.fluid;
 
-			let weightDiff: number = 0;
-			let heightDiff: number = 0;
-			let fluidDiff: number = 0;
-
 			// I'm not going to use the stats from gFetalGrowthOverGestationalWeeks directly. Rather, I'll calculate the difference in stats between the previous gestational week and alter them a bit based on the fetus's id. This should allow for variation while still having similar values
 
-			// To remove repetition
-			const getStatDiff = (stat: FetalGrowthStatsEnum) => {
-				return Fetus.calcGrowthStatChange(
-					oldDevelopmentRatio,
-					newDevelopmentRatio,
-					stat,
-				);
-			};
-
-			weightDiff = getStatDiff(FetalGrowthStatsEnum.WEIGHT);
-			heightDiff = getStatDiff(FetalGrowthStatsEnum.HEIGHT);
-			fluidDiff = getStatDiff(FetalGrowthStatsEnum.AMNIOTIC_FLUID);
+			let {
+				fluid: fluidDiff,
+				height: heightDiff,
+				weight: weightDiff,
+			} = Fetus.calcGrowthStatChange(oldDevelopmentRatio, newDevelopmentRatio);
 
 			// check for the polyhydramnios condition
 			if (perks?.polyhydramnios) {

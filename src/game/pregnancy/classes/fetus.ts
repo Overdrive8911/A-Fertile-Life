@@ -1,17 +1,17 @@
+import QuickLRU from "quick-lru";
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
-import { getRandomIntegerInRange } from "~/game/shared/utils";
-import { clamp } from "~/utils/math";
+import { getRandomFloatInRange } from "~/game/shared/utils";
+import { clamp, isFloat, withinBounds } from "~/utils/math";
 import {
-	type FetalGrowthStatsEnum,
 	FetusSpecies,
 	GestationalWeek,
 	PregConstants,
 	WombHealth,
 } from "../enums";
-import type { Gender } from "../types";
+import type { FetalGrowthStats, Gender } from "../types";
 import { getWombVolumeFromFetusStats } from "../utils";
 import {
 	type DevelopmentRatio,
@@ -178,136 +178,143 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		return getWombVolumeFromFetusStats(this.height, this.weight, this.fluid);
 	}
 
-	/** Give it 2 development ratios (with the 2nd one always being larger) and the required stat, and then it'll return how much of that particular stat should be increased.
+	/**
+	 * To know how much to add to a fetus's stats between 2 development ratios
 	 *
-	 * // NOTE - What this function basically does is (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) which will usually give non-integer values. When Math.floor()'d, it gives up the most recent gestational week and we can pick a stat from there (call this value X). However, in order to be truly accurate, we also consider the truncated non-integer component of (developmentRatio/gMaxDevelopmentState * gNumOfGestationalWeeks) by having the truncated value be subtracted from the regular result of that expression (e.g 7.8673029 - 7) and multiply this result with the difference of the required stats for the gestational week in use and the next one (e.g gestational week 7 and gestational week 8. Also call this value Y). Now, adding X and Y should give something quite accurate, so do this for both development ratios and return the difference between their values.*/
+	 * @returns an object containing the difference in stats
+	 */
 	static calcGrowthStatChange(
 		oldDevRatio: DevelopmentRatio,
 		newDevRatio: DevelopmentRatio,
-		stat: FetalGrowthStatsEnum,
-	) {
-		if (oldDevRatio === newDevRatio) return 0;
-		let oldStat = 0;
-		let newStat = 0;
+	): FetalGrowthStats {
+		if (oldDevRatio === newDevRatio) return { fluid: 0, height: 0, weight: 0 };
 
-		oldStat = getAccurateFetalStatForDevelopmentStage(stat, oldDevRatio);
-		newStat = getAccurateFetalStatForDevelopmentStage(stat, newDevRatio);
+		const oldStat = getFetusStatsAtDevelopmentRatio(oldDevRatio);
+		const newStat = getFetusStatsAtDevelopmentRatio(newDevRatio);
 
-		return newStat - oldStat;
+		return {
+			fluid: newStat.fluid - oldStat.fluid,
+			height: newStat.height - oldStat.height,
+			weight: newStat.weight - oldStat.weight,
+		};
 	}
 }
 
-function getStatForGestationalWeekInOverduePregnancy(
-	overdueGestWeek: number,
-	stat: FetalGrowthStatsEnum,
-) {
-	// Use the average stat difference (and a bit of variation) to get a result for overdue pregnancies that don't have an entry in gFetalGrowthOverGestationalWeeks[]
+const overdueStatCache = new QuickLRU<number, FetalGrowthStats>({
+	maxSize: 250,
+});
 
-	let averageStatDiffInLastFourWeeksOfPregnancy = 0;
-	let overdueStatDiffToAdd = 0;
-	const numOfWeeksToGetAverageFor = 4;
+/**
+ * @param gestationalWeek must be an integer
+ */
+function getFetusStatsAtSpecificGestationalWeek(
+	gestationalWeek: number,
+): FetalGrowthStats {
+	if (isFloat(gestationalWeek))
+		throw Error(`Gestatinal week ${gestationalWeek} is not a float`);
 
-	if (overdueGestWeek <= GestationalWeek.MAX)
-		overdueGestWeek = GestationalWeek.MAX + 1;
-
-	// Get the average stat gain over the last 4~5 weeks
-	for (let i = 0; i <= numOfWeeksToGetAverageFor; i++) {
-		const gestationalWeekArrayIndex: GestationalWeek = GestationalWeek.MAX - i;
-		const precedingGestationalWeekArrayIndex: GestationalWeek =
-			GestationalWeek.MAX - (i + 1);
-
-		averageStatDiffInLastFourWeeksOfPregnancy +=
-			gFetalGrowthOverGestationalWeeks[gestationalWeekArrayIndex][stat] -
-			gFetalGrowthOverGestationalWeeks[precedingGestationalWeekArrayIndex][
-				stat
-			];
+	if (withinBounds(gestationalWeek, GestationalWeek.MIN, GestationalWeek.MAX)) {
+		return gFetalGrowthOverGestationalWeeks[gestationalWeek as GestationalWeek];
 	}
-	averageStatDiffInLastFourWeeksOfPregnancy /= numOfWeeksToGetAverageFor;
 
-	// Reduce it by around 66% since growth now would be much slower. This deduction is just to make things more believable
-	averageStatDiffInLastFourWeeksOfPregnancy *=
-		PregConstants.OVERDUE_STAT_MULTIPLIER;
+	// Overdue stat calculations
+	const cachedOverdueStats = overdueStatCache.get(gestationalWeek);
 
-	// Multiply the average with the extra weeks that have passed while overdue
-	overdueStatDiffToAdd =
-		averageStatDiffInLastFourWeeksOfPregnancy *
-		(overdueGestWeek - GestationalWeek.MAX);
+	if (cachedOverdueStats) return cachedOverdueStats;
 
-	// Add some variation
-	overdueStatDiffToAdd = getRandomIntegerInRange(
-		overdueStatDiffToAdd - overdueStatDiffToAdd * 0.15,
-		overdueStatDiffToAdd + overdueStatDiffToAdd * 0.15,
+	const WEEK_RANGE = 8;
+
+	// Get the stats from the last eight weeks and calculate the average stat change
+	const lastEightWeekStats = Array.from({ length: WEEK_RANGE }, (_, i) =>
+		getFetusStatsAtSpecificGestationalWeek(gestationalWeek - (i + 1)),
 	);
 
-	return (
-		gFetalGrowthOverGestationalWeeks[GestationalWeek.MAX][stat] +
-		overdueStatDiffToAdd
+	const {
+		fluid: cumulativeFluidSum,
+		height: cumulativeHeightSum,
+		weight: cumulativeWeightSum,
+	} = lastEightWeekStats.reduce<FetalGrowthStats>(
+		(acc, { fluid, height, weight }) => {
+			acc.fluid += fluid;
+			acc.height += height;
+			acc.weight += weight;
+
+			return acc;
+		},
+		{ fluid: 0, height: 0, weight: 0 },
 	);
+
+	const {
+		fluid: averagedFluidStat,
+		height: averagedHeightStat,
+		weight: averagedWeightStat,
+	}: FetalGrowthStats = {
+		fluid: cumulativeFluidSum / WEEK_RANGE,
+		height: cumulativeHeightSum / WEEK_RANGE,
+		weight: cumulativeWeightSum / WEEK_RANGE,
+	};
+
+	// Boost the stats by a bit
+	const tweakedStats: FetalGrowthStats = {
+		fluid:
+			averagedFluidStat +
+			averagedFluidStat *
+				getRandomFloatInRange(0, PregConstants.OVERDUE_STAT_MULTIPLIER),
+		height:
+			averagedHeightStat +
+			averagedHeightStat *
+				getRandomFloatInRange(0, PregConstants.OVERDUE_STAT_MULTIPLIER),
+		weight:
+			averagedWeightStat +
+			averagedWeightStat *
+				getRandomFloatInRange(0, PregConstants.OVERDUE_STAT_MULTIPLIER),
+	};
+
+	// Cache the stats
+	overdueStatCache.set(gestationalWeek, tweakedStats);
+
+	return tweakedStats;
 }
 
-function getAccurateFetalStatForDevelopmentStage(
-	stat: FetalGrowthStatsEnum,
-	devRatio: DevelopmentRatio,
-) {
-	let fetalStat = 0;
-
-	const gestationalWeek: GestationalWeek =
+function getFetusStatsAtDevelopmentRatio(devRatio: number): FetalGrowthStats {
+	const gestationalWeekAsFloat =
 		(devRatio / PregConstants.MAX_DEVELOPMENT_STATE) *
 		PregConstants.NUM_OF_GESTATIONAL_WEEKS;
 
-	const gestationalWeekFloor: GestationalWeek = Math.floor(gestationalWeek);
+	// // This situation will likely be too uncommon
+	// if (!isFloat(gestationalWeekAsFloat)) return getFetusStatsAtSpecificGestationalWeek(gestationalWeekAsFloat)
 
-	// Need a better name for this
-	const extraDurationAsFloat = gestationalWeek - gestationalWeekFloor;
+	const gestationalWeekRoundedDown = Math.floor(gestationalWeekAsFloat);
 
-	if (gestationalWeek < GestationalWeek.One) {
-		return 0;
-	} else if (
-		gestationalWeek < PregConstants.NUM_OF_GESTATIONAL_WEEKS &&
-		gestationalWeek + 1 < PregConstants.NUM_OF_GESTATIONAL_WEEKS
-	) {
-		const gestationalWeekStat =
-			gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][stat];
-		fetalStat =
-			gestationalWeekStat +
-			(gFetalGrowthOverGestationalWeeks[
-				(gestationalWeekFloor + 1) as GestationalWeek
-			][stat] -
-				gestationalWeekStat) *
-				extraDurationAsFloat;
-	} else if (
-		gestationalWeek <= PregConstants.NUM_OF_GESTATIONAL_WEEKS &&
-		gestationalWeek + 1 > PregConstants.NUM_OF_GESTATIONAL_WEEKS
-	) {
-		const gestationalWeekStat =
-			gFetalGrowthOverGestationalWeeks[gestationalWeekFloor][stat];
-		fetalStat =
-			gestationalWeekStat +
-			(getStatForGestationalWeekInOverduePregnancy(
-				gestationalWeekFloor + 1,
-				stat,
-			) -
-				gestationalWeekStat) *
-				extraDurationAsFloat;
-	} else if (gestationalWeek > PregConstants.NUM_OF_GESTATIONAL_WEEKS) {
-		const gestationalWeekStat = getStatForGestationalWeekInOverduePregnancy(
-			gestationalWeekFloor,
-			stat,
+	const roundingDiff = gestationalWeekAsFloat - gestationalWeekRoundedDown;
+
+	const gestationalWeekRoundedDownStat = getFetusStatsAtSpecificGestationalWeek(
+			gestationalWeekRoundedDown,
+		),
+		gestationalWeekRoundedUpStat = getFetusStatsAtSpecificGestationalWeek(
+			gestationalWeekRoundedDown + 1,
 		);
-		fetalStat =
-			gestationalWeekStat +
-			(getStatForGestationalWeekInOverduePregnancy(
-				gestationalWeekFloor + 1,
-				stat,
-			) -
-				gestationalWeekStat) *
-				extraDurationAsFloat;
-	}
-	console.log(
-		`devRatio: ${devRatio}, gestationalWeek: ${gestationalWeekFloor}, fetalStat: ${fetalStat}`,
-	);
 
-	return fetalStat;
+	const roundingStatDiff: FetalGrowthStats = {
+		fluid:
+			(gestationalWeekRoundedUpStat.fluid -
+				gestationalWeekRoundedDownStat.fluid) *
+			roundingDiff,
+		height:
+			(gestationalWeekRoundedUpStat.height -
+				gestationalWeekRoundedDownStat.height) *
+			roundingDiff,
+		weight:
+			(gestationalWeekRoundedUpStat.weight -
+				gestationalWeekRoundedDownStat.weight) *
+			roundingDiff,
+	};
+
+	return {
+		fluid: gestationalWeekRoundedDownStat.fluid + roundingStatDiff.fluid,
+		height: gestationalWeekRoundedDownStat.height + roundingStatDiff.height,
+		weight: gestationalWeekRoundedDownStat.weight + roundingStatDiff.weight,
+	};
 }
 
 type SerializedFetus = {

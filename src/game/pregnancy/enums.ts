@@ -1,11 +1,5 @@
 /** biome-ignore-all lint/suspicious/noConstEnum: <Const enum :3> */
 
-// REVIEW - I greatly regret hardcoding these values.
-export const enum FetalGrowthStatsEnum {
-	HEIGHT = "height",
-	WEIGHT = "weight",
-	AMNIOTIC_FLUID = "fluid",
-}
 export const enum FetusSpecies {
 	HUMAN,
 	TENTACLE,
@@ -87,8 +81,8 @@ export const enum GestationalWeek {
 	ThirtyNine,
 	Forty,
 
-	//
-	MAX = GestationalWeek.Forty,
+	MIN = One,
+	MAX = Forty,
 }
 
 /**

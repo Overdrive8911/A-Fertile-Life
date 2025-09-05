@@ -61,9 +61,14 @@ export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
 
 export type Gender = "M" | "F" | "I"; // male, female, intersex
 
-// This will serve as the format for a lookup table used to determine a fetus's stats
-export interface FetalGrowthStats {
-	height: number; // in cm
-	weight: number; // in grams
-	fluid: number; // in ml
-}
+/**
+ * This will serve as the format for a lookup table used to determine a fetus's stats
+ */
+export type FetalGrowthStats = {
+	/** Height in cm */
+	height: number;
+	/** Weight in grams */
+	weight: number;
+	/** Fluid in ml */
+	fluid: number;
+};
