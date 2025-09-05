@@ -95,9 +95,10 @@ export class Pregnancy
 
 	private _generateRandomFetus(): Fetus {
 		/** A number between 0 and PregConstants.NUM_OF_POSSIBLE_FETUS_IDS */
-		const fetusId =
+		const fetusId = Math.floor(
 			((GAME_ENGINE.random + Math.random()) % 1) *
-			PregConstants.NUM_OF_POSSIBLE_FETUS_IDS;
+				PregConstants.NUM_OF_POSSIBLE_FETUS_IDS,
+		);
 
 		return new Fetus(this, fetusId);
 	}
