@@ -59,11 +59,9 @@ export class Pregnancy
 			this.fetuses.set(fetus.id, fetus);
 		}
 
-		// Connect this pregnancy to the womb
 		const pregnancyId = getRandomUUID();
 		this.womb = womb;
 		this.id = pregnancyId;
-		womb.pregnancies.set(pregnancyId, this);
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
 		return createMutable(this);

@@ -508,7 +508,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 				//   const id = this.generateUnusedFetusId;
 				//   this.addFetus(new Fetus(id), id);
 				// }
-				new Pregnancy(this, numOfFoetusToSpawn);
+				const pregnancy = new Pregnancy(this, numOfFoetusToSpawn);
+
+				this.pregnancies.set(pregnancy.id, pregnancy);
 				// !SECTION
 
 				// Update specific data for the womb
