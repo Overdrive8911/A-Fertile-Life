@@ -54,7 +54,9 @@ export class Pregnancy
 
 	constructor(womb: Womb, numOfFetuses = 1) {
 		for (let i = 0; i < numOfFetuses; i++) {
-			this._generateRandomFetus();
+			const fetus = this._generateRandomFetus();
+
+			this.fetuses.set(fetus.id, fetus);
 		}
 
 		// Connect this pregnancy to the womb

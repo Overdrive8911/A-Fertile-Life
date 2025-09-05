@@ -86,8 +86,6 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 	}
 
 	constructor(pregnancy: Pregnancy, fetusId: number) {
-		pregnancy.fetuses.set(fetusId, this);
-
 		this.pregnancy = pregnancy;
 
 		this.id = fetusId;
