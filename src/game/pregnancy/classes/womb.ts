@@ -309,7 +309,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	// Just a check to see if pregnancy can be started
-	#tryToImpregnate(
+	private _tryToImpregnate(
 		virility: number,
 		fertility: number,
 		areContraceptivesActive: boolean,
@@ -370,7 +370,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 		// Only allow if the impregnation chance comes up true and the womb health is >= 80 OR if a designated number of fetuses to spawn has been given.
 		if (
-			(this.#tryToImpregnate(
+			(this._tryToImpregnate(
 				virility,
 				this.fertility,
 				this.birthControl,
