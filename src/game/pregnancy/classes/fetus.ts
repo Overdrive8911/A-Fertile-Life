@@ -1,6 +1,6 @@
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import { getRandomIntegerInRange } from "~/game/shared/utils";
 import { clamp } from "~/utils/math";
@@ -82,15 +82,10 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 	static classId = ClassId.FETUS;
 
 	static fromJSON(pregnancy: Pregnancy, data: SerializedFetus): Fetus {
-		return Object.assign(new Fetus(pregnancy), data);
+		return Object.assign(new Fetus(pregnancy, data.id), data);
 	}
 
-	constructor(pregnancy: Pregnancy) {
-		/** A number between 0 and PregConstants.NUM_OF_POSSIBLE_FETUS_IDS */
-		const fetusId =
-			((GAME_ENGINE.random + Math.random()) % 1) *
-			PregConstants.NUM_OF_POSSIBLE_FETUS_IDS;
-
+	constructor(pregnancy: Pregnancy, fetusId: number) {
 		pregnancy.fetuses.set(fetusId, this);
 
 		this.pregnancy = pregnancy;

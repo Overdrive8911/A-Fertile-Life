@@ -2,7 +2,7 @@ import { ReactiveMap } from "@solid-primitives/map";
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
 import type { GameDateAndTime } from "~/game/date-and-time/class";
-import { GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,
@@ -54,7 +54,7 @@ export class Pregnancy
 
 	constructor(womb: Womb, numOfFetuses = 1) {
 		for (let i = 0; i < numOfFetuses; i++) {
-			new Fetus(this);
+			this._generateRandomFetus();
 		}
 
 		// Connect this pregnancy to the womb
@@ -96,6 +96,15 @@ export class Pregnancy
 			),
 			id: this.id,
 		};
+	}
+
+	private _generateRandomFetus(): Fetus {
+		/** A number between 0 and PregConstants.NUM_OF_POSSIBLE_FETUS_IDS */
+		const fetusId =
+			((GAME_ENGINE.random + Math.random()) % 1) *
+			PregConstants.NUM_OF_POSSIBLE_FETUS_IDS;
+
+		return new Fetus(this, fetusId);
 	}
 
 	get size() {
