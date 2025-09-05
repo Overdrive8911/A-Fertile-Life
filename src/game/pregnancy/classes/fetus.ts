@@ -31,14 +31,15 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 	/**
 	 * decides the gender, growthRate, weight, and height
 	 */
-	id: number;
+	readonly id: number;
 
 	/**
 	 * scales with the womb's health. don't let it get to zero
 	 */
 	hp: number;
 
-	dateOfConception: Date;
+	/** When this fetus was created */
+	conception: Date;
 
 	/** Development Ratio
 	 *
@@ -75,7 +76,8 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 	 */
 	species = FetusSpecies.HUMAN;
 
-	pregnancy: Pregnancy;
+	/** The pregnancy that spawned this fetus */
+	readonly pregnancy: Pregnancy;
 
 	static classId = ClassId.FETUS;
 
@@ -105,7 +107,7 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		this.height = val;
 		this.weight = val;
 		this.fluid = val;
-		this.dateOfConception = GAME_VARIABLES.gameDateAndTime.date;
+		this.conception = GAME_VARIABLES.gameDateAndTime.date;
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
 		return createMutable(this);
@@ -113,9 +115,9 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 
 	toJSON(): SerializedFetus {
 		return {
-			dateOfConception: this.dateOfConception,
+			conception: this.conception,
 			devRatio: this.devRatio,
-			devRatioAtLastUpdate: this.lastDevRatio,
+			lastDevRatio: this.lastDevRatio,
 			fluid: this.fluid,
 			height: this.height,
 			hp: this.hp,
@@ -316,9 +318,9 @@ function getAccurateFetalStatForDevelopmentStage(
 type SerializedFetus = {
 	id: number;
 	hp: number;
-	dateOfConception: Date;
+	conception: Date;
 	devRatio: DevelopmentRatio;
-	devRatioAtLastUpdate: DevelopmentRatio;
+	lastDevRatio: DevelopmentRatio;
 	growthMod: number;
 	weight: number;
 	height: number;
