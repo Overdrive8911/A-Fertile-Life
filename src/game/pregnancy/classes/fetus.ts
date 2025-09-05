@@ -133,12 +133,13 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		else return "M";
 	}
 
+	/** Readonly growth rate of a fetus decided by it's id */
 	get growthRate() {
 		// biome-ignore lint/style/noNonNullAssertion: <Will not be null>
 		return growthRateValues[this.id % growthRateValues.length]!;
 	}
 
-	get #pregDurationModifier() {
+	private get _pregDurationModifier() {
 		const womb = this.pregnancy.womb;
 
 		/** NOTE - A steady growth rate of ~1.0 means roughly 10 months (26,280,028.8) of gestation while one of ~10 would mean roughly 1 (2,628,002.88) month of gestation. So a rate of 1.2 would mean (26,280,028.8 / 1.2) seconds */
@@ -159,12 +160,13 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		return modifier;
 	}
 
-	/** The effective total time it takes for the fetus to mature fully */
-	get gestationDuration() {
-		return this.#pregDurationModifier * PregConstants.DEFAULT_PREGNANCY_LENGTH;
+	/** Gestation Duration. The effective total time it takes for the fetus to mature fully */
+	get gestDuration() {
+		return this._pregDurationModifier * PregConstants.DEFAULT_PREGNANCY_LENGTH;
 	}
 
-	get gestationalWeek() {
+	/** Gestational week, rounded down */
+	get gestWeek() {
 		return Math.floor(
 			(this.devRatio / PregConstants.MAX_DEVELOPMENT_STATE) *
 				PregConstants.NUM_OF_GESTATIONAL_WEEKS,

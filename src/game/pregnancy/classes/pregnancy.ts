@@ -123,8 +123,8 @@ export class Pregnancy
 		let {
 			devRatio,
 			fluid,
-			gestationalWeek,
-			gestationDuration,
+			gestWeek,
+			gestDuration,
 			growthMod,
 			growthRate,
 			height,
@@ -135,8 +135,8 @@ export class Pregnancy
 		}: Record<FetusProps, number> = {
 			devRatio: 0,
 			fluid: 0,
-			gestationalWeek: 0,
-			gestationDuration: 0,
+			gestWeek: 0,
+			gestDuration: 0,
 			growthMod: 0,
 			growthRate: 0,
 			height: 0,
@@ -149,8 +149,8 @@ export class Pregnancy
 		this.fetuses.forEach((fetus) => {
 			devRatio += fetus.devRatio;
 			fluid += fetus.fluid;
-			gestationalWeek += fetus.gestationalWeek;
-			gestationDuration += fetus.gestationDuration;
+			gestWeek += fetus.gestWeek;
+			gestDuration += fetus.gestDuration;
 			growthMod += fetus.growthMod;
 			growthRate += fetus.growthRate;
 			height += fetus.height;
@@ -166,8 +166,8 @@ export class Pregnancy
 		return {
 			devRatio: devRatio / size,
 			fluid: fluid / size,
-			gestationalWeek: gestationalWeek / size,
-			gestationDuration: gestationDuration / size,
+			gestWeek: gestWeek / size,
+			gestDuration: gestDuration / size,
 			growthMod: growthMod / size,
 			growthRate: growthRate / size,
 			height: height / size,
@@ -199,7 +199,7 @@ export class Pregnancy
 			// Also get useful data
 
 			// Get the total gestation time for the fetus
-			const gestationPeriod = targetFetus.gestationDuration;
+			const gestationPeriod = targetFetus.gestDuration;
 
 			// If, for some reason, time moves backwards, just exit the function (for now at least)
 			// TODO - Add a way to reverse growth. I feel like letting it receive negative values would be exactly what I need but eh, feels like something else would break and I'm not in the mood for it yet.
@@ -260,7 +260,7 @@ export class Pregnancy
 			// TODO - Add drugs, eating habits and conditions that can also affect these.
 
 			// Get the new gestation week after having the developmentRatio updated
-			let newFetalGestationalWeek = targetFetus.gestationalWeek;
+			let newFetalGestationalWeek = targetFetus.gestWeek;
 			if (!newFetalGestationalWeek)
 				newFetalGestationalWeek = GestationalWeek.One;
 
