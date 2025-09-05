@@ -68,6 +68,36 @@ function NextPassage() {
 			</p>
 
 			<p>
+				{(() => {
+					const [timeInDays, setTimeInDays] = createSignal(1);
+
+					const updateTime = () =>
+						GAME_ENGINE.setVars((s) =>
+							s.gameDateAndTime.update(timeInDays() * 24 * 60 * 60 * 1000),
+						);
+
+					return (
+						<>
+							<input
+								class="input input-primary w-30 mr-2"
+								type="number"
+								value={timeInDays()}
+								onInput={({ target: { value } }) =>
+									setTimeInDays(Number(value))
+								}
+								onKeyUp={({ key }) => key === "Enter" && updateTime()}
+							/>{" "}
+							<GenericButtonLink onClick={updateTime}>
+								{" "}
+								Move {Math.abs(timeInDays())} days{" "}
+								{timeInDays() > 0 ? "forwards" : "backwards"}.{" "}
+							</GenericButtonLink>
+						</>
+					);
+				})()}
+			</p>
+
+			<p>
 				<GenericButtonLink
 					onClick={(_) =>
 						GAME_ENGINE.setVars((s) =>
