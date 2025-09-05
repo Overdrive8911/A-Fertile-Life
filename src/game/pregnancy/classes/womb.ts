@@ -288,6 +288,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	toJSON(): SerializedWomb {
 		return {
 			...this,
+			comfortCap: this._comfortCap,
+			maxCap: this._maxCap,
 			pregnancies: new Map(
 				this.pregnancies
 					.entries()
