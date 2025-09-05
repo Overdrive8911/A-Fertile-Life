@@ -27,7 +27,7 @@ import { Womb } from "./womb";
 type SerializedPregnancy = {
 	id: UUID;
 	fetuses: Map<number, ReturnType<typeof Fetus.prototype.toJSON>>;
-	dateConceived: GameDateAndTime;
+	conception: Date;
 };
 
 type FetusProps = Exclude<NumberKeys<Fetus>, undefined | "id" | "species">;
@@ -46,7 +46,8 @@ export class Pregnancy
 	id: UUID;
 	womb: Womb;
 	fetuses: ReactiveMap<number, Fetus> = new ReactiveMap();
-	dateConceived = GAME_VARIABLES.gameDateAndTime;
+	/** The last time a fetus was generated and added to this class */
+	conception: Date = GAME_VARIABLES.gameDateAndTime.date;
 
 	private _birthReadinessStateMachine = new BirthReadinessStateMachine();
 
@@ -56,7 +57,7 @@ export class Pregnancy
 		for (let i = 0; i < numOfFetuses; i++) {
 			const fetus = this._generateRandomFetus();
 
-			this.fetuses.set(fetus.id, fetus);
+			this._addFetus(fetus);
 		}
 
 		const pregnancyId = getRandomUUID();
@@ -69,9 +70,9 @@ export class Pregnancy
 
 	static fromJSON(womb: Womb, data: SerializedPregnancy): Pregnancy {
 		const pregnancy = new Pregnancy(womb),
-			{ dateConceived, fetuses, id } = data;
+			{ conception: dateConceived, fetuses, id } = data;
 
-		pregnancy.dateConceived = dateConceived;
+		pregnancy.conception = dateConceived;
 		pregnancy.id = id;
 		pregnancy.fetuses = new ReactiveMap(
 			fetuses
@@ -88,7 +89,7 @@ export class Pregnancy
 
 	toJSON(): SerializedPregnancy {
 		return {
-			dateConceived: this.dateConceived,
+			conception: this.conception,
 			fetuses: new Map(
 				this.fetuses
 					.entries()
@@ -105,6 +106,12 @@ export class Pregnancy
 			PregConstants.NUM_OF_POSSIBLE_FETUS_IDS;
 
 		return new Fetus(this, fetusId);
+	}
+
+	private _addFetus(fetus: Fetus): void {
+		this.fetuses.set(fetus.id, fetus);
+
+		this.conception = fetus.conception;
 	}
 
 	get size() {
