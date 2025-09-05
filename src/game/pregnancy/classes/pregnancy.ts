@@ -17,6 +17,10 @@ import {
 	PregConstants,
 	WombHealth,
 } from "../enums";
+import {
+	type BirthReadinessContext,
+	BirthReadinessStateMachine,
+} from "../state-machine/birth-readiness";
 import { Fetus } from "./fetus";
 import { Womb } from "./womb";
 
@@ -43,6 +47,8 @@ export class Pregnancy
 	womb: Womb;
 	fetuses: ReactiveMap<number, Fetus> = new ReactiveMap();
 	dateConceived = GAME_VARIABLES.gameDateAndTime;
+
+	private _birthReadinessStateMachine = new BirthReadinessStateMachine();
 
 	static classId = ClassId.PREGNANCY;
 
@@ -75,6 +81,7 @@ export class Pregnancy
 					Fetus.fromJSON(pregnancy, serializedFetus),
 				]),
 		);
+		pregnancy._updateBirthReadinessContext();
 
 		return pregnancy;
 	}
@@ -369,38 +376,38 @@ export class Pregnancy
 			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
 
+		this._updateBirthReadinessContext();
+
 		return true;
 	}
-	// !SECTION
 
-	/**
-	 * I could probably use the current time in milliseconds / seconds and the day and / or maybe their id. Instead of relying on random values.
-	 */
-	get canBirth() {
-		if (this.isOverdue) return true;
-
-		const devRatio = this.averageStats.devRatio;
-
-		const chance =
-			((((GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000) *
-				this.id.charCodeAt(0)) %
-				devRatio) /
-				devRatio) *
-			100;
-
-		return devRatio >= PregConstants.MAX_DEVELOPMENT_STATE
-			? true
-			: devRatio >= PregConstants.MIN_NORMAL_BIRTH_THRESHOLD &&
-					chance % 100 <= 25
-				? true
-				: devRatio >= PregConstants.PREEMIE_BIRTH_THRESHOLD &&
-						chance % 100 <= 10
-					? true
-					: devRatio >= PregConstants.VERY_PREEMIE_BIRTH_THRESHOLD &&
-						chance % 100 <= 10;
+	private get _getBirthReadinessContext(): BirthReadinessContext {
+		return {
+			devRatio: this.averageStats.devRatio,
+			pregId: this.id,
+			currentTime: GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000,
+		};
 	}
 
-	get isOverdue() {
+	get birthInfo() {
+		return this._birthReadinessStateMachine.stateInfo;
+	}
+
+	private _updateBirthReadinessContext() {
+		this._birthReadinessStateMachine.update(this._getBirthReadinessContext);
+	}
+
+	/** Whether the pregnancy is ready for birth */
+	get canBirth() {
+		this._updateBirthReadinessContext();
+
+		// Check if birth can occur
+		return this._birthReadinessStateMachine.canBirth(
+			this._getBirthReadinessContext,
+		);
+	}
+
+	get overdue() {
 		return this.averageStats.devRatio > PregConstants.MAX_DEVELOPMENT_STATE;
 	}
 }
