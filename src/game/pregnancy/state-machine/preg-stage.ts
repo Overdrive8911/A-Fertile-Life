@@ -125,6 +125,8 @@ abstract class BasePregState {
 	 */
 	abstract transition(): BasePregState;
 
+	abstract readonly birthTip: string;
+
 	abstract readonly name:
 		| "Conception"
 		| "Early Term"
@@ -140,6 +142,8 @@ class Conception extends BasePregState {
 
 	override readonly canBirth = false;
 
+	override readonly birthTip = "Too early for birth";
+
 	override transition(): this | EarlyDevelopment | Labor {
 		return this._gestWeek >= GestationalWeek.EARLY_DEVELOPMENT
 			? new EarlyDevelopment(this._pregnancy)
@@ -152,6 +156,8 @@ class EarlyDevelopment extends BasePregState {
 
 	override readonly canBirth = false;
 
+	override readonly birthTip = "Too early for birth";
+
 	override transition() {
 		return this._gestWeek >= GestationalWeek.MID_DEVELOPMENT
 			? new MidDevelopment(this._pregnancy)
@@ -161,6 +167,8 @@ class EarlyDevelopment extends BasePregState {
 
 class MidDevelopment extends BasePregState {
 	override readonly name = "Mid Term";
+
+	override readonly birthTip = "Premature birth possible";
 
 	override get canBirth() {
 		return this._canBirth(95);
@@ -179,6 +187,8 @@ class MidDevelopment extends BasePregState {
 class LateDevelopment extends BasePregState {
 	override readonly name = "Late Term";
 
+	override readonly birthTip = "Early Term birth possible";
+
 	override get canBirth() {
 		return this._canBirth(85);
 	}
@@ -195,6 +205,8 @@ class LateDevelopment extends BasePregState {
 
 class FullTerm extends BasePregState {
 	override readonly name = "Full Term";
+
+	override readonly birthTip = "Full Term - Ready for Birth";
 
 	override get canBirth() {
 		return this._canBirth(70);
@@ -213,6 +225,8 @@ class FullTerm extends BasePregState {
 class Overdue extends BasePregState {
 	override readonly name = "Overdue";
 
+	override readonly birthTip = "Overdue - Birth Imminent";
+
 	override get canBirth() {
 		return this._canBirth(55);
 	}
@@ -225,6 +239,8 @@ class Labor extends BasePregState {
 	override readonly name = "Labor";
 
 	override readonly canBirth = true;
+
+	override readonly birthTip = "Labor - Birth in progress";
 
 	override transition() {
 		return this;
@@ -268,6 +284,7 @@ export class PregStateMachine {
 			name: state.name,
 			canBirth: state.canBirth,
 			overdue: state instanceof Overdue,
+			birthTip: state.birthTip,
 			// // Maybe add current birth chance threshold for UI
 			// birthChanceThreshold: this._pregState._getThreshold?.() ?? 0
 		};
