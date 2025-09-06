@@ -1,10 +1,10 @@
 /** biome-ignore-all lint/suspicious/noConstEnum: <will be inlined> */
 import type { EnumToArray } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
-import { sumCharCodes } from "~/utils/string";
+import { getUniqueNumberFromSumOfCharCodes } from "~/utils/string";
 import { PregConstants } from "../enums";
 
-export const enum BirthReadinessState {
+const enum BirthReadinessState {
 	NOT_READY,
 	VERY_PREEMIE_POSSIBLE,
 	PREEMIE_POSSIBLE,
@@ -22,13 +22,13 @@ const birthReadinessValues = [
 	BirthReadinessState.OVERDUE,
 ] as const satisfies EnumToArray<BirthReadinessState>;
 
-export type BirthReadinessContext = {
+type BirthReadinessContext = {
 	devRatio: number;
 	pregId: UUID;
 	currentTime: number;
 };
 
-export type BirthReadinessStateTransition = {
+type BirthReadinessStateTransition = {
 	from: BirthReadinessState;
 	to: BirthReadinessState;
 	condition: (context: BirthReadinessContext) => boolean;
@@ -73,7 +73,7 @@ const birthChances = {
 	[BirthReadinessState.OVERDUE]: 90,
 } as const satisfies Record<BirthReadinessState, number>;
 
-export class BirthReadinessStateMachine {
+class BirthReadinessStateMachine {
 	private _currentState: BirthReadinessState = BirthReadinessState.NOT_READY;
 
 	constructor(initialContext?: BirthReadinessContext) {
@@ -128,7 +128,8 @@ export class BirthReadinessStateMachine {
 
 	private calculateBirthChance(context: BirthReadinessContext): number {
 		const chance =
-			(((context.currentTime * sumCharCodes(context.pregId)) %
+			(((context.currentTime *
+				getUniqueNumberFromSumOfCharCodes(context.pregId)) %
 				context.devRatio) /
 				context.devRatio) *
 			100;

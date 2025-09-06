@@ -11,10 +11,7 @@ import type { NumberKeys } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
 import { GestationalWeek, PregConstants, WombHealth } from "../enums";
-import {
-	type BirthReadinessContext,
-	BirthReadinessStateMachine,
-} from "../state-machine/birth-readiness";
+import { PregStateMachine } from "../state-machine/preg-stage";
 import { Fetus } from "./fetus";
 import { Womb } from "./womb";
 
@@ -23,6 +20,8 @@ type SerializedPregnancy = {
 	fetuses: Map<number, ReturnType<typeof Fetus.prototype.toJSON>>;
 	conception: Date;
 };
+
+const GAME_DATE = () => GAME_VARIABLES.gameDateAndTime.date;
 
 type FetusProps = Exclude<NumberKeys<Fetus>, undefined | "id" | "species">;
 /**
@@ -41,9 +40,9 @@ export class Pregnancy
 	womb: Womb;
 	fetuses: ReactiveMap<number, Fetus> = new ReactiveMap();
 	/** The last time a fetus was generated and added to this class */
-	conception: Date = GAME_VARIABLES.gameDateAndTime.date;
+	conception: Date = GAME_DATE();
 
-	private _birthReadinessStateMachine = new BirthReadinessStateMachine();
+	private readonly _pregStateMachine: PregStateMachine;
 
 	static classId = ClassId.PREGNANCY;
 
@@ -57,6 +56,8 @@ export class Pregnancy
 		const pregnancyId = getRandomUUID();
 		this.womb = womb;
 		this.id = pregnancyId;
+
+		this._pregStateMachine = new PregStateMachine(this);
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
 		return createMutable(this);
@@ -76,7 +77,7 @@ export class Pregnancy
 					Fetus.fromJSON(pregnancy, serializedFetus),
 				]),
 		);
-		pregnancy._updateBirthReadinessContext();
+		pregnancy._updateStateMachine();
 
 		return pregnancy;
 	}
@@ -376,35 +377,21 @@ export class Pregnancy
 			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
 
-		this._updateBirthReadinessContext();
+		this._updateStateMachine();
 
 		return true;
 	}
 
-	private get _getBirthReadinessContext(): BirthReadinessContext {
-		return {
-			devRatio: this.averageStats.devRatio,
-			pregId: this.id,
-			currentTime: GAME_VARIABLES.gameDateAndTime.date.getTime() / 1000,
-		};
-	}
-
-	get birthInfo() {
-		return this._birthReadinessStateMachine.stateInfo;
-	}
-
-	private _updateBirthReadinessContext() {
-		this._birthReadinessStateMachine.update(this._getBirthReadinessContext);
+	/** Ensure the state isn't out of sync */
+	private _updateStateMachine() {
+		this._pregStateMachine.updateToLatest();
 	}
 
 	/** Whether the pregnancy is ready for birth */
 	get canBirth() {
-		this._updateBirthReadinessContext();
+		this._updateStateMachine();
 
-		// Check if birth can occur
-		return this._birthReadinessStateMachine.canBirth(
-			this._getBirthReadinessContext,
-		);
+		return this._pregStateMachine.canBirth;
 	}
 
 	get overdue() {

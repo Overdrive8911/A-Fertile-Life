@@ -84,10 +84,12 @@ export const enum GestationalWeek {
 	MIN = One,
 	MAX = Forty,
 
-	EARLY_TERM = MIN,
-	MID_TERM = Fourteen,
-	LATE_TERM = TwentyEight,
-	FULL_TERM = MAX,
+	ZYGOTE = MIN,
+	EARLY_DEVELOPMENT = Six,
+	MID_DEVELOPMENT = Sixteen,
+	LATE_DEVELOPMENT = TwentyEight,
+	FULL_TERM = ThirtySeven,
+	OVERDUE = MAX,
 }
 
 /**

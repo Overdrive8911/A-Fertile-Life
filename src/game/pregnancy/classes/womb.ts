@@ -298,6 +298,11 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		};
 	}
 
+	/** A floating number between 0 and 1 */
+	get hpRatio(){
+	return this.hp / this.maxHp
+	}
+
 	get isPregnant() {
 		// There is at least one pregnancy
 		if (this.pregnancies.size > 0) return true;
@@ -1041,30 +1046,4 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 function getMinimumNumOfFullTermFetusesAtBellyState(bellySize: BellySize) {
 	if (bellySize < BellySize.FULL_TERM) return 0;
 
-	return Math.floor(bellySize / BellySize.FULL_TERM);
-}
-
-type SerializedWomb = {
-	hp: number;
-	maxHp: number;
-	fertility: FertilityLevel;
-	curCap: BellySize;
-	comfortCap: BellySize;
-	maxCap: BellySize;
-	exp: number;
-	postpartum: number;
-	birthControl: boolean;
-	birthRecord: number;
-	lastFertilized: Date | null;
-	lastBirth: Date | null;
-	growthMod: number;
-	perks: PregPerksObject<PregPerkDynamicData>;
-	sideEffects: PregSideEffectsObject<PregSideEffectDynamicData>;
-	pregnancies: Map<UUID, ReturnType<typeof Pregnancy.prototype.toJSON>>;
-};
-
-// biome-ignore lint/correctness/noUnusedVariables: <Static prop check>
-type ClassCheck = SugarBoxCompatibleClassConstructorCheck<
-	SerializedWomb,
-	typeof Womb
->;
+	return Math.floor(bellySize / BellySize.FUL
