@@ -18,7 +18,7 @@ export const enum FertilityLevel {
 }
 
 // Imagine these as percentages (womb.hp / womb.maxHp)
-export enum WombHealth {
+export const enum WombHealth {
 	RIP,
 	CRITICAL = 15,
 	VERY_POOR = 35,
@@ -29,7 +29,7 @@ export enum WombHealth {
 	FULL_VITALITY = 100,
 }
 
-export enum BirthRecordThreshold {
+export const enum BirthRecordThreshold {
 	NEWB,
 	INEXPERIENCED = 1,
 	STARTER = 3,
