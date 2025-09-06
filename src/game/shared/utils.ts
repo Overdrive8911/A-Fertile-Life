@@ -39,23 +39,15 @@ function cloneClass<TClass extends SugarBoxCompatibleClassInstance<unknown>>(
 /** For a biased average. i.e. Biased towards larger numbers in the input */
 function getDominantAverage(...input: number[]) {
 	// Get the total sum
-	let sum = 0;
-	input.forEach((number) => {
-		sum += number;
-	});
+	const sum = input.reduce((acc, number) => acc + number, 0);
 
-	// Use the sum to produce ratios and multiply each ratio by 100
-	const weights = input.map((number) => {
-		return (number / sum) * 100;
-	});
+	// Calculate weighted sum in a single pass
+	const sumOfWeightedValues = input.reduce((acc, number) => {
+		const weight = (number / sum) * 100;
+		return acc + number * weight;
+	}, 0);
 
-	// Multiply each initial number and their weight, then obtain their sum
-	let sumOfWeightedValues = 0;
-	input.forEach((number, index) => {
-		sumOfWeightedValues += number * (weights[index] ?? 0);
-	});
-
-	// Divided the sum of weighted values by 100 and return the answer
+	// Return the weighted average
 	return sumOfWeightedValues / 100;
 }
 
