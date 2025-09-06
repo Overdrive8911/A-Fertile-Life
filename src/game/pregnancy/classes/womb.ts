@@ -7,9 +7,9 @@ import type {
 import { GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
+	getDominantAverage,
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
-	getWeightedAverage,
 } from "~/game/shared/utils";
 import type { UUID } from "~/types/uuid";
 import { either } from "~/utils/iterable";
@@ -299,8 +299,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	/** A floating number between 0 and 1 */
-	get hpRatio(){
-	return this.hp / this.maxHp
+	get hpRatio() {
+		return this.hp / this.maxHp;
 	}
 
 	get isPregnant() {
@@ -893,7 +893,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 				}
 			}
 
-			const averageDevelopmentOfFetus = getWeightedAverage(
+			const averageDevelopmentOfFetus = getDominantAverage(
 				...eligiblePregnancyDevRatio,
 			);
 
@@ -1040,10 +1040,41 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 		return this._maxCap * mod;
 	}
+
+	/** Between 0 and 1. Ratio between the current capacity and the maximum capacity of the womb */
+	get maxCapRatio() {
+		return this.curCap / this.maxCap;
+	}
 }
 
 /** Accepts any value from the enum BellyState but will only work with members that have `FULL_TERM` appended. Returns the minimum number of full grown, non-overdue fetuses that can achieve the inputted size */
 function getMinimumNumOfFullTermFetusesAtBellyState(bellySize: BellySize) {
 	if (bellySize < BellySize.FULL_TERM) return 0;
 
-	return Math.floor(bellySize / BellySize.FUL
+	return Math.floor(bellySize / BellySize.FULL_TERM);
+}
+
+type SerializedWomb = {
+	hp: number;
+	maxHp: number;
+	fertility: FertilityLevel;
+	curCap: BellySize;
+	comfortCap: BellySize;
+	maxCap: BellySize;
+	exp: number;
+	postpartum: number;
+	birthControl: boolean;
+	birthRecord: number;
+	lastFertilized: Date | null;
+	lastBirth: Date | null;
+	growthMod: number;
+	perks: PregPerksObject<PregPerkDynamicData>;
+	sideEffects: PregSideEffectsObject<PregSideEffectDynamicData>;
+	pregnancies: Map<UUID, ReturnType<typeof Pregnancy.prototype.toJSON>>;
+};
+
+// biome-ignore lint/correctness/noUnusedVariables: <Static prop check>
+type ClassCheck = SugarBoxCompatibleClassConstructorCheck<
+	SerializedWomb,
+	typeof Womb
+>;

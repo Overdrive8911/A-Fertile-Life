@@ -36,8 +36,8 @@ function cloneClass<TClass extends SugarBoxCompatibleClassInstance<unknown>>(
 	return classInstance.constructor.fromJSON(classInstance.toJSON());
 }
 
-/** For a biased average */
-function getWeightedAverage(...input: number[]) {
+/** For a biased average. i.e. Biased towards larger numbers in the input */
+function getDominantAverage(...input: number[]) {
 	// Get the total sum
 	let sum = 0;
 	input.forEach((number) => {
@@ -80,7 +80,7 @@ export {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 	cloneClass,
-	getWeightedAverage,
+	getDominantAverage,
 	presentNumberAsMoney,
 	isBodyAreaInner,
 	isBodyAreaOuter,

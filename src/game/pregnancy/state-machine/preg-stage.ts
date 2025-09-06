@@ -1,3 +1,4 @@
+import { getDominantAverage } from "~/game/shared/utils";
 import { getUniqueNumberFromSumOfCharCodes } from "~/utils/string";
 import type { Pregnancy } from "../classes/pregnancy";
 import { GestationalWeek } from "../enums";
@@ -15,15 +16,31 @@ abstract class BasePregState {
 
 	// TODO: Make this rely on more factors like fetus numbers, overdue, etc
 	protected get _riskLvl(): RiskLevel {
-		const hpRatio = this._pregnancy.womb.hpRatio;
+		const riskLevels: RiskLevel[] = [];
+		const womb = this._pregnancy.womb,
+			hpRatio = womb.hpRatio,
+			maxCapRatio = womb.maxCapRatio;
 
-		return hpRatio >= 0.75
-			? RiskLevel.NORMAL
-			: hpRatio >= 0.5
-				? RiskLevel.LOW_RISK
-				: hpRatio >= 0.25
-					? RiskLevel.HIGH_RISK
-					: RiskLevel.CRITICAL;
+		const healthRisk =
+			hpRatio >= 0.75
+				? RiskLevel.NORMAL
+				: hpRatio >= 0.5
+					? RiskLevel.LOW_RISK
+					: hpRatio >= 0.25
+						? RiskLevel.HIGH_RISK
+						: RiskLevel.CRITICAL;
+		const capacityRisk =
+			maxCapRatio <= 0.75
+				? RiskLevel.NORMAL
+				: maxCapRatio <= 0.8
+					? RiskLevel.LOW_RISK
+					: maxCapRatio <= 0.9
+						? RiskLevel.HIGH_RISK
+						: RiskLevel.CRITICAL;
+
+		riskLevels.push(healthRisk, capacityRisk);
+
+		return Math.round(getDominantAverage(...riskLevels));
 	}
 
 	protected get _pregStats() {

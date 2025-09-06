@@ -18,4 +18,8 @@ function includesAll<TValue>(
 	return true;
 }
 
+// function average(...values: ReadonlyArray<number>): number {
+// 	return values.reduce((acc, val) => acc + val, 0 as number) / values.length;
+// }
+
 export { either, includesAll };
