@@ -377,8 +377,6 @@ export class Pregnancy
 			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
 
-		this._updateStateMachine();
-
 		return true;
 	}
 
@@ -387,14 +385,23 @@ export class Pregnancy
 		this._pregStateMachine.updateToLatest();
 	}
 
-	/** Whether the pregnancy is ready for birth */
-	get canBirth() {
+	/** Fetches the most up-to-date state */
+	private get _stateInfo() {
 		this._updateStateMachine();
 
-		return this._pregStateMachine.canBirth;
+		return this._pregStateMachine.stateInfo;
+	}
+
+	/** Whether the pregnancy is ready for birth */
+	get canBirth() {
+		return this._stateInfo.canBirth;
 	}
 
 	get overdue() {
-		return this.averageStats.devRatio > PregConstants.MAX_DEVELOPMENT_STATE;
+		return this._stateInfo.overdue;
+	}
+
+	get stageName() {
+		return this._stateInfo.name;
 	}
 }

@@ -244,7 +244,15 @@ export class PregStateMachine {
 		}
 	}
 
-	get canBirth(): boolean {
-		return this._pregState.canBirth;
+	get stateInfo() {
+		const state = this._pregState;
+
+		return {
+			name: state.name,
+			canBirth: state.canBirth,
+			overdue: state instanceof Overdue,
+			// // Maybe add current birth chance threshold for UI
+			// birthChanceThreshold: this._pregState._getThreshold?.() ?? 0
+		};
 	}
 }
