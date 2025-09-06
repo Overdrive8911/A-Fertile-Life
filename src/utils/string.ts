@@ -2,7 +2,7 @@ export function capitalizeString<TString extends string>(
 	str: TString,
 ): Capitalize<TString> {
 	//@ts-expect-error this works
-	return `${str[0]?.toLocaleUpperCase()}${str.slice(1)}`;
+	return `${str[0]?.toLowerCase()}${str.slice(1)}`;
 }
 
 /** For converting a string to the numeric sum of its characters */
