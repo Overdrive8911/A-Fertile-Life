@@ -27,7 +27,14 @@ export default defineConfig({
 	build: {
 		target: "esnext",
 		minify: "terser",
-		terserOptions: { mangle: { properties: { regex: /^_/ } } },
+		terserOptions: {
+			mangle: {
+				properties: {
+					// Mangle `_privateProp` but not `__hiddenProp`
+					regex: /^_[^_]/,
+				},
+			},
+		},
 	},
 	// esbuild: {
 	// 	// So that we can mangle class properties that start with an underscore
