@@ -3,16 +3,6 @@ import type { FetalGrowthStats } from "./types";
 import { getWombVolumeFromFetusStats } from "./utils";
 
 export type DevelopmentRatio = number;
-// The chances for the fertilized ova to split are determined by these values. The first is a 25% chance to get twins and then another 20% for triplets ONLY IF the chance for twins succeeded so its actually a 0.5% chance for triplets. However, high fertility can provide bonuses to supplement this
-export const gChanceOfNaturalOvaSplit = [
-	// 0.25, 0.2, 0.2, 0.15, 0.15, 0.1, 0.1, 0.05, 0.01,
-	0.25, 0.2, 0.2, 0.15, 0.1, 0.05, 0.03, 0.01, 0.005,
-] as const;
-
-// The chance that more than one sperm will find and successfully fertilize more than one egg
-export const gChanceOfNaturalMultipleOvaFertilization = [
-	0.1, 0.05, 0.03,
-] as const;
 
 // This is mainly for singleton pregnancies
 export const gFetalGrowthOverGestationalWeeks = {

@@ -25,8 +25,6 @@ import type {
 } from "../types";
 import {
 	BellySize,
-	gChanceOfNaturalMultipleOvaFertilization,
-	gChanceOfNaturalOvaSplit,
 	WombExpLimit,
 } from "../variables";
 import type { Fetus } from "./fetus";
@@ -315,206 +313,111 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return !!this.postpartum;
 	}
 
-	// Just a check to see if pregnancy can be started
-	private _tryToImpregnate(
-		virility: number,
-		fertility: number,
-		areContraceptivesActive: boolean,
-		virilityBonus: number | undefined,
-		fertilityBonus: number | undefined,
-	): boolean {
-		// Both parameters have a range of 0 - 100 in most cases. Even when both sides have a 100, conception might still fail, although with a very minute chance. If for some reason, either value is above 100, conception is guaranteed (the PC can get a fertility above 100)
-
-		// The respective bonuses are capped at 30 each and reduced to 30~50% of their original value , before being added to 'pregChance'
-
-		// Having a virility or fertility above 100 makes one basically a fertility idol and guarantees pregnancies
-		if (virility > 100 || fertility > 100) return true;
-
-		// Contraceptives greatly reduce the chance for pregnancy by 90%
-		if (areContraceptivesActive && getRandomIntegerInRange(0, 100) < 10)
-			return false;
-
-		// Virility has more a bit more importance than fertility
-		const virileChance = getRandomFloatInRange(0.85, 1.1);
-		const fertileChance = getRandomFloatInRange(0.8, 1.05);
-
-		let pregChance =
-			virility * virileChance +
-			fertility * fertileChance -
-			(virility * virileChance - fertility * fertileChance) * 0.1;
-
-		// This would me mostly out of the player's control
-		if (virilityBonus) {
-			if (virilityBonus > 30) {
-				virilityBonus = 30;
-			}
-			pregChance += virilityBonus * (getRandomIntegerInRange(30, 50) / 100);
-		}
-		if (fertilityBonus) {
-			if (fertilityBonus > 30) {
-				fertilityBonus = 30;
-			}
-			pregChance += fertilityBonus * (getRandomIntegerInRange(30, 50) / 100);
-		}
-
-		pregChance /= 200;
-
-		if (getRandomFloatInRange(0, 1) < pregChance) return true;
-		else return false;
-	}
-
-	// ANCHOR - Call this to create a pregnancy
+	/**
+	 * Attempts to create a pregnancy of fetus(es)
+ *
+ * @param virility - 0 to 100
+ * @param virilityBonus - 0 to 50
+ * @param forcedFetusCount - if given, pregnancy is forced regardless
+ * @returns
+ */
 	tryCreatePregnancy(
 		virility: number,
-		virilityBonus: number | undefined,
-		numOfFetusesToForceToSpawn?: number, // Note that if this is present, a pregnancy will be forced regardless of other variables
-	) {
+		virilityBonus = 0,
+		forcedFetusCount = 0
+	): boolean {
 		if (this.isPostPartum) return false;
-		if (!virilityBonus) virilityBonus = 0;
-		const fertilityBonus = 0;
-		// TODO - calculate all the fertility bonuses from the womb
-		// const isPregnancySuccessful =
 
-		// Only allow if the impregnation chance comes up true and the womb health is >= 80 OR if a designated number of fetuses to spawn has been given.
-		if (
-			(this._tryToImpregnate(
-				virility,
-				this.fertility,
-				this.birthControl,
-				virilityBonus,
-				fertilityBonus,
-			) &&
-				(this.hp / this.maxHp) * WombHealth.FULL_VITALITY >
-					WombHealth.HEALTHY) ||
-			numOfFetusesToForceToSpawn
-		) {
-			let i = 0,
-				j = 0;
-
-			// TODO - Deal with the sperm stuff later
-			// NOTE - The bonuses should be capped at 30 somewhere. They can be obtained from drugs, conditions, randomly, etc
-			// Assume `virility` = 70, and `virilityBonus` = 30. A but on the high side but eh
-			const totalVirility = virility + virilityBonus * 0.5;
-			const totalFertility = this.fertility + fertilityBonus;
-
-			// SECTION - Decide how many offspring to create
-			let numOfFoetusToSpawn = 1;
-
-			// The chance of more than 1 sperm fertilizing an egg. It's not really much :p
-			while (i < gChanceOfNaturalMultipleOvaFertilization.length) {
-				// Use the virility bonus to boost the chance a bit, like by ~0.3...
-				const chance =
-					(gChanceOfNaturalMultipleOvaFertilization[i] ?? 0) +
-					(totalVirility * 0.1) / virility +
-					(virility * 0.25) / 100;
-				console.log(`virile chance: ${chance}`);
-
-				if (parseFloat(getRandomFloatInRange(0, 1).toFixed(2)) < chance) {
-					numOfFoetusToSpawn++;
-				} else {
-					// Once it fails, quit making more fetuses
-					break;
-				}
-				i++;
-			}
-
-			// The ova splitting part
-			while (j < gChanceOfNaturalOvaSplit.length) {
-				let chance =
-					(gChanceOfNaturalOvaSplit[j] ?? 0) +
-					(totalFertility * 0.1) / this.fertility +
-					(this.fertility * 0.1) / 100 +
-					(fertilityBonus * 0.75) / 100; // 0.455 is the extra bonus gotten with 100 fertility and 30 fertilityBonus
-
-				// TODO - Add drugs that directly increase the chance for multiples, separate from the fertilityBonus stat. Also, these calculations need extra tweaking
-
-				// SECTION - The player has the hyper fertility perk
-				const perks = this.perks;
-				// if (perks?.hyperFertility) {
-				// 	// Give a large multiplier to the chance for multiples.
-				// 	chance *= 1.55;
-
-				// 	// Gently add a flat increase it with every extra level
-				// 	let k = 1;
-				// 	while (k < (perks.hyperFertility?.currLevel ?? 0)) {
-				// 		chance += 0.055;
-				// 		k++;
-				// 	}
-				// }
-				// !SECTION
-
-				// SECTION - Superfetation's ability to allow pregnancy during pregnancy.
-				if (this.isPregnant) {
-					if (perks?.superFet) {
-						const superFetPerk = perks.superFet;
-						// REVIEW - Half the chance plus a bit extra per perk level. That should be enough, right?
-						chance *= 0.5;
-						chance +=
-							(Womb.perks.superFet.maxLevel - superFetPerk.currLevel) * 0.08;
-					} else {
-						// No chance to make more babies :p
-						chance = 0;
-						numOfFoetusToSpawn = 0;
-
-						if (numOfFetusesToForceToSpawn) {
-							console.warn(
-								`Although currently pregnant and lacking the superfetation perk, this womb will still be impregnated with ${numOfFetusesToForceToSpawn} ${
-									numOfFetusesToForceToSpawn === 1 ? "fetus" : "fetuses"
-								}`,
-							);
-						}
-					}
-				}
-				// !SECTION
-
-				console.log(`fertile chance: ${chance}`);
-				// This is on the woman's side so superfet genes affect this chance
-				if (parseFloat(getRandomFloatInRange(0, 1).toFixed(2)) < chance) {
-					// If the probability passes, add another fetus
-					numOfFoetusToSpawn++;
-				} else {
-					// Once it fails, quit making more fetuses
-					break;
-				}
-
-				j++;
-			}
-
-			// If this parameter is given, override the regular number of fetuses to spawn
-			if (numOfFetusesToForceToSpawn && numOfFetusesToForceToSpawn > 0)
-				numOfFoetusToSpawn = numOfFetusesToForceToSpawn;
-
-			// NOTE - For now, the max amount of offspring is limited to the max capacity of the womb so
-			const maxFetusNumber = getMinimumNumOfFullTermFetusesAtBellyState(
-				this.maxCap,
-			);
-			if (numOfFoetusToSpawn > 0) {
-				numOfFoetusToSpawn =
-					numOfFoetusToSpawn > maxFetusNumber
-						? maxFetusNumber
-						: numOfFoetusToSpawn;
-
-				// SECTION - Create the babies and push them into the womb. Not much data about them is needed since the player can't keep them anyway
-				// for (i = 0; i < numOfFoetusToSpawn; i++) {
-				//   // NOTE - the ID is used to generate these stuff. I may add another random chance if I'm feeling like but for now, having the same ID will create the same stats
-				//   const id = this.generateUnusedFetusId;
-				//   this.addFetus(new Fetus(id), id);
-				// }
-				const pregnancy = new Pregnancy(this, numOfFoetusToSpawn);
-
-				this.pregnancies.set(pregnancy.id, pregnancy);
-				// !SECTION
-
-				// Update specific data for the womb
-				this.lastFertilized = GAME_VARIABLES.gameDateAndTime.date;
-				return true;
-			} else {
-				return false;
-			}
+		// Skip all checks if forcing pregnancy
+		if (forcedFetusCount > 0) {
+			return this._createPregnancy(forcedFetusCount);
 		}
 
-		return false;
+		// Simple conception check
+		if (!this._rollForConception(virility, virilityBonus)) {
+			return false;
+		}
+
+		// Determine number of fetuses
+		const fetusCount = this._determineFetusCount(virility, virilityBonus);
+
+		return this._createPregnancy(fetusCount);
 	}
+
+	private _rollForConception(virility: number, virilityBonus: number): boolean {
+		// Must have minimum health to conceive
+		if ((this.hp / this.maxHp) < 0.8) return false;
+
+		// Can't get pregnant while pregnant (unless superfetation perk)
+		if (this.isPregnant && !this.isPerkActive('superFet')) return false;
+
+		// Birth control significantly reduces chance
+		if (this.birthControl && Math.random() < 0.9) return false;
+
+		// Simple conception formula: combine virility and fertility
+		const totalPotency = virility + virilityBonus * 0.5;
+		const conceptionChance = (totalPotency + this.fertility) / 200; // Max 100% with perfect stats
+
+		return Math.random() < conceptionChance;
+	}
+
+	private _determineFetusCount(virility: number, virilityBonus: number): number {
+		let fetusCount = 1; // Always start with 1
+
+		// Simple multiple pregnancy chance based on combined factors
+		const multipleChance = this._calculateMultipleChance(virility, virilityBonus);
+
+		// Roll for additional fetuses (diminishing returns)
+		let currentChance = multipleChance;
+		while (currentChance > 0 && Math.random() < currentChance) {
+			fetusCount++;
+			currentChance *= 0.5; // Each additional fetus is half as likely
+
+			// Reasonable cap to prevent absurd numbers
+			if (fetusCount >= 6) break;
+		}
+
+		// Apply capacity limit
+		const maxFetuses = getMinimumNumOfFullTermFetusesAtBellyState(this.maxCap);
+		return Math.min(fetusCount, maxFetuses);
+	}
+
+	/**
+ *
+ * @param virility
+ * @param virilityBonus
+ * @returns a value between 0 and 1
+ */
+	private _calculateMultipleChance(virility: number, virilityBonus: number): number {
+		const totalPotency = virility + virilityBonus * 0.5;
+
+		// Base chance from combined stats (max ~15% with perfect stats)
+		let chance = (totalPotency + this.fertility) / 1000;
+
+		// Perk bonuses
+		if (this.isPerkActive('hyperFertility')) {
+			const perkLevel = this.perks?.hyperFertility?.currLevel ?? 1;
+			chance *= (1 + perkLevel * 0.5); // 50% bonus per level
+		}
+
+		// Superfetation penalty if already pregnant
+		if (this.isPregnant && this.isPerkActive('superFet')) {
+			chance *= 0.3; // Much harder to get multiples during pregnancy
+		}
+
+		return chance
+	}
+
+	private _createPregnancy(fetusCount: number): boolean {
+		if (fetusCount <= 0) return false;
+
+		const pregnancy = new Pregnancy(this, fetusCount);
+		this.pregnancies.set(pregnancy.id, pregnancy);
+		this.lastFertilized = GAME_VARIABLES.gameDateAndTime.date;
+
+		return true;
+	}
+
 
 	// Returns a negative value
 	calculateHealthDamage() {
