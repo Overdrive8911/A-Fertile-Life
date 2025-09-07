@@ -286,17 +286,28 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	toJSON(): SerializedWomb {
-		return {
-			...this,
-			comfortCap: this._comfortCap,
-			maxCap: this._maxCap,
-			fertility: this._fertility,
-			pregnancies: new Map(
-				this.pregnancies
-					.entries()
-					.map(([pregId, preg]) => [pregId, preg.toJSON()]),
-			),
-		};
+	return {
+		hp: this.hp,
+		maxHp: this.maxHp,
+		fertility: this._fertility,
+		curCap: this.curCap,
+		comfortCap: this._comfortCap,
+		maxCap: this._maxCap,
+		exp: this.exp,
+		postpartum: this.postpartum,
+		birthControl: this.birthControl,
+		birthRecord: this.birthRecord,
+		lastFertilized: this.lastFertilized,
+		lastBirth: this.lastBirth,
+		growthMod: this.growthMod,
+		perks: this.perks,
+		sideEffects: this.sideEffects,
+		pregnancies: new Map(
+			this.pregnancies
+				.entries()
+				.map(([pregId, preg]) => [pregId, preg.toJSON()]),
+		),
+	};
 	}
 
 	/** A floating number between 0 and 1 */

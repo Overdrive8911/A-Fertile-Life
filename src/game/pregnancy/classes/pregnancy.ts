@@ -1,7 +1,7 @@
 import { ReactiveMap } from "@solid-primitives/map";
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
-import { GAME_ENGINE, GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_RANDOM, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,
@@ -97,7 +97,7 @@ export class Pregnancy
 	private _generateRandomFetus(): Fetus {
 		/** A number between 0 and PregConstants.NUM_OF_POSSIBLE_FETUS_IDS */
 		const fetusId = Math.floor(
-			((GAME_ENGINE.random + Math.random()) % 1) *
+			((GAME_RANDOM() + Math.random()) % 1) *
 				PregConstants.NUM_OF_POSSIBLE_FETUS_IDS,
 		);
 
