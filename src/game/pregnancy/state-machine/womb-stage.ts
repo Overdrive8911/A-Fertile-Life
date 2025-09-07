@@ -1,4 +1,6 @@
-import type { Womb } from "../classes/womb";
+import { GAME_RANDOM } from "~/game/engine/engine";
+import { Womb } from "../classes/womb";
+import { WombHealth } from "../enums";
 
 // COnsider Miscarriages, Infertility, and Menopause
 abstract class BaseWombState {
@@ -22,7 +24,7 @@ abstract class BaseWombState {
 	}
 
 	protected _tryPostPartomTransition() {
-	  if (this._womb.isPerkAtMaxLvl("noPostpartum")) return null
+		if (this._womb.isPerkAtMaxLvl("noPostpartum")) return null;
 
 		if (this._womb.postpartum) return new Postpartum(this._womb);
 
@@ -36,35 +38,116 @@ abstract class BaseWombState {
 		return null;
 	}
 
-	protected get _baseFertilityModifierFromPerksAndSideEffects() {
+	private get _baseFertilityModifierFromPerksAndSideEffects() {
 		let baseModifier = 1;
 
-		const {hyperFertility:hyperFertilityPerk, gestator:gestatorPerk} = this._wombPerks;
+		const { hyperFertility, gestator, healthyWomb } = this._wombPerks;
+		const {
+			hyperFertility: { maxLevel: hyperFertilityMaxLvl },
+			gestator: { maxLevel: gestatorMaxLvl },
+			healthyWomb: { maxLevel: healthyWombMaxLvl },
+		} = Womb.perks;
 
-		if (hyperFertilityPerk) {
+		if (hyperFertility) {
 			// Give a large multiplier
-			baseModifier *= 1.5;
-
-			// Gently add a smol increase it with every extra level
-			let k = 1;
-			while (k < hyperFertilityPerk.currLevel) {
-				baseModifier *= (1 + (hyperFertilityPerk.currLevel / 20) )
-				k++;
-			}
+			baseModifier *=
+				1.5 + (hyperFertility.currLevel / hyperFertilityMaxLvl) * 0.5;
 		}
 
-		if (gestatorPerk){
-		baseModifier *=1.1
+		if (gestator) {
+			baseModifier *= 1.2 + (gestator.currLevel / gestatorMaxLvl) * 0.25;
+		}
+
+		if (healthyWomb) {
+			baseModifier *= 1.1 + (healthyWomb.currLevel / healthyWombMaxLvl) * 0.2;
 		}
 
 		return baseModifier;
 	}
 
+	private get _baseFertilityModifierFromBirthControl() {
+		return this._womb.birthControl ? 0.1 : 1;
+	}
+
+	private get _baseFertilityModifierFromWombHealth() {
+		const hpPercentage = this._womb.hpRatio * 100;
+
+		if (hpPercentage >= WombHealth.HEALTHY) return 1;
+
+		if (hpPercentage >= WombHealth.MEDIOCRE) return 0.85;
+
+		return 0.2;
+	}
+
+	protected get _baseFertilityModifier() {
+		return (
+			this._baseFertilityModifierFromPerksAndSideEffects *
+			this._baseFertilityModifierFromBirthControl *
+			this._baseFertilityModifierFromWombHealth
+		);
+	}
+
+	private get _baseMultiplesModifierFromWombHealth() {
+		const hpPercentage = this._womb.hpRatio * 100;
+
+		if (hpPercentage >= WombHealth.VERY_HEALTHY) return 1.15;
+
+		if (hpPercentage >= WombHealth.HEALTHY) return 1;
+
+		if (hpPercentage >= WombHealth.MEDIOCRE) return 0.85;
+
+		return 0.5;
+	}
+	private get _baseMultiplesModifierFromPerksAndSideEffects() {
+		const { hyperFertility, gestator, healthyWomb, fortifiedWomb } =
+			this._wombPerks;
+		const {
+			hyperFertility: { maxLevel: hyperFertilityMaxLvl },
+			gestator: { maxLevel: gestatorMaxLvl },
+			healthyWomb: { maxLevel: healthyWombMaxLvl },
+			fortifiedWomb: { maxLevel: fortifiedWombMaxLvl },
+		} = Womb.perks
+
+		let baseModifier = 1
+
+		if (hyperFertility) {
+			// Give a large multiplier
+			baseModifier *=
+				1.5 + (hyperFertility.currLevel / hyperFertilityMaxLvl) * 3.5;
+		}
+
+		if (gestator) {
+			baseModifier *= 1.075 + (gestator.currLevel / gestatorMaxLvl) * 0.5;
+		}
+
+		if (healthyWomb) {
+			baseModifier *= 1.05 + (healthyWomb.currLevel / healthyWombMaxLvl) * 0.25;
+		}
+
+		if (fortifiedWomb) {
+			baseModifier *= 1 + (fortifiedWomb.currLevel / fortifiedWombMaxLvl) * 0.25;
+		}
+
+		return baseModifier
+	}
+
+	protected get _baseMultiplesModifier() {
+		return this._baseMultiplesModifierFromWombHealth * this._baseMultiplesModifierFromPerksAndSideEffects
+	}
+
 	/** Multiplicative modifier for increasing or reducing the womb's fertility.
 	 *
-	 * Values > 1 increment the fertility, while floats between 0 and 1 decrement the fertility
+	 * Values > 1 increment the fertility, while floats between 0 and 1 decrement the fertility.
 	 */
-	abstract readonly fertilityMod:number
+	abstract readonly fertilityMod: number;
+
+	/** Multiplicative modifier for increasing or reducing the chance of concieving multiples per pregnancy. The higher the value, the more multiples that may be concieved. I.e. A value of 3.4 means 3 spawned fetuses., 1.7 means 2 spawned fetuses
+	 *
+	 * Values > 1 increment it.
+		*
+		* NOTE: This value can go below 1 so be sure to cap it
+	 */
+	abstract readonly multiplesMod: number;
 
 	/** Try to transition to a new state depending on some checks within.
 	 *
@@ -74,8 +157,12 @@ abstract class BaseWombState {
 }
 
 class Fertile extends BaseWombState {
- 	get fertilityMod() {
-		return this._baseFertilityModifierFromPerksAndSideEffects;
+	override get fertilityMod() {
+		return this._baseFertilityModifier;
+	}
+
+	override get multiplesMod() {
+		return this._baseMultiplesModifier;
 	}
 
 	override transition(): Conception | Fertile {
@@ -87,20 +174,25 @@ class Fertile extends BaseWombState {
 }
 
 /** Utility abstract class that implements shared functionality of all pregnancy-related states */
-abstract class BasePregnancyState extends BaseWombState{
+abstract class BasePregnancyState extends BaseWombState {
+	override get fertilityMod() {
+		if (this._wombPerks.superFet) {
+			return this._baseFertilityModifier * 0.8;
+		}
 
-  override get fertilityMod() {
-    if (this._wombPerks.superFet) {
-      return this._baseFertilityModifierFromPerksAndSideEffects * 0.8;
-    }
+		return 0;
+	}
 
-    return 0;
-  }
+	override get multiplesMod(){
+	// Sharply reduce the chance for multiples when the womb as superfetation
+	if (this._wombPerks.superFet) {
+		return this._baseMultiplesModifier * (1 /3)
+	}
 
+	return 0;}
 }
 
 class Conception extends BasePregnancyState {
-
 	override transition() {
 		if (this._relevantPregnancyStageName === "Early Stage")
 			return new EarlyDevelopment(this._womb);
@@ -130,7 +222,6 @@ class MidDevelopment extends BasePregnancyState {
 }
 
 class LateDevelopment extends BasePregnancyState {
-
 	override transition() {
 		if (this._relevantPregnancyStageName === "Full Term")
 			return new FullTerm(this._womb);
@@ -153,7 +244,6 @@ class FullTerm extends BasePregnancyState {
 }
 
 class Overdue extends BasePregnancyState {
-
 	override transition() {
 		return (
 			this._tryLaborTransition() ?? this._tryPostPartomTransition() ?? this
@@ -163,7 +253,9 @@ class Overdue extends BasePregnancyState {
 
 class Labor extends BasePregnancyState {
 	// Can't get pregnant for any reason during labor
-	override get fertilityMod() {return 0}
+	override get fertilityMod() {
+		return 0;
+	}
 
 	override transition() {
 		return this._tryPostPartomTransition() ?? this;
@@ -172,11 +264,14 @@ class Labor extends BasePregnancyState {
 
 class Postpartum extends BaseWombState {
 	// Can't get pregnant for any reason during postpartum
-	override readonly fertilityMod = 0
+	override readonly fertilityMod = 0;
+
+	override readonly multiplesMod = 0
 
 	override transition() {
 		// Perform check to see if fertility has been regained
-		if (!this._womb.postpartum || this._womb.isPerkAtMaxLvl("noPostpartum")) return new Fertile(this._womb);
+		if (!this._womb.postpartum || this._womb.isPerkAtMaxLvl("noPostpartum"))
+			return new Fertile(this._womb);
 
 		return this;
 	}
@@ -217,6 +312,7 @@ export class WombStateMachine {
 
 		return {
 			fertilityMod: state.fertilityMod,
+			multiplesMod:state.multiplesMod
 		};
 	}
 }

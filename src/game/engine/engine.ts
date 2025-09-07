@@ -75,7 +75,9 @@ const {
 	vars: GAME_VARIABLES,
 } = useSugarboxEngine(GAME_ENGINE);
 
+const GAME_RANDOM = () => GAME_ENGINE.random;
+
 //@ts-expect-error Just for debugging
 window.game = GAME_ENGINE;
 
-export { GAME_ENGINE, GAME_PASSAGE, GAME_VARIABLES };
+export { GAME_ENGINE, GAME_PASSAGE, GAME_VARIABLES, GAME_RANDOM };

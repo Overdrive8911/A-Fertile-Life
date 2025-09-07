@@ -53,7 +53,7 @@ export type PregSideEffectsObject<T extends PregSideEffect> = Partial<
 		| "heavyWomb"
 		| "contractions"
 		| "labour"
-		| "sexCraving"
+		// | "sexCraving"
 		| "growthSpurt",
 		T
 	>

@@ -4,7 +4,7 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES } from "~/game/engine/engine";
+import { GAME_VARIABLES, GAME_RANDOM } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getDominantAverage,
@@ -23,12 +23,10 @@ import type {
 	PregSideEffectStaticData,
 	PregSideEffectsObject,
 } from "../types";
-import {
-	BellySize,
-	WombExpLimit,
-} from "../variables";
+import { BellySize, WombExpLimit } from "../variables";
 import type { Fetus } from "./fetus";
 import { Pregnancy } from "./pregnancy";
+import { WombStateMachine } from "../state-machine/womb-stage";
 
 /* Capacity is in cubic centimetres(CCs) */
 export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
@@ -38,7 +36,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	hp: number = PregConstants.DEFAULT_MAX_WOMB_HP;
 	maxHp: number = PregConstants.DEFAULT_MAX_WOMB_HP;
 
-	fertility = FertilityLevel.AVERAGE_FERTILITY;
+	private _fertility = FertilityLevel.AVERAGE_FERTILITY;
 
 	// These capacity variables also refer to the "size too"
 	/**
@@ -92,6 +90,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	sideEffects: PregSideEffectsObject<PregSideEffectDynamicData> = {};
 
 	pregnancies = new ReactiveMap<UUID, Pregnancy>();
+
+	private _stateMachine = new WombStateMachine(this);
 
 	private static _isWombDamageEnabled = false;
 
@@ -208,10 +208,10 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			maxDuration: [3],
 		},
 
-		/* Maxes out arousal once a day and keeps it above 75 */
-		sexCraving: {
-			maxDuration: [1, 3],
-		},
+		// /* Maxes out arousal once a day and keeps it above 75 */
+		// sexCraving: {
+		// 	maxDuration: [1, 3],
+		// },
 
 		/* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */
 		growthSpurt: {
@@ -227,7 +227,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			comfortCap = this._comfortCap,
 			curCap = this.curCap,
 			exp = this.exp,
-			fertility = this.fertility,
+			fertility = this._fertility,
 			growthMod = this.growthMod,
 			hp = this.hp,
 			lastBirth = this.lastBirth,
@@ -246,7 +246,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		this.birthRecord = birthRecord;
 		this.curCap = curCap;
 		this.exp = exp;
-		this.fertility = fertility;
+		this._fertility = fertility;
 		this.growthMod = growthMod;
 		this.hp = hp;
 		this.lastBirth = lastBirth;
@@ -290,6 +290,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			...this,
 			comfortCap: this._comfortCap,
 			maxCap: this._maxCap,
+			fertility: this._fertility,
 			pregnancies: new Map(
 				this.pregnancies
 					.entries()
@@ -315,16 +316,16 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	/**
 	 * Attempts to create a pregnancy of fetus(es)
- *
- * @param virility - 0 to 100
- * @param virilityBonus - 0 to 50
- * @param forcedFetusCount - if given, pregnancy is forced regardless
- * @returns
- */
+	 *
+	 * @param virility - 0 to 100
+	 * @param virilityBonus - 0 to 50
+	 * @param forcedFetusCount - if given, pregnancy is forced regardless
+	 * @returns
+	 */
 	tryCreatePregnancy(
 		virility: number,
 		virilityBonus = 0,
-		forcedFetusCount = 0
+		forcedFetusCount = 0,
 	): boolean {
 		if (this.isPostPartum) return false;
 
@@ -334,7 +335,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		}
 
 		// Simple conception check
-		if (!this._rollForConception(virility, virilityBonus)) {
+		if (!this._canConcieve(virility, virilityBonus)) {
 			return false;
 		}
 
@@ -344,68 +345,49 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return this._createPregnancy(fetusCount);
 	}
 
-	private _rollForConception(virility: number, virilityBonus: number): boolean {
-		// Must have minimum health to conceive
-		if ((this.hp / this.maxHp) < 0.8) return false;
+	private _canConcieve(virility: number, virilityBonus: number): boolean {
+		const womb = this,
+			fertility = womb.fertility;
 
-		// Can't get pregnant while pregnant (unless superfetation perk)
-		if (this.isPregnant && !this.isPerkActive('superFet')) return false;
-
-		// Birth control significantly reduces chance
-		if (this.birthControl && Math.random() < 0.9) return false;
+		if (!fertility || !virility) return false;
 
 		// Simple conception formula: combine virility and fertility
 		const totalPotency = virility + virilityBonus * 0.5;
-		const conceptionChance = (totalPotency + this.fertility) / 200; // Max 100% with perfect stats
+		const conceptionChance = (totalPotency + womb.fertility) / 200; // Max 100% with perfect stats
 
-		return Math.random() < conceptionChance;
+		return GAME_RANDOM() < conceptionChance;
 	}
 
 	private _determineFetusCount(virility: number, virilityBonus: number): number {
-		let fetusCount = 1; // Always start with 1
+    const fetusCount = this._calculateNumberOfFetuses(virility, virilityBonus);
 
-		// Simple multiple pregnancy chance based on combined factors
-		const multipleChance = this._calculateMultipleChance(virility, virilityBonus);
+    const availableCapacity = this.maxCap - this.curCap;
+    const maxFetuses = getMaximumNumberOfFullTermFetusesAtBellyState(availableCapacity);
 
-		// Roll for additional fetuses (diminishing returns)
-		let currentChance = multipleChance;
-		while (currentChance > 0 && Math.random() < currentChance) {
-			fetusCount++;
-			currentChance *= 0.5; // Each additional fetus is half as likely
-
-			// Reasonable cap to prevent absurd numbers
-			if (fetusCount >= 6) break;
-		}
-
-		// Apply capacity limit
-		const maxFetuses = getMinimumNumOfFullTermFetusesAtBellyState(this.maxCap);
-		return Math.min(fetusCount, maxFetuses);
-	}
+    return Math.min(fetusCount, Math.max(maxFetuses, 1)); // Always allow at least 1
+}
 
 	/**
- *
- * @param virility
- * @param virilityBonus
- * @returns a value between 0 and 1
- */
-	private _calculateMultipleChance(virility: number, virilityBonus: number): number {
+	 *
+	 * @param virility
+	 * @param virilityBonus
+	 * @returns a float from 1 up, deciding how many fetuses to spawn
+	 */
+	private _calculateNumberOfFetuses(
+		virility: number,
+		virilityBonus: number,
+	): number {
 		const totalPotency = virility + virilityBonus * 0.5;
 
-		// Base chance from combined stats (max ~15% with perfect stats)
-		let chance = (totalPotency + this.fertility) / 1000;
+		// At 100 virility and fertility (not considering bonuses), the chance should be 1
+		let chance = (totalPotency + this.fertility) / 200;
 
-		// Perk bonuses
-		if (this.isPerkActive('hyperFertility')) {
-			const perkLevel = this.perks?.hyperFertility?.currLevel ?? 1;
-			chance *= (1 + perkLevel * 0.5); // 50% bonus per level
-		}
+		const modifiedChance = chance * this._stateInfo.multiplesMod
 
-		// Superfetation penalty if already pregnant
-		if (this.isPregnant && this.isPerkActive('superFet')) {
-			chance *= 0.3; // Much harder to get multiples during pregnancy
-		}
+		// Get a random value within a ±25% range
+		const modifiedChancePlusRNG = getRandomFloatInRange(modifiedChance * 0.75, modifiedChance * 1.25)
 
-		return chance
+		return Math.max(Math.round(modifiedChancePlusRNG), 1)
 	}
 
 	private _createPregnancy(fetusCount: number): boolean {
@@ -417,7 +399,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 		return true;
 	}
-
 
 	// Returns a negative value
 	calculateHealthDamage() {
@@ -863,8 +844,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return false;
 	}
 
-	isPerkAtMaxLvl(perk: keyof typeof this.perks){
-	return this.perks[perk]?.currLevel === Womb.perks[perk].maxLevel
+	isPerkAtMaxLvl(perk: keyof typeof this.perks) {
+		return this.perks[perk]?.currLevel === Womb.perks[perk].maxLevel;
 	}
 
 	//
@@ -923,6 +904,10 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 	// !SECTION
 
+	get fertility() {
+		return this._fertility * this._stateInfo.fertilityMod;
+	}
+
 	/**
 	 * How big she can get without losing any comfort. Slowly increases as womb.exp increases
 	 */
@@ -968,10 +953,16 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			return acc;
 		}, null);
 	}
+
+	private get _stateInfo() {
+		this._stateMachine.updateToLatest();
+
+		return this._stateMachine.stateInfo;
+	}
 }
 
 /** Accepts any value from the enum BellyState but will only work with members that have `FULL_TERM` appended. Returns the minimum number of full grown, non-overdue fetuses that can achieve the inputted size */
-function getMinimumNumOfFullTermFetusesAtBellyState(bellySize: BellySize) {
+function getMaximumNumberOfFullTermFetusesAtBellyState(bellySize: BellySize) {
 	if (bellySize < BellySize.FULL_TERM) return 0;
 
 	return Math.floor(bellySize / BellySize.FULL_TERM);
