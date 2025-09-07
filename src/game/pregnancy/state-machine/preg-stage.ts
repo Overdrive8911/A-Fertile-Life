@@ -129,13 +129,15 @@ abstract class BasePregState {
 
 	abstract readonly name:
 		| "Conception"
-		| "Early Term"
-		| "Mid Term"
-		| "Late Term"
+		| "Early Stage"
+		| "Mid Stage"
+		| "Late Stage"
 		| "Full Term"
 		| "Overdue"
 		| "Labor";
 }
+
+// TODO: Add transitions for reversing in a pregnancy
 
 class Conception extends BasePregState {
 	override readonly name = "Conception";
@@ -152,7 +154,7 @@ class Conception extends BasePregState {
 }
 
 class EarlyDevelopment extends BasePregState {
-	override readonly name = "Early Term";
+	override readonly name = "Early Stage";
 
 	override readonly canBirth = false;
 
@@ -166,7 +168,7 @@ class EarlyDevelopment extends BasePregState {
 }
 
 class MidDevelopment extends BasePregState {
-	override readonly name = "Mid Term";
+	override readonly name = "Mid Stage";
 
 	override readonly birthTip = "Premature birth possible";
 
@@ -185,7 +187,7 @@ class MidDevelopment extends BasePregState {
 }
 
 class LateDevelopment extends BasePregState {
-	override readonly name = "Late Term";
+	override readonly name = "Late Stage";
 
 	override readonly birthTip = "Early Term birth possible";
 

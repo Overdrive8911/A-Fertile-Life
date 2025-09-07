@@ -64,7 +64,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	exp = 0;
 
 	/**
-	 * 0 -> Can get pregnant, >= 1 -> Postpartum. This variable is set to `gPostpartumPeriod` (can be influenced by some perks) once the user gives birth to all her children
+	 * Time in seconds until the womb is no longer in post partum.
+	 *
+	 * Postpartum only occurs if the womb is empty after a birth.
 	 */
 	postpartum = 0;
 
@@ -161,7 +163,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			price: 10000,
 			maxLevel: 5,
 		},
-		/** Reduces the postpartum period, completely erasing it at max FertilityLevel. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */
+		/** Reduces the postpartum period, completely erasing it at max. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */
 		noPostpartum: {
 			price: 2000,
 			maxLevel: 10,
@@ -428,17 +430,17 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 				// SECTION - The player has the hyper fertility perk
 				const perks = this.perks;
-				if (perks?.hyperFertility) {
-					// Give a large multiplier to the chance for multiples.
-					chance *= 1.55;
+				// if (perks?.hyperFertility) {
+				// 	// Give a large multiplier to the chance for multiples.
+				// 	chance *= 1.55;
 
-					// Gently add a flat increase it with every extra level
-					let k = 1;
-					while (k < (perks.hyperFertility?.currLevel ?? 0)) {
-						chance += 0.055;
-						k++;
-					}
-				}
+				// 	// Gently add a flat increase it with every extra level
+				// 	let k = 1;
+				// 	while (k < (perks.hyperFertility?.currLevel ?? 0)) {
+				// 		chance += 0.055;
+				// 		k++;
+				// 	}
+				// }
 				// !SECTION
 
 				// SECTION - Superfetation's ability to allow pregnancy during pregnancy.
@@ -958,6 +960,10 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return false;
 	}
 
+	isPerkAtMaxLvl(perk: keyof typeof this.perks){
+	return this.perks[perk]?.currLevel === Womb.perks[perk].maxLevel
+	}
+
 	//
 
 	applySideEffect(sideEffect: keyof typeof this.sideEffects) {
@@ -1044,6 +1050,20 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/** Between 0 and 1. Ratio between the current capacity and the maximum capacity of the womb */
 	get maxCapRatio() {
 		return this.curCap / this.maxCap;
+	}
+
+	get mostAdvancedPregnancy(): Pregnancy | null {
+		return this.pregnancies.values().reduce<Pregnancy | null>((acc, val) => {
+			if (!acc) {
+				acc = val;
+				return acc;
+			}
+
+			// I considered using their conception dates, but pregnancies can advance at different rates :p
+			if (val.averageStats.devRatio > acc.averageStats.devRatio) acc = val;
+
+			return acc;
+		}, null);
 	}
 }
 
