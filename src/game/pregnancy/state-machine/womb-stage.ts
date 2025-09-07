@@ -106,9 +106,9 @@ abstract class BaseWombState {
 			gestator: { maxLevel: gestatorMaxLvl },
 			healthyWomb: { maxLevel: healthyWombMaxLvl },
 			fortifiedWomb: { maxLevel: fortifiedWombMaxLvl },
-		} = Womb.perks
+		} = Womb.perks;
 
-		let baseModifier = 1
+		let baseModifier = 1;
 
 		if (hyperFertility) {
 			// Give a large multiplier
@@ -125,14 +125,18 @@ abstract class BaseWombState {
 		}
 
 		if (fortifiedWomb) {
-			baseModifier *= 1 + (fortifiedWomb.currLevel / fortifiedWombMaxLvl) * 0.25;
+			baseModifier *=
+				1 + (fortifiedWomb.currLevel / fortifiedWombMaxLvl) * 0.25;
 		}
 
-		return baseModifier
+		return baseModifier;
 	}
 
 	protected get _baseMultiplesModifier() {
-		return this._baseMultiplesModifierFromWombHealth * this._baseMultiplesModifierFromPerksAndSideEffects
+		return (
+			this._baseMultiplesModifierFromWombHealth *
+			this._baseMultiplesModifierFromPerksAndSideEffects
+		);
 	}
 
 	/** Multiplicative modifier for increasing or reducing the womb's fertility.
@@ -144,8 +148,8 @@ abstract class BaseWombState {
 	/** Multiplicative modifier for increasing or reducing the chance of concieving multiples per pregnancy. The higher the value, the more multiples that may be concieved. I.e. A value of 3.4 means 3 spawned fetuses., 1.7 means 2 spawned fetuses
 	 *
 	 * Values > 1 increment it.
-		*
-		* NOTE: This value can go below 1 so be sure to cap it
+	 *
+	 * NOTE: This value can go below 1 so be sure to cap it
 	 */
 	abstract readonly multiplesMod: number;
 
@@ -183,13 +187,14 @@ abstract class BasePregnancyState extends BaseWombState {
 		return 0;
 	}
 
-	override get multiplesMod(){
-	// Sharply reduce the chance for multiples when the womb as superfetation
-	if (this._wombPerks.superFet) {
-		return this._baseMultiplesModifier * (1 /3)
-	}
+	override get multiplesMod() {
+		// Sharply reduce the chance for multiples when the womb as superfetation
+		if (this._wombPerks.superFet) {
+			return this._baseMultiplesModifier * (1 / 3);
+		}
 
-	return 0;}
+		return 0;
+	}
 }
 
 class Conception extends BasePregnancyState {
@@ -266,7 +271,7 @@ class Postpartum extends BaseWombState {
 	// Can't get pregnant for any reason during postpartum
 	override readonly fertilityMod = 0;
 
-	override readonly multiplesMod = 0
+	override readonly multiplesMod = 0;
 
 	override transition() {
 		// Perform check to see if fertility has been regained
@@ -312,7 +317,7 @@ export class WombStateMachine {
 
 		return {
 			fertilityMod: state.fertilityMod,
-			multiplesMod:state.multiplesMod
+			multiplesMod: state.multiplesMod,
 		};
 	}
 }

@@ -358,14 +358,18 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return GAME_RANDOM() < conceptionChance;
 	}
 
-	private _determineFetusCount(virility: number, virilityBonus: number): number {
-    const fetusCount = this._calculateNumberOfFetuses(virility, virilityBonus);
+	private _determineFetusCount(
+		virility: number,
+		virilityBonus: number,
+	): number {
+		const fetusCount = this._calculateNumberOfFetuses(virility, virilityBonus);
 
-    const availableCapacity = this.maxCap - this.curCap;
-    const maxFetuses = getMaximumNumberOfFullTermFetusesAtBellyState(availableCapacity);
+		const availableCapacity = this.maxCap - this.curCap;
+		const maxFetuses =
+			getMaximumNumberOfFullTermFetusesAtBellyState(availableCapacity);
 
-    return Math.min(fetusCount, Math.max(maxFetuses, 1)); // Always allow at least 1
-}
+		return Math.min(fetusCount, Math.max(maxFetuses, 1)); // Always allow at least 1
+	}
 
 	/**
 	 *
@@ -382,12 +386,15 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		// At 100 virility and fertility (not considering bonuses), the chance should be 1
 		let chance = (totalPotency + this.fertility) / 200;
 
-		const modifiedChance = chance * this._stateInfo.multiplesMod
+		const modifiedChance = chance * this._stateInfo.multiplesMod;
 
 		// Get a random value within a ±25% range
-		const modifiedChancePlusRNG = getRandomFloatInRange(modifiedChance * 0.75, modifiedChance * 1.25)
+		const modifiedChancePlusRNG = getRandomFloatInRange(
+			modifiedChance * 0.75,
+			modifiedChance * 1.25,
+		);
 
-		return Math.max(Math.round(modifiedChancePlusRNG), 1)
+		return Math.max(Math.round(modifiedChancePlusRNG), 1);
 	}
 
 	private _createPregnancy(fetusCount: number): boolean {
