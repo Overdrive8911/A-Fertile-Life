@@ -100,9 +100,9 @@ function NextPassage() {
 			<p>
 				<GenericButtonLink
 					onClick={(_) =>
-						GAME_ENGINE.setVars((s) =>
-							s.player.womb.tryCreatePregnancy(100, 100),
-						)
+						GAME_ENGINE.setVars((s) => {
+							s.player.womb.tryCreatePregnancy(100, 100);
+						})
 					}
 				>
 					Baby?
