@@ -50,8 +50,10 @@ function getDominantAverage(...input: number[]) {
 		return acc + number * weight;
 	}, 0);
 
+	const res = sumOfWeightedValues / 100;
+
 	// Return the weighted average
-	return sumOfWeightedValues / 100;
+	return Number.isNaN(res) ? 0 : res;
 }
 
 /** Utility method so I won't repeat myself when having to render money :3 */
