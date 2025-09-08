@@ -152,7 +152,7 @@ abstract class BaseWombState {
 	 */
 	abstract readonly multiplesMod: number;
 
-	/** How much health in total the womb will lose **per day**.
+	/** How much health in total the womb will lose **per minute**.
 	 *
 	 * NOTE: Hp drain happens gradually based off this value.
 	 *
@@ -240,7 +240,7 @@ abstract class BasePregnancyState extends BaseWombState {
 
 class Conception extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 10 * this._wombHpDrainModifier;
+		return 5 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -254,7 +254,7 @@ class Conception extends BasePregnancyState {
 class EarlyDevelopment extends BasePregnancyState {
 	// Emulate early pregnancy woes (?)
 	override get wombHpDrain() {
-		return 17.5 * this._wombHpDrainModifier;
+		return 8.75 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -267,7 +267,7 @@ class EarlyDevelopment extends BasePregnancyState {
 
 class MidDevelopment extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 15 * this._wombHpDrainModifier;
+		return 7.5 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -282,7 +282,7 @@ class MidDevelopment extends BasePregnancyState {
 
 class LateDevelopment extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 17.5 * this._wombHpDrainModifier;
+		return 8.75 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -297,7 +297,7 @@ class LateDevelopment extends BasePregnancyState {
 
 class FullTerm extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 20 * this._wombHpDrainModifier;
+		return 10 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -312,7 +312,7 @@ class FullTerm extends BasePregnancyState {
 
 class Overdue extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 30 * this._wombHpDrainModifier;
+		return 15 * this._wombHpDrainModifier;
 	}
 
 	override transition() {
@@ -324,7 +324,7 @@ class Overdue extends BasePregnancyState {
 
 class Labor extends BasePregnancyState {
 	override get wombHpDrain() {
-		return 75 * this._wombHpDrainModifier;
+		return 37.5 * this._wombHpDrainModifier;
 	}
 
 	// Can't get pregnant for any reason during labor

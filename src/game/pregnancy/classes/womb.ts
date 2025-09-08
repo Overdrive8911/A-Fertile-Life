@@ -428,7 +428,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 * @returns the amount of damage to be subtracted from the womb's hp
 	 */
 	calcHpDrain(timeElapsed: number) {
-		return this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60 / 60 / 24);
+		// Base off the drain per minute
+		return this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60);
 	}
 
 	// Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
