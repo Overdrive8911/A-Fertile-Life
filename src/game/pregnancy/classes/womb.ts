@@ -93,14 +93,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	private _stateMachine = new WombStateMachine(this);
 
-	private _timeUpdateHandler: (() => void) | null = null;
-
-	private static _cleanupRegistry = new FinalizationRegistry(
-		(cleanup: () => void) => {
-			cleanup();
-		},
-	);
-
 	static classId = ClassId.WOMB;
 
 	/** Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant.
@@ -282,41 +274,10 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return womb;
 	}
 
-	private _setupTimeListener() {
-		// Create a bound handler to avoid losing 'this' context
-		this._timeUpdateHandler = this._onTimeUpdate.bind(this);
-
-		// Listen for state changes which include time updates
-		GAME_ENGINE.on(":stateChange", this._timeUpdateHandler);
-	}
-
-	private _cleanupTimeListener() {
-		if (this._timeUpdateHandler) {
-			GAME_ENGINE.off(":stateChange", this._timeUpdateHandler);
-			this._timeUpdateHandler = null;
-		}
-	}
-
-	private _onTimeUpdate() {
-		const currentTime = GAME_VARIABLES.gameDateAndTime.date;
-
-		this.updatePregnancy(currentTime);
-	}
-
 	constructor(wombData?: Partial<Womb>) {
 		if (wombData) {
 			this._setDataFromSerializedWomb(wombData);
 		}
-
-		try {
-			// Set up the time update listener
-			this._setupTimeListener();
-		} catch {}
-
-		// Register cleanup for this instance
-		Womb._cleanupRegistry.register(this, () => {
-			this._cleanupTimeListener();
-		});
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
 		return createMutable(this);
