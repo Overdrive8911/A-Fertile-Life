@@ -93,8 +93,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	private _stateMachine = new WombStateMachine(this);
 
-	private static _isWombDamageEnabled = false;
-
 	static classId = ClassId.WOMB;
 
 	/** Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant.
@@ -286,28 +284,28 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	toJSON(): SerializedWomb {
-	return {
-		hp: this.hp,
-		maxHp: this.maxHp,
-		fertility: this._fertility,
-		curCap: this.curCap,
-		comfortCap: this._comfortCap,
-		maxCap: this._maxCap,
-		exp: this.exp,
-		postpartum: this.postpartum,
-		birthControl: this.birthControl,
-		birthRecord: this.birthRecord,
-		lastFertilized: this.lastFertilized,
-		lastBirth: this.lastBirth,
-		growthMod: this.growthMod,
-		perks: this.perks,
-		sideEffects: this.sideEffects,
-		pregnancies: new Map(
-			this.pregnancies
-				.entries()
-				.map(([pregId, preg]) => [pregId, preg.toJSON()]),
-		),
-	};
+		return {
+			hp: this.hp,
+			maxHp: this.maxHp,
+			fertility: this._fertility,
+			curCap: this.curCap,
+			comfortCap: this._comfortCap,
+			maxCap: this._maxCap,
+			exp: this.exp,
+			postpartum: this.postpartum,
+			birthControl: this.birthControl,
+			birthRecord: this.birthRecord,
+			lastFertilized: this.lastFertilized,
+			lastBirth: this.lastBirth,
+			growthMod: this.growthMod,
+			perks: this.perks,
+			sideEffects: this.sideEffects,
+			pregnancies: new Map(
+				this.pregnancies
+					.entries()
+					.map(([pregId, preg]) => [pregId, preg.toJSON()]),
+			),
+		};
 	}
 
 	/** A floating number between 0 and 1 */
@@ -418,38 +416,13 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		return true;
 	}
 
-	// Returns a negative value
-	calculateHealthDamage() {
-		if (!Womb._isWombDamageEnabled) return 0;
-		// Don't allow negative values
-		if ((this.hp / this.maxHp) * WombHealth.FULL_VITALITY < WombHealth.RIP) {
-			this.hp = WombHealth.RIP;
-			return 0;
-		}
-
-		let wombDamage = 0;
-
-		// Calculate the damage per each fetus
-		this.pregnancies.forEach((pregnancy) => {
-			const developmentProgressSinceLastUpdate =
-				pregnancy.averageStats.devRatio - pregnancy.averageStats.lastDevRatio;
-
-			// Every 1% progress in pregnancy development does 0.25 damage.
-			wombDamage +=
-				Math.round((developmentProgressSinceLastUpdate / 1) * 0.25 * 100) / 100;
-		});
-
-		// Consider if the fortified womb perk is active
-		const perks = this.perks;
-		const fortifiedWombPerk = perks.fortifiedWomb;
-		if (fortifiedWombPerk) {
-			wombDamage -=
-				(fortifiedWombPerk.currLevel / Womb.perks.fortifiedWomb.maxLevel) *
-				PregConstants.FORTIFIED_WOMB_PERK_MAX_PASSIVE_HP_DRAIN_NERF *
-				wombDamage;
-		}
-
-		return -wombDamage;
+	/**
+	 *
+	 * @param timeElapsed time passed in milliseconds
+	 * @returns the amount of damage to be subtracted from the womb's hp
+	 */
+	calcHpDrain(timeElapsed: number) {
+		return this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60 / 60 / 24);
 	}
 
 	// Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
@@ -970,6 +943,58 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 			return acc;
 		}, null);
+	}
+
+	get fetusCount(){
+	return this.pregnancies.values().reduce((acc, val)=>acc + val.size, 0)
+	}
+
+	/** Average stats of all pregnancies */
+	get averageStats() {
+		return this.pregnancies.values().reduce<Pregnancy["averageStats"]>(
+			(acc, val) => {
+				const {
+					devRatio,
+					fluid,
+					gestWeek,
+					gestDuration,
+					growthMod,
+					growthRate,
+					height,
+					hp,
+					lastDevRatio,
+					volume,
+					weight,
+				} = val.averageStats;
+
+				acc.devRatio += devRatio;
+				acc.fluid += fluid;
+				acc.gestWeek += gestWeek;
+				acc.gestDuration += gestDuration;
+				acc.growthMod += growthMod;
+				acc.growthRate += growthRate;
+				acc.height += height;
+				acc.hp += hp;
+				acc.lastDevRatio += lastDevRatio;
+				acc.volume += volume;
+				acc.weight += weight;
+
+				return acc;
+			},
+			{
+				devRatio: 0,
+				fluid: 0,
+				gestWeek: 0,
+				gestDuration: 0,
+				growthMod: 0,
+				growthRate: 0,
+				height: 0,
+				hp: 0,
+				lastDevRatio: 0,
+				volume: 0,
+				weight: 0,
+			},
+		);
 	}
 
 	private get _stateInfo() {

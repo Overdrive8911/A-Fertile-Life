@@ -1,6 +1,5 @@
-import { GAME_RANDOM } from "~/game/engine/engine";
 import { Womb } from "../classes/womb";
-import { WombHealth } from "../enums";
+import { PregConstants, WombHealth } from "../enums";
 
 // COnsider Miscarriages, Infertility, and Menopause
 abstract class BaseWombState {
@@ -153,6 +152,13 @@ abstract class BaseWombState {
 	 */
 	abstract readonly multiplesMod: number;
 
+	/** How much health in total the womb will lose **per day**.
+	 *
+	 * NOTE: Hp drain happens gradually based off this value.
+	 *
+	 */
+	abstract readonly wombHpDrain: number;
+
 	/** Try to transition to a new state depending on some checks within.
 	 *
 	 * @returns a single eligible state to transition to, or itself if no eligible state exists
@@ -168,6 +174,8 @@ class Fertile extends BaseWombState {
 	override get multiplesMod() {
 		return this._baseMultiplesModifier;
 	}
+
+	override readonly wombHpDrain = 0;
 
 	override transition(): Conception | Fertile {
 		if (this._relevantPregnancyStageName === "Conception")
@@ -195,9 +203,46 @@ abstract class BasePregnancyState extends BaseWombState {
 
 		return 0;
 	}
+
+	protected get _wombHpDrainModifier() {
+		const womb = this._womb,
+			{ fortifiedWomb, healthyWomb } = womb.perks,
+			{
+				fortifiedWomb: { maxLevel: fortifiedWombMaxLvl },
+				healthyWomb: { maxLevel: healthyWombMaxLvl },
+			} = Womb.perks,
+			healthPerkModifier =
+				((healthyWomb?.currLevel ?? 0) / healthyWombMaxLvl) *
+				PregConstants.HEALTHY_WOMB_PERK_MAX_HP_DECREMENT_NERF,
+			fortifiedWombPerkModifier =
+				((fortifiedWomb?.currLevel ?? 0) / fortifiedWombMaxLvl) *
+				PregConstants.FORTIFIED_WOMB_PERK_MAX_PASSIVE_HP_DRAIN_NERF,
+			wombHpRatio = womb.hpRatio * 100,
+			/** Unhealthier wombs lose more hp while healthier wombs are more resistant */
+			wombHealthModifier =
+				wombHpRatio >= WombHealth.HEALTHY
+					? 0.85
+					: wombHpRatio >= WombHealth.MEDIOCRE
+						? 1
+						: 1.25;
+
+		// TODO: improve this calc later
+		return (
+		// // The modulo here is to make sure that the hp drain scales with the fetus count, but isn't a constant value. Take it as added rng
+		// 	(womb.averageStats.volume % (womb.fetusCount + 1)) *
+		Math.sqrt(womb.fetusCount)*
+			wombHealthModifier *
+			(1 - healthPerkModifier) *
+			(1 - fortifiedWombPerkModifier)
+		);
+	}
 }
 
 class Conception extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 10 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		if (this._relevantPregnancyStageName === "Early Stage")
 			return new EarlyDevelopment(this._womb);
@@ -207,6 +252,11 @@ class Conception extends BasePregnancyState {
 }
 
 class EarlyDevelopment extends BasePregnancyState {
+	// Emulate early pregnancy woes (?)
+	override get wombHpDrain() {
+		return 17.5 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		if (this._relevantPregnancyStageName === "Mid Stage")
 			return new MidDevelopment(this._womb);
@@ -216,6 +266,10 @@ class EarlyDevelopment extends BasePregnancyState {
 }
 
 class MidDevelopment extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 15 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		if (this._relevantPregnancyStageName === "Late Stage")
 			return new LateDevelopment(this._womb);
@@ -227,6 +281,10 @@ class MidDevelopment extends BasePregnancyState {
 }
 
 class LateDevelopment extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 17.5 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		if (this._relevantPregnancyStageName === "Full Term")
 			return new FullTerm(this._womb);
@@ -238,6 +296,10 @@ class LateDevelopment extends BasePregnancyState {
 }
 
 class FullTerm extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 20 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		if (this._relevantPregnancyStageName === "Overdue")
 			return new Overdue(this._womb);
@@ -249,6 +311,10 @@ class FullTerm extends BasePregnancyState {
 }
 
 class Overdue extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 30 * this._wombHpDrainModifier;
+	}
+
 	override transition() {
 		return (
 			this._tryLaborTransition() ?? this._tryPostPartomTransition() ?? this
@@ -257,6 +323,10 @@ class Overdue extends BasePregnancyState {
 }
 
 class Labor extends BasePregnancyState {
+	override get wombHpDrain() {
+		return 75 * this._wombHpDrainModifier;
+	}
+
 	// Can't get pregnant for any reason during labor
 	override get fertilityMod() {
 		return 0;
@@ -272,6 +342,8 @@ class Postpartum extends BaseWombState {
 	override readonly fertilityMod = 0;
 
 	override readonly multiplesMod = 0;
+
+	override readonly wombHpDrain = 0;
 
 	override transition() {
 		// Perform check to see if fertility has been regained
@@ -313,11 +385,12 @@ export class WombStateMachine {
 	}
 
 	get stateInfo() {
-		const state = this._wombState;
+		const { fertilityMod, multiplesMod, wombHpDrain } = this._wombState;
 
 		return {
-			fertilityMod: state.fertilityMod,
-			multiplesMod: state.multiplesMod,
+			fertilityMod,
+			multiplesMod,
+			wombHpDrain,
 		};
 	}
 }
