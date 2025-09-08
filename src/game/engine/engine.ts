@@ -79,9 +79,9 @@ const GAME_RANDOM = () => GAME_ENGINE.random;
 
 GAME_ENGINE.on(":stateChange", () => {
 	// Update all time-sensitive game objects
-	GAME_VARIABLES.player.womb.updatePregnancy(
-		GAME_VARIABLES.gameDateAndTime.date,
-	);
+	GAME_ENGINE.setVars((s) => {
+		s.player.womb.updatePregnancy(GAME_VARIABLES.gameDateAndTime.date, s.player);
+	}, false);
 });
 
 //@ts-expect-error Just for debugging

@@ -4,17 +4,19 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_VARIABLES, GAME_RANDOM, GAME_ENGINE } from "~/game/engine/engine";
+import { GAME_ENGINE, GAME_RANDOM, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getDominantAverage,
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
+import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import type { UUID } from "~/types/uuid";
 import { either } from "~/utils/iterable";
 import { clamp } from "~/utils/math";
 import { FertilityLevel, PregConstants, WombHealth } from "../enums";
+import { WombStateMachine } from "../state-machine/womb-stage";
 import type {
 	PregPerkDynamicData,
 	PregPerkStaticData,
@@ -26,7 +28,6 @@ import type {
 import { BellySize, WombExpLimit } from "../variables";
 import type { Fetus } from "./fetus";
 import { Pregnancy } from "./pregnancy";
-import { WombStateMachine } from "../state-machine/womb-stage";
 
 /* Capacity is in cubic centimetres(CCs) */
 export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
@@ -355,14 +356,13 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	}
 
 	private _canConcieve(virility: number, virilityBonus: number): boolean {
-		const womb = this,
-			fertility = womb.fertility;
+		const fertility = this.fertility;
 
 		if (!fertility || !virility) return false;
 
 		// Simple conception formula: combine virility and fertility
 		const totalPotency = virility + virilityBonus * 0.5;
-		const conceptionChance = (totalPotency + womb.fertility) / 200; // Max 100% with perfect stats
+		const conceptionChance = (totalPotency + this.fertility) / 200; // Max 100% with perfect stats
 
 		return GAME_RANDOM() < conceptionChance;
 	}
@@ -393,7 +393,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		const totalPotency = virility + virilityBonus * 0.5;
 
 		// At 100 virility and fertility (not considering bonuses), the chance should be 1
-		let chance = (totalPotency + this.fertility) / 200;
+		const chance = (totalPotency + this.fertility) / 200;
 
 		const modifiedChance = chance * this._stateInfo.multiplesMod;
 
@@ -664,13 +664,13 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 *
 	 * @param elapsedTime - in seconds
 	 */
-	updatePregnancy(newTime: Date) {
+	updatePregnancy(newTime: Date, user: PlayerV0_0_1) {
 		// NOTE - `customTime` must be in seconds.
 
 		// The target is pregnant so do everything required under here
 		if (this.isPregnant) {
 			this.pregnancies.forEach((pregnancy) => {
-				pregnancy.updateGrowth(newTime);
+				pregnancy.updateGrowth(newTime, user);
 			});
 			return true;
 		}

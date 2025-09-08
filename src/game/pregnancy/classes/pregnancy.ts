@@ -7,6 +7,7 @@ import {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
+import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
 import type { NumberKeys } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
@@ -79,7 +80,7 @@ export class Pregnancy
 					Fetus.fromJSON(pregnancy, serializedFetus),
 				]),
 		);
-		pregnancy.lastUpdate = lastUpdate
+		pregnancy.lastUpdate = lastUpdate;
 		pregnancy._updateStateMachine();
 
 		return pregnancy;
@@ -191,7 +192,7 @@ export class Pregnancy
 	 * @param inputUser
 	 * @returns
 	 */
-	updateGrowth(newTime: Date, inputUser = GAME_VARIABLES.player) {
+	updateGrowth(newTime: Date, inputUser: PlayerV0_0_1) {
 		const womb = this.womb,
 			elapsedTime = newTime.getTime() - this.lastUpdate.getTime();
 
