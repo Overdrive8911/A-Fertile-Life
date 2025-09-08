@@ -194,12 +194,11 @@ export class Pregnancy
 	 */
 	updateGrowth(newTime: Date, inputUser: PlayerV0_0_1) {
 		const womb = this.womb,
-			elapsedTime = newTime.getTime() - this.lastUpdate.getTime();
+			/** Time in seconds elapsed */
+			elapsedTime = (newTime.getTime() - this.lastUpdate.getTime()) / 1000;
 
-		this.fetuses.forEach((targetFetus) => {
-			// Determine how much to progress the fetus since the last update
-			// Also get useful data
-
+		// Determine how much to progress the fetus since the last update
+		for (const [_, targetFetus] of this.fetuses) {
 			// Get the total gestation time for the fetus
 			const gestationPeriod = targetFetus.gestDuration;
 
@@ -367,7 +366,7 @@ export class Pregnancy
 
 			// Replace the data of the fetus with the updated one
 			this.fetuses.set(targetFetus.id, targetFetus);
-		});
+		}
 
 		// Apply womb damage
 		womb.addHp(-womb.calcHpDrain(elapsedTime));
@@ -383,7 +382,8 @@ export class Pregnancy
 			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
 
-		this.lastUpdate = newTime;
+		/** Update the prop with the cloned date */
+		this.lastUpdate = new Date(newTime);
 
 		return true;
 	}
