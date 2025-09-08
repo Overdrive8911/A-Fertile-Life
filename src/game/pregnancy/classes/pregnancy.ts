@@ -1,13 +1,13 @@
 import { ReactiveMap } from "@solid-primitives/map";
 import { createMutable } from "solid-js/store";
 import type { SugarBoxCompatibleClassInstance } from "sugarbox";
+import type { Player } from "~/game/character/class/player";
 import { GAME_RANDOM, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
-import type { Player } from "~/game/types/story-variables/player";
 import type { NumberKeys } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
