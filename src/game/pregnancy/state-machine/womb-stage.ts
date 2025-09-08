@@ -228,9 +228,9 @@ abstract class BasePregnancyState extends BaseWombState {
 
 		// TODO: improve this calc later
 		return (
-		// // The modulo here is to make sure that the hp drain scales with the fetus count, but isn't a constant value. Take it as added rng
-		// 	(womb.averageStats.volume % (womb.fetusCount + 1)) *
-		Math.sqrt(womb.fetusCount)*
+			// // The modulo here is to make sure that the hp drain scales with the fetus count, but isn't a constant value. Take it as added rng
+			// 	(womb.averageStats.volume % (womb.fetusCount + 1)) *
+			Math.sqrt(womb.fetusCount) *
 			wombHealthModifier *
 			(1 - healthPerkModifier) *
 			(1 - fortifiedWombPerkModifier)

@@ -19,6 +19,7 @@ type SerializedPregnancy = {
 	id: UUID;
 	fetuses: Map<number, ReturnType<typeof Fetus.prototype.toJSON>>;
 	conception: Date;
+	lastUpdate: Date;
 };
 
 const GAME_DATE = () => GAME_VARIABLES.gameDateAndTime.date;
@@ -41,6 +42,7 @@ export class Pregnancy
 	fetuses: ReactiveMap<number, Fetus> = new ReactiveMap();
 	/** The last time a fetus was generated and added to this class */
 	conception: Date = GAME_DATE();
+	lastUpdate: Date = this.conception;
 
 	private readonly _pregStateMachine: PregStateMachine;
 
@@ -65,7 +67,7 @@ export class Pregnancy
 
 	static fromJSON(womb: Womb, data: SerializedPregnancy): Pregnancy {
 		const pregnancy = new Pregnancy(womb),
-			{ conception: dateConceived, fetuses, id } = data;
+			{ conception: dateConceived, fetuses, id, lastUpdate } = data;
 
 		pregnancy.conception = dateConceived;
 		pregnancy.id = id;
@@ -77,6 +79,7 @@ export class Pregnancy
 					Fetus.fromJSON(pregnancy, serializedFetus),
 				]),
 		);
+		pregnancy.lastUpdate = lastUpdate
 		pregnancy._updateStateMachine();
 
 		return pregnancy;
@@ -91,6 +94,7 @@ export class Pregnancy
 					.map(([fetusId, fetus]) => [fetusId, fetus.toJSON()]),
 			),
 			id: this.id,
+			lastUpdate: this.lastUpdate,
 		};
 	}
 
@@ -183,12 +187,13 @@ export class Pregnancy
 	 * TODO - Add side effects to womb Health
 	 *
 	 * @param womb
-	 * @param elapsedTime - in seconds
+	 * @param newTime
 	 * @param inputUser
 	 * @returns
 	 */
-	updateGrowth(elapsedTime: number, inputUser = GAME_VARIABLES.player) {
-		const womb = this.womb;
+	updateGrowth(newTime: Date, inputUser = GAME_VARIABLES.player) {
+		const womb = this.womb,
+			elapsedTime = newTime.getTime() - this.lastUpdate.getTime();
 
 		this.fetuses.forEach((targetFetus) => {
 			// Determine how much to progress the fetus since the last update
@@ -376,6 +381,8 @@ export class Pregnancy
 		this.fetuses.forEach((fetus) => {
 			fetus.lastDevRatio = fetus.devRatio; // Update it
 		});
+
+		this.lastUpdate = newTime;
 
 		return true;
 	}
