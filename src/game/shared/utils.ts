@@ -5,8 +5,11 @@ import { BodyArea } from "./enums";
 
 /** Returns a random floating number within the specified range */
 function getRandomFloatInRange(lowerBound: number, upperBound: number): number {
-	if (upperBound < lowerBound)
-		throw new Error("Upper bound is less than lower bound");
+	if (upperBound < lowerBound) {
+		const temp = upperBound;
+		upperBound = lowerBound;
+		lowerBound = temp;
+	}
 
 	let randomSource: number;
 
