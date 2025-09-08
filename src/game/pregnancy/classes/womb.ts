@@ -11,7 +11,7 @@ import {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
-import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
+import type { Player } from "~/game/types/story-variables/player";
 import type { UUID } from "~/types/uuid";
 import { either } from "~/utils/iterable";
 import { clamp } from "~/utils/math";
@@ -29,7 +29,13 @@ import { BellySize, WombExpLimit } from "../variables";
 import type { Fetus } from "./fetus";
 import { Pregnancy } from "./pregnancy";
 
-/* Capacity is in cubic centimetres(CCs) */
+/**
+ * Pregnancy capacity and duration guidelines:
+ * - A single full term pregnancy is about 30000CC, every extra full term baby adds about 15000CC under normal conditions
+ * - A regular pregnancy lasts for at least 40 weeks if her womb capacity hasn't been exceeded and 37 weeks if it has
+ * - The PC's pregnancy lasts for at least 4 weeks if her womb capacity hasn't been exceeded and 3 weeks 4 days if it has
+ * - Capacity is in cubic centimetres(CCs)
+ */
 export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/**
 	 * Unhealthy wombs gestate slower. It slowly reduces with time while pregnant but will only get critically low if the user doesn't take care of themselves. Going beyond womb.comfortCapacity, and to a much higher extent with womb.maxCapacity, consumes more hp. The PC's womb will give out at 0hp. Heals overnight while sleeping, with drugs, womb treatments, or eating
@@ -664,7 +670,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 *
 	 * @param elapsedTime - in seconds
 	 */
-	updatePregnancy(newTime: Date, user: PlayerV0_0_1) {
+	updatePregnancy(newTime: Date, user: Player) {
 		// NOTE - `customTime` must be in seconds.
 
 		// The target is pregnant so do everything required under here

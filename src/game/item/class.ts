@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js/jsx-runtime";
-import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
+import type { Player } from "~/game/types/story-variables/player";
 import DummyImg from "~/media/img/items/dummy.webp";
 import { areAllFlagsSet } from "~/utils/bitfields";
 import { GAME_ENGINE } from "../engine/engine";
@@ -74,10 +74,7 @@ abstract class ConsumableItem<
 	 */
 	readonly expiresIn: number = 0;
 
-	protected abstract _applyEffect(
-		effect: TEffectType,
-		user: PlayerV0_0_1,
-	): void;
+	protected abstract _applyEffect(effect: TEffectType, user: Player): void;
 
 	/** Applies the effect(s) of the item to the player */
 	use() {

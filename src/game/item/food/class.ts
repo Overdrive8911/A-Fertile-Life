@@ -1,5 +1,5 @@
 import { Womb } from "~/game/pregnancy/classes/womb";
-import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
+import type { Player } from "~/game/types/story-variables/player";
 import { ConsumableItem } from "../class";
 import { ItemTag } from "../enums";
 import type { ItemConstructorArgs } from "../types";
@@ -15,7 +15,7 @@ class Food extends ConsumableItem<FoodEffect> {
 		this.tags.add(ItemTag.FOOD);
 	}
 
-	override _applyEffect(foodEffect: FoodEffect, user: PlayerV0_0_1): void {
+	override _applyEffect(foodEffect: FoodEffect, user: Player): void {
 		let hpChange = 0,
 			wombHpChange = 0,
 			moodChange = 0,
@@ -79,7 +79,7 @@ class Food extends ConsumableItem<FoodEffect> {
 			user.womb.maxHp * hpChange * 0.3 + user.womb.maxHp * wombHpChange,
 		);
 
-		user.mental.mood += moodChange;
+		user.mood += moodChange;
 
 		// TODO, turn the player into a character class and add setters for these stuff
 		user.fullness = Math.min(100, user.fullness + 100 * fullnessChange);

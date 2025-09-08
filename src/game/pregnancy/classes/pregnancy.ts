@@ -7,7 +7,7 @@ import {
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
-import type { PlayerV0_0_1 } from "~/game/types/story-variables/player";
+import type { Player } from "~/game/types/story-variables/player";
 import type { NumberKeys } from "~/types/generics";
 import type { UUID } from "~/types/uuid";
 import { getRandomUUID } from "~/utils/random";
@@ -192,7 +192,7 @@ export class Pregnancy
 	 * @param inputUser
 	 * @returns
 	 */
-	updateGrowth(newTime: Date, inputUser: PlayerV0_0_1) {
+	updateGrowth(newTime: Date, inputUser: Player) {
 		const womb = this.womb,
 			/** Time in seconds elapsed */
 			elapsedTime = (newTime.getTime() - this.lastUpdate.getTime()) / 1000;
@@ -234,15 +234,6 @@ export class Pregnancy
 
 			additionalDevelopmentProgress +=
 				additionalDevelopmentProgress * gestatorPerkSpeedBoost;
-
-			// ANCHOR - IMMUNITY PERK
-			const immunityPerk = perks.immunityBoost;
-			inputUser.immunity += immunityPerk
-				? (immunityPerk.currLevel / Womb.perks.immunityBoost.maxLevel) *
-					PregConstants.IMMUNITY_PERK_MAX_BOOST_PER_FETUS *
-					additionalDevelopmentProgress
-				: 0;
-			// !SECTION
 
 			// Add the additional progress into the fetus's data and make sure it doesn't exceed the limit. It can go beyond 100, and that means the fetus is overdue
 			const newDevelopmentRatio =
