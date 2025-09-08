@@ -1,5 +1,5 @@
+import type { Player } from "~/game/character/class/player";
 import { Womb } from "~/game/pregnancy/classes/womb";
-import type { Player } from "~/game/types/story-variables/player";
 import { ConsumableItem } from "../class";
 import { ItemTag } from "../enums";
 import type { ItemConstructorArgs } from "../types";

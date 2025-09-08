@@ -4,14 +4,14 @@ import type {
 	SugarBoxCompatibleClassConstructorCheck,
 	SugarBoxCompatibleClassInstance,
 } from "sugarbox";
-import { GAME_ENGINE, GAME_RANDOM, GAME_VARIABLES } from "~/game/engine/engine";
+import type { Player } from "~/game/character/class/player";
+import { GAME_RANDOM, GAME_VARIABLES } from "~/game/engine/engine";
 import { ClassId } from "~/game/shared/enums";
 import {
 	getDominantAverage,
 	getRandomFloatInRange,
 	getRandomIntegerInRange,
 } from "~/game/shared/utils";
-import type { Player } from "~/game/types/story-variables/player";
 import type { UUID } from "~/types/uuid";
 import { either } from "~/utils/iterable";
 import { clamp } from "~/utils/math";
