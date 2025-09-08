@@ -34,3 +34,9 @@ export type EnumToArray<TEnum extends string | number | symbol> = readonly [
 
 /** Brand type for creating nominal types */
 export type Brand<T, TBrand> = T & { readonly __brand: TBrand };
+
+/** Type-level satisfies that ensures `TActualType` satisfies the constraint `TTypeToBeSatisfied` while preserving `TActualType`'s specific type */
+export type Satisfies<
+	TActualType extends TTypeToBeSatisfied,
+	TTypeToBeSatisfied,
+> = TActualType;

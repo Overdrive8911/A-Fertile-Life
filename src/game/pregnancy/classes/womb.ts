@@ -18,12 +18,10 @@ import { clamp } from "~/utils/math";
 import { FertilityLevel, PregConstants, WombHealth } from "../enums";
 import { WombStateMachine } from "../state-machine/womb-stage";
 import type {
-	PregPerkDynamicData,
-	PregPerkStaticData,
-	PregPerksObject,
-	PregSideEffectDynamicData,
-	PregSideEffectStaticData,
-	PregSideEffectsObject,
+	PregPerkDynamicDataObject,
+	PregPerkStaticDataObject,
+	PregSideEffectDynamicDataObject,
+	PregSideEffectStaticDataObject,
 } from "../types";
 import { BellySize, WombExpLimit } from "../variables";
 import type { Fetus } from "./fetus";
@@ -92,9 +90,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	/** A multiplier that affects the growth rate of the fetuses, the player's own is x10 */
 	growthMod = 1;
 
-	perks: PregPerksObject<PregPerkDynamicData> = {};
+	perks: PregPerkDynamicDataObject = {};
 
-	sideEffects: PregSideEffectsObject<PregSideEffectDynamicData> = {};
+	sideEffects: PregSideEffectDynamicDataObject = {};
 
 	pregnancies = new ReactiveMap<UUID, Pregnancy>();
 
@@ -111,120 +109,93 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 * TODO - Change the prices later to something more reasonable. Also, add more perks
 	 */
 	static readonly perks = {
-		/** Increases the speed of pregnancies, but makes and keeps the user hungrier. At the maximum level, pregnancy duration sped up by `gGestatorPerkMaxSpeedBoost` and additional hunger drain is always 30% of that. */
 		gestator: {
 			price: 5000,
 			maxLevel: 10,
 		},
-		/** Increases the chance of multiples. Higher level can guarantee more babies. At the maximum level, 10 babies can usually be conceived at once */
 		hyperFertility: {
 			price: 3000,
 			maxLevel: 5,
 		},
-		/** Give a little chance for another pregnancy to be conceived while already pregnant. Short for superfetation. May or may not be implemented */
 		superFet: {
 			price: 15000,
 			maxLevel: 5,
 		},
-		/** Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */
 		elasticity: {
 			price: 7000,
 			maxLevel: 10,
 		},
-		/** Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */
 		immunityBoost: {
 			price: 2000,
 			maxLevel: 5,
 		},
-		/** Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */
 		motherlyHips: {
 			price: 5000,
 			maxLevel: 5,
 		},
-		/** Slowly increases breastSize and milkCapacity while pregnant. Milking yourself is more pleasurable. */
 		motherlyBoobs: {
 			price: 5000,
 			maxLevel: 5,
 		},
-		/** Can carry bigger pregnancies and more weight before becoming bed bound */
 		ironSpine: {
 			price: 7000,
 			maxLevel: 5,
 		},
-		/** Fetal movement increases your arousal (this can make doing activities with a full womb much harder) and mental health; the more babies your pregnant with, the greater the boost. Natural birth will always be pleasurable but may be longer if you orgasm too much. Slowly increases womb.comfortCapacity to an extent. Basically hyperuterine sensitivity */
 		sensitiveWomb: {
 			price: 6000,
 			maxLevel: 5,
 		},
-		/** Increases all sources of gain to womb.hp. Slightly weakens all decrements to womb.hp */
 		healthyWomb: {
 			price: 3000,
 			maxLevel: 10,
 		},
-		/** Raises womb.maxCapacity. The womb can never burst (once fully upgraded) but reaching that point automatically bed-bounds the user. Once upgraded halfway, allows the user to naturally delay labour to a certain extent. Slows down womb.hp drain */
 		fortifiedWomb: {
 			price: 10000,
 			maxLevel: 5,
 		},
-		/** Reduces the postpartum period, completely erasing it at max. Is only useful when activated before giving birth, that is, activating this perk during the postpartum period does nothing (Note that the PC has a recovery period of a week) */
 		noPostpartum: {
 			price: 2000,
 			maxLevel: 10,
 		},
-		/** Increases amniotic fluid production per fetus */
 		polyhydramnios: {
 			price: 1500,
 			maxLevel: 10,
 		},
-	} as const satisfies Required<PregPerksObject<PregPerkStaticData>>;
+	} as const satisfies PregPerkStaticDataObject;
 
 	/** Most can occur anytime in a pregnancy after 20% of fetal development is achieved and usually reduce performance or do some other undesirable stuff until they leave. Upgrading some perks can cause them to become stronger.
 	 *
 	 * TODO - Add more side effects
 	 */
 	static readonly sideEffects = {
-		/* Constantly reduces some stats and benefits of food until a randomly generated craving is satisfied. */
 		cravingCrisis: {
 			maxDuration: [1, 2],
 		},
 
-		/* Reduces the amount of fullness food gives and allows fullness to be exceeded to a randomly generated extent. The user suffers penalties in stats and productivity if their . */
 		motherHunger: {
 			maxDuration: [1, 2, 3],
 		},
 
-		/* Drains energy faster and increases the energy cost of actions. Also reduces concentration and efficiency at work. The user will have to temporarily soother their children a lot. */
 		restlessBrood: {
 			maxDuration: [2, 3],
 		},
 
-		/* Reduces non-vehicle movement speed and drains energy faster. Trying to do work in this condition may extend it. */
 		heavyWomb: {
 			maxDuration: [3, 5, 7],
 		},
 
-		/* Happens randomly around the user's due date and takes a small cut out of their stats. It also has the user stunned in place temporarily. */
 		contractions: {
 			maxDuration: [1, 2, 3, 5],
 		},
 
-		/* Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */
-		labour: {
+		labor: {
 			maxDuration: [3],
 		},
 
-		// /* Maxes out arousal once a day and keeps it above 75 */
-		// sexCraving: {
-		// 	maxDuration: [1, 3],
-		// },
-
-		/* Can happen whenever the user does a lot of stuff that attributes to the growth of their pregnancy. This will happen around 12pm or 12am */
 		growthSpurt: {
 			maxDuration: [1, 2, 3],
 		},
-	} as const satisfies Required<
-		PregSideEffectsObject<PregSideEffectStaticData>
-	>;
+	} as const satisfies PregSideEffectStaticDataObject;
 
 	private _setDataFromSerializedWomb(data: Partial<SerializedWomb>) {
 		const {
@@ -823,7 +794,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	upgradePerk(perk: keyof typeof this.perks, lvlToAdd: number) {
 		if (this.isPerkActive(perk)) {
-			const perkData = this.perks[perk] as PregPerkDynamicData;
+			// biome-ignore lint/style/noNonNullAssertion: <The conditional will make it true>
+			const perkData = this.perks[perk]!;
+
 			perkData.currLevel = clamp(
 				perkData.currLevel + lvlToAdd,
 				1,
@@ -1032,8 +1005,8 @@ type SerializedWomb = {
 	lastFertilized: Date | null;
 	lastBirth: Date | null;
 	growthMod: number;
-	perks: PregPerksObject<PregPerkDynamicData>;
-	sideEffects: PregSideEffectsObject<PregSideEffectDynamicData>;
+	perks: PregPerkDynamicDataObject;
+	sideEffects: PregSideEffectDynamicDataObject;
 	pregnancies: Map<UUID, ReturnType<typeof Pregnancy.prototype.toJSON>>;
 };
 
