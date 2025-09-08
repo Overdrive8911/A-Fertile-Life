@@ -10,7 +10,7 @@ export function RightPanel() {
 	return (
 		<div class="flex justify-center items-center">
 			<div
-				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} flex flex-col *:grow border border-primary ${ROUNDED_BORDER} text-center bg-base-200 gap-4 overflow-y-auto`}
+				class={`${RIGHT_AND_LEFT_PANEL_DIMENSION} flex flex-col *:grow border border-primary ${ROUNDED_BORDER} text-center bg-base-200 gap-4 overflow-clip overflow-y-auto`}
 			>
 				<StatusDisplay />
 
