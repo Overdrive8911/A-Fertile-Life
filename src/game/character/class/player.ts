@@ -169,12 +169,20 @@ export class Player
 		this._energy = clamp(value, StatBound.MIN_ZERO, StatBound.MAX_ENERGY);
 	}
 
+	get energyRatio() {
+		return this._energy / StatBound.MAX_ENERGY;
+	}
+
 	get fullness(): number {
 		return this._fullness;
 	}
 
 	set fullness(value: number) {
 		this._fullness = clamp(value, StatBound.MIN_ZERO, StatBound.MAX_FULLNESS);
+	}
+
+	get fullnessRatio(): number {
+		return this._fullness / StatBound.MAX_FULLNESS;
 	}
 
 	get height(): number {
@@ -205,6 +213,10 @@ export class Player
 		this._hp = clamp(value, StatBound.MIN_ZERO, this._maxHp);
 	}
 
+	get hpRatio() {
+		return this._hp / this._maxHp;
+	}
+
 	get maxHp(): number {
 		return this._maxHp;
 	}
@@ -219,6 +231,10 @@ export class Player
 
 	set mood(value: number) {
 		this._mood = clamp(value, StatBound.MIN_ZERO, StatBound.MAX_MOOD);
+	}
+
+	get moodRatio(): number {
+		return this._mood / StatBound.MAX_MOOD;
 	}
 
 	get muscle(): number {

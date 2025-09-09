@@ -537,6 +537,10 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
     - Each singleton full-term, non-overdue pregnancy gives about a 1000exp without bonuses
     */
 
+    get expRatio(){
+      return this.exp / Womb.getExpLimit(this.lvl + 1)
+    }
+
 	updateExpValue() {
 		let expToAdd = 0;
 		const wombLvl = this.lvl;
