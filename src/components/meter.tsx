@@ -1,4 +1,5 @@
 import { createSignal, onMount } from "solid-js";
+import { toTwoDemicalPlaces } from "~/utils/number";
 import { Tooltip } from "./tooltip";
 
 // Defaults
@@ -66,7 +67,7 @@ function Meter(prop: {
 	const highColor = () => prop.highColor ?? HIGH_COLOR;
 	const emptyColor = () => prop.emptyColor ?? EMPTY_COLOR;
 
-	const percentageVal = () => `${prop.val * 100}%`;
+	const percentageVal = () => `${toTwoDemicalPlaces(prop.val * 100)}%`;
 
 	const meterColor = () =>
 		interpolateColor(prop.val, lowColor(), midColor(), highColor());
@@ -121,7 +122,8 @@ function StatMeter(prop: {
 }) {
 	const [wrapperHeight, setWrapperHeight] = createSignal(0);
 
-	const meterTitle = () => `${prop.stat}: ${prop.val * 100}%` as const;
+	const meterTitle = () =>
+		`${prop.stat}: ${toTwoDemicalPlaces(prop.val * 100)}%` as const;
 
 	let meterContainer!: HTMLDivElement;
 
