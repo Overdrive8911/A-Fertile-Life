@@ -125,10 +125,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			price: 7000,
 			maxLevel: 10,
 		},
-		immunityBoost: {
-			price: 2000,
-			maxLevel: 5,
-		},
 		motherlyHips: {
 			price: 5000,
 			maxLevel: 5,
@@ -172,10 +168,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			maxDuration: [1, 2],
 		},
 
-		motherHunger: {
-			maxDuration: [1, 2, 3],
-		},
-
 		restlessBrood: {
 			maxDuration: [2, 3],
 		},
@@ -184,13 +176,13 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			maxDuration: [3, 5, 7],
 		},
 
-		contractions: {
-			maxDuration: [1, 2, 3, 5],
-		},
+		// contractions: {
+		// 	maxDuration: [1, 2, 3, 5],
+		// },
 
-		labor: {
-			maxDuration: [3],
-		},
+		// labor: {
+		// 	maxDuration: [3],
+		// },
 
 		growthSpurt: {
 			maxDuration: [1, 2, 3],
@@ -399,35 +391,18 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 * @returns the amount of damage to be subtracted from the womb's hp
 	 */
 	calcHpDrain(timeElapsed: number) {
-		// Base off the drain per hour
+		// Base off the drain per minute
 		return this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60);
 	}
 
-	// Every gHoursBetweenPregUpdate, the womb will heal by this much depending on how much hp it already had
-	gradualWombHealthIncreaser() {
-		const womb = this as Womb;
-		// Don't allow too large values
-		if (womb.hp > womb.maxHp) {
-			womb.hp = womb.maxHp;
-			return 0;
-		}
-
-		const hpRatio = (womb.hp / womb.maxHp) * WombHealth.FULL_VITALITY;
-		let hpToAdd = 0;
-		if (hpRatio >= WombHealth.VERY_HEALTHY) {
-			hpToAdd = 5;
-		} else if (hpRatio >= WombHealth.HEALTHY) {
-			hpToAdd = 4;
-		} else if (hpRatio >= WombHealth.MEDIOCRE) {
-			hpToAdd = 3;
-		} else if (hpRatio >= WombHealth.POOR) {
-			hpToAdd = 2;
-		} else if (hpRatio >= WombHealth.VERY_POOR) {
-			hpToAdd = 1;
-		} else hpToAdd = 0.5;
-
-		if (womb.hp + hpToAdd > womb.maxHp) return 0;
-		else return hpToAdd;
+	/**
+	 *
+	 * @param timeElapsed time passed in milliseconds
+	 * @returns the amount of health to be added to the womb's hp
+	 */
+	calcHpHeal(timeElapsed:number){
+	// Base off the healing per minute
+	return this._stateInfo.wombHpHeal * (timeElapsed / 1000 / 60)
 	}
 
 	// NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD

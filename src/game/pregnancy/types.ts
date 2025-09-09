@@ -26,7 +26,6 @@ type PregPerks =
 	| "hyperFertility"
 	| "superFet"
 	| "elasticity"
-	| "immunityBoost"
 	| "motherlyHips"
 	| "motherlyBoobs"
 	| "ironSpine"
@@ -51,9 +50,6 @@ type PregPerkObject<TData extends EitherPerkPerkDataType> = Satisfies<
 
 		/** Slightly increases all bonuses to womb.exp increments. Gradually increases womb.comfortCapacity and slightly increases womb.maxCapacity */
 		elasticity: TData;
-
-		/** Increases immunity when pregnant; giving higher bonuses at the pregnancy advances */
-		immunityBoost: TData;
 
 		/** Slowly increases hipWidth to Child-Bearing while pregnant. Can allow the user keep doing lower-body intensive activities. Natural birth is much easier, quicker and less painful */
 		motherlyHips: TData;
@@ -89,11 +85,10 @@ export type PregPerkDynamicDataObject = Partial<
 
 type PregSideEffects =
 	| "cravingCrisis"
-	| "motherHunger"
 	| "restlessBrood"
 	| "heavyWomb"
-	| "contractions"
-	| "labor"
+	// | "contractions"
+	// | "labor"
 	| "growthSpurt";
 
 type EitherSideEffectDataType =
@@ -102,11 +97,8 @@ type EitherSideEffectDataType =
 
 type PregSideEffectObject<TData extends EitherSideEffectDataType> = Satisfies<
 	{
-		/** Pregnancy cravings fluctuate wildly from starving to satiated to hungry in real time. Constant management needed. */
+		/** Pregnancy cravings fluctuate wildly from starving to satiated to hungry in real time. Constant management needed. Requires specific food items and decreases all sources of increasing fullness. */
 		cravingCrisis: TData;
-
-		/** Gradually increases caloric needs while pregnant. */
-		motherHunger: TData;
 
 		/** Fetuses are more active than usual and cause discomfort, making activity difficult. Pregnant characters may find it hard to focus or move comfortably. Also drains more stamina and womb health */
 		restlessBrood: TData;
@@ -114,11 +106,11 @@ type PregSideEffectObject<TData extends EitherSideEffectDataType> = Satisfies<
 		/** The womb feels abnormally heavy, impeding movement and making physical tasks more challenging. Also drains more stamina and womb health  */
 		heavyWomb: TData;
 
-		/** The womb contracts occasionally, causing discomfort and signaling the body is preparing for labor. Happens randomly around the user's due date and takes a small cut out of their stats */
-		contractions: TData;
+		// /** The womb contracts occasionally, causing discomfort and signaling the body is preparing for labor. Happens randomly around the user's due date and takes a small cut out of their stats */
+		// contractions: TData;
 
-		/** The final stage of pregnancy where the birth process begins. Active labor with contractions and the need to deliver. Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */
-		labor: TData;
+		// /** The final stage of pregnancy where the birth process begins. Active labor with contractions and the need to deliver. Constantly reduces the user's stats until they start giving birth. Once womb.hp or hp reach critical levels, the user automatically starts birthing. Can be delayed with labour-suppression drugs/treatments and specific perks. */
+		// labor: TData;
 
 		/** Fetuses experience rapid growth spurts, increasing size and weight significantly in short periods. */
 		growthSpurt: TData;

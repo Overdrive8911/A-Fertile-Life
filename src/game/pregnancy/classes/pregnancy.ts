@@ -359,8 +359,8 @@ export class Pregnancy
 			this.fetuses.set(targetFetus.id, targetFetus);
 		}
 
-		// Apply womb damage
-		womb.addHp(-womb.calcHpDrain(elapsedTime));
+		// Apply womb damage and healing
+		womb.addHp(womb.calcHpHeal(elapsedTime) - womb.calcHpDrain(elapsedTime));
 
 		// Increase the womb's exp
 		womb.exp += womb.updateExpValue();
