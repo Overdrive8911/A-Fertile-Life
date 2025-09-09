@@ -194,7 +194,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 										<Show when={autoSaveData()}>
 											{(data) => (
 												<>
-													<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
+													<h3 class="font-bold max-w-[35ch] truncate">
 														{data().id}
 													</h3>
 													<div class="text-info">{data().savedOn}</div>
@@ -276,7 +276,7 @@ export function SaveGameModal(prop: { modalId: string }) {
 													<Show when={saveData()}>
 														{(data) => (
 															<>
-																<h3 class="font-bold max-w-[35ch] overflow-clip text-ellipsis">
+																<h3 class="font-bold max-w-[35ch] truncate">
 																	{data().id}
 																</h3>
 																<div class="text-info">{data().savedOn}</div>

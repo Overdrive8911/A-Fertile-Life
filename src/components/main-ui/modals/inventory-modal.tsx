@@ -442,9 +442,7 @@ export function InventoryModal(prop: { modalId: string }) {
 												/>
 
 												<Tooltip class="w-full" text={itemName()}>
-													<div class="overflow-clip whitespace-nowrap text-ellipsis">
-														{itemName()}
-													</div>
+													<div class="truncate">{itemName()}</div>
 												</Tooltip>
 
 												<div class="badge badge-soft badge-accent badge-sm absolute -top-2 -right-2">
@@ -492,9 +490,7 @@ export function ItemStackModal(props: ItemStackModalProps) {
 						</Show>
 					}
 				>
-					<div class="text-info whitespace-nowrap text-ellipsis overflow-clip">
-						{props.value}
-					</div>
+					<div class="text-info truncate">{props.value}</div>
 				</Tooltip>
 			</div>
 		);
