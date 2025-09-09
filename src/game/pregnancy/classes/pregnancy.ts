@@ -360,7 +360,10 @@ export class Pregnancy
 		}
 
 		// Apply womb damage and healing
-		womb.addHp(womb.calcHpHeal(elapsedTime) - womb.calcHpDrain(elapsedTime));
+		womb.addHp(
+			womb.calcHpHeal(elapsedTime / 1000) -
+				womb.calcHpDrain(elapsedTime * 1000),
+		);
 
 		// Increase the womb's exp
 		womb.exp += womb.updateExpValue();

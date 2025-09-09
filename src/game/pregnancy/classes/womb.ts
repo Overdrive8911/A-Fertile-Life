@@ -96,6 +96,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	pregnancies = new ReactiveMap<UUID, Pregnancy>();
 
+	/** The last time the womb got it's data updated based on time passed */
+	lastUpdate: Date | null = null;
+
 	private _stateMachine = new WombStateMachine(this);
 
 	static classId = ClassId.WOMB;
@@ -200,6 +203,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			hp = this.hp,
 			lastBirth = this.lastBirth,
 			lastFertilized = this.lastFertilized,
+			lastUpdate = this.lastUpdate,
 			maxCap = this._maxCap,
 			maxHp = this.maxHp,
 			birthControl = this.birthControl,
@@ -219,6 +223,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		this.hp = hp;
 		this.lastBirth = lastBirth;
 		this.lastFertilized = lastFertilized;
+		this.lastUpdate = lastUpdate;
 		this.maxHp = maxHp;
 		this.birthControl = birthControl;
 		this.perks = perks;
@@ -267,6 +272,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			birthRecord: this.birthRecord,
 			lastFertilized: this.lastFertilized,
 			lastBirth: this.lastBirth,
+			lastUpdate: this.lastUpdate,
 			growthMod: this.growthMod,
 			perks: this.perks,
 			sideEffects: this.sideEffects,
@@ -291,6 +297,19 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	get isPostPartum(): boolean {
 		return !!this.postpartum;
+	}
+
+	/** For all process that should happen as time passes */
+	updateWithTime(date: Date, user: Player) {
+		const timeElapsed = this.lastUpdate
+			? date.getTime() - this.lastUpdate.getTime()
+			: 1000 * 60 * 5; // Default to 5 minutes
+
+		if (!this.updatePregnancy(date, user)) {
+			this.addHp(this.calcHpHeal(timeElapsed));
+		}
+
+		this.lastUpdate = new Date(date);
 	}
 
 	/**
@@ -392,7 +411,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 */
 	calcHpDrain(timeElapsed: number) {
 		// Base off the drain per minute
-		return this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60);
+		return (this._stateInfo.wombHpDrain * (timeElapsed / 1000 / 60)) / 1000;
 	}
 
 	/**
@@ -400,9 +419,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 * @param timeElapsed time passed in milliseconds
 	 * @returns the amount of health to be added to the womb's hp
 	 */
-	calcHpHeal(timeElapsed:number){
-	// Base off the healing per minute
-	return this._stateInfo.wombHpHeal * (timeElapsed / 1000 / 60)
+	calcHpHeal(timeElapsed: number) {
+		// Base off the healing per minute
+		return (this._stateInfo.wombHpHeal * (timeElapsed / 1000 / 60)) / 1000;
 	}
 
 	// NOTE - INCREASING OR REDUCING THE WOMB HP VALUE MUST BE CALLED USING THIS METHOD
@@ -615,7 +634,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 *
 	 * TODO - Add side effects to womb health
 	 *
-	 * @param elapsedTime - in seconds
+	 * @returns `true` if there were pregnancies to be updated, else `false`
 	 */
 	updatePregnancy(newTime: Date, user: Player) {
 		// NOTE - `customTime` must be in seconds.
@@ -977,6 +996,7 @@ type SerializedWomb = {
 	postpartum: number;
 	birthControl: boolean;
 	birthRecord: number;
+	lastUpdate: Date | null;
 	lastFertilized: Date | null;
 	lastBirth: Date | null;
 	growthMod: number;

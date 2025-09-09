@@ -26,11 +26,7 @@ export function StatusDisplay() {
 					stat="Energy"
 					icon={energyIcon}
 				/>
-				<StatMeter
-					val={player().mental.mood / 100}
-					stat="Mood"
-					icon={moodIcon}
-				/>
+				<StatMeter val={player().mood / 100} stat="Mood" icon={moodIcon} />
 				<StatMeter
 					val={player().fullness / 100}
 					stat="Fullness"

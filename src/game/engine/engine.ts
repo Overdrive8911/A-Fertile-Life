@@ -9,6 +9,7 @@ import {
 import type { SaveDataV0_0_1 } from "~/game/types/story-variables/save-data";
 import { useSugarboxEngine } from "~/utils/reactivity";
 import { Breasts } from "../body-stats/class/breast";
+import { Player } from "../character/class/player";
 import { GameDateAndTime } from "../date-and-time/class";
 import { Inventory } from "../inventory/class";
 import { NextPassage } from "../passages/debug-passage";
@@ -63,7 +64,7 @@ const GAME_ENGINE = await SugarboxEngine.init<
 		saveSlots: EngineDefaults.SAVE_SLOTS,
 		saveVersion: `0.0.1`,
 	},
-	classes: [Breasts, GameDateAndTime, Inventory, Womb],
+	classes: [Player, Breasts, GameDateAndTime, Inventory, Womb],
 });
 
 const {
@@ -80,7 +81,7 @@ const GAME_RANDOM = () => GAME_ENGINE.random;
 GAME_ENGINE.on(":stateChange", () => {
 	// Update all time-sensitive game objects
 	GAME_ENGINE.setVars((s) => {
-		s.player.womb.updatePregnancy(GAME_VARIABLES.gameDateAndTime.date, s.player);
+		s.player.womb.updateWithTime(GAME_VARIABLES.gameDateAndTime.date, s.player);
 	}, false);
 });
 

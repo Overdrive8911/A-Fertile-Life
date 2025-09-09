@@ -147,15 +147,16 @@ abstract class BaseWombState {
 
 		if (hpPercentage >= WombHealth.HEALTHY) return 1.15;
 
-		if (hpPercentage >= WombHealth.MEDIOCRE) return 1
+		if (hpPercentage >= WombHealth.MEDIOCRE) return 1;
 
-		return 0.85
+		return 0.85;
 	}
 
 	protected get _baseWombHealModifierFromPerksAndSideEffects() {
 		let baseModifier = 1;
 
-		const { healthyWomb, fortifiedWomb, gestator, elasticity } = this._wombPerks;
+		const { healthyWomb, fortifiedWomb, gestator, elasticity } =
+			this._wombPerks;
 		const {
 			healthyWomb: { maxLevel: healthyWombMaxLvl },
 			fortifiedWomb: { maxLevel: fortifiedWombMaxLvl },
@@ -166,12 +167,16 @@ abstract class BaseWombState {
 		// Positive modifiers from perks
 		if (healthyWomb) {
 			// Major healing boost - consistent with existing HP increment buff
-			baseModifier *= 1.25 + (healthyWomb.currLevel / healthyWombMaxLvl) * PregConstants.HEALTHY_WOMB_PERK_MAX_HP_INCREMENT_BUFF;
+			baseModifier *=
+				1.25 +
+				(healthyWomb.currLevel / healthyWombMaxLvl) *
+					PregConstants.HEALTHY_WOMB_PERK_MAX_HP_INCREMENT_BUFF;
 		}
 
 		if (fortifiedWomb) {
 			// Moderate healing boost due to stronger womb structure
-			baseModifier *= 1.1 + (fortifiedWomb.currLevel / fortifiedWombMaxLvl) * 0.3;
+			baseModifier *=
+				1.1 + (fortifiedWomb.currLevel / fortifiedWombMaxLvl) * 0.3;
 		}
 
 		if (gestator) {
@@ -216,15 +221,14 @@ abstract class BaseWombState {
 		}
 
 		return baseModifier;
-}
-
-
-	protected get _baseWombHealModifier() {
-	return this._baseWombHealModifierFromWombHealth*this._baseWombHealModifierFromPerksAndSideEffects
-
-
 	}
 
+	protected get _baseWombHealModifier() {
+		return (
+			this._baseWombHealModifierFromWombHealth *
+			this._baseWombHealModifierFromPerksAndSideEffects
+		);
+	}
 
 	/** Multiplicative modifier for increasing or reducing the womb's fertility.
 	 *
@@ -272,8 +276,8 @@ class Fertile extends BaseWombState {
 
 	override readonly wombHpDrain = 0;
 
-	override get wombHpHeal(){
-	return 3.5* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 3.5 * this._baseWombHealModifier;
 	}
 
 	override transition(): Conception | Fertile {
@@ -342,10 +346,9 @@ class Conception extends BasePregnancyState {
 		return 5 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 3* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 3 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		if (this._relevantPregnancyStageName === "Early Stage")
@@ -360,10 +363,9 @@ class EarlyDevelopment extends BasePregnancyState {
 	override get wombHpDrain() {
 		return 8.75 * this._wombHpDrainModifier;
 	}
-	override get wombHpHeal(){
-	  return 2.5* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 2.5 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		if (this._relevantPregnancyStageName === "Mid Stage")
@@ -378,10 +380,9 @@ class MidDevelopment extends BasePregnancyState {
 		return 7.5 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 2.25* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 2.25 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		if (this._relevantPregnancyStageName === "Late Stage")
@@ -398,10 +399,9 @@ class LateDevelopment extends BasePregnancyState {
 		return 8.75 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 2* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 2 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		if (this._relevantPregnancyStageName === "Full Term")
@@ -418,10 +418,9 @@ class FullTerm extends BasePregnancyState {
 		return 10 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 1.75* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 1.75 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		if (this._relevantPregnancyStageName === "Overdue")
@@ -438,10 +437,9 @@ class Overdue extends BasePregnancyState {
 		return 15 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 1.25* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 1.25 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		return (
@@ -455,10 +453,9 @@ class Labor extends BasePregnancyState {
 		return 37.5 * this._wombHpDrainModifier;
 	}
 
-	override get wombHpHeal(){
-	return 0.5* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 0.5 * this._baseWombHealModifier;
 	}
-
 
 	// Can't get pregnant for any reason during labor
 	override get fertilityMod() {
@@ -478,10 +475,9 @@ class Postpartum extends BaseWombState {
 
 	override readonly wombHpDrain = 0;
 
-	override get wombHpHeal(){
-	return 5* this._baseWombHealModifier
+	override get wombHpHeal() {
+		return 5 * this._baseWombHealModifier;
 	}
-
 
 	override transition() {
 		// Perform check to see if fertility has been regained
@@ -523,12 +519,14 @@ export class WombStateMachine {
 	}
 
 	get stateInfo() {
-		const { fertilityMod, multiplesMod, wombHpDrain ,wombHpHeal} = this._wombState;
+		const { fertilityMod, multiplesMod, wombHpDrain, wombHpHeal } =
+			this._wombState;
 
 		return {
 			fertilityMod,
 			multiplesMod,
-			wombHpDrain,wombHpHeal
+			wombHpDrain,
+			wombHpHeal,
 		};
 	}
 }
