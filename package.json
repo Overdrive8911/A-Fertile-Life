@@ -1,33 +1,4 @@
 {
-	"name": "surrograce",
-	"version": "0.0.0",
-	"description": "",
-	"type": "module",
-	"scripts": {
-		"start": "vite",
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite preview",
-		"bun-start": "bun --bun run start",
-		"bun-dev": "bun --bun run dev",
-		"bun-build": "bun --bun run  build",
-		"bun-serve": "bun --bun run serve"
-	},
-	"license": "MIT",
-	"devDependencies": {
-		"@tailwindcss/typography": "^0.5.16",
-		"@tailwindcss/vite": "^4.0.7",
-		"@types/node": "^24.2.1",
-		"daisyui": "^5.1.8",
-		"tailwindcss": "^4.0.7",
-		"terser": "^5.43.1",
-		"tslib": "^2.8.1",
-		"typescript": "^5.7.2",
-		"vite": "npm:rolldown-vite@latest",
-		"vite-plugin-solid": "^2.11.6",
-		"vite-plugin-typescript": "^1.0.4",
-		"vite-plugin-singlefile": "^2.3.0"
-	},
 	"dependencies": {
 		"@solid-primitives/clipboard": "^1.6.2",
 		"@solid-primitives/map": "^0.7.2",
@@ -40,8 +11,37 @@
 		"solidjs-use": "^2.3.0",
 		"sugarbox": "^0.8.1"
 	},
+	"description": "",
+	"devDependencies": {
+		"@tailwindcss/typography": "^0.5.16",
+		"@tailwindcss/vite": "^4.0.7",
+		"@types/node": "^24.2.1",
+		"daisyui": "^5.1.8",
+		"tailwindcss": "^4.0.7",
+		"terser": "^5.43.1",
+		"tslib": "^2.8.1",
+		"typescript": "^5.7.2",
+		"vite": "npm:rolldown-vite@latest",
+		"vite-plugin-singlefile": "^2.3.0",
+		"vite-plugin-solid": "^2.11.6",
+		"vite-plugin-typescript": "^1.0.4"
+	},
+	"license": "MIT",
+	"name": "surrograce",
+	"packageManager": "bun@1.3.0",
+	"scripts": {
+		"build": "vite build",
+		"bun-build": "bun --bun run  build",
+		"bun-dev": "bun --bun run dev",
+		"bun-serve": "bun --bun run serve",
+		"bun-start": "bun --bun run start",
+		"dev": "vite",
+		"serve": "vite preview",
+		"start": "vite"
+	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide"
 	],
-	"packageManager": "bun@1.3.0"
+	"type": "module",
+	"version": "0.0.0"
 }

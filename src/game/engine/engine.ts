@@ -33,12 +33,12 @@ const persistenceAdapter: SugarBoxPersistenceAdapter = {
 		return idb.get(key);
 	},
 
-	async set(key, value) {
-		return idb.set(key, value);
-	},
-
 	async keys() {
 		return idb.keys();
+	},
+
+	async set(key, value) {
+		return idb.set(key, value);
 	},
 };
 
@@ -46,13 +46,7 @@ const GAME_ENGINE = await SugarboxEngine.init<
 	() => JSX.Element,
 	SaveDataV0_0_1
 >({
-	name: "Surrograce",
-	otherPassages: [
-		...PassagePrologueCollection,
-		{ name: PassagePrologueName.DEBUG_SANDBOX, passage: NextPassage },
-	],
-	startPassage: { name: PassagePrologueName.GAME_START, passage: StartPassage },
-	variables: DEFAULT_VARIABLES,
+	classes: [Player, Breasts, GameDateAndTime, Inventory, Womb],
 	config: {
 		autoSave: "passage",
 		cache: cacheAdapter,
@@ -64,7 +58,13 @@ const GAME_ENGINE = await SugarboxEngine.init<
 		saveSlots: EngineDefaults.SAVE_SLOTS,
 		saveVersion: `0.0.1`,
 	},
-	classes: [Player, Breasts, GameDateAndTime, Inventory, Womb],
+	name: "Surrograce",
+	otherPassages: [
+		...PassagePrologueCollection,
+		{ name: PassagePrologueName.DEBUG_SANDBOX, passage: NextPassage },
+	],
+	startPassage: { name: PassagePrologueName.GAME_START, passage: StartPassage },
+	variables: DEFAULT_VARIABLES,
 });
 
 const {

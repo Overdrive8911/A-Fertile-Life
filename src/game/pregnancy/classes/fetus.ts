@@ -110,14 +110,14 @@ export class Fetus implements SugarBoxCompatibleClassInstance<SerializedFetus> {
 		return {
 			conception: this.conception,
 			devRatio: this.devRatio,
-			lastDevRatio: this.lastDevRatio,
 			fluid: this.fluid,
+			growthMod: this.growthMod,
 			height: this.height,
 			hp: this.hp,
 			id: this.id,
+			lastDevRatio: this.lastDevRatio,
 			species: this.species,
 			weight: this.weight,
-			growthMod: this.growthMod,
 		};
 	}
 

@@ -112,53 +112,53 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	 * TODO - Change the prices later to something more reasonable. Also, add more perks
 	 */
 	static readonly perks = {
-		gestator: {
-			price: 5000,
-			maxLevel: 10,
-		},
-		hyperFertility: {
-			price: 3000,
-			maxLevel: 5,
-		},
-		superFet: {
-			price: 15000,
-			maxLevel: 5,
-		},
 		elasticity: {
-			price: 7000,
 			maxLevel: 10,
-		},
-		motherlyHips: {
-			price: 5000,
-			maxLevel: 5,
-		},
-		motherlyBoobs: {
-			price: 5000,
-			maxLevel: 5,
-		},
-		ironSpine: {
 			price: 7000,
-			maxLevel: 5,
-		},
-		sensitiveWomb: {
-			price: 6000,
-			maxLevel: 5,
-		},
-		healthyWomb: {
-			price: 3000,
-			maxLevel: 10,
 		},
 		fortifiedWomb: {
-			price: 10000,
 			maxLevel: 5,
+			price: 10000,
+		},
+		gestator: {
+			maxLevel: 10,
+			price: 5000,
+		},
+		healthyWomb: {
+			maxLevel: 10,
+			price: 3000,
+		},
+		hyperFertility: {
+			maxLevel: 5,
+			price: 3000,
+		},
+		ironSpine: {
+			maxLevel: 5,
+			price: 7000,
+		},
+		motherlyBoobs: {
+			maxLevel: 5,
+			price: 5000,
+		},
+		motherlyHips: {
+			maxLevel: 5,
+			price: 5000,
 		},
 		noPostpartum: {
-			price: 2000,
 			maxLevel: 10,
+			price: 2000,
 		},
 		polyhydramnios: {
-			price: 1500,
 			maxLevel: 10,
+			price: 1500,
+		},
+		sensitiveWomb: {
+			maxLevel: 5,
+			price: 6000,
+		},
+		superFet: {
+			maxLevel: 5,
+			price: 15000,
 		},
 	} as const satisfies PregPerkStaticDataObject;
 
@@ -171,14 +171,6 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			maxDuration: [1, 2],
 		},
 
-		restlessBrood: {
-			maxDuration: [2, 3],
-		},
-
-		heavyWomb: {
-			maxDuration: [3, 5, 7],
-		},
-
 		// contractions: {
 		// 	maxDuration: [1, 2, 3, 5],
 		// },
@@ -189,6 +181,14 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 		growthSpurt: {
 			maxDuration: [1, 2, 3],
+		},
+
+		heavyWomb: {
+			maxDuration: [3, 5, 7],
+		},
+
+		restlessBrood: {
+			maxDuration: [2, 3],
 		},
 	} as const satisfies PregSideEffectStaticDataObject;
 
@@ -260,27 +260,27 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	toJSON(): SerializedWomb {
 		return {
-			hp: this.hp,
-			maxHp: this.maxHp,
-			fertility: this._fertility,
-			curCap: this.curCap,
-			comfortCap: this._comfortCap,
-			maxCap: this._maxCap,
-			exp: this.exp,
-			postpartum: this.postpartum,
 			birthControl: this.birthControl,
 			birthRecord: this.birthRecord,
-			lastFertilized: this.lastFertilized,
-			lastBirth: this.lastBirth,
-			lastUpdate: this.lastUpdate,
+			comfortCap: this._comfortCap,
+			curCap: this.curCap,
+			exp: this.exp,
+			fertility: this._fertility,
 			growthMod: this.growthMod,
+			hp: this.hp,
+			lastBirth: this.lastBirth,
+			lastFertilized: this.lastFertilized,
+			lastUpdate: this.lastUpdate,
+			maxCap: this._maxCap,
+			maxHp: this.maxHp,
 			perks: this.perks,
-			sideEffects: this.sideEffects,
+			postpartum: this.postpartum,
 			pregnancies: new Map(
 				this.pregnancies
 					.entries()
 					.map(([pregId, preg]) => [pregId, preg.toJSON()]),
 			),
+			sideEffects: this.sideEffects,
 		};
 	}
 
@@ -537,9 +537,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
     - Each singleton full-term, non-overdue pregnancy gives about a 1000exp without bonuses
     */
 
-    get expRatio(){
-      return this.exp / Womb.getExpLimit(this.lvl + 1)
-    }
+	get expRatio() {
+		return this.exp / Womb.getExpLimit(this.lvl + 1);
+	}
 
 	updateExpValue() {
 		let expToAdd = 0;
@@ -962,8 +962,8 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 			{
 				devRatio: 0,
 				fluid: 0,
-				gestWeek: 0,
 				gestDuration: 0,
+				gestWeek: 0,
 				growthMod: 0,
 				growthRate: 0,
 				height: 0,
