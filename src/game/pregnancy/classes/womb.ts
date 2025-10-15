@@ -397,7 +397,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 	private _createPregnancy(fetusCount: number): boolean {
 		if (fetusCount <= 0) return false;
 
-		const pregnancy = new Pregnancy(this, fetusCount);
+		const pregnancy = Pregnancy.init(this, fetusCount);
 		this.pregnancies.set(pregnancy.id, pregnancy);
 		this.lastFertilized = GAME_VARIABLES.gameDateAndTime.date;
 

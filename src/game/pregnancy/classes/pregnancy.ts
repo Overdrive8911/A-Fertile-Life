@@ -49,17 +49,22 @@ export class Pregnancy
 
 	static classId = ClassId.PREGNANCY;
 
-	constructor(womb: Womb, numOfFetuses = 1) {
-		for (let i = 0; i < numOfFetuses; i++) {
-			const fetus = this._generateRandomFetus();
+	static init(womb: Womb, numOfFetusToSpawn: number) {
+		const pregnancy = new Pregnancy(womb);
 
-			this._addFetus(fetus);
+		for (let i = 0; i < numOfFetusToSpawn; i++) {
+			const fetus = pregnancy._generateRandomFetus();
+
+			pregnancy._addFetus(fetus);
 		}
 
-		const pregnancyId = getRandomUUID();
-		this.womb = womb;
-		this.id = pregnancyId;
+		return pregnancy;
+	}
 
+	private constructor(womb: Womb) {
+		this.womb = womb;
+		const pregnancyId = getRandomUUID();
+		this.id = pregnancyId;
 		this._pregStateMachine = new PregStateMachine(this);
 
 		// biome-ignore lint/correctness/noConstructorReturn: <Reactivity>
@@ -136,8 +141,8 @@ export class Pregnancy
 		}: Record<FetusProps, number> = {
 			devRatio: 0,
 			fluid: 0,
-			gestWeek: 0,
 			gestDuration: 0,
+			gestWeek: 0,
 			growthMod: 0,
 			growthRate: 0,
 			height: 0,
@@ -167,8 +172,8 @@ export class Pregnancy
 		return {
 			devRatio: devRatio / size,
 			fluid: fluid / size,
-			gestWeek: gestWeek / size,
 			gestDuration: gestDuration / size,
+			gestWeek: gestWeek / size,
 			growthMod: growthMod / size,
 			growthRate: growthRate / size,
 			height: height / size,
