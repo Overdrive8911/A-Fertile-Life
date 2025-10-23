@@ -101,6 +101,9 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 
 	private _stateMachine = new WombStateMachine(this);
 
+	/** Reduce tight coupling */
+	static rand=GAME_RANDOM
+
 	static classId = ClassId.WOMB;
 
 	/** Its level and cannot be above womb.lvl. Most perks are inactive if the PC isn't pregnant.
@@ -352,7 +355,7 @@ export class Womb implements SugarBoxCompatibleClassInstance<SerializedWomb> {
 		const totalPotency = virility + virilityBonus * 0.5;
 		const conceptionChance = (totalPotency + this.fertility) / 200; // Max 100% with perfect stats
 
-		return GAME_RANDOM() < conceptionChance;
+		return Womb.rand() < conceptionChance;
 	}
 
 	private _determineFetusCount(

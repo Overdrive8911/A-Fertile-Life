@@ -47,6 +47,9 @@ export class Pregnancy
 
 	private readonly _pregStateMachine: PregStateMachine;
 
+	/** Reduce tight coupling */
+	static rand = GAME_RANDOM;
+
 	static classId = ClassId.PREGNANCY;
 
 	static init(womb: Womb, numOfFetusToSpawn: number) {
@@ -107,7 +110,7 @@ export class Pregnancy
 	private _generateRandomFetus(): Fetus {
 		/** A number between 0 and PregConstants.NUM_OF_POSSIBLE_FETUS_IDS */
 		const fetusId = Math.floor(
-			((GAME_RANDOM() + Math.random()) % 1) *
+			((Pregnancy.rand() + Math.random()) % 1) *
 				PregConstants.NUM_OF_POSSIBLE_FETUS_IDS,
 		);
 
